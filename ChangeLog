@@ -1,3 +1,8 @@
+[v1.6.2] 2005-03 <br2003@frankiz.polytechnique.fr>
+    * Désactivation des plug-ins [Fruneau]
+    * Fix de nombreux bugs et memory leaks [Fruneau]
+    * Ajout des ebuild pour gentoo [Ey, Fruneau]
+
 [v1.6.1] 2004-10 <br2003@frankiz.polytechnique.fr>
     * Ajout d'une fenêtre de notification du changement d'état des favoris [Fruneau]
     * Notification du nombre de message non lus [Fruneau]
@@ -57,7 +62,8 @@
     * Icones thématisées rajoutées pour le bouton du son + ajout dans le make install [Steak, Kikx]
     * Bugfixs pour le multilinguisme (sport, chargt des qm) [Steak]
 
-[v1.2] JiBee Mais je sais pas ce qu'il a fait, il l'a pas écrit :) [Steak]
+[v1.2] 2003 <br2001@frankiz.polytechnique.fr>
+    * JiBee Mais je sais pas ce qu'il a fait, il l'a pas écrit :) [Steak]
     * par contre y'a des restes dans le code, pr les courageux
 
 [v1.1] 2002-04-06 <br2000@frankiz.polytechnique.fr>
