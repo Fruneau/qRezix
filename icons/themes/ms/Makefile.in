@@ -242,38 +242,17 @@ qt_includes = @qt_includes@
 qt_libraries = @qt_libraries@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
-dist_pkgdata_DATA = action.png\
-ftp.png\
-hotline.png\
-http.png\
-jone.png\
-Makefile.am\
-news.png\
-orange.png\
-os_0_large.png\
-os_0.png\
-os_1_large.png\
-os_1.png\
-os_2_large.png\
-os_2.png\
-os_3_large.png\
-os_3.png\
-os_4_large.png\
-os_4.png\
-os_5_large.png\
-os_5.png\
-rouje.png\
-samba.png\
-same_gateway.png
-
+themedir = $(pkgdatadir)/themes/ms
+theme_DATA = *.png
+EXTRA_DIST = $(theme_DATA)
 subdir = icons/themes/ms
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 DIST_SOURCES =
-DATA = $(dist_pkgdata_DATA)
+DATA = $(theme_DATA)
 
-DIST_COMMON = $(dist_pkgdata_DATA) Makefile.am Makefile.in
+DIST_COMMON = Makefile.am Makefile.in
 all: all-am
 
 .SUFFIXES:
@@ -292,23 +271,23 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
-dist_pkgdataDATA_INSTALL = $(INSTALL_DATA)
-install-dist_pkgdataDATA: $(dist_pkgdata_DATA)
+themeDATA_INSTALL = $(INSTALL_DATA)
+install-themeDATA: $(theme_DATA)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)
-	@list='$(dist_pkgdata_DATA)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(themedir)
+	@list='$(theme_DATA)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(dist_pkgdataDATA_INSTALL) $$d$$p $(DESTDIR)$(pkgdatadir)/$$f"; \
-	  $(dist_pkgdataDATA_INSTALL) $$d$$p $(DESTDIR)$(pkgdatadir)/$$f; \
+	  echo " $(themeDATA_INSTALL) $$d$$p $(DESTDIR)$(themedir)/$$f"; \
+	  $(themeDATA_INSTALL) $$d$$p $(DESTDIR)$(themedir)/$$f; \
 	done
 
-uninstall-dist_pkgdataDATA:
+uninstall-themeDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(dist_pkgdata_DATA)'; for p in $$list; do \
+	@list='$(theme_DATA)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(pkgdatadir)/$$f"; \
-	  rm -f $(DESTDIR)$(pkgdatadir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(themedir)/$$f"; \
+	  rm -f $(DESTDIR)$(themedir)/$$f; \
 	done
 tags: TAGS
 TAGS:
@@ -344,7 +323,7 @@ check: check-am
 all-am: Makefile $(DATA)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)
+	$(mkinstalldirs) $(DESTDIR)$(themedir)
 
 install: install-am
 install-exec: install-exec-am
@@ -386,7 +365,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-dist_pkgdataDATA
+install-data-am: install-themeDATA
 
 install-exec-am:
 
@@ -404,17 +383,17 @@ mostlyclean: mostlyclean-am
 
 mostlyclean-am: mostlyclean-generic mostlyclean-libtool
 
-uninstall-am: uninstall-dist_pkgdataDATA uninstall-info-am
+uninstall-am: uninstall-info-am uninstall-themeDATA
 
 .PHONY: all all-am check check-am clean clean-generic clean-libtool \
 	distclean distclean-generic distclean-libtool distdir dvi \
 	dvi-am info info-am install install-am install-data \
-	install-data-am install-dist_pkgdataDATA install-exec \
-	install-exec-am install-info install-info-am install-man \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-generic mostlyclean-libtool uninstall uninstall-am \
-	uninstall-dist_pkgdataDATA uninstall-info-am
+	install-data-am install-exec install-exec-am install-info \
+	install-info-am install-man install-strip install-themeDATA \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic \
+	mostlyclean-libtool uninstall uninstall-am uninstall-info-am \
+	uninstall-themeDATA
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -65,10 +65,6 @@ binary-indep: checkroot build
 # made here.
 
 binary-arch: checkroot build
-	#<F3>rm -rf debian/qrezix-theme-noia-warm/
-	#rm -rf debian/qrezix-theme-classic/
-	#rm -rf debian/qrezix-theme-krystal/
-	#rm -rf debian/qrezix-theme-ms/
 	dh_testdir
 	dh_testroot
 	dh_installchangelogs
