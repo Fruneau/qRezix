@@ -1881,7 +1881,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=qrezix
- VERSION="1.5.0"
+ VERSION="3.0.8"
 
 
 cat >>confdefs.h <<_ACEOF
@@ -21911,7 +21911,7 @@ else
 fi
 
 if test $kde_qtver = 3; then
-  kde_qt_dirs="$QTDIR /usr/lib/qt3 /usr/lib/qt"
+  kde_qt_dirs="$QTDIR /usr/lib/qt3 /usr/lib/qt /usr/share/qt3"
 fi
 if test $kde_qtver = 2; then
    kde_qt_dirs="$QTDIR /usr/lib/qt2 /usr/lib/qt"
@@ -26922,6 +26922,11 @@ cat >>$CONFIG_STATUS <<\_ACEOF
 
 { (exit 0); exit 0; }
 _ACEOF
+if test "x$with_fast_perl" = "xyes"; then    
+  perl -i.bak $ac_aux_dir/conf.change.pl $CONFIG_STATUS    \
+    || mv $CONFIG_STATUS.bak $CONFIG_STATUS    
+  rm -f $CONFIG_STATUS.bak
+fi    
 chmod +x $CONFIG_STATUS
 ac_clean_files=$ac_clean_files_save
 
