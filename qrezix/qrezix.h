@@ -28,6 +28,7 @@
 
 #include "qrezixui.h"
 
+class QAccel;
 class TrayIcon;
 class RzxProperty;
 
@@ -39,6 +40,7 @@ class QRezix : public QRezixUI
 	Q_OBJECT
 	
 	RzxProperty * m_properties;
+	QAccel *accel;
 	QPopupMenu menuPlugins;
 	static QRezix *object;
 	bool statusFlag;
@@ -85,6 +87,7 @@ protected slots: // Protected slots
 	void toggleVisible();
 	void languageChange();
 	void pluginsMenu(bool show = false);
+	void switchTab();
 };
 
 #endif
