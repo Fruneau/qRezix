@@ -46,6 +46,8 @@ class RzxConfig : public QObject  {
 	Q_OBJECT
 	friend class RzxProperty;
 	friend class RzxProtocole;
+	friend class RzxPlugInLoader;
+	friend class QRezix;
 
 	class FontProperty {
 	public:
@@ -68,27 +70,24 @@ class RzxConfig : public QObject  {
 	QDir m_themeDir;
 	QStringList fontFamilies;
 	QDict<FontProperty> * fontProperties;
-	QSettings *settings;
 
-	
 public:
+	QSettings *settings;
 	static QDict<QTranslator> translations;
 	static void loadTranslators();
 	static void setLanguage(QString language);
 	QDict<QString> * favorites;
 	static RzxConfig * globalConfig();
 	~RzxConfig();
-	void parse();
-	void write();
 	void writeFavorites();
 	QStringList getFontList();
 	QValueList<int> getSizes(const QString&);
 	bool isItalicSupported(const QString&);
 	bool isBoldSupported(const QString&);
 	void closeSettings();
+
+	void setPass(int passcode);
 	
-	static int favoritesMode();
-	static void setFavoritesMode(int);
 	static int useSystray();
 	static int warnCheckingProperties();
 	static int printTime();
@@ -103,6 +102,8 @@ public:
 	static QString serverName();
 	static QString iconTheme();
 	static QString FTPPath();
+	static int quitMode();
+	static bool showQuit();
 	void readFavorites();
 
 	static QString sambaCmd();
@@ -114,8 +115,6 @@ public:
 	static void ftpCmd(QString newstr);
 	static void httpCmd(QString newstr);
 	static void newsCmd(QString newstr);
-	
-	static bool indexFtp();
 
 	// proprietes de l'ordinateur
 	static QString propLastName();
@@ -134,6 +133,9 @@ public:
 	static int autoColonne();
 	static int computerIconSize();
 	
+	static int menuTextPosition();
+	static int menuIconSize();
+	
 	static bool autoResponder();
 	static QString autoResponderMsg();
 	static void setAutoResponder(bool val);
@@ -144,9 +146,11 @@ public:
 	static void setIconTheme(QObject* parent, const QString& name);
 	static QString readWindowSize();
 	static void writeWindowSize(QString ws);
+	static void writeQuitMode(int mode);
+	static void writeShowQuit(bool mode);
 
 	static bool find();
-	static QString findData(const QString& name, const QString& relative = QString::null);
+	static QString findData(const QString& name, const QString& relative = QString::null, bool important = false);
 	/** Returns the dir where all system-wide data are saved */
 	static QDir computerIconsDir();
 	static QDir logDir();
@@ -173,15 +177,18 @@ public:
 	
 	static QString buildLocalhost();
 
+	static QPixmap * themedIcon(const QString& name);
+
 signals:
 	void languageChanged();
 	void updateResponder();
+	void themeChanged();
+	void iconFormatChange();
 	
 protected: // Protected attributes
 	void loadLocalHost();
 	
 	static QPixmap * icon(const QString& name);
-	static QPixmap * themedIcon(const QString& name);
 	static QPixmap * icon(const QString& name, QDict<QPixmap>& cache, const QString& subdir = QString::null);
 	QString readEntry(const QString& name, const QString& def);
 	int readEntry(const QString& name, int def);

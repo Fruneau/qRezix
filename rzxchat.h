@@ -21,8 +21,10 @@
 #include <qtextedit.h>
 #include <qsocket.h>
 #include <qtimer.h>
+#include <qpopupmenu.h>
 #include "rzxhostaddress.h"
 #include "rzxchatui.h"
+#include "rzxclientlistener.h"
 
 /**
   *@author Sylvain Joyeux
@@ -70,15 +72,15 @@ class RzxChat : public RzxChatUI {
 
 public: 
 	RzxChat(const RzxHostAddress& peerAddress);
-	RzxChat(QSocket* sock);
+	RzxChat(RzxChatSocket* sock);
 	~RzxChat();
-	QSocket *getSocket();
-	void setSocket(QSocket* sock);
+	RzxChatSocket *getSocket();
+	void setSocket(RzxChatSocket* sock);
 	void sendChat(const QString& msg);
 
 private:
 	void init();
-	QString tmpChat;
+	QPopupMenu menuPlugins;
 	
 protected:
 	RzxHostAddress peer;
@@ -88,23 +90,27 @@ protected:
 	ListText * history;
 	ListText * curLine;
 	QFont* defFont;
-	QSocket *socket;
-	QTimer timeOut;
+	RzxChatSocket *socket;
 	
 signals: // Signals
-	void send(QSocket* sock, const QString& message);
+	void send(const QString& message);
 	void closed(const RzxHostAddress& peer);
-	void showHistorique(unsigned long ip, QString hostname);
-	void askProperties(const RzxHostAddress& peer);
+	void showHistorique(unsigned long ip, QString hostname, bool, QWidget*, QPoint*);
+	void showProperties(const RzxHostAddress&, const QString&, bool, QWidget*, QPoint*);
 
 public slots: // Public slots
 	void receive(const QString& msg);
 	void info(const QString& msg);
+	void notify(const QString& msg, bool withHostname = false);
 	void setHostname(const QString& name);
+	void changeTheme();
+	void changeIconFormat();
+	void receiveProperties(const QString& msg);
 
 protected slots:
 	void btnSendClicked();
 	void messageReceived();
+	void pong(int ms);
 	void btnHistoriqueClicked();
 	void btnPropertiesClicked();
 	void fontChanged(int index);
@@ -113,20 +119,25 @@ protected slots:
 	void onReturnPressed();
 	void onArrowPressed(bool down);
 	void onTextChanged();
-	void soundToggled(bool state);
-	void getChat();
-	void chatConnexionEtablished();
-	void chatConnexionClosed();
-	void chatConnexionError(int Error);
-	void chatConnexionTimeout();
+	bool event(QEvent *e);
+	void pluginsMenu();
+	RzxChatSocket *getValidSocket();
 
 protected: // Protected methods
 	void append(const QString& color, const QString& host, const QString& msg);
 #ifdef WIN32
-  bool event (QEvent * e);
 	void showEvent ( QShowEvent * e);
 #endif
 	void closeEvent(QCloseEvent * e);
 };
+
+/// Retourne un socket valide
+/** Cette méthode permet d'obtenir à coup sur un socket valide pour le chat. C'est à dire que si le socket n'existe pas, il est créé */
+inline RzxChatSocket *RzxChat::getValidSocket()
+{
+	if(!socket)
+		setSocket(new RzxChatSocket(peer, this));
+	return socket;
+}
 
 #endif

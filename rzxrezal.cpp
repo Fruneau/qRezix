@@ -24,6 +24,7 @@
 #include <qtextedit.h>
 #include <qtextstream.h>
 #include <qsocket.h>
+#include <qframe.h>
 
 #include "rzxrezal.h"
 #include "rzxitem.h"
@@ -37,12 +38,23 @@
 
 
 #ifdef WIN32
-#include <windows.h>
-#include <tchar.h>
-#include <malloc.h>
-#include <stdlib.h>
+	#include <windows.h>
+	#include <tchar.h>
+	#include <malloc.h>
+	#include <stdlib.h>
+	#ifdef UNICODE
+		#define RzxShellExecute(a, b, str, c, d, e) \
+			ShellExecute( a, b, (LPWCSTR)(str.unicode()), c, d, e )
+		#define RzxWinExec(str, a) \
+			WinExec((LPWCSTR)(str.unicode()), a)
+	#else
+		#define RzxShellExecute(a, b, str, c, d, e) \
+			ShellExecute( a, b, (LPCSTR)(str.latin1()), c, d, e )
+		#define RzxWinExec(str, a) \
+			WinExec((LPCSTR)(str.latin1()), a)
+	#endif
 #else
-#include <stdlib.h>
+	#include <stdlib.h>
 #endif
 
 
@@ -100,16 +112,7 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 		this, SLOT(onListClicked(QListViewItem *, const QPoint &, int)));
 
 	lastColumnClicked = ColIcone;
-			
-	// CHAT
-	connect(client, SIGNAL(chat(QSocket*, const QString&)),
-		this, SLOT(chat(QSocket*, const QString&)));
-
-	// RECEPTION DES PROPRIETES D'UN ORDINATEUR
-	connect(client, SIGNAL(propAnswer(const RzxHostAddress&, const QString&)), this, SLOT(showProperties(const RzxHostAddress&, const QString&)));
-	connect(client, SIGNAL(propQuery(QSocket*)), RzxClientListener::object(), SLOT(sendProperties(QSocket*)));
-	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), this, SLOT(warnProperties(const RzxHostAddress&)));
-	
+		
 	// FERMETURE DU SOCKET
 	connect(server, SIGNAL(disconnected()), this, SIGNAL(socketClosed()));
 
@@ -119,6 +122,11 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 }
 
 RzxRezal::~RzxRezal(){
+}
+
+void RzxRezal::showNotFavorites(bool val)
+{
+	dispNotFavorites = val;
 }
 
 RzxPopupMenu::RzxPopupMenu(QWidget * parent, const char * name) : QPopupMenu(parent, name) {
@@ -135,23 +143,25 @@ void RzxPopupMenu::keyPressEvent(QKeyEvent *e) {
 void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos, int){
 	if(ordinateurSelect){
 		
-		RzxItem::ListViewItem* item=(RzxItem::ListViewItem*) ordinateurSelect;
+		RzxItem* item=(RzxItem*) ordinateurSelect;
 		int serveurs=item->servers;
 		popup.clear();
 		
-		popup.insertItem(tr("begin &Chat"),this,SLOT(chatCreate()));
-		if(serveurs & 1) popup.insertItem(tr("Samba connect"),this,SLOT(samba()));
-		if((serveurs>>1) & 1) popup.insertItem(tr("FTP connect"), this, SLOT(ftp()));
-		if((serveurs>>3) & 1) popup.insertItem(tr("browse Web"), this, SLOT(http()));
-		if((serveurs>>4) & 1)	popup.insertItem(tr("read News"), this, SLOT(news()));
+		popup.insertItem(*RzxConfig::themedIcon("chat"), tr("begin &Chat"),this,SLOT(chatCreate()));
+		if(serveurs & 1) popup.insertItem(*RzxConfig::themedIcon("samba"), tr("Samba connect"),this,SLOT(samba()));
+		if((serveurs>>1) & 1) popup.insertItem(*RzxConfig::themedIcon("ftp"), tr("FTP connect"), this, SLOT(ftp()));
+		if((serveurs>>3) & 1) popup.insertItem(*RzxConfig::themedIcon("http"), tr("browse Web"), this, SLOT(http()));
+		if((serveurs>>4) & 1)	popup.insertItem(*RzxConfig::themedIcon("news"), tr("read News"), this, SLOT(news()));
 		popup.insertSeparator();
-		popup.insertItem(tr("History"),this,SLOT(historique()));
-		popup.insertItem(tr("Properties"),this,SLOT(proprietes()));
+		popup.insertItem(*RzxConfig::themedIcon("historique"), tr("History"),this,SLOT(historique()));
+		popup.insertItem(*RzxConfig::themedIcon("prop"), tr("Properties"),this,SLOT(proprietes()));
 		popup.insertSeparator();
 		if(RzxConfig::globalConfig()->favorites->find(ordinateurSelect->text(1)))
-			popup.insertItem(tr("Remove from favorites"),this,SLOT(removeFromFavorites()));
+			popup.insertItem(*RzxConfig::themedIcon("not_favorite"), tr("Remove from favorites"),this,SLOT(removeFromFavorites()));
 		else
-			popup.insertItem(tr("Add to favorites"),this,SLOT(addToFavorites()));
+			popup.insertItem(*RzxConfig::themedIcon("favorite"), tr("Add to favorites"),this,SLOT(addToFavorites()));
+		popup.insertSeparator();
+		popup.insertItem(tr("Cancel"), &popup, SLOT(hide()));
 		RzxPlugInLoader::global()->menuItem(popup);
 		popup.popup(pos);
 	}
@@ -168,24 +178,24 @@ void RzxRezal::proprietes(const RzxHostAddress& peer)
 	else
 	{
 		if(object->getSocket())
-			client->sendPropQuery(object->getSocket());
+			object->getSocket()->sendPropQuery();
 		else
 			client->checkProperty(peer);
 	}
 }
 
 void RzxRezal::proprietes(){
-	RzxItem::ListViewItem* item=(RzxItem::ListViewItem*) currentItem();
+	RzxItem* item=(RzxItem*) currentItem();
 	proprietes(item->ip);
 }
 
 void RzxRezal::historique(){
-	RzxItem::ListViewItem * item=(RzxItem::ListViewItem*) currentItem();
+	RzxItem * item=(RzxItem*) currentItem();
 	QString hostname = iplist.find(item -> ip.toString()) -> getName();
-	showHistorique( item -> ip.toRezix(), hostname );
+	showHistorique( item -> ip.toRezix(), hostname);
 }
 
-void RzxRezal::showHistorique( unsigned long ip, QString hostname ){
+void RzxRezal::showHistorique( unsigned long ip, QString hostname, bool withFrame, QWidget *parent, QPoint *pos ){
 	// chargement de l'historique
 	QString filename = RzxConfig::historique(ip, hostname);
 	if (filename.isNull()) {
@@ -207,53 +217,75 @@ void RzxRezal::showHistorique( unsigned long ip, QString hostname ){
 	file.close();
 	
 	// construction de la boite de dialogue
-	QDialog* histoDialog = new QDialog(this->parentWidget(), "Histo", false, WDestructiveClose);
-	QPixmap iconeProg((const char **)q);
-	iconeProg.setMask(iconeProg.createHeuristicMask() );		
-	histoDialog->setIcon(iconeProg);
-	
+	QWidget *histoDialog;
+	if(withFrame)
+	{
+		histoDialog = new QDialog(parent?parent:this->parentWidget(), "Histo", false, WDestructiveClose | Qt::WStyle_Tool);
+		QPixmap iconeProg((const char **)q);
+		iconeProg.setMask(iconeProg.createHeuristicMask() );		
+		histoDialog->setIcon(iconeProg);
+		
+	#ifdef WIN32
+		histoDialog->setCaption( tr( "History" ) +"[Qt]");
+	#else
+		histoDialog->setCaption( tr( "History" ) );
+	#endif
+	}
+	else
+	{
+		histoDialog = new QFrame(parent?parent:this->parentWidget(), "Histo", WDestructiveClose | Qt::WType_Popup);
+		((QFrame*)histoDialog) -> setFrameShape(QFrame::PopupPanel);
+		((QFrame*)histoDialog) -> setFrameShadow(QFrame::Raised);
+		if(pos) histoDialog->move(*pos);
+	}
 	QGridLayout * qHistoLayout = new QGridLayout(histoDialog);
 	qHistoLayout->setSpacing(0);
-	qHistoLayout->setMargin(6);
-	
-#ifdef WIN32
-	histoDialog->setCaption( tr( "History" ) +"[Qt]");
-#else
-	histoDialog->setCaption( tr( "History" ) );
-#endif
+	qHistoLayout->setMargin(withFrame?6:0);
+
 
 	// creation de la liste des proprietes et ajout au layout
 	QTextView* histoView = new QTextView(histoDialog, "HistoView");
 	qHistoLayout->addWidget((QWidget*)histoView, 0, 0);
 	
-	histoView -> setText(text);
 	histoDialog->resize(300, 300);
+	histoView -> setText(text);
 	histoDialog->show();
 }
 
 // affichage des proprietes d'un ordinateur
-void RzxRezal::showProperties(const RzxHostAddress&, const QString& msg)
+void RzxRezal::showProperties(const RzxHostAddress&, const QString& msg, bool withFrame, QWidget *parent, QPoint *pos )
 {
-	// creation de la boite de dialogue (non modale, elle se detruit automatiquement grace a WDestructiveClose)
-	QDialog* propertiesDialog = new QDialog(this->parentWidget(), "ClientProp", false, WDestructiveClose);
-	propertiesDialog->resize(300, 300);
+	QWidget *propertiesDialog;
+	
+	if(withFrame)
+	{
+		// creation de la boite de dialogue (non modale, elle se detruit automatiquement grace a WDestructiveClose)
+		propertiesDialog = new QDialog(parent?parent:this->parentWidget(), "ClientProp", false, WDestructiveClose | Qt::WStyle_Tool);
+		propertiesDialog->resize(300, 300);
 
 		QPixmap iconeProg((const char **)q);
 		iconeProg.setMask(iconeProg.createHeuristicMask() );
 		propertiesDialog->setIcon(iconeProg);
 
+	#ifdef WIN32
+		propertiesDialog->setCaption( tr( "Computer properties" ) +" [Qt]");
+	#else
+		propertiesDialog->setCaption( tr( "Computer properties" ) );
+	#endif
+	}
+	else
+	{
+		propertiesDialog = new QFrame(parent?parent:this->parentWidget(), "ClientProp", WDestructiveClose | Qt::WType_Popup);
+		((QFrame*)propertiesDialog) -> setFrameShape(QFrame::PopupPanel);
+		((QFrame*)propertiesDialog) -> setFrameShadow(QFrame::Raised);
+		if(pos) propertiesDialog->move(*pos);
+	}
 
 	// Layout, pour le resize libre
     QGridLayout * qPropertiesLayout = new QGridLayout(propertiesDialog);
     qPropertiesLayout->setSpacing(0);
-    qPropertiesLayout->setMargin(6);
-
-#ifdef WIN32
-	propertiesDialog->setCaption( tr( "Computer properties" ) +"[Qt]");
-#else
-	propertiesDialog->setCaption( tr( "Computer properties" ) );
-#endif
-
+    qPropertiesLayout->setMargin(withFrame?6:0);
+	
 	// creation de la liste des proprietes et ajout au layout
 	QListView* PropList = new QListView(propertiesDialog, "PropView");
 	qPropertiesLayout->addWidget((QWidget*)PropList, 0, 0);
@@ -292,20 +324,20 @@ void RzxRezal::showProperties(const RzxHostAddress&, const QString& msg)
 void RzxRezal::removeFromFavorites(){
 	QString temp=currentItem()->text(1);
 	RzxConfig::globalConfig()->favorites->remove(temp);
-	sort();
 	RzxConfig::globalConfig()->writeFavorites();
+	emit favoriteChanged();
 }
 
 void RzxRezal::addToFavorites(){
 	QString temp=currentItem()->text(1);
 	RzxConfig::globalConfig()->favorites->insert(temp,new QString("1"));
-	sort();
 	RzxConfig::globalConfig()->writeFavorites();
+	emit favoriteChanged();
 }
 
 // lance le client ftp
 void RzxRezal::ftp(){
-	RzxItem::ListViewItem* item=(RzxItem::ListViewItem*) currentItem();
+	RzxItem* item=(RzxItem*) currentItem();
 //	int serveurs=item->servers;
 	QString tempPath = RzxConfig::globalConfig()->FTPPath();
 	QString tempip = (item->ip).toString();
@@ -336,7 +368,7 @@ void RzxRezal::ftp(){
 		QString temp=(char*)buffer;
 		QString cmd=temp+"leechftp.exe " + tempip;
 
-		WinExec(cmd.latin1(), 1);
+		RzxWinExec(cmd, 1);
 	}
 	// smartftp :
 	else if( (!sFtpClient.compare("SmartFTP")) &&
@@ -383,7 +415,7 @@ void RzxRezal::ftp(){
 		RegCloseKey(hKey);
 		QString cmd=temp+"smartftp.exe " + tempip;
 
-		WinExec(cmd.latin1(), 1);
+		RzxWinExec(cmd, 1);
 
 	}
 
@@ -397,7 +429,7 @@ void RzxRezal::ftp(){
 
 	else{ // client FTP standard
 		QString cmd="explorer " + tempip;
-		WinExec(cmd.latin1(), 1);
+		RzxWinExec(cmd, 1);
 	}
 #else
 	QString cmd = "cd "+tempPath+"; "+RzxConfig::globalConfig()->ftpCmd()+" "+tempip;
@@ -417,7 +449,7 @@ void RzxRezal::ftp(){
 }
 
 void RzxRezal::samba(){
-	RzxItem::ListViewItem* item=(RzxItem::ListViewItem*) currentItem();
+	RzxItem* item=(RzxItem*) currentItem();
 
 	QString tempip = (item -> ip).toString();
 	QString tempPath = RzxConfig::globalConfig()->FTPPath();
@@ -425,7 +457,7 @@ void RzxRezal::samba(){
 #ifdef WIN32
 	int serveurs=item->servers;
 	QString cmd = "explorer \\\\" + (item -> ip).toString();
-	WinExec(cmd.latin1(), 1);
+	RzxWinExec(cmd, 1);
 #else
 	QString cmd = "cd "+tempPath+"; konqueror smb://" + (item ->ip).toString() + "/" +" &";
 	system(cmd.latin1());
@@ -443,13 +475,13 @@ void RzxRezal::samba(){
 
 // lance le client http
 void RzxRezal::http(){
-	RzxItem::ListViewItem* item=(RzxItem::ListViewItem*) currentItem();
+	RzxItem* item=(RzxItem*) currentItem();
 	QString tempip = "http://" + (item -> ip).toString();
 	QString cmd=RzxConfig::globalConfig()->httpCmd();
 
 #ifdef WIN32
 	if( cmd == "standard" )
-		ShellExecute( NULL, NULL, (LPCSTR)(tempip.unicode()), NULL, NULL, SW_SHOW );
+	RzxShellExecute( NULL, NULL, tempip, NULL, NULL, SW_SHOW );
 	else
 	{
 		int serveurs = item->servers;
@@ -470,7 +502,8 @@ void RzxRezal::http(){
 		else
 			cmd = "explorer " + tempip;
 
-		WinExec(cmd.latin1(),1);
+	
+		RzxWinExec(cmd, 1);
 	}
 #else
 	cmd = cmd + " " + tempip + " &";
@@ -480,7 +513,7 @@ void RzxRezal::http(){
 
 // lance le client news
 void RzxRezal::news(){
-	RzxItem::ListViewItem* item=(RzxItem::ListViewItem*) currentItem();
+	RzxItem* item=(RzxItem*) currentItem();
 	QString tempip = "news://" + (item -> ip).toString();
 	QString cmd = RzxConfig::globalConfig()->newsCmd();
 
@@ -491,7 +524,7 @@ void RzxRezal::news(){
 	else
 		cmd = cmd + " " + tempip;
 
-	WinExec(cmd.latin1(),1);
+	RzxWinExec(cmd,1);
 #else
 	cmd = cmd + " " + tempip + " &";
 	system(cmd.latin1());
@@ -566,7 +599,7 @@ void RzxRezal::login(const QString& ordi){
     delete newComputer;
     return;
   }
-
+  
   // Recherche si cet ordinateur était déjà présent
   QString tempIP = newComputer -> getIP().toString();
   RzxComputer * object = iplist.find(tempIP);
@@ -574,7 +607,7 @@ void RzxRezal::login(const QString& ordi){
   bool alreadyHere = object != NULL;
   // non ==> nouvel item
   if (!alreadyHere) {
-    item = new RzxItem(newComputer, this);
+    item = new RzxItem(newComputer, this, dispNotFavorites);
   }
   else {
     item = (RzxItem *) object -> child(0, "RzxItem");
@@ -593,6 +626,7 @@ void RzxRezal::login(const QString& ordi){
 		chatWithLogin->info(tr("RECONNECTED"));
 
   connect(newComputer, SIGNAL(isUpdated()), item, SLOT(update()));
+  connect(this, SIGNAL(favoriteChanged()), item, SLOT(update()));
   emit countChange(tr("%1 clients connected").arg(iplist.count()));
   item -> update();
 
@@ -623,21 +657,20 @@ void RzxRezal::logout(const RzxHostAddress& ip){
 
 void RzxRezal::chat(QSocket* socket, const QString& msg) {
 	RzxHostAddress peer = socket->peerAddress();
-	RzxClientListener * dcc = RzxClientListener::object();
 	if(RzxConfig::autoResponder()) {
-		dcc -> sendResponder(socket, RzxConfig::autoResponderMsg());
+		((RzxChatSocket*) socket) -> sendResponder(RzxConfig::autoResponderMsg());
 		emit status(tr("%1 is now marked as away").arg(peer.toString()), false);
 	}
 	else {
 		RzxChat * chatWindow = chatCreate(peer);
 		if (!chatWindow) return;
-		chatWindow->setSocket(socket);      //on change le socket si nécessaire
+		chatWindow->setSocket((RzxChatSocket*)socket);      //on change le socket si nécessaire
 		chatWindow -> receive(msg);
 	}
 }
 
 RzxChat * RzxRezal::chatCreate() {
-	RzxItem::ListViewItem* item=(RzxItem::ListViewItem*) currentItem();
+	RzxItem* item=(RzxItem*) currentItem();
 	RzxHostAddress tempip = (item->ip);
 	return chatCreate(tempip);
 }
@@ -651,6 +684,11 @@ RzxChat * RzxRezal::chatCreate(const RzxHostAddress& peer) {
 			qWarning(tr("%1 is NOT logged").arg(peer.toString()));
 			return 0;
 		}
+/*		if(computer->getName() == RzxConfig::localHost()->getName())
+		{
+			RzxMessageBox::information(NULL, tr("Can't open chat"), tr("Hey, it's you %1... you can't have a chat with yourself.\n If you really want to chat to yourself, you just have to find a mirror...").arg(computer->getName()));
+			return NULL;
+		}*/
 		object = new RzxChat(peer);
 
 		QPixmap iconeProg((const char **)q);
@@ -667,10 +705,12 @@ RzxChat * RzxRezal::chatCreate(const RzxHostAddress& peer) {
 		object->edMsg->setFocus();
 
 		connect(object, SIGNAL(closed(const RzxHostAddress&)), this, SLOT(chatDelete(const RzxHostAddress&)));
-		connect(object, SIGNAL(send(QSocket*, const QString&)),
-	    	client, SLOT(sendChat(QSocket*, const QString&)));
-		connect(object, SIGNAL(showHistorique(unsigned long, QString)), this, SLOT(showHistorique(unsigned long, QString)));
-		connect(object, SIGNAL(askProperties(const RzxHostAddress&)), this, SLOT(proprietes(const RzxHostAddress&)));
+		connect(object, SIGNAL(showHistorique(unsigned long, QString, bool, QWidget*, QPoint*)),
+			this, SLOT(showHistorique(unsigned long, QString, bool, QWidget*, QPoint*)));
+		connect(object, SIGNAL(showProperties(const RzxHostAddress&, const QString&, bool, QWidget*, QPoint*)),
+			this, SLOT(showProperties(const RzxHostAddress&, const QString&, bool, QWidget*, QPoint* )));
+		connect(RzxConfig::globalConfig(), SIGNAL(themeChanged()), object, SLOT(changeTheme()));
+		connect(RzxConfig::globalConfig(), SIGNAL(iconFormatChange()), object, SLOT(changeIconFormat()));
 		chats.insert(peer.toString(), object);
 	}
 	object -> show();
@@ -685,9 +725,6 @@ void RzxRezal::chatDelete(const RzxHostAddress& peerAddress){
 }
 
 void RzxRezal::warnProperties(const RzxHostAddress& peer) {
-	if(RzxConfig::globalConfig()->warnCheckingProperties()==0)
-		return;
-	
 	RzxChat * object = chats.find(peer.toString());
 	RzxComputer * computer = iplist.find(peer.toString());
 	if (!computer)
@@ -700,10 +737,12 @@ void RzxRezal::warnProperties(const RzxHostAddress& peer) {
                                 cur.second());
 				
 	if (!object) {
+		if(RzxConfig::globalConfig()->warnCheckingProperties()==0)
+			return;
 		sysmsg("("+heure+") " +tr("Properties sent to ")+computer->getName()+" ("+peer.toString()+")");
 		return;
 	}
-	object->append("gray", computer->getName(), tr("has checked your properties"));
+	object->notify(tr("has checked your properties"), true);
 }
 
 /** No descriptions */
@@ -720,7 +759,7 @@ void RzxRezal::fatal(const QString& msg){
 /** CRASSOU AU POSSIBLE
 * TODO: gerer ca autrement */
 void RzxRezal::onListDblClicked(QListViewItem * sender){
-	RzxItem::ListViewItem * item = static_cast<RzxItem::ListViewItem*> (sender);
+	RzxItem * item = static_cast<RzxItem*> (sender);
 	int serveurs=item->servers;
 
     bool gere = false;
@@ -753,7 +792,7 @@ void RzxRezal::onListDblClicked(QListViewItem * sender){
 			ftp();
 		}
 		else {/*chat*/
-			RzxItem::ListViewItem * listItem = (RzxItem::ListViewItem *) sender;
+			RzxItem * listItem = (RzxItem *) sender;
 			chatCreate(listItem -> ip);
 		}
 	}
@@ -784,7 +823,7 @@ void RzxRezal::closeSocket(){
         disconnect(server, SIGNAL(disconnected()), this, SLOT(serverDisconnected()));
         client -> close();        
         chats.clear();
-        server -> close();
+        if(server) server -> close();
 }
 
 void RzxRezal::resizeEvent(QResizeEvent * e) {
@@ -817,21 +856,19 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 		QListView::keyPressEvent(e); //on laisse Qt gérer
 		return;
 	}
-	RzxItem::ListViewItem* item=static_cast<RzxItem::ListViewItem*> (currentItem());
+	RzxItem* item=static_cast<RzxItem*> (currentItem());
 	RzxHostAddress ipSaved=item->ip; //y a des chances que item soit ! null :)
 	while(true) {
-		item=static_cast<RzxItem::ListViewItem*>(item->itemBelow());
+		item=static_cast<RzxItem*>(item->itemBelow());
 		if(!item)
-			item=static_cast<RzxItem::ListViewItem*>(firstChild()); //au bout on revient au début
+			item=static_cast<RzxItem*>(firstChild()); //au bout on revient au début
 		if(item->ip == ipSaved)
 			return; //on a fait le tour, personne avec cette lettre
 		RzxComputer * comp=iplist.find((item->ip).toString());
 		if(comp->getName().lower().at(0)==c) {
-			if(RzxConfig::favoritesMode()==0 || !RzxConfig::globalConfig()->favorites->find(item->text(1))) {
-				setCurrentItem(item);
-				ensureItemVisible(item);
-				return;
-			}
+			setCurrentItem(item);
+			ensureItemVisible(item);
+			return;
 		}
 	}
 	//ICI JAI LAISSE DS TRUCS EN PLAN
@@ -849,8 +886,8 @@ void RzxRezal::redrawAllIcons(){
 		setColumnWidth(0, 32);
 	
 	for (QListViewItemIterator it(this); it.current(); ++it) {
-		RzxItem::ListViewItem * item = static_cast<RzxItem::ListViewItem *> (it.current());
-		item -> getItem() -> update();
+		RzxItem * item = static_cast<RzxItem *> (it.current());
+		item -> update();
 	}
 }
 

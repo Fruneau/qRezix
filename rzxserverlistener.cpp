@@ -315,9 +315,9 @@ void RzxServerListener::close(){
 		return;
 	}
 	
-	connect(&socket, SIGNAL(bytesWritten(int)), this, SLOT(closeWaitFlush(int)));
+	connect(&socket, SIGNAL(delayedCloseFinished()), this, SLOT(closeWaitFlush()));
 	sendPart();
-	socket.flush();
+	socket.close();
 	
 	// delayedCloseFinished chie dans la colle (ou il y a un truc que je n'ai pas vu)
 	// donc je met un flag �VRAI et j'attends qu'il ait fini d'�rire
@@ -325,11 +325,8 @@ void RzxServerListener::close(){
 }
 
 /** No descriptions */
-void RzxServerListener::closeWaitFlush(int){
-	if (!socket.bytesToWrite()) {
-		socket.close();
-		emit disconnected();
-	}
+void RzxServerListener::closeWaitFlush(){
+	emit disconnected();
 }
 /** No descriptions */
 RzxHostAddress RzxServerListener::getIP() const{

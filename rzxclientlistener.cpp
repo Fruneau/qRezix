@@ -22,12 +22,15 @@
 
 #include "rzxclientlistener.h"
 #include "rzxconfig.h"
+#include "rzxchat.h"
 
 //attention a toujours avoir DCCFormat[DCC_message] = messageFormat
-const char * RzxClientListener::DCCFormat[] = {
-	"^PROPQUERY \r\n",
-	"^PROPANSWER .*\r\n",
-	"^CHAT .*\r\n",
+QString RzxChatSocket::DCCFormat[] = {
+	"(^PROPQUERY )\r\n",
+	"(^PROPANSWER )(.*)\r\n",
+	"(^CHAT )(.*)\r\n",
+	"(^PING )\r\n",
+	"(^PONG )\r\n",
 	0,
 	0,
 	0,
@@ -37,6 +40,308 @@ const char * RzxClientListener::DCCFormat[] = {
 	0,
 	0
 };
+
+///Construction d'un socket brute
+RzxChatSocket::RzxChatSocket()
+	:QSocket(), host()
+{
+	alone = false;
+	chatWindow = NULL;
+	connect(this, SIGNAL(connectionClosed()), this, SLOT(chatConnexionClosed()));
+	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
+	connect(this, SIGNAL(error(int)), this, SLOT(chatConnexionError(int)));
+	connect(this, SIGNAL(connected()), this, SLOT(chatConnexionEtablished()));
+	connect(&timeOut, SIGNAL(timeout()), this, SLOT(chatConnexionTimeout()));
+	RzxClientListener::object()->attach(this);
+}
+
+///Construction d'un socket de chat lié à une fenêtre
+RzxChatSocket::RzxChatSocket(const RzxHostAddress& s_host, RzxChat *parent)
+	:QSocket(), host(s_host)
+{
+	chatWindow = parent;
+	alone = false;
+	connect(this, SIGNAL(connectionClosed()), this, SLOT(chatConnexionClosed()));
+	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
+	connect(this, SIGNAL(error(int)), this, SLOT(chatConnexionError(int)));
+	connect(this, SIGNAL(connected()), this, SLOT(chatConnexionEtablished()));
+	connect(&timeOut, SIGNAL(timeout()), this, SLOT(chatConnexionTimeout()));
+	RzxClientListener::object()->attach(this);
+}
+
+///Construction d'un socket de chat sans liaison
+RzxChatSocket::RzxChatSocket(const RzxHostAddress& s_host, bool s_alone)
+	:QSocket(), host(s_host)
+{
+	chatWindow = NULL;
+	alone = s_alone;
+	connect(this, SIGNAL(connectionClosed()), this, SLOT(chatConnexionClosed()));
+	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
+	connect(this, SIGNAL(error(int)), this, SLOT(chatConnexionError(int)));
+	connect(this, SIGNAL(connected()), this, SLOT(chatConnexionEtablished()));
+	connect(&timeOut, SIGNAL(timeout()), this, SLOT(chatConnexionTimeout()));
+	if(alone)
+		connectToHost();
+	RzxClientListener::object()->attach(this);
+}
+
+///Destruction d'un socket de chat
+RzxChatSocket::~RzxChatSocket()
+{
+}
+
+///Fermeture du socket
+void RzxChatSocket::close()
+{
+	QSocket::close();
+	if(chatWindow)
+		chatWindow->setSocket(NULL);
+	chatWindow = NULL;
+	deleteLater();
+}
+
+///Liaison du socket à un chat
+void RzxChatSocket::setParent(RzxChat *parent)
+{
+	chatWindow = parent;
+}
+
+///Connexion à l'hôte
+void RzxChatSocket::connectToHost()
+{
+	QSocket::connectToHost(host.toString(), RzxConfig::chatPort());
+}
+
+///Installation d'un socket
+void RzxChatSocket::setSocket(int socket)
+{
+	QSocket::setSocket(socket);
+	host = peerAddress();
+}
+
+////Parser des messages
+/** C'est cette méthode qui va vraiment faire le tri entre un chat et une demande de propriété. Lorsqu'un chat est envoyé, le message est émis vers rzxrezal qui alors redonne le message à la bonne fenêtre de chat si elle existe, ou la crée dans le cas contraire */
+int RzxChatSocket::parse(const QString& msg)
+{
+	int i = 0;
+	QRegExp cmd;
+	int fin = msg.find("\r\n");     //recherche de la fin du message
+	if(fin == -1) return -1;
+	
+	while(DCCFormat[i])
+	{
+		cmd.setPattern(DCCFormat[i]);
+		if(cmd.search(msg, 0) >= 0) 
+		{
+			switch(i) {
+				case DCC_PROPQUERY:
+					qDebug("Parsing PROPQUERY");
+					sendProperties();
+					return DCC_PROPQUERY;
+					break;
+				case DCC_PROPANSWER:
+					qDebug("Parsing PROPANSWER: " + cmd.cap(2));
+					if(cmd.cap(2).isEmpty())					// si il n'y a pas les donnees necessaires 
+					{
+						emit notify(tr("has send empty properties"));
+						return DCC_PROPANSWER;		// ou que l'on n'a rien demande on s'arrete
+					}
+					emit propAnswer(host, cmd.cap(2));
+					if(alone)
+						close();
+					return DCC_PROPANSWER;
+					break;
+				case DCC_CHAT:
+					qDebug("Parsing CHAT: " + cmd.cap(2));
+					if(!chatWindow)
+						emit chat(this, cmd.cap(2));
+					else
+						emit chat(cmd.cap(2));
+					return DCC_CHAT;
+					break;
+				case DCC_PING:
+					sendPong();
+					qDebug("Parsing PING");
+					emit notify(tr("Ping received"));
+					break;
+				case DCC_PONG:
+					emit pongReceived(pongTime.msecsTo(QTime::currentTime()));
+					qDebug("Parsing PONG");
+					break;
+			};
+		}
+		i++;
+	}
+	return -1;
+}
+
+/*Les méthodes qui suivent servent à l'émission des différents messages*/
+///Envoi d'une demande de propriété
+void RzxChatSocket::sendPropQuery() {
+	send("PROPQUERY \r\n\0");
+}
+
+///Envoi d'une requête ping
+void RzxChatSocket::sendPing()
+{
+	pongTime = QTime::currentTime();
+	send("PING \r\n");
+}
+
+///Envoi d'une réponse pong
+void RzxChatSocket::sendPong()
+{
+	send("PONG \r\n");
+}
+
+///Formatage des propriétés de l'utilisateur
+void RzxChatSocket::sendProperties()
+{
+	RzxHostAddress peer = peerAddress();
+	
+	QStringList strList;
+	strList << tr("Surname") << RzxConfig::propName();
+	strList << tr("First name") << RzxConfig::propLastName();
+	strList << tr("Nick") << RzxConfig::propSurname();
+	strList << tr("Phone") << RzxConfig::propTel();
+	strList << tr("E-Mail") << RzxConfig::propMail();
+	strList << tr("Web") << RzxConfig::propWebPage();
+	strList << tr("Room") << RzxConfig::propCasert();
+	strList << tr("Sport") << RzxConfig::propSport();
+	strList << tr("Promo") << RzxConfig::propPromo();
+
+	QString msg = strList.join("|");
+	send("PROPANSWER " + msg + "\r\n\0");
+	emit propertiesSent(peer);
+}
+
+///Emission d'un message de chat
+/** Composition du message de chat envoyé par l'utilisateur, pour qu'il soit envoyé au correspondant
+ * <br>Voir aussi : \ref sendDccChat()
+ */
+void RzxChatSocket::sendChat(const QString& msg)
+{
+	emit chatSent();
+	sendDccChat(msg);
+}
+
+///Emission du message du répondeur automatique
+/** Composition du message de chat indiquant que l'utilisateur est sur répondeur, pour qu'il soit envoyé au correspondant
+ * <br>Voir aussi : \ref sendDccChat()
+ */
+void RzxChatSocket::sendResponder(const QString& msg)
+{
+	sendDccChat(msg);
+}
+
+///Envoi d'un message de chat
+/** Met en forme un message de chat quelconque pour qu'il soit envoyé. Cette méthode ajoute la part lié au protocole au message.
+ * <br>Il faut utiliser \ref sendChat() pour envoyer un chat.
+ */
+void RzxChatSocket::sendDccChat(const QString& msg) {
+//	if( !valid ) return;
+
+	send(QString("CHAT " + msg + "\r\n\0"));
+}
+
+///Emission d'un message vers un autre client
+/** Envoie d'un message QUI DOIT AVOIR ETE FORMATE AUPARAVANT par le socket défini.*/
+void RzxChatSocket::send(const QString& msg)
+{
+	switch(state())
+	{
+		case Connected:
+			if(writeBlock(msg.latin1(), (msg.length())) == -1)
+				qDebug("Impossible d'émettre les données vers ");
+			else
+			{
+				flush();
+				qDebug("Message envoyé : " + msg.left(msg.length()-2));
+			}
+			return;
+			
+		case Idle:
+			connectToHost();
+		default:
+			tmpChat = msg;
+			return;
+	}
+}
+
+///Lecture d'un message en attente sur le socket sock
+/** Cette méthode lit un message envoyé sur un socket particulier et balance directement vers le parser pour que le message soit interprété*/
+int RzxChatSocket::readSocket()
+{
+	QString msg;
+	int p = -1;
+
+	if(!canReadLine()) return -1;
+
+	while(canReadLine())
+	{
+		msg = readLine();
+		if(msg.find("\r\n") != -1)
+		{
+			if(p == -1) p = parse(msg);
+		}
+	}
+	return p;
+}
+
+/** Emission du message lorsque la connexion est établie */
+void RzxChatSocket::chatConnexionEtablished()
+{
+	qDebug("Socket ouvert vers " + host.toString() + "... envoi du message");
+	if(alone)
+		sendPropQuery();
+	else if(tmpChat)
+	{
+		send(tmpChat);
+		tmpChat = QString::null;
+	}
+	timeOut.stop();
+}
+
+/**La connexion a été fermée (sans doute par fermeture de la fenêtre de chat) on l'indique à l'utilisateur */
+void RzxChatSocket::chatConnexionClosed()
+{
+	emit info(tr("ends the chat"));
+	qDebug("Connection with " + host.toString() + " closed by peer");
+	close();
+}
+
+/** Gestion des erreurs lors de la connexion et de la communication chaque erreur donne lieu a une mise en garde de l'utilisateur*/
+void RzxChatSocket::chatConnexionError(int Error)
+{
+	switch(Error)
+	{
+		case ErrConnectionRefused:
+			emit info(tr("can't be contact, check his firewall... CONNECTION ERROR"));
+			qDebug("Connexion has been refused by the client");
+			close();
+			break;
+		case ErrHostNotFound:
+			emit info(tr("can't be found... CONNECTION ERROR"));
+			qDebug("Can't find client");
+			close();
+			break;
+		case ErrSocketRead:
+			emit info(tr("has sent datas which can't be read... CONNECTION ERROR"));
+			qDebug("Error while reading datas");
+			break;
+	}
+	if(timeOut.isActive()) timeOut.stop();
+}
+
+//Cas où la connexion n'a pas pu être établie dans les délais
+void RzxChatSocket::chatConnexionTimeout()
+{
+	chatConnexionError(ErrConnectionRefused);
+}
+
+
+
+
 
 
 RzxClientListener * RzxClientListener::globalObject = 0;
@@ -52,39 +357,13 @@ bool RzxClientListener::isValid( void ) const { return valid; }
 
 
 RzxClientListener::RzxClientListener()
-	: QObject(0, "Client"), listenSocket(QSocketDevice::Stream), propSocket(0, "propCheck"), timeOut(0, "propCheckTimeOut")
+	: QObject(0, "Client"), listenSocket(QSocketDevice::Stream)
 {
-	bufferSize = DCC_MSGSIZE;
-	buffer = new char[bufferSize];
-
 	valid = false;
-
-	// Supprim'e automatiquement (qt rules !)
-	QSocketNotifier * notify = new QSocketNotifier(listenSocket.socket(), QSocketNotifier::Read, this);
-	notify -> setEnabled(true);
-	connect(notify, SIGNAL(activated(int)), SLOT(socketRead(int)));
-
-	//connexion du checker de propriétés.
-	connect(&propSocket, SIGNAL(error(int)), this, SLOT(propCheckError(int)));
-	connect(&propSocket, SIGNAL(readyRead()), this, SLOT(receivePropCheck()));
-	connect(&propSocket, SIGNAL(connectionClosed()), this, SLOT(propCheckDeconnected()));
-	connect(&propSocket, SIGNAL(connected()), this, SLOT(propCheckConnected()));
-	connect(&timeOut, SIGNAL(timeout()), this, SLOT(propCheckTimeout()));
 }
 
-/* J'ai laissé cette méthode et le champ buffer de la classe pour le cas
-où on laisserait une écoute sur le port udp... ça peut toujours servir*/
-void RzxClientListener::enforceBufferSize( unsigned long size )
-{
-	if (bufferSize < size)
-	{
-		delete buffer;
-		buffer = new char[size];
-		bufferSize = size;
-	}
-}		
-
-/*Ouverture du port tcp 5050 (par défaut) pour une écoute*/
+///Ouverture de l'écoute du port 5050
+/** Ouverture du port tcp 5050 (par défaut) pour une écoute*/
 bool RzxClientListener::listenOnPort(Q_UINT32 port) {
 	valid = false;
 	if( !listenSocket.isValid() ){
@@ -92,9 +371,6 @@ bool RzxClientListener::listenOnPort(Q_UINT32 port) {
 		return false;
 	}
 
-	listenSocket.setReceiveBufferSize(DCC_MSGSIZE * 2);
-	listenSocket.setSendBufferSize(DCC_MSGSIZE * 2);
-	
 	if( !listenSocket.bind(QHostAddress(), port) ){
 		qDebug("Could not bind to socket");
 		return false;
@@ -109,20 +385,39 @@ bool RzxClientListener::listenOnPort(Q_UINT32 port) {
 	}
 
 	valid = true;
+	
+	QSocketNotifier * notify = new QSocketNotifier(listenSocket.socket(), QSocketNotifier::Read, this);
+	notify -> setEnabled(true);
+	connect(notify, SIGNAL(activated(int)), SLOT(socketRead(int)));
 	return true;
 }
 
 RzxClientListener::~RzxClientListener(){
 }
 
+void RzxClientListener::close()
+{
+	listenSocket.close();
+}
 
-/*Ce slot est appelé dès que l'écoute enregistre une demande d'écriture sur le port tcp 5050
-		On récupère le socket de la connexion avec le client
-		On analyse les données envoyées jusqu'à obtenir un message 'compréhensible'
-		On dispatch alors ce message sur les différentes possibilités (pour l'instant chat ou prop)*/
+///Connexion d'un RzxChatSocket au reste du programme
+void RzxClientListener::attach(RzxChatSocket *sock)
+{
+	connect(sock, SIGNAL(propAnswer(const RzxHostAddress&, const QString& )), this, SIGNAL(propAnswer(const RzxHostAddress&, const QString& )));
+	connect(sock, SIGNAL(propertiesSent(const RzxHostAddress& )), this, SIGNAL(propertiesSent(const RzxHostAddress& )));
+	connect(sock, SIGNAL(chat(QSocket*, const QString& )), this, SIGNAL(chat(QSocket*, const QString& )));
+	connect(sock, SIGNAL(chatSent()), this, SIGNAL(chatSent()));
+}
+
+///Réception d'une connexion entrante
+/**Ce slot est appelé dès que l'écoute enregistre une demande d'écriture sur le port tcp 5050
+ *		-# On récupère le socket de la connexion avec le client
+ *		-# On analyse les données envoyées jusqu'à obtenir un message 'compréhensible'
+ *		-# On dispatch alors ce message sur les différentes possibilités (pour l'instant chat ou prop)
+ */
 void RzxClientListener::socketRead(int socket){
 	QHostAddress host;
-	QSocket *sock;
+	RzxChatSocket *sock;
 	
 	// On sait jamais
 	if( socket != listenSocket.socket() ) {
@@ -130,250 +425,15 @@ void RzxClientListener::socketRead(int socket){
 		return;
 	}
 
-	sock = new QSocket();
+	sock = new RzxChatSocket();
 	sock->setSocket(listenSocket.accept());
 	host = sock->peerAddress();
 	qDebug("Accept connexion to client " + host.toString());
-
-	//J'ai mis cette boucle pour filtrer les messages parmi des parasites
-	int i=0;
-	int size;
-	do
-	{
-		if(sock->bytesAvailable() || sock->waitForMore(10))
-		{
-			int p = readSocket(sock);
-			if(p == DCC_PROPQUERY)
-			{
-				propSendSocket = sock;
-				connect(propSendSocket, SIGNAL(connectionClosed()), this, SLOT(endSendProp()));
-				return;
-			}
-			if(p != -1) return;
-		}
-		i++;
-	}
-	while(i<20);  //attent au maximum 1/5 de seconde un message cohérent
-	qDebug("The connection has been closed because unable to get reliable datas");
-	sock->close();
-	delete sock;
 }
 
-/*Parser des messages
-C'est cette méthode qui va vraiment faire le tri entre un chat et une demande de propriét
-Lorsqu'un chat est envoyé, le message est émis vers rzxrezal qui alors redonne le message
-à la bonne fenêtre de chat si elle existe, ou la crée dans le cas contraire*/
-int RzxClientListener::parse(const QString& msg, QSocket* sock){
-	RzxHostAddress host = sock->peerAddress();
-	int i = 0;
-	QRegExp cmd; 	QString arg;
-	int offset = msg.find(" ");     //recherche de la fin de l'en-tête
-	int fin = msg.find("\r\n");     //recherche de la fin du message
-	if(offset >=0 && fin>offset)
-		arg = msg.mid(offset, fin - offset).stripWhiteSpace();  //extraction du corp du message
-	
-	while(DCCFormat[i]) {
-		cmd.setPattern(DCCFormat[i]);
-		if(cmd.search(msg, 0) >= 0) {
-			switch(i) {
-				case DCC_PROPQUERY:
-					qDebug("Parsing PROPQUERY");
-					sendProperties(sock);
-					return DCC_PROPQUERY;
-					break;
-				case DCC_PROPANSWER:
-					qDebug("Parsing PROPANSWER: " + arg);
-					if(arg.isEmpty() || !WaitingForProperties )		// si il n'y a pas les donnees necessaires 
-						return DCC_PROPANSWER;										// ou que l'on n'a rien demande on s'arrete
-					emit propAnswer(host, arg);
-					WaitingForProperties = false;
-					return DCC_PROPANSWER;
-					break;
-				case DCC_CHAT:
-					qDebug("Parsing CHAT: " + arg);
-					emit chat(sock, arg);
-					return DCC_CHAT;
-					break;
-			};
-		}
-		qDebug("Parsing Unknown : " + msg);
-		i++;
-	}
-//	qDebug("Parsing UnKnown: " + msg); //on skip les message inconnus
-	return -1;
-}
-
-/*Les méthodes qui suivent servent à l'émission des différents messages*/
-void RzxClientListener::sendPropQuery(QSocket* sock) {
-	send(sock, "PROPQUERY \r\n\0");
-	WaitingForProperties = true;
-}
-
-
-//formatage des propriétés de l'utilisateur
-void RzxClientListener::sendProperties(QSocket* sock)
-{
-	RzxHostAddress peer = sock->peerAddress();
-	
-	if( !valid ) return;
-	QStringList strList;
-	strList << tr("Surname") << RzxConfig::propName();
-	strList << tr("First name") << RzxConfig::propLastName();
-	strList << tr("Nick") << RzxConfig::propSurname();
-	strList << tr("Phone") << RzxConfig::propTel();
-	strList << tr("E-Mail") << RzxConfig::propMail();
-	strList << tr("Web") << RzxConfig::propWebPage();
-	strList << tr("Room") << RzxConfig::propCasert();
-	strList << tr("Sport") << RzxConfig::propSport();
-	strList << tr("Promo") << RzxConfig::propPromo();
-
-	QString msg = strList.join("|");
-	send(sock, "PROPANSWER " + msg + "\r\n\0");
-	emit propertiesSent(peer);
-}
-
-/*  
-void RzxClientListener::sendPropAnswer(QSocket* sock, const QString& msg){
-	QString temp;
-	temp = QString("PROPANSWER " + msg + "\r\n");
-	send(sock, temp);
-} */
-
-//emission d'un message de chat
-void RzxClientListener::sendChat(QSocket* sock, const QString& msg)
-{
-	emit chatSent();
-	sendDccChat(sock, msg);
-}
-
-//emission du message du répondeur automatique
-void RzxClientListener::sendResponder(QSocket* sock, const QString& msg)
-{
-	sendDccChat(sock, msg);
-}
-
-//on utilise une même fonction pour l'envoi des deux messages précédent... c discutable
-void RzxClientListener::sendDccChat(QSocket* sock, const QString& msg) {
-//	if( !valid ) return;
-
-	send(sock, QString("CHAT " + msg + "\r\n\0"));
-}
-
-/*Envoie d'un message QUI DOIT AVOIR ETE FORMATE AUPARAVANT par le socket défini*/
-void RzxClientListener::send(QSocket* sock, const QString& msg)
-{
-	if(sock->writeBlock(msg.latin1(), (msg.length())) == -1)
-		qDebug("Impossible d'émettre les données vers ");
-	else
-		qDebug("Message envoyé : "+msg);
-}
-
-/*Lecture d'un message en attente sur le socket sock*/
-//balance directement vers le parser
-int RzxClientListener::readSocket(QSocket* sock)
-{
-	QString msg;
-	int p = -1;
-
-	if(!sock->canReadLine()) return -1;
-
-	msg = sock->readLine();
-	if(msg.find("\r\n") != -1)
-		p = parse(msg, sock);
-	else
-		p = -1;
-
-	if(sock->canReadLine())
-	{
-		if(p == -1) return readSocket(sock);
-		readSocket(sock);
-	}
-	return p;
-	
-/*	unsigned long size = sock->bytesAvailable();
-	char *buf;
-	int p = -1;
-
-	buf = new char[size];
-	sock->readBlock(buf, size);
-
-	p = parse(QString(buf), sock);
-	delete buf;
-	return p; */
-}
-
-/**Les méthodes et slots qui suivent servent à checker les propriétés lorsqu'aucun chat n'a ét
-ouvert avec le client en question. Il a donc fallu réimplémenter toutes les fonctions utiles à cet effet.
-De fait, on a quelque peu des doublons avec la partie de rzxchat***/
-//ouverture de la communication
+///Demande des propriétés de manière indépendante
+/** Crée un socket pour la demande des propriétés à l'utilisateur en face */
 void RzxClientListener::checkProperty(const RzxHostAddress& host)
 {
-	qDebug("Connecting to host " + host.toString() + " for getting properties");
-	propSocket.connectToHost(host.toString(), RzxConfig::chatPort());
-	timeOut.start(1000, TRUE);
-}
-
-//Dès que la connexion est établie on envoie le PROPQUERY
-void RzxClientListener::propCheckConnected()
-{
-	sendPropQuery(&propSocket);
-	timeOut.stop();
-}
-
-//On attend d'avoir reçu la réponse avant de fermer la connexion
-//C'EST LE DEMANDEUR DES PROPRIETES QUI DANS LE PROTOCOL ACTUEL FERME LA CONNEXION
-void RzxClientListener::receivePropCheck()
-{
-	if(readSocket(&propSocket) == DCC_PROPANSWER)
-		propSocket.close();
-}
-
-//La connexion a été perdue annormalement
-void RzxClientListener::propCheckDeconnected()
-{
-	RzxMessageBox::warning(0, tr("Error"), tr("Connection has been anormally lost while getting properties"));
-	qDebug("Lost connection with host while getting properties");
-	propSocket.close();
-}
-
-//Gestion des erreurs de connexion
-void RzxClientListener::propCheckError(int Error)
-{
-	switch(Error)
-	{
-		case QSocket::ErrConnectionRefused:
-			RzxMessageBox::warning(0, tr("Error"), tr("Unable to set a connection\nHost may not have open the chat port from his firewall"));
-			qDebug("Connection has been refused by the client for checking properties");
-			break;
-		case QSocket::ErrHostNotFound:
-			RzxMessageBox::warning(0, tr("Error"), tr("Unable to find host"));
-			qDebug("Can't find host for checking properties");
-			break;
-		case QSocket::ErrSocketRead:
-			RzxMessageBox::warning(0, tr("Error"), tr("Can't read datas from host"));
-			qDebug("Error while reading datas for checking properties");
-			break;
-	}
-	if(timeOut.isActive()) timeOut.stop();
-}
-
-//La connexion n'a pas pu être établie dans les délais
-void RzxClientListener::propCheckTimeout()
-{
-	propSocket.close();
-	propCheckError(QSocket::ErrConnectionRefused);
-}
-
-/** Ce slot esseulé, gère la partie inverse des slots précédents, en effet, il permet d'attendre que
-l'emetteur de la demande de propriétés est fermé sa connexion pour détruire le socket **/
-void RzxClientListener::endSendProp()
-{
-	qDebug("Properties sending connection has been closed");
-	if(propSendSocket) delete propSendSocket;
-}
-
-
-/** No descriptions */
-void RzxClientListener::close(){
-	listenSocket.close();
+	new RzxChatSocket(host, true);
 }

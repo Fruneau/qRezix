@@ -67,7 +67,7 @@ protected slots:
 	void beginAuth();
 	void serverFound();
 	void serverResetTimer();
-	void closeWaitFlush(int count);
+	void closeWaitFlush();
 
 signals: // Signals
 	/** Emit lorsque on passe un message ICON a @ref parse

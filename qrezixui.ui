@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>747</width>
-            <height>532</height>
+            <width>789</width>
+            <height>629</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -30,12 +30,12 @@
             <cstring>unnamed</cstring>
         </property>
         <property name="margin">
-            <number>11</number>
-        </property>
-        <property name="spacing">
             <number>6</number>
         </property>
-        <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="6">
+        <property name="spacing">
+            <number>3</number>
+        </property>
+        <widget class="QLayoutWidget" row="2" column="0">
             <property name="name">
                 <cstring>Layout2</cstring>
             </property>
@@ -62,10 +62,16 @@
                         </sizepolicy>
                     </property>
                     <property name="frameShape">
-                        <enum>Box</enum>
+                        <enum>StyledPanel</enum>
                     </property>
                     <property name="frameShadow">
                         <enum>Sunken</enum>
+                    </property>
+                    <property name="lineWidth">
+                        <number>1</number>
+                    </property>
+                    <property name="midLineWidth">
+                        <number>0</number>
                     </property>
                     <property name="text">
                         <string></string>
@@ -84,10 +90,16 @@
                         </sizepolicy>
                     </property>
                     <property name="frameShape">
-                        <enum>Box</enum>
+                        <enum>StyledPanel</enum>
                     </property>
                     <property name="frameShadow">
                         <enum>Sunken</enum>
+                    </property>
+                    <property name="lineWidth">
+                        <number>1</number>
+                    </property>
+                    <property name="midLineWidth">
+                        <number>0</number>
                     </property>
                     <property name="text">
                         <string></string>
@@ -95,74 +107,233 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="QPushButton" row="0" column="3">
+        <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
-                <cstring>btnAutoResponder</cstring>
+                <cstring>layout7</cstring>
             </property>
-            <property name="text">
-                <string>&amp;Away</string>
-            </property>
-            <property name="toggleButton">
-                <bool>true</bool>
-            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="spacing">
+                    <number>0</number>
+                </property>
+                <widget class="QToolButton">
+                    <property name="name">
+                        <cstring>btnPlugins</cstring>
+                    </property>
+                    <property name="backgroundMode">
+                        <enum>PaletteBackground</enum>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+U</string>
+                    </property>
+                    <property name="toggleButton">
+                        <bool>true</bool>
+                    </property>
+                    <property name="usesBigPixmap">
+                        <bool>true</bool>
+                    </property>
+                    <property name="usesTextLabel">
+                        <bool>true</bool>
+                    </property>
+                    <property name="textLabel">
+                        <string>Pl&amp;ug-ins</string>
+                    </property>
+                    <property name="autoRaise">
+                        <bool>true</bool>
+                    </property>
+                    <property name="textPosition">
+                        <enum>BelowIcon</enum>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>401</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QToolButton">
+                    <property name="name">
+                        <cstring>btnAutoResponder</cstring>
+                    </property>
+                    <property name="backgroundMode">
+                        <enum>PaletteBackground</enum>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+A</string>
+                    </property>
+                    <property name="toggleButton">
+                        <bool>true</bool>
+                    </property>
+                    <property name="usesBigPixmap">
+                        <bool>true</bool>
+                    </property>
+                    <property name="usesTextLabel">
+                        <bool>true</bool>
+                    </property>
+                    <property name="textLabel">
+                        <string>&amp;Away</string>
+                    </property>
+                    <property name="autoRaise">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QToolButton">
+                    <property name="name">
+                        <cstring>btnMAJcolonnes</cstring>
+                    </property>
+                    <property name="backgroundMode">
+                        <enum>PaletteBackground</enum>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="usesBigPixmap">
+                        <bool>true</bool>
+                    </property>
+                    <property name="usesTextLabel">
+                        <bool>true</bool>
+                    </property>
+                    <property name="textLabel">
+                        <string>Adjust columns</string>
+                    </property>
+                    <property name="autoRaise">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QToolButton">
+                    <property name="name">
+                        <cstring>btnPreferences</cstring>
+                    </property>
+                    <property name="backgroundMode">
+                        <enum>PaletteBackground</enum>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+P</string>
+                    </property>
+                    <property name="usesBigPixmap">
+                        <bool>true</bool>
+                    </property>
+                    <property name="usesTextLabel">
+                        <bool>true</bool>
+                    </property>
+                    <property name="textLabel">
+                        <string>&amp;Preferences</string>
+                    </property>
+                    <property name="autoRaise">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
         </widget>
-        <widget class="QPushButton" row="0" column="5">
+        <widget class="QToolBox" row="1" column="0">
             <property name="name">
-                <cstring>btnPreferences</cstring>
+                <cstring>tbRezalContainer</cstring>
             </property>
-            <property name="text">
-                <string>&amp;Preferences</string>
+            <property name="acceptDrops">
+                <bool>false</bool>
             </property>
+            <property name="frameShape">
+                <enum>NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Raised</enum>
+            </property>
+            <property name="lineWidth">
+                <number>1</number>
+            </property>
+            <property name="currentIndex">
+                <number>0</number>
+            </property>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tabEverybody</cstring>
+                </property>
+                <property name="backgroundMode">
+                    <enum>PaletteBackground</enum>
+                </property>
+                <attribute name="label">
+                    <string>Everybody</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
+                    <widget class="RzxRezal" row="0" column="0">
+                        <property name="name">
+                            <cstring>rezal</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>3</hsizetype>
+                                <vsizetype>3</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tabFavorites</cstring>
+                </property>
+                <property name="backgroundMode">
+                    <enum>PaletteBackground</enum>
+                </property>
+                <attribute name="label">
+                    <string>Favorites</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
+                    <widget class="RzxRezal" row="0" column="0">
+                        <property name="name">
+                            <cstring>rezalFavorites</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>3</hsizetype>
+                                <vsizetype>3</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
         </widget>
-        <widget class="QPushButton" row="0" column="2">
-            <property name="name">
-                <cstring>btnFavorites</cstring>
-            </property>
-            <property name="text">
-                <string>Favorites</string>
-            </property>
-            <property name="toggleButton">
-                <bool>true</bool>
-            </property>
-        </widget>
-        <widget class="QPushButton" row="0" column="4">
-            <property name="name">
-                <cstring>btnMAJcolonnes</cstring>
-            </property>
-            <property name="text">
-                <string>Adjust columns</string>
-            </property>
-        </widget>
-        <widget class="RzxRezal" row="1" column="0" rowspan="1" colspan="6">
-            <property name="name">
-                <cstring>rezal</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>3</hsizetype>
-                    <vsizetype>3</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-        </widget>
-        <spacer row="0" column="1">
-            <property name="name">
-                <cstring>Spacer1</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>55</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </spacer>
     </grid>
 </widget>
 <customwidgets>
@@ -188,14 +359,9 @@
         <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1ddec44f503c0ae2a154410f53d0ed20e2bf6bdb656dd6861dd23d9a66591b0587fd1654235ebded6f0edcd53e419d87ae7b1f4f9b8f906d0bfe012317426a70b07bdc2f3ec77f8ed6b89559061a0343d06a124cc105596482585094bc0ae599b04646c9018926491b2205e140c485cace25755c175d0a967b622ff900b8cc9c7d29af594ea722d589167f813aa852ba07d94b9dce296e883fe7bb163f23896753</data>
     </image>
 </images>
-<tabstops>
-    <tabstop>btnFavorites</tabstop>
-    <tabstop>btnAutoResponder</tabstop>
-    <tabstop>btnMAJcolonnes</tabstop>
-    <tabstop>btnPreferences</tabstop>
-</tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>rzxrezal.h</includehint>
     <includehint>rzxrezal.h</includehint>
 </includehints>
 </UI>

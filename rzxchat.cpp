@@ -18,6 +18,7 @@
 #include <qtextedit.h>
 #include <qtextview.h>
 #include <qpushbutton.h>
+#include <qtoolbutton.h>
 #include <qaccel.h>
 #include <qdatetime.h>
 #include <qtimer.h>
@@ -30,6 +31,8 @@
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qsocket.h>
+#include <qiconset.h>
+#include <qpoint.h>
 
 #include <qsound.h>
 #ifndef WIN32
@@ -40,9 +43,10 @@
 #include "rzxconfig.h"
 #include "rzxcomputer.h"
 #include "rzxclientlistener.h"
+#include "rzxpluginloader.h"
 
 //On crée la fenêtre soit avec un socket d'une connection déjà établie
-RzxChat::RzxChat(QSocket* sock)
+RzxChat::RzxChat(RzxChatSocket* sock)
 {
 	setSocket(sock);
 	init();
@@ -58,8 +62,6 @@ RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 
 void RzxChat::init()
 {
-	tmpChat = QString();
-	
 	//
 	QAccel * accel = new QAccel(btnSend);
 	accel -> insertItem(CTRL + Key_Return, 100);
@@ -71,10 +73,10 @@ void RzxChat::init()
 	accel -> connectItem(102, btnClose, SIGNAL(clicked()));
 
 	//on ajoute l'icone du son
-	btnSound -> setPixmap(*RzxConfig::soundIcon(false)); //true par défaut
+	changeIconFormat();
+	changeTheme();
 
 	//ajout du timer de connection
-	connect(&timeOut, SIGNAL(timeout()), this, SLOT(chatConnexionTimeout()));
 
 	//gestion touches haut et bas
 	curLine = history = 0;
@@ -101,10 +103,10 @@ void RzxChat::init()
 	connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
 	connect(btnHistorique, SIGNAL(clicked()), this, SLOT(btnHistoriqueClicked()));
 	connect(btnProperties, SIGNAL(clicked()), this, SLOT(btnPropertiesClicked()));
+	connect(btnPlugins, SIGNAL(clicked()), this, SLOT(pluginsMenu()));
 	connect(edMsg, SIGNAL(enterPressed()), this, SLOT(onReturnPressed()));
 	connect(edMsg, SIGNAL(arrowPressed(bool)), this, SLOT(onArrowPressed(bool)));
 	connect(edMsg, SIGNAL(textWritten()), this, SLOT(onTextChanged()));
-	connect(btnSound, SIGNAL(toggled(bool)), this, SLOT(soundToggled(bool)));
 	connect(cbSendHTML, SIGNAL(toggled(bool)), this, SLOT(activateFormat(bool)));
 	activateFormat(false);
 }
@@ -122,8 +124,7 @@ RzxChat::~RzxChat(){
 	if(socket)
 	{
 		socket->close();
-		delete socket;
-		qDebug("Connection with " + hostname + "has been closed by killing the chat window");
+		qDebug("Connection with " + hostname + " has been closed by killing the chat window");
 	}
 }
 
@@ -195,24 +196,29 @@ void RzxChat::messageReceived(){
 * CHAT
 */
 
-QSocket *RzxChat::getSocket()
+RzxChatSocket *RzxChat::getSocket()
 {
 	return socket;
 }
 
-void RzxChat::setSocket(QSocket* sock)
+void RzxChat::setSocket(RzxChatSocket* sock)
 {
 	if(socket != NULL && socket->state() == QSocket::Connected && sock->socket() != socket->socket())
 	{
 		qDebug("Un nouveau socket différent a été proposé à " + hostname);
 		socket->close();
-		delete socket;
 	}
+	
 	socket = sock;
-	connect(socket, SIGNAL(connectionClosed()), this, SLOT(chatConnexionClosed()));
-	connect(socket, SIGNAL(readyRead()), this, SLOT(getChat()));
-	connect(socket, SIGNAL(error(int)), this, SLOT(chatConnexionError(int)));
-	connect(socket, SIGNAL(connected()), this, SLOT(chatConnexionEtablished()));
+
+	if(socket)
+	{
+		socket->setParent(this);
+		connect(this, SIGNAL(send(const QString& )), socket, SLOT(sendChat(const QString& )));
+		connect(socket, SIGNAL(info(const QString& )), this, SLOT(info(const QString& )));
+		connect(socket, SIGNAL(notify(const QString&, bool)), this, SLOT(notify(const QString&, bool )));
+		connect(socket, SIGNAL(pongReceived(int )), this, SLOT(pong(int)));
+	}
 }
 
 
@@ -222,7 +228,9 @@ void RzxChat::setHostname(const QString& name){
 
 void RzxChat::append(const QString& color, const QString& host, const QString& msg) {
 	QTime cur = QTime::currentTime();
-	QString tmp, tmpH, head="";
+	QDate date = QDate::currentDate();
+	QString tmp, tmpH, head="", tmpD;
+	tmpD = date.toString("ddd d MMMM yy");
 	head.sprintf("<i>%2i:%.2i:%.2i", 
 			cur.hour(),
 			cur.minute(),
@@ -234,25 +242,31 @@ void RzxChat::append(const QString& color, const QString& host, const QString& m
 					.arg(RzxConfig::globalConfig()->localHost()->getName()).arg(msg.mid(4));
 		else tmp = ("<font color=\"purple\">" + tmp + " * %1 %2</i></font><br>")
 					.arg(host.mid(0, host.length()-2)).arg(msg.mid(4));
+		tmpD = QString("<font color=\"purple\"><i>%1 - %2</i></font>").arg(tmpD, head);
 		tmpH = ("<font color=\"purple\">"+head+"</font>");
 		 
 	}
 	else{
 		tmp = ("<font color=\"%1\">" + tmp + " %2</i> %3</font><br>")
 					.arg(color).arg(host).arg(msg);
+		tmpD = QString("<font color=\"%1\"><i>%2 - %3</i></font>").arg(color).arg(tmpD, head);
 		tmpH = ("<font color=\"%1\">"+head+"</font>").arg(color);
 	}
 	if(RzxConfig::globalConfig()->printTime())
 		txtHistory -> setText(txtHistory -> text() + tmpH + tmp);
 	else
-		 txtHistory -> setText(txtHistory -> text() + tmp);
-	textHistorique = textHistorique + tmpH + tmp;
+		txtHistory -> setText(txtHistory -> text() + tmp);
+	textHistorique = textHistorique + tmpD + tmp;
 	txtHistory -> ensureVisible(0, txtHistory -> contentsHeight());
 	edMsg->setFocus();
 }
 
 /** Affiche un message reçu, et emet un son s'il faut */
-void RzxChat::receive(const QString& msg){
+void RzxChat::receive(const QString& msg)
+{
+	QString message = msg;
+	RzxPlugInLoader::global()->chatChanged(edMsg);
+	RzxPlugInLoader::global()->chatReceived(&message);
 	if(RzxConfig::beep()&&/*!edMsg->hasFocus()&&*/!btnSound->isOn()) {
 #ifdef WIN32
 		QString file = RzxConfig::beepSound();
@@ -272,7 +286,7 @@ void RzxChat::receive(const QString& msg){
 	
 	}
 		
-	append("blue", hostname + "> ", msg);
+	append("blue", hostname + "> ", message);
 #ifdef WIN32
   if(!timer->isActive()) timer->start( 1000, FALSE );
 #endif
@@ -284,7 +298,24 @@ void RzxChat::info(const QString& msg){
     append( "darkgreen", hostname + " ", msg );
 }
 
-/* utilisé pour tronquer la chaine et enlever le retour chariot quand
+/// Affiche un message de notification (envoie de prop, ping, pong...)
+void RzxChat::notify(const QString& msg, bool withHostname)
+{
+	if(RzxConfig::globalConfig()->warnCheckingProperties()==0)
+		return;
+
+	QString header = "*** ";
+	if(withHostname) header += hostname + " ";
+	append("gray", header, msg);
+}
+
+///Réception d'un message pong
+void RzxChat::pong(int ms)
+{
+	notify(tr(QString(tr("Pong received within %1 msecs")).arg(ms)));
+}
+
+/** utilisé pour tronquer la chaine et enlever le retour chariot quand
 l'utilisateur utilise Return ou Enter pour envoyer son texte */
 void RzxChat::onReturnPressed() {
 	int length=edMsg->text().length();
@@ -383,7 +414,12 @@ void RzxChat::activateFormat(bool on) {
 #endif
 
 /** No descriptions */
-void RzxChat::btnSendClicked(){
+void RzxChat::btnSendClicked()
+{
+	//Pour que les plug-ins qui en on besoin modifie le texte de chat
+	RzxPlugInLoader::global()->chatSending();
+	
+	//traitement du message
 	QString msg = edMsg -> text();
 	if(msg.isEmpty()) return;
 
@@ -395,7 +431,14 @@ void RzxChat::btnSendClicked(){
 	{
 		cbSendHTML->setChecked(true);
 	}
-		
+	else if(!format && (msg == "/ping" || msg.left(6) == "/ping "))
+	{
+		getValidSocket()->sendPing();
+		edMsg->setText("");
+		notify(tr("Ping emitted"));
+		return;
+	}
+
 	// Conversion du texte en HTML si necessaire
 	if(!cbSendHTML->isChecked())
 	{
@@ -408,7 +451,7 @@ void RzxChat::btnSendClicked(){
 		static const QRegExp tag("<");
 		msg.replace(tag, "&lt;");
 
-        static const QRegExp returns_cr("\n");
+		static const QRegExp returns_cr("\n");
 		msg.replace(returns_cr, "<br>");
 
 		// Pour que les espaces soient bien transmis
@@ -450,112 +493,133 @@ void RzxChat::btnHistoriqueClicked(){
 	file.open(IO_ReadWrite |IO_Append);
 	file.writeBlock(temp, temp.length());
 	file.close();
-	emit showHistorique( peer.toRezix(), hostname );
+	QPoint *pos = new QPoint(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
+	emit showHistorique( peer.toRezix(), hostname, false, this, pos);
 }
 
 
-void RzxChat::btnPropertiesClicked(){
-	emit askProperties( peer );
+void RzxChat::btnPropertiesClicked()
+{
+	getValidSocket()->sendPropQuery();
 }
 
-void RzxChat::soundToggled(bool state) {
-	btnSound->setPixmap(*RzxConfig::soundIcon(state));
+///Demande l'affichage des propriétés
+void RzxChat::receiveProperties(const QString& msg)
+{
+	QPoint *pos = new QPoint(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
+	emit showProperties(peer, msg, false, this, pos);
 }
 
 #ifdef WIN32
 void RzxChat::showEvent ( QShowEvent * e){
 	timer->stop();
 }
-
-bool RzxChat::event ( QEvent * e){
-	if(isActiveWindow())
-		timer->stop();
-	return QWidget::event(e);
-}
 #endif
 
-/** Gestion de la connexion avec l'autre client **/
-//cette méthode permet de gérer les deux cas :
-//		soit la connexion est déjà établie, on utilise le socket déjà en place
-//		soit il n'y a pas connexion, dans ce cas, on ouvre la connexion
-//			l'émission du message se fera dès que celle-ci sera prête
+/// Gestion de la connexion avec l'autre client
+/** Cette méthode permet de gérer les deux cas :
+ *		- soit la connexion est déjà établie, on utilise le socket déjà en place
+ *		- soit il n'y a pas connexion, dans ce cas, on ouvre la connexion l'émission du message se fera dès que celle-ci sera prête
+ */
 void RzxChat::sendChat(const QString& msg)
 {
-	if(socket && socket->state() == QSocket::Connected)
-	{
-		qDebug("Envoi sur socket existant");
-		emit send(socket, msg);
-	}
-	else
-	{
-		qDebug("Ouverture d'un nouveau socket");
-		tmpChat = msg;
-		setSocket(new QSocket());
-		socket->connectToHost(peer.toString(), RzxConfig::chatPort());
-		timeOut.start(1000);
-	}
-}
-
-//émission du message lorsque la connexion est établie
-void RzxChat::chatConnexionEtablished()
-{
-	qDebug("Socket ouvert vers " + hostname + "... envoi du message");
-	emit send(socket, tmpChat);
-	timeOut.stop();
-}
-
-//réception d'un message par le socket du chat
-//ce message va être analysé par rzxclientlistener
-void RzxChat::getChat()
-{
-	RzxClientListener::object()->readSocket(socket);
-}
-
-//la connexion a été fermée (sans doute par fermeture de la fenêtre de chat)
-//on l'indique à l'utilisateur
-void RzxChat::chatConnexionClosed()
-{
-	info(tr("ends the chat"));
-	qDebug("Connection with " + hostname + " closed by peer");
-	if(socket)
-	{
-		socket->close();
-		delete socket;
-		socket = NULL;
-	}
-}
-
-//Gestion des erreurs lors de la connexion et de la communication
-//chaque erreur donne lieu a une mise en garde de l'utilisateur
-void RzxChat::chatConnexionError(int Error)
-{
-	switch(Error)
-	{
-		case QSocket::ErrConnectionRefused:
-			info(tr("can't be contact, check his firewall... CONNECTION ERROR"));
-			qDebug("Connexion has been refused by the client");
-			break;
-		case QSocket::ErrHostNotFound:
-			info(tr("can't be found... CONNECTION ERROR"));
-			qDebug("Can't find client");
-			break;
-		case QSocket::ErrSocketRead:
-			info(tr("has sent datas which can't be read... CONNECTION ERROR"));
-			qDebug("Error while reading datas");
-			break;
-	}
-	if(timeOut.isActive()) timeOut.stop();
-}
-
-//Cas où la connexion n'a pas pu être établie dans les délais
-void RzxChat::chatConnexionTimeout()
-{
-	socket->close();
-	chatConnexionError(QSocket::ErrConnectionRefused);
+	getValidSocket()->sendChat(msg);
 }
 
 /** No descriptions */
 void RzxChat::closeEvent(QCloseEvent * e){
 	e -> accept();
 	emit closed(peer);
+}
+
+bool RzxChat::event(QEvent *e)
+{
+	if(e->type() == QEvent::WindowActivate)
+		RzxPlugInLoader::global()->chatChanged(edMsg);
+#ifdef WIN32
+	if(isActiveWindow())
+		timer->stop();
+#endif
+
+	return RzxChatUI::event(e);
+}
+
+///Changement du thème d'icône
+void RzxChat::changeTheme()
+{
+	QIconSet sound, pi, hist, send, prop;
+	sound.setPixmap(*RzxConfig::soundIcon(false), QIconSet::Automatic, QIconSet::Normal, QIconSet::Off);
+	sound.setPixmap(*RzxConfig::soundIcon(true), QIconSet::Automatic, QIconSet::Normal, QIconSet::On);
+	pi.setPixmap(*RzxConfig::themedIcon("plugin"), QIconSet::Automatic);
+	hist.setPixmap(*RzxConfig::themedIcon("historique"), QIconSet::Automatic);
+	send.setPixmap(*RzxConfig::themedIcon("send"), QIconSet::Automatic);
+	prop.setPixmap(*RzxConfig::themedIcon("prop"), QIconSet::Automatic);
+	btnSound->setIconSet(sound);
+	btnPlugins->setIconSet(pi);
+	btnHistorique->setIconSet(hist);
+	btnSend->setIconSet(send);
+	btnProperties->setIconSet(prop);
+}
+
+///Changement du format d'affichage des icônes
+/** Contrairement au menu de la fenêtre principale, les icônes sont ici toujours petites et le texte toujours à droite. Les seules possibilités sont de masquer ou d'afficher le texte et les icônes */
+void RzxChat::changeIconFormat()
+{
+	int icons = RzxConfig::menuIconSize();
+	int texts = RzxConfig::menuTextPosition();
+
+	//On transforme le cas 'pas d'icônes et pas de texte' en 'petites icônes et pas de texte'
+	if(!texts && !icons) icons = 1;
+
+	//Si on a pas d'icône, on met le texte sur le côté... pour éviter un bug d'affichage
+	if(!icons) texts = 1;
+	
+	//Mise à jour de la taille des icônes
+	switch(icons)
+	{
+		case 0: //pas d'icône
+			{
+				QIconSet empty;
+				btnPlugins->setIconSet(empty);
+				btnHistorique->setIconSet(empty);
+				btnSend->setIconSet(empty);
+				btnProperties->setIconSet(empty);
+			}
+			break;
+		
+		case 1: //petites icônes
+		case 2: //grandes icones
+			{
+				if(btnPlugins->iconSet().isNull()) changeTheme(); //pour recharcher les icônes s'il y a besoin
+				btnPlugins->setUsesBigPixmap(false);
+				btnHistorique->setUsesBigPixmap(false);
+				btnSend->setUsesBigPixmap(false);
+				btnProperties->setUsesBigPixmap(false);
+			}
+			break;
+	}
+	
+	//Mise à jour de la position du texte
+	btnPlugins->setUsesTextLabel(texts);
+	btnHistorique->setUsesTextLabel(texts);
+	btnSend->setUsesTextLabel(texts);
+	btnProperties->setUsesTextLabel(texts);
+	if(texts)
+	{
+		btnPlugins->setTextPosition(QToolButton::BesideIcon);
+		btnHistorique->setTextPosition(QToolButton::BesideIcon);
+		btnSend->setTextPosition(QToolButton::BesideIcon);
+		btnProperties->setTextPosition(QToolButton::BesideIcon);
+	}
+}
+
+/// Affichage du menu plug-ins lors d'un clic sur le bouton
+/** Les actions sont gérées directement par le plug-in s'il a bien été programmé */
+void RzxChat::pluginsMenu()
+{
+	menuPlugins.clear();
+	RzxPlugInLoader::global()->menuChat(menuPlugins);
+	if(!menuPlugins.count())
+		menuPlugins.insertItem("<none>");
+	menuPlugins.popup(btnPlugins->mapToGlobal(btnPlugins->rect().bottomLeft()));
 }

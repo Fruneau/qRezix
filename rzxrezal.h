@@ -50,6 +50,7 @@ class RzxRezal : public QListView  {
 	Q_OBJECT
 public: 
 	RzxRezal(QWidget * parent, const char * name);
+	void showNotFavorites(bool val);
 	void initConnection();
 	~RzxRezal();
 	void closeSocket();
@@ -63,6 +64,7 @@ public:
 	static const char * colNames[numColonnes];
 
 protected: // Protected attributes
+	bool dispNotFavorites;
 	QDict<RzxComputer> iplist;
 	RzxServerListener * server;
 	RzxClientListener * client;
@@ -82,7 +84,7 @@ public slots: // Public slots
 	void http();
 	void news();
 
-	void showHistorique( unsigned long ip, QString hostname );
+	void showHistorique( unsigned long ip, QString hostname, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
 
 	void afficheColonnes();
 	void adapteColonnes();
@@ -98,7 +100,7 @@ public slots: // Public slots
 	void addToFavorites();
 	
 	void chat(QSocket* socket, const QString& msg);
-	void showProperties(const RzxHostAddress& peer, const QString& msg);
+	void showProperties(const RzxHostAddress& peer, const QString& msg, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
 	RzxChat * chatCreate(const RzxHostAddress& peer);
 	RzxChat * chatCreate();
 	void chatDelete(const RzxHostAddress& peerAddress);
@@ -113,6 +115,7 @@ signals: // Signals
 	void status(const QString& msg, bool fatal);
 	void countChange(const QString& newCount);
 	void socketClosed();
+	void favoriteChanged();
 
 protected slots: // Protected slots
 	void onListDblClicked(QListViewItem * sender);

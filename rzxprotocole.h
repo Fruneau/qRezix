@@ -74,10 +74,6 @@ public:
 	void sendRefresh(RzxComputer * thisComputer);
 	/** Envoie le message de deconnection */
 	void sendPart();
-	/** Envoie la liste des fichiers indexés */
-	void sendFileList(int n, const QString& files);
-	/** Envoie de la demande de suppression de la liste des fichiers indexés **/
-	void sendDeleteList();
 	
 public slots:
 	/** Demande un envoi d'icone

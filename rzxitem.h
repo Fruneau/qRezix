@@ -18,6 +18,8 @@
 #ifndef RZXITEM_H
 #define RZXITEM_H
 
+#include <qptrvector.h>
+#include <qmemarray.h>
 #include <qpixmap.h>
 #include <qlistview.h>
 #include "rzxhostaddress.h"
@@ -26,23 +28,17 @@
   *@author Sylvain Joyeux
   */
 
-#if (QT_VERSION >= 0x030000)
-#include <qptrvector.h>
-#include <qmemarray.h>
-#else
-#include <qvector.h>
-#include <qarray.h>
-template<class T> class QPtrVector : public QVector<T> {};
-template<class T> class QMemArray : public QArray<T> {};
-#endif
+class RzxComputer;
   
-class RzxItem : public QObject {
+class RzxItem : public QObject, public QListViewItem
+{
 	Q_OBJECT
 	
-public:
-	class ListViewItem : public QListViewItem	{
+	RzxComputer *getComputer();
+	
 	public:
-		ListViewItem(QListView * view, RzxItem * item);
+		RzxItem(RzxComputer *parent, QListView * view, bool show);
+		~RzxItem();
 		
 		// C caca, mais on se fait pas chier
 		int sysex, servers;
@@ -54,7 +50,6 @@ public:
 	  	void drawComputerIcon();
 		RzxHostAddress ip;
 		
-		RzxItem * getItem() const;
 
 		void setText(int column, const QString& text);
 		void setPixmap(int column, const QPixmap& pixmap);
@@ -75,17 +70,22 @@ public:
 		
 		void paintCell(QPainter * p, const QColorGroup& cg, int column, int width, int align);
 		
-		RzxItem * m_item;
-	};
 
-	RzxItem(QObject * parent, QListView * view);
-	~RzxItem();
-public slots: // Public slots
-	void update();
+	public slots: // Public slots
+		void update();
 
-private:
-	QPixmap * ok, * cancel;
-	ListViewItem * item;
+	private:
+		QPixmap * ok, * cancel;
+		bool showNotFavorite;
 };
+
+inline RzxComputer *RzxItem::getComputer()
+{
+	QObject *computer = QObject::parent();
+	if(computer && computer->inherits("RzxComputer"))
+		return (RzxComputer*)computer;
+	else
+		return NULL;
+}
 
 #endif

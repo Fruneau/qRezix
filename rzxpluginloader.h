@@ -19,27 +19,33 @@
 #define RZXPLUGINLOADER_H
 
 #include <qpopupmenu.h>
-#include <qstring.h>
-#include <qstringlist.h>
-#include <qvaluelist.h>
-#include <qlistview.h>
-#include <qpushbutton.h>
+#include <qptrlist.h>
 #include <qobject.h>
+#include <qdir.h>
+#include <qlistview.h>
 
 #include "rzxplugin.h"
-#include "rzxcomputer.h"
-#include "rzxconfig.h"
-#include "rzxserverlistener.h"
 
- 
+class QTextEdit;
+class QPushButton;
+class QString;
+
+/**
+@author Florent Bruneau
+*/
+
+class QTextEdit;
+
 typedef RzxPlugIn *(*loadPlugInProc)(void);
 
+/// Gestion de l'interface entre les plug-ins et qRezix
+/** Cette classe contient l'ensemble des fonctions pour créer une interface entre le programme principal et ses plugins. Les plug-ins communiquent avec le programme par envoi de signaux interceptés par cette classe et alors traités ici. Le programme communique avec les plug-ins par l'appel des fonctions adaptés de cette classe dès que nécessaire. Ainsi, lorsque certaines données partagées doivent être modifiées (comme le nom dns, l'état des servers...) il faut alors le notifier aux plugins. Il advient donc aux programmeurs de faire appel à cette interface */
 class RzxPlugInLoader : public QObject
 {
 	Q_OBJECT
 
-	QValueList<RzxPlugIn*> plugins;
-	QValueList<QListViewItem*> lvItems;
+	QPtrList<RzxPlugIn> plugins;
+	QPtrList<QListViewItem> lvItems;
 	int selectedPlugIn;
 
 	QListView *pluginListView;
@@ -58,11 +64,17 @@ class RzxPlugInLoader : public QObject
 
 		void menuTray(QPopupMenu& menu);
 		void menuItem(QPopupMenu& menu);
-		QStringList menuAction();
+		void menuAction(QPopupMenu& menu);
+		void menuChat(QPopupMenu& menu);
 		
 		void makePropListView(QListView *lv, QPushButton *btn);
 
 	public slots:
+		void chatChanged(QTextEdit *chat);
+		void chatSending();
+		void chatReceived(QString *chat);
+		void itemChanged(QListViewItem *item);
+		void favoriteChanged(QListViewItem *item);
 		void sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin);
 
 	protected slots:
