@@ -68,6 +68,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	connect(btnPreferences, SIGNAL(clicked()), this, SLOT(boitePreferences()));
 	connect(btnMAJcolonnes, SIGNAL(clicked()), rezal, SLOT(afficheColonnes()));
 	connect(btnMAJcolonnes, SIGNAL(clicked()), rezalFavorites, SLOT(afficheColonnes()));
+	connect(btnMAJcolonnes, SIGNAL(clicked()), rezalSearch, SLOT(afficheColonnes()));
 	connect(btnAutoResponder, SIGNAL(toggled(bool)), this, SLOT(activateAutoResponder(bool)));
 	connect(btnPlugins, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
 	connect(btnSearch, SIGNAL(clicked()), this, SLOT(launchSearch()));
