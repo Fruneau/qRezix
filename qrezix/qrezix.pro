@@ -60,3 +60,15 @@ FORMS	= qrezixui.ui \
 
 TRANSLATIONS	= ./translations/qrezix.ts ./translations/qrezix_fr.ts
 RC_FILE          =icone.rc
+
+MACX {
+  translations.files = ./translations/*
+  themes.files = ../icons/themes/*
+  icone.files = ./application.icns
+  translations.path = ./qrezix.app/Contents/Resources/translations
+  themes.path = ./qrezix.app/Contents/Resources/themes
+  icone.path = ./qrezix.app/Contents/Resources
+  INSTALLS += translations \
+           themes \
+           icone
+}
