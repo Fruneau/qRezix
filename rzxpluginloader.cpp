@@ -49,6 +49,10 @@ RzxPlugInLoader *RzxPlugInLoader::object = NULL;
 /** La construction du programme se fait simplement par recherche et chargement des plugins existant. Le chargement et le lancement de l'exécution des plug-ins se fait de manière distincte. On peut donc envisager la désactivation des plugs-ins par le programme principale */
 RzxPlugInLoader::RzxPlugInLoader() : QObject(0, 0)
 {
+	pluginFlags = 0;
+	initialized = false;
+	object = this;
+	
 	//on charge les plug-ins dans les rep /usr/share/qrezix/plugins
 	loadPlugIn(RzxConfig::globalConfig()->systemDir());
 #ifndef WIN32
@@ -56,10 +60,6 @@ RzxPlugInLoader::RzxPlugInLoader() : QObject(0, 0)
 	if (RzxConfig::globalConfig()->userDir() != RzxConfig::globalConfig()->systemDir())
 		loadPlugIn(RzxConfig::globalConfig()->userDir());
 #endif
-	
-	initialized = false;
-	object = this;
-	pluginFlags = 0;
 }
 
 /// Recherche des plugins et chargement dans un répertoire
