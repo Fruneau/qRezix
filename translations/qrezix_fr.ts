@@ -34,7 +34,7 @@
     </message>
     <message>
         <source>Search</source>
-        <translation>Rercherche</translation>
+        <translation type="obsolete">Rercherche</translation>
     </message>
 </context>
 <context>
@@ -1654,7 +1654,11 @@ Le mot de passe avec lequel vous avez tenté de vous connecter au serveur Xnet e
     </message>
     <message>
         <source>Show Search Tab</source>
-        <translation>Montrer l&apos;onglet de recherche</translation>
+        <translation type="obsolete">Montrer l&apos;onglet de recherche</translation>
+    </message>
+    <message>
+        <source>Show Search Tools</source>
+        <translation>Afficher les outils de recherche</translation>
     </message>
 </context>
 </TS>
