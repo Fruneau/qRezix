@@ -107,6 +107,8 @@ void RzxChat::init()
 	connect(cbSendHTML, SIGNAL(toggled(bool)), this, SLOT(activateFormat(bool)));
 	activateFormat(false);
 	edMsg -> setText("");
+	
+	cbColorSelect->hide();
 }
 
 RzxChat::~RzxChat(){
