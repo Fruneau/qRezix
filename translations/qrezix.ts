@@ -446,13 +446,13 @@ dans lequel il enregistre sa configuration</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>QRezix cannot create %1, which is the folder
+        <source>qRezix cannot create %1, which is the folder
 in which its configuration is saved
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>QRezix can&apos;t find  %s/%s</source>
+        <source>qRezix can&apos;t find  %s/%s</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
