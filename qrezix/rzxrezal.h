@@ -85,8 +85,6 @@ protected: // Protected attributes
 	RzxPopupMenu popup;
 
 	NumColonne lastColumnClicked;  // Pour savoir sur quelle icone on double-clique
-
-	int n;
 	
 public slots: // Public slots
 	void creePopUpMenu(QListViewItem *inutile1,const QPoint & pos,int inutile);
@@ -101,7 +99,6 @@ public slots: // Public slots
 	void adapteColonnes();
 	//void login(RzxComputer *computer);
 	void bufferedLogin(RzxComputer *computer);
-	void logBufLogins();
 	void logout(const QString& ip);
 	void logout(RzxComputer *computer);
 	void clear();
