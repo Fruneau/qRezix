@@ -281,13 +281,18 @@ void QRezix::activateAutoResponder( bool state )
 	RzxConfig::setAutoResponder( state );
 	RzxProperty::serverUpdate();
 	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_AWAY, NULL);
+	changeTrayIcon();
+}
+
+void QRezix::changeTrayIcon(){
 	// Change l'icone dans la tray
-	QPixmap  trayIcon; 
-	if(!btnAutoResponder->isOn())
+	QPixmap trayIcon;
+	if(!RzxConfig::autoResponder())
 	{
 		trayIcon = *(RzxConfig::themedIcon("systray"));
 		if(trayIcon.isNull())
 			trayIcon = QPixmap::QPixmap(q);
+
 	}
 	else
 	{
@@ -295,7 +300,7 @@ void QRezix::activateAutoResponder( bool state )
 		if(trayIcon.isNull())
 			trayIcon = QPixmap::QPixmap(t);
 	}
-	tray->setIcon(trayIcon);
+	if(tray) tray->setIcon(trayIcon);
 }
 
 void QRezix::toggleVisible(){
@@ -371,7 +376,7 @@ void QRezix::changeTheme()
 		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("on"));
 	else
 		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("off"));
-	activateAutoResponder(RzxConfig::autoResponder());
+	if(wellInit) changeTrayIcon();
 }
 
 ///Changement de format des boutons de la barre d'outils
