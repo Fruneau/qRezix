@@ -69,17 +69,13 @@ macx {
   icone.files = ./application.icns
   icone.path = ./qrezix.app/Contents/Resources
 
-  libqt.files = /Developer/qt/lib/libqt-mt.3.dylib
-  libqt.path = ./qrezix.app/Contents/Frameworks
-
-  shlibcommand.files =
-  shlibcommand.path = ./qrezix.app/Contents/Frameworks
-  shlibcommand.commands = install_name_tool -change libqt-mt.3.dylib '@executable_path/../Frameworks/libqt-mt.3.dylib' ./qrezix.app/Contents/MacOS/qrezix
+  movecommand.files =
+  movecommand.path =
+  movecommand.commands = mv -f qrezix.app ../macosx/root/Applications/qrezix.app
 
   INSTALLS += translations \
            themes \
            icone \
-           libqt \
-           shlibcommand
+           movecommand
 
 }
