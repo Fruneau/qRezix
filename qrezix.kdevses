@@ -2,22 +2,17 @@
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
  <Mainframe MaximizeMode="1" />
- <DocsAndViews NumberOfDocuments="3" >
-  <Doc0 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/rzxproperty.h" >
-   <View0 line="72" Type="???" >
-    <AdditionalSettings Top="2" Width="1217" Attach="1" Height="498" Left="2" MinMaxMode="0" />
+ <DocsAndViews NumberOfDocuments="2" >
+  <Doc0 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/rzxchat.h" >
+   <View0 line="49" Type="???" >
+    <AdditionalSettings Top="2" Width="971" Attach="1" Height="612" Left="2" MinMaxMode="0" />
    </View0>
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/rzxproperty.cpp" >
-   <View0 line="559" Type="???" >
-    <AdditionalSettings Top="2" Width="1217" Attach="1" Height="498" Left="2" MinMaxMode="0" />
+  <Doc1 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/rzxchat.cpp" >
+   <View0 line="437" Type="???" >
+    <AdditionalSettings Top="2" Width="971" Attach="1" Height="612" Left="2" MinMaxMode="0" />
    </View0>
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix-plugin-smiley/src/smileyprop.cpp" >
-   <View0 line="30" Type="???" >
-    <AdditionalSettings Top="2" Width="1217" Attach="1" Height="612" Left="2" MinMaxMode="0" />
-   </View0>
-  </Doc2>
  </DocsAndViews>
  <LastCompileConfig>(Par défaut)</LastCompileConfig>
  <pluginList>
