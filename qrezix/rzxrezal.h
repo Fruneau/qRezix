@@ -121,6 +121,9 @@ signals: // Signals
 	void status(const QString& msg, bool fatal);
 	void favoriteRemoved(RzxComputer*);
 	void favoriteAdded(RzxComputer*);
+	void newFavorite(RzxComputer*);
+	void changeFavorite(RzxComputer*);
+	void lostFavorite(RzxComputer*);
 
 protected slots: // Protected slots
 	void onListDblClicked(QListViewItem * sender);
