@@ -118,7 +118,7 @@ bool QRezix::event(QEvent * e){
 		return true;
 	}
 #endif //WIN32
-	else if( e->type() == QEvent::Resize && alreadyOpened )
+	else if( e->type() == QEvent::Resize && alreadyOpened && !isMinimized())
 		statusMax = isMaximized();
 
 	return QWidget::event(e);
@@ -174,9 +174,13 @@ void QRezix::toggleVisible(){
 	if(isVisible())
 		hide();
 	else{
-		showNormal(); 
-		if(statusMax) showMaximized();
-			else showNormal();
+		bool saveStatusMax = statusMax;
+		showNormal();	//pour forcer l'affichage de la fenêtre ==> modifie statusMax
+		if(saveStatusMax)
+		{
+			showMaximized();
+			statusMax = saveStatusMax;
+		}
 		show();
 		setActiveWindow();raise();
 		alreadyOpened=true;

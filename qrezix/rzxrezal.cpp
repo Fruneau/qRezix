@@ -770,10 +770,18 @@ void RzxRezal::resizeEvent(QResizeEvent * e) {
 void RzxRezal::keyPressEvent(QKeyEvent *e) {
 	//QListView::keyPressEvent(e);
 	QString s=e->text();
+
+#ifndef WIN32
 	if(s.isNull() == TRUE)
 		return;
 	QChar c=s.at(0);
 	if(!c.isLetter()) {
+#else
+	QChar c;
+	if(s.isNull() != TRUE)
+		c = s.at(0);
+	if(s.isNull() == TRUE || !c.isLetter()) {
+#endif
 		if(e->key()==Qt::Key_Right) {
 			QRect r(itemRect( currentItem())); //r != 0 car the currentItem IS visible
 			QPoint qp=r.center();
