@@ -1,4 +1,5 @@
 [v1.6.1] 2004-10 <br2003@frankiz.polytechnique.fr>
+    * Ajout d'une fenêtre de notification du changement d'état des favoris [Fruneau]
     * Notification du nombre de message non lus [Fruneau]
     * Notification de la frappe d'un message par l'autre utilisateur (proto de Moi) [Fruneau]
     * Ajout d'une ignore List par IP [Steak]
