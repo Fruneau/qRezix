@@ -330,8 +330,13 @@ void RzxRezal::addToFavorites(){
 }
 
 // lance le client ftp
-void RzxRezal::ftp(){
-	RzxItem* item=(RzxItem*) currentItem();
+void RzxRezal::ftp(const QString& login){
+	RzxItem *item;
+	if(!login)
+		item=(RzxItem*) currentItem();
+	else
+		item=(RzxItem*) findItem(login, ColNom, ExactMatch);
+	if(!item) return;
 	// int serveurs=item->servers;
 	QString tempPath = RzxConfig::globalConfig()->FTPPath();
 	QString tempip = (item->ip).toString();
@@ -442,8 +447,13 @@ void RzxRezal::ftp(){
 #endif
 }
 
-void RzxRezal::samba(){
-	RzxItem* item=(RzxItem*) currentItem();
+void RzxRezal::samba(const QString& login){
+	RzxItem *item;
+	if(!login)
+		item=(RzxItem*) currentItem();
+	else
+		item=(RzxItem*) findItem(login, ColNom, ExactMatch);
+	if(!item) return;
 
 	QString tempip = (item -> ip).toString();
 	QString tempPath = RzxConfig::globalConfig()->FTPPath();
@@ -468,8 +478,13 @@ void RzxRezal::samba(){
 }*/
 
 // lance le client http
-void RzxRezal::http(){
-	RzxItem* item=(RzxItem*) currentItem();
+void RzxRezal::http(const QString& login){
+	RzxItem *item;
+	if(!login)
+		item=(RzxItem*) currentItem();
+	else
+		item=(RzxItem*) findItem(login, ColNom, ExactMatch);
+	if(!item) return;
 	QString tempip = "http://" + (item -> ip).toString();
 	QString cmd=RzxConfig::globalConfig()->httpCmd();
 
@@ -506,8 +521,13 @@ void RzxRezal::http(){
 }
 
 // lance le client news
-void RzxRezal::news(){
-	RzxItem* item=(RzxItem*) currentItem();
+void RzxRezal::news(const QString& login){
+	RzxItem *item;
+	if(!login)
+		item=(RzxItem*) currentItem();
+	else
+		item=(RzxItem*) findItem(login, ColNom, ExactMatch);
+	if(!item) return;
 	QString tempip = "news://" + (item -> ip).toString();
 	QString cmd = RzxConfig::globalConfig()->newsCmd();
 
@@ -677,8 +697,14 @@ void RzxRezal::chat(QSocket* socket, const QString& msg) {
 	}
 }
 
-RzxChat * RzxRezal::chatCreate() {
-	RzxItem* item=(RzxItem*) currentItem();
+RzxChat * RzxRezal::chatCreate(const QString& login)
+{
+	RzxItem *item;
+	if(!login)
+		item=(RzxItem*) currentItem();
+	else
+		item=(RzxItem*) findItem(login, ColNom, ExactMatch);
+	if(!item) return NULL;
 	RzxHostAddress tempip = (item->ip);
 	return chatCreate(tempip);
 }
@@ -725,6 +751,16 @@ RzxChat * RzxRezal::chatCreate(const RzxHostAddress& peer) {
 
 	return object;
 }
+
+///Fermeture du chat (si il existe) associé au login
+void RzxRezal::closeChat(const QString& login)
+{
+	RzxItem *item=(RzxItem*) findItem(login, ColNom, ExactMatch);
+	if(!item) return;
+	RzxChat *chat = chats.find(item->ip.toString());
+	chat->close();
+}
+
 
 /** No descriptions */
 void RzxRezal::chatDelete(const RzxHostAddress& peerAddress){        
