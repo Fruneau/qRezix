@@ -34,6 +34,8 @@ Package: qrezix-translations-fr
 Architecture: all
 Provides: qrezix-translations
 Description: Fichiers de traduction Français pour QRezix
+Replaces: qrezix-translations
+Conflicts: qrezix-translations
 
 Package: qrezix-translations-us
 Architecture: all
