@@ -154,6 +154,7 @@ public:
 	static int menuTextPosition();
 	static int menuIconSize();
 	static int tooltip();
+	static QStringList ignoredPluginsList();
 	
 	static bool autoResponder();
 	static QString autoResponderMsg();
@@ -171,6 +172,7 @@ public:
 	static void writeWindowPosition(const QPoint&);
 	static void writeQuitMode(int mode);
 	static void writeShowQuit(bool mode);
+	static void writeIgnoredPluginsList(const QStringList& list);
 
 	static bool find();
 	static QString findData(const QString& name, const QString& relative = QString::null, bool important = false);
@@ -215,8 +217,10 @@ protected: // Protected attributes
 	static QPixmap * icon(const QString& name, QDict<QPixmap>& cache, const QString& subdir = QString::null);
 	QString readEntry(const QString& name, const QString& def);
 	int readEntry(const QString& name, int def);
+	QStringList readEntry(const QString& name);
 	void writeEntry(const QString& name, const QString& val);
 	void writeEntry(const QString& name, int val);
+	void writeEntry(const QString& name, const QStringList & list);
 	
 	static QString name();
 
