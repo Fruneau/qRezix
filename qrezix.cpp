@@ -24,6 +24,8 @@
 #include <qstring.h>
 #include <qfile.h>
 #include <qiconset.h>
+#include <qpixmap.h>
+#include <qbitmap.h>
 
 #include "qrezix.h"
 #include "rzxquit.h"
@@ -33,6 +35,9 @@
 #include "rzxpluginloader.h"
 
 #include "defaults.h"
+
+#include "t.xpm"
+#include "q.xpm"
 
 QRezix *QRezix::object = 0;
 
@@ -226,7 +231,7 @@ void QRezix::socketClosed(){
 
 void QRezix::toggleAutoResponder()
 {
-	activateAutoResponder( !btnAutoResponder->isOn());
+	activateAutoResponder( !btnAutoResponder->isOn());	
 }
 
 void QRezix::toggleButtonResponder()
@@ -245,6 +250,15 @@ void QRezix::activateAutoResponder( bool state )
 	RzxConfig::setAutoResponder( state );
 	RzxProperty::serverUpdate();
 	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_AWAY, NULL);
+	// Change l'icone dans la tray
+	if(!btnAutoResponder->isOn())
+	{
+		tray->setIcon(QPixmap::QPixmap(q));
+	}
+	else
+	{
+		tray->setIcon(QPixmap::QPixmap(t));
+	}
 }
 
 void QRezix::toggleVisible(){

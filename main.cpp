@@ -68,6 +68,7 @@ int main(int argc, char *argv[])
 	QPixmap iconeProg((const char **)q);
 	iconeProg.setMask(iconeProg.createHeuristicMask() );
 	
+	
 	QRezix *rezix = new QRezix();
 	RzxConfig::globalConfig();
 	
