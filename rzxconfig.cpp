@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <stdlib.h>
+#include <time.h>
 
 #ifndef WIN32
 	#include <math.h>
@@ -651,6 +652,7 @@ void RzxConfig::loadLocalHost() {
 
 	if(comment == "$#x")
 	{
+		srand(time(0));
 		QStringList comments = QStringList::split("\n", DEFAULT_COMMENT);
 		int i = rand()%comments.size();
 		comment = comments[i];
