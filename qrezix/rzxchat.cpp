@@ -528,6 +528,7 @@ void RzxChat::btnHistoriqueClicked(bool on){
 	file.close();
 	QPoint *pos = new QPoint(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
 	hist = RzxChatSocket::showHistorique( peer.toRezix(), hostname, false, this, pos);
+	hist->show();
 }
 
 void RzxChat::btnPropertiesClicked(bool on)
