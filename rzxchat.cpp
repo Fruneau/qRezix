@@ -131,12 +131,18 @@ RzxChat::~RzxChat(){
 }
 
 RzxPopup::RzxPopup(QWidget *parent, const char *name)
-	:QFrame(parent, name, WDestructiveClose | WStyle_Customize | WType_TopLevel | WType_Popup)
+	:QFrame(parent, name, WDestructiveClose | WStyle_Customize | WType_TopLevel)
 { }
+
+void RzxPopup::forceVisible(bool pos)
+{
+	if(pos) show();
+	else hide();
+}
 
 RzxPopup::~RzxPopup()
 {
-	emit aboutToQuit();
+//	emit aboutToQuit();
 }
 
 
@@ -505,7 +511,6 @@ void RzxChat::btnHistoriqueClicked(bool on){
 		if(hist)
 			hist->close();
 		hist = NULL;
-		if(btnHistorique->isOn()) btnHistorique->setOn(false);
 		return;
 	}
 
@@ -522,8 +527,7 @@ void RzxChat::btnHistoriqueClicked(bool on){
 	file.writeBlock(temp, temp.length());
 	file.close();
 	QPoint *pos = new QPoint(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
-	connect(hist = RzxChatSocket::showHistorique( peer.toRezix(), hostname, false, this, pos), SIGNAL(aboutToQuit()),
-		this, SLOT(btnHistoriqueClicked()));
+	hist = RzxChatSocket::showHistorique( peer.toRezix(), hostname, false, this, pos);
 }
 
 void RzxChat::btnPropertiesClicked(bool on)
@@ -533,7 +537,6 @@ void RzxChat::btnPropertiesClicked(bool on)
 		if(prop)
 			prop->close();
 		prop = NULL;
-		if(btnProperties->isOn()) btnProperties->setOn(false);
 		return;
 	}
 	
@@ -547,8 +550,8 @@ void RzxChat::btnPropertiesClicked(bool on)
 void RzxChat::receiveProperties(const QString& msg)
 {
 	QPoint *pos = new QPoint(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
-	connect(prop = socket->showProperties(peer, msg, false, this, pos), SIGNAL(aboutToQuit()),
-		this, SLOT(btnPropertiesClicked()));
+	prop = socket->showProperties(peer, msg, false, this, pos);
+	prop->show();
 }
 
 #ifdef WIN32
@@ -582,8 +585,17 @@ void RzxChat::closeEvent(QCloseEvent * e)
 
 bool RzxChat::event(QEvent *e)
 {
+/*	if(e->type() == QEvent::WindowDeactivate)
+	{
+		if(hist) ((RzxPopup*)hist)->forceVisible(false);
+		if(prop) ((RzxPopup*)prop)->forceVisible(false);
+	}*/
 	if(e->type() == QEvent::WindowActivate)
+	{
+		if(hist) hist->raise();
+		if(prop) prop->raise();
 		RzxPlugInLoader::global()->chatChanged(edMsg);
+	}
 #ifdef WIN32
 	if(isActiveWindow())
 		timer->stop();

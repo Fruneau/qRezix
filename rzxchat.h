@@ -44,6 +44,8 @@ class RzxPopup : public QFrame
 		RzxPopup(QWidget *parent, const char *name);
 		~RzxPopup();
 		
+		void forceVisible(bool pos);
+
 	signals:
 		void aboutToQuit();
 };
