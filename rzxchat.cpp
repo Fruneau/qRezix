@@ -530,7 +530,9 @@ void RzxChat::sendChat(const QString& msg)
 }
 
 /** No descriptions */
-void RzxChat::closeEvent(QCloseEvent * e){
+void RzxChat::closeEvent(QCloseEvent * e)
+{
+	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_CHAT, NULL);
 	e -> accept();
 	emit closed(peer);
 }
