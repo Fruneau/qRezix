@@ -47,6 +47,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 {
 	object = this;
 	byTray = false;
+	statusFlag = false;
 	RzxPlugInLoader::global();
 	rezal->showNotFavorites(true);
 	rezalFavorites->showNotFavorites(false);
@@ -128,14 +129,13 @@ QRezix::~QRezix() {
 
 void QRezix::status(const QString& msg, bool fatal){
 	lblStatus -> setText(msg);
-	if (fatal) {
-		lblStatus -> setBackgroundMode(QWidget::FixedColor);
-		lblStatus -> setBackgroundColor(RzxConfig::errorBackgroundColor());
-	}
-	else {	
-		lblStatus -> setBackgroundMode(QWidget::PaletteBackground);
-	}
+	statusFlag = !fatal;
 
+	if(statusFlag)
+		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("on"));
+	else
+		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("off"));
+		
 	/* parceque je veux avoir une trace de ce qui s'est passé ! */
 	qDebug( "[%s] status%s = %s", QDateTime::currentDateTime().toString().latin1(),
 		    fatal ? " (FATAL)" : "", msg.latin1() );
@@ -354,6 +354,10 @@ void QRezix::changeTheme()
 	btnPreferences->setIconSet(prefs);
 	tbRezalContainer->setItemIconSet(1,not_favorite);
 	tbRezalContainer->setItemIconSet(0,favorite);
+	if(statusFlag)
+		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("on"));
+	else
+		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("off"));
 }
 
 ///Changement de format des boutons de la barre d'outils
@@ -375,12 +379,14 @@ void QRezix::menuFormatChange()
 		case 0: //pas d'icône
 			{
 				QIconSet empty;
+				QPixmap emptyIcon;
 				btnPlugins->setIconSet(empty);
 				btnAutoResponder->setIconSet(empty);
 				btnMAJcolonnes->setIconSet(empty);
 				btnPreferences->setIconSet(empty);
 				tbRezalContainer->setItemIconSet(0,empty);
 				tbRezalContainer->setItemIconSet(1,empty);
+				lblStatusIcon->setHidden(TRUE);
 			}
 			break;
 		
@@ -393,6 +399,7 @@ void QRezix::menuFormatChange()
 				btnAutoResponder->setUsesBigPixmap(big);
 				btnMAJcolonnes->setUsesBigPixmap(big);
 				btnPreferences->setUsesBigPixmap(big);
+				lblStatusIcon->setShown(TRUE);
 			}
 			break;
 	}
@@ -409,7 +416,9 @@ void QRezix::menuFormatChange()
 		btnAutoResponder->setTextPosition(pos);
 		btnMAJcolonnes->setTextPosition(pos);
 		btnPreferences->setTextPosition(pos);
+		lblStatus->setShown(TRUE);
 	}
+	else lblStatus->setShown(FALSE);
 }
 
 /// Affichage du menu plug-ins lors d'un clic sur le bouton

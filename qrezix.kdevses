@@ -10,7 +10,7 @@
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/qrezix.cpp" >
    <View0 line="389" Type="???" >
-    <AdditionalSettings Top="2" Width="971" Attach="1" Height="502" Left="2" MinMaxMode="0" />
+    <AdditionalSettings Top="2" Width="1216" Attach="1" Height="619" Left="2" MinMaxMode="0" />
    </View0>
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/rzxconfig.cpp" >
@@ -35,7 +35,7 @@
   </Doc5>
   <Doc6 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/debian/control" >
    <View0 line="43" Type="???" >
-    <AdditionalSettings Top="2" Width="971" Attach="1" Height="502" Left="2" MinMaxMode="0" />
+    <AdditionalSettings Top="2" Width="1217" Attach="1" Height="612" Left="2" MinMaxMode="0" />
    </View0>
   </Doc6>
  </DocsAndViews>
