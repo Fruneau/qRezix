@@ -12,7 +12,7 @@
 ;Définition de versions
   !define MUI_PRODUCT "qRezix"
   !define MUI_VERSION "v1.6"
-  !define MUI_COMPLETEVERSION "v1.6.1"
+  !define MUI_COMPLETEVERSION "v1.6.2"
   !define MUI_NAME "${MUI_PRODUCT} ${MUI_VERSION}"
   !define MUI_COMPLETENAME "${MUI_PRODUCT} ${MUI_COMPLETEVERSION}"
 
@@ -324,14 +324,14 @@ Section "Thème d'icônes 'Noia'" SecThemeNoia
   !insertmacro INSTALL_THEME "NoiaWarmKDE"
 SectionEnd
 
-Section "Thème d'icône 'MacOS X'" SecThemeMacOSX
+Section "Thème d'icône 'MacOSX'" SecThemeMacOSX
   SetDetailsPrint textonly
   DetailPrint "Thèmes d'icônes | MacOS X"
   SetDetailsPrint listonly
 
   SectionIn 1 2
   
-  !insertmacro INSTALL_THEME "MaoOS X"
+  !insertmacro INSTALL_THEME "MacOSX"
 SectionEnd
 
 ; Sauf si quelqu'un le complète, le thème mS est mort
@@ -382,7 +382,7 @@ Section "Plug-in de l'Xplo" SecPiXplo
   !insertmacro INSTALL_XPLO_THEME "classic"
   !insertmacro INSTALL_XPLO_THEME "krystal"
   !insertmacro INSTALL_XPLO_THEME "NoiaWarmKDE"
-  !insertmacro INSTALL_XPLO_THEME "MacOS X"
+  !insertmacro INSTALL_XPLO_THEME "MacOSX"
   SetOutPath "$INSTDIR"
 SectionEnd
 
@@ -400,7 +400,7 @@ Section "Smilix, pour que le chat soit plus beau" SecPiSmiley
   !insertmacro INSTALL_SMILEY_THEME "classic"
   !insertmacro INSTALL_SMILEY_THEME "krystal"
   !insertmacro INSTALL_SMILEY_THEME "NoiaWarmKDE"
-  !insertmacro INSTALL_SMILEY_THEME "MacoOS X"
+  !insertmacro INSTALL_SMILEY_THEME "MacOSX"
 
   !insertmacro INSTALL_SMILEY_IMAGES "basic"
   !insertmacro INSTALL_SMILEY_IMAGES "basic2"
@@ -431,7 +431,7 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeClassic} $(DESC_SecThemeClassic)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeKrystal} $(DESC_SecThemeKrystal)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeNoia} $(DESC_SecThemeNoia)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeMacOSX} $(DESC_SecMacOSX)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeMacOSX} $(DESC_SecThemeMacOSX)
 ;  !insertmacro MUI_DESCRIPTION_TEXT ${SecThememS} $(DESC_SecThemems)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecTrans} "Traductions de qRezix"
   !insertmacro MUI_DESCRIPTION_TEXT ${SecTransFrench} $(DESC_SecTransFrench)

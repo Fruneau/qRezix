@@ -525,6 +525,7 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool
 	
 	histoDialog->resize(300, 300);
 	histoView -> setText(text);
+	histoView -> scrollToBottom();
 	
 	histoDialog->raise();
 	if(withFrame)

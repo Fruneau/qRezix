@@ -44,6 +44,7 @@ typedef void ( *sighandler_t ) ( int );
 
 sighandler_t default_segv_handler, default_pipe_handler, default_term_handler, default_int_handler;
 
+
 void nonfatalHandler( int signum )
 {
 	qWarning( "Received a %i signal, continuing", signum );
@@ -93,8 +94,31 @@ void sigTermHandler( int signum )
 #endif
 #endif
 
+QtMsgHandler oldMsgHandler = NULL;
+FILE *logfile = NULL;
+
+void myMessageOutput(QtMsgType type, const char *msg)
+{
+  if(logfile!=NULL)
+    fprintf(logfile,"%s: %s\n", type==QtDebugMsg ? "Debug" : type==QtWarningMsg ? "Warning" : "Error",msg);
+
+  if(oldMsgHandler!=NULL)
+    (*oldMsgHandler)(type,msg);
+}
+
 int main(int argc, char *argv[])
 {
+	for(int i=1; i<argc; i++)
+		if(strncmp(argv[i],"--log-debug=",12)==0)
+		{
+			int len = strlen(argv[i])-12;
+			char *logfile_name = new char[len+1];
+			memcpy(logfile_name,argv[i]+12,len+1);
+			logfile=fopen(logfile_name,"a");
+			delete[] logfile_name;
+			oldMsgHandler = qInstallMsgHandler(myMessageOutput);
+			break;
+		}
 	qDebug(QString("qRezix ") + VERSION + RZX_TAG_VERSION + "\n");
 	QApplication a(argc,argv);
 
@@ -153,8 +177,12 @@ int main(int argc, char *argv[])
 		delete rezix;
 		if(RzxConfig::globalConfig())
 			delete RzxConfig::globalConfig();
+  		if(logfile!=NULL)
+			fclose(logfile);
 		return retour;
 	}
 	delete rezix;
+  	if(logfile!=NULL)
+		fclose(logfile);
 	return 0;
 }
