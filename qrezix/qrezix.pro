@@ -25,7 +25,7 @@ HEADERS	+= qrezix.h \
 	rzxquit.h \
 	rzxplugin.h \
 	rzxpluginloader.h \
-	 rzxutilslauncher.h
+	rzxutilslauncher.h
 
 SOURCES	+= main.cpp \
 	qrezix.cpp \
@@ -51,7 +51,8 @@ FORMS	= qrezixui.ui \
 	rzxchatui.ui \
 	rzxpropertyui.ui \
 	rzxquitui.ui \
-	rzxwrongpassui.ui
+	rzxwrongpassui.ui \
+	rzxchangepassui.ui
 
 TRANSLATIONS	= ./translations/qrezix.ts ./translations/qrezix_fr.ts
 RC_FILE          =icone.rc

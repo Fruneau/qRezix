@@ -17,6 +17,9 @@
 #include <qstringlist.h>
 #include <qregexp.h>
 #include <qlineedit.h>
+#include <qpushbutton.h>
+#include <qiconset.h>
+#include <qvalidator.h>
 
 #include "rzxprotocole.h"
 #include "rzxcomputer.h"
@@ -34,6 +37,8 @@ const char * RzxProtocole::ServerFormat[] = {
 	"^FATAL",
 	"^ICON [0-9A-Fa-f]+",
 	"^WRONGPASS",
+	"^CHANGEPASSOK",
+	"^CHANGEPASSFAILED .*",
 	0
 };
 
@@ -42,11 +47,17 @@ const unsigned int RzxProtocole::ServerCounts[] = {
 };
 
 RzxProtocole::RzxProtocole()
-	: QObject(0, "Protocole") {
+	: QObject(0, "Protocole")
+{
+	changepass = NULL;
 }
+
 RzxProtocole::RzxProtocole(const char * name)
-	: QObject(0, name) {
+	: QObject(0, name)
+{
+	changepass = NULL;
 }
+
 RzxProtocole::~RzxProtocole(){
 }
 
@@ -91,15 +102,14 @@ void RzxProtocole::parse(const QString& msg){
 			case SERVER_WRONGPASS:
 				{
 					RzxWrongPassUI wp;
+					QIconSet icon(*RzxConfig::themedIcon("ok"));
+					wp.btnOK->setIconSet(icon);
 					wp.exec();
 					QString pwd = wp.ledPassword->text();
 					if(pwd.length())
 					{
-						val = pwd.toInt(&ok, 16);
-						if (ok) {
-							sendAuth(val, RzxConfig::localHost());
-							RzxConfig::globalConfig()->setPass(val);
-						}
+						sendAuth(pwd, RzxConfig::localHost());
+						RzxConfig::globalConfig()->setPass(pwd);
 					}
 				}
 				break;
@@ -110,13 +120,21 @@ void RzxProtocole::parse(const QString& msg){
 				break;
 				
 			case SERVER_PASS:
-				emit sysmsg(QString(tr("Your XNet password  is  : %1\n"
+/*				emit sysmsg(QString(tr("Your XNet password  is  : %1\n"
 					                   "This is an identification code used to authentificate your connection to the server and avoid IP-spoofing.\n\n"
-									   "KEEP IT WELL because without it, you may not be able to connect to the server")).arg(msgParams));
-				val = msgParams.toInt(&ok, 16);
-				if (ok) {
-					RzxConfig::globalConfig()->setPass(val);
-				}
+									   "KEEP IT WELL because without it, you may not be able to connect to the server")).arg(msgParams));*/
+				RzxConfig::globalConfig()->setPass(msgParams);
+				changePass(msgParams);
+				break;
+			
+			case SERVER_CHANGEPASSOK:
+				emit sysmsg(tr("Your pass has been successfully changed by the server. Keep it well because it can be useful."));
+				RzxConfig::globalConfig()->setPass(m_newPass);
+				break;
+			
+			case SERVER_CHANGEPASSFAILED:
+				emit sysmsg(tr("Server can't change your pass :\n") + msgParams);
+				RzxConfig::globalConfig()->setPass(m_oldPass);
 				break;
 				
 			case SERVER_PART:
@@ -167,9 +185,9 @@ QStringList RzxProtocole::split(char sep, const QString& command, unsigned int c
 * MESSAGES A ENVOYER AU SERVEUR
 */
 
-void RzxProtocole::sendAuth(int passcode, RzxComputer * thisComputer) {
+void RzxProtocole::sendAuth(const QString& passcode, RzxComputer * thisComputer) {
 	QString msg = "VERSION 3.9\r\n";
-	msg = msg + "PASS " + QString::number(passcode, 16) + "\r\n";
+	msg = msg + "PASS " + passcode + "\r\n";
 	msg = msg + "JOIN " + thisComputer -> serialize() + "\r\n";
 	
 	emit send(msg);	
@@ -191,3 +209,70 @@ void RzxProtocole::getIcon(const RzxHostAddress& ip) {
 	QString msg = "DOWNLOAD " + QString::number(ip.toRezix(), 16) + "\r\n";
 	emit send(msg);
 }
+
+/****************************************************************************
+* CHANGEMENT DU PASS
+*/
+void RzxProtocole::changePass(const QString& oldPass)
+{
+	changepass = new RzxChangePassUI();
+	
+	//Application du masque pour être sur du formatage du password
+	changepass->leNewPass->setValidator(new QRegExpValidator(QRegExp("[^ ]{6,}"), this));
+	connect(changepass->leNewPass, SIGNAL(textChanged(const QString&)), this, SLOT(analyseNewPass()));
+	changepass->btnOK->setEnabled(false);
+	
+	//Rajout des icônes aux boutons
+	QIconSet ok, cancel;
+	ok.setPixmap(*RzxConfig::themedIcon("ok"), QIconSet::Automatic);
+	cancel.setPixmap(*RzxConfig::themedIcon("cancel"), QIconSet::Automatic);
+	changepass->btnOK->setIconSet(ok);
+	changepass->btnCancel->setIconSet(cancel);
+	
+	//Si on nous donne un ancien pass, alors on force le changement
+	//donc, on met le pass dans la fenêtre qui va bein, et on la désactive
+	//et en même temps on désactive le bouton annuler
+	if(oldPass)
+	{
+		changepass->leOldPass->setText(oldPass);
+		changepass->leOldPass->setEnabled(false);
+		changepass->btnCancel->setEnabled(false);
+	}
+	
+	//Connexion des boutons comme il va bien
+	connect(changepass->btnOK, SIGNAL(clicked()), this, SLOT(validChangePass()));
+	connect(changepass->btnCancel, SIGNAL(clicked()), this, SLOT(cancelChangePass()));
+	
+	//Affichage de la fenêtre
+	changepass->raise();
+	changepass->show();
+}
+
+void RzxProtocole::validChangePass()
+{
+	if(!changepass) return;
+	
+	//Si le nouveau texte et sa confirmation coincident, on envoie la requête au serveur
+	//et on ferme la fenêtre
+	if(changepass->leNewPass->text() == changepass->leReenterNewPass->text())
+	{
+		m_oldPass = changepass->leOldPass->text();
+		m_newPass = changepass->leNewPass->text();
+		emit send("CHANGEPASS " + m_oldPass + " " + m_newPass + "\r\n");
+		changepass->deleteLater();
+		changepass = NULL;
+	}
+}
+
+void RzxProtocole::cancelChangePass()
+{
+	if(!changepass) return;
+	changepass->deleteLater();
+	changepass = NULL;
+}
+
+void RzxProtocole::analyseNewPass()
+{
+	changepass->btnOK->setEnabled(changepass->leNewPass->hasAcceptableInput());
+}
+

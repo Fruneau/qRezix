@@ -21,7 +21,7 @@
 #include <qptrlist.h>
 #include <qlistview.h>
 #include <qlibrary.h>
-#include <qpushbutton.h>
+#include <qtoolbutton.h>
 #include <qobject.h>
 #include <qdir.h>
 #include <qvariant.h>
@@ -260,7 +260,7 @@ void RzxPlugInLoader::menuChat(QPopupMenu& menu)
 //pour faire des réglages propres aux plug-in.
 
 /// Préparation de la liste des plug-ins
-void RzxPlugInLoader::makePropListView(QListView *lv, QPushButton *btn)
+void RzxPlugInLoader::makePropListView(QListView *lv, QToolButton *btn)
 {
 	if(!lvItems.isEmpty()) return;
 	pluginListView = lv;

@@ -85,6 +85,41 @@
     </message>
 </context>
 <context>
+    <name>RzxChangePassUI</name>
+    <message>
+        <source>Change your pass</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Old pass:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New pass:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reenter you new pass:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Return</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RzxChat</name>
     <message>
         <source>Ping emitted</source>
@@ -539,10 +574,19 @@ dans lequel il enregistre sa configuration</translation>
 This is an identification code used to authentificate your connection to the server and avoid IP-spoofing.
 
 KEEP IT WELL because without it, you may not be able to connect to the server</source>
-        <translation>Ton pass de connexion XNet est : %1
+        <translation type="obsolete">Ton pass de connexion XNet est : %1
 Il s&apos;agit d&apos;un code d&apos;identification utilisé pour authentifier ta connexion avec le serveur et éviter l&apos;IP-sproofing.
 
 CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te connecter au serveur</translation>
+    </message>
+    <message>
+        <source>Your pass has been successfully changed by the server. Keep it well because it can be useful.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server can&apos;t change your pass :
+</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -857,12 +901,12 @@ Erreur DNS
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+O</source>
+        <source>&lt;b&gt;Wrong Password&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+Please, reenter your password. You can&apos;t get connected to the xnetserver unless you got the good password. You have been given this password when you got connected for the first time to the server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;b&gt;Wrong Password&lt;/b&gt;&lt;br&gt;&lt;br&gt;
-Please, reenter your password. You can&apos;t get connected to the xnetserver unless you got the good password. You have been given this password when you got connected for the first time to the server.</source>
+        <source>Alt+O, Return</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -909,7 +953,7 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     </message>
     <message>
         <source>Icon selection:</source>
-        <translation>Sélection de l&apos;icône:</translation>
+        <translation type="obsolete">Sélection de l&apos;icône:</translation>
     </message>
     <message>
         <source>...</source>
@@ -1201,7 +1245,7 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     </message>
     <message>
         <source>Misc.</source>
-        <translation>Divers</translation>
+        <translation type="obsolete">Divers</translation>
     </message>
     <message>
         <source>Command to play a sound :</source>
@@ -1249,10 +1293,6 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     </message>
     <message>
         <source>Plug-ins</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Plug-in pr&amp;operties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1317,6 +1357,38 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     </message>
     <message>
         <source>Highlight the selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change my password ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Icon selection</source>
+        <translation type="unfinished">Sélection de l&apos;icône</translation>
+    </message>
+    <message>
+        <source>&amp;Misc.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Systray</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plug-in pr&amp;operties ...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
