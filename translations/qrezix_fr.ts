@@ -157,6 +157,10 @@
         <source>Pong received within %1 msecs</source>
         <translation>Pong reçu après %1 ms</translation>
     </message>
+    <message>
+        <source>Chat</source>
+        <translation>Discussion</translation>
+    </message>
 </context>
 <context>
     <name>RzxChatSocket</name>
@@ -235,6 +239,10 @@
     <message>
         <source>History</source>
         <translation>Historique</translation>
+    </message>
+    <message>
+        <source>Unable to send data... writeBlock returns -1</source>
+        <translation>Impossible d&apos;envoyer des données... writeBlock a renvoyé -1</translation>
     </message>
 </context>
 <context>
@@ -380,6 +388,16 @@ Vérifiez que votre correspondant a bien ouvert le port de chat dans son firewal
         <source>Can&apos;t read datas from host</source>
         <translation type="obsolete">Impossible de lire les données émises par votre correspondant</translation>
     </message>
+    <message>
+        <source>Connection error</source>
+        <translation>Erreur de connexion</translation>
+    </message>
+    <message>
+        <source>An error occured while checking properties :
+</source>
+        <translation>Une erreur est survenue pendant la demande des propriétés :
+</translation>
+    </message>
 </context>
 <context>
     <name>RzxComputer</name>
@@ -462,7 +480,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>%1 is now marked as away</source>
-        <translation>%1 est désormais absent</translation>
+        <translation type="obsolete">%1 est désormais absent</translation>
     </message>
     <message>
         <source>Received a chat request from %1</source>
@@ -474,7 +492,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Chat</source>
-        <translation>Discussion</translation>
+        <translation type="obsolete">Discussion</translation>
     </message>
     <message>
         <source>Properties sent to %2 (%3) at %1</source>
