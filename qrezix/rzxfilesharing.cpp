@@ -7,8 +7,8 @@
 #include <qfile.h>
 #include <qdir.h>
 #include <qtimer.h>
-#include "rzxmessagebox.h"
 
+#include "rzxmessagebox.h"
 #include "rzxfilesharing.h"
 
 #define FTP_FILEINDEX "ftpindex"
@@ -52,7 +52,7 @@ bool FileTable::operator<=(const FileTable& t)
 
 /**Classe d'indexation du ftp**/
 RzxFileSharing::RzxFileSharing(const QString& ftpn, const QString& ftpentete, QObject* parent, const char *name)
-	:QFtp(parent, name), ftpname(ftpn), commandPile(), urlPile(), infoPile(), url(), info(), logs()
+	:QFtp(parent, name), ftpname(ftpn), commandPile(), currentUrlPile(), infoPile(), currentUrl(), saveRepName(), info(), logs()
 {
 	connect(this, SIGNAL(stateChanged(int)), this, SLOT(stateChange(int)));
 	connect(this, SIGNAL(done(bool)), this, SLOT(commandDone(bool)));
@@ -63,28 +63,13 @@ RzxFileSharing::RzxFileSharing(const QString& ftpn, const QString& ftpentete, QO
 	isRunning = FALSE;
 	logFile = NULL;
 	timer = NULL;
-	url = QString("ftp://" + ftpentete.lower() + "/");
+	currentUrl = QString("ftp://" + ftpentete.lower() + "/");
 }
 
 RzxFileSharing::~RzxFileSharing()
-{ }
-
-void RzxFileSharing::changeDns(const QString& dnsname)
 {
-	url = url.mid(6);
-	int offset = url.find('/');
-	url = url.mid(offset);
-	url = "ftp://" + dnsname.lower() + url;
-	if(!isRunning)
-		loadLogFile();
-		
-	QValueListIterator<FileTable> it;
-	for(it = logs.begin() ; it != logs.end() ; it++)
-		(*it).path = "ftp://" + dnsname.lower() + (*it).path.mid(offset + 6);
-	
-	if(!isRunning)
-		writeLogs(FALSE);
 }
+
 
 void RzxFileSharing::launch()
 {
@@ -109,8 +94,8 @@ void RzxFileSharing::stop()
 		delete timer;
 		timer = NULL;
 	}
-	abort();
-	close();
+	if(currentId()) abort();
+	if(state() != QFtp::Unconnected) close();
 }
 
 void RzxFileSharing::stateChange(int state)
@@ -125,6 +110,8 @@ void RzxFileSharing::stateChange(int state)
 		case QFtp::LoggedIn:
 			qDebug("ftp logging in OK... indexing");
 			listingId = list();
+			saveRepName = "";
+			command = QFtp::List;
 			break;
 
 		case QFtp::Unconnected:
@@ -143,15 +130,18 @@ void RzxFileSharing::stateChange(int state)
 		case QFtp::Closing:
 			qDebug("ftp closing connection");
 			commandPile.erase(commandPile.begin(), commandPile.end());
-			urlPile.erase(urlPile.begin(), urlPile.end());
+			currentUrlPile.erase(currentUrlPile.begin(), currentUrlPile.end());
 			infoPile.erase(infoPile.begin(), infoPile.end());
-			if(timer)
+			if(isRunning)
 			{
-				timer->start(6*3600*1000);
-				writeLogs();
+				if(timer)
+				{
+					timer->start(6*3600*1000);
+					writeLogs();
+				}
+				else
+					writeLogs(FALSE);
 			}
-			else
-				writeLogs(FALSE);
 			logs.erase(logs.begin(), logs.end());
 			break;
 
@@ -162,62 +152,93 @@ void RzxFileSharing::stateChange(int state)
 void RzxFileSharing::changeUrl(const QString& cdi)
 {
 	if(cdi != "..")
-		url += cdi + "/";
+		currentUrl += cdi + "/";
 	else
 	{
-		int offset = url.findRev('/', -2);
-		if(offset == -1) url = "";
+		int offset = currentUrl.findRev('/', -2);
+		if(offset == -1) currentUrl = "";
 		else
-		url = url.left(offset + 1);
+		currentUrl = currentUrl.left(offset + 1);
 	}
+}
+
+QString RzxFileSharing::getPath()
+{
+	QString path;
+	path = currentUrl.mid(6);
+	int offset = path.find('/');
+	path = path.mid(offset);
+	return path;
+}
+
+void RzxFileSharing::changeDns(const QString& dnsname)
+{
+	currentUrl = currentUrl.mid(6);
+	int offset = currentUrl.find('/');
+	currentUrl = currentUrl.mid(offset);
+	currentUrl = "ftp://" + dnsname.lower() + currentUrl;
+	if(!isRunning)
+		loadLogFile();
+		
+	QValueListIterator<FileTable> it;
+	for(it = logs.begin() ; it != logs.end() ; it++)
+		(*it).path = "ftp://" + dnsname.lower() + (*it).path.mid(offset + 6);
+	
+	if(!isRunning)
+		writeLogs(FALSE);
 }
 
 void RzxFileSharing::commandFinish(int id, bool err)
 {
-	if(err)
-		getError(error());
-	else if(id == listingId && !bytesAvailable())
+	if(!err && id == listingId)
+	{
+		if(command == QFtp::List && saveRepName != "")
+		{
+			commandPile.push(QFtp::Cd);
+			currentUrlPile.push(saveRepName);
+			saveRepName = "";
+		}
 		runNextCommand();
+	}
 }
 
 void RzxFileSharing::runNextCommand()
 {
-	do
+	if(commandPile.isEmpty())
 	{
-		if(commandPile.isEmpty())
-		{
-			abort();
-			close();
-			return;
-		}
-		QString u = urlPile.pop();
-		int c = commandPile.pop();
-		switch(c)
-		{
-			case QFtp::Cd:
-				changeUrl(u);
-				qDebug("ftp cd " + url);
-				cd(u);
-				if(u != QString(".."))
-				{
-					qDebug("ftp listing " + url);
-					listingId = list();
-				return;
-				}
-				break;
-
-			case QFtp::Get:
-				fileHash(u);
-				return;
-		}
+		abort();
+		close();
+		return;
 	}
-	while(1);
+	QString u = currentUrlPile.pop();
+	int c = commandPile.pop();
+	command = c;
+	switch(c)
+	{
+		case QFtp::Cd:
+			changeUrl(u);
+			qDebug("ftp cd " + currentUrl);
+			listingId = cd(u);
+			return;
+			
+		case QFtp::List:
+			qDebug("ftp listing " + currentUrl + u);
+			currentUrlPile.push("..");
+			commandPile.push(QFtp::Cd);
+			saveRepName = u;
+			listingId = list(u);
+			return;
+			
+		case QFtp::Get:
+			fileHash(u);
+			return;
+	}
 }
 
 void RzxFileSharing::fileHash(const QString& filename)
 {
 	info = infoPile.pop();
-	QValueListIterator<FileTable> it = existEntry(url, filename);
+	QValueListIterator<FileTable> it = existEntry(currentUrl, filename);
 	if(it != (QValueListIterator<FileTable>)0)
 	{
 		QString date = info.lastModified().toString("yyMMddhhmmss");
@@ -232,18 +253,23 @@ void RzxFileSharing::fileHash(const QString& filename)
 	}
 
 	qDebug("ftp hashing "+ filename);
-	listingId = get(filename);
+	size = 0;
+	get(filename);
+	command = QFtp::Get;
 }
 
-void RzxFileSharing::dataGet(int done, int size)
+void RzxFileSharing::dataGet(int done, int sizeF)
 {
-	readData();
-	if(done == size)
+	if(size < 1024) readData();
+	else readAll();
+	if((done == sizeF && size != 1025) || size == 1024)
 	{
-		QString hashStr = QString("%1%2").arg((unsigned int)size, 8, 16).arg(hash, 8, 16).replace(' ', '0');
+		QString hashStr = QString("%1%2").arg((unsigned int)sizeF, 8, 16).arg(hash, 8, 16).replace(' ', '0');
 		qDebug("ftp hash generated " + hashStr + "... adding entry");
 		QString date = info.lastModified().toString("yyMMddhhmmss");
-		addEntry(url, info.name(), hashStr, date);
+		addEntry(currentUrl, info.name(), hashStr, date);
+		if(size == 1024) abort();
+		size = 1025;
 		runNextCommand();
 	}
 }
@@ -251,24 +277,62 @@ void RzxFileSharing::dataGet(int done, int size)
 void RzxFileSharing::readData()
 {
 	char *buf;
-	int size;
-	buf = new char[0x100000];
+	int sizeHere;
+	buf = new char[1024];
 
-	while((size = bytesAvailable()))
+	while((sizeHere = bytesAvailable()) && size < 1024)
 	{
-		if((size = readBlock(buf, 0x100000)) == -1)
+		if(size + sizeHere > 1024) sizeHere = 1024 - size;
+		if((sizeHere = readBlock(buf, sizeHere)) == -1)
 			qDebug("ftp read error");
 
-		for(int i=0 ; i< size>>2 ; i++)
+		for(int i=0 ; i< sizeHere>>2 ; i++)
 			hash += *(((int*)buf)+i);
+		size += sizeHere;
 	}
 	delete buf;
 }
 
 void RzxFileSharing::commandDone(bool err)
 {
-	if(err)
-		getError(error());
+	if(!err) return;
+	
+	int er = error();
+	if(er == QFtp::HostNotFound) qDebug("ftp " + errorString());
+	else if(er == QFtp::ConnectionRefused) qDebug("ftp " + errorString());
+	else if(er == QFtp::NotConnected)
+	{
+		qDebug("ftp NC " + errorString());
+		if(state() == QFtp::LoggedIn) qDebug("Menteur");
+		runNextCommand();
+	}
+	else if(er == QFtp::UnknownError)
+	{
+		qDebug("ftp UE " + errorString());
+		if(command == QFtp::List) //cas de Permission Denied
+		{
+			QString u;
+			int c;
+			do
+			{
+				c = commandPile.pop();
+				u = currentUrlPile.pop();
+				switch(c)
+				{
+					case QFtp::Cd:
+						changeUrl(u);
+						qDebug("ftp cd(" + u + ") skip " + currentUrl);
+						break;
+						
+					case QFtp::List:
+						qDebug("ftp can't list " + currentUrl);
+						break;
+				}
+			}
+			while(c != QFtp::Cd || u != "..");
+		}
+		runNextCommand();
+	}
 }
 
 void RzxFileSharing::index(const QUrlInfo& i)
@@ -276,34 +340,20 @@ void RzxFileSharing::index(const QUrlInfo& i)
 	qDebug("ftp find " + i.name());
 	if(i.isFile())
 	{
-		if(i.isReadable())
+		if(i.permissions() & QUrlInfo::ReadOther)
 		{
-			urlPile.push(i.name());
+			currentUrlPile.push(i.name());
 			commandPile.push(QFtp::Get);
 			infoPile.push(i);
 		}
 	}
 	else
 	{
-		if(i.isReadable())
+		if(i.permissions() & QUrlInfo::ReadOther)
 		{
-			urlPile.push("..");
-			commandPile.push(QFtp::Cd);
-			urlPile.push(i.name());
-			commandPile.push(QFtp::Cd);
+			currentUrlPile.push(i.name());
+			commandPile.push(QFtp::List);
 		}
-	}
-}
-
-void RzxFileSharing::getError(Error err)
-{
-	if(err == QFtp::HostNotFound) qDebug("ftp host not found");
-	else if(err == QFtp::ConnectionRefused) qDebug("ftp connection refused");
-	else if(err == QFtp::NotConnected) qDebug("ftp not connected");
-	else if(err == QFtp::UnknownError)
-	{
-		qDebug("ftp unknown error");
-		commandFinish(listingId, FALSE);
 	}
 }
 
