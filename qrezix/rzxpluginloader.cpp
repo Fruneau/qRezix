@@ -39,6 +39,7 @@
 #include "rzxpluginloader.h"
 #include "rzxhostaddress.h"
 #include "rzxmessagebox.h"
+#include "rzxutilslauncher.h"
 
 ///L'object global... normalement seul objet de cette classe lors de l'exécution
 RzxPlugInLoader *RzxPlugInLoader::object = NULL;
@@ -417,19 +418,19 @@ void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
 			break;
 			
 		case RzxPlugIn::ACTION_FTP:
-			QRezix::global()->rezal->ftp(param);
+			RzxUtilsLauncher::ftp(param);
 			break;
 			
 		case RzxPlugIn::ACTION_HTTP:
-			QRezix::global()->rezal->http(param);
+			RzxUtilsLauncher::http(param);
 			break;
 			
 		case RzxPlugIn::ACTION_NEWS:
-			QRezix::global()->rezal->news(param);
+			RzxUtilsLauncher::news(param);
 			break;
 			
 		case RzxPlugIn::ACTION_SMB:
-			QRezix::global()->rezal->samba(param);
+			RzxUtilsLauncher::samba(param);
 			break;
 			
 		case RzxPlugIn::ACTION_MINIMIZE:

@@ -131,6 +131,7 @@ public:
 	static int pass();
 	static int colonnes();	
 	static int computerIconSize();
+	static bool computerIconHighlight();
 	
 	static int menuTextPosition();
 	static int menuIconSize();

@@ -37,6 +37,8 @@
 
 #define USER_HASH_TABLE_LENGTH 1663
 
+class RzxItem;
+
 //pour réimplanter le clavier et la touche droite, ne mérite pas un .h/.cpp pour lui tt seul
 class RzxPopupMenu : public QPopupMenu {
 	Q_OBJECT
@@ -63,6 +65,7 @@ public:
 		  ColPromo = 9, numColonnes = 10 };
 
 	static const char * colNames[numColonnes];
+	RzxItem *selected;
 
 protected: // Protected attributes
 	bool dispNotFavorites;
@@ -80,10 +83,10 @@ public slots: // Public slots
 	void creePopUpMenu(QListViewItem *inutile1,const QPoint & pos,int inutile);
 	void proprietes();
 	void proprietes( const RzxHostAddress & );
-	void samba(const QString& login = 0);
-	void ftp(const QString& login = 0);
-	void http(const QString& login = 0);
-	void news(const QString& login = 0);
+	void samba();
+	void ftp();
+	void http();
+	void news();
 
 	void afficheColonnes();
 	void adapteColonnes();
@@ -122,6 +125,7 @@ protected slots: // Protected slots
 	void onListDblClicked(QListViewItem * sender);
 	void onListClicked(QListViewItem *, const QPoint &, int);
 	void historique();
+	void redrawSelectedIcon(QListViewItem *sel);
 
 protected:
 	void resizeEvent(QResizeEvent * e);
