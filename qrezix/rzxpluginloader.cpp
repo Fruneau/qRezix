@@ -57,6 +57,7 @@ RzxPlugInLoader::RzxPlugInLoader() : QObject(0, 0)
 		loadPlugIn(RzxConfig::globalConfig()->userDir());
 #endif
 	
+	initialized = false;
 	object = this;
 }
 
@@ -150,6 +151,7 @@ void RzxPlugInLoader::init()
 		//en particulier, c'est comme ça que les plug-ins peuvent écrirent leurs données
 		//dans le qrezixrc du rep .rezix
 		it->init(RzxConfig::globalConfig()->settings, "127.0.0.1");
+	initialized = true;
 }
 
 /// Arrêt de l'exécution de tous les plug-ins
@@ -165,6 +167,7 @@ void RzxPlugInLoader::stop()
 /** Pour permettre un flush des settings par qRezix */
 void RzxPlugInLoader::setSettings()
 {
+	if(!initialized) return;
 	RzxPlugIn *it;
 	for(it = plugins.first() ; it ; it = plugins.next())
 		it->setSettings(RzxConfig::globalConfig()->settings);
@@ -178,6 +181,7 @@ void RzxPlugInLoader::setSettings()
 /// ajout des plug-ins au menu de la trayicon
 void RzxPlugInLoader::menuTray(QPopupMenu& menu)
 {
+	if(!initialized) return;
 	RzxPlugIn *it;
 	for(it = plugins.first() ; it ; it = plugins.next())
 	{
@@ -200,6 +204,7 @@ void RzxPlugInLoader::menuTray(QPopupMenu& menu)
 /// ajout des plug-ins au menu des items du rezal
 void RzxPlugInLoader::menuItem(QPopupMenu& menu)
 {
+	if(!initialized) return;
 	int i=0;
 
 	RzxPlugIn *it;
@@ -225,6 +230,7 @@ void RzxPlugInLoader::menuItem(QPopupMenu& menu)
 /// Génération du menu plug-ins de la fenêtre principale
 void RzxPlugInLoader::menuAction(QPopupMenu& menu)
 {
+	if(!initialized) return;
 	RzxPlugIn *it;
 	for(it = plugins.first() ; it ; it = plugins.next())
 	{
@@ -246,6 +252,7 @@ void RzxPlugInLoader::menuAction(QPopupMenu& menu)
 ///Mise à jour du menu plug-in de la fenêtre de chat
 void RzxPlugInLoader::menuChat(QPopupMenu& menu)
 {
+	if(!initialized) return;
 	RzxPlugIn *it;
 	for(it = plugins.first() ; it ; it = plugins.next())
 	{
@@ -272,6 +279,7 @@ void RzxPlugInLoader::menuChat(QPopupMenu& menu)
 /// Préparation de la liste des plug-ins
 void RzxPlugInLoader::makePropListView(QListView *lv, QToolButton *btn)
 {
+	if(!initialized) return;
 	if(!lvItems.isEmpty()) return;
 	pluginListView = lv;
 	pluginGetProp = btn;
@@ -304,6 +312,7 @@ void RzxPlugInLoader::makePropListView(QListView *lv, QToolButton *btn)
 /// Mise à jour de l'état du bouton en fonction du plug-in sélectionné
 void RzxPlugInLoader::changePlugIn()
 {
+	if(!initialized) return;
 	QListViewItem *lvi = pluginListView->selectedItem();
 	selectedPlugIn = lvItems.findRef(lvi);
 	if(selectedPlugIn == -1)
@@ -319,6 +328,7 @@ void RzxPlugInLoader::changePlugIn()
  * <br>C'est encore une fois donné à la responsabilité du concepteur du plug-in pour que la fonction ne bloque pas l'exécution du programme */
 void RzxPlugInLoader::dispProperties()
 {
+	if(!initialized) return;
 	if(selectedPlugIn == -1) return;
 	plugins.at(selectedPlugIn)->properties();
 }
@@ -327,6 +337,7 @@ void RzxPlugInLoader::dispProperties()
 /** \param plugin si est NULL, les données seront envoyées à tous le plugins */
 void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 {
+	if(!initialized) return;
 	//On prépare les données en fonction de ce qui nous a été demandé d'envoyer
 	QVariant *value;
 	switch((int)data)
@@ -414,6 +425,7 @@ void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 /** Permet la demande d'action par le plug-in à qRez */
 void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
 {
+	if(!initialized) return;
 	switch((int)action)
 	{
 		case RzxPlugIn::ACTION_NONE:
@@ -456,6 +468,7 @@ void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
 /** On a changé de fenêtre de chat, on l'indique à tout les plug-ins */
 void RzxPlugInLoader::chatChanged(QTextEdit *chat)
 {
+	if(!initialized) return;
 	RzxPlugIn *it;
 	for(it = plugins.first() ; it ; it = plugins.next())
 		it->getData(RzxPlugIn::DATA_CHAT, (QVariant*)chat);
@@ -464,6 +477,7 @@ void RzxPlugInLoader::chatChanged(QTextEdit *chat)
 /// On indique que le chat envoie le message
 void RzxPlugInLoader::chatSending()
 {
+	if(!initialized) return;
 	RzxPlugIn *it;
 	for(it = plugins.first() ; it ; it = plugins.next())
 		it->getData(RzxPlugIn::DATA_CHATEMIT, NULL);
@@ -472,6 +486,7 @@ void RzxPlugInLoader::chatSending()
 /// On indique que le chat reçoit un message
 void RzxPlugInLoader::chatReceived(QString *chat)
 {
+	if(!initialized) return;
 	RzxPlugIn *it;
 	for(it = plugins.first() ; it ; it = plugins.next())
 		it->getData(RzxPlugIn::DATA_CHATRECEIVE, (QVariant*)chat);
@@ -480,6 +495,7 @@ void RzxPlugInLoader::chatReceived(QString *chat)
 /// On indique que le chat a envoyé un plug-in
 void RzxPlugInLoader::chatEmitted(QString *chat)
 {
+	if(!initialized) return;
 	RzxPlugIn *it;
 	for(it = plugins.first() ; it ; it = plugins.next())
 		it->getData(RzxPlugIn::DATA_CHATEMITTED, (QVariant*)chat);
@@ -488,6 +504,7 @@ void RzxPlugInLoader::chatEmitted(QString *chat)
 ///On indique qu'un nouvel item vient d'être sélectionné
 void RzxPlugInLoader::itemChanged(QListViewItem *item)
 {
+	if(!initialized) return;
 	RzxPlugIn *it;
 	for(it = plugins.first() ; it ; it = plugins.next())
 		it->getData(RzxPlugIn::DATA_ITEMSELECTED, (QVariant*)item);
@@ -496,6 +513,7 @@ void RzxPlugInLoader::itemChanged(QListViewItem *item)
 ///On indique que l'item sélectionné chez les favoris à changé
 void RzxPlugInLoader::favoriteChanged(QListViewItem *item)
 {
+	if(!initialized) return;
 	RzxPlugIn *it;
 	for(it = plugins.first() ; it ; it = plugins.next())
 		it->getData(RzxPlugIn::DATA_FAVORITESELECTED, (QVariant*)item);
