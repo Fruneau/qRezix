@@ -68,6 +68,7 @@ protected slots: // Protected slots
 	void launchDirSelectDialog();
 	void chooseIcon();
 	void chooseBeep();
+	void chooseBeepConnection();
 	void lockCmbMenuText(int index);
 };
 

@@ -432,6 +432,10 @@ int RzxConfig::beep(){ return globalConfig() -> readEntry("beep", 0); }
 QString RzxConfig::beepCmd(){ return globalConfig() -> readEntry("txtBeepCmd", "play"); }
 QString RzxConfig::beepSound(){ return globalConfig() -> readEntry("txtBeep", ""); }
 
+/** pour les beeps à la connection des autres clients (favoris) */
+int RzxConfig::beepConnection(){ return globalConfig() -> readEntry("beepConnection", 0); }
+QString RzxConfig::connectionSound(){ return globalConfig() -> readEntry("txtBeepConnection", ""); }
+
 #ifdef WIN32
 QString RzxConfig::sambaCmd(){ return globalConfig() -> readEntry("samba_cmd", "standard");}
 QString RzxConfig::ftpCmd(){ return globalConfig() -> readEntry("ftp_cmd", "standard"); }

@@ -49,13 +49,18 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	connect( btnOK, SIGNAL( clicked() ), this, SLOT( oK() ) );
 	connect( btnBrowse, SIGNAL( clicked() ), this, SLOT( chooseIcon() ) );
 	connect( btnBeepBrowse, SIGNAL( clicked() ), this, SLOT( chooseBeep() ) );
+	connect( btnBeepBrowse_3, SIGNAL( clicked()), this, SLOT(chooseBeepConnection())) ;
 	connect(btnAboutQt, SIGNAL(clicked()), this, SLOT(aboutQt()));
 	connect(cmbMenuIcons, SIGNAL(activated(int)), this,SLOT(lockCmbMenuText(int)));
 
 	btnBeepBrowse -> setEnabled(false);
+	btnBeepBrowse_3 -> setEnabled(false);
 	txtBeep -> setEnabled(false);
+	txtBeepFavorites -> setEnabled(false);
 	connect( chkBeep, SIGNAL(toggled(bool)), btnBeepBrowse, SLOT(setEnabled(bool)));
 	connect( chkBeep, SIGNAL(toggled(bool)), txtBeep, SLOT(setEnabled(bool)));
+	connect( chkBeepFavorites, SIGNAL(toggled(bool)), btnBeepBrowse_3, SLOT(setEnabled(bool)));
+	connect( chkBeepFavorites, SIGNAL(toggled(bool)), txtBeepFavorites, SLOT(setEnabled(bool)));
 	connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
 	
 	hostname->setValidator( new DnsValidator() );
@@ -147,6 +152,7 @@ void RzxProperty::initDlg() {
 	initThemeCombo();
 	initLangCombo();
 	chkBeep->setChecked( RzxConfig::beep() );
+	chkBeepFavorites->setChecked( RzxConfig::beepConnection());
 	
 	hostname->setText( RzxConfig::localHost() -> getName() );
 	remarque->setText( RzxConfig::localHost() -> getRemarque() );
@@ -385,7 +391,9 @@ bool RzxProperty::miseAJour() {
 	cfgObject -> writeEntry( "iconsize", cmbIconSize -> currentItem() );
 	cfgObject -> writeEntry( "iconhighlight", cbHighlight->isChecked());
 	cfgObject -> writeEntry( "beep", chkBeep->isChecked() ? 1 : 0 );
+	cfgObject -> writeEntry( "beepConnection", chkBeepFavorites->isChecked() ? 1: 0);
 	cfgObject -> writeEntry( "txtBeep", txtBeep->text());
+	cfgObject -> writeEntry( "txtBeepConnection", txtBeepFavorites->text());
 	cfgObject -> writeEntry( "txtBeepCmd", txtBeepCmd->text());
 	if(server_name->text() != cfgObject->serverName() || server_port->value() != cfgObject->serverPort())
 	{
@@ -604,6 +612,13 @@ void RzxProperty::chooseBeep() {
 	if (file.isEmpty()) return;
 
 	txtBeep -> setText(file);
+}
+
+void RzxProperty::chooseBeepConnection() {
+	QString file = browse(tr("All files"), tr("Sound file selection"), "*");
+	if (file.isEmpty()) return;
+
+	txtBeepFavorites -> setText(file);
 }
 
 void RzxProperty::launchDirSelectDialog() {
