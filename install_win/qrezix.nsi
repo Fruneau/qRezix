@@ -6,6 +6,7 @@
 
 ; Pour pouvoir copier qt-mt331.dll dans l'installeur
 !define QTDIR "C:\Qt"
+!define SOURCESYSDIR "C:\windows\system32"
 
 
 ;--------------------------------
@@ -100,6 +101,13 @@ Section "!Base" SecBase
   SectionIn 1 RO   ; Section toujours sélectionnée
 
   SetOutPath "$SYSDIR"
+  ifFileExists "msvcr71.dll" msvcr_ok
+  File "${SOURCESYSDIR}\msvcr71.dll"
+  ifErrors "" +3
+    Push "Impossible d'installer $SYSDIR\msvcr71.dll.$\Relancez l'installation en tant qu'Administrateur."
+    Call ShowAbort
+
+msvcr_ok:
   IfFileExists "qt-mt331.dll" dll_ok
   File "${QTDIR}\bin\qt-mt331.dll"
   IfErrors "" +3
@@ -126,6 +134,7 @@ dll_ok:
 
   SetOutPath "$INSTDIR\translations"
   File "..\qrezix\translations\*.qm"
+  SetOutPath "$INSTDIR"
   
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
