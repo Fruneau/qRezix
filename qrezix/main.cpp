@@ -176,8 +176,12 @@ int main(int argc, char *argv[])
 		delete rezix;
 		if(RzxConfig::globalConfig())
 			delete RzxConfig::globalConfig();
+  		if(logfile!=NULL)
+			fclose(logfile);
 		return retour;
 	}
 	delete rezix;
+  	if(logfile!=NULL)
+		fclose(logfile);
 	return 0;
 }
