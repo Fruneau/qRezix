@@ -215,6 +215,7 @@ void RzxChat::setSocket(RzxChatSocket* sock)
 	{
 		socket->setParent(this);
 		connect(this, SIGNAL(send(const QString& )), socket, SLOT(sendChat(const QString& )));
+		connect(socket, SIGNAL(chat(const QString& )), this, SLOT(receive(const QString& )));
 		connect(socket, SIGNAL(info(const QString& )), this, SLOT(info(const QString& )));
 		connect(socket, SIGNAL(notify(const QString&, bool)), this, SLOT(notify(const QString&, bool )));
 		connect(socket, SIGNAL(pongReceived(int )), this, SLOT(pong(int)));
