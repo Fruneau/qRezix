@@ -402,6 +402,7 @@ void RzxRezal::logout(const QString& ip)
 	if((selected == item))
 		selected = NULL;
 	search_items.remove(QString(item->getComputer()->getName().lower()));
+	search_items0.remove(QString(item->getComputer()->getIP().toString()));
 	item->deleteLater();
 }
 
