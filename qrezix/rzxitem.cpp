@@ -18,17 +18,18 @@
 #include <qbrush.h>
 #include <qpainter.h>
 #include <qfont.h>
+
 #include "rzxitem.h"
+
 #include "rzxcomputer.h"
 #include "rzxserverlistener.h"
 #include "rzxrezal.h"
 #include "rzxconfig.h"
-#ifndef WIN32
-//#include <kdebug.h>
-#endif
 
 RzxItem::RzxItem(RzxComputer *parent, QListView * view, bool show)
-	 : QObject(parent), QListViewItem(view)  {
+	 : QObject(parent), QListViewItem(view)
+{
+	
 	
 	pixmaps.setAutoDelete(true);
 	texts.setAutoDelete(true);
@@ -148,7 +149,7 @@ QString RzxItem::key(int column, bool ascending) const{
 /** No descriptions */
 void RzxItem::drawComputerIcon(){
 	QPixmap tempIcon = icon;
-	if (!icon.isNull() && !RzxConfig::computerIconSize() && (!isSelected() || !RzxConfig::computerIconHighlight()))
+	if(!icon.isNull() && !RzxConfig::computerIconSize() && (!isSelected() || !RzxConfig::computerIconHighlight()))
 	{
 		QImage img = icon.convertToImage();
 		if(!img.isNull())
@@ -167,7 +168,7 @@ void RzxItem::resizeDataVectors(int size) {
 	textSplit.resize(size);
 	textLengths.resize(size);
 }
-	
+
 
 void RzxItem::updatePixmap(int column, int width) {
 	if ((int)pixmaps.size() <= column) resizeDataVectors(column + 1);

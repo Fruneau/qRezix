@@ -68,6 +68,8 @@ class RzxPlugInLoader : public QObject
 		void menuAction(QPopupMenu& menu);
 		void menuChat(QPopupMenu& menu);
 		
+		void setSettings();
+		
 		void makePropListView(QListView *lv, QToolButton *btn);
 
 	public slots:
