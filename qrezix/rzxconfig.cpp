@@ -506,6 +506,7 @@ RzxComputer * RzxConfig::localHost() {
 
 /** charge le RzxComputer local */
 void RzxConfig::loadLocalHost() {
+/*
 #ifndef WIN32
 	char localhost[256];
 	gethostname(localhost, 255);
@@ -516,12 +517,15 @@ void RzxConfig::loadLocalHost() {
 #endif
 
 	QString dnsname = QString(localhost);
+*/
+	QString dnsname;
 	QString comment;
 	int promo = RzxComputer::PROMAL_UNK;
 	bool repondeur = false;
 	int servers = 0;
 
-	dnsname = readEntry( "dnsname", dnsname );
+	//dnsname = readEntry( "dnsname", dnsname );
+	dnsname = readEntry( "dnsname", "" );
 	comment = readEntry( "comment", "$#x" ); //chaîne de merde qui identifie le tirage aléatoire d'une chaîne
 	promo = readEntry( "promo", promo );
 	repondeur = readEntry( "repondeur", repondeur );
