@@ -246,19 +246,63 @@
         </widget>
         <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
-                <cstring>layoutTools</cstring>
+                <cstring>layout24</cstring>
             </property>
-            <hbox>
+            <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <property name="margin">
-                    <number>0</number>
-                </property>
-                <property name="spacing">
-                    <number>0</number>
-                </property>
-                <widget class="QToolButton">
+                <widget class="QLineEdit" row="0" column="2">
+                    <property name="name">
+                        <cstring>leSearch</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>4</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                </widget>
+                <widget class="Line" row="0" column="1">
+                    <property name="name">
+                        <cstring>line2</cstring>
+                    </property>
+                    <property name="frameShape">
+                        <enum>VLine</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Sunken</enum>
+                    </property>
+                    <property name="margin">
+                        <number>1</number>
+                    </property>
+                    <property name="midLineWidth">
+                        <number>1</number>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                </widget>
+                <spacer row="0" column="4">
+                    <property name="name">
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>65</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QToolButton" row="0" column="0">
                     <property name="name">
                         <cstring>btnPlugins</cstring>
                     </property>
@@ -293,34 +337,119 @@
                         <string>Plug-ins</string>
                     </property>
                 </widget>
-                <widget class="Line">
+                <widget class="QLayoutWidget" row="0" column="5">
                     <property name="name">
-                        <cstring>line2</cstring>
+                        <cstring>layout22</cstring>
                     </property>
-                    <property name="frameShape">
-                        <enum>VLine</enum>
-                    </property>
-                    <property name="frameShadow">
-                        <enum>Sunken</enum>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>0</number>
+                        </property>
+                        <widget class="QToolButton">
+                            <property name="name">
+                                <cstring>btnAutoResponder</cstring>
+                            </property>
+                            <property name="backgroundMode">
+                                <enum>PaletteBackground</enum>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                            <property name="accel">
+                                <string>Alt+A</string>
+                            </property>
+                            <property name="toggleButton">
+                                <bool>true</bool>
+                            </property>
+                            <property name="usesBigPixmap">
+                                <bool>false</bool>
+                            </property>
+                            <property name="usesTextLabel">
+                                <bool>true</bool>
+                            </property>
+                            <property name="textLabel">
+                                <string>&amp;Away</string>
+                            </property>
+                            <property name="autoRaise">
+                                <bool>true</bool>
+                            </property>
+                            <property name="textPosition">
+                                <enum>BesideIcon</enum>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Away</string>
+                            </property>
+                        </widget>
+                        <widget class="QToolButton">
+                            <property name="name">
+                                <cstring>btnMAJcolonnes</cstring>
+                            </property>
+                            <property name="backgroundMode">
+                                <enum>PaletteBackground</enum>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                            <property name="accel">
+                                <string></string>
+                            </property>
+                            <property name="usesBigPixmap">
+                                <bool>false</bool>
+                            </property>
+                            <property name="usesTextLabel">
+                                <bool>true</bool>
+                            </property>
+                            <property name="textLabel">
+                                <string>Adjust columns</string>
+                            </property>
+                            <property name="autoRaise">
+                                <bool>true</bool>
+                            </property>
+                            <property name="textPosition">
+                                <enum>BesideIcon</enum>
+                            </property>
+                        </widget>
+                        <widget class="QToolButton">
+                            <property name="name">
+                                <cstring>btnPreferences</cstring>
+                            </property>
+                            <property name="backgroundMode">
+                                <enum>PaletteBackground</enum>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                            <property name="accel">
+                                <string>Alt+P</string>
+                            </property>
+                            <property name="usesBigPixmap">
+                                <bool>false</bool>
+                            </property>
+                            <property name="usesTextLabel">
+                                <bool>true</bool>
+                            </property>
+                            <property name="textLabel">
+                                <string>&amp;Preferences</string>
+                            </property>
+                            <property name="autoRaise">
+                                <bool>true</bool>
+                            </property>
+                            <property name="textPosition">
+                                <enum>BesideIcon</enum>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Preferences</string>
+                            </property>
+                        </widget>
+                    </hbox>
                 </widget>
-                <widget class="QLineEdit">
-                    <property name="name">
-                        <cstring>leSearch</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>4</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                </widget>
-                <widget class="QToolButton">
+                <widget class="QToolButton" row="0" column="3">
                     <property name="name">
                         <cstring>btnSearch</cstring>
                     </property>
@@ -352,120 +481,7 @@
                         <string>Search</string>
                     </property>
                 </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>Spacer1</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>63</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QToolButton">
-                    <property name="name">
-                        <cstring>btnAutoResponder</cstring>
-                    </property>
-                    <property name="backgroundMode">
-                        <enum>PaletteBackground</enum>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+A</string>
-                    </property>
-                    <property name="toggleButton">
-                        <bool>true</bool>
-                    </property>
-                    <property name="usesBigPixmap">
-                        <bool>false</bool>
-                    </property>
-                    <property name="usesTextLabel">
-                        <bool>true</bool>
-                    </property>
-                    <property name="textLabel">
-                        <string>&amp;Away</string>
-                    </property>
-                    <property name="autoRaise">
-                        <bool>true</bool>
-                    </property>
-                    <property name="textPosition">
-                        <enum>BesideIcon</enum>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Away</string>
-                    </property>
-                </widget>
-                <widget class="QToolButton">
-                    <property name="name">
-                        <cstring>btnMAJcolonnes</cstring>
-                    </property>
-                    <property name="backgroundMode">
-                        <enum>PaletteBackground</enum>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                    <property name="usesBigPixmap">
-                        <bool>false</bool>
-                    </property>
-                    <property name="usesTextLabel">
-                        <bool>true</bool>
-                    </property>
-                    <property name="textLabel">
-                        <string>Adjust columns</string>
-                    </property>
-                    <property name="autoRaise">
-                        <bool>true</bool>
-                    </property>
-                    <property name="textPosition">
-                        <enum>BesideIcon</enum>
-                    </property>
-                </widget>
-                <widget class="QToolButton">
-                    <property name="name">
-                        <cstring>btnPreferences</cstring>
-                    </property>
-                    <property name="backgroundMode">
-                        <enum>PaletteBackground</enum>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+P</string>
-                    </property>
-                    <property name="usesBigPixmap">
-                        <bool>false</bool>
-                    </property>
-                    <property name="usesTextLabel">
-                        <bool>true</bool>
-                    </property>
-                    <property name="textLabel">
-                        <string>&amp;Preferences</string>
-                    </property>
-                    <property name="autoRaise">
-                        <bool>true</bool>
-                    </property>
-                    <property name="textPosition">
-                        <enum>BesideIcon</enum>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Preferences</string>
-                    </property>
-                </widget>
-            </hbox>
+            </grid>
         </widget>
     </grid>
 </widget>
