@@ -146,7 +146,10 @@ int RzxChatSocket::parse(const QString& msg)
 						emit notify(tr("has send empty properties"));
 						return DCC_PROPANSWER;		// ou que l'on n'a rien demande on s'arrete
 					}
-					emit propAnswer(host, cmd.cap(2));
+					if(!chatWindow)
+						emit propAnswer(host, cmd.cap(2));
+					else
+						chatWindow->receiveProperties(cmd.cap(2));
 					if(alone)
 						close();
 					return DCC_PROPANSWER;
