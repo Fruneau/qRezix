@@ -58,10 +58,13 @@ int main(int argc, char *argv[])
 		
 		a.setMainWidget(rezix);
 		
-		QString windowSize=RzxConfig::globalConfig()->readWindowSize();	
+		QString windowSize=RzxConfig::globalConfig()->readWindowSize();
+		#ifndef Q_OS_MACX
 		if(windowSize.left(1)=="1")
 			rezix->statusMax=true;
-		else{
+		else
+		#endif
+		{
 			rezix->statusMax=false;
 			int height=windowSize.mid(1,4).toInt();
 			int width =windowSize.mid(5,4).toInt();
