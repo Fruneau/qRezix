@@ -34,6 +34,7 @@ qt_only.stamp: checkdir configure
 	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/themes/NoiaWarmKDE $(CURDIR)/debian/qrezix-theme-noia-warm/usr/share/qrezix/themes/
 	mkdir -p $(CURDIR)/debian/qrezix-theme-krystal/usr/share/qrezix/themes/
 	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/themes/krystal $(CURDIR)/debian/qrezix-theme-krystal/usr/share/qrezix/themes/
+	
 	touch qt_only.stamp
 
 checkdir:
