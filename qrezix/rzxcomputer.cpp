@@ -49,6 +49,7 @@ void RzxComputer::initLocalHost( void )
 	delayScan = new QTimer();
 	connect(delayScan, SIGNAL(timeout()), this, SLOT(scanServers()));
 	ServerFlags = options.Server = 0;
+	flags = 0;
 }
 
 RzxComputer::RzxComputer()
@@ -196,7 +197,7 @@ int RzxComputer::getServerFlags() const
 bool RzxComputer::can(unsigned int cap)
 {
 	if(!(options.Capabilities & CAP_ON)) return true;
-	else return (options.Capabilities & cap) == cap;
+	else return (options.Capabilities & cap);
 }
 
 ///Retourne le client utilisé avec la version
