@@ -124,16 +124,16 @@ QString RzxComputer::serialize(bool stamp) {
 	QString ret;
 	options_t test = options;
 	test.Server &= test.ServerFlags;
-	unsigned long opts = *((unsigned long*) &test);
-	unsigned long vers = *((unsigned long*) &version);
+	Q_UINT32 opts = *((Q_UINT32*) &test);
+	Q_UINT32 vers = *((Q_UINT32*) &version);
 	
 	ret = name + " " +
-		QString::number(opts, 16) + " " +				
-		QString::number(vers, 16) + " ";
+		QString::number(opts, 16).right(8) + " " +				
+		QString::number(vers, 16).right(8) + " ";
 		
 	if (stamp) ret += "0 ";
 	
-	ret += QString::number(flags, 16) + " " +
+	ret += QString::number((Q_UINT32)flags, 16).right(8) + " " +
 			remarque;
 		
 	return ret;
