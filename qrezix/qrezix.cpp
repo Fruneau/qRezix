@@ -100,6 +100,9 @@ QRezix::QRezix(QWidget *parent, const char *name)
 
 	connect(RzxConfig::globalConfig(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
 	menuFormatChange();
+	
+
+	
 	changeTheme();
 }
 
@@ -332,7 +335,7 @@ void QRezix::changeTheme()
 {
 	rezal -> redrawAllIcons();
 	rezalFavorites -> redrawAllIcons();
-	QIconSet pi, away, columns, prefs;
+	QIconSet pi, away, columns, prefs,favorite,not_favorite;
 	int icons = RzxConfig::menuIconSize();
 	int texts = RzxConfig::menuTextPosition();
 	if(icons || !texts)
@@ -342,11 +345,15 @@ void QRezix::changeTheme()
 		away.setPixmap(*RzxConfig::themedIcon("here"), QIconSet::Automatic, QIconSet::Normal, QIconSet::On);
 		columns.setPixmap(*RzxConfig::themedIcon("column"), QIconSet::Automatic);
 		prefs.setPixmap(*RzxConfig::themedIcon("pref"), QIconSet::Automatic);
+		favorite.setPixmap(*RzxConfig::themedIcon("favorite"), QIconSet::Automatic);
+		not_favorite.setPixmap(*RzxConfig::themedIcon("not_favorite"), QIconSet::Automatic);
 	}
 	btnPlugins->setIconSet(pi);
 	btnAutoResponder->setIconSet(away);
 	btnMAJcolonnes->setIconSet(columns);
 	btnPreferences->setIconSet(prefs);
+	tbRezalContainer->setItemIconSet(0,not_favorite);
+	tbRezalContainer->setItemIconSet(1,favorite);
 }
 
 ///Changement de format des boutons de la barre d'outils
