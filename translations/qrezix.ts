@@ -29,7 +29,7 @@
     <name>QRezixUI</name>
     <message>
         <source>Septembre</source>
-        <translation>Septembre</translation>
+        <translation type="obsolete">Septembre</translation>
     </message>
     <message>
         <source>&amp;Away</source>
@@ -93,6 +93,10 @@
     </message>
     <message>
         <source>Alt+S</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>QRezix</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -406,7 +410,7 @@ It must be at least&lt;b&gt; 6 characters long&lt;/b&gt;.</source>
         <source>Septembre cannot create %1, which is the folder
 in which its configuration is saved
 </source>
-        <translation>Septembre ne peut pas créer le répertoire %1,
+        <translation type="obsolete">Septembre ne peut pas créer le répertoire %1,
 dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
@@ -439,6 +443,16 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>QRezix cannot create %1, which is the folder
+in which its configuration is saved
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>QRezix can&apos;t find  %s/%s</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

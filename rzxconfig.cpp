@@ -137,10 +137,10 @@ RzxConfig::RzxConfig()
 	if (!m_userDir.cd(".rezix")) {
 		if (!m_userDir.mkdir(".rezix")) {
 			QString msg;
-			msg = tr("Septembre cannot create %1, which is the folder\nin which its configuration is saved\n")
+			msg = tr("QRezix cannot create %1, which is the folder\nin which its configuration is saved\n")
 				.arg(m_userDir.absFilePath(".rezix"));
 			msg += tr("You will not be able to save your configuration");
-			QMessageBox::critical(0, "Septembre", msg);
+			QMessageBox::critical(0, "QRezix", msg);
 		} else {
 			m_userDir.cd(".rezix");
 		}
@@ -278,7 +278,7 @@ QString RzxConfig::findData(const QString& name, const QString& relative, bool i
 	if (temp.exists(name)) return temp.absFilePath(name);
 	
 	if(important)
-		qWarning("Septembre ne peut trouver %s/%s", relative.local8Bit().data(), name.local8Bit().data());
+		qWarning(tr("QRezix can't find  %s/%s"), relative.local8Bit().data(), name.local8Bit().data());
 	return QString::null;
 }
 
