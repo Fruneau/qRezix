@@ -205,7 +205,8 @@ void RzxProperty::initDlg() {
 
 	//adjustAuto->setChecked( RzxConfig::globalConfig() ->readEntry( "autoCol", 1 ) );
 	cbSystray->setChecked( RzxConfig::globalConfig() ->useSystray() );
-
+	cbPropertiesWarning->setChecked(RzxConfig::globalConfig() -> warnCheckingProperties() );
+	
 	QPixmap localhostIcon = *RzxConfig::localhostIcon();
 	pxmIcon -> setPixmap( localhostIcon );
 
@@ -311,6 +312,8 @@ void RzxProperty::miseAJour() {
 
 	if (ui -> tray)
 		ui -> tray -> setVisible(cbSystray->isChecked());
+	
+	RzxConfig::globalConfig() -> writeEntry("warnCheckingProperties", (cbPropertiesWarning->isChecked() ? 1: 0));
 		
 	if ( iconSizeChanged && ui -> rezal)
 		ui -> rezal -> redrawAllIcons();

@@ -106,7 +106,8 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	// RECEPTION DES PROPRIETES D'UN ORDINATEUR
 	connect(client, SIGNAL(propAnswer(const RzxHostAddress&, const QString&)), this, SLOT(showProperties(const RzxHostAddress&, const QString&)));
 	connect(client, SIGNAL(propQuery(const RzxHostAddress&)), RzxClientListener::object(), SLOT(sendProperties(const RzxHostAddress&)));
-
+	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), this, SLOT(warnProperties(const RzxHostAddress&)));
+	
 	// FERMETURE DU SOCKET
 	connect(server, SIGNAL(disconnected()), this, SIGNAL(socketClosed()));
 
@@ -656,6 +657,21 @@ RzxChat * RzxRezal::chatCreate(const RzxHostAddress& peer) {
 void RzxRezal::chatDelete(const RzxHostAddress& peerAddress){        
 	// Auto-Delete = true, le chat est supprimé automatiquement. Qt rules !!!
   	chats.remove(peerAddress.toString());
+}
+
+void RzxRezal::warnProperties(const RzxHostAddress& peer) {
+	if(RzxConfig::globalConfig()->warnCheckingProperties()==0)
+		return;
+	
+	RzxChat * object = chats.find(peer.toString());
+	RzxComputer * computer = iplist.find(peer.toString());
+	if (!computer)
+		return;
+	if (!object) {
+		sysmsg(tr("Properties sent to ")+computer->getName()+" ("+peer.toString()+")");
+		return;
+	}
+	object->append("gray", computer->getName(), tr("has checked your properties"));
 }
 
 /** No descriptions */

@@ -101,6 +101,7 @@ public slots: // Public slots
 	RzxChat * chatCreate(const RzxHostAddress& peer);
 	RzxChat * chatCreate();
 	void chatDelete(const RzxHostAddress& peerAddress);
+	void warnProperties(const RzxHostAddress& peer);
 	
 	void serverConnected();
 	void serverDisconnected();

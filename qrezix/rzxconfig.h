@@ -69,6 +69,7 @@ public:
 	static int favoritesMode();
 	static void setFavoritesMode(int);
 	static int useSystray();
+	static int warnCheckingProperties();
 	static int beep();
 	static QString beepCmd();
 	static QString beepSound();

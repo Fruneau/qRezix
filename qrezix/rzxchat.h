@@ -51,6 +51,7 @@ signals:
 class RzxChat : public RzxChatUI {
 	Q_OBJECT
 	
+	friend class RzxRezal;
 public: 
 	RzxChat(const RzxHostAddress& peerAddress);
 	~RzxChat();

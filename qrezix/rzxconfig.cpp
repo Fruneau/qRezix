@@ -338,6 +338,9 @@ int RzxConfig::doubleClicRole(){ return globalConfig() -> readEntry("doubleClic"
 /** Renvoie si on utilise le systray ou non */
 int RzxConfig::useSystray(){ return globalConfig() -> readEntry("useSystray", 1); }
 
+/* Renvoie si une boite d'info doit etre ouverte quand qqun checke nos propriétés ou pas */
+int RzxConfig::warnCheckingProperties() { return globalConfig()-> readEntry("warnCheckingProperties", 0); }
+
 /** Renvoie si on est beepï¿½ï¿½chaque fois qu'on reï¿½it un message */
 int RzxConfig::beep(){ return globalConfig() -> readEntry("beep", 0); }
 QString RzxConfig::beepCmd(){ return globalConfig() -> readEntry("txtBeepCmd", "play"); }
