@@ -1042,7 +1042,7 @@ Le pass avec lequel vous avez tenté de vous connecter au serveur xnt est incorr
     </message>
     <message>
         <source>Computer comment:</source>
-        <translation>Commentaire:</translation>
+        <translation type="obsolete">Commentaire:</translation>
     </message>
     <message>
         <source>Browse...</source>
@@ -1495,6 +1495,10 @@ Le pass avec lequel vous avez tenté de vous connecter au serveur xnt est incorr
     <message>
         <source>Plug-in pr&amp;operties ...</source>
         <translation>Pr&amp;opriétés du plug-in ...</translation>
+    </message>
+    <message>
+        <source>Comment:</source>
+        <translation>Commentaire :</translation>
     </message>
 </context>
 </TS>

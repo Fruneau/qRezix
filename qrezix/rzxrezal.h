@@ -70,9 +70,9 @@ public:
 protected: // Protected attributes
 	bool dispNotFavorites;
 	QDict<RzxComputer> iplist;
-	RzxServerListener * server;
-	RzxClientListener * client;
-	QDict<RzxChat> chats;
+	static RzxServerListener * server;
+	static RzxClientListener * client;
+	static QDict<RzxChat> chats;
 	// Definit necessaire pour le menu contextuel
 	RzxPopupMenu popup;
 
