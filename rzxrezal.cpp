@@ -250,13 +250,11 @@ void RzxRezal::login(RzxComputer *computer)
 	{
 		item = new RzxItem(computer, this, dispNotFavorites);
 		itemByIp.insert(computer->getIP().toString(), item);
+		connect(this, SIGNAL(favoriteChanged()), item, SLOT(update()));
 	}
-	
-	disconnect(item, SLOT(update()));
 	
 	connect(computer, SIGNAL(destroyed(QObject *)), this, SLOT(logout(QObject * )));
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
-	connect(this, SIGNAL(favoriteChanged()), item, SLOT(update()));
 
 	item -> update();
 }
