@@ -177,20 +177,22 @@ void QRezix::toggleVisible(){
 		showNormal(); 
 		if(statusMax) showMaximized();
 			else showNormal();
-		if(!alreadyOpened)
-		{
-			setCaption(caption() + " v" + VERSION);
-#ifdef WIN32
-			setCaption(caption() + " [Qt]");
-#endif*/
-		}
-
 		show();
 		setActiveWindow();raise();
 		alreadyOpened=true;
 		rezal->adapteColonnes();
 	}
 }
+
+void QRezix::languageChange()
+{
+	QRezixUI::languageChange();
+	setCaption(caption() + " v" + VERSION);
+#ifdef WIN32
+	setCaption(caption() + " [Qt]");
+#endif
+}
+
 
 void QRezix::chatSent() {
 	// Desactive le répondeur lorsqu'on envoie un chat
