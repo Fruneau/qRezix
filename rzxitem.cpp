@@ -110,7 +110,7 @@ void RzxItem::update(){
 		setPixmap(RzxRezal::ColPromo,*promos[2]);
 		
 	setup();
-	setVisible(showNotFavorite || RzxConfig::globalConfig()->favorites->find((computer -> getName())));
+//	setVisible(showNotFavorite || RzxConfig::globalConfig()->favorites->find((computer -> getName())));
 	
 }
 
