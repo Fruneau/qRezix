@@ -358,7 +358,6 @@ void QRezix::languageChange()
 	//à mon avis ça leur prendrait 5 minutes chez trolltech pour corriger le pb
 	tbRezalContainer->setItemLabel(0, tr("Favorites"));
 	tbRezalContainer->setItemLabel(1, tr("Everybody"));
-	tbRezalContainer->setItemLabel(2, tr("Search"));
 }
 
 void QRezix::chatSent() {
