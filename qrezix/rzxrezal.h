@@ -123,6 +123,7 @@ protected slots: // Protected slots
 	void historique();
 	void redrawSelectedIcon(QListViewItem *sel = NULL);
 	void forceSort();
+	void buildToolTip(QListViewItem* i);
 
 protected:
 	void resizeEvent(QResizeEvent * e);
