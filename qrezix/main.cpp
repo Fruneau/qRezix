@@ -95,7 +95,7 @@ void sigTermHandler( int signum )
 
 int main(int argc, char *argv[])
 {
-	qDebug(QString("qRezix ") + VERSION + RZX_TAG_VERSION);
+	qDebug(QString("qRezix ") + VERSION + RZX_TAG_VERSION + "\n");
 	QApplication a(argc,argv);
 
 	QPixmap iconeProg((const char **)q);
@@ -113,8 +113,6 @@ int main(int argc, char *argv[])
 	QRezix *rezix = new QRezix();
 	if(rezix->wellInit)
 	{
-		RzxConfig::globalConfig();
-		
 		QObject::connect(RzxConfig::globalConfig(), SIGNAL(languageChanged()), rezix, SLOT(languageChanged()));
 		
 		rezix -> setIcon(iconeProg);

@@ -83,26 +83,35 @@ void RzxConfig::loadTranslators(){
 	currentTranslator=NULL;
 	translations.setAutoDelete(true);
 	translations.clear();
-	loadTranslatorsInDir(globalConfig()->m_systemDir);
-	//loadTranslatorsInDir(globalConfig()->m_userDir);
+	loadTranslatorsInDir(m_userDir);
+	loadTranslatorsInDir(m_systemDir);
 }
 
-void RzxConfig::loadTranslatorsInDir(QDir sourceDir){
-	if(!sourceDir.cd("translations")) qDebug(QString("Cannot cd to %1/translations").arg(sourceDir.canonicalPath()));
-	else qDebug(QString("Exploring %1/translations").arg(sourceDir.canonicalPath()));
+void RzxConfig::loadTranslatorsInDir(const QDir &rep) {
+	QDir sourceDir(rep);
+	if(!sourceDir.cd("translations"))
+	{
+		qDebug(QString("Cannot cd to %1/translations").arg(sourceDir.canonicalPath()));
+		return;
+	}
+	
 	sourceDir.setNameFilter("*.qm");
 	QStringList trans=sourceDir.entryList(QDir::Files|QDir::Readable);
+	QString trNames = QString::null;
 	QTranslator* cur=0;
-	qDebug(QString("Found %1 translations in %2").arg(trans.count()).arg(sourceDir.canonicalPath()));
 	for(QStringList::Iterator it=trans.begin(); it!=trans.end(); ++it){
-		qDebug(QString("Loading translation file %1").arg(*it));
 		cur=new QTranslator(0);
 		cur->load(*it, sourceDir.path());
 		qApp->installTranslator(cur);
-		qDebug("Language is "+tr("English"));
-		translations.insert(tr("English"), cur);
+		if(!translations[tr("English")])
+		{
+			translations.insert(tr("English"), cur);
+			trNames += " " + tr("English");
+		}
 		qApp->removeTranslator(cur);
 	}
+	if(!trNames) trNames = " <none>";
+	qDebug(QString("Translations available in %1 :%2").arg(sourceDir.absPath()).arg(trNames));
 }
 		
 void RzxConfig::setLanguage(QString language){
@@ -113,7 +122,6 @@ void RzxConfig::setLanguage(QString language){
 			currentTranslator=translations[language];
 			qApp->installTranslator(currentTranslator);
 		}
-		qDebug("Config->languageChanged() emitted");
 		emit Config->languageChanged();
 	}
 }
@@ -122,6 +130,7 @@ void RzxConfig::setLanguage(QString language){
 */
 RzxConfig::RzxConfig()
 	: QObject(0, "Config"), allIcons(USER_HASH_TABLE_LENGTH){
+	qDebug("=== Loading config ===");
 	if(!Config) Config=this;
 	fileEntries.setAutoDelete(true);
 	favorites=new QDict<QString>(USER_HASH_TABLE_LENGTH,false);
@@ -130,7 +139,7 @@ RzxConfig::RzxConfig()
 	ignoreList->setAutoDelete(true);
 	computer = 0;
 	settings = new QSettings();
-	
+
 #ifdef WIN32
 	QString dir = settings->readEntry("/qRezix/InstDir");
 	m_userDir = QDir::currentDirPath();
@@ -151,7 +160,7 @@ RzxConfig::RzxConfig()
 	if (!m_userDir.cd(".rezix")) {
 		if (!m_userDir.mkdir(".rezix")) {
 			QString msg;
-			msg = tr("qRezix cannot create %1, which is the folder\nin which its configuration is saved\n")
+			msg = tr("qRezix cannot create %1, which is the folder in which its configuration is saved\n")
 				.arg(m_userDir.absFilePath(".rezix"));
 			msg += tr("You will not be able to save your configuration");
 			RzxMessageBox::critical(0, "qRezix", msg);
@@ -161,18 +170,18 @@ RzxConfig::RzxConfig()
 	}
 	
 	if (!m_systemDir.exists()) {
-		qWarning(tr("%s doesn't exist"), m_systemDir.canonicalPath().latin1());
+		qWarning(tr("%s doesn't exist"), QString(QREZIX_DATA_DIR).latin1());
 		m_systemDir = m_userDir;
 	}
-	
+
 	if(!m_libDir.exists()) {
-		qWarning(tr("%s doesn't exist"), m_libDir.canonicalPath().latin1());
+		qWarning(tr("%s doesn't exist"), QString(QREZIX_LIB_DIR).latin1());
 		m_libDir = m_systemDir;
 	}
 #endif //MACX
 #endif //WIN32
-	qDebug("System path set to "+m_systemDir.path());
 	qDebug("Personnal path set to "+m_userDir.path());
+	qDebug("System path set to "+m_systemDir.path());
 	qDebug("Libraries path set to "+m_libDir.path());
 
 	//ATTENTION, LE NOUVEAU FORMAT NE PERMET PAS DE CONVERTIR LES DONNÉES DE CONFIGURATION
@@ -184,23 +193,22 @@ RzxConfig::RzxConfig()
 
 	//CHargment de données diverses (icons, traductions)
 	loadTranslators();
+	QString lg = readEntry("language", "English");
+	setLanguage(lg);
+	qDebug("Language is set to "+ lg);
+	
 	allIcons.setAutoDelete(true);
 	progIcons.setAutoDelete(true);
-	QString lg = readEntry("language", "English");
-	qDebug("Language is set to"+ lg);
-	setLanguage(lg);
 	qDebug("Trying to open "+ findData("action.png",  themePath + "/" + iconTheme()));	
-	
 	QMimeSourceFactory::defaultFactory()->setImage( "action", findData("action.png", themePath+"/"+iconTheme()) );	//TODO trouver le répertoire du thême cournat
 	
 	//Chargement des données QVB sur les fontes du système
-	qDebug("Loading system Fonts !");
 	QFontDatabase fdb;
 	fontProperties = new QDict<FontProperty>(907); //nombre premier plus grand que le nombre de polices supposé
-    	fontFamilies = fdb.families();
-    	for ( QStringList::Iterator f = fontFamilies.begin(); f != fontFamilies.end();) {
-        	QString family = *f;
-        	QStringList styles = fdb.styles( family );
+	fontFamilies = fdb.families();
+	for ( QStringList::Iterator f = fontFamilies.begin(); f != fontFamilies.end();) {
+		QString family = *f;
+		QStringList styles = fdb.styles( family );
 			if(styles.contains("Normal")!=0) {
 				QValueList<int> size = fdb.smoothSizes(family, "Normal");
 				bool b = styles.contains("Bold")!=0;
@@ -208,14 +216,13 @@ RzxConfig::RzxConfig()
 				FontProperty * fp = new FontProperty( b, i, size);
 				fontProperties -> insert(family, fp);
 				++f;
-				qDebug("Inserted "+family+" into QDict");
 			}
 			else {
 				f=fontFamilies.remove(f);
-				qDebug("Removed "+family+" from family list");	
 			}
-    	}
-	
+	}
+	qDebug(QString("Found %1 fonts families").arg(fontFamilies.count()));
+	qDebug("=== Config loaded ===\n");
 }
 
 /**

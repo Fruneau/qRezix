@@ -62,6 +62,8 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	favoriteWarn = true;
 	wellInit = FALSE;
 	
+	///Chargement de la config
+	RzxConfig::globalConfig();
 	///Chargement des plug-ins
 	RzxPlugInLoader::global();
 	///Préparation du lanceur des clients http...
@@ -117,11 +119,10 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	}
 	if(!m_properties->infoCompleted()) { wellInit = FALSE; return;}
 	
-	//RzxConfig::loadTranslators();
-	lister -> initConnection();
+	qDebug("=== qRezix Running ===");
+	lister->initConnection();
 
 	connect(rezal, SIGNAL(selectionChanged(QListViewItem*)), RzxPlugInLoader::global(), SLOT(itemChanged(QListViewItem*)));
-
 	connect(RzxConfig::globalConfig(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
 	menuFormatChange();
 
@@ -168,9 +169,7 @@ void QRezix::status(const QString& msg, bool fatal){
 	else
 		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("off"));
 		
-	/* parceque je veux avoir une trace de ce qui s'est passé ! */
-	qDebug( "[%s] status%s = %s", QDateTime::currentDateTime().toString().latin1(),
-		    fatal ? " (FATAL)" : "", msg.latin1() );
+	qDebug("Connection status : " + QString(fatal?"disconnected ":"connected ") + "(" + msg + ")");
 }
 
 void QRezix::closeByTray()
@@ -183,6 +182,7 @@ void QRezix::closeByTray()
 /** Lance la sauvegarde des données principales lors de la fermeture de rezix. Cette méthode est censée permettre l'enregistrement des données lors de la fermeture de l'environnement graphique... */
 void QRezix::saveSettings()
 {
+	qDebug("\n=== qRezix stopping ===");
 	byTray = true;
 	QSize s = size();       // store size
 	
