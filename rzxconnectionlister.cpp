@@ -111,11 +111,8 @@ void RzxConnectionLister::login( const QString& ordi )
 			QObjectList list = *(computer->children());
 			for(QObject *item = list.first() ; item ; item = list.next())
 			{
-//				if(item->inherits("RzxItem"))
-				//{
-					computer->removeChild(item);
-					newComputer->insertChild(item);
-				//}
+				computer->removeChild(item);
+				newComputer->insertChild(item);
 			}
 		}
 		computer->deleteLater();

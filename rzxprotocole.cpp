@@ -120,9 +120,6 @@ void RzxProtocole::parse(const QString& msg){
 				break;
 				
 			case SERVER_PASS:
-/*				emit sysmsg(QString(tr("Your XNet password  is  : %1\n"
-					                   "This is an identification code used to authentificate your connection to the server and avoid IP-spoofing.\n\n"
-									   "KEEP IT WELL because without it, you may not be able to connect to the server")).arg(msgParams));*/
 				RzxConfig::globalConfig()->setPass(cmd.cap(1));
 				qDebug(cmd.cap(1));
 				changePass(cmd.cap(1));
