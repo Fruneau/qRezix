@@ -1,34 +1,31 @@
 #ifndef RzxDict23432432432432432
 #define RzxDict23432432432432432
 
-template <class KEY, class VALUE> class RzxDictIterator;
+template <class KEY, class VALUE> class RzxDictNode
+{
+  public:
+    RzxDictNode(KEY nkey, VALUE *nvalue);
+
+    KEY key;
+    VALUE *value;
+    unsigned count;
+
+    RzxDictNode *left, *right;
+    RzxDictNode *prev, *next;
+
+    static bool insert(RzxDictNode<KEY,VALUE> *&root, RzxDictNode<KEY,VALUE> *&first, RzxDictNode<KEY,VALUE> *&last, RzxDictNode<KEY,VALUE> *prev, 
+                       RzxDictNode<KEY,VALUE> *next, KEY nkey, VALUE *nvalue);
+    static bool remove(RzxDictNode<KEY,VALUE> *&root, RzxDictNode<KEY,VALUE> *&first, RzxDictNode<KEY,VALUE> *&last, KEY nkey, VALUE *&nvalue);
+    static bool find(RzxDictNode<KEY,VALUE> *&root, KEY nkey, VALUE *&nvalue);
+    static bool find_nearest(RzxDictNode<KEY,VALUE> *&root, KEY nkey, KEY &nkey_lower, KEY &nkey_higher);
+};
 
 template <class KEY, class VALUE> class RzxDict
 {
   private:
-    friend class RzxDictIterator<KEY,VALUE>;
-    class Node
-    {
-      public:
-        Node(KEY nkey, VALUE *nvalue);
-
-	KEY key;
-	VALUE *value;
-	unsigned count;
-
-	Node *left, *right;
-	Node *prev, *next;
-
-	static bool insert(Node *&root, Node *&first, Node *&last, Node *prev, 
-			   Node *next, KEY nkey, VALUE *nvalue);
-	static bool remove(Node *&root, Node *&first, Node *&last, KEY nkey, VALUE *&nvalue);
-	static bool find(Node *&root, KEY nkey, VALUE *&nvalue);
-	static bool find_nearest(Node *&rot, KEY nkey, KEY &nkey_lower, KEY &nkey_higher);
-    };
-
-    Node *root;
-    Node *first;
-    Node *last;
+    RzxDictNode<KEY,VALUE> *root;
+    RzxDictNode<KEY,VALUE> *first;
+    RzxDictNode<KEY,VALUE> *last;
 
   public:
     RzxDict();
@@ -50,7 +47,7 @@ template <class KEY, class VALUE> class RzxDict
 
 //-------------------
 
-template <class KEY, class VALUE> RzxDict<KEY,VALUE>::Node::Node(KEY nkey, VALUE *nvalue)
+template <class KEY, class VALUE> RzxDictNode<KEY,VALUE>::RzxDictNode(KEY nkey, VALUE *nvalue)
 {
   key = nkey;
   value = nvalue;
@@ -58,13 +55,13 @@ template <class KEY, class VALUE> RzxDict<KEY,VALUE>::Node::Node(KEY nkey, VALUE
 }
 
 template <class KEY, class VALUE> bool
-  RzxDict<KEY,VALUE>::Node::insert(RzxDict<KEY,VALUE>::Node *&root, RzxDict<KEY,VALUE>::Node *&first,
-  				 RzxDict<KEY,VALUE>::Node *&last, RzxDict<KEY,VALUE>::Node *prev,
-				 RzxDict<KEY,VALUE>::Node *next, KEY nkey, VALUE *nvalue)
+  RzxDictNode<KEY,VALUE>::insert(RzxDictNode<KEY,VALUE> *&root, RzxDictNode<KEY,VALUE> *&first,
+  				 RzxDictNode<KEY,VALUE> *&last, RzxDictNode<KEY,VALUE> *prev,
+				 RzxDictNode<KEY,VALUE> *next, KEY nkey, VALUE *nvalue)
 {
   if(root==NULL)
   {
-    root = new Node(nkey, nvalue);
+    root = new RzxDictNode<KEY,VALUE>(nkey, nvalue);
     root->prev = prev;
     root->next = next;
     root->left = NULL;
@@ -95,7 +92,7 @@ template <class KEY, class VALUE> bool
     }
 
     // Ajout forcé...
-    Node *newpos = root;
+    RzxDictNode<KEY,VALUE> *newpos = root;
     while( ((newpos->prev!=NULL)&&(newpos->prev->key>=nkey)) ||
     	   ((newpos->next!=NULL)&&(newpos->next->key<=nkey)) )
       newpos = nkey<newpos->key ? newpos->left : newpos->right;
@@ -108,7 +105,7 @@ template <class KEY, class VALUE> bool
 
     KEY oldkey = root->key;
     VALUE *oldvalue = root->value;
-    Node *pos1 = root, *pos2 = root->prev;
+    RzxDictNode<KEY,VALUE> *pos1 = root, *pos2 = root->prev;
     while(pos1!=newpos)
     {
       pos1->key = pos2->key;
@@ -136,7 +133,7 @@ template <class KEY, class VALUE> bool
   }
 
   // Ajout forcé...
-  Node *newpos = root;
+  RzxDictNode<KEY,VALUE> *newpos = root;
   while( ((newpos->prev!=NULL)&&(newpos->prev->key>=nkey)) || 
   	 ((newpos->next!=NULL)&&(newpos->next->key<=nkey)) )
     newpos = nkey<newpos->key ? newpos->left : newpos->right;
@@ -149,7 +146,7 @@ template <class KEY, class VALUE> bool
 
   KEY oldkey = root->key;
   VALUE *oldvalue = root->value;
-  Node *pos1 = root, *pos2 = root->next;
+  RzxDictNode<KEY,VALUE> *pos1 = root, *pos2 = root->next;
   while(pos1!=newpos)
   {
     pos1->key = pos2->key;
@@ -167,8 +164,8 @@ template <class KEY, class VALUE> bool
 }
 
 template <class KEY, class VALUE> bool
-  RzxDict<KEY,VALUE>::Node::remove(RzxDict<KEY,VALUE>::Node *&root, RzxDict<KEY,VALUE>::Node *&first,
-  				 RzxDict<KEY,VALUE>::Node *&last, KEY nkey, VALUE *&nvalue)
+  RzxDictNode<KEY,VALUE>::remove(RzxDictNode<KEY,VALUE> *&root, RzxDictNode<KEY,VALUE> *&first,
+  				 RzxDictNode<KEY,VALUE> *&last, KEY nkey, VALUE *&nvalue)
 {
   if(root==NULL)
     return false;
@@ -185,7 +182,7 @@ template <class KEY, class VALUE> bool
     }
 
     // Deletion forcee
-    Node *newpos = root->left;
+    RzxDictNode<KEY,VALUE> *newpos = root->left;
     while((newpos!=NULL)&&(nkey!=newpos->key))
       newpos = nkey<newpos->key ? newpos->left : newpos->right;
 
@@ -194,7 +191,7 @@ template <class KEY, class VALUE> bool
 
     nvalue = newpos->value;
 
-    Node *pos1=newpos, *pos2=newpos->next;
+    RzxDictNode<KEY,VALUE> *pos1=newpos, *pos2=newpos->next;
     while(pos1!=root)
     {
       pos1->key = pos2->key;
@@ -221,7 +218,7 @@ template <class KEY, class VALUE> bool
     }
 
     //Deletion forcee
-    Node *newpos = root->right;
+    RzxDictNode<KEY,VALUE> *newpos = root->right;
     while((newpos!=NULL)&&(nkey!=newpos->key))
       newpos = nkey<newpos->key ? newpos->left : newpos->right;
 
@@ -230,7 +227,7 @@ template <class KEY, class VALUE> bool
 
     nvalue = newpos->value;
 
-    Node *pos1=newpos, *pos2=newpos->prev;
+    RzxDictNode<KEY,VALUE> *pos1=newpos, *pos2=newpos->prev;
     while(pos1!=root)
     {
       pos1->key = pos2->key;
@@ -279,9 +276,9 @@ template <class KEY, class VALUE> bool
 }
 
 template <class KEY, class VALUE> bool 
-  RzxDict<KEY,VALUE>::Node::find(RzxDict<KEY,VALUE>::Node *&root, KEY nkey, VALUE *&nvalue)
+  RzxDictNode<KEY,VALUE>::find(RzxDictNode<KEY,VALUE> *&root, KEY nkey, VALUE *&nvalue)
 {
-  Node *pos = root;
+  RzxDictNode<KEY,VALUE> *pos = root;
   while(pos!=NULL)
   {
     if(nkey==pos->key)
@@ -296,10 +293,10 @@ template <class KEY, class VALUE> bool
 }
 
 template <class KEY, class VALUE> bool 
-  RzxDict<KEY,VALUE>::Node::find_nearest(RzxDict<KEY,VALUE>::Node *&root, KEY nkey, KEY &nkey_lower, KEY &nkey_higher)
+  RzxDictNode<KEY,VALUE>::find_nearest(RzxDictNode<KEY,VALUE> *&root, KEY nkey, KEY &nkey_lower, KEY &nkey_higher)
 {
-  Node *prev_pos = NULL;
-  Node *pos = root;
+  RzxDictNode<KEY,VALUE> *prev_pos = NULL;
+  RzxDictNode<KEY,VALUE> *pos = root;
   while(pos!=NULL)
   {
     if(nkey==pos->key)
@@ -339,7 +336,7 @@ template <class KEY, class VALUE> RzxDict<KEY,VALUE>::~RzxDict()
 
 template <class KEY, class VALUE> void RzxDict<KEY,VALUE>::clear()
 {
-  Node *pos1, *pos2 = first;
+  RzxDictNode<KEY,VALUE> *pos1, *pos2 = first;
   while(pos2!=NULL)
   {
     pos1 = pos2;
@@ -352,33 +349,33 @@ template <class KEY, class VALUE> void RzxDict<KEY,VALUE>::clear()
 
 template <class KEY, class VALUE> bool RzxDict<KEY,VALUE>::insert(KEY key, VALUE *value)
 {
-  return Node::insert(root,first,last,NULL,NULL,key,value);
+  return RzxDictNode<KEY,VALUE>::insert(root,first,last,NULL,NULL,key,value);
 }
 
 template <class KEY, class VALUE> bool RzxDict<KEY,VALUE>::contains(KEY key)
 {
   VALUE *val;
-  return Node::find(root,key,val);
+  return RzxDictNode<KEY,VALUE>::find(root,key,val);
 }
 
 template <class KEY, class VALUE> bool RzxDict<KEY,VALUE>::find(KEY key, VALUE *&value)
 {
-  return Node::find(root,key,value);
+  return RzxDictNode<KEY,VALUE>::find(root,key,value);
 }
 template <class KEY, class VALUE> bool RzxDict<KEY,VALUE>::find_nearest(KEY key, KEY &key_lower, KEY &key_higher)
 {
-  return Node::find_nearest(root,key,key_lower,key_higher);
+  return RzxDictNode<KEY,VALUE>::find_nearest(root,key,key_lower,key_higher);
 }
 
 template <class KEY, class VALUE> bool RzxDict<KEY,VALUE>::remove(KEY key, VALUE *&value)
 {
-  return Node::remove(root,first,last,key,value);
+  return RzxDictNode<KEY,VALUE>::remove(root,first,last,key,value);
 }
 
 template <class KEY, class VALUE> bool RzxDict<KEY,VALUE>::remove(KEY key)
 {
   VALUE *val;
-  if(!Node::remove(root,first,last,key,val))
+  if(!RzxDictNode<KEY,VALUE>::remove(root,first,last,key,val))
     return false;
 
   delete val;
