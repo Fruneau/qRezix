@@ -11,7 +11,7 @@
 
 ;Définition de versions
   !define MUI_PRODUCT "qRezix"
-  !define MUI_VERSION "v1.5.0"
+  !define MUI_VERSION "v1.5.1"
   !define MUI_NAME "${MUI_PRODUCT} ${MUI_VERSION}"
 
 ;Inclusion de fichiers
@@ -156,14 +156,14 @@ FunctionEnd
   SetOutPath "$INSTDIR\plugins\themes"
   CreateDirectory "${THEME}"
   SetOutPath "$INSTDIR\plugins\themes\${THEME}"
-  File "..\..\Smiley\qrezix-plugin-smiley\themes\${THEME}\*.png"
+  File "..\..\smilix\themes\${THEME}\*.png"
 !macroend
 
 !macro INSTALL_SMILEY_IMAGES THEME
   SetOutPath "$INSTDIR\plugins\smiley"
   CreateDirectory "${THEME}"
   SetOutPath "$INSTDIR\plugins\smileys\${THEME}"
-  File "..\..\Smiley\qrezix-plugin-smiley\smileys\${THEME}\*.png"
+  File "..\..\smilix\smileys\${THEME}\*.png"
 !macroend
   
 ;--------------------------------
@@ -362,15 +362,15 @@ Section "Plug-in de l'Xplo" SecPiXplo
   SetOutPath "$INSTDIR"
 SectionEnd
 
-Section "Smiley, pour que le chat soit plus beau" SecPiSmiley
+Section "Smilix, pour que le chat soit plus beau" SecPiSmiley
   SetDetailsPrint textonly
-  DetailPrint "Plug-ins | Xplo"
+  DetailPrint "Plug-ins | Smilix"
   SetDetailsPrint listonly
 
   SectionIn 1
 
   SetOutPath "$INSTDIR\plugins"
-  File "..\..\Smiley\qrezix-plugin-smiley\bin\rzxpismiley.dll"
+  File "..\..\smilix\bin\rzxpismiley.dll"
   CreateDirectory "themes"
   CreateDirectory "smileys"
   !insertmacro INSTALL_SMILEY_THEME "classic"
