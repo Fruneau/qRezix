@@ -31,6 +31,7 @@ class RzxComputer : public QObject  {
 	Q_OBJECT
 	
 public: 
+#ifndef Q_OS_MACX
 	struct version_t
 	{
 		unsigned FunnyVersion	:14;
@@ -48,6 +49,25 @@ public:
 		// total 13 bits / 32
 		unsigned align			:13;
 	};
+#else
+	struct version_t
+	{
+		unsigned Client			:8;	//1 = ReziX; 2 = XNet, 3 = MacXNet, 4 = CPANet 5 = CocoaXNet 6 = qrezix 7 = mxnet
+		unsigned MajorVersion	:3;
+		unsigned MinorVersion	:7;
+		unsigned FunnyVersion	:14;
+	};
+  struct options_t
+	{
+		unsigned align			:13;
+		unsigned ServerFlags	:6;
+		// total 13 bits / 32
+		unsigned Repondeur	    :2; //0=accepter, 1= repondeur, 2=refuser les messages, 3= unused
+		unsigned Promo			:2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje !)
+		unsigned SysEx			:3;	//0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X
+		unsigned Server			:6;
+	};
+#endif
 	
 	enum Server {
 		SERVER_SAMBA = 1,

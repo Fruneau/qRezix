@@ -609,7 +609,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=t.xpm icone.rc qrezix.pro rzxpropertyui.h qrezix.png qrezix.ico qrezixui.h rzxquitui.h grepped.txt qrezix2.ico Makefile.w32 qrezix.dsp qrezix_meta_unload.cpp qrezix rzxchatui.h q.xpm 
+KDE_DIST=t.xpm icone.rc qrezix.pro rzxpropertyui.h qrezix.png qrezix.ico qrezixui.h rzxquitui.h qrezix2.ico qrezix.dsp Makefile.w32 qrezix_meta_unload.cpp qrezix rzxchatui.h q.xpm 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 
