@@ -19,21 +19,32 @@
 #include <qlabel.h>
 #include <qpixmap.h>
 #include <qlayout.h>
+#include <qcolor.h>
 
 #include "rzxtraywindow.h"
 
 #include "rzxcomputer.h"
+#include "rzxconfig.h"
 #include "trayicon.h"
 #include "qrezix.h"
 
 ///Construction de la fenêtre de notification d'état de connexion de computer
 /** La fenêtre est construite pour disparaître automatiquement au bout de time secondes */
-RzxTrayWindow::RzxTrayWindow(RzxComputer* computer, unsigned int time)
+RzxTrayWindow::RzxTrayWindow(RzxComputer* computer, bool connected, unsigned int time)
 	:QFrame(NULL, "TrayWindow", WStyle_Customize | WStyle_StaysOnTop | WDestructiveClose)
 {
 	setMinimumWidth(150);
 	setMinimumHeight(70);
 
+	setFrameStyle(Panel | Plain);
+	if(!connected)
+		setPaletteBackgroundColor(QColor(0xff, 0x20, 0x20));
+	else if(computer->getRepondeur())
+		setPaletteBackgroundColor(RzxConfig::repondeurBase());
+	else
+		setPaletteBackgroundColor(0xffffff);
+	
+	
 	//insertion de l'icône
 	// Layout, pour le resize libre
 	QHBoxLayout *layout = new QHBoxLayout(this, 3, 2, "HTrayWindowLayout");
@@ -51,7 +62,10 @@ RzxTrayWindow::RzxTrayWindow(RzxComputer* computer, unsigned int time)
 	icone->setPixmap(computer->getIcon());
 	name->setTextFormat(RichText);
 	name->setText("<h2>" + computer->getName() + "</h2>");
-	description->setText(computer->getRepondeur() ? tr("is connected but away") : tr("is connected and here"));
+	if(connected)
+		description->setText(computer->getRepondeur() ? tr("is now away") : tr("is now here"));
+	else
+		description->setText(tr("is now disconnected"));
 
 	QPoint point(0,0);
 	move(point);
