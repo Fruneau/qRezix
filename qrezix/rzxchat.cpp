@@ -346,10 +346,19 @@ void RzxChat::btnSendClicked(){
 
 	history = new ListText(msg, history);
 	curLine = history;
+
+	bool format = cbSendHTML->isChecked();
+	if(!format && msg.left(6)=="<html>")
+	{
+		cbSendHTML->setChecked(true);
+	}
 		
 	// Conversion du texte en HTML si necessaire
-	if( ! cbSendHTML->isChecked() )
+	if(!cbSendHTML->isChecked())
 	{
+		static const QRegExp htmlflag("/<html>");
+		msg.replace(htmlflag, "<html>");
+
 		static const QRegExp ampersand("&");
 		msg.replace(ampersand, "&amp;");
 
@@ -377,11 +386,17 @@ void RzxChat::btnSendClicked(){
 		msg=msgB;
 	}
 	
+
 	append("red", "> ", msg);
 	emit send(peer, msg);
 	qDebug("Message envoyé");
 	qDebug(msg);
 	edMsg -> setText("");
+
+	if(!format && cbSendHTML->isChecked())
+	{
+		cbSendHTML->setChecked(false);
+	}
 }
 
 void RzxChat::btnHistoriqueClicked(){

@@ -1,45 +1,5 @@
 TRANSLATIONS	= translations/qrezix.ts translations/qrezix_fr.ts
 RC_FILE          =icone.rc
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 TEMPLATE	= app
 LANGUAGE	= C++
 
@@ -63,7 +23,7 @@ HEADERS	+= qrezix.h \
 	defaults.h \
 	dnsvalidator.h \
 	trayicon.h \
-	qrezixquit.h
+	rzxquit.h
 SOURCES	+= main.cpp \
 	qrezix.cpp \
 	rzxchat.cpp \
@@ -79,9 +39,9 @@ SOURCES	+= main.cpp \
 	rzxmessagebox.cpp \
 	dnsValidator.cpp \
 	trayicon.cpp \
-	qrezixquit.cpp
+	rzxquit.cpp
 FORMS	= qrezixui.ui \
 	rzxchatui.ui \
 	rzxpropertyui.ui \
-	qrezixquitui.ui
+	rzxquitui.ui
 

@@ -10,16 +10,16 @@
 #include <qpushbutton.h>
 #include <qlabel.h>
 
-#include "qrezixquit.h"
+#include "rzxquit.h"
 
-const QRezixQuit::selectAbort		= 0x0;
-const QRezixQuit::selectMinimize	= 0x1;
-const QRezixQuit::selectQuit		= 0x2;
+const int RzxQuit::selectAbort		= 0x0;
+const int RzxQuit::selectMinimize	= 0x1;
+const int RzxQuit::selectQuit		= 0x2;
 
 
 //connexion des boutons à leurs action respectives
-QRezixQuit::QRezixQuit(QWidget* parent, const char *name)
-	: QRezixQuitUI(parent, name)
+RzxQuit::RzxQuit(QWidget* parent, const char *name)
+	: RzxQuitUI(parent, name)
 {
 	connect((QObject *)radioQuit, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
 	connect((QObject *)radioMinimize, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
@@ -28,12 +28,12 @@ QRezixQuit::QRezixQuit(QWidget* parent, const char *name)
 	quitOptionChange();
 }
 
-QRezixQuit::~QRezixQuit()
+RzxQuit::~RzxQuit()
 {
 }
 
 //Recherche du bouton coché, et extraction d'un numéro
-void QRezixQuit::quitOptionChange(void)
+void RzxQuit::quitOptionChange(void)
 {
 	if(radioQuit->isChecked())
 	{
@@ -53,7 +53,7 @@ void QRezixQuit::quitOptionChange(void)
 }
 
 //Sortie de la fenêtre entre retournant le code d'action
-void QRezixQuit::done()
+void RzxQuit::done()
 {
 	QDialog::done(selection);
 }

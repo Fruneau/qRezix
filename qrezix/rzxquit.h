@@ -7,27 +7,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef QREZIXQUIT_H
-#define QREZIXQUIT_H
+#ifndef RZXQUIT_H
+#define RZXQUIT_H
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "rzxquitui.h"
 
-#include "qrezixquitui.h"
-
-class QRezixQuit : public QRezixQuitUI
+class RzxQuit : public RzxQuitUI
 {
 	Q_OBJECT
 
 	int selection;
 
 	public:
-		static const selectQuit;
-		static const selectMinimize;
-		static const selectAbort;
-	    QRezixQuit(QWidget* parent=0, const char *name=0);
-	    ~QRezixQuit();
+		static const int selectQuit;
+		static const int selectMinimize;
+		static const int selectAbort;
+	    RzxQuit(QWidget* parent=0, const char *name=0);
+	    ~RzxQuit();
 
 	protected slots:
 		void quitOptionChange(void);
@@ -35,4 +31,4 @@ class QRezixQuit : public QRezixQuitUI
 };
 
 
-#endif //QREZIXQUIT_H
+#endif //RZXQUIT_H

@@ -21,7 +21,7 @@
 #include <qfile.h>
 
 #include "qrezix.h"
-#include "qrezixquit.h"
+#include "rzxquit.h"
 #include "rzxconfig.h"
 #include "rzxrezal.h"
 #include "rzxproperty.h"
@@ -86,11 +86,11 @@ void QRezix::closeEvent(QCloseEvent * e){
 	//de fermer qrezix, de minimiser la fenêtre principale --> trayicon, ou d'annuler l'action
 	if(isShown() && !isMinimized())
 	{
-		QRezixQuit quitDialog(this);
+		RzxQuit quitDialog(this);
 		int i = quitDialog.exec();
-		if(i!=QRezixQuit::selectQuit)
+		if(i!=RzxQuit::selectQuit)
 		{
-			if(i==QRezixQuit::selectMinimize)
+			if(i==RzxQuit::selectMinimize)
 				showMinimized();
 #ifdef WIN32 //c'est très très très très très très moche, mais g pas trouvé d'autre manière de le faire
 			 //c'est pas ma fautre à moi si windows se comporte comme de la merde

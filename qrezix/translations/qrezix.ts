@@ -27,53 +27,9 @@
 </context>
 <context>
     <name>QRezixQuit</name>
-    <message>
-        <source>Quit now !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Minimize me...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Abort quitting please</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>QRezixQuitUI</name>
-    <message>
-        <source>Quit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>no, I want to &amp;Minimize qRezix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+M</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Oops, do nothing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>yes, I want to &amp;Leave qRezix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+L</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Return</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to &lt;b&gt;Quit qRezix &lt;/b&gt;?</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>QRezixUI</name>
@@ -351,6 +307,56 @@ KEEP IT WELL because without it, you may not be able to connect to the server</s
 Il s&apos;agit d&apos;un code d&apos;identification utilisé pour authentifier ta connexion avec le serveur et éviter l&apos;IP-sproofing.
 
 CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te connecter au serveur</translation>
+    </message>
+</context>
+<context>
+    <name>RzxQuit</name>
+    <message>
+        <source>Quit now !</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimize me...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Abort quitting please</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RzxQuitUI</name>
+    <message>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Oops, do nothing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>yes, I want to &amp;Leave qRezix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>no, I want to &amp;Minimize qRezix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Return</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to &lt;b&gt;Quit qRezix &lt;/b&gt;?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
