@@ -68,7 +68,8 @@ public:
 		SERVER_ICON = 8,
 		SERVER_WRONGPASS = 9,
 		SERVER_CHANGEPASSOK = 10,
-		SERVER_CHANGEPASSFAILED = 11
+		SERVER_CHANGEPASSFAILED = 11,
+		SERVER_UPLOAD = 12
 	};
 
 	static QStringList split(char sep, const QString& command, unsigned int count);
