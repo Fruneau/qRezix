@@ -9,6 +9,7 @@
     * Désactivation des plug-ins [Fruneau]
     * Fix de nombreux bugs et memory leaks [Fruneau]
     * Ajout des ebuild pour gentoo [Ey, Fruneau]
+    * Modification de la recherche au clavier dans le ListView/RzxRezal [Ey]
 
 [v1.6.1] 2004-10 <br2003@frankiz.polytechnique.fr>
     * Ajout d'une fenêtre de notification du changement d'état des favoris [Fruneau]
