@@ -193,7 +193,11 @@ void RzxPlugInLoader::menuTray(QPopupMenu& menu)
 			QPixmap *icon = it->getIcon();
 			if(icon)
 			{
-				QIconSet icons(*icon);
+				QImage img = icon->convertToImage();
+				img = img.smoothScale(16, 16);
+				QPixmap tmp;
+				tmp.convertFromImage(img);
+				QIconSet icons(tmp);
 				menu.insertItem(icons, it->getName(), piMenu, 0, 0);
 			}
 			else
@@ -219,7 +223,11 @@ void RzxPlugInLoader::menuItem(QPopupMenu& menu)
 			QPixmap *icon = it->getIcon();
 			if(icon)
 			{
-				QIconSet icons(*icon);
+				QImage img = icon->convertToImage();
+				img = img.smoothScale(16, 16);
+				QPixmap tmp;
+				tmp.convertFromImage(img);
+				QIconSet icons(tmp);
 				menu.insertItem(icons, it->getName(), piMenu);
 			}
 			else
@@ -242,7 +250,11 @@ void RzxPlugInLoader::menuAction(QPopupMenu& menu)
 			QPixmap *icon = it->getIcon();
 			if(icon)
 			{
-				QIconSet icons(*icon);
+				QImage img = icon->convertToImage();
+				img = img.smoothScale(16, 16);
+				QPixmap tmp;
+				tmp.convertFromImage(img);
+				QIconSet icons(tmp);
 				menu.insertItem(icons, it->getName(), piMenu);
 			}
 			else
@@ -264,7 +276,11 @@ void RzxPlugInLoader::menuChat(QPopupMenu& menu)
 			QPixmap *icon = it->getIcon();
 			if(icon)
 			{
-				QIconSet icons(*icon);
+				QImage img = icon->convertToImage();
+				img = img.smoothScale(16, 16);
+				QPixmap tmp;
+				tmp.convertFromImage(img);
+				QIconSet icons(tmp);
 				menu.insertItem(icons, it->getName(), piMenu);
 			}
 			else
