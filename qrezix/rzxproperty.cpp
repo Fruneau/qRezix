@@ -459,15 +459,7 @@ int RzxProperty::infoCompleteMessage()
 }
 
 void RzxProperty::annuler() {
-	if(!infoCompleted())
-	{
-		if(infoCompleteMessage() == QMessageBox::Cancel)
-		{
-			close();
-			QRezix::global()->closeByTray();
-		}
-	}
-	else
+	if(infoCompleted()||(infoCompleteMessage()==QMessageBox::Cancel))
 		close();
 }
 
