@@ -154,6 +154,10 @@ It must be at least&lt;b&gt; 6 characters long&lt;/b&gt;.</source>
         <source>Chat</source>
         <translation type="unfinished">Discussion</translation>
     </message>
+    <message>
+        <source>Custom colours...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxChatSocket</name>
@@ -936,6 +940,34 @@ Les discussions et les propriétés sont désactivées</translation>
         <source>Cancel</source>
         <translation type="unfinished">Annuler</translation>
     </message>
+    <message>
+        <source>Informations :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ftp server : </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;on&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>web server : </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>news server : </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>samba server : </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
@@ -1540,6 +1572,22 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     </message>
     <message>
         <source>xnetserver.eleves.polytechnique.fr</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ToolTips</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable tooltips</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ip address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client version</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

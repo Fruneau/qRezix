@@ -41,7 +41,7 @@ class RzxConfig : public QObject  {
 	friend class RzxProtocole;
 	friend class RzxPlugInLoader;
 	friend class QRezix;
-
+	
 	class FontProperty {
 	public:
 		bool bold;
@@ -65,6 +65,19 @@ class RzxConfig : public QObject  {
 	QDict<FontProperty> * fontProperties;
 
 public:
+	enum ToolTip
+	{
+		Enable = 1,
+		Ftp = 2,
+		Http = 4,
+		News = 8,
+		Samba = 16,
+		Promo = 32,
+		OS = 64,
+		Client = 128,
+		IP = 256
+	};
+	
 	QSettings *settings;
 	static QDict<QTranslator> translations;
 	static void loadTranslators();
@@ -131,6 +144,7 @@ public:
 	
 	static int menuTextPosition();
 	static int menuIconSize();
+	static int tooltip();
 	
 	static bool autoResponder();
 	static QString autoResponderMsg();
