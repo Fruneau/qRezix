@@ -22,6 +22,7 @@
 #include <qsocket.h>
 #include <qtimer.h>
 #include <qpopupmenu.h>
+#include <qframe.h>
 #include "rzxhostaddress.h"
 #include "rzxchatui.h"
 #include "rzxclientlistener.h"
@@ -33,6 +34,19 @@
 class QDns;
 class QTimer;
 class QTextEdit;
+
+///Classe pour les fenêtre propriété et historique du chat
+class RzxPopup : public QFrame
+{
+	Q_OBJECT
+	
+	public:
+		RzxPopup(QWidget *parent, const char *name);
+		~RzxPopup();
+		
+	signals:
+		void aboutToQuit();
+};
 
 //Rajout de Stéphane Lescuyer 2004/05/27
 //pour customiser la boite d'edition
@@ -113,8 +127,8 @@ protected slots:
 	void btnSendClicked();
 	void messageReceived();
 	void pong(int ms);
-	void btnHistoriqueClicked(bool);
-	void btnPropertiesClicked(bool);
+	void btnHistoriqueClicked(bool on = false);
+	void btnPropertiesClicked(bool on = false);
 	void fontChanged(int index);
 	void sizeChanged(int index);
 	void activateFormat(bool on);
