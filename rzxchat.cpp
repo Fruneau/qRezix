@@ -106,6 +106,7 @@ void RzxChat::init()
 	connect(edMsg, SIGNAL(textWritten()), this, SLOT(onTextChanged()));
 	connect(cbSendHTML, SIGNAL(toggled(bool)), this, SLOT(activateFormat(bool)));
 	activateFormat(false);
+	edMsg -> setText("");
 }
 
 RzxChat::~RzxChat(){
