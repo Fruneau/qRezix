@@ -99,6 +99,48 @@
         <source>qRezix</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&lt;h3&gt;Status bar&lt;/h3&gt;
+&lt;p&gt;Shows the status of your connection with the xnetserver&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Status bar&lt;/h3&gt;
+&lt;p&gt;Shows the number of clients connected&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Main view&lt;/h3&gt;
+&lt;p&gt;You can choose if you want to see Everybody or only your favorites.&lt;br&gt;
+Each item have a menu (right click)&lt;/p&gt;
+&lt;p&gt;To switch you can use &lt;b&gt;Shift+Tab&lt;/b&gt;&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Search&lt;/h3&gt;
+&lt;p&gt;Type the beginning of the pseudonyme you are looking for and enable the search mode...&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Plug-ins&lt;/h3&gt;
+&lt;p&gt;Shows a menu which helps you to use the extra-features provided by qRezix&apos;s plug-ins&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Away&lt;/h3&gt;
+&lt;p&gt;If you press this button, other people will be informed that you are away, and your chat will be handle by a responder&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Adjust columns&lt;/h3&gt;
+&lt;p&gt;Sometimes useful...&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Preferences&lt;/h3&gt;
+&lt;p&gt;Set your preferences. A lot of things can be modified through this dialog&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxChangePassUI</name>

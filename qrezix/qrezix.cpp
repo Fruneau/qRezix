@@ -54,7 +54,7 @@
 QRezix *QRezix::object = 0;
 
 QRezix::QRezix(QWidget *parent, const char *name)
- : QRezixUI(parent, name), m_properties(0), accel(0), tray(0)
+ : QRezixUI(parent, name, WStyle_ContextHelp), m_properties(0), accel(0), tray(0)
 {
 	object = this;
 	byTray = false;
