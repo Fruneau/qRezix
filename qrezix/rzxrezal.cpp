@@ -425,6 +425,7 @@ void RzxRezal::afficheColonnes(){
 	int i;
 
 	for(i =0; i<columns(); i++){
+		setColumnWidthMode(i,Manual);
 		if((colonnesAffichees>>i) & 1){
 			if(i==0) {
 				setColumnWidth(i,(RzxConfig::globalConfig()->computerIconSize()+1)*32+4);
@@ -436,7 +437,6 @@ void RzxRezal::afficheColonnes(){
 				setColumnWidth(i,40);
 			}
 		} else {
-		setColumnWidthMode(i,Manual);
 		setColumnWidth(i,0);
 		}
 	}
@@ -455,11 +455,12 @@ void RzxRezal::adapteColonnes(){
 	}
   
 	if(((colonnesAffichees >> colrem) & 1)) {
-		if(width()>(somme+20))
-			setColumnWidth(colrem, width()-somme-20);
+		if(width()>(somme+110))
+			setColumnWidth(colrem, width()-somme-10);
 		else
-			setColumnWidth(colrem,200);
+			setColumnWidth(colrem,100);
 	}
+	triggerUpdate(); 
 }
 
 void RzxRezal::initConnection() {

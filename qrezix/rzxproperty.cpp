@@ -395,9 +395,6 @@ void RzxProperty::miseAJour() {
 	if (ui -> btnAutoResponder)	
 		ui -> btnAutoResponder -> setOn( RzxConfig::localHost() -> getRepondeur() );
 
-	QScrollView::ScrollBarMode mode = QScrollView::AlwaysOff;
-	if (ui -> rezal) ui -> rezal -> setHScrollBarMode( mode );
-
 	if (ui -> tray)
 		ui -> tray -> setVisible(cbSystray->isChecked());
 	
@@ -406,6 +403,9 @@ void RzxProperty::miseAJour() {
 		
 	if ( iconSizeChanged && ui -> rezal)
 		ui -> rezal -> redrawAllIcons();
+	if ( iconSizeChanged && ui -> rezalFavorites)
+		ui -> rezalFavorites -> redrawAllIcons();
+		
 	if ( themeChanged )
 	{
 		RzxConfig::setIconTheme( QObject::parent(), cmbIconTheme -> currentText() );
