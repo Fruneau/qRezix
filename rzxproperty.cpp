@@ -47,6 +47,7 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	connect( btnBrowse, SIGNAL( clicked() ), this, SLOT( chooseIcon() ) );
 	connect( btnBeepBrowse, SIGNAL( clicked() ), this, SLOT( chooseBeep() ) );
 	connect(btnAboutQt, SIGNAL(clicked()), this, SLOT(aboutQt()));
+	connect(cmbMenuIcons, SIGNAL(activated(int)), this,SLOT(lockCmbMenuText(int)));
 
 	btnBeepBrowse -> setEnabled(false);
 	txtBeep -> setEnabled(false);
@@ -553,5 +554,16 @@ void RzxProperty::launchDirSelectDialog() {
 void RzxProperty::aboutQt()
 {
 	QMessageBox::aboutQt(this);
+}
+
+void RzxProperty::lockCmbMenuText(int index)
+{
+	if(index==0)
+	{
+		cmbMenuText->setCurrentItem(1);
+		cmbMenuText->setDisabled(TRUE);
+	}
+	else
+		cmbMenuText->setEnabled(TRUE);
 }
 

@@ -70,6 +70,7 @@ protected slots: // Protected slots
 	void launchDirSelectDialog();
 	void chooseIcon();
 	void chooseBeep();
+	void lockCmbMenuText(int index);
 };
 
 #endif
