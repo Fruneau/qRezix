@@ -23,11 +23,12 @@
 #include <qdict.h>
 #include <qpopupmenu.h>
 #include <qsocket.h>
+#include <qtimer.h>
 
 #define USER_HASH_TABLE_LENGTH 1663
 
 /**
-  *@author Sylvain Joyeux
+  *@author Sylvain Joyeux (et tout d'autres aussi dans les années qui suivirent !! :))
   */
 
 class RzxItem;
@@ -83,6 +84,7 @@ protected: // Protected attributes
 
 	NumColonne lastColumnClicked;  // Pour savoir sur quelle icone on double-clique
 
+	QTimer *timer;
 
 public slots: // Public slots
 	void creePopUpMenu(QListViewItem *inutile1,const QPoint & pos,int inutile);
@@ -95,7 +97,9 @@ public slots: // Public slots
 
 	void afficheColonnes();
 	void adapteColonnes();
-	void login(RzxComputer *computer);
+	//void login(RzxComputer *computer);
+	void bufferedLogin(RzxComputer *computer);
+	void logBufLogins();
 	void logout(const QString& ip);
 	void logout(RzxComputer *computer);
 	void clear();

@@ -17,6 +17,7 @@
 #include <qapplication.h>
 #include <qobjectlist.h>
 #include <qtooltip.h>
+#include <qtimer.h>
 
 #include "rzxrezal.h"
 
@@ -61,7 +62,8 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	client = RzxClientListener::object();
 	lister = RzxConnectionLister::global();
 	
-	connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(login(RzxComputer*)));
+	//connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(login(RzxComputer*)));
+	connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(bufferedLogin(RzxComputer *)));
 	connect(lister, SIGNAL(connectionEtablished()), this, SLOT(init()));
 	connect(lister, SIGNAL(loginEnd()), this, SLOT(forceSort()));
 	connect(lister, SIGNAL(logout(const QString& )), this, SLOT(logout(const QString& )));
@@ -84,6 +86,7 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 }
 
 RzxRezal::~RzxRezal(){
+	delete timer;
 }
 
 void RzxRezal::showNotFavorites(bool val)
@@ -94,7 +97,7 @@ void RzxRezal::showNotFavorites(bool val)
 void RzxRezal::loginFromLister(bool val)
 {
 	if(!val)
-		disconnect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(login(RzxComputer*)));
+		disconnect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(bufferedLogin(RzxComputer*)));
 }
 
 RzxPopupMenu::RzxPopupMenu(QWidget * parent, const char * name) : QPopupMenu(parent, name) {
@@ -306,9 +309,7 @@ void RzxRezal::adapteColonnes(){
 	triggerUpdate(); 
 }
 
-/** No descriptions */
-void RzxRezal::login(RzxComputer *computer)
-{
+void RzxRezal::bufferedLogin(RzxComputer *computer) {
 	if(!dispNotFavorites && !RzxConfig::globalConfig()->favorites->find( computer->getName())) return;
 	
 	RzxItem *item = itemByIp.find(computer->getIP().toString());
@@ -320,8 +321,17 @@ void RzxRezal::login(RzxComputer *computer)
 	
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 
+	qDebug("adding item "+computer->getIP().toString());
 	item -> update();
-	item -> setVisible(!filterOn || !item->text(ColNom).find(filter, 0, false));
+	item -> setVisible(false);
+}
+
+void RzxRezal::logBufLogins() {
+	QListViewItem *item;
+	QListViewItemIterator it(this);
+	while(item=(it++).current())
+		item->setVisible(!filterOn || !item->text(ColNom).find(filter, 0, false));
+	qDebug("Nbre de clients connectés : %d",this->childCount());
 }
 
 /** Déconnexion d'un personne */
@@ -359,6 +369,9 @@ void RzxRezal::clear()
 void RzxRezal::init()
 {
 	itemByIp.clear();
+	timer = new QTimer(this, "timer");
+	connect( timer, SIGNAL(timeout()), this, SLOT(logBufLogins()));
+	timer -> start(4000); //ttes les 4 secondes
 	selected = NULL;
 }
 

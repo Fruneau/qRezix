@@ -85,7 +85,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 
 	connect(rezal, SIGNAL(favoriteRemoved(RzxComputer*)), rezalFavorites, SLOT(logout(RzxComputer*)));
 	connect(rezalFavorites, SIGNAL(favoriteRemoved(RzxComputer*)), rezalFavorites, SLOT(logout(RzxComputer*)));
-	connect(rezal, SIGNAL(favoriteAdded(RzxComputer*)), rezalFavorites, SLOT(login(RzxComputer*)));
+	connect(rezal, SIGNAL(favoriteAdded(RzxComputer*)), rezalFavorites, SLOT(bufferedLogin(RzxComputer*)));
 	
 	clearWFlags(WStyle_SysMenu|WStyle_Minimize);
 	alreadyOpened=false;
