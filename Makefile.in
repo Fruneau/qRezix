@@ -260,7 +260,9 @@ subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = icons/themes/classic/Makefile \
+	icons/themes/krystal/Makefile icons/themes/ms/Makefile \
+	icons/themes/NoiaWarmKDE/Makefile
 DIST_SOURCES =
 
 RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
@@ -318,6 +320,14 @@ $(srcdir)/config.h.in:  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
+icons/themes/classic/Makefile: $(top_builddir)/config.status $(top_srcdir)/icons/themes/classic/Makefile.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+icons/themes/krystal/Makefile: $(top_builddir)/config.status $(top_srcdir)/icons/themes/krystal/Makefile.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+icons/themes/ms/Makefile: $(top_builddir)/config.status $(top_srcdir)/icons/themes/ms/Makefile.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+icons/themes/NoiaWarmKDE/Makefile: $(top_builddir)/config.status $(top_srcdir)/icons/themes/NoiaWarmKDE/Makefile.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -426,7 +436,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=stamp-h.in subdirs configure.files qrezix.kdevses klocale.h.qtonly Doxyfile Makefile.dist qrezix.kdevelop configure.in.in 
+KDE_DIST=klocale.h.qtonly qrezix.kdevses Makefile.dist stamp-h.in configure.files subdirs qrezix.kdevelop Doxyfile configure.in.in 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 
@@ -445,7 +455,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/admin
+	$(mkinstalldirs) $(distdir)/admin $(distdir)/icons/themes/NoiaWarmKDE $(distdir)/icons/themes/classic $(distdir)/icons/themes/krystal $(distdir)/icons/themes/ms
 	@list='$(DISTFILES)'; for file in $$list; do \
 	  if test -f $$file || test -d $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \

@@ -283,7 +283,7 @@ void RzxComputer::scanServers()
   
 	#ifdef Q_OS_MACX
 		netstat->addArgument("-f inet");
-		netstat->addArgumetn("-an");
+		netstat->addArgument("-an");
 	#else
 		netstat->addArgument("-ltn");
 	#endif
