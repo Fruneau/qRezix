@@ -462,13 +462,13 @@ void RzxPlugInLoader::chatReceived(QString *chat)
 	for(it = plugins.first() ; it ; it = plugins.next())
 		it->getData(RzxPlugIn::DATA_CHATRECEIVE, (QVariant*)chat);
 }
-
+ 
 ///On indique qu'un nouvel item vient d'être sélectionné
 void RzxPlugInLoader::itemChanged(QListViewItem *item)
 {
 	RzxPlugIn *it;
 	for(it = plugins.first() ; it ; it = plugins.next())
-		it->getData(RzxPlugIn::DATA_CHATRECEIVE, (QVariant*)item);
+		it->getData(RzxPlugIn::DATA_ITEMSELECTED, (QVariant*)item);
 }
 
 ///On indique que l'item sélectionné chez les favoris à changé
@@ -476,5 +476,5 @@ void RzxPlugInLoader::favoriteChanged(QListViewItem *item)
 {
 	RzxPlugIn *it;
 	for(it = plugins.first() ; it ; it = plugins.next())
-		it->getData(RzxPlugIn::DATA_CHATRECEIVE, (QVariant*)item);
+		it->getData(RzxPlugIn::DATA_FAVORITESELECTED, (QVariant*)item);
 }
