@@ -61,7 +61,7 @@ protected: // Protected methods
 private:
 	void initLangCombo();
 	void initThemeCombo();
-	void updateLocalHost();
+	bool updateLocalHost();
 	QPixmap localhostIcon;
 	QString browse(const QString& name, const QString& title, const QString& glob);
 

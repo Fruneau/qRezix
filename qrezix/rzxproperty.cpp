@@ -54,11 +54,9 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	connect( chkBeep, SIGNAL(toggled(bool)), txtBeep, SLOT(setEnabled(bool)));
 	
 	hostname->setValidator( new DnsValidator() );
-	
 #ifndef WIN32
 	btnAboutQt->hide();
 #endif
-
 	initDlg();
 }
 
@@ -247,13 +245,17 @@ void RzxProperty::initDlg() {
 }
 
 
-void RzxProperty::updateLocalHost()
+bool RzxProperty::updateLocalHost()
 {
 	bool refresh = (RzxConfig::localHost() -> getName().lower() != hostname->text().lower());
 	RzxConfig::localHost() -> setName(hostname->text());
 	if(refresh) RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_DNSNAME, NULL);
+	
+	refresh = refresh || RzxConfig::localHost()->getRemarque() != remarque->text();
 	RzxConfig::localHost() -> setRemarque(remarque -> text());
+	refresh = refresh || RzxConfig::localHost()->getPromo() != cmbPromo->currentItem()+1;
 	RzxConfig::localHost() -> setPromo(cmbPromo->currentItem() + 1);
+	refresh = refresh || RzxConfig::autoResponder() != chkAutoResponder->isChecked();
 	RzxConfig::localHost() -> setRepondeur(chkAutoResponder -> isChecked());
 
 	int servers = 0;
@@ -277,13 +279,14 @@ void RzxProperty::updateLocalHost()
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_DISPFTP, NULL);
 	
 	RzxConfig::localHost() -> setServerFlags(servers);
+	return refresh || servers != oldservers;
 }
 
 
 void RzxProperty::miseAJour() {
 	RzxConfig * cfgObject = RzxConfig::globalConfig();
 	QRezix * ui = getRezix();
-
+	
 	QObjectList * l = queryList( "QLineEdit", "txt*" );
 	QObjectListIt it( *l );             // iteration sur l'ensemble des objets QCheckBox
 	QObject * obj;
@@ -295,7 +298,8 @@ void RzxProperty::miseAJour() {
 	bool iconSizeChanged = cfgObject -> computerIconSize() != cmbIconSize -> currentItem();
 	bool themeChanged = RzxConfig::iconTheme().compare( cmbIconTheme -> currentText() );
 
-	updateLocalHost();
+	bool localHostUpdated = updateLocalHost();
+	
 	cfgObject -> writeEntry( "dnsname", RzxConfig::localHost() -> getName() );
 	cfgObject -> writeEntry( "comment", RzxConfig::localHost() -> getRemarque() );
 	cfgObject -> writeEntry( "promo", RzxConfig::localHost() -> getPromo() );
@@ -356,13 +360,16 @@ void RzxProperty::miseAJour() {
 //	cfgObject -> write(); //flush du fichier de conf
 
 	QPixmap * localhostIcon = pxmIcon -> pixmap();
-	if ( RzxConfig::localhostIcon() -> serialNumber() != localhostIcon -> serialNumber() && !( localhostIcon -> isNull() ) ) {
+	if ( RzxConfig::localhostIcon() -> serialNumber() != localhostIcon -> serialNumber() && !( localhostIcon -> isNull() ) )
+	{
+		localHostUpdated = true;
 		RzxConfig::saveIcon( "localhost", *localhostIcon );
 		if (!RzxServerListener::object() -> isSocketClosed())
 			RzxServerListener::object() -> sendIcon( localhostIcon -> convertToImage() );
 	}
 
-	serverUpdate();
+	if(localHostUpdated)
+		serverUpdate();
 
 	if (ui -> btnAutoResponder)	
 		ui -> btnAutoResponder -> setOn( RzxConfig::localHost() -> getRepondeur() );
