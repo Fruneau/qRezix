@@ -55,6 +55,7 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	connect( chkBeep, SIGNAL(toggled(bool)), btnBeepBrowse, SLOT(setEnabled(bool)));
 	connect( chkBeep, SIGNAL(toggled(bool)), txtBeep, SLOT(setEnabled(bool)));
 	connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
+	connect( hostname, SIGNAL(textChanged(const QString&)), this, SLOT(validDns()));
 	
 	hostname->setValidator( new DnsValidator() );
 #ifndef WIN32
@@ -267,6 +268,13 @@ void RzxProperty::initDlg() {
 	RzxPlugInLoader::global()->makePropListView(lvPlugInList, btnPlugInProp);
 }
 
+///Vérifie si le texte de la dns est valide
+/** Les boutons de validations ne seront validés que si la valeur entrée est conforme à ce que l'on attend */
+void RzxProperty::validDns()
+{
+	btnOK->setEnabled(hostname->hasAcceptableInput());
+	btnMiseAJour->setEnabled(hostname->hasAcceptableInput());
+}
 
 bool RzxProperty::updateLocalHost()
 {
