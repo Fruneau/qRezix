@@ -249,7 +249,7 @@ RzxConfig * RzxConfig::globalConfig() {
 }
 
 
-RzxConfig::FontProperty::FontProperty(bool b, bool i, QValueList<int> pS)
+RzxConfig::FontProperty::FontProperty(bool b, bool i, const QValueList<int> &pS)
 			: bold(b), italic(i), sizes(pS) {
 }
 
