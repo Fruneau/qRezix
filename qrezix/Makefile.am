@@ -3,7 +3,7 @@ bin_PROGRAMS = qrezix
 
 ## INCLUDES were found outside kdevelop specific part
 
-qrezix_SOURCES = rzxchatui.ui qrezixui.ui rzxquitui.ui rzxpropertyui.ui rzxquit.cpp dnsValidator.cpp trayicon.cpp rzxchat.cpp rzxproperty.cpp rzxserverlistener.cpp rzxrezal.cpp rzxprotocole.cpp rzxitem.cpp rzxhostaddress.cpp rzxconfig.cpp rzxcomputer.cpp rzxclientlistener.cpp qrezix.cpp main.cpp rzxmessagebox.cpp rzxmessagebox.h defaults.h dnsvalidator.h klocale.h qrezix.h qrezixui.h resource.h rzxchat.h rzxchatui.h rzxclientlistener.h rzxcomputer.h rzxconfig.h rzxconfiguration.h rzxhostaddress.h rzxitem.h rzxmessagebox.h rzxproperty.h rzxpropertyui.h rzxprotocole.h rzxrezal.h rzxserverlistener.h trayicon.h rzxquit.h
+qrezix_SOURCES = rzxchatui.ui qrezixui.ui rzxquitui.ui rzxpropertyui.ui rzxquit.cpp dnsValidator.cpp trayicon.cpp rzxchat.cpp rzxproperty.cpp rzxserverlistener.cpp rzxrezal.cpp rzxprotocole.cpp rzxitem.cpp rzxhostaddress.cpp rzxconfig.cpp rzxcomputer.cpp rzxclientlistener.cpp qrezix.cpp main.cpp rzxmessagebox.cpp rzxmessagebox.h defaults.h dnsvalidator.h klocale.h qrezix.h resource.h rzxchat.h rzxclientlistener.h rzxcomputer.h rzxconfig.h rzxhostaddress.h rzxitem.h rzxmessagebox.h rzxproperty.h rzxprotocole.h rzxrezal.h rzxserverlistener.h trayicon.h rzxquit.h
 
 qrezix_LDADD   =  $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 

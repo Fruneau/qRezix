@@ -19,7 +19,7 @@
 
 #include <qobject.h>
 #include <qpixmap.h>
-#include <qsocket.h>
+#include <qsocketdevice.h>
 #include "rzxhostaddress.h"
 
 /**
@@ -44,8 +44,9 @@ public:
 		unsigned SysEx			:3;	//0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X
 		unsigned Promo			:2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje !)
 		unsigned Repondeur	    :2; //0=accepter, 1= repondeur, 2=refuser les messages, 3= unused
+		unsigned ServerFlags	:6;
 		// total 13 bits / 32
-		unsigned align			:19;
+		unsigned align			:13;
 	};
 	
 	enum Server {
@@ -55,6 +56,15 @@ public:
 		SERVER_HTTP = 8,
 		SERVER_NEWS = 16
 	};
+
+	enum ServerFlags {
+		FLAG_SAMBA = 1,
+		FLAG_FTP = 2,
+		FLAG_HOTLINE = 4,
+		FLAG_HTTP = 8,
+		FLAG_NEWS = 16
+	};
+
 	
 	enum SysEx {
 		SYSEX_UNKNOWN = 0,
@@ -93,6 +103,7 @@ public:
 	void setPromo(int promo);
 	void setRepondeur(bool);
 	void setServers(int servers);
+	void setServerFlags(int serverFlags);
 	void setRemarque(const QString& text);
 	void setIcon(const QPixmap& image);
 	
@@ -101,6 +112,7 @@ public:
 	QString getPromoText() const;
 	bool getRepondeur() const;
 	int getServers() const;
+	int getServerFlags() const;
 	QString getRemarque() const;
 	QPixmap getIcon() const;
 
@@ -118,12 +130,8 @@ signals: // Signals
 	void isUpdated();
 	void needIcon(const RzxHostAddress&);
 
-protected slots: //Slots pour la détection du ftp
-	void acceptFTP();
-	void refuseFTP();
-
 public slots:
-	void rescanFTP();
+	void scanServers();
 
 protected:
 	QString name;
@@ -134,8 +142,8 @@ protected:
 	unsigned long stamp;
 	QString remarque;
 	QPixmap icon;
-	QSocket *detectFTP;
-	QTimer *delayFTP;
+	QSocketDevice *detect;
+	QTimer *delayScan;
 	
 };
 

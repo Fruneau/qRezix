@@ -1005,15 +1005,15 @@ Erreur DNS
     </message>
     <message>
         <source>FTP server</source>
-        <translation>Serveur FTP</translation>
+        <translation type="obsolete">Serveur FTP</translation>
     </message>
     <message>
         <source>Detection delay (min) (0 : only on startup):</source>
-        <translation>Delai de détection (min) (0 : au lancement) :</translation>
+        <translation type="obsolete">Delai de détection (min) (0 : au lancement) :</translation>
     </message>
     <message>
         <source>Display FTP server</source>
-        <translation>Afficher mon serveur FTP</translation>
+        <translation type="obsolete">Afficher mon serveur FTP</translation>
     </message>
 </context>
 </TS>

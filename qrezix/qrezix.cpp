@@ -180,9 +180,7 @@ void QRezix::activateAutoResponder( bool state ){
 
 	if (state == (RzxConfig::autoResponder() != 0)) return;
 	RzxConfig::setAutoResponder( state );
-	RzxServerListener * server = RzxServerListener::object();
-	RzxComputer * localhostObject = RzxConfig::localHost();
-	server -> sendRefresh(localhostObject);
+	RzxProperty::serverUpdate();
 }
 
 void QRezix::activateFavorites(){

@@ -43,11 +43,6 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	connect( btnBrowse, SIGNAL( clicked() ), this, SLOT( chooseIcon() ) );
 	connect( btnBeepBrowse, SIGNAL( clicked() ), this, SLOT( chooseBeep() ) );
 
-	CbFTP->setEnabled(false);
-	CbDisplayFTP->setChecked(true);
-	connect( CbDisplayFTP, SIGNAL(toggled(bool)), lblFTPDelay, SLOT(setEnabled(bool)));
-	connect( CbDisplayFTP, SIGNAL(toggled(bool)), FTPrefreshTime, SLOT(setEnabled(bool)));
-
 	btnBeepBrowse -> setEnabled(false);
 	txtBeep -> setEnabled(false);
 	connect( chkBeep, SIGNAL(toggled(bool)), btnBeepBrowse, SLOT(setEnabled(bool)));
@@ -131,20 +126,19 @@ void RzxProperty::initDlg() {
 	cmdDoubleClic->setCurrentItem( RzxConfig::doubleClicRole() );
 	cmbIconTheme -> setCurrentItem( 0 );
 
+
 	int i;	// oui, moins beau, mais c parceque VC++ 6 est pas compatible avec
 			// la dernière norme C++ ANSI
 	for ( i = 0; i < cmbIconTheme -> count(); i++ )
 		if ( !RzxConfig::iconTheme().compare( cmbIconTheme->text( i ) ) )
 			cmbIconTheme->setCurrentItem( i );
 
-	int servers = RzxConfig::localHost() ->getServers();
-	CbSamba->setChecked( servers & RzxComputer::SERVER_SAMBA );
-	CbFTP->setChecked( servers & RzxComputer::SERVER_FTP );
+	int servers = RzxConfig::localHost() ->getServerFlags();
+	CbSamba->setChecked( servers & RzxComputer::FLAG_SAMBA );
+	CbFTP->setChecked( servers & RzxComputer::FLAG_FTP );
 	//CbHotline->setChecked( servers & RzxComputer::SERVER_HOTLINE );
-	CbHTTP->setChecked( servers & RzxComputer::SERVER_HTTP );
-	CbNews->setChecked( servers & RzxComputer::SERVER_NEWS );
-	CbDisplayFTP->setChecked( RzxConfig::FTPDisplay());
-	FTPrefreshTime->setValue(RzxConfig::FTPTestTime()/60000);
+	CbHTTP->setChecked( servers & RzxComputer::FLAG_HTTP );
+	CbNews->setChecked( servers & RzxComputer::FLAG_NEWS );
 
 	//QRezix * rezix = getRezix();
 	int colonnes = RzxConfig::colonnes();
@@ -238,7 +232,7 @@ void RzxProperty::updateLocalHost()
 	int servers = 0;
 	if ( CbSamba->isChecked() )
 		servers |= RzxComputer::SERVER_SAMBA;
-	if ( CbFTP->isChecked())
+	if ( CbFTP->isChecked() )
 		servers |= RzxComputer::SERVER_FTP;
 	/*if ( CbHotline->isChecked() )
 		servers |= RzxComputer::SERVER_HOTLINE;*/
@@ -246,9 +240,7 @@ void RzxProperty::updateLocalHost()
 		servers |= RzxComputer::SERVER_HTTP;
 	if ( CbNews->isChecked() )
 		servers |= RzxComputer::SERVER_NEWS;
-	RzxConfig::localHost() -> setServers(servers);
-	if(CbDisplayFTP->isChecked())
-		RzxConfig::localHost() -> rescanFTP();
+	RzxConfig::localHost() -> setServerFlags(servers);
 }
 
 
@@ -272,7 +264,7 @@ void RzxProperty::miseAJour() {
 	cfgObject -> writeEntry( "comment", RzxConfig::localHost() -> getRemarque() );
 	cfgObject -> writeEntry( "promo", RzxConfig::localHost() -> getPromo() );
 	cfgObject -> writeEntry( "repondeur", RzxConfig::localHost() -> getRepondeur() );
-	cfgObject -> writeEntry( "servers", RzxConfig::localHost() -> getServers() );
+	cfgObject -> writeEntry( "servers", RzxConfig::localHost() -> getServerFlags() );
 
 	cfgObject -> writeEntry( "doubleClic", cmdDoubleClic->currentItem() );
 	cfgObject -> writeEntry( "iconsize", cmbIconSize -> currentItem() );
@@ -292,9 +284,6 @@ void RzxProperty::miseAJour() {
 	writeColDisplay();
 	cfgObject -> writeEntry( "autoCol",1);
 	cfgObject -> writeEntry( "useSystray", cbSystray->isChecked() ? 1 : 0 );
-	cfgObject -> writeEntry( "FTPTestTime", FTPrefreshTime->value()*60000 );
-	cfgObject -> writeEntry( "FTPDisplay", CbDisplayFTP->isChecked()? 1 : 0);
-
 	cfgObject -> writeEntry( "FTPPath", txtWorkDir->text() );
 	cfgObject -> writeEntry( "txtSport", cmbSport->currentText() );
 	cfgObject -> writeEntry( "numSport", cmbSport->currentItem());
@@ -363,16 +352,7 @@ void RzxProperty::serverUpdate() {
 	RzxServerListener * server = RzxServerListener::object();
 	if (server -> isSocketClosed()) return;
 	RzxComputer * localhostObject = RzxConfig::localHost();
-	int servers = localhostObject->getServers();
-	bool hideFTP = false;
-	if((servers&RzxComputer::SERVER_FTP) && !RzxConfig::FTPDisplay())
-	{
-		hideFTP = true;
-		localhostObject->setServers(servers & ~RzxComputer::SERVER_FTP);
-	}
 	server -> sendRefresh( localhostObject );
-	if(hideFTP)
-		localhostObject->setServers(servers);
 }
 
 void RzxProperty::writeColDisplay() {

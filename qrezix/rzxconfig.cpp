@@ -449,8 +449,6 @@ QString RzxConfig::propWebPage(){ return globalConfig() -> readEntry("txtWeb", "
 QString RzxConfig::propCasert(){ return globalConfig() -> readEntry("txtCasert", "");}
 QString	RzxConfig::iconTheme(){ return globalConfig() -> readEntry("theme", DEFAULT_THEME);}
 QString	RzxConfig::FTPPath(){ return globalConfig() -> readEntry("FTPPath", "");}
-int RzxConfig::FTPTestTime(){ return globalConfig() -> readEntry("FTPTestTime", 0);}
-int RzxConfig::FTPDisplay(){ return globalConfig() -> readEntry("FTPDisplay",0);}
 
 QString RzxConfig::propPromo() { return localHost() -> getPromoText(); }
 
@@ -522,7 +520,7 @@ void RzxConfig::loadLocalHost() {
 			comment = c.getRemarque();
 			promo = c.getPromo();
 			repondeur = c.getRepondeur();
-			servers = c.getServers();
+			servers = c.getServerFlags();
 		}
 	}*/
 
@@ -538,7 +536,8 @@ void RzxConfig::loadLocalHost() {
 	computer->setRemarque( comment );
 	computer->setPromo( promo );
 	computer->setRepondeur( repondeur );
-	computer->setServers( servers );
+	computer->setServerFlags( servers );
+	computer->scanServers();
 }
 
 

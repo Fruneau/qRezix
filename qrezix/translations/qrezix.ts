@@ -953,17 +953,5 @@ Erreur DNS
         <source>Print hh:mm:ss in chat</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>FTP server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Detection delay (min) (0 : only on startup):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display FTP server</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 </TS>

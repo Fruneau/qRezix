@@ -100,8 +100,6 @@ public:
 	static QString serverName();
 	static QString iconTheme();
 	static QString FTPPath();
-	static int FTPTestTime();
-	static int FTPDisplay();
 	void readFavorites();
 
 	static QString sambaCmd();

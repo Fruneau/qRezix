@@ -40,12 +40,10 @@ void RzxComputer::initLocalHost( void )
 	autoSetOs();
 
 	ip = RzxHostAddress::fromRezix(0);
-	detectFTP = new QSocket();
-	delayFTP = new QTimer();
-	connect(delayFTP, SIGNAL(timeout()), this, SLOT(rescanFTP()));
-	connect(detectFTP, SIGNAL(connected()), this, SLOT(acceptFTP()));
-	connect(detectFTP, SIGNAL(error(int)), this, SLOT(refuseFTP()));
-	detectFTP->connectToHost("127.0.0.1", 21);
+	detect = new QSocketDevice();
+	delayScan = new QTimer();
+	connect(delayScan, SIGNAL(timeout()), this, SLOT(scanServers()));
+	options.ServerFlags = options.Server = 0;
 }
 
 
@@ -108,7 +106,9 @@ void RzxComputer::autoSetOs() //0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5
 
 QString RzxComputer::serialize(bool stamp) {
 	QString ret;
-	unsigned long opts = *((unsigned long*) &options);
+	options_t test = options;
+	test.Server &= test.ServerFlags;
+	unsigned long opts = *((unsigned long*) &test);
 	unsigned long vers = *((unsigned long*) &version);
 	
 	ret = name + " " +
@@ -134,6 +134,8 @@ void RzxComputer::setIcon(const QPixmap& image){
 }
 void RzxComputer::setServers(int servers) 
 { options.Server = servers; }
+void RzxComputer::setServerFlags(int serverFlags) 
+{ options.ServerFlags = serverFlags; }
 void RzxComputer::setPromo(int promo)
 { options.Promo = promo; }
 void RzxComputer::setRemarque(const QString& text)
@@ -168,6 +170,9 @@ QPixmap RzxComputer::getIcon() const
 { return icon; }
 int RzxComputer::getServers() const
 { return options.Server; }
+int RzxComputer::getServerFlags() const
+{ return options.ServerFlags; }
+
 
 
 
@@ -199,34 +204,34 @@ void RzxComputer::removePreviousIcons(){
 	}
 }
 
-//Détection du serveur ftp pour localHost
-void RzxComputer::acceptFTP()
-{
-	int t = RzxConfig::FTPTestTime();
-	if(!(options.Server & RzxComputer::SERVER_FTP))
-	{
-		options.Server |= RzxComputer::SERVER_FTP;
-		if(RzxConfig::FTPDisplay()) RzxProperty::serverUpdate();
-	}
-	detectFTP->close();
-	if(t && RzxConfig::FTPDisplay())
-		delayFTP->start(RzxConfig::FTPTestTime());
-}
 
-void RzxComputer::refuseFTP()
+//Scan des servers ouverts
+void RzxComputer::scanServers()
 {
-	int t = RzxConfig::FTPTestTime();
-	if((options.Server & RzxComputer::SERVER_FTP))
+	QSocketDevice detectFTP, detectHTTP, detectNEWS, detectSMB;
+	if(!detect) return;
+	int servers = 0;
+
+	//scan du ftp
+	if(!detectFTP.bind(ip, 21)) servers |= RzxComputer::SERVER_FTP;
+//	else servers &= ~RzxComputer::SERVER_FTP;
+
+	//scan du http
+	if(!detectHTTP.bind(ip, 80)) servers |= RzxComputer::SERVER_HTTP;
+//	else servers &= ~RzxComputer::SERVER_HTTP;
+
+	//scan du nntp
+	if(!detectNEWS.bind(ip, 119)) servers |= RzxComputer::SERVER_NEWS;
+//	else servers &= ~RzxComputer::SERVER_NEWS;
+
+	//scan du samba
+	if(!detectSMB.bind(ip, 139)) servers |= RzxComputer::SERVER_SAMBA;
+//	else servers &= ~RzxComputer::SERVER_SAMBA;
+
+	if(servers != getServers())
 	{
-		options.Server &= ~(RzxComputer::SERVER_FTP);
+		setServers(servers);
 		RzxProperty::serverUpdate();
 	}
-	if(t && RzxConfig::FTPDisplay())
-		delayFTP->start(RzxConfig::FTPTestTime());
-}
-
-void RzxComputer::rescanFTP()
-{
-	if(detectFTP)
-		detectFTP->connectToHost("127.0.0.1", 21);
+	delayScan->start(30000);
 }
