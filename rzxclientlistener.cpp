@@ -154,7 +154,7 @@ int RzxChatSocket::parse(const QString& msg)
 					return DCC_PROPQUERY;
 					break;
 				case DCC_PROPANSWER:
-					qDebug("Parsing PROPANSWER: " + cmd.cap(2));
+					qDebug("Parsing PROPANSWER: " + cmd.cap(2).replace('%',"%%"));
 					if(cmd.cap(2).isEmpty())					// si il n'y a pas les donnees necessaires 
 					{
 						emit notify(tr("has send empty properties"));
@@ -169,7 +169,7 @@ int RzxChatSocket::parse(const QString& msg)
 					return DCC_PROPANSWER;
 					break;
 				case DCC_CHAT:
-					qDebug("Parsing CHAT: " + cmd.cap(2));
+					qDebug("Parsing CHAT : " + cmd.cap(2).replace('%',"%%"));
 					if(RzxConfig::autoResponder())
 					{
 						sendResponder(RzxConfig::autoResponderMsg());
@@ -302,7 +302,7 @@ void RzxChatSocket::send(const QString& msg)
 			else
 			{
 				flush();
-				qDebug("Message envoyé : " + msg.left(msg.length()-2));
+				qDebug("Message envoyé : " + msg.left(msg.length()-2).replace('%', "%%"));
 			}
 			return;
 			
