@@ -293,11 +293,7 @@ void RzxComputer::scanServers()
 	{
 		while(netstat->isRunning());
 		while(netstat->canReadLineStdout())
-		{
-			QString *q;
-			q = new QString(netstat->readLineStdout());
-			res += *q;
-		}
+			res += netstat->readLineStdout();
 		delete netstat;
 
 		#ifdef Q_OS_MACX
@@ -317,6 +313,7 @@ void RzxComputer::scanServers()
 	//au cas où netstat fail ou qu'il ne soit pas installé
 	else
 		servers = RzxComputer::SERVER_FTP | RzxComputer::SERVER_HTTP | RzxComputer::SERVER_NEWS | RzxComputer::SERVER_SAMBA;
+		
 #endif //WIN32
 	int oldServers = getServers();
 	

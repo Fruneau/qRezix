@@ -66,7 +66,6 @@ void fatalHandler( int signum )
 	qDebug( "Received a %i signal, automatic backtrace", signum );
 	qDebug( "State of the stack: %i frames", size );
 
-	delete strings;
 	QApplication::exit( 1 );
 }
 
