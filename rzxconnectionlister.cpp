@@ -153,13 +153,13 @@ void RzxConnectionLister::login( const QString& newOrdi )
 void RzxConnectionLister::logout( const RzxHostAddress& ip )
 {
 	QString key = ip.toString();
-	RzxComputer *computer = iplist.find( key );
+	RzxComputer *computer = iplist.take( key );
 	if (computer)
 	{
 		computerByLogin.remove(computer->getName());
-		iplist.remove( key );
 		emit countChange( tr( "%1 clients connected" ).arg( iplist.count() ) );
 	}
+	computer->deleteLater();
 	
 	emit logout(key);
 

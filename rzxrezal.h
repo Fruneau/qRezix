@@ -91,7 +91,7 @@ public slots: // Public slots
 	void afficheColonnes();
 	void adapteColonnes();
 	void login(RzxComputer *computer);
-	void logout(QObject *computer);
+	void logout(const QString& ip);
 	void init();
 	void redrawAllIcons();
 
