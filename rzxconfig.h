@@ -104,6 +104,7 @@ public:
 	static int printTime();
 	static int beep();
 	static int beepConnection();
+	static bool showConnection();
 	static QString beepCmd();
 	static QString beepSound();
 	static QString connectionSound();

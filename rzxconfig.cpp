@@ -436,6 +436,9 @@ QString RzxConfig::beepSound(){ return globalConfig() -> readEntry("txtBeep", ""
 int RzxConfig::beepConnection(){ return globalConfig() -> readEntry("beepConnection", 0); }
 QString RzxConfig::connectionSound(){ return globalConfig() -> readEntry("txtBeepConnection", ""); }
 
+/** Affichage de notifications pour le changement d'état d'autres clients */
+bool RzxConfig::showConnection() { return globalConfig()->readEntry("showConnection", 1); }
+
 #ifdef WIN32
 QString RzxConfig::sambaCmd(){ return globalConfig() -> readEntry("samba_cmd", "standard");}
 QString RzxConfig::ftpCmd(){ return globalConfig() -> readEntry("ftp_cmd", "standard"); }
