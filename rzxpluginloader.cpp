@@ -162,7 +162,9 @@ RzxPlugInLoader::~RzxPlugInLoader()
 		if(state[i]) it->stop();
 		delete it;
 	}
+#ifndef WIN32
 	fileByName.setAutoDelete(true);
+#endif
 	fileByName.clear();
 }
 
