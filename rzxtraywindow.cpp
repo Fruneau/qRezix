@@ -70,7 +70,6 @@ RzxTrayWindow::RzxTrayWindow(RzxComputer* computer, bool connected, unsigned int
 	QPoint point(0,0);
 	move(point);
 	
-	raise();
 	show();
 	
 	connect(&timer, SIGNAL(timeout()), this, SLOT(close()));
