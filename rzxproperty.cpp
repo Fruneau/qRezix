@@ -414,7 +414,8 @@ void RzxProperty::miseAJour() {
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_THEME, NULL);
 		changeTheme();
 	}
-		
+	
+	RzxConfig::globalConfig()->flush();
 }
 
 bool RzxProperty::infoCompleted()

@@ -57,6 +57,7 @@ class RzxChatSocket;
 #include "rzxrezal.h"
 #include "rzxitem.h"
 #include "rzxserverlistener.h"
+#include "rzxpluginloader.h"
 #include "defaults.h"
 
 
@@ -297,6 +298,14 @@ void RzxConfig::writeEntry(const QString& name, int val) {
 	settings->writeEntry("/qRezix/general/" + name, val);
 }
 
+void RzxConfig::flush()
+{
+	if(settings) delete settings;
+	settings = new QSettings();
+	settings->insertSearchPath(QSettings::Unix,m_userDir.canonicalPath());
+	RzxPlugInLoader::global()->setSettings();
+}
+
 QPixmap * RzxConfig::icon(const QString& name) {
 	RzxConfig * config = globalConfig();
 	return icon(name, config -> allIcons);
@@ -313,7 +322,7 @@ QPixmap * RzxConfig::icon(const QString& name, QDict<QPixmap>& cache, const QStr
 	QPixmap * ret = cache.find(qualifiedName);
 	if (ret) return ret;
 	
-	ret = new QPixmap;
+	ret = new QPixmap();
 	cache.insert(qualifiedName, ret);
 	
 	QString fileName = config -> findData(name + ".png", subdir);
@@ -421,6 +430,7 @@ void RzxConfig::setPass(const QString& passcode)
 {
 	globalConfig() -> writeEntry(RzxServerListener::object()->getServerIP().toString() + "/pass", passcode);
 	globalConfig() -> writeEntry("pass", passcode);
+	globalConfig() -> flush();
 }
 
 QString RzxConfig::propLastName(){ return globalConfig() -> readEntry("txtFirstname", "");}

@@ -122,6 +122,12 @@ homogène pour l'ensemble des plugins */
 //c'est à dire dans le fichier qrezixrc, dans le groupe du plugin
 // Lecture d'une entrée.
 
+///Changement de la classe settings
+void RzxPlugIn::setSettings(QSettings *m_settings)
+{
+	settings = m_settings;
+}
+
 /// Lecture d'une donnée de configuration
 /** Lit une entrée dans les données de configuration. La valeur retournée est une chaine de caractère
  * <br>Cette fonction surcharge celle de QSettings pour une question de commodité quand à la hiérarchie des chemins de stockage

@@ -77,6 +77,7 @@ public:
 	QValueList<int> getSizes(const QString&);
 	bool isItalicSupported(const QString&);
 	bool isBoldSupported(const QString&);
+	void flush();
 	void closeSettings();
 
 	void setPass(const QString& passcode);

@@ -161,6 +161,15 @@ void RzxPlugInLoader::stop()
 		it->stop();
 }
 
+///Changement de la classe setting
+/** Pour permettre un flush des settings par qRezix */
+void RzxPlugInLoader::setSettings()
+{
+	RzxPlugIn *it;
+	for(it = plugins.first() ; it ; it = plugins.next())
+		it->setSettings(RzxConfig::globalConfig()->settings);
+}
+
 /* mélange avec l'interface */
 //Cette partie gère l'ajout des plug-ins à l'interface.
 //Ainsi chaque plug-in peut donner un sous-menu pour le menu de la tray icon
