@@ -134,6 +134,11 @@
         <source>Return</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Your password can contains any character.&lt;br&gt;
+It must be at least&lt;b&gt; 6 characters long&lt;/b&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxChat</name>

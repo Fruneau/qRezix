@@ -165,7 +165,7 @@
                 <number>1</number>
             </property>
             <property name="currentIndex">
-                <number>2</number>
+                <number>0</number>
             </property>
             <widget class="QWidget">
                 <property name="name">
@@ -299,6 +299,9 @@
                     <property name="name">
                         <cstring>btnSearch</cstring>
                     </property>
+                    <property name="backgroundMode">
+                        <enum>PaletteBackground</enum>
+                    </property>
                     <property name="text">
                         <string>&amp;Search</string>
                     </property>
@@ -368,7 +371,7 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>102</width>
+                            <width>105</width>
                             <height>20</height>
                         </size>
                     </property>
