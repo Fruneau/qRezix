@@ -21,6 +21,8 @@
 #include <qobject.h>
 #include <qdict.h>
 #include <qstring.h>
+#include <qtimer.h>
+#include <qstringlist.h>
 
 
 class RzxComputer;
@@ -35,6 +37,8 @@ class RzxConnectionLister : public QObject
 	Q_OBJECT
 	
 	static RzxConnectionLister *object;
+	QTimer delayDisplay;
+	QStringList displayWaiter;
 	
 	public:
 		QDict<RzxComputer> iplist;
@@ -51,7 +55,7 @@ class RzxConnectionLister : public QObject
 		void closeSocket();
 		
 	public slots:
-		void login(const QString& ordi);
+		void login(const QString& ordi = QString::null);
 		void logout(const RzxHostAddress& ip);
 		QStringList getIpList();
 		
@@ -82,6 +86,7 @@ class RzxConnectionLister : public QObject
 		void countChange(const QString& newCount);
 		void socketClosed();
 		void connectionEtablished();
+		void loginEnd();
 };
 
 

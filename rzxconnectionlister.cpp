@@ -38,7 +38,7 @@
 RzxConnectionLister *RzxConnectionLister::object = NULL;
 
 RzxConnectionLister::RzxConnectionLister( QObject *parent, const char *name)
-		: QObject( parent, name ), iplist( USER_HASH_TABLE_LENGTH )
+		: QObject( parent, name ), displayWaiter(), iplist( USER_HASH_TABLE_LENGTH ), computerByLogin( USER_HASH_TABLE_LENGTH )
 {
 	object = this;
 
@@ -64,6 +64,8 @@ RzxConnectionLister::RzxConnectionLister( QObject *parent, const char *name)
 	connect( this, SIGNAL(needIcon(const RzxHostAddress&)), server, SLOT(getIcon(const RzxHostAddress&)));
 	
 	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), this, SLOT(warnProperties(const RzxHostAddress&)));
+	
+	connect(&delayDisplay, SIGNAL(timeout()), this, SLOT(login()));
 }
 
 RzxConnectionLister::~RzxConnectionLister()
@@ -75,8 +77,22 @@ RzxConnectionLister::~RzxConnectionLister()
 
 ///Enregistrement de l'arrivée d'un nouveau client
 /** Sert aussi au raffraichissement des données*/
-void RzxConnectionLister::login( const QString& ordi )
+void RzxConnectionLister::login( const QString& newOrdi )
 {
+	QString ordi = newOrdi;
+	
+	if(ordi)
+	{
+		displayWaiter << newOrdi;
+		if(!delayDisplay.isActive())
+			delayDisplay.start(1, true);
+		return;
+	}
+	
+	if(displayWaiter.isEmpty()) return;
+	ordi = displayWaiter[0];
+	displayWaiter.remove(ordi);
+
 	RzxComputer * newComputer = new RzxComputer();
 	connect( newComputer, SIGNAL( needIcon( const RzxHostAddress& ) ), this, SIGNAL( needIcon( const RzxHostAddress& ) ) );
 	if( newComputer -> parse( ordi ) )
@@ -125,6 +141,9 @@ void RzxConnectionLister::login( const QString& ordi )
 	iplist.insert( newComputer -> getIP().toString(), newComputer );
 
 	emit countChange( tr( "%1 clients connected" ).arg( iplist.count() ) );
+	
+	if(!displayWaiter.isEmpty()) delayDisplay.start(5, true);
+	else emit loginEnd();
 }
 
 ///Enregistre la déconnexion d'un client
@@ -170,12 +189,16 @@ void RzxConnectionLister::initConnection() {
 
 /** No descriptions */
 void RzxConnectionLister::serverDisconnected()
-{}
+{
+	displayWaiter.clear();
+}
 
 /** No descriptions */
 void RzxConnectionLister::serverConnected()
 {
 	iplist.clear();
+	computerByLogin.clear();
+	displayWaiter.clear();
 }
 
 /** No descriptions */
