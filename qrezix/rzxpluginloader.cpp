@@ -105,6 +105,7 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 				{
 					connect(pi, SIGNAL(send(const QString&)), RzxServerListener::object(), SLOT(sendProtocolMsg(const QString&)));
 					connect(pi, SIGNAL(queryData(RzxPlugIn::Data, RzxPlugIn*)), this, SLOT(sendQuery(RzxPlugIn::Data, RzxPlugIn*)));
+					connect(pi, SIGNAL(requestAction(RzxPlugIn::Action, const QString& )), this, SLOT(action(RzxPlugIn::Action, const QString& )));
 					pi->getData(RzxPlugIn::DATA_PLUGINPATH, pipath);
 					plugins.append(pi);
 				}
@@ -269,7 +270,7 @@ void RzxPlugInLoader::makePropListView(QListView *lv, QPushButton *btn)
 	//les deux étant fournis par le plug-in
 	for(it = plugins.first() ; it ; it = plugins.next())
 	{
-		QListViewItem *lvi = new QListViewItem(lv, it->getName(), it->getDescription());
+		QListViewItem *lvi = new QListViewItem(lv, it->getName(), it->getDescription(), it->getInternalVersion());
 		QPixmap *icon = it->getIcon();
 		if(icon)
 		{
@@ -393,6 +394,30 @@ void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 	}
 
 	delete value;
+}
+
+///Exécution des actions demandées par le plugin
+/** Permet la demande d'action par le plug-in à qRez */
+void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
+{
+	switch((int)action)
+	{
+		case RzxPlugIn::ACTION_NONE:
+			break;
+
+		case RzxPlugIn::ACTION_CHAT:
+			QRezix::global()->rezal->chatCreate(param);
+			break;
+
+		case RzxPlugIn::ACTION_CLOSE_CHAT:
+		case RzxPlugIn::ACTION_FTP:
+		case RzxPlugIn::ACTION_HTTP:
+		case RzxPlugIn::ACTION_NEWS:
+		case RzxPlugIn::ACTION_SMB:
+		case RzxPlugIn::ACTION_MINIMIZE:
+		case RzxPlugIn::ACTION_QUIT:
+			break;
+	}
 }
 
 /// Envoi des certifications de changement d'état du plug-in

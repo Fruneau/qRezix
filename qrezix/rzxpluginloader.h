@@ -76,6 +76,7 @@ class RzxPlugInLoader : public QObject
 		void itemChanged(QListViewItem *item);
 		void favoriteChanged(QListViewItem *item);
 		void sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin);
+		void action(RzxPlugIn::Action action, const QString& args);
 
 	protected slots:
 		void dispProperties();

@@ -80,10 +80,10 @@ public slots: // Public slots
 	void creePopUpMenu(QListViewItem *inutile1,const QPoint & pos,int inutile);
 	void proprietes();
 	void proprietes( const RzxHostAddress & );
-	void samba();
-	void ftp();
-	void http();
-	void news();
+	void samba(const QString& login = 0);
+	void ftp(const QString& login = 0);
+	void http(const QString& login = 0);
+	void news(const QString& login = 0);
 
 	void showHistorique( unsigned long ip, QString hostname, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
 
@@ -104,8 +104,9 @@ public slots: // Public slots
 	void chat(QSocket* socket, const QString& msg);
 	void showProperties(const RzxHostAddress& peer, const QString& msg, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
 	RzxChat * chatCreate(const RzxHostAddress& peer);
-	RzxChat * chatCreate();
+	RzxChat * chatCreate(const QString& login = 0);
 	void chatDelete(const RzxHostAddress& peerAddress);
+	void closeChat(const QString& login);
 	void warnProperties(const RzxHostAddress& peer);
 	void closeChats();
 	

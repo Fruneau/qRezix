@@ -37,7 +37,7 @@
  *
  * Il est important de comprendre que ce numéro de version ne dépend pas du comportement de qRezix envers le plug-in (on peut très bien envisager de faire évoluer qRezix pour garder la compatibilité avec les anciennes version de plug-ins) mais de l'évolution de la structure du plug-in. En fait, Cette structure dépend de QObject et de RzxPlugIn, mais seule les évolutions de RzxPlugIn entre en compte pour le calcul de cette version (le principe étant de compiler les plugins de qRezix avec la même version de Qt que pour qRezix lui-même).
  */
-#define PLUGIN_VERSION 0x00102005
+#define PLUGIN_VERSION 0x00201000
 
 class QWidget;
 class QPixmap;
@@ -172,6 +172,22 @@ class RzxPlugIn : public QObject		//NE PAS MODIFIER
 			DATA_ICONNOTFAVORITE = 63,	/**< demande l'icône not_favorite du thème actuel, on attend un QPixmap en retour*/
 			DATA_CONNECTEDLIST = 64	/**< demande la liste des ip des gens connectés sur rezix. On attend un QStringList en retour*/
 		};
+		
+		
+		///Données pour les actions à exécuter par qRezix
+		/** Ces valeurs identifient chacune une action possible à réaliser avec qRezix. Elle fourniront à terme la possibilité de réalisé des actions courantes de qRezix (comme lancé un chat, ouvrir un client ftp... simplement depuis les plug-ins. */
+		enum Action
+		{
+			ACTION_NONE = 0,	/**< normalement inutilisée */
+			ACTION_CHAT = 1,	/**< demande l'ouverture d'un chat, nécessite un pseudo ou une ip en argument */
+			ACTION_FTP = 2,	/**< demande l'ouverture du client ftp, nécessite un pseudo ou une ip en argument */
+			ACTION_HTTP = 3,	/**< demande l'ouverture du navigateur internet, nécessite un pseudo ou une ip en argument */
+			ACTION_NEWS = 4,	/**< demande l'ouverture du client news, nécessite un pseudo ou une ip en argument */
+			ACTION_SMB = 5,	/**< demande l'ouverture du client samba, nécessite un pseudo ou une ip en argument */
+			ACTION_CLOSE_CHAT = 6,	/**< demande la fermeture d'un chat, nécessite un pseudo ou une ip en argument */
+			ACTION_QUIT = 7,	/**< demande la fermeture de rezix */
+			ACTION_MINIMIZE = 8	/**< demande la minimisation de qRezix */
+		};
 
 	protected:
 		///Indique si le plug-in contient une fenêtre de propriétés
@@ -202,6 +218,9 @@ class RzxPlugIn : public QObject		//NE PAS MODIFIER
 		RzxPlugIn(const QString& nm, const QString& desc);
 		virtual ~RzxPlugIn();
 
+		///Défini une version de produit pour le plug-in
+		virtual QString& getInternalVersion() = 0;
+		
 		QString readEntry(const QString& name, const QString& def);
 		int readNumEntry(const QString& name, int def);
 		bool readBoolEntry(const QString& name, bool def);
@@ -282,6 +301,8 @@ class RzxPlugIn : public QObject		//NE PAS MODIFIER
 		 * \param plugin indique quel plug-in requiert cette donnée. On a donc nécessairement <i>plugin = this</i>
 		 */
 		void queryData(RzxPlugIn::Data data, RzxPlugIn *plugin);
+		///Déclenche une action par qRezix
+		void requestAction(RzxPlugIn::Action action, const QString& datas = QString::null);
 };
 
 #endif
