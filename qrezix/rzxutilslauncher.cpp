@@ -21,14 +21,8 @@
 	#include <malloc.h>
 	#include <stdlib.h>
 	#ifdef UNICODE
-		#define RzxShellExecute(a, b, str, c, d, e) \
-			const char *lat1 = str.latin1(); \
-			ushort *unicode; \
-			unicode = new ushort[str.length() + 1]; \
-			unicode[str.length()] = 0; \
-			for(int i =0 ; i< str.length() ; i++) \
-			unicode[i] = (ushort)lat1[i]; \
-			ShellExecute( a, b, (LPCWSTR)(unicode), c, d, e ); 
+		#define RzxShellExecute(a, b, str, c, d, e)  \
+			ShellExecute( a, b, (LPCWSTR)(str), c, d, e )
 	#else
 		#define RzxShellExecute(a, b, str, c, d, e) \
 			ShellExecute( a, b, (LPCSTR)(str.latin1()), c, d, e )
@@ -229,7 +223,19 @@ void RzxUtilsLauncher::http(const QString& login)
 
 #ifdef WIN32
 	if( cmd == "standard" )
-		RzxShellExecute( NULL, NULL, tempip, NULL, NULL, SW_SHOW );
+	{
+		#ifdef UNICODE
+			const char *lat = tempip.latin1(); 
+			ushort *unicode; 
+			unicode = new ushort[tempip.length() + 1]; 
+			unicode[tempip.length()] = 0; 
+			for(int i =0 ; i< tempip.length() ; i++) 
+			unicode[i] = (ushort)lat[i]; 
+			RzxShellExecute( NULL, NULL, unicode, NULL, NULL, SW_SHOW );
+		#else
+			RzxShellExecute( NULL, NULL, tempip, NULL, NULL, SW_SHOW );
+		#endif
+	}
 	else
 	{
 		int serveurs = item->servers;
