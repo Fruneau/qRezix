@@ -378,7 +378,7 @@ Vérifiez que votre correspondant a bien ouvert le port de chat dans son firewal
     </message>
     <message>
         <source>Can&apos;t read datas from host</source>
-        <translation type="obsolete">Impossible de lire les données émisent par votre correspondant</translation>
+        <translation type="obsolete">Impossible de lire les données émises par votre correspondant</translation>
     </message>
 </context>
 <context>
@@ -700,14 +700,14 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
 This is an identification code used to authentificate your connection to the server and avoid IP-spoofing.
 
 KEEP IT WELL because without it, you may not be able to connect to the server</source>
-        <translation type="obsolete">Ton pass de connexion XNet est : %1
+        <translation type="obsolete">Ton mot de passe de connexion XNet est : %1
 Il s&apos;agit d&apos;un code d&apos;identification utilisé pour authentifier ta connexion avec le serveur et éviter l&apos;IP-sproofing.
 
 CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te connecter au serveur</translation>
     </message>
     <message>
         <source>Your pass has been successfully changed by the server. Keep it well because it can be useful.</source>
-        <translation>Votre pass a été changé avec succès par le serveur. Gardez le précieusement, car il pourra vous être redemander.</translation>
+        <translation>Votre mot de passe a été changé avec succès par le serveur. Gardez le précieusement, car il pourra vous être redemandé.</translation>
     </message>
     <message>
         <source>Server can&apos;t change your pass :
@@ -904,8 +904,6 @@ Les discussions et les propriétés sont désactivées</translation>
         <source>%1 is NOT logged</source>
         <translation type="obsolete">%1 n&apos;est pas connecté au serveur</translation>
     </message>
-    <message>
-        <source>Chat</source>
         <translation type="obsolete">Discussion</translation>
     </message>
     <message>
@@ -934,7 +932,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Hey, it&apos;s you %1... you can&apos;t have a chat with yourself. If you really want to chat to yourself, you just have to find a mirror...</source>
-        <translation type="obsolete">Hei, c&apos;est toi %1... ça sert à rien de discutter avec toi-même, mais si tu y tiens vraiment, trouve un mirroir, ce sera plus mieux que qRezix :)...</translation>
+        <translation type="obsolete">Hei, c&apos;est toi %1... ça sert à rien de discutter avec toi-même, mais si tu y tiens vraiment, trouve un mirroir, ce sera plus mieux que qRezix :) ...</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -944,7 +942,7 @@ Les discussions et les propriétés sont désactivées</translation>
         <source>Hey, it&apos;s you %1... you can&apos;t have a chat with yourself.
  If you really want to chat to yourself, you just have to find a mirror...</source>
         <translation type="obsolete">Hé, c&apos;est toi %1... ça sert à rien de discutter avec toi-même.
-Mais si tu y tiens vraiment, trouve un mirroir, ce sera plus mieux que qRezix :)...</translation>
+Mais si tu y tiens vraiment, trouve un mirroir, ce sera plus mieux que qRezix :) ...</translation>
     </message>
     <message>
         <source>reconnected</source>
@@ -1058,8 +1056,8 @@ Erreur DNS
     <message>
         <source>&lt;b&gt;Wrong Password&lt;/b&gt;&lt;br&gt;&lt;br&gt;
 Please, reenter your password. You can&apos;t get connected to the xnetserver unless you got the good password. You have been given this password when you got connected for the first time to the server.</source>
-        <translation>&lt;b&gt;Pass incorrect&lt;/b&gt;&lt;br&gt;&lt;br&gt;
-Le pass avec lequel vous avez tenté de vous connecter au serveur xnt est incorrect. Rentrez le pass qui vous a été donné lors de la première connexion à ce serveur sans quoi vous ne pourrez plus vous connecter.</translation>
+        <translation>&lt;b&gt;Mot de passe incorrect&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+Le mot de passe avec lequel vous avez tenté de vous connecter au serveur Xnet est incorrect. Rentrez le mot de passe qui vous a été donné lors de la première connexion à ce serveur sans quoi vous ne pourrez plus vous connecter.</translation>
     </message>
     <message>
         <source>Alt+O, Return</source>
