@@ -54,6 +54,7 @@ RzxConnectionLister::RzxConnectionLister( QObject *parent, const char *name)
 	connect( server, SIGNAL( disconnected() ), this, SLOT( serverDisconnected() ) );
 	connect( server, SIGNAL( status( const QString&, bool ) ), this, SIGNAL( status( const QString&, bool ) ) );
 	connect( server, SIGNAL( connected() ), this, SLOT( serverConnected() ) );
+	connect( server, SIGNAL( connected() ), this, SIGNAL( connectionEtablished()));
 	connect( server, SIGNAL( disconnected() ), this, SIGNAL( socketClosed() ) );
 	
 	connect(server, SIGNAL(sysmsg(const QString&)), this, SLOT(sysmsg(const QString&)));
@@ -105,6 +106,8 @@ void RzxConnectionLister::logout( const RzxHostAddress& ip )
 		iplist.remove( key );
 		emit countChange( tr( "%1 clients connected" ).arg( iplist.count() ) );
 	}
+	
+	emit logout(key);
 
 	RzxChat * chatWithLogin = chats.find( ip.toString() );
 	if ( chatWithLogin )

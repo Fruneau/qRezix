@@ -31,6 +31,9 @@
 #include "rzxconnectionlister.h"
 
 
+#define USER_HASH_TABLE_LENGTH 1663
+
+
 const char * RzxRezal::colNames[RzxRezal::numColonnes] =
 		{ QT_TR_NOOP("Icon"), QT_TR_NOOP("Computer name"), QT_TR_NOOP("Comment"),
 			QT_TR_NOOP("Samba"), QT_TR_NOOP("FTP"), 
@@ -39,7 +42,7 @@ const char * RzxRezal::colNames[RzxRezal::numColonnes] =
 			QT_TR_NOOP("Gateway"), QT_TR_NOOP("Promo") };
 
 
-RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name)
+RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name), itemByIp(USER_HASH_TABLE_LENGTH)
 {
 	selected = NULL;
 	
@@ -61,6 +64,8 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	lister = RzxConnectionLister::global();
 	
 	connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(login(RzxComputer*)));
+	connect(lister, SIGNAL(connectionEtablished()), this, SLOT(init()));
+	connect(lister, SIGNAL(logout(const QString&)), this, SLOT(logout(const QString& )));
 
 	// On est obligé d'utiliser ce signal pour savoir dans quelle colonne le
 	// double-clic suivant a lieu
@@ -241,6 +246,13 @@ void RzxRezal::adapteColonnes(){
 void RzxRezal::login(RzxComputer *computer)
 {
 	RzxItem *item = new RzxItem(computer, this, dispNotFavorites);
+	
+	RzxItem *old = itemByIp.take(computer->getIP().toString());
+	if(old && old == selected)
+	{
+		setSelected(item, true);
+		selected = item;
+	}
 
 	// informe de la reconnexion si c'est pas juste un refresh
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
@@ -250,6 +262,20 @@ void RzxRezal::login(RzxComputer *computer)
 	sort(); // Retrie la liste pour les éventuelles modifs
   
 	afficheColonnes();
+}
+
+/** Déconnexion d'un personne */
+void RzxRezal::logout(const QString& ip)
+{
+	if((selected == itemByIp.take(ip)))
+		selected = NULL;
+}
+
+/** Réinitialisation de la liste des personnes connectées */
+void RzxRezal::init()
+{
+	itemByIp.clear();
+	selected = NULL;
 }
 
 ///Retourne la liste des IP des gens connectés
