@@ -38,36 +38,12 @@ SOURCES	+= main.cpp \
 	dnsValidator.cpp \
 	trayicon.cpp \
 	rzxquit.cpp
-FORMS	= qrezixui.ui \
+FORMS	+= qrezixui.ui \
 	rzxchatui.ui \
 	rzxpropertyui.ui \
 	rzxquitui.ui
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-TRANSLATIONS	= translations/qrezix.ts translations/qrezix_fr.ts
+TRANSLATIONS	= ./translations/qrezix.ts ./translations/qrezix_fr.ts
 RC_FILE          =icone.rc
 
 

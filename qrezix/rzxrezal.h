@@ -21,6 +21,7 @@
 #include <qlistview.h>
 #include <qdict.h>
 #include <qpopupmenu.h>
+#include <qsocket.h>
 
 #include "rzxserverlistener.h"
 #include "rzxclientlistener.h"
@@ -96,7 +97,7 @@ public slots: // Public slots
 	void removeFromFavorites();
 	void addToFavorites();
 	
-	void chat(const RzxHostAddress& peer, const QString& msg);
+	void chat(QSocket* socket, const QString& msg);
 	void showProperties(const RzxHostAddress& peer, const QString& msg);
 	RzxChat * chatCreate(const RzxHostAddress& peer);
 	RzxChat * chatCreate();

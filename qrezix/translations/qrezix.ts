@@ -53,6 +53,25 @@
     </message>
 </context>
 <context>
+    <name>RzxChat</name>
+    <message>
+        <source>ends the chat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>can&apos;t be found... CONNECTION ERROR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>has sent datas which can&apos;t be read... CONNECTION ERROR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>can&apos;t be contact, check his firewall... CONNECTION ERROR</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RzxChatUI</name>
     <message>
         <source>Chat [Qt]</source>
@@ -136,6 +155,27 @@
     <message>
         <source>Promo</source>
         <translation>Promâl</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished">Erreur</translation>
+    </message>
+    <message>
+        <source>Connection has been anormally lost while getting properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to set a connection
+Host may not have open the chat port from his firewall</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to find host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Can&apos;t read datas from host</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
