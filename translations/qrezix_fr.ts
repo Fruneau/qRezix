@@ -945,39 +945,39 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>begin &amp;Chat</source>
-        <translation type="obsolete">Ouvrir une fenêtre &amp;de chat</translation>
+        <translation type="unfinished">Ouvrir une fenêtre &amp;de chat</translation>
     </message>
     <message>
         <source>Samba connect</source>
-        <translation type="obsolete">Connection en Samba</translation>
+        <translation type="unfinished">Connection en Samba</translation>
     </message>
     <message>
         <source>FTP connect</source>
-        <translation type="obsolete">Connection en FTP</translation>
+        <translation type="unfinished">Connection en FTP</translation>
     </message>
     <message>
         <source>browse Web</source>
-        <translation type="obsolete">Voir le site Web</translation>
+        <translation type="unfinished">Voir le site Web</translation>
     </message>
     <message>
         <source>read News</source>
-        <translation type="obsolete">Lire les News</translation>
+        <translation type="unfinished">Lire les News</translation>
     </message>
     <message>
         <source>History</source>
-        <translation type="obsolete">Historique</translation>
+        <translation type="unfinished">Historique</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation type="obsolete">Propriétés</translation>
+        <translation type="unfinished">Propriétés</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
-        <translation type="obsolete">Retirer des favoris</translation>
+        <translation type="unfinished">Retirer des favoris</translation>
     </message>
     <message>
         <source>Add to favorites</source>
-        <translation type="obsolete">Ajouter aux favoris</translation>
+        <translation type="unfinished">Ajouter aux favoris</translation>
     </message>
     <message>
         <source>No history file for user %1</source>
@@ -1061,7 +1061,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="obsolete">Annuler</translation>
+        <translation type="unfinished">Annuler</translation>
     </message>
     <message>
         <source>Hey, it&apos;s you %1... you can&apos;t have a chat with yourself.
@@ -1121,7 +1121,11 @@ Propriétés envoyées à %2 (%3)</translation>
     </message>
     <message>
         <source>Add to ignore list</source>
-        <translation type="obsolete">Ignorer l&apos;utilisateur</translation>
+        <translation type="unfinished">Ignorer l&apos;utilisateur</translation>
+    </message>
+    <message>
+        <source>Remove frome ignore list</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1252,15 +1256,15 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <name>TrayIcon</name>
     <message>
         <source>&amp;I&apos;m back !</source>
-        <translation type="obsolete">Je suis &amp;revenu !</translation>
+        <translation type="unfinished">Je suis &amp;revenu !</translation>
     </message>
     <message>
         <source>I&apos;m &amp;away !</source>
-        <translation type="obsolete">Je m&apos;en &amp;vais !</translation>
+        <translation type="unfinished">Je m&apos;en &amp;vais !</translation>
     </message>
     <message>
         <source>&amp;Quit</source>
-        <translation type="obsolete">&amp;Quit</translation>
+        <translation type="unfinished">&amp;Quit</translation>
     </message>
 </context>
 <context>

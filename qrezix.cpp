@@ -31,6 +31,7 @@
 #include <qlayout.h>
 #include <qaccel.h>
 #include <qprocess.h>
+#include <qsound.h>
 
 #include "qrezix.h"
 #include "rzxquit.h"
