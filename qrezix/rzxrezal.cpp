@@ -77,6 +77,8 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	connect(this,SIGNAL(rightButtonPressed(QListViewItem *,const QPoint &,int )),this,SLOT(creePopUpMenu(QListViewItem *,const QPoint &,int )));
 	connect(this, SIGNAL(spacePressed(QListViewItem *)), this, SLOT(chatCreate()));
 	connect(this, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(redrawSelectedIcon(QListViewItem*)));
+	filter = QString::null;
+	filterOn = false;
 }
 
 RzxRezal::~RzxRezal(){
@@ -159,7 +161,6 @@ void RzxRezal::setFilter(const QString& text)
 void RzxRezal::activeFilter(bool on)
 {
 	RzxItem *item = (RzxItem*)firstChild();
-	int i = 0;
 	while(item)
 	{
 		if(!on) item->setVisible(true);
