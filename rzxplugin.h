@@ -37,7 +37,7 @@
  *
  * Il est important de comprendre que ce numéro de version ne dépend pas du comportement de qRezix envers le plug-in (on peut très bien envisager de faire évoluer qRezix pour garder la compatibilité avec les anciennes version de plug-ins) mais de l'évolution de la structure du plug-in. En fait, Cette structure dépend de QObject et de RzxPlugIn, mais seule les évolutions de RzxPlugIn entre en compte pour le calcul de cette version (le principe étant de compiler les plugins de qRezix avec la même version de Qt que pour qRezix lui-même).
  */
-#define PLUGIN_VERSION 0x00202001
+#define PLUGIN_VERSION 0x00202002
 
 class QWidget;
 class QPixmap;
@@ -171,7 +171,10 @@ class RzxPlugIn : public QObject		//NE PAS MODIFIER
 			DATA_ICONFAVORITE = 62,	/**< demande l'icône favorite du thème actuel, on attend un QPixmap en retour*/
 			DATA_ICONNOTFAVORITE = 63,	/**< demande l'icône not_favorite du thème actuel, on attend un QPixmap en retour*/
 			DATA_CONNECTEDLIST = 64,	/**< demande la liste des ip des gens connectés sur rezix. On attend un QStringList en retour*/
-			DATA_CHATEMITTED = 65	/**< envoi un pointeur vers le message qui vient d'être envoyé. Ce message est émit par qRezix, et NE PEUT PAS ÊTRE DEMANDÉ, on attend un QString* qui remplace le QVariant* */
+			DATA_CHATEMITTED = 65,	/**< envoi un pointeur vers le message qui vient d'être envoyé. Ce message est émit par qRezix, et NE PEUT PAS ÊTRE DEMANDÉ, on attend un QString* qui remplace le QVariant* */
+			DATA_ICONOK = 66,			/**< demande l'icône 'ok' du thème actuel, on attend un QPixmap en retour */
+			DATA_ICONAPPLY = 67,		/**< demande l'icône 'apply' du thème actuel, on attend un QPixmap en retour */
+			DATA_ICONCANCEL = 68		/**< demande l'icône 'cancel' du thème actuel, on attend un QPixmap en retour */
 		};
 		
 		

@@ -552,18 +552,20 @@ bool RzxChat::event(QEvent *e)
 ///Changement du thème d'icône
 void RzxChat::changeTheme()
 {
-	QIconSet sound, pi, hist, send, prop;
+	QIconSet sound, pi, hist, send, prop, close;
 	sound.setPixmap(*RzxConfig::soundIcon(false), QIconSet::Automatic, QIconSet::Normal, QIconSet::Off);
 	sound.setPixmap(*RzxConfig::soundIcon(true), QIconSet::Automatic, QIconSet::Normal, QIconSet::On);
 	pi.setPixmap(*RzxConfig::themedIcon("plugin"), QIconSet::Automatic);
 	hist.setPixmap(*RzxConfig::themedIcon("historique"), QIconSet::Automatic);
 	send.setPixmap(*RzxConfig::themedIcon("send"), QIconSet::Automatic);
 	prop.setPixmap(*RzxConfig::themedIcon("prop"), QIconSet::Automatic);
+	close.setPixmap(*RzxConfig::themedIcon("cancel"), QIconSet::Automatic);
 	btnSound->setIconSet(sound);
 	btnPlugins->setIconSet(pi);
 	btnHistorique->setIconSet(hist);
 	btnSend->setIconSet(send);
 	btnProperties->setIconSet(prop);
+	btnClose->setIconSet(close);
 }
 
 ///Changement du format d'affichage des icônes
