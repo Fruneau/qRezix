@@ -24,10 +24,6 @@
         <source>Favorites</source>
         <translation type="unfinished">Favoris</translation>
     </message>
-    <message>
-        <source>Search</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>QRezixUI</name>
@@ -1525,7 +1521,7 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show Search Tab</source>
+        <source>Show Search Tools</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
