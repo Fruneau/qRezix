@@ -308,8 +308,8 @@ void QRezix::toggleVisible(){
 		setActiveWindow();
 		raise();
 		alreadyOpened=true;
-		rezal->adapteColonnes();
-		rezalFavorites->adapteColonnes();
+		rezal->afficheColonnes();
+		rezalFavorites->afficheColonnes();
 	}
 }
 
