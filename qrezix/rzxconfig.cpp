@@ -54,6 +54,7 @@ class RzxClientListener;
 class RzxChatSocket;
 #endif
 
+#include "rzxmessagebox.h"
 #include "rzxhostaddress.h"
 #include "rzxconfig.h"
 #include "rzxcomputer.h"
@@ -143,7 +144,7 @@ RzxConfig::RzxConfig()
 			msg = tr("qRezix cannot create %1, which is the folder\nin which its configuration is saved\n")
 				.arg(m_userDir.absFilePath(".rezix"));
 			msg += tr("You will not be able to save your configuration");
-			QMessageBox::critical(0, "qRezix", msg);
+			RzxMessageBox::critical(0, "qRezix", msg);
 		} else {
 			m_userDir.cd(".rezix");
 		}
@@ -756,7 +757,7 @@ void RzxConfig::readFavorites()
 	
 		QFile file(favoritesFile);
 		if (!file.open(IO_ReadOnly | IO_Translate)) {
-			QMessageBox::critical(0, tr("qRezix error"), 
+			RzxMessageBox::critical(0, tr("qRezix error"), 
 				tr("Unable to open favorites file %1").arg(favoritesFile));
 			return;
 		}
@@ -813,7 +814,7 @@ void RzxConfig::readIgnoreList()
 	
 		QFile file(ignoreListFile);
 		if (!file.open(IO_ReadOnly | IO_Translate)) {
-			QMessageBox::critical(0, tr("qRezix error"), 
+			RzxMessageBox::critical(0, tr("qRezix error"), 
 				tr("Unable to open ignoreList file %1").arg(ignoreListFile));
 			return;
 		}

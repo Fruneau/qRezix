@@ -28,6 +28,7 @@ email                : benoit.casoetto@m4x.org
 
 #include "rzxproperty.h"
 
+#include "rzxmessagebox.h"
 #include "rzxhostaddress.h"
 #include "rzxconfig.h"
 #include "rzxcomputer.h"
@@ -350,14 +351,14 @@ bool RzxProperty::miseAJour() {
 	//Vérification que les données sont correctes
 	if(!hostname->hasAcceptableInput())
 	{
-		QMessageBox::information(this, tr("Bad properties"),
+		RzxMessageBox::information(this, tr("Bad properties"),
 			tr("Your computer name is not valid...<br>"
 				"A computer name can only contains letters, numbers and '-'"));
 		return false;
 	}
 	else if(!remarque->hasAcceptableInput())
 	{
-		QMessageBox::information(this, tr("Bad properties"),
+		RzxMessageBox::information(this, tr("Bad properties"),
 			tr("Your comment is not valid...<br>"
 				"It can't contain linebreaks or other 'special' character"));
 		return false;
@@ -597,7 +598,7 @@ void RzxProperty::chooseIcon() {
 
 	QPixmap icon;
 	if ( !icon.load( file ) ) {
-		QMessageBox::warning( this,
+		RzxMessageBox::warning( this,
 		                      tr("Error !"),
 		                      tr("Selected file is not valid"),
 		                      tr("OK") );
