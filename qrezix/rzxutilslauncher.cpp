@@ -223,11 +223,10 @@ void RzxUtilsLauncher::http(const QString& login)
 
 #ifdef WIN32
 	if( cmd == "standard" )
-	RzxShellExecute( NULL, NULL, tempip, NULL, NULL, SW_SHOW );
+		RzxShellExecute( NULL, NULL, tempip, NULL, NULL, SW_SHOW );
 	else
 	{
 		int serveurs = item->servers;
-		QString cmd;
 		HKEY hKey;
 		RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("Software"), 0, KEY_ALL_ACCESS, &hKey);
 
@@ -239,7 +238,7 @@ void RzxUtilsLauncher::http(const QString& login)
 			RegQueryValueEx(hKey, TEXT("Last CommandLine"), 0, &KeyType, buffer, &KeySize);
 			RegCloseKey(hKey);
 			QString temp=(char *)buffer;
-			cmd = temp + tempip;
+			cmd = temp + " " + tempip;
 		}
 		else
 		cmd = "explorer " + tempip;
