@@ -67,6 +67,7 @@ class RzxChatSocket;
 
 #define CONF_REZIX "rezix.conf"
 #define CONF_FAVORITES "favorites.conf"
+#define CONF_IGNORELIST "ignorelist.conf"
 
 
 RzxConfig * RzxConfig::Config = 0;
@@ -123,6 +124,8 @@ RzxConfig::RzxConfig()
 	fileEntries.setAutoDelete(true);
 	favorites=new QDict<QString>(USER_HASH_TABLE_LENGTH,false);
 	favorites->setAutoDelete(true);
+	ignoreList=new QDict<QString>(USER_HASH_TABLE_LENGTH,false);
+	ignoreList->setAutoDelete(true);
 	computer = 0;
 	
 #ifdef WIN32
@@ -161,6 +164,7 @@ RzxConfig::RzxConfig()
 	settings = new QSettings();
 	settings->insertSearchPath(QSettings::Unix,m_userDir.canonicalPath());
 	readFavorites();
+	readIgnoreList();
 
 	//CHargment de données diverses (icons, traductions)
 	loadTranslators();
@@ -603,6 +607,18 @@ QColor RzxConfig::repondeurNormalText() {
 	return ret;
 }
 
+QColor RzxConfig::ignoredBGColor() {
+	QColor ret;
+	ret.setRgb(globalConfig() -> readEntry("ignoredBGColor", 0xCCCCCC));
+	return ret;
+}
+
+QColor RzxConfig::ignoredText() {
+	QColor ret;
+	ret.setRgb(globalConfig() -> readEntry("ignoredtext", 0xAAAAAA));
+	return ret;
+}
+
 /** No descriptions */
 QColor RzxConfig::errorBackgroundColor(){
 	QColor ret;
@@ -751,4 +767,61 @@ void RzxConfig::writeFavorites()
 		favoriteList << strConfig2.currentKey();
 	}
 	settings->writeEntry("/qRezix/general/favorites", favoriteList);
+}
+
+/******************************************************************************
+* GESTION DE L'IGNORE LIST                                                    *
+******************************************************************************/
+void RzxConfig::readIgnoreList()
+{
+	/* Pour que la compatiblité avec l'ancien format soit maintenue
+	on lit ce fichier, et on le supprime, sachant que tout ira dans
+	le nouveau fichier à l'issue */
+	static const QString name = CONF_IGNORELIST;
+	if (m_userDir.exists(name))
+	{
+		QString ignoreListFile = m_userDir.absFilePath(name);
+	
+		QFile file(ignoreListFile);
+		if (!file.open(IO_ReadOnly | IO_Translate)) {
+			QMessageBox::critical(0, tr("qRezix error"), 
+				tr("Unable to open ignoreList file %1").arg(ignoreListFile));
+			return;
+		}
+	
+		QTextStream stream(&file);
+
+		ignoreList->clear();
+		QString line;
+		line = stream.readLine();
+		while(!line.isNull()) {
+			ignoreList->insert(line, new QString("1"));
+			line = stream.readLine();
+		}
+		file.close();
+		file.remove(); //le fichier n'est désormais plus nécessaire
+							//tout va dans le qrezixrc
+		writeIgnoreList();
+	}
+	
+	/* La nouvelle technique... les favoris sont maintenant une entrée dans
+	le fichier de config sous forme de liste */
+	else
+	{
+		QStringList ignoreListList =  settings->readListEntry("/qRezix/general/ignoreList");
+		QStringList::iterator it;
+		for(it = ignoreListList.begin() ; it != ignoreListList.end() ; it++)
+			ignoreList->insert(*it, new QString("1"));
+	}
+}
+
+
+void RzxConfig::writeIgnoreList()
+{
+	QStringList ignoreListList;
+	QDictIterator<QString> strConfig2(*ignoreList);
+	for (; strConfig2.current(); ++strConfig2) {
+		ignoreListList << strConfig2.currentKey();
+	}
+	settings->writeEntry("/qRezix/general/ignoreList", ignoreListList);
 }

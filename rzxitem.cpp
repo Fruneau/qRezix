@@ -40,8 +40,10 @@ RzxItem::RzxItem(RzxComputer *parent, QListView * view, bool show)
 	Q_ASSERT(computer != NULL);
 	ip = computer->getIP();
 	repondeur =  computer->getRepondeur();
+	ignored = RzxConfig::globalConfig()->ignoreList->find( computer->getName());
 	promo =  computer->getPromo();
-	setVisible(show || RzxConfig::globalConfig()->favorites->find( computer->getName()));
+	setVisible(show || RzxConfig::globalConfig()->favorites->find( computer->getIP().toString()));
+	//setEnabled(!ignored);
 }
 
 RzxItem::~RzxItem(){
@@ -245,16 +247,21 @@ void RzxItem::paintCell(QPainter * p, const QColorGroup& cg, int column, int wid
 	
 	QColor backgroundColor;
 	QColor textColor;
-	if (repondeur) {
-		backgroundColor = isSelected() ? 
-			QColor(RzxConfig::repondeurHighlight())
-			: QColor(RzxConfig::repondeurBase());
-		textColor = isSelected() ?
-			QColor(RzxConfig::repondeurHighlightedText())
-			: QColor(RzxConfig::repondeurNormalText());
-	} else { 
-		backgroundColor = isSelected() ? cg.highlight() : cg.base(); 
-		textColor = isSelected() ? cg.highlightedText() : cg.text();
+	if (ignored) {
+		backgroundColor = QColor(RzxConfig::ignoredBGColor());
+		textColor = QColor(RzxConfig::ignoredText());
+	} else {
+		if (repondeur) {
+			backgroundColor = isSelected() ? 
+				QColor(RzxConfig::repondeurHighlight())
+				: QColor(RzxConfig::repondeurBase());
+			textColor = isSelected() ?
+				QColor(RzxConfig::repondeurHighlightedText())
+				: QColor(RzxConfig::repondeurNormalText());
+		} else { 
+			backgroundColor = isSelected() ? cg.highlight() : cg.base(); 
+			textColor = isSelected() ? cg.highlightedText() : cg.text();
+		}
 	}
 	
 	p -> setBackgroundColor(backgroundColor);
@@ -286,7 +293,7 @@ void RzxItem::paintCell(QPainter * p, const QColorGroup& cg, int column, int wid
 		QFont font = p->font();
 		font.setBold(isSelected() && column == RzxRezal::ColNom);
 #ifndef WIN32 //Parce que le texte en italique passe mal sous windows
-		font.setItalic(repondeur);
+		font.setItalic(repondeur || ignored);
 #endif
 		p->setFont(font);
 		p -> setBackgroundMode(OpaqueMode);
