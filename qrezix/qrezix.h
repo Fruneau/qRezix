@@ -54,6 +54,7 @@ public:
 	bool wellInit;
 	static QRezix *global();
 
+	
 signals:
 	void setToolTip(const QString &);
 
@@ -73,7 +74,8 @@ public slots: // Public slots
 	void menuFormatChange();
 	void saveSettings();
 	void launchPlugins();
-	
+	void changeTrayIcon();
+
 protected slots: // Protected slots
 	void delayedInit();
 	/*affiche la boite de dialogue permettant de modifier les preferences*/
