@@ -174,7 +174,7 @@ QString RzxComputer::getPromoText() const
 { return tr(promalText[options.Promo]); }
 
 QString RzxComputer::getFilename() const 
-{ return QString::number(stamp, 16) + "-" + QString::number(ip.ip4Addr(),16) + ".png"; }
+{ return QString::number(stamp, 16) + ".png"; }
 QString RzxComputer::getName() const 
 { return name; }
 RzxComputer::options_t RzxComputer::getOptions() const 
