@@ -1809,5 +1809,17 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
         <source>Show a notification window on favorite&apos;s state modification</source>
         <translation>Afficher une fenêtre de notification lorsqu&apos;un favoris change d&apos;état</translation>
     </message>
+    <message>
+        <source>Refuse messages when away</source>
+        <translation>Refuser les messages du répondeur</translation>
+    </message>
+    <message>
+        <source>&amp;Reload plug-in</source>
+        <translation>&amp;Recharger le plug-in</translation>
+    </message>
+    <message>
+        <source>Alt+R</source>
+        <translation>Alt+R</translation>
+    </message>
 </context>
 </TS>
