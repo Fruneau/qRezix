@@ -3,6 +3,8 @@ LANGUAGE	= C++
 
 CONFIG	+= qt warn_on release
 
+win32:LIBS	+= IMM32.LIB
+
 DEFINES	+= QT_DLL
 
 HEADERS	+= qrezix.h \
