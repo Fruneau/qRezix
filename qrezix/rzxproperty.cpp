@@ -421,9 +421,6 @@ bool RzxProperty::miseAJour() {
 	
 	if (ui -> rezal)
 		ui -> rezal -> afficheColonnes();
-		
-	if(ui->rezalSearch)
-		ui->rezalSearch->afficheColonnes();
 
 	if (ui -> rezalFavorites)
 		ui -> rezalFavorites -> afficheColonnes();
@@ -454,17 +451,11 @@ bool RzxProperty::miseAJour() {
 		
 	if ( iconSizeChanged && ui -> rezal)
 		ui -> rezal -> redrawAllIcons();
-	if ( iconSizeChanged && ui -> rezalSearch)
-		ui -> rezalSearch -> redrawAllIcons();
 	if ( iconSizeChanged && ui -> rezalFavorites)
 		ui -> rezalFavorites -> redrawAllIcons();
 	
-	if(ui -> tbRezalContainer -> item(2))
-	{
-		ui -> tbRezalContainer -> setItemEnabled (2, cbSearch->isChecked());
-		ui -> leSearch -> setShown(cbSearch->isChecked());
-		ui -> btnSearch -> setShown(cbSearch->isChecked());
-	}
+	ui -> leSearch -> setShown(cbSearch->isChecked());
+	ui -> btnSearch -> setShown(cbSearch->isChecked());
 	
 	if ( themeChanged )
 	{

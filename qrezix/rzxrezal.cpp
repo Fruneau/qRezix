@@ -150,21 +150,25 @@ void RzxRezal::proprietes(const RzxHostAddress& peer)
 	}
 }
 
-int RzxRezal::search(const QString& text)
+void RzxRezal::setFilter(const QString& text)
 {
-	if(!text.length()) return 0;
+	filter = text;
+	activeFilter(filterOn);
+}
+
+void RzxRezal::activeFilter(bool on)
+{
 	RzxItem *item = (RzxItem*)firstChild();
 	int i = 0;
 	while(item)
 	{
-		if(!item->text(ColNom).find(text, 0, false))
-		{
-			emit itemFound(item->getComputer());
-			i++;
-		}
+		if(!on) item->setVisible(true);
+		else item->setVisible(!item->text(ColNom).find(filter, 0, false));
+		
 		item = (RzxItem*)item->nextSibling();
 	}
-	return i;
+
+	filterOn = on;
 }
 
 void RzxRezal::proprietes(){
@@ -286,6 +290,7 @@ void RzxRezal::login(RzxComputer *computer)
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 
 	item -> update();
+	item -> setVisible(!filterOn || !item->text(ColNom).find(filter, 0, false));
 }
 
 /** Déconnexion d'un personne */
