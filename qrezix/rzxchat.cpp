@@ -75,8 +75,6 @@ void RzxChat::init()
 	changeTheme();
 	changeIconFormat();
 
-	//ajout du timer de connection
-
 	//gestion touches haut et bas
 	curLine = history = 0;
 

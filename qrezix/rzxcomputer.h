@@ -115,6 +115,7 @@ public:
 	int getServerFlags() const;
 	QString getRemarque() const;
 	QPixmap getIcon() const;
+	QString getClient() const;
 
 	QString getFilename() const;
 	options_t getOptions() const;
