@@ -38,7 +38,7 @@ typedef unsigned short int uint2;
 typedef unsigned      char uchar;
 
 char* PrintMD5(uchar md5Digest[16]);
-char* MD5String(char* szString);
+char* MD5String(const char* szString);
 char* MD5File(char* szFilename);
 
 class md5

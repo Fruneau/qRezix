@@ -86,7 +86,7 @@ char* PrintMD5(uchar md5Digest[16])
 
 // MD5String: Performs the MD5 algorithm on a char* string, returning
 // the results as a char*.
-char* MD5String(char* szString)
+char* MD5String(const char* szString)
 {
 	int nLen = strlen(szString);
 	md5 alg;
@@ -107,7 +107,7 @@ char* MD5File(char* szFilename)
 	int nLen;
 	unsigned char chBuffer[1024];
 
-	try
+//	try
 	{
 		memset(chBuffer, 0, 1024);
 
@@ -123,7 +123,7 @@ char* MD5File(char* szFilename)
 			return PrintMD5(alg.Digest());
 		}
 	}
-	catch(...)
+//	catch(...)
 	{
 
 	}
