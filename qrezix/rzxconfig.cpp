@@ -66,8 +66,6 @@ class RzxChatSocket;
 #include "rzxpluginloader.h"
 #include "defaults.h"
 
-
-#define CONF_REZIX "rezix.conf"
 #define CONF_FAVORITES "favorites.conf"
 #define CONF_IGNORELIST "ignorelist.conf"
 
@@ -184,8 +182,10 @@ RzxConfig::RzxConfig()
 	qDebug("System path set to "+m_systemDir.path());
 	qDebug("Libraries path set to "+m_libDir.path());
 
-	//ATTENTION, LE NOUVEAU FORMAT NE PERMET PAS DE CONVERTIR LES DONNÉES DE CONFIGURATION
-	//DEPUIS L'ANCIEN FORMAT VERS LE NOUVEAU
+	//Initialisation du générateur de nombre aléatoire...
+	//Même si qRezix l'utilise peu, ça peut toujours être utile en particulier pour les plugins
+	srand(time(0));
+
 	//Ouverture du fichier de configuration
 	settings->insertSearchPath(QSettings::Unix,m_userDir.canonicalPath());
 	readFavorites();
@@ -209,17 +209,17 @@ RzxConfig::RzxConfig()
 	for ( QStringList::Iterator f = fontFamilies.begin(); f != fontFamilies.end();) {
 		QString family = *f;
 		QStringList styles = fdb.styles( family );
-			if(styles.contains("Normal")!=0) {
-				QValueList<int> size = fdb.smoothSizes(family, "Normal");
-				bool b = styles.contains("Bold")!=0;
-				bool i = styles.contains("Italic")!=0 || styles.contains("Oblique")!=0;
-				FontProperty * fp = new FontProperty( b, i, size);
-				fontProperties -> insert(family, fp);
-				++f;
-			}
-			else {
-				f=fontFamilies.remove(f);
-			}
+		if(styles.contains("Normal")!=0) {
+			QValueList<int> size = fdb.smoothSizes(family, "Normal");
+			bool b = styles.contains("Bold")!=0;
+			bool i = styles.contains("Italic")!=0 || styles.contains("Oblique")!=0;
+			FontProperty * fp = new FontProperty( b, i, size);
+			fontProperties -> insert(family, fp);
+			++f;
+		}
+		else {
+			f=fontFamilies.remove(f);
+		}
 	}
 	qDebug(QString("Found %1 fonts families").arg(fontFamilies.count()));
 	qDebug("=== Config loaded ===\n");
@@ -659,7 +659,6 @@ void RzxConfig::loadLocalHost() {
 
 	if(comment == "$#x")
 	{
-		srand(time(0));
 		QStringList comments = QStringList::split("\n", DEFAULT_COMMENT);
 		int i = rand()%comments.size();
 		comment = comments[i];
