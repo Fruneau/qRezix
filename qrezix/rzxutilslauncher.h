@@ -1,5 +1,5 @@
 /***************************************************************************
-                          rzxclientlistener.h  -  description
+                          rzxutilslauncher.h  -  description
                              -------------------
     begin                : Fri Sep 10 2004
     copyright            : (C) 2004 by Florent Bruneau
