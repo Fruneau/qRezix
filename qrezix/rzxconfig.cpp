@@ -458,7 +458,7 @@ void RzxConfig::writeShowQuit(bool mode){ globalConfig() -> writeEntry("showquit
 QString RzxConfig::pass()
 {
 	QString i = globalConfig() -> readEntry(RzxServerListener::object()->getServerIP().toString() + "/pass", QString::null);
-	if(i ) //Pour la compatibilité avec les anciennes formes de stockage sous nux
+	if(!i) //Pour la compatibilité avec les anciennes formes de stockage sous nux
 	{
 		i = globalConfig() -> readEntry("pass", QString::null);
 //		globalConfig()->setPass(i);
