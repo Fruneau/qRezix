@@ -89,12 +89,12 @@ void RzxProtocole::parse(const QString& msg){
 				if (!msgParams.isEmpty())
 					emit fatal(msgParams);
 				break;
-				
 			case SERVER_PASS:
-				emit sysmsg(msgParams);
+				emit sysmsg(QString(tr("Your XNet password  is  : %1\n"
+					                   "This is an identification code used to authentificate your connection to the server and avoid IP-spoofing.\n\n"
+									   "KEEP IT WELL because without it, you may not be able to connect to the server")).arg(msgParams));
 				val = msgParams.toInt(&ok, 16);
 				if (ok) {
-					emit sysmsg("on emit le pass");
 					RzxConfig::globalConfig()->writeEntry("pass", val);
 					RzxConfig::globalConfig()->write();
 				}
