@@ -484,6 +484,8 @@ void RzxChat::btnSendClicked()
 		msgB.remove("</p>");
 		msgB.remove("<html>");
 		msgB.remove("</html>");
+		msgB.remove("\n");
+		msgB.remove("\r");
 		//int endHeaderPos = msgB.find("</head>");
 		//msgB.remove(0, endHeaderPos+7);
 		msg=msgB;
