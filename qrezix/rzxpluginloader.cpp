@@ -121,6 +121,7 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 					connect(pi, SIGNAL(requestAction(RzxPlugIn::Action, const QString& )), this, SLOT(action(RzxPlugIn::Action, const QString& )));
 					pi->getData(RzxPlugIn::DATA_PLUGINPATH, pipath);
 					pi->getData(RzxPlugIn::DATA_USERDIR, userpath);
+					pi->setSettings(RzxConfig::globalConfig()->settings);
 					plugins.append(pi);
 					pluginByName.insert(pi->getName(), pi);
 					fileByName.insert(pi->getName(), lib);
@@ -136,7 +137,6 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 			delete lib;
 		}
 	}
-	setSettings();
 	delete pipath;
 	delete userpath;
 }
