@@ -31,6 +31,7 @@
 class QAccel;
 class TrayIcon;
 class RzxProperty;
+class RzxComputer;
 
 //class RzxChat;
 
@@ -88,6 +89,7 @@ protected slots: // Protected slots
 	void languageChange();
 	void pluginsMenu(bool show = false);
 	void switchTab();
+	void warnForFavorite(RzxComputer *computer);
 };
 
 #endif

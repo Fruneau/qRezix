@@ -30,6 +30,7 @@
 #include <qapplication.h>
 #include <qlayout.h>
 #include <qaccel.h>
+#include <qprocess.h>
 
 #include "qrezix.h"
 #include "rzxquit.h"
@@ -40,6 +41,7 @@
 #include "rzxutilslauncher.h"
 #include "rzxconnectionlister.h"
 #include "rzxclientlistener.h"
+#include "rzxcomputer.h"
 #include "trayicon.h"
 
 #include "defaults.h"
@@ -94,6 +96,8 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	connect(lister, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
 	connect(lister, SIGNAL(countChange(const QString&)), lblCount, SLOT(setText(const QString&)));
 	connect(lister, SIGNAL(countChange(const QString&)), this, SIGNAL(setToolTip(const QString&)));
+	connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(warnForFavorite(RzxComputer*)));
+
 
 
 	m_properties = new RzxProperty(this);
@@ -373,6 +377,33 @@ void QRezix::languageChange()
 void QRezix::chatSent() {
 	// Desactive le répondeur lorsqu'on envoie un chat
 	activateAutoResponder( false );
+}
+
+/// Pour l'affichage d'une notification lors de la connexion d'un favoris
+/** Permet d'alerter lors de l'arrivée d'un favoris, que ce soit par l'émission d'un son, ou par l'affichage l'affichage d'un message indiquant la présence de ce favoris */
+void QRezix::warnForFavorite(RzxComputer *computer)
+{
+	if(!RzxConfig::globalConfig()->favorites->find( computer->getName()) 
+		|| RzxConnectionLister::global()->isInitialized())
+		return;
+		
+	if(RzxConfig::beepConnection()) {
+#ifdef WIN32
+		QString file = RzxConfig::connectionSound();
+		if( !file.isEmpty() && QFile( file ).exists() )
+			QSound::play( file );
+        else
+            QApplication::beep();
+#else
+		QString cmd = RzxConfig::beepCmd(), file = RzxConfig::connectionSound();
+		if (!cmd.isEmpty() && !file.isEmpty()) {
+			QProcess process;
+			process.addArgument(cmd);
+			process.addArgument(file);
+			process.start();
+		}
+#endif
+	}
 }
 
 /// Changement du thème d'icone
