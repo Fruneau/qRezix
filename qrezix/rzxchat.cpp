@@ -419,26 +419,19 @@ void RzxChat::activateFormat(bool on) {
 //parce que Terminal n'existe pas sous Win !
 		edMsg -> setFamily("Arial");
 		edMsg -> setPointSize(8);
-		edMsg -> setBold(false);
-		edMsg -> setItalic(false);
-		edMsg -> setUnderline(false);
-		edMsg -> setTextFormat(Qt::PlainText);
-	}
-	else
-		edMsg -> setTextFormat(Qt::RichText);
-}
 #else
 		edMsg -> setFamily("Terminal");
 		edMsg -> setPointSize(11);
+#endif
 		edMsg -> setBold(false);
 		edMsg -> setItalic(false);
 		edMsg -> setUnderline(false);
 		edMsg -> setTextFormat(Qt::PlainText);
+		edMsg -> setText(edMsg->text());
 	}
 	else
 		edMsg -> setTextFormat(Qt::RichText);
 }
-#endif
 
 /** No descriptions */
 void RzxChat::btnSendClicked()
