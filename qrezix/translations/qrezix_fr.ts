@@ -1636,5 +1636,25 @@ Le mot de passe avec lequel vous avez tenté de vous connecter au serveur Xnet e
         <source>Comment:</source>
         <translation>Commentaire :</translation>
     </message>
+    <message>
+        <source>Tab</source>
+        <translation>Onglet</translation>
+    </message>
+    <message>
+        <source>Tab to select on start:</source>
+        <translation>Onglet actif au démarrage:</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favoris</translation>
+    </message>
+    <message>
+        <source>Everybody</source>
+        <translation>Tout le monde</translation>
+    </message>
+    <message>
+        <source>Show Search Tab</source>
+        <translation>Montrer l&apos;onglet de recherche</translation>
+    </message>
 </context>
 </TS>
