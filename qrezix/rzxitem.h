@@ -33,6 +33,7 @@ class RzxComputer;
 class RzxItem : public QObject, public QListViewItem
 {
 	Q_OBJECT
+	friend class RzxRezal;
 	
 	RzxComputer *getComputer();
 	

@@ -97,13 +97,15 @@ void RzxPopupMenu::keyPressEvent(QKeyEvent *e) {
 } 
 
 void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos, int){
-	if(ordinateurSelect){
-  
+	if(ordinateurSelect)
+	{ 
 		RzxItem* item=(RzxItem*) ordinateurSelect;
+		RzxComputer *computer = item->getComputer();
 		int serveurs=item->servers;
 		popup.clear();
   
-		popup.insertItem(*RzxConfig::themedIcon("chat"), tr("begin &Chat"),this,SLOT(chatCreate()));
+		if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur())
+			popup.insertItem(*RzxConfig::themedIcon("chat"), tr("begin &Chat"),this,SLOT(chatCreate()));
 		if(serveurs & 1) popup.insertItem(*RzxConfig::themedIcon("samba"), tr("Samba connect"),this,SLOT(samba()));
 		if((serveurs>>1) & 1) popup.insertItem(*RzxConfig::themedIcon("ftp"), tr("FTP connect"), this, SLOT(ftp()));
 		if((serveurs>>3) & 1) popup.insertItem(*RzxConfig::themedIcon("http"), tr("browse Web"), this, SLOT(http()));
