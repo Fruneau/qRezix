@@ -130,13 +130,15 @@ RzxConfig::RzxConfig()
 	computer = 0;
 	
 #ifdef WIN32
-	m_systemDir = m_userDir = QDir::currentDirPath();	
+	m_libDir = m_systemDir = m_userDir = QDir::currentDirPath();	
 #else
 #ifdef Q_OS_MACX
 	m_systemDir.setPath(QREZIX_DATA_DIR);
 	m_userDir.setPath(QREZIX_DATA_DIR);
+	m_libDir.setPath(QREZIX_DATA_DIR);
 #else
 	m_systemDir.setPath(QREZIX_DATA_DIR);
+	m_libDir.setPath(QREZIX_LIB_DIR);
 	m_userDir = QDir::home();
 	if (!m_userDir.cd(".rezix")) {
 		if (!m_userDir.mkdir(".rezix")) {
@@ -154,10 +156,16 @@ RzxConfig::RzxConfig()
 		qWarning(tr("%s doesn't exist"), m_systemDir.canonicalPath().latin1());
 		m_systemDir = m_userDir;
 	}
+	
+	if(!m_libDir.exists()) {
+		qWarning(tr("%s doesn't exist"), m_libDir.canonicalPath().latin1());
+		m_libDir = m_systemDir;
+	}
 #endif //MACX
 #endif //WIN32
 	qDebug("System path set to "+m_systemDir.path());
 	qDebug("Personnal path set to "+m_userDir.path());
+	qDebug("Libraries path set to "+m_libDir.path());
 
 	//ATTENTION, LE NOUVEAU FORMAT NE PERMET PAS DE CONVERTIR LES DONNÉES DE CONFIGURATION
 	//DEPUIS L'ANCIEN FORMAT VERS LE NOUVEAU
@@ -273,6 +281,7 @@ bool RzxConfig::find()
 
 QDir RzxConfig::userDir() { return globalConfig() -> m_userDir; }
 QDir RzxConfig::systemDir() { return globalConfig() -> m_systemDir; }
+QDir RzxConfig::libDir() { return globalConfig() -> m_libDir; }
 
 QDir RzxConfig::computerIconsDir() {
 	QDir ret (globalConfig() -> m_userDir);
