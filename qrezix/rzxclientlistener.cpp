@@ -440,6 +440,7 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	PropList->setSorting(-1,FALSE);
 	QListViewItem* vi = NULL;
 	int propCount = 0;
+	if((props.size()&1)) props += "";
 	for (QStringList::Iterator itItem = props.begin(); itItem != props.end(); itItem++)
 	{
 		QStringList::Iterator itLabel = itItem++;
