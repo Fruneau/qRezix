@@ -1,5 +1,6 @@
 [v1.6.2] 2005-02 <br2003@frankiz.polytechnique.fr>
-    * AJout de la dans le tooltip des fonctionnalités du client [Fruneau]
+    * Aide contextuelle dans la fenêtre princpale [Fruneau]
+    * Ajout de la dans le tooltip des fonctionnalités du client [Fruneau]
     * Ajout d'une donnée localisation (tooltip et colonne) [Fruneau]
     * Ajout des colonnes IP et Client [Fruneau]
     * Correction des composantes alpha des icônes [Ey]
