@@ -25,7 +25,8 @@
 #include "rzxcomputer.h"
 #include "rzxconfig.h"
 #include "rzxwrongpassui.h"
-
+//#include "md5.h"
+//#define MD5_ADD "Vive le BR"
 const char * RzxProtocole::ServerFormat[] = {
 	"^JOIN ([0-9A-Fa-f]+ .* [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ .*)\r\n",
 	"^REFRESH ([0-9A-Fa-f]+ .* [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ .*)\r\n",
@@ -186,6 +187,11 @@ QStringList RzxProtocole::split(char sep, const QString& command, unsigned int c
 void RzxProtocole::sendAuth(const QString& passcode, RzxComputer * thisComputer) {
 	QString msg = "VERSION 3.9\r\n";
 	msg = msg + "PASS " + passcode + "\r\n";
+      //avec hash:
+      //QString pass_added=passcode+MD5_ADD;
+     // QString hash=MD5String(pass_added.latin1());
+     //     msg = msg + "HASH " + hash + "\r\n";
+
 	msg = msg + "JOIN " + thisComputer -> serialize() + "\r\n";
 	
 	emit send(msg);	
@@ -258,6 +264,13 @@ void RzxProtocole::validChangePass()
 		m_newPass = changepass->leNewPass->text();
 		qDebug(m_oldPass + " ==> " + m_newPass);
 		emit send("CHANGEPASS " + m_oldPass + " " + m_newPass + "\r\n");
+       //avec hash:
+       //QString m_oldPass_added= m_oldPass+MD5_ADD;
+       //QString m_newPass_added=m_newPass+MD5_ADD;
+       //QString oldhash=MD5String(m_oldPass_added.latin1());
+       //QString newhash=MD5String(m_newPass_added.latin1());
+       // emit send("CHANGEPASS " + oldhash + " " + newhash + "\r\n");
+
 		changepass->deleteLater();
 		changepass = NULL;
 	}
