@@ -85,6 +85,7 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 
 	//chargement des plugins dans les fichiers
 	QVariant *pipath = new QVariant(sourceDir.canonicalPath());
+	QVariant *userpath = new QVariant(RzxConfig::globalConfig()->userDir().canonicalPath());
 	for(QStringList::Iterator it=trans.begin(); it!=trans.end(); ++it)
 	{
 		qDebug(QString("Loading plug-in file %1").arg(*it));
@@ -110,6 +111,7 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 					connect(pi, SIGNAL(queryData(RzxPlugIn::Data, RzxPlugIn*)), this, SLOT(sendQuery(RzxPlugIn::Data, RzxPlugIn*)));
 					connect(pi, SIGNAL(requestAction(RzxPlugIn::Action, const QString& )), this, SLOT(action(RzxPlugIn::Action, const QString& )));
 					pi->getData(RzxPlugIn::DATA_PLUGINPATH, pipath);
+					pi->getData(RzxPlugIn::DATA_USERDIR, userpath);
 					plugins.append(pi);
 				}
 			}
@@ -118,7 +120,7 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 			RzxMessageBox::information(NULL, tr("Unable to load a plug-in"), tr("A plug-in file has been found but qRezix can't extract any plug-in from it. Maybe the plug-in file is corrupted or not up-to-date.\n Try to install the last version of this plug-in (file %1).").arg(*it));
 	}
 	delete pipath;
-	
+	delete userpath;
 }
 
 /// Fermeture et destruction des plug-ins
