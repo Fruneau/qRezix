@@ -371,9 +371,6 @@ void RzxConfig::writeWindowSize(QString ws){globalConfig() -> writeEntry("window
 /** Renvoie le temps de reconnection en ms, 0 pour pas de reconnection */
 int RzxConfig::reconnection(){ return globalConfig() -> readEntry("reconnection", DEFAULT_RECONNECTION); }
 
-/** Renvoie si on resize automatiquement les colonnes ou non */
-int RzxConfig::autoColonne(){ return globalConfig() -> readEntry("autoCol", 1); }
-
 /** Renvoie le port de chat */
 int RzxConfig::chatPort(){ return globalConfig() -> readEntry("chat_port", DEFAULT_CHATPORT); }
 
