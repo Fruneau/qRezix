@@ -15,21 +15,22 @@ email                : sylvain.joyeux@m4x.org
 *                                                                         *
 ***************************************************************************/
 
+#include <qapplication.h>
 #include <qtextcodec.h>
-#include "qrezix.h"
 #include <qpixmap.h>
 #include <qbitmap.h>
 #include <qpopupmenu.h>
 #include <qdir.h>
 #include <qstring.h>
-#include "q.xpm"
+
+#include "qrezix.h"
+
+#include "defaults.h"
 #include "rzxconfig.h"
-
-#include <qapplication.h>
-
-
 #include "trayicon.h"
 #include "rzxpluginloader.h"
+
+#include "q.xpm"
 
 #ifdef Q_OS_UNIX
 #ifndef Q_OS_MACX
@@ -94,6 +95,7 @@ void sigTermHandler( int signum )
 
 int main(int argc, char *argv[])
 {
+	qDebug(QString("qRezix ") + VERSION + RZX_TAG_VERSION);
 	QApplication a(argc,argv);
 
 	QPixmap iconeProg((const char **)q);
