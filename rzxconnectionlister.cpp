@@ -129,7 +129,7 @@ void RzxConnectionLister::login( const QString& ordi )
 	
 	//Indication au chat de la reconnexion
 	RzxChat * chatWithLogin = chats.find( newComputer -> getIP().toString() );
-	if ( !object && chatWithLogin )
+	if (chatWithLogin)
 		chatWithLogin->info( tr( "reconnected" ) );
 	emit countChange( tr( "%1 clients connected" ).arg( iplist.count() ) );
 }
@@ -138,10 +138,10 @@ void RzxConnectionLister::login( const QString& ordi )
 void RzxConnectionLister::logout( const RzxHostAddress& ip )
 {
 	QString key = ip.toString();
-	RzxComputer * object = iplist.find( key );
-	if ( object )
+	RzxComputer *computer = iplist.find( key );
+	if (computer)
 	{
-		computerByLogin.remove(object->getName());
+		computerByLogin.remove(computer->getName());
 		iplist.remove( key );
 		emit countChange( tr( "%1 clients connected" ).arg( iplist.count() ) );
 	}
@@ -204,37 +204,37 @@ void RzxConnectionLister::closeSocket()
 /** Création à partir du login de l'utilisateur */
 RzxChat * RzxConnectionLister::chatCreate( const QString& login)
 {
-	RzxChat *object = chats.find(login);
-	if(!object)
-		object = createChat(computerByLogin.find(login));
-	if(!object)
+	RzxChat *chat = chats.find(login);
+	if(!chat)
+		chat = createChat(computerByLogin.find(login));
+	if(!chat)
 	{
 		qWarning( tr( "Received a chat request from %1" ).arg(login) );
 		qWarning( tr( "%1 is NOT logged" ).arg(login) );
 		return NULL;
 	}
-	object -> show();
+	chat->show();
 
-	return object;
+	return chat;
 }
 
 ///Création d'une fenêtre de chat et référencement de celle-ci
 /** Création à partir de l'adresse de l'utilisateur */
 RzxChat * RzxConnectionLister::chatCreate( const RzxHostAddress& peer )
 {
-	RzxChat *object = chats.find( peer.toString());
-	if(!object)
-		object = createChat(iplist.find(peer.toString()));
-	if(!object)
+	RzxChat *chat = chats.find( peer.toString());
+	if(!chat)
+		chat = createChat(iplist.find(peer.toString()));
+	if(!chat)
 	{
 		qWarning( tr( "Received a chat request from %1" ).arg( peer.toString() ) );
 		qWarning( tr( "%1 is NOT logged" ).arg( peer.toString() ) );
 		return NULL;
 	}
 	
-	object -> show();
+	chat->show();
 
-	return object;
+	return chat;
 }
 
 RzxChat *RzxConnectionLister::createChat(RzxComputer *computer)
@@ -300,8 +300,8 @@ void RzxConnectionLister::closeChats()
 
 void RzxConnectionLister::warnProperties( const RzxHostAddress& peer )
 {
-	RzxChat * object = chats.find( peer.toString() );
-	RzxComputer * computer = iplist.find( peer.toString() );
+	RzxChat *chat = chats.find( peer.toString() );
+	RzxComputer *computer = iplist.find( peer.toString() );
 	if ( !computer )
 		return ;
 	QTime cur = QTime::currentTime();
@@ -311,14 +311,14 @@ void RzxConnectionLister::warnProperties( const RzxHostAddress& peer )
 	               cur.minute(),
 	               cur.second() );
 
-	if ( !object )
+	if ( !chat )
 	{
 		if ( RzxConfig::globalConfig() ->warnCheckingProperties() == 0 )
 			return ;
 		sysmsg( tr( "Properties sent to %2 (%3) at %1" ).arg( heure ).arg( computer->getName() ).arg( peer.toString() ) );
 		return ;
 	}
-	object->notify( tr( "has checked your properties" ), true );
+	chat->notify( tr( "has checked your properties" ), true );
 }
 
 /** No descriptions */
@@ -336,11 +336,12 @@ void RzxConnectionLister::fatal( const QString& msg )
 
 /** No descriptions */
 void RzxConnectionLister::recvIcon(QImage* icon, const RzxHostAddress& ip){
-	RzxComputer * object = iplist.find(ip.toString());
-	if (object) {
-		icon -> save(RzxConfig::computerIconsDir().absFilePath(object -> getFilename()), "PNG");
+	RzxComputer * computer = iplist.find(ip.toString());
+	if (computer)
+	{
+		icon -> save(RzxConfig::computerIconsDir().absFilePath(computer -> getFilename()), "PNG");
 		QPixmap pix;
 		pix.convertFromImage(*icon);
-		object -> setIcon(pix);
+		computer->setIcon(pix);
 	}
 }
