@@ -39,6 +39,10 @@
 #include "../config.h"
 #endif
 
+#if defined(Q_OS_MACX)
+#define QREZIX_DATA_DIR "qrezix.app/Contents/Resources/"
+#endif
+
 #endif
 
 #ifdef WIN32
@@ -124,6 +128,10 @@ RzxConfig::RzxConfig()
 #ifdef WIN32
 	m_systemDir = m_userDir = QDir::currentDirPath();	
 #else
+#ifdef Q_OS_MACX
+	m_systemDir.setPath(QREZIX_DATA_DIR);
+	m_userDir.setPath(QREZIX_DATA_DIR);
+#else
 	m_systemDir.setPath(QREZIX_DATA_DIR);
 	m_userDir = QDir::home();
 	if (!m_userDir.cd(".rezix")) {
@@ -142,7 +150,8 @@ RzxConfig::RzxConfig()
 		qWarning(tr("%s doesn't exist"), m_systemDir.canonicalPath().latin1());
 		m_systemDir = m_userDir;
 	}
-#endif
+#endif //MACX
+#endif //WIN32
 	qDebug("System path set to "+m_systemDir.path());
 	qDebug("Personnal path set to "+m_userDir.path());
 
@@ -397,7 +406,11 @@ QString RzxConfig::serverName(){ return globalConfig() -> readEntry("server_name
 int RzxConfig::doubleClicRole(){ return globalConfig() -> readEntry("doubleClic", 0); }
 
 /** Renvoie si on utilise le systray ou non */
+#ifndef Q_OS_MACX
 int RzxConfig::useSystray(){ return globalConfig() -> readEntry("useSystray", 1); }
+#else
+int RzxConfig::useSystray(){ return globalConfig() -> readEntry("useSystray", 0); }
+#endif
 
 /* Renvoie si une boite d'info doit etre ouverte quand qqun checke nos propriétés ou pas */
 int RzxConfig::warnCheckingProperties() { return globalConfig()-> readEntry("warnCheckingProperties", 0); }
