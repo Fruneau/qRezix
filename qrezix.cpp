@@ -43,78 +43,79 @@
 QRezix *QRezix::object = 0;
 
 QRezix::QRezix(QWidget *parent, const char *name)
-	: QRezixUI(parent, name), m_properties(0), tray(0)
+ : QRezixUI(parent, name), m_properties(0), tray(0)
 {
-	object = this;
-	byTray = false;
-	RzxPlugInLoader::global();
-	rezal->showNotFavorites(true);
-	rezalFavorites->showNotFavorites(false);
-	connect(btnPreferences, SIGNAL(clicked()), this, SLOT(boitePreferences()));
-	connect(btnMAJcolonnes, SIGNAL(clicked()), rezal, SLOT(adapteColonnes()));
-	connect(btnMAJcolonnes, SIGNAL(clicked()), rezalFavorites, SLOT(adapteColonnes()));
-	connect(btnAutoResponder, SIGNAL(toggled(bool)), this, SLOT(activateAutoResponder(bool)));
-	connect(btnPlugins, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
-	connect(&menuPlugins, SIGNAL(aboutToHide()), btnPlugins, SLOT(toggle()));
-	
-	RzxClientListener *client = RzxClientListener::object();
-	connect(client, SIGNAL(chatSent()), this, SLOT(chatSent()));
-	
-	// CHAT
-	connect(client, SIGNAL(chat(QSocket*, const QString& )), rezal, SLOT(chat(QSocket*, const QString& )));
-	// RECEPTION DES PROPRIETES D'UN ORDINATEUR
-	connect(client, SIGNAL(propAnswer(const RzxHostAddress&, const QString&)), rezal, SLOT(showProperties(const RzxHostAddress&, const QString&)));
-	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), rezal, SLOT(warnProperties(const RzxHostAddress&)));
+ object = this;
+ byTray = false;
+ RzxPlugInLoader::global();
+ rezal->showNotFavorites(true);
+ rezalFavorites->showNotFavorites(false);
+ connect(btnPreferences, SIGNAL(clicked()), this, SLOT(boitePreferences()));
+ connect(btnMAJcolonnes, SIGNAL(clicked()), rezal, SLOT(adapteColonnes()));
+ connect(btnMAJcolonnes, SIGNAL(clicked()), rezalFavorites, SLOT(adapteColonnes()));
+ connect(btnAutoResponder, SIGNAL(toggled(bool)), this, SLOT(activateAutoResponder(bool)));
+ connect(btnPlugins, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
+ connect(&menuPlugins, SIGNAL(aboutToHide()), btnPlugins, SLOT(toggle()));
+ 
+ RzxClientListener *client = RzxClientListener::object();
+ connect(client, SIGNAL(chatSent()), this, SLOT(chatSent()));
+ 
+ // CHAT
+ connect(client, SIGNAL(chat(QSocket*, const QString& )), rezal, SLOT(chat(QSocket*, const QString& )));
+ // RECEPTION DES PROPRIETES D'UN ORDINATEUR
+ connect(client, SIGNAL(propAnswer(const RzxHostAddress&, const QString&)), rezal, SLOT(showProperties(const RzxHostAddress&, const QString&)));
+ connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), rezal, SLOT(warnProperties(const RzxHostAddress&)));
 
-	// Connexion des événement serveur au rézal
-	RzxServerListener *server = RzxServerListener::object();
-	connect(server, SIGNAL(sysmsg(const QString&)), rezal, SLOT(sysmsg(const QString&)));
-	connect(server, SIGNAL(fatal(const QString&)), rezal, SLOT(fatal(const QString&)));
+ // Connexion des événement serveur au rézal
+ RzxServerListener *server = RzxServerListener::object();
+ connect(server, SIGNAL(sysmsg(const QString&)), rezal, SLOT(sysmsg(const QString&)));
+ connect(server, SIGNAL(fatal(const QString&)), rezal, SLOT(fatal(const QString&)));
 
-	connect(rezal, SIGNAL(needIcon(const RzxHostAddress&)), server, SLOT(getIcon(const RzxHostAddress&)));
-	
-	// Préparation de l'insterface
-	activateAutoResponder( RzxConfig::autoResponder() != 0 );
+ connect(rezal, SIGNAL(needIcon(const RzxHostAddress&)), server, SLOT(getIcon(const RzxHostAddress&)));
+ 
+ // Préparation de l'insterface
+ activateAutoResponder( RzxConfig::autoResponder() != 0 );
 
-	connect(rezal, SIGNAL(favoriteChanged()), rezalFavorites, SIGNAL(favoriteChanged()));
+ connect(rezal, SIGNAL(favoriteChanged()), rezalFavorites, SIGNAL(favoriteChanged()));
 
-	clearWFlags(WStyle_SysMenu|WStyle_Minimize);
-	alreadyOpened=false;
-	connect(rezal, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
-	connect(rezal, SIGNAL(countChange(const QString&)), lblCount, SLOT(setText(const QString&)));
-	connect(rezal, SIGNAL(countChange(const QString&)), this, SIGNAL(setToolTip(const QString&)));
+ clearWFlags(WStyle_SysMenu|WStyle_Minimize);
+ alreadyOpened=false;
+ connect(rezal, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
+ connect(rezal, SIGNAL(countChange(const QString&)), lblCount, SLOT(setText(const QString&)));
+ connect(rezal, SIGNAL(countChange(const QString&)), this, SIGNAL(setToolTip(const QString&)));
 
 
-	bool firstlaunch = !RzxConfig::globalConfig()->find();
-	m_properties = new RzxProperty(this);
-	if(!RzxConfig::globalConfig()->find() || !m_properties->infoCompleted())
-	{
-		if(!firstlaunch) 
-			m_properties->initDlg();
-		m_properties -> exec();
-	}
+ bool firstlaunch = !RzxConfig::globalConfig()->find();
+ m_properties = new RzxProperty(this);
+ if(!RzxConfig::globalConfig()->find() || !m_properties->infoCompleted())
+ {
+  if(!firstlaunch) 
+   m_properties->initDlg();
+  m_properties -> exec();
+ }
 
-	//RzxConfig::loadTranslators();
-	rezal -> initConnection();
-	RzxPlugInLoader::global()->init();
+ //RzxConfig::loadTranslators();
+ rezal -> initConnection();
+ RzxPlugInLoader::global()->init();
 
-	connect(rezal, SIGNAL(selectionChanged(QListViewItem*)), RzxPlugInLoader::global(), SLOT(itemChanged(QListViewItem*)));
-	connect(rezalFavorites, SIGNAL(selectionChanged(QListViewItem*)), RzxPlugInLoader::global(), SLOT(favoriteChanged(QListViewItem*)));
+ connect(rezal, SIGNAL(selectionChanged(QListViewItem*)), RzxPlugInLoader::global(), SLOT(itemChanged(QListViewItem*)));
+ connect(rezalFavorites, SIGNAL(selectionChanged(QListViewItem*)), RzxPlugInLoader::global(), SLOT(favoriteChanged(QListViewItem*)));
 
-	connect(RzxConfig::globalConfig(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
-	menuFormatChange();
-	changeTheme();
+ connect(RzxConfig::globalConfig(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
+ menuFormatChange();
+ changeTheme();
 }
 
 QRezix *QRezix::global()
 {
-	return object;
+ return object;
 }
 
 void QRezix::languageChanged(){
-	qDebug("Language changed");
-	languageChange();
-	rezal->languageChanged();
+ qDebug("Language changed");
+ languageChange();
+ rezal->languageChanged();
+              rezalFavorites->languageChanged();
 }
 
 QRezix::~QRezix() {
