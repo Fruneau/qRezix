@@ -32,6 +32,7 @@ email                : sylvain.joyeux@m4x.org
 #include "rzxpluginloader.h"
 
 #ifdef Q_OS_UNIX
+#ifndef Q_OS_MACX
 
 /* for signal handling */
 #include <signal.h>
@@ -89,6 +90,7 @@ void sigTermHandler( int signum )
 	qDebug( "Terminated" );
 }
 #endif
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -98,10 +100,12 @@ int main(int argc, char *argv[])
 	iconeProg.setMask(iconeProg.createHeuristicMask() );
 
 #ifdef Q_OS_UNIX
+#ifndef Q_OS_MACX
 	default_segv_handler = signal( SIGSEGV, fatalHandler );
 	default_pipe_handler = signal( SIGPIPE, SIG_IGN );
 	default_term_handler = signal( SIGTERM, sigTermHandler );
 	default_int_handler = signal( SIGINT, sigTermHandler );
+#endif
 #endif
 	
 	QRezix *rezix = new QRezix();

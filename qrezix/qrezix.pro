@@ -69,7 +69,7 @@ macx {
   icone.files = ./application.icns
   icone.path = ./qrezix.app/Contents/Resources
 
-  libqt.files = /usr/lib/libqt-mt.3.dylib
+  libqt.files = /Developer/qt/lib/libqt-mt.3.dylib
   libqt.path = ./qrezix.app/Contents/Frameworks
 
   shlibcommand.files =
