@@ -22,7 +22,13 @@
 	#include <stdlib.h>
 	#ifdef UNICODE
 		#define RzxShellExecute(a, b, str, c, d, e) \
-			ShellExecute( a, b, (LPCWSTR)(str.unicode()), c, d, e )
+			const char *lat1 = str.latin1(); \
+			ushort *unicode; \
+			unicode = new ushort[str.length() + 1]; \
+			unicode[str.length()] = 0; \
+			for(int i =0 ; i< str.length() ; i++) \
+			unicode[i] = (ushort)lat1[i]; \
+			ShellExecute( a, b, (LPCWSTR)(unicode), c, d, e ); 
 	#else
 		#define RzxShellExecute(a, b, str, c, d, e) \
 			ShellExecute( a, b, (LPCSTR)(str.latin1()), c, d, e )
