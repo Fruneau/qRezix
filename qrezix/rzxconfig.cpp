@@ -23,6 +23,7 @@
 #include <qpixmap.h>
 #include <qbitmap.h>
 #include <qfontdatabase.h>
+#include <qapplication.h>
 
 #ifndef WIN32
 #include <unistd.h>
@@ -43,6 +44,8 @@
 #include "rzxrezal.h"
 #include "rzxitem.h"
 #include "defaults.h"
+#include "rzxserverlistener.h"
+#include "rzxhostaddress.h"
 
 
 #define CONF_REZIX "rezix.conf"
@@ -104,7 +107,6 @@ RzxConfig::RzxConfig()
 	favorites=new QDict<QString>(USER_HASH_TABLE_LENGTH,false);
 	favorites->setAutoDelete(true);
 	computer = 0;
-	settings = new QSettings();
 	
 #ifdef WIN32
 	m_systemDir = m_userDir = QDir::currentDirPath();	
@@ -128,13 +130,20 @@ RzxConfig::RzxConfig()
 		m_systemDir = m_userDir;
 	}
 #endif
-	settings->insertSearchPath(QSettings::Unix,m_userDir.canonicalPath());
 	qDebug("System path set to "+m_systemDir.path());
 	qDebug("Personnal path set to "+m_userDir.path());
+
+	//ATTENTION, LE NOUVEAU FORMAT NE PERMET PAS DE CONVERTIR LES DONNÉES DE CONFIGURATION
+	//DEPUIS L'ANCIEN FORMAT VERS LE NOUVEAU
+	//Ouverture du fichier de configuration
+	settings = new QSettings();
+	settings->insertSearchPath(QSettings::Unix,m_userDir.canonicalPath());
+	readFavorites();
+
+	//CHargment de données diverses (icons, traductions)
 	loadTranslators();
 	allIcons.setAutoDelete(true);
 	progIcons.setAutoDelete(true);
-	readFavorites();
 	QString lg = readEntry("language", "English");
 	qDebug("Language is set to"+ lg);
 	setLanguage(lg);
@@ -149,21 +158,20 @@ RzxConfig::RzxConfig()
     	fontFamilies = fdb.families();
     	for ( QStringList::Iterator f = fontFamilies.begin(); f != fontFamilies.end();) {
         	QString family = *f;
-        	qDebug( family );
         	QStringList styles = fdb.styles( family );
-		if(styles.contains("Normal")!=0) {
-			QValueList<int> size = fdb.smoothSizes(family, "Normal");
-			bool b = styles.contains("Bold")!=0;
-			bool i = styles.contains("Italic")!=0 || styles.contains("Oblique")!=0;
-			FontProperty * fp = new FontProperty( b, i, size);
-			fontProperties -> insert(family, fp);
-			++f;
-			qDebug("Inserted "+family+" into QDict");
-		}
-		else {
-			f=fontFamilies.remove(f);
-			qDebug("Removed "+family+" from family list");	
-		}
+			if(styles.contains("Normal")!=0) {
+				QValueList<int> size = fdb.smoothSizes(family, "Normal");
+				bool b = styles.contains("Bold")!=0;
+				bool i = styles.contains("Italic")!=0 || styles.contains("Oblique")!=0;
+				FontProperty * fp = new FontProperty( b, i, size);
+				fontProperties -> insert(family, fp);
+				++f;
+				qDebug("Inserted "+family+" into QDict");
+			}
+			else {
+				f=fontFamilies.remove(f);
+				qDebug("Removed "+family+" from family list");	
+			}
         	/*for ( QStringList::Iterator s = styles.begin(); s != styles.end(); ++s ) {
             		QString style = *s;
             		QString dstyle = "\t" + style + " (";
@@ -205,14 +213,15 @@ RzxConfig::FontProperty::~FontProperty() {
 /*****************************************************************************
 * REPERTOIRES DES DONNEES																	  *
 *****************************************************************************/
-/** OS SPECIFIC */
+/** Recherche si la configuration a déjà été réalisée */
 bool RzxConfig::find()
 {
-	if(!globalConfig() -> readEntry("firstload", 1))
+	if(globalConfig() -> readEntry("firstload", 1))
 	{
 		globalConfig() -> writeEntry("firstload", 0);
 		return false;
 	}
+
 	return true;
 }
 
@@ -237,7 +246,7 @@ QDir RzxConfig::logDir() {
 	return ret;
 }
 
-QString RzxConfig::findData(const QString& name, const QString& relative) {
+QString RzxConfig::findData(const QString& name, const QString& relative, bool important) {
 	QDir temp(globalConfig() -> m_userDir);
 	temp.cd(relative);
 	if (temp.exists(name)) return temp.absFilePath(name);
@@ -246,78 +255,34 @@ QString RzxConfig::findData(const QString& name, const QString& relative) {
 	temp.cd(relative);
 	if (temp.exists(name)) return temp.absFilePath(name);
 	
-	qWarning("Septembre ne peut trouver %s/%s", relative.local8Bit().data(), name.local8Bit().data());
+	if(important)
+		qWarning("Septembre ne peut trouver %s/%s", relative.local8Bit().data(), name.local8Bit().data());
 	return QString::null;
 }
 
 /******************************************************************************
 * FONCTIONS DE LECTURE GENERALES																*
 ******************************************************************************/
-
-/** Parse un fichier de configuration (tres simple: seulement entree=valeur) */
-/*void RzxConfig::parse(){
-	QString fileName = find();
-	
-	QFile file(fileName);
-	if (!file.exists()) return;
-	if (!file.open(IO_ReadOnly | IO_Translate)) {
-		QMessageBox::critical(0, tr("qReziX error"), tr("Cannot open configuration file %1").arg(fileName));
-		return;
-	}
-	
-	QTextStream stream(&file);
-
-	fileEntries.clear();
-	QString line, entry, value;
-	unsigned long pos;
-	line = stream.readLine();
-	while(!line.isNull()) {
-		pos = line.find("=");
-		if (pos > 0 && pos < line.length() - 1) {
-			entry = line.left(pos);
-			value = line.right(line.length() - pos - 1);
-			fileEntries.insert(entry, new QString(value));
-		}
-		
-		line = stream.readLine();
-	}
-	
-}*/
-
 QString RzxConfig::readEntry(const QString& name, const QString& def) {
+	if(!settings) return def;
 	return settings->readEntry("/qRezix/general/" + name, def);
-/*	QString * ret = fileEntries.find(name);
-	if (!ret) {
-		fileEntries.insert(name, new QString(def));
-		return def;
-	}
-	else {
-		return *ret;
-	}*/
 }
 
 int RzxConfig::readEntry(const QString& name, int def) {
-	QString strRet = readEntry(name, QString::number(def));
-	
-	bool isNum;
-	int ret = strRet.toULong(&isNum);
-	if (!isNum) return def; else return ret;
+	if(!settings) return def;
+	return settings->readNumEntry("/qRezix/general/" + name, def);
 }
 
 void RzxConfig::writeEntry(const QString& name, const QString& val) {
+	if(!settings) return;
 	settings->writeEntry("/qRezix/general/" + name, val);
-/*	QString * curVal = fileEntries.find(name);
-	if (curVal)
-		*curVal = val;
-	else
-		fileEntries.insert(name, new QString(val));*/
-	// A MODIFIER !
 	if (name == "localhost")
 		loadLocalHost();
 }
 
 void RzxConfig::writeEntry(const QString& name, int val) {
-	writeEntry(name, QString::number(val));
+	if(!settings) return;
+	settings->writeEntry("/qRezix/general/" + name, val);
 }
 
 QPixmap * RzxConfig::icon(const QString& name) {
@@ -426,8 +391,6 @@ int RzxConfig::printTime() {return globalConfig()-> readEntry("printTime", 1);}
 int RzxConfig::beep(){ return globalConfig() -> readEntry("beep", 0); }
 QString RzxConfig::beepCmd(){ return globalConfig() -> readEntry("txtBeepCmd", "play"); }
 QString RzxConfig::beepSound(){ return globalConfig() -> readEntry("txtBeep", ""); }
-/** Renvoie si on est en mode "Favoris" */
-int RzxConfig::favoritesMode(){ return globalConfig() -> readEntry("favorites", 0); }
 
 #ifdef WIN32
 QString RzxConfig::sambaCmd(){ return globalConfig() -> readEntry("samba_cmd", "standard");}
@@ -445,6 +408,7 @@ void RzxConfig::sambaCmd(QString newstr){ globalConfig() -> writeEntry("samba_cm
 void RzxConfig::ftpCmd(QString newstr)  { globalConfig() -> writeEntry("ftp_cmd", newstr); }
 void RzxConfig::httpCmd(QString newstr) { globalConfig() -> writeEntry("http_cmd",newstr); }
 void RzxConfig::newsCmd(QString newstr) { globalConfig() -> writeEntry("newsCmd", newstr); }
+void RzxConfig::setPass(int passcode) { globalConfig() -> writeEntry(RzxServerListener::object()->getIP().toString() + "/pass", passcode); }
 
 QString RzxConfig::propLastName(){ return globalConfig() -> readEntry("txtFirstname", "");}
 QString RzxConfig::propName(){ return globalConfig() -> readEntry("txtName", "");}
@@ -452,27 +416,38 @@ QString RzxConfig::propSurname(){ return globalConfig() -> readEntry("txtSurname
 QString RzxConfig::propTel(){ return globalConfig() -> readEntry("txtPhone", "");}
 QString RzxConfig::propSport(){ return globalConfig() -> readEntry("txtSport", "");}
 int RzxConfig::numSport(){ return globalConfig() -> readEntry("numSport", 0);}
-QString RzxConfig::propMail(){ return globalConfig() -> readEntry("txtMail", DEFAULT_MAIL);}
+QString RzxConfig::propMail(){ return globalConfig() -> readEntry("txtMail", "");}
 QString RzxConfig::propWebPage(){ return globalConfig() -> readEntry("txtWeb", "");}
 QString RzxConfig::propCasert(){ return globalConfig() -> readEntry("txtCasert", "");}
 QString	RzxConfig::iconTheme(){ return globalConfig() -> readEntry("theme", DEFAULT_THEME);}
 QString	RzxConfig::FTPPath(){ return globalConfig() -> readEntry("FTPPath", "");}
 
-QString RzxConfig::propPromo() { return localHost() -> getPromoText(); }
-bool RzxConfig::indexFtp(){ return globalConfig() -> readEntry("indexftp", 0); }
+int RzxConfig::menuTextPosition() { return globalConfig() ->readEntry("menuTextPos", 2); }
+int RzxConfig::menuIconSize() { return globalConfig() ->readEntry("menuIconSize", 2); }
 
+QString RzxConfig::propPromo() { return localHost() -> getPromoText(); }
+int RzxConfig::quitMode(){ return globalConfig() -> readEntry("quitmode", 1); }
+bool RzxConfig::showQuit(){ return globalConfig() -> readEntry("showquit", true); }
+void RzxConfig::writeQuitMode(int mode){ globalConfig() -> writeEntry("quitmode", mode); }
+void RzxConfig::writeShowQuit(bool mode){ globalConfig() -> writeEntry("showquit", mode); }
 
 /** Renvoie le password xnet */
-int RzxConfig::pass() { return globalConfig() -> readEntry("pass", 1); }
+int RzxConfig::pass()
+{
+	int i = globalConfig() -> readEntry(RzxServerListener::object()->getIP().toString() + "/pass", 1);
+	if(i == 1) //Pour la compatibilité avec les anciennes formes de stockage sous nux
+	{
+		i = globalConfig() -> readEntry("pass", 1);
+		globalConfig()->setPass(i);
+	}
+	return i;
+}
 
 /** Renvoie la variable correspondant aux colonnes ï¿½afficher */
 int RzxConfig::colonnes() { return globalConfig() -> readEntry("colonnes", 0xFFFF); }
 
 /** Change le mode du rï¿½ondeur */
 void RzxConfig::setAutoResponder(bool val) { localHost() -> setRepondeur( val ); }
-
-/** Change le mode (Favoris ou non) */
-void RzxConfig::setFavoritesMode(int val) { globalConfig() -> writeEntry("favorites", val); }
 
 /** Lit le mode du rï¿½ondeur */
 bool RzxConfig::autoResponder() { return localHost() -> getRepondeur(); }
@@ -481,14 +456,15 @@ bool RzxConfig::autoResponder() { return localHost() -> getRepondeur(); }
 QString RzxConfig::autoResponderMsg(){ return globalConfig() -> readEntry("txtAutoResponderMsg", "Rï¿½ondeur automatique");}
 
 /** Renvoie la taille des icones des utilsiateurs
- 0 pour 32x32
- 1 pour 64x64 */
+ * 0 pour 32x32
+ * 1 pour 64x64 */
 int RzxConfig::computerIconSize(){ return globalConfig() -> readEntry("iconsize", 1); }
 
 void RzxConfig::setIconTheme(QObject * parent, const QString& name) {
 	globalConfig() -> writeEntry("theme", name);
 	globalConfig() -> progIcons.clear();
-	((QRezix *) parent) -> rezal -> redrawAllIcons();
+	((QRezix *) parent) -> changeTheme();
+	emit globalConfig()->themeChanged();
 }
 
 /** Renvoie le RzxComputer identifiant localhost */
@@ -519,21 +495,6 @@ void RzxConfig::loadLocalHost() {
 	bool repondeur = false;
 	int servers = 0;
 
-	// pour rester compatible avec l'ancien stockage de localhost
-/*	QString entry = readEntry( "localhost", "" );
-	if( ! entry.isEmpty() )
-	{
-		RzxComputer c;
-		if( !c.parse( entry ) )
-		{
-			dnsname = c.getName();
-			comment = c.getRemarque();
-			promo = c.getPromo();
-			repondeur = c.getRepondeur();
-			servers = c.getServerFlags();
-		}
-	}*/
-
 	dnsname = readEntry( "dnsname", dnsname );
 	comment = readEntry( "comment", comment );
 	promo = readEntry( "promo", promo );
@@ -550,26 +511,6 @@ void RzxConfig::loadLocalHost() {
 	computer->scanServers();
 }
 
-
-void RzxConfig::write() {
-	/*QString fileName = find();
-		
-	QFile file(fileName);
-	if (!file.open(IO_WriteOnly | IO_Truncate | IO_Translate)) {
-		QMessageBox::critical(0, tr("qReziX error"), tr("Unable to open configuration file %1 for writing").arg(fileName));
-		return;
-	}
-	
-	QTextStream stream(&file);
-	QDictIterator<QString> strConfig(fileEntries);
-	//int size = strConfig.count();
-	for (; strConfig.current(); ++strConfig) {
-		stream << strConfig.currentKey() << "=" << *(strConfig.current()) << endl;
-	}
-	file.close();*/
-	delete settings;
-	settings = new QSettings();
-}
 void RzxConfig::closeSettings()
 {
 	delete settings;
@@ -698,44 +639,54 @@ QString RzxConfig::historique(unsigned long ip, const QString& hostname) {
 ******************************************************************************/
 void RzxConfig::readFavorites()
 {
+	/* Pour que la compatiblité avec l'ancien format soit maintenue
+	on lit ce fichier, et on le supprime, sachant que tout ira dans
+	le nouveau fichier à l'issue */
 	static const QString name = CONF_FAVORITES;
-	if (!m_userDir.exists(name)) return;
-	QString favoritesFile = m_userDir.absFilePath(name);
+	if (m_userDir.exists(name))
+	{
+		QString favoritesFile = m_userDir.absFilePath(name);
 	
-	QFile file(favoritesFile);
-	if (!file.open(IO_ReadOnly | IO_Translate)) {
-		QMessageBox::critical(0, tr("qRezix error"), 
-			tr("Unable to open favorites file %1").arg(favoritesFile));
-		return;
-	}
+		QFile file(favoritesFile);
+		if (!file.open(IO_ReadOnly | IO_Translate)) {
+			QMessageBox::critical(0, tr("qRezix error"), 
+				tr("Unable to open favorites file %1").arg(favoritesFile));
+			return;
+		}
 	
-	QTextStream stream(&file);
+		QTextStream stream(&file);
 
-	favorites->clear();
-	QString line;
-	line = stream.readLine();
-	while(!line.isNull()) {
-		favorites->insert(line, new QString("1"));
+		favorites->clear();
+		QString line;
 		line = stream.readLine();
+		while(!line.isNull()) {
+			favorites->insert(line, new QString("1"));
+			line = stream.readLine();
+		}
+		file.close();
+		file.remove(); //le fichier n'est désormais plus nécessaire
+							//tout va dans le qrezixrc
+		writeFavorites();
 	}
-	file.close();
+	
+	/* La nouvelle technique... les favoris sont maintenant une entrée dans
+	le fichier de config sous forme de liste */
+	else
+	{
+		QStringList favoriteList =  settings->readListEntry("/qRezix/general/favorites");
+		QStringList::iterator it;
+		for(it = favoriteList.begin() ; it != favoriteList.end() ; it++)
+			favorites->insert(*it, new QString("1"));
+	}
 }
 
 
 void RzxConfig::writeFavorites()
 {
-	QString fileName = m_userDir.absFilePath(CONF_FAVORITES);
-	QFile file( fileName );
-	if (!file.open(IO_WriteOnly | IO_Truncate | IO_Translate)) {
-		QMessageBox::critical(0, tr("qReziX error"), tr("Unable to open configuration file %1 for writing").arg(fileName));
-		return;
-	}
-
-	QTextStream stream(&file);
-
+	QStringList favoriteList;
 	QDictIterator<QString> strConfig2(*favorites);
 	for (; strConfig2.current(); ++strConfig2) {
-		stream << strConfig2.currentKey() << endl;
+		favoriteList << strConfig2.currentKey();
 	}
+	settings->writeEntry("/qRezix/general/favorites", favoriteList);
 }
-

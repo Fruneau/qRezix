@@ -26,6 +26,7 @@
 #include "trayicon.h"
 #include <qdict.h>
 #include <qtranslator.h>
+#include <qpopupmenu.h>
 
 class RzxProperty;
 
@@ -37,6 +38,8 @@ class QRezix : public QRezixUI
 	Q_OBJECT
 	
 	RzxProperty * m_properties;
+	QPopupMenu menuPlugins;
+	static QRezix *object;
 	
 public:
     QRezix(QWidget* parent=0, const char *name=0);
@@ -44,6 +47,8 @@ public:
 	bool statusMax;
 	bool alreadyOpened;
 	TrayIcon * tray;
+	bool byTray;
+	static QRezix *global();
 
 signals:
 	void setToolTip(const QString &);
@@ -59,16 +64,18 @@ public slots: // Public slots
 	void activateAutoResponder( bool state );
 	void chatSent();
 	void languageChanged();
+	void closeByTray();
+	void changeTheme();
+	void menuFormatChange();
 	
 protected slots: // Protected slots
 	void delayedInit();
 	/*affiche la boite de dialogue permettant de modifier les preferences*/
 	void boitePreferences();
 	void socketClosed();
-	void activateFavorites();
 	void toggleVisible();
 	void languageChange();
-
+	void pluginsMenu(bool show = false);
 };
 
 #endif

@@ -50,6 +50,15 @@ Ce message entraîne en réponse la réception de PROPANSWER
 Ce message vient uniquement en réponse à PROPQUERY
 
 
+"PING \r\n"
+Envoi d'une requête ping.
+Ce message entraîne en réponse la réception de PONG
+
+"PONG \r\n"
+Réponse à une requête ping.
+
+
+
 PARTIE NON IMPLÉMENTÉE QUI AVAIT ÉTÉ ENVISAGÉE POUR L'ANCIEN PROTOCOLE EN UDP
 (j'ai mis les données brutes)
 FORUMS

@@ -20,17 +20,24 @@
 
 #include "rzxquitui.h"
 
+class RzxConfig;
+
 class RzxQuit : public RzxQuitUI
 {
 	Q_OBJECT
+	friend class RzxConfig;
 
 	int selection;
 
 	public:
-		static const int selectQuit;
-		static const int selectMinimize;
-		static const int selectAbort;
-	    RzxQuit(QWidget* parent=0, const char *name=0);
+		enum QuitMode
+		{
+			selectQuit = 0x01,
+			selectMinimize = 0x02,
+			selectAbort = 0x04
+		};
+
+		 RzxQuit(QWidget* parent=0, const char *name=0);
 	    ~RzxQuit();
 
 	protected slots:

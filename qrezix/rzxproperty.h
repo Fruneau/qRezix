@@ -36,6 +36,11 @@ class RzxProperty : public frmPref {
 public: 
 	RzxProperty(QRezix*parent);
 	~RzxProperty();
+
+	bool infoCompleted();
+	QString infoNeeded();
+	int infoCompleteMessage();
+
 signals:
 	void end();
 	
@@ -45,6 +50,7 @@ public slots: // Public slots
 	void oK();
 	void annuler();
 	void initDlg();
+	void aboutQt();
 	static void serverUpdate();
 
 

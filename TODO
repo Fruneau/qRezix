@@ -3,6 +3,9 @@ BUGFIXES
 
 UPGRADES
 
+* skinnage de qRezix
+* étendre la structure d'accueil de plug-in en permettant l'ouverture de chat, client ftp...
+* nettoyer rzxrezal.cpp en ne laissant que ce qui a vraiment rapport à la listview
 * ordre des colonnes à sauvegarder dans le fichier de conf
 * commenter le programme
 * multi interfaces réseau

@@ -16,15 +16,12 @@
  ***************************************************************************/
 
 #include <qradiobutton.h>
+#include <qcheckbox.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
 
 #include "rzxquit.h"
-
-const int RzxQuit::selectAbort		= 0x0;
-const int RzxQuit::selectMinimize	= 0x1;
-const int RzxQuit::selectQuit		= 0x2;
-
+#include "rzxconfig.h"
 
 //connexion des boutons à leurs action respectives
 RzxQuit::RzxQuit(QWidget* parent, const char *name)
@@ -64,5 +61,7 @@ void RzxQuit::quitOptionChange(void)
 //Sortie de la fenêtre entre retournant le code d'action
 void RzxQuit::done()
 {
+	RzxConfig::writeQuitMode(selection);
+	RzxConfig::writeShowQuit(!cbSave->isChecked());
 	QDialog::done(selection);
 }
