@@ -81,7 +81,9 @@ int main(int argc, char *argv[])
 	QObject::connect(rezix->tray,SIGNAL(clicked(const QPoint&)),rezix,SLOT(toggleVisible()));
 	QObject::connect(rezix,SIGNAL(setToolTip(const QString &)),rezix->tray,SLOT(setToolTip(const QString &)));
 	
-	a.setMainWidget(rezix);	
+	rezix->launchPlugins();
+	
+	a.setMainWidget(rezix);
 	
 	QString windowSize=RzxConfig::globalConfig()->readWindowSize();	
 	if(windowSize.left(1)=="1")
