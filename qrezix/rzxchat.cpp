@@ -325,9 +325,6 @@ void RzxChat::append(const QString& color, const QString& host, const QString& m
 		entete.remove("<head>").remove("</head>").remove("<html>").remove(QRegExp("<body[^<>]*>"));
 		entext.remove("</body>");
 		pieddp.remove("</body>");
-		qDebug(entete);
-		qDebug(entext);
-		qDebug(pieddp);
 		if(host.length()<3) tmp = ("<font color=\"purple\">" + tmp + " * %1%2%3%4</i></font><br>")
 					.arg(entete).arg(RzxConfig::globalConfig()->localHost()->getName()).arg(entext).arg(pieddp);
 		else tmp = ("<font color=\"purple\">" + tmp + " * %1%2%3%4</i></font><br>")
