@@ -1,6 +1,8 @@
-qrezix_1.3.2_i386.deb net optional
-qrezix-theme-noia-warm_1.3.2_all.deb net optional
-qrezix-theme-classic_1.3.2_all.deb net optional
-qrezix-theme-krystal_1.3.2_all.deb net optional
-qrezix-theme-ms_1.3.2_all.deb net optional
-qrezix-translations_1.3.2_all.deb net optional
+qrezix-translations_1.3.3_all.deb net optional
+qrezix_1.3.3_i386.deb net optional
+qrezix-theme-noia-warm_1.3.3_all.deb net optional
+qrezix-theme-classic_1.3.3_all.deb net optional
+qrezix-theme-krystal_1.3.3_all.deb net optional
+qrezix-theme-ms_1.3.3_all.deb net optional
+qrezix-translations-fr_1.3.3_all.deb net optional
+qrezix-translations-us_1.3.3_all.deb net optional

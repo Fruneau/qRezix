@@ -16,12 +16,18 @@ endif
 
 build: qt_only.stamp
 	touch build
+	
 qt_only.stamp: checkdir configure
 	# On commence par compiler pour Qt seul
 	QTDIR=/usr/share/qt3 ./configure --prefix=/usr --disable-rpath --datadir=/usr/share
 	$(MAKE) 
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/qrezix
 	$(MAKE) clean
+	# Supprime les entrées KDE
+	rm -r $(CURDIR)/debian/qrezix/Applications
+	rm -r $(CURDIR)/debian/qrezix/locolor
+	mkdir -p $(CURDIR)/debian/qrezix/usr/lib/menu/
+	cp $(CURDIR)/debian/menu $(CURDIR)/debian/qrezix/usr/lib/menu/qrezix
 	touch qt_only.stamp
 
 checkdir:
@@ -46,11 +52,12 @@ binary-indep: checkroot build
 	#if test -d icons/themes/NoiaWarmKde; then rm -rf icons/themes/NoiaWarmKde; fi
 	#mkdir icons/themes/NoiaWarmKde
 	#cp -r icons/themes/Noia\ Warm\ KDE/* icons/themes/NoiaWarmKde
-	find icons |grep -v CVS |grep NoiaWarmKDE |sed -e 's/ /\\ /g'|sed -e 's/icons\/\([a-zA-Z]*\/[a-zA-Z]*\)\/\([a-zA-Z\.0-9_]*\)/icons\/\1\/\2 \/usr\/share\/qrezix\/\1/' > debian/qrezix-theme-noia-warm.install
-	find icons |grep -v CVS |grep krystal |sed -e 's/ /\\ /g'|sed -e 's/icons\/\([a-zA-Z]*\/[a-zA-Z]*\)\/\([a-zA-Z\.0-9_]*\)/icons\/\1\/\2 \/usr\/share\/qrezix\/\1/' > debian/qrezix-theme-krystal.install
-	find icons |grep -v CVS |grep classic |sed -e 's/ /\\ /g'|sed -e 's/icons\/\([a-zA-Z]*\/[a-zA-Z]*\)\/\([a-zA-Z\.0-9_]*\)/icons\/\1\/\2 \/usr\/share\/qrezix\/\1/' > debian/qrezix-theme-classic.install
-	find icons |grep -v CVS |grep ms |sed -e 's/ /\\ /g'|sed -e 's/icons\/\([a-zA-Z]*\/[a-zA-Z]*\)\/\([a-zA-Z\.0-9_]*\)/icons\/\1\/\2 \/usr\/share\/qrezix\/\1/' > debian/qrezix-theme-ms.install
-	find qrezix/translations |grep -v CVS |grep .qm |sed -e 's/qrezix\/translations\/\(.*\)/qrezix\/translations\/\1 \/usr\/share\/qrezix\/translations\//' > debian/qrezix-translations.install
+	find icons |grep -v CVS |grep NoiaWarmKDE\/ |sed -e 's/ /\\ /g'|sed -e 's/icons\/\([a-zA-Z]*\/[a-zA-Z]*\)\/\([a-zA-Z\.0-9_]*\)/icons\/\1\/\2 \/usr\/share\/qrezix\/\1/' > debian/qrezix-theme-noia-warm.install
+	find icons |grep -v CVS |grep krystal\/ |sed -e 's/ /\\ /g'|sed -e 's/icons\/\([a-zA-Z]*\/[a-zA-Z]*\)\/\([a-zA-Z\.0-9_]*\)/icons\/\1\/\2 \/usr\/share\/qrezix\/\1/' > debian/qrezix-theme-krystal.install
+	find icons |grep -v CVS |grep classic\/ |sed -e 's/ /\\ /g'|sed -e 's/icons\/\([a-zA-Z]*\/[a-zA-Z]*\)\/\([a-zA-Z\.0-9_]*\)/icons\/\1\/\2 \/usr\/share\/qrezix\/\1/' > debian/qrezix-theme-classic.install
+	find icons |grep -v CVS |grep ms\/ |sed -e 's/ /\\ /g'|sed -e 's/icons\/\([a-zA-Z]*\/[a-zA-Z]*\)\/\([a-zA-Z\.0-9_]*\)/icons\/\1\/\2 \/usr\/share\/qrezix\/\1/' > debian/qrezix-theme-ms.install
+	find qrezix/translations |grep -v CVS\/ |grep qrezix.qm |sed -e 's/qrezix\/translations\/\(.*\)/qrezix\/translations\/\1 \/usr\/share\/qrezix\/translations\//' > debian/qrezix-translations-us.install
+	find qrezix/translations |grep -v CVS\/ |grep qrezix_fr.qm |sed -e 's/qrezix\/translations\/\(.*\)/qrezix\/translations\/\1 \/usr\/share\/qrezix\/translations\//' > debian/qrezix-translations-fr.install
 
 	dh_install -i --list-missing
 # There are no architecture-independent files to be uploaded

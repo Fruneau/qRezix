@@ -1,0 +1,1 @@
+?package(qrezix): needs=X11 section=Apps/Net title="Qrezix" command="qrezix"

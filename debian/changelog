@@ -1,3 +1,13 @@
+qrezix (1.3.3) unstable; urgency=low
+
+  * Correction des paquets de thèmes et de traductions
+    Ne devrait plus installer les fichiers à 2 endroits différents
+  * Correction du même bug pour le paquet qrezix
+  * Séparation des paquets de traductions
+  * Ajout d'un lien dans le menu debian Apps/Net
+
+ -- Pico <pico@melix.net>  Wed, 23 Jun 2004 16:40:39 +0200
+
 qrezix (1.3.2) unstable; urgency=low
 
   * Suppression du package KDE qui n'est plus utilise 
