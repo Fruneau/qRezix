@@ -41,7 +41,7 @@
     <name>QRezixUI</name>
     <message>
         <source>Septembre</source>
-        <translation>Septembre</translation>
+        <translation type="obsolete">Septembre</translation>
     </message>
     <message>
         <source>&amp;Away</source>
@@ -106,6 +106,10 @@
     <message>
         <source>Alt+S</source>
         <translation>Alt+R</translation>
+    </message>
+    <message>
+        <source>QRezix</source>
+        <translation>QRezix</translation>
     </message>
 </context>
 <context>
@@ -458,7 +462,7 @@ Vérifiez que votre correspondant a bien ouvert le port de chat dans son firewal
         <source>Septembre cannot create %1, which is the folder
 in which its configuration is saved
 </source>
-        <translation>Septembre ne peut pas créer le répertoire %1,
+        <translation type="obsolete">Septembre ne peut pas créer le répertoire %1,
 dans lequel il enregistre sa configuration
 </translation>
     </message>
@@ -493,6 +497,17 @@ dans lequel il enregistre sa configuration
     <message>
         <source>English</source>
         <translation>Français</translation>
+    </message>
+    <message>
+        <source>QRezix cannot create %1, which is the folder
+in which its configuration is saved
+</source>
+        <translation>QRezix ne peut pas créer le répertoire %1,
+dans lequel il enregistre sa configuration</translation>
+    </message>
+    <message>
+        <source>QRezix can&apos;t find  %s/%s</source>
+        <translation>QRezix ne peut pas trouver %s/%s</translation>
     </message>
 </context>
 <context>
