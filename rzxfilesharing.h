@@ -47,14 +47,19 @@ class RzxFileSharing:public QFtp
 	QString ftpname;
 
 	int listingId;
+	int command;
 	bool isRunning;
 	QValueStack<int> commandPile;
-	QValueStack<QString> urlPile;
+	QValueStack<QString> currentUrlPile;
 	QValueStack<QUrlInfo> infoPile;
-	QString url;
+	QString currentUrl;
+	QString saveRepName;
+	
+//Données pour la réception des données
 
 //Données pour la génération du hash et des données de la base
 	QUrlInfo info;
+	unsigned int size;
 	unsigned int hash;
 	QFile *logFile;
 
@@ -82,13 +87,13 @@ class RzxFileSharing:public QFtp
 		void addEntry(const QString& path, const QString& name, const QString& hash, const QString& date);
 		void cleanLogs();
 		bool writeLogs(bool clean = TRUE);
+		QString getPath();
 
 	protected slots:
 		void index(const QUrlInfo& i);
 		void stateChange(int state);
 		void commandFinish(int id, bool err);
 		void commandDone(bool err);
-		void getError(Error err);
 		void dataGet(int done, int size);
 		void readData();
 };
