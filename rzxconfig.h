@@ -49,7 +49,7 @@ class RzxConfig : public QObject  {
 		bool italic;
 		QValueList<int> sizes;
 		
-		FontProperty(bool b, bool i, QValueList<int> pS);
+		FontProperty(bool b, bool i, const QValueList<int> &pS);
 		
 		~FontProperty();
 	};
