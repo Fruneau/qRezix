@@ -68,6 +68,7 @@ public slots: // Public slots
 	void changeTheme();
 	void menuFormatChange();
 	void saveSettings();
+	void launchPlugins();
 	
 protected slots: // Protected slots
 	void delayedInit();

@@ -96,7 +96,6 @@ QRezix::QRezix(QWidget *parent, const char *name)
 
 	//RzxConfig::loadTranslators();
 	rezal -> initConnection();
-	RzxPlugInLoader::global()->init();
 
 	connect(rezal, SIGNAL(selectionChanged(QListViewItem*)), RzxPlugInLoader::global(), SLOT(itemChanged(QListViewItem*)));
 	connect(rezalFavorites, SIGNAL(selectionChanged(QListViewItem*)), RzxPlugInLoader::global(), SLOT(favoriteChanged(QListViewItem*)));
@@ -104,6 +103,11 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	connect(RzxConfig::globalConfig(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
 	menuFormatChange();
 	changeTheme();
+}
+
+void QRezix::launchPlugins()
+{
+	RzxPlugInLoader::global()->init();
 }
 
 QRezix *QRezix::global()
