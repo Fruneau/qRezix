@@ -77,7 +77,7 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 	//les plugins doivent avoir un nom de fichier qui contient rzxpi
 	//		par exemple librzxpixplo.so ou rzxpixplo.dll
 #ifndef WIN32 //sous linux c'est librzxpi<nomduplugin>.so
-	sourceDir.setNameFilter("librzxpi*");
+	sourceDir.setNameFilter("librzxpi*.so");
 #else //sous windows c'est rzxpi<nomduplugin>.dll
 	sourceDir.setNameFilter("rzxpi*");
 #endif
