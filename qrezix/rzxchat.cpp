@@ -214,6 +214,9 @@ RzxTextEdit::~RzxTextEdit() {
 void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 	QKeyEvent * eMapped=e;
 	bool down=false;
+	int para, index, line;
+	
+	//Saut de ligne - Envoie du message
 	switch(eMapped->key()) {
 	case Qt::Key_Enter: case Qt::Key_Return:
 		if(!(eMapped->state() & Qt::ShiftButton)) {
@@ -223,16 +226,8 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 		eMapped =new QKeyEvent(QEvent::KeyRelease, Qt::Key_Enter, e->ascii(), e->state());
 		QTextEdit::keyPressEvent(eMapped);
 		break;
-	case Qt::Key_Down: 
-		down=true;
-	case Qt::Key_Up:
-		if((eMapped->state() & Qt::ShiftButton) || (eMapped->state() & Qt::ControlButton)) {
-			//charger la ligne qui va bien dans l'historique
-			emit arrowPressed(down);
-			break;
-		}
-		eMapped =new QKeyEvent(QEvent::KeyRelease, e->key(), e->ascii(), e->state());
-		
+
+	//Autocompletion
 	case Qt::Key_Tab:
 		//Pour que quand on appuie sur tab ça fasse la complétion du nick
 		if(!nickAutocompletion())
@@ -241,7 +236,24 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 			emit textWritten();
 		}
 		break;
+	
+	//Parcours de l'historique
+	case Qt::Key_Down: 
+		down=true;
+	case Qt::Key_Up:
+		//Pour pouvoir éviter d'avoir à appuyer sur Shift ou Ctrl si on est à l'extrémité de la boite
+		getCursorPosition(&para, &index);
+		line = lineOfChar(para, index);
+		for(int i = 0 ; i<para ; i++) line += linesOfParagraph(i);
 		
+		//Et op, parcours de l'historique si les conditions sont réunies
+		if((eMapped->state() & Qt::ShiftButton) || (eMapped->state() & Qt::ControlButton) || (down && (line == lines()-1)) || (!down && !line)) {
+			emit arrowPressed(down);
+			break;
+		}
+		eMapped =new QKeyEvent(QEvent::KeyRelease, e->key(), e->ascii(), e->state());
+	
+	//Texte normal
 	default:
 		QTextEdit::keyPressEvent(eMapped);
 		emit textWritten();
