@@ -32,6 +32,8 @@
 #include <qiconset.h>
 #include <qpoint.h>
 #include <qsound.h>
+#include <qcolor.h>
+#include <qcolordialog.h>
 #ifndef WIN32
 #include <qprocess.h>
 #endif
@@ -41,6 +43,8 @@
 #include "rzxconfig.h"
 #include "rzxcomputer.h"
 #include "rzxpluginloader.h"
+
+const QColor RzxChat::preDefinedColors[16] = {Qt::black,Qt::red,Qt::darkRed,Qt::green,Qt::darkGreen,Qt::blue,Qt::darkBlue,Qt::cyan,Qt::darkCyan,Qt::magenta,Qt::darkMagenta,Qt::yellow, Qt::darkYellow,Qt::gray,Qt::darkGray,Qt::lightGray};
 
 //On crée la fenêtre soit avec un socket d'une connection déjà établie
 RzxChat::RzxChat(RzxChatSocket* sock)
@@ -77,6 +81,7 @@ void RzxChat::init()
 
 	//gestion touches haut et bas
 	curLine = history = 0;
+	curColor = Qt::black;
 
 	defFont = new QFont("Terminal", 11);
 	//chargement des fontes
@@ -104,11 +109,39 @@ void RzxChat::init()
 	connect(edMsg, SIGNAL(enterPressed()), this, SLOT(onReturnPressed()));
 	connect(edMsg, SIGNAL(arrowPressed(bool)), this, SLOT(onArrowPressed(bool)));
 	connect(edMsg, SIGNAL(textWritten()), this, SLOT(onTextChanged()));
+	connect(this, SIGNAL(colorChanged(const QColor&)), edMsg, SLOT(setColor(const QColor&)));
 	connect(cbSendHTML, SIGNAL(toggled(bool)), this, SLOT(activateFormat(bool)));
 	activateFormat(false);
 	edMsg -> setText("");
 	
-	cbColorSelect->hide();
+	//cbColorSelect->hide();
+	
+	cbColorSelect->insertItem(tr ("Custom colours...")); //tjs 0
+	connect(cbColorSelect, SIGNAL(activated(int)), this, SLOT(colorClicked(int)));
+	for(int i=0; i<16; ++i)
+		addColor(preDefinedColors[i]);
+	cbColorSelect->setCurrentItem(1); //black par défaut
+}
+
+void RzxChat::addColor(QColor color) {
+	QPixmap *p = new QPixmap(100, 15);
+	p -> fill(color);
+	cbColorSelect->insertItem(*p);
+}
+
+void RzxChat::colorClicked(int index) {
+	QColor c;
+	if(index==0)
+		c=QColorDialog::getColor(curColor, this, "colorSelector");
+	else {
+		if(index <=16)
+			c=preDefinedColors[index-1];
+		else
+			c=QColorDialog::customColor(index - 17);
+	}
+	curColor = c.isValid() ? c : curColor;
+	qDebug("Color changed");
+	emit colorChanged(curColor);
 }
 
 RzxChat::~RzxChat(){
