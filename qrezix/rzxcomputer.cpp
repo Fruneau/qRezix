@@ -272,29 +272,10 @@ QString RzxComputer::getResal(bool shortname) const
 
 /** No descriptions */
 void RzxComputer::loadIcon(){
-	removePreviousIcons();
 	QString file = getFilename();
-	if (!icon.load(RzxConfig::computerIconsDir().absFilePath(file))) {
+	if(!stamp || !icon.load(RzxConfig::computerIconsDir().absFilePath(file))) {
 		icon = *(RzxConfig::osIcons(true)[(int)options.SysEx]);
-		emit needIcon(getIP());
-	}
-}
-
-void RzxComputer::removePreviousIcons(){
-	QString newFile=getFilename();
-	QDir d(RzxConfig::computerIconsDir());
-	if(!d.exists(newFile)){
-		d.setFilter(QDir::Files);
-		d.setNameFilter("*-" + QString::number(ip.ip4Addr(),16) + ".png");
-		
-		const QFileInfoList *list = d.entryInfoList();
-		QFileInfoListIterator it( *list );      // create list iterator
-		while ( QFileInfo * fi = it()) {// for each file...
-			QString name=fi->fileName();
-			if(!(name==newFile)){
-				QFile::remove(fi->absFilePath());
-			}
-		}
+		if(stamp) emit needIcon(getIP());
 	}
 }
 

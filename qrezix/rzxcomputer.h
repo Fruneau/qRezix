@@ -153,7 +153,6 @@ public:
 	unsigned long getFlags() const;
 	
 	void loadIcon();
-	void removePreviousIcons();
 	void autoSetOs();
 
 	void runScanFtp();
