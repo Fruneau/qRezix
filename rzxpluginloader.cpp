@@ -405,6 +405,9 @@ void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 		case RzxPlugIn::DATA_ICONOK: value = new QVariant(*RzxConfig::themedIcon("ok")); break;
 		case RzxPlugIn::DATA_ICONAPPLY: value = new QVariant(*RzxConfig::themedIcon("apply")); break;
 		case RzxPlugIn::DATA_ICONCANCEL: value = new QVariant(*RzxConfig::themedIcon("cancel")); break;
+		case RzxPlugIn::DATA_ICONBAN: value = new QVariant(*RzxConfig::themedIcon("ban")); break;
+		case RzxPlugIn::DATA_ICONUNBAN: value = new QVariant(*RzxConfig::themedIcon("unban")); break;
+		case RzxPlugIn::DATA_ICONQUIT: value = new QVariant(*RzxConfig::themedIcon("quit")); break;
 		default: return;
 	}
 	
