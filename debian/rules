@@ -22,6 +22,11 @@ qt_only.stamp: checkdir configure
 	QTDIR=/usr/share/qt3 ./configure --prefix=/usr --disable-rpath --datadir=/usr/share
 	$(MAKE) 
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/qrezix-bin
+	# Paquets séparés pour les Traductions
+	mkdir -p $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
+	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/translations/qrezix_fr.qm $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
+	mkdir -p $(CURDIR)/debian/qrezix-translations-us/usr/share/qrezix/translations/
+	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/translations/qrezix.qm $(CURDIR)/debian/qrezix-translations-us/usr/share/qrezix/translations/	
 	# Paquets séparés pour les thèmes
 	mkdir -p $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/
 	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/themes/ms $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/
@@ -31,7 +36,7 @@ qt_only.stamp: checkdir configure
 	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/themes/NoiaWarmKDE $(CURDIR)/debian/qrezix-theme-noia-warm/usr/share/qrezix/themes/
 	mkdir -p $(CURDIR)/debian/qrezix-theme-krystal/usr/share/qrezix/themes/
 	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/themes/krystal $(CURDIR)/debian/qrezix-theme-krystal/usr/share/qrezix/themes/
-	
+         
 	touch qt_only.stamp
 
 checkdir:
@@ -52,8 +57,6 @@ clean:
 
 binary-indep: checkroot build
 	$(checkdir)
-	find qrezix/translations |grep -v CVS\/ |grep qrezix.qm |sed -e 's/qrezix\/translations\/\(.*\)/qrezix\/translations\/\1 \/usr\/share\/qrezix\/translations\//' > debian/qrezix-translations-us.install
-	find qrezix/translations |grep -v CVS\/ |grep qrezix_fr.qm |sed -e 's/qrezix\/translations\/\(.*\)/qrezix\/translations\/\1 \/usr\/share\/qrezix\/translations\//' > debian/qrezix-translations-fr.install
 
 	dh_install -i --list-missing
 # There are no architecture-independent files to be uploaded
