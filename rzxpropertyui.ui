@@ -1764,18 +1764,26 @@
                             </property>
                             <widget class="QCheckBox" row="0" column="0">
                                 <property name="name">
-                                    <cstring>cbPropertiesWarning</cstring>
+                                    <cstring>cbRefuseAway</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Warn me when properties are being checked</string>
+                                    <string>Refuse messages when away</string>
                                 </property>
                             </widget>
-                            <widget class="QCheckBox" row="1" column="0">
+                            <widget class="QCheckBox" row="0" column="1">
                                 <property name="name">
                                     <cstring>cbPrintTime</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Print hh:mm:ss in chat</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>cbPropertiesWarning</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Warn me when properties are being checked</string>
                                 </property>
                             </widget>
                         </grid>

@@ -171,8 +171,9 @@ int RzxChatSocket::parse(const QString& msg)
 				case DCC_CHAT:
 					qDebug("Parsing CHAT : " + cmd.cap(2).replace('%',"%%"));
 					if(RzxConfig::autoResponder())
-					{
 						sendResponder(RzxConfig::autoResponderMsg());
+					if(RzxConfig::autoResponder() == RzxComputer::REP_REFUSE)
+					{
 						if(!chatWindow) deleteLater();
 						return DCC_CHAT;
 					}

@@ -518,6 +518,7 @@ QStringList RzxConfig::ignoredPluginsList() { return globalConfig()->readEntry("
 QString RzxConfig::propPromo() { return localHost() -> getPromoText(); }
 int RzxConfig::quitMode(){ return globalConfig() -> readEntry("quitmode", 1); }
 bool RzxConfig::showQuit(){ return globalConfig() -> readEntry("showquit", true); }
+bool RzxConfig::refuseWhenAway() { return globalConfig() -> readEntry("refuseAway", true); }
 void RzxConfig::writeQuitMode(int mode){ globalConfig() -> writeEntry("quitmode", mode); }
 void RzxConfig::writeShowQuit(bool mode){ globalConfig() -> writeEntry("showquit", mode); }
 void RzxConfig::writeIgnoredPluginsList(const QStringList& list) { globalConfig()->writeEntry("ignoredPlugins", list); }
@@ -544,7 +545,7 @@ int RzxConfig::colonnes() { return globalConfig() -> readEntry("colonnes", 0xFFF
 void RzxConfig::setAutoResponder(bool val) { localHost() -> setRepondeur( val ); }
 
 /** Lit le mode du r�ondeur */
-bool RzxConfig::autoResponder() { return localHost() -> getRepondeur(); }
+int RzxConfig::autoResponder() { return localHost() -> getRepondeur(); }
 
 /** Renvoie le message du r�ondeur */
 QString RzxConfig::autoResponderMsg(){ return globalConfig() -> readEntry("txtAutoResponderMsg", "R�ondeur automatique");}
