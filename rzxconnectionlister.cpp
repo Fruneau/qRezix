@@ -74,6 +74,8 @@ RzxConnectionLister::~RzxConnectionLister()
 	chats.clear();
 	if(server)
 		server->deleteLater();
+	if(client)
+		client->deleteLater();
 	object = NULL;
 }
 

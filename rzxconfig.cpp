@@ -199,17 +199,6 @@ RzxConfig::RzxConfig()
 				f=fontFamilies.remove(f);
 				qDebug("Removed "+family+" from family list");	
 			}
-        	/*for ( QStringList::Iterator s = styles.begin(); s != styles.end(); ++s ) {
-            		QString style = *s;
-            		QString dstyle = "\t" + style + " (";
-            		QValueList<int> smoothies = fdb.smoothSizes( family, style );
-            		for ( QValueList<int>::Iterator points = smoothies.begin();
-                  		points != smoothies.end(); ++points ) {
-                		dstyle += QString::number( *points ) + " ";
-            		}
-            		dstyle = dstyle.left( dstyle.length() - 1 ) + ")";
-            		qDebug( dstyle );
-        	}*/
     	}
 	
 }
@@ -245,6 +234,8 @@ RzxConfig::~RzxConfig(){
 	allIcons.clear();
 	progIcons.clear();
 	fileEntries.clear();
+	if(computer)
+		delete computer;
 	Config = NULL;
 }
 

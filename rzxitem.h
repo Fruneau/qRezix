@@ -76,7 +76,6 @@ class RzxItem : public QObject, public QListViewItem
 		void update();
 
 	private:
-		QPixmap * ok, * cancel;
 		bool showNotFavorite;
 };
 

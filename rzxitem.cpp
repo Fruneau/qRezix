@@ -48,6 +48,10 @@ RzxItem::RzxItem(RzxComputer *parent, QListView * view, bool show)
 }
 
 RzxItem::~RzxItem(){
+	pixmaps.clear();
+	texts.clear();
+	textLengths.clear();
+	textSplit.clear();
 }
 
 //importé de rzxrezal.cpp
