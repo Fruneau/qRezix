@@ -73,6 +73,7 @@ void RzxItem::update(){
 	setText(RzxRezal::ColRemarque, computer -> getRemarque());
 	setText(RzxRezal::ColIP, computer->getIP().toString());
 	setText(RzxRezal::ColClient, computer->getClient());
+	setText(RzxRezal::ColResal, computer->getResal());
 	
 	RzxComputer::options_t options = computer -> getOptions();
 	QArray<QPixmap *> yesno = RzxConfig::yesnoIcons();

@@ -1,4 +1,6 @@
 [v1.6.2] 2005-02 <br2003@frankiz.polytechnique.fr>
+    * Ajout d'une donnée localisation (tooltip et colonne) [Fruneau]
+    * Ajout des colonnes IP et Client [Fruneau]
     * Correction des composantes alpha des icônes [Ey]
     * Choix entre deux types de répondeur [Fruneau]
     * Désactivation des plug-ins [Fruneau]

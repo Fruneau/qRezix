@@ -19,7 +19,10 @@
 #include <qfileinfo.h>
 #include <qprocess.h>
 #include <qstringlist.h>
+#include <qregexp.h>
+
 #include "rzxcomputer.h"
+
 #include "rzxserverlistener.h"
 #include "rzxprotocole.h"
 #include "rzxconfig.h"
@@ -223,7 +226,29 @@ QString RzxComputer::getClient() const
 	return client;
 }
 
-
+///Permet de retrouver le 'nom' du sous-réseau sur lequel se trouve la machine
+/** Permet de donner un nom au sous-réseau de la machine. A terme cette fonction lira les données à partir d'un fichier qui contiendra les correspondances */
+QString RzxComputer::getResal(bool shortname) const
+{
+	QString m_ip = ip.toString();
+	QRegExp mask("(\\d{1,3}\\.\\d{1,3})\\.(\\d{1,3})\\.\\d{1,3}");
+	
+	if(mask.search(m_ip) == -1) return tr("Unknown");
+	
+	//Si l'ip n'est pas de l'X
+	if(mask.cap(1) != "129.104") return tr("World");
+	
+	int resal = mask.cap(2).toUInt();
+	if(resal == 201) return (shortname?"Binets":"Binets et Kès");
+	if(resal == 203 || resal == 204) return "BEM";
+	if(resal >= 205 && resal <= 208) return (shortname?"Foch":"Foch ") + QString::number(resal - 205);
+	if(resal >= 209 && resal <= 212) return (shortname?"Fay.":"Fayolle ") + QString::number(resal - 209);
+	if(resal == 214) return "PEM";
+	if(resal >= 215 && resal <= 218) return (shortname?"Jof.":"Joffre ") + QString::number(resal - 215);
+	if(resal >= 219 && resal <= 222) return (shortname?"Mau.":"Maunoury ") + QString::number(resal - 219);
+	if(resal == 223) return (shortname?"B.411":"Bat. 411");
+	return "X";
+}
 
 /** No descriptions */
 void RzxComputer::loadIcon(){

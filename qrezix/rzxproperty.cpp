@@ -199,6 +199,7 @@ void RzxProperty::initDlg() {
 	cbTooltipOS->setChecked(tooltip & RzxConfig::OS);
 	cbTooltipVersion->setChecked(tooltip & RzxConfig::Client);
 	cbTooltipIP->setChecked(tooltip & RzxConfig::IP);
+	cbTooltipResal->setChecked(tooltip & RzxConfig::Resal);
 
 	//QRezix * rezix = getRezix();
 	int colonnes = RzxConfig::colonnes();
@@ -213,6 +214,7 @@ void RzxProperty::initDlg() {
 	cbcOS ->setChecked( colonnes & (1<<RzxRezal::ColOS) );
 	cbcGateway ->setChecked( colonnes & (1<<RzxRezal::ColGateway) );
 	cbcPromo ->setChecked( colonnes & (1<<RzxRezal::ColPromo) );
+	cbcResal ->setChecked( colonnes & (1<<RzxRezal::ColResal) );
 	cbcIP ->setChecked( colonnes & (1<<RzxRezal::ColIP) );
 	cbcClient ->setChecked( colonnes & (1<<RzxRezal::ColClient) );
 	cbQuit->setChecked(RzxConfig::showQuit());
@@ -458,6 +460,7 @@ bool RzxProperty::miseAJour() {
 	if(cbTooltipOS->isChecked()) tooltip += RzxConfig::OS;
 	if(cbTooltipVersion->isChecked()) tooltip += RzxConfig::Client;
 	if(cbTooltipIP->isChecked()) tooltip += RzxConfig::IP;
+	if(cbTooltipResal->isChecked()) tooltip += RzxConfig::Resal;
 	cfgObject -> writeEntry( "tooltip", tooltip);
 
 //	cfgObject -> write(); //flush du fichier de conf
@@ -590,6 +593,7 @@ void RzxProperty::writeColDisplay() {
 	if ( cbcOS ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColOS;
 	if ( cbcGateway ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColGateway;
 	if ( cbcPromo ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColPromo;
+	if ( cbcResal ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColResal;
 	if ( cbcClient ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColClient;
 	if ( cbcIP ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColIP;
 

@@ -558,7 +558,19 @@ QString RzxConfig::oldPass()
 }
 
 /** Renvoie la variable correspondant aux colonnes �afficher */
-int RzxConfig::colonnes() { return globalConfig() -> readEntry("colonnes", 0xFFFF); }
+int RzxConfig::colonnes() {
+	uint colonnes = 0;
+	colonnes |= (1<<RzxRezal::ColIcone);
+	colonnes |= (1<<RzxRezal::ColNom);
+	colonnes |= (1<<RzxRezal::ColRemarque);
+	colonnes |= (1<<RzxRezal::ColFTP);
+	colonnes |= (1<<RzxRezal::ColHTTP);
+	colonnes |= (1<<RzxRezal::ColNews);
+	colonnes |= (1<<RzxRezal::ColOS);
+	colonnes |= (1<<RzxRezal::ColPromo);
+	colonnes |= (1<<RzxRezal::ColResal);
+	return globalConfig() -> readEntry("colonnes", colonnes);
+}
 
 /** Change le mode du r�ondeur */
 void RzxConfig::setAutoResponder(bool val) { localHost() -> setRepondeur( val ); }

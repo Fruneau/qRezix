@@ -471,6 +471,10 @@ Vérifiez que votre correspondant a bien ouvert le port de chat dans son firewal
         <source>Unknown</source>
         <translation>Inconnu</translation>
     </message>
+    <message>
+        <source>World</source>
+        <translation>Monde</translation>
+    </message>
 </context>
 <context>
     <name>RzxConfig</name>
@@ -1134,6 +1138,14 @@ Propriétés envoyées à %2 (%3)</translation>
     <message>
         <source>Client</source>
         <translation>Client</translation>
+    </message>
+    <message>
+        <source>Place</source>
+        <translation>Bâtiment</translation>
+    </message>
+    <message>
+        <source>place : </source>
+        <translation>bâtiment : </translation>
     </message>
 </context>
 <context>
@@ -1836,6 +1848,10 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <message>
         <source>IP</source>
         <translation>IP</translation>
+    </message>
+    <message>
+        <source>Place</source>
+        <translation>Bâtiment</translation>
     </message>
 </context>
 </TS>

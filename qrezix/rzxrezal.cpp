@@ -41,7 +41,8 @@ const char * RzxRezal::colNames[RzxRezal::numColonnes] =
 			QT_TR_NOOP("Samba"), QT_TR_NOOP("FTP"), 
 			/*QT_TR_NOOP("Hotline"),*/ QT_TR_NOOP("Web"), 
 			QT_TR_NOOP("News"), QT_TR_NOOP("OS"), 
-			QT_TR_NOOP("Gateway"), QT_TR_NOOP("Promo"), QT_TR_NOOP("IP"), QT_TR_NOOP("Client") };
+			QT_TR_NOOP("Gateway"), QT_TR_NOOP("Promo"),
+			QT_TR_NOOP("Place"), QT_TR_NOOP("IP"), QT_TR_NOOP("Client") };
 
 
 RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name), itemByIp(USER_HASH_TABLE_LENGTH)
@@ -294,19 +295,21 @@ void RzxRezal::afficheColonnes(){
 	for(i =0; i<columns(); i++){
 		setColumnWidthMode(i,Manual);
 		if((colonnesAffichees>>i) & 1){
-			if(i==ColIcone)
-				setColumnWidth(i, ((RzxConfig::computerIconSize() || RzxConfig::computerIconHighlight()) ?64:32 )+4);
-			else if(i==ColNom) {
-				adjustColumn (i);
-				setColumnWidthMode(i,QListView::Maximum);
-			//Les colonnes des icones d'information, la colonne de commentaire est gérée par le adapteColonnes()
+			switch(i)
+			{
+				case ColIcone:
+					setColumnWidth(i, ((RzxConfig::computerIconSize() || RzxConfig::computerIconHighlight()) ?64:32 )+4);
+					break;
+					
+				case ColNom: case ColResal: case ColIP: case ColClient:
+					adjustColumn (i);
+					setColumnWidthMode(i,QListView::Maximum);
+					break;
+					
+				case ColRemarque: break;
+				default:
+					setColumnWidth(i,40);
 			}
-			else if(i==ColIP)
-				setColumnWidth(i,120);
-			else if(i==ColClient)
-				setColumnWidth(i,80);
-			else if(i!=ColRemarque)
-				setColumnWidth(i,40);
 		}
 		else
 			setColumnWidth(i,0);
@@ -596,6 +599,8 @@ void RzxRezal::buildToolTip(QListViewItem *i)
 		tooltip += "<li>" + computer->getClient() + "</li>";
 	if(tooltipFlags & (int)RzxConfig::IP)
 		tooltip += "<li> ip : <i>" + computer->getIP().toString() + "</i></li>";
+	if(tooltipFlags & (int)RzxConfig::Resal)
+		tooltip += "<li>" + tr("place : ") +"<i>" + computer->getResal(false) + "</i></li>";	
 	tooltip +="</ul>";
 	
 	QToolTip::add(this->viewport(), itemRect(i), tooltip);

@@ -415,6 +415,10 @@ It must be at least&lt;b&gt; 6 characters long&lt;/b&gt;.</source>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>World</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxConfig</name>
@@ -994,6 +998,14 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Client</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Place</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>place : </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1668,6 +1680,10 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
     </message>
     <message>
         <source>IP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Place</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
