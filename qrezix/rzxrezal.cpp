@@ -44,9 +44,9 @@
 	#include <stdlib.h>
 	#ifdef UNICODE
 		#define RzxShellExecute(a, b, str, c, d, e) \
-			ShellExecute( a, b, (LPWCSTR)(str.unicode()), c, d, e )
+			ShellExecute( a, b, (LPCWSTR)(str.unicode()), c, d, e )
 		#define RzxWinExec(str, a) \
-			WinExec((LPWCSTR)(str.unicode()), a)
+			WinExec((LPCSTR)(str.latin1()), a)
 	#else
 		#define RzxShellExecute(a, b, str, c, d, e) \
 			ShellExecute( a, b, (LPCSTR)(str.latin1()), c, d, e )
