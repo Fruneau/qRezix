@@ -48,7 +48,8 @@ RzxPlugInLoader::RzxPlugInLoader() : QObject(0, 0)
 	loadPlugIn(RzxConfig::globalConfig()->systemDir());
 #ifndef WIN32
 	//et $HOME/.rezix/plugins
-	loadPlugIn(RzxConfig::globalConfig()->userDir());
+	if (RzxConfig::globalConfig()->userDir() != RzxConfig::globalConfig()->systemDir())
+		loadPlugIn(RzxConfig::globalConfig()->userDir());
 #endif
 	
 	object = this;
