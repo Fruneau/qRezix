@@ -143,7 +143,7 @@ void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos,
 		}
 		else {
 			if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur())
-				newItem("chat", "begin &Chat", this, SLOT("chatCreate()"));
+				newItem("chat", "begin &Chat", this, SLOT(chatCreate()));
 				//popup.insertItem(*RzxConfig::themedIcon("chat"), tr("begin &Chat"),this,SLOT(chatCreate()));
 			if(serveurs & 1) newItem("samba", "Samba connect", this, SLOT(samba()));
 			if((serveurs>>1) & 1) newItem("ftp", "FTP connect", this, SLOT(ftp()));
@@ -482,7 +482,9 @@ void RzxRezal::onListDblClicked(QListViewItem * sender){
 		}
 		else {/*chat*/
 			RzxItem * listItem = (RzxItem *) sender;
-			lister->chatCreate(listItem -> ip);
+			RzxComputer *computer = listItem->getComputer();
+			if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur())
+				lister->chatCreate(listItem -> ip);
 		}
 	}
 }

@@ -53,13 +53,8 @@ class RzxChatSocket : public QSocket
 		DCC_CHAT=2,
 		DCC_PING=3,
 		DCC_PONG=4,
-		DCC_ROOMREQUEST=5,
-		DCC_ROOMREFUSE=6,
-		DCC_ROOMJOIN=7,
-		DCC_ROOMJOINED=8,
-		DCC_ROOMQUIT=9,
-		DCC_ROOMQUITTED=10,
-		DCC_ROOMCHAT=11
+		DCC_TYPING=5,
+		DCC_NONE=6
 	};
 	
 	public:
@@ -80,6 +75,7 @@ class RzxChatSocket : public QSocket
 		void sendProperties();
 		void sendPing();
 		void sendPong();
+		void sendTyping(bool state = false);
 		
 	protected slots:
 		void chatConnexionEtablished();
@@ -102,6 +98,8 @@ class RzxChatSocket : public QSocket
 		void propQuery();
 		
 		void chat(const QString& msg);
+		
+		void typing(bool state);
 		
 		void chatSent();
 		void propertiesSent(const RzxHostAddress& host);

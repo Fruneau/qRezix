@@ -127,6 +127,9 @@ protected:
 	QFont* defFont;
 	RzxChatSocket *socket;
 	QColor curColor;
+	bool typing, peerTyping;
+	QTimer typingTimer;
+	int unread;
 	
 signals: // Signals
 	void send(const QString& message);
@@ -144,6 +147,7 @@ public slots: // Public slots
 	void changeTheme();
 	void changeIconFormat();
 	void receiveProperties(const QString& msg);
+	void peerTypingStateChanged(bool state);
 	
 public:
 	inline QString getHostName() const { return hostname; }
@@ -163,6 +167,7 @@ protected slots:
 	bool event(QEvent *e);
 	void pluginsMenu();
 	void colorClicked(int index);
+	void updateTitle();
 	RzxChatSocket *getValidSocket();
 
 protected: // Protected methods
