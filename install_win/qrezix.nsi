@@ -211,13 +211,13 @@ Section "Fichiers de base de qRezix" SecBase
     Call AddSharedDLL
   !endif
 
+  SetOverwrite on
   SetOutPath "$SYSDIR"
   File "${QTDIR}\bin\${QTDLL}"
   IfErrors "" +3
     Push "Impossible d'installer $SYSDIR\${QTDLL}.\nRelancez l'installation en tant qu'Administrateur."
     Call ShowAbort
 
-  SetOverwrite on
   SetOutPath "$INSTDIR"
   File "..\qRezix\qRezix.exe"
   IfErrors "" +3
