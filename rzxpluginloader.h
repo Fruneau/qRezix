@@ -48,6 +48,7 @@ class RzxPlugInLoader : public QObject
 	QPtrList<RzxPlugIn> plugins;
 	QPtrList<QListViewItem> lvItems;
 	int selectedPlugIn;
+	bool initialized;
 
 	QListView *pluginListView;
 	QToolButton *pluginGetProp;
