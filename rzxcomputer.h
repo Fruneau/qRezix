@@ -143,6 +143,7 @@ public:
 	QString getRemarque() const;
 	QPixmap getIcon() const;
 	QString getClient() const;
+	QString getResal(bool shortname = true) const;
 	bool can(unsigned int cap);
 
 	QString getFilename() const;

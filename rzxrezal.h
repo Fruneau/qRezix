@@ -66,7 +66,7 @@ public:
 	enum NumColonne
 		{ ColIcone = 0, ColNom = 1, ColRemarque = 2, ColSamba = 3, ColFTP = 4,
 		  /*ColHotline = 5,*/ ColHTTP = 5, ColNews = 6, ColOS = 7, ColGateway = 8,
-		  ColPromo = 9, ColIP = 10, ColClient = 11, numColonnes = 12 };
+		  ColPromo = 9, ColResal = 10, ColIP = 11, ColClient = 12, numColonnes = 13 };
 
 	static const char * colNames[numColonnes];
 	RzxItem *selected;
