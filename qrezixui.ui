@@ -149,6 +149,9 @@
                     <property name="textPosition">
                         <enum>BelowIcon</enum>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Plug-ins</string>
+                    </property>
                 </widget>
                 <spacer>
                     <property name="name">
@@ -194,6 +197,9 @@
                     </property>
                     <property name="autoRaise">
                         <bool>true</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Away</string>
                     </property>
                 </widget>
                 <widget class="QToolButton">
@@ -247,6 +253,9 @@
                     <property name="autoRaise">
                         <bool>true</bool>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Preferences</string>
+                    </property>
                 </widget>
             </hbox>
         </widget>
@@ -275,7 +284,7 @@
                 <number>1</number>
             </property>
             <property name="currentIndex">
-                <number>1</number>
+                <number>0</number>
             </property>
             <widget class="QWidget">
                 <property name="name">
