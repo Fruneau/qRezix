@@ -34,7 +34,6 @@ email                : sylvain.joyeux@m4x.org
 #include <qapplication.h>
 #endif
 
-#include <qlibrary.h>
 #include "trayicon.h"
 #include "rzxpluginloader.h"
 
@@ -76,17 +75,8 @@ int main(int argc, char *argv[])
 		
 	rezix -> setIcon(iconeProg);
 	rezix -> languageChanged();
-	
-	QPopupMenu menu;
-	menu.insertItem( a.tr("&Quit"), rezix, SLOT(close()), 0, 1);
-	if(RzxConfig::globalConfig()->autoResponder())
-		menu.insertItem(a.tr("&I'm back !"), rezix, SLOT(toggleAutoResponder()), 0, 2);
-	else
-		menu.insertItem(a.tr("I'm &away !"), rezix, SLOT(toggleAutoResponder()), 0, 2);
-	RzxPlugInLoader::global()->menuTray(menu);
-	TrayIcon tray(iconeProg, "Rezix", &menu, rezix );
-	rezix -> tray = &tray;
-	
+	rezix -> tray = new TrayIcon(iconeProg, "Rezix", rezix );
+
 	QObject::connect(rezix->tray,SIGNAL(clicked(const QPoint&)),rezix,SLOT(toggleVisible()));
 	QObject::connect(rezix,SIGNAL(setToolTip(const QString &)),rezix->tray,SLOT(setToolTip(const QString &)));
 	

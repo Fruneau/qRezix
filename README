@@ -1,0 +1,53 @@
+ ______    ____________  ___ ___   ___
+||    \\  //         //   |   \\   //
+||    ||            //    |    \\ //
+||____//   ___     //    _|_    \'/
+||   \\   /   \   //            /,\
+||    \\  |---'  //            // \\
+||     \\ \___/ //________// _//   \\_
+
+qRezix
+v1.3
+
+qRezix est un logiciel développé par le BR pour assurer la connexion des X. Ce logiciel fournit les outils nécessaires pour le chat et le partage des fichiers. C'est aussi une clef de voûte pour structurer le rezal. Il est important que chaque personne connectée utilise ce programme, où tout autre client xNet de façon constante depuis le démarrage, jusqu'à l'extinction de l'ordinateur.
+
+
+I - Configuration nécessaire
+
+qRezix fonctionne sur les ordinateurs sous Linux, Mac OS X et Windows.
+Pour Windows, l'installateur est compilé et distribué par la BR.
+Pour Linux et Mac OS X, des paquets debian et Mandrake sont généré et les sources sont distribuées. Vous pouvez également avoir accès à la cvs de qRezix. Pour être compilé, ce programme nécessite Qt 3.2 ou ultérieur.
+
+Avant de lancer qRezix, il faut convenablement configurer l'ordinateur, en particulier, il faut ouvrir le port 5050 en tcp du pare-feu.
+
+
+II - Démarrage de qRezix
+
+Au premier démarrage de qRezix, il y a 2 événements importants :
+	- L'entrée de vos informations personnelles. Ces informations sont pour la plupart nécessaires (seule le site internet et le surnom ne sont pas nécessaire). Sans ces informations, la connexion ne sera pas établie. Il est important de remplir ces informations honnêtement. Les administrateur se réservent le droit d'exclure les utilisateurs irrespectueux.
+	- La première connexion au serveur. Lors de cette première connexion, 2 possibilités :
+		* le pseudo demandé est libre, dans ce cas le serveur donne un pass.
+		* le pseudo est déjà utilisé, dans ce cas qRezix demande de rentré le pass qui a déjà été donné à ce pseudo. Si ce n'est pas vous qui avez obtenu ce pass, changé de pseudo. (nom d'ordinateur)
+
+L'ordinateur est dès lors connecté au rezal, la fenêtre principal se rempli de la liste des utilisateurs connecté.
+
+
+III - Chat
+
+Pour utiliser le chat, simplement effectué un double clic sur le pseudo de la personne avec qui vous voulez chatté. La chat commencera dès que vous enverrez votre message. En cliquant sur 'Envoyer en html' vous avez accès au outils de formatage du texte et aux commandes html.
+
+
+IV - Clients-serveurs
+
+qRezix vous permet d'indiquer aux autres utilisateurs que vous avez un serveur de partage de fichiers installé sur votre ordinateur (serveurs ftp, http, samba ou serveurs de news). Pour ceci il vous suffit de cocher les cases correspondantes dans l'onglet réseau des préférences.
+
+A l'exception des serveurs samba sous Windows, qRezix est capable de détecté la présence d'un serveur sur l'ordinateur et n'en affichera la présence que si celle-ci est effective.
+
+
+qRezix vous permet également d'ouvrir une connexion vers les serveurs des autres utilisateurs. Pour ceci choisissez le client qui vous permettra d'ouvrir ces connexions, et définissez le répertoire dans lequel vous voulez que les fichiers téléchargés soit stockés par défaut.
+
+
+V - License
+
+qRezix est distribué sous license GNU.
+Vous avez le droit de le redistribuer et/ou de le modifier selon les termes de la version 2.1 ou supérieure de cette license.

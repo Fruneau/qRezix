@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>552</width>
-            <height>392</height>
+            <width>677</width>
+            <height>386</height>
         </rect>
     </property>
     <property name="caption">
@@ -23,18 +23,27 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QPushButton" row="4" column="0">
+        <widget class="QTextEdit" row="0" column="0">
             <property name="name">
-                <cstring>btnSend</cstring>
+                <cstring>txtHistory</cstring>
             </property>
-            <property name="text">
-                <string>&amp;Send</string>
+            <property name="minimumSize">
+                <size>
+                    <width>0</width>
+                    <height>84</height>
+                </size>
             </property>
-            <property name="accel">
-                <string>Alt+S</string>
+            <property name="textFormat">
+                <enum>RichText</enum>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+            <property name="autoFormatting">
+                <set>AutoNone</set>
             </property>
         </widget>
-        <widget class="RzxTextEdit" row="3" column="0" rowspan="1" colspan="9">
+        <widget class="RzxTextEdit" row="3" column="0">
             <property name="name">
                 <cstring>edMsg</cstring>
             </property>
@@ -51,165 +60,102 @@
                 </size>
             </property>
         </widget>
-        <widget class="QPushButton" row="4" column="1">
+        <widget class="QLayoutWidget" row="2" column="0">
             <property name="name">
-                <cstring>btnClose</cstring>
-            </property>
-            <property name="text">
-                <string>Close</string>
-            </property>
-        </widget>
-        <spacer row="4" column="2">
-            <property name="name">
-                <cstring>Spacer2</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Minimum</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>50</width>
-                    <height>30</height>
-                </size>
-            </property>
-        </spacer>
-        <widget class="QPushButton" row="4" column="3">
-            <property name="name">
-                <cstring>btnProperties</cstring>
-            </property>
-            <property name="text">
-                <string>Properties</string>
-            </property>
-        </widget>
-        <widget class="QPushButton" row="4" column="4">
-            <property name="name">
-                <cstring>btnHistorique</cstring>
-            </property>
-            <property name="text">
-                <string>History</string>
-            </property>
-        </widget>
-        <spacer row="4" column="5">
-            <property name="name">
-                <cstring>Spacer3</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Minimum</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>40</width>
-                    <height>30</height>
-                </size>
-            </property>
-        </spacer>
-        <widget class="QPushButton" row="4" column="6">
-            <property name="name">
-                <cstring>btnSound</cstring>
-            </property>
-            <property name="enabled">
-                <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="minimumSize">
-                <size>
-                    <width>30</width>
-                    <height>30</height>
-                </size>
-            </property>
-            <property name="maximumSize">
-                <size>
-                    <width>30</width>
-                    <height>30</height>
-                </size>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
-            <property name="accel">
-                <string></string>
-            </property>
-            <property name="toggleButton">
-                <bool>true</bool>
-            </property>
-            <property name="on">
-                <bool>false</bool>
-            </property>
-        </widget>
-        <spacer row="4" column="7">
-            <property name="name">
-                <cstring>spacer3</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Minimum</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>29</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </spacer>
-        <widget class="QCheckBox" row="4" column="8">
-            <property name="name">
-                <cstring>cbSendHTML</cstring>
-            </property>
-            <property name="text">
-                <string>Send as &amp;HTML</string>
-            </property>
-            <property name="accel">
-                <string>Alt+H</string>
-            </property>
-        </widget>
-        <widget class="Line" row="1" column="0" rowspan="1" colspan="9">
-            <property name="name">
-                <cstring>line2</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>HLine</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-        </widget>
-        <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="9">
-            <property name="name">
-                <cstring>layout4</cstring>
+                <cstring>layout28</cstring>
             </property>
             <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
+                <widget class="QToolButton">
+                    <property name="name">
+                        <cstring>btnPlugins</cstring>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+U</string>
+                    </property>
+                    <property name="usesBigPixmap">
+                        <bool>false</bool>
+                    </property>
+                    <property name="usesTextLabel">
+                        <bool>true</bool>
+                    </property>
+                    <property name="textLabel">
+                        <string>Pl&amp;ug-ins</string>
+                    </property>
+                    <property name="textPosition">
+                        <enum>BesideIcon</enum>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer6</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>21</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="Line">
+                    <property name="name">
+                        <cstring>line2_2</cstring>
+                    </property>
+                    <property name="frameShape">
+                        <enum>VLine</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Sunken</enum>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer5</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>19</width>
+                            <height>21</height>
+                        </size>
+                    </property>
+                </spacer>
                 <widget class="QComboBox">
                     <property name="name">
                         <cstring>cbFontSelect</cstring>
                     </property>
                     <property name="sizePolicy">
                         <sizepolicy>
-                            <hsizetype>7</hsizetype>
+                            <hsizetype>3</hsizetype>
                             <vsizetype>0</vsizetype>
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                         </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>128</width>
+                            <height>0</height>
+                        </size>
                     </property>
                 </widget>
                 <widget class="QComboBox">
@@ -237,7 +183,7 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>160</width>
+                            <width>27</width>
                             <height>20</height>
                         </size>
                     </property>
@@ -254,18 +200,31 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>92</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>92</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property name="autoMask">
+                        <bool>false</bool>
+                    </property>
                 </widget>
-                <widget class="QPushButton">
+                <widget class="QToolButton">
                     <property name="name">
                         <cstring>btnBold</cstring>
                     </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>0</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
+                    <property name="minimumSize">
+                        <size>
+                            <width>28</width>
+                            <height>0</height>
+                        </size>
                     </property>
                     <property name="font">
                         <font>
@@ -275,21 +234,22 @@
                     <property name="text">
                         <string>B</string>
                     </property>
+                    <property name="accel">
+                        <string>Ctrl+B</string>
+                    </property>
                     <property name="toggleButton">
                         <bool>true</bool>
                     </property>
                 </widget>
-                <widget class="QPushButton">
+                <widget class="QToolButton">
                     <property name="name">
                         <cstring>btnItalic</cstring>
                     </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>0</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
+                    <property name="minimumSize">
+                        <size>
+                            <width>28</width>
+                            <height>0</height>
+                        </size>
                     </property>
                     <property name="font">
                         <font>
@@ -299,21 +259,22 @@
                     <property name="text">
                         <string>I</string>
                     </property>
+                    <property name="accel">
+                        <string>Ctrl+I</string>
+                    </property>
                     <property name="toggleButton">
                         <bool>true</bool>
                     </property>
                 </widget>
-                <widget class="QPushButton">
+                <widget class="QToolButton">
                     <property name="name">
                         <cstring>btnUnderline</cstring>
                     </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>0</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
+                    <property name="minimumSize">
+                        <size>
+                            <width>28</width>
+                            <height>0</height>
+                        </size>
                     </property>
                     <property name="font">
                         <font>
@@ -323,31 +284,184 @@
                     <property name="text">
                         <string>U</string>
                     </property>
+                    <property name="accel">
+                        <string>Ctrl+U</string>
+                    </property>
                     <property name="toggleButton">
                         <bool>true</bool>
                     </property>
                 </widget>
             </hbox>
         </widget>
-        <widget class="QTextEdit" row="0" column="0" rowspan="1" colspan="9">
+        <widget class="Line" row="1" column="0">
             <property name="name">
-                <cstring>txtHistory</cstring>
+                <cstring>line2</cstring>
             </property>
-            <property name="minimumSize">
-                <size>
-                    <width>0</width>
-                    <height>84</height>
-                </size>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
             </property>
-            <property name="textFormat">
-                <enum>RichText</enum>
+            <property name="frameShape">
+                <enum>HLine</enum>
             </property>
-            <property name="readOnly">
-                <bool>true</bool>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
             </property>
-            <property name="autoFormatting">
-                <set>AutoNone</set>
+            <property name="orientation">
+                <enum>Horizontal</enum>
             </property>
+        </widget>
+        <widget class="QLayoutWidget" row="4" column="0">
+            <property name="name">
+                <cstring>layout30</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QToolButton">
+                    <property name="name">
+                        <cstring>btnSend</cstring>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+S</string>
+                    </property>
+                    <property name="usesTextLabel">
+                        <bool>true</bool>
+                    </property>
+                    <property name="textLabel">
+                        <string>&amp;Send</string>
+                    </property>
+                    <property name="textPosition">
+                        <enum>BesideIcon</enum>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>cbSendHTML</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Send as &amp;HTML</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+H</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Minimum</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>45</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QToolButton">
+                    <property name="name">
+                        <cstring>btnSound</cstring>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="accel">
+                        <string>Ctrl+S</string>
+                    </property>
+                    <property name="toggleButton">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer3</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Minimum</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>35</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QToolButton">
+                    <property name="name">
+                        <cstring>btnProperties</cstring>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="usesTextLabel">
+                        <bool>true</bool>
+                    </property>
+                    <property name="textLabel">
+                        <string>Properties</string>
+                    </property>
+                    <property name="textPosition">
+                        <enum>BesideIcon</enum>
+                    </property>
+                </widget>
+                <widget class="QToolButton">
+                    <property name="name">
+                        <cstring>btnHistorique</cstring>
+                    </property>
+                    <property name="text">
+                        <string>...</string>
+                    </property>
+                    <property name="usesTextLabel">
+                        <bool>true</bool>
+                    </property>
+                    <property name="textLabel">
+                        <string>History</string>
+                    </property>
+                    <property name="textPosition">
+                        <enum>BesideIcon</enum>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer3</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Minimum</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>25</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>btnClose</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Close</string>
+                    </property>
+                </widget>
+            </hbox>
         </widget>
     </grid>
 </widget>
@@ -375,7 +489,6 @@
     </image>
 </images>
 <tabstops>
-    <tabstop>btnSend</tabstop>
     <tabstop>btnClose</tabstop>
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>

@@ -16,9 +16,14 @@
  ***************************************************************************/
 #include <qmessagebox.h>
 #include <qlabel.h>
-#include <qpushbutton.h>
+#include <qtoolbutton.h>
+#include <qtoolbox.h>
+#include <qpopupmenu.h>
+#include <qrect.h>
+#include <qpoint.h>
 #include <qstring.h>
 #include <qfile.h>
+#include <qiconset.h>
 
 #include "qrezix.h"
 #include "rzxquit.h"
@@ -29,36 +34,67 @@
 
 #include "defaults.h"
 
+QRezix *QRezix::object = 0;
+
 QRezix::QRezix(QWidget *parent, const char *name)
 	: QRezixUI(parent, name), m_properties(0), tray(0)
-	
 {
+	object = this;
+	byTray = false;
 	RzxPlugInLoader::global();
-	connect((QObject *) btnPreferences, SIGNAL(clicked()), this, SLOT(boitePreferences()));
-	connect((QObject *) btnMAJcolonnes, SIGNAL(clicked()), rezal, SLOT(adapteColonnes()));
-	connect((QObject *) btnAutoResponder, SIGNAL(clicked()), this, SLOT(toggleAutoResponder()));
-	connect((QObject *) btnFavorites, SIGNAL(clicked()), this, SLOT(activateFavorites()));
+	rezal->showNotFavorites(true);
+	rezalFavorites->showNotFavorites(false);
+	connect(btnPreferences, SIGNAL(clicked()), this, SLOT(boitePreferences()));
+	connect(btnMAJcolonnes, SIGNAL(clicked()), rezal, SLOT(adapteColonnes()));
+	connect(btnMAJcolonnes, SIGNAL(clicked()), rezalFavorites, SLOT(adapteColonnes()));
+	connect(btnAutoResponder, SIGNAL(toggled(bool)), this, SLOT(activateAutoResponder(bool)));
+	connect(btnPlugins, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
+	connect(&menuPlugins, SIGNAL(aboutToHide()), btnPlugins, SLOT(toggle()));
 	
-	connect(RzxClientListener::object(), SIGNAL(chatSent()), this, SLOT(chatSent()));
+	RzxClientListener *client = RzxClientListener::object();
+	connect(client, SIGNAL(chatSent()), this, SLOT(chatSent()));
+	
+	// CHAT
+	connect(client, SIGNAL(chat(QSocket*, const QString& )), rezal, SLOT(chat(QSocket*, const QString& )));
+	// RECEPTION DES PROPRIETES D'UN ORDINATEUR
+	connect(client, SIGNAL(propAnswer(const RzxHostAddress&, const QString&)), rezal, SLOT(showProperties(const RzxHostAddress&, const QString&)));
+	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), rezal, SLOT(warnProperties(const RzxHostAddress&)));
 
 	activateAutoResponder( RzxConfig::autoResponder() != 0 );
-	if(RzxConfig::favoritesMode())
-		btnFavorites -> toggle();
+
+	connect(rezal, SIGNAL(favoriteChanged()), rezalFavorites, SIGNAL(favoriteChanged()));
 
 	clearWFlags(WStyle_SysMenu|WStyle_Minimize);
 	alreadyOpened=false;
 	connect(rezal, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
 	connect(rezal, SIGNAL(countChange(const QString&)), lblCount, SLOT(setText(const QString&)));
 	connect(rezal, SIGNAL(countChange(const QString&)), this, SIGNAL(setToolTip(const QString&)));
-	
-	if(!RzxConfig::globalConfig()->find())
+
+
+	bool firstlaunch = !RzxConfig::globalConfig()->find();
+	m_properties = new RzxProperty(this);
+	if(!RzxConfig::globalConfig()->find() || !m_properties->infoCompleted())
 	{
-		m_properties = new RzxProperty(this);
+		if(!firstlaunch) 
+			m_properties->initDlg();
 		m_properties -> exec();
 	}
+
 	//RzxConfig::loadTranslators();
 	rezal -> initConnection();
 	RzxPlugInLoader::global()->init();
+
+	connect(rezal, SIGNAL(selectionChanged(QListViewItem*)), RzxPlugInLoader::global(), SLOT(itemChanged(QListViewItem*)));
+	connect(rezalFavorites, SIGNAL(selectionChanged(QListViewItem*)), RzxPlugInLoader::global(), SLOT(favoriteChanged(QListViewItem*)));
+
+	connect(RzxConfig::globalConfig(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
+	menuFormatChange();
+	changeTheme();
+}
+
+QRezix *QRezix::global()
+{
+	return object;
 }
 
 void QRezix::languageChanged(){
@@ -83,25 +119,37 @@ void QRezix::status(const QString& msg, bool fatal){
 	/* parceque je veux avoir une trace de ce qui s'est passé ! */
 	qDebug( "[%s] status%s = %s", QDateTime::currentDateTime().toString().latin1(),
 		    fatal ? " (FATAL)" : "", msg.latin1() );
+}
 
+void QRezix::closeByTray()
+{
+	byTray = true;
+	close();
 }
 
 void QRezix::closeEvent(QCloseEvent * e){
 	//pour éviter de fermer rezix par mégarde, on affiche un boite de dialogue laissant le choix
 	//de fermer qrezix, de minimiser la fenêtre principale --> trayicon, ou d'annuler l'action
-	if(isShown() && !isMinimized())
+	if(!byTray && isShown() && !isMinimized())
 	{
-		RzxQuit quitDialog(this);
-		int i = quitDialog.exec();
+		int i;
+		if(RzxConfig::showQuit())
+		{
+			RzxQuit quitDialog(this);
+			i = quitDialog.exec();
+		}
+		else
+			i = RzxConfig::quitMode();
 		if(i!=RzxQuit::selectQuit)
 		{
 			if(i==RzxQuit::selectMinimize)
 				showMinimized();
 #ifdef WIN32 //c'est très très très très très très moche, mais g pas trouvé d'autre manière de le faire
 			 //c'est pas ma fautre à moi si windows se comporte comme de la merde
-				QEvent e(QEvent::WindowDeactivate); 
-				event(&e);
+			QEvent ev(QEvent::WindowDeactivate); 
+			event(&ev);
 #endif
+			e -> ignore();
 			return;
 		}
 	}
@@ -176,25 +224,27 @@ void QRezix::socketClosed(){
 }
 
 
-void QRezix::toggleAutoResponder(){
-	activateAutoResponder( btnAutoResponder -> isOn() );
+void QRezix::toggleAutoResponder()
+{
+	activateAutoResponder( !btnAutoResponder->isOn());
 }
 
-void QRezix::toggleButtonResponder() {
-	activateAutoResponder( ! btnAutoResponder -> isOn() );
+void QRezix::toggleButtonResponder()
+{
+	activateAutoResponder( !btnAutoResponder -> isOn() );
 }
 
-void QRezix::activateAutoResponder( bool state ){
-	if( btnAutoResponder -> isOn() != state ) btnAutoResponder -> toggle();
-
+void QRezix::activateAutoResponder( bool state )
+{
+	if(!state == btnAutoResponder->isOn())
+	{
+		btnAutoResponder->setOn(state);
+		return;
+	}
 	if (state == (RzxConfig::autoResponder() != 0)) return;
 	RzxConfig::setAutoResponder( state );
 	RzxProperty::serverUpdate();
-}
-
-void QRezix::activateFavorites(){
-	RzxConfig::setFavoritesMode(btnFavorites->isOn()?1:0);
-	rezal->sort();
+	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_AWAY, NULL);
 }
 
 void QRezix::toggleVisible(){
@@ -209,7 +259,8 @@ void QRezix::toggleVisible(){
 			statusMax = saveStatusMax;
 		}
 		show();
-		setActiveWindow();raise();
+		setActiveWindow();
+		raise();
 		alreadyOpened=true;
 		rezal->adapteColonnes();
 	}
@@ -222,11 +273,101 @@ void QRezix::languageChange()
 #ifdef WIN32
 	setCaption(caption() + " [Qt]");
 #endif
-}
 
+	//Parce que Qt oublie de traduire les deux noms
+	//Alors faut le faire à la main, mais franchement, c du foutage de gueule
+	//à mon avis ça leur prendrait 5 minutes chez trolltech pour corriger le pb
+	tbRezalContainer->setItemLabel(0, tr("Everybody"));
+	tbRezalContainer->setItemLabel(1, tr("Favorites"));
+}
 
 void QRezix::chatSent() {
 	// Desactive le répondeur lorsqu'on envoie un chat
 	activateAutoResponder( false );
 }
 
+/// Changement du thème d'icone
+/** Cette méthode met à jour les icônes de l'interface principale (menu), mais aussi celles des listes de connectés */
+void QRezix::changeTheme()
+{
+	rezal -> redrawAllIcons();
+	rezalFavorites -> redrawAllIcons();
+	QIconSet pi, away, columns, prefs;
+	pi.setPixmap(*RzxConfig::themedIcon("plugin"), QIconSet::Automatic);
+	away.setPixmap(*RzxConfig::themedIcon("away"), QIconSet::Automatic, QIconSet::Normal, QIconSet::Off);
+	away.setPixmap(*RzxConfig::themedIcon("here"), QIconSet::Automatic, QIconSet::Normal, QIconSet::On);
+	columns.setPixmap(*RzxConfig::themedIcon("column"), QIconSet::Automatic);
+	prefs.setPixmap(*RzxConfig::themedIcon("pref"), QIconSet::Automatic);
+	btnPlugins->setIconSet(pi);
+	btnAutoResponder->setIconSet(away);
+	btnMAJcolonnes->setIconSet(columns);
+	btnPreferences->setIconSet(prefs);
+}
+
+///Changement de format des boutons de la barre d'outils
+/** Change la position du texte, ou la taille des icônes de la barre d'outil */
+void QRezix::menuFormatChange()
+{
+	int icons = RzxConfig::menuIconSize();
+	int texts = RzxConfig::menuTextPosition();
+
+	//On transforme le cas 'pas d'icônes et pas de texte' en 'petites icônes et pas de texte'
+	if(!texts && !icons) icons = 1;
+
+	//Si on a pas d'icône, on met le texte sur le côté... pour éviter un bug d'affichage
+	if(!icons) texts = 1;
+	
+	//Mise à jour de la taille des icônes
+	switch(icons)
+	{
+		case 0: //pas d'icône
+			{
+				QIconSet empty;
+				btnPlugins->setIconSet(empty);
+				btnAutoResponder->setIconSet(empty);
+				btnMAJcolonnes->setIconSet(empty);
+				btnPreferences->setIconSet(empty);
+			}
+			break;
+		
+		case 1: //petites icônes
+		case 2: //grandes icones
+			{
+				bool big = (icons == 2);
+				if(btnPlugins->iconSet().isNull()) changeTheme(); //pour recharcher les icônes s'il y a besoin
+				btnPlugins->setUsesBigPixmap(big);
+				btnAutoResponder->setUsesBigPixmap(big);
+				btnMAJcolonnes->setUsesBigPixmap(big);
+				btnPreferences->setUsesBigPixmap(big);
+			}
+			break;
+	}
+	
+	//Mise à jour de la position du texte
+	btnPlugins->setUsesTextLabel(texts);
+	btnAutoResponder->setUsesTextLabel(texts);
+	btnMAJcolonnes->setUsesTextLabel(texts);
+	btnPreferences->setUsesTextLabel(texts);
+	if(texts)
+	{
+		QToolButton::TextPosition pos = (texts == 1)? QToolButton::BesideIcon : QToolButton::BelowIcon;
+		btnPlugins->setTextPosition(pos);
+		btnAutoResponder->setTextPosition(pos);
+		btnMAJcolonnes->setTextPosition(pos);
+		btnPreferences->setTextPosition(pos);
+	}
+}
+
+/// Affichage du menu plug-ins lors d'un clic sur le bouton
+/** Les actions sont gérées directement par le plug-in s'il a bien été programmé */
+void QRezix::pluginsMenu(bool show)
+{
+	if(!show)
+		return;
+	
+	menuPlugins.clear();
+	RzxPlugInLoader::global()->menuAction(menuPlugins);
+	if(!menuPlugins.count())
+		menuPlugins.insertItem("<none>");
+	menuPlugins.popup(btnPlugins->mapToGlobal(btnPlugins->rect().topRight()));
+}

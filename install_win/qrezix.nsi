@@ -1,46 +1,95 @@
-!define MUI_PRODUCT "qRezix"
-!define MUI_VERSION "v3.x"
-!define MUI_NAME "${MUI_PRODUCT} ${MUI_VERSION}"
+;--------------------------------
+;Installateur de qRezix pour Windows
+;--
+;Cet installateur prend en charge les installations suivante :
+;   - installation des dlls utiles (qt, msvcr...)
+;   - installation de qRezix.exe
+;   - création du désinstalleur
+;   - installation optionnelle des thèmes d'icônes, traduction...
+;   - ...
+;--------------------------------
 
-!include "MUI.nsh"
+;Définition de versions
+  !define MUI_PRODUCT "qRezix"
+  !define MUI_VERSION "v1.3 bêta"
+  !define MUI_NAME "${MUI_PRODUCT} ${MUI_VERSION}"
 
-; Pour pouvoir copier qt-mt331.dll dans l'installeur
-!define QTDIR "C:\Qt"
-!define SOURCESYSDIR "C:\windows\system32"
+;Inclusion de fichiers
+  !include "MUI.nsh"
+  !include "Sections.nsh"
 
+;Pour pouvoir copier qt-mt331.dll dans l'installeur
+  !define QTDIR "C:\Qt"
+  !define SOURCESYSDIR "C:\windows\system32"
+  !define QTDLL "qt-mt331.dll"
+
+;Pour le cas ou on utilise VC++ pour compiler
+  !define USE_MSVCR_DLL
+
+  !ifdef USE_MSVCR_DLL
+     !define MSVCR_DLL "msvcr71.dll"
+  !endif
 
 ;--------------------------------
 ;Configuration
 
-  ;General
-  OutFile "Installer_qRezix.exe"
+;Nom
+  Name ${MUI_PRODUCT}
+  Caption "Installation de ${MUI_NAME}"
 
-  ; A laisser, pour réutiliser la conf & cie de l'ancienne version. (celle d'avant l'ancienne version en fait)
-  InstallDir "$PROGRAMFILES\ReziX"
+;General
+  OutFile "${MUI_NAME} - Installer.exe"
+  SetCompressor lzma
   
   ShowInstDetails show
   ShowUninstDetails show
   
-  InstType "Normal"
+;Configuration de l'installation
+  InstType "Complète - avec plug-ins"
+  InstType "Complète - sans plug-ins"
+  InstType "Minimum"
+
+  InstallDir "$PROGRAMFILES\ReziX"
+  
 
 ;--------------------------------
 ;Modern UI Configuration
 
+;Configuration des pages
+  !define MUI_HEADERIMAGE
+  !define MUI_WELCOMEFINISHPAGE_BITMAP "win.bmp"
   !define MUI_WELCOMEPAGE
-  !define MUI_COMPONENTSPAGE
+    !define MUI_WELCOMEPAGE_TITLE "Bienvenue à l'installation ${MUI_NAME}"
+    !define MUI_WELCOMEPAGE_TEXT "Cet assistant va te guider durant l'installation de qRezix et de ces composants.\r\n\r\nInitié par les X2000,qRezix est un programme développé par le BR pour les X. Il permet de chatter à l'intérieur de l'X, de permettre un accès facile aux données partagées...\r\n\r\nL'utilisation de ce programme est indispensable à ton intégration sur le rézal.\r\n\r\n$_CLICK"
   !define MUI_DIRECTORYPAGE
+  !define MUI_COMPONENTSPAGE
+    !define MUI_COMPONENTSPAGE_SMALLDESC
+  !define MUI_STARTMENUPAGE
+    !define MUI_STARTMENUPAGE_DEFAULTFOLDER "${MUI_PRODUCT}"
   !define MUI_FINISHPAGE
     !define MUI_FINISHPAGE_RUN "$INSTDIR\qRezix.exe"
     !define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\ReadMe.txt"
-    !define MUI_FINISHPAGE_NOREBOOTSUPPORT    
-      
+    !define MUI_FINISHPAGE_NOREBOOTSUPPORT
   !define MUI_ABORTWARNING
-  
+
   !define MUI_UNINSTALLER
   !define MUI_UNCONFIRMPAGE
-  
-  ;Modern UI System
-;  !insertmacro MUI_SYSTEM ;parce que ne veut pas se compiler
+
+;variable pour le menu démarrer
+  var STARTMENU_FOLDER  
+
+;Pages for the installer
+  !insertmacro MUI_PAGE_WELCOME
+  !insertmacro MUI_PAGE_DIRECTORY
+  !insertmacro MUI_PAGE_COMPONENTS
+  !insertmacro MUI_PAGE_STARTMENU "qRezix" $STARTMENU_FOLDER
+  !insertmacro MUI_PAGE_INSTFILES
+  !insertmacro MUI_PAGE_FINISH
+
+;Pages for the un-installer
+  !insertmacro MUI_UNPAGE_CONFIRM
+  !insertmacro MUI_UNPAGE_COMPONENTS
+  !insertmacro MUI_UNPAGE_INSTFILES
 
 
 ;--------------------------------
@@ -59,6 +108,35 @@ Function un.ShowAbort
   Abort $0
 FunctionEnd
 
+Function AddSharedDLL
+  Exch $R1
+  Push $R0
+  ReadRegDword $R0 HKLM Software\Microsoft\Windows\CurrentVersion\SharedDLLs $R1
+  IntOp $R0 $R0 + 1
+  WriteRegDWORD HKLM Software\Microsoft\Windows\CurrentVersion\SharedDLLs $R1 $R0
+  Pop $R0
+  Pop $R1
+FunctionEnd
+
+Function un.RemoveSharedDLL
+  Exch $R1
+  Push $R0
+  ReadRegDword $R0 HKLM Software\Microsoft\Windows\CurrentVersion\SharedDLLs $R1
+  StrCmp $R0 "" remove
+    IntOp $R0 $R0 - 1
+    IntCmp $R0 0 rk rk uk
+    rk:
+      DeleteRegValue HKLM Software\Microsoft\Windows\CurrentVersion\SharedDLLs $R1
+    goto Remove
+    uk:
+      WriteRegDWORD HKLM Software\Microsoft\Windows\CurrentVersion\SharedDLLs $R1 $R0
+    Goto noremove
+  remove:
+    Delete /REBOOTOK $R1
+  noremove:
+  Pop $R0
+  Pop $R1
+FunctionEnd
 
 !macro INSTALL_THEME THEME
   SetOutPath "$INSTDIR\themes"
@@ -67,22 +145,11 @@ FunctionEnd
   File "..\icons\themes\${THEME}\*.png"
 !macroend
 
-
-!macro SECTION_THEME THEME
-Section "Thème d'icones '${THEME}'" SecTheme${THEME}
-  SectionIn 1
-  !insertmacro INSTALL_THEME "${THEME}"
-SectionEnd
-!macroend
-
   
 ;--------------------------------
 ;Languages
  
-  !insertmacro MUI_LANGUAGE "French"
-
-  !define MUI_TEXT_WELCOME_INFO_TEXT "Cet assistant vous aidera à installer ${MUI_NAME}"
-  
+  !insertmacro MUI_LANGUAGE "French"  
 
 ;--------------------------------
 ;Language Strings
@@ -92,84 +159,186 @@ SectionEnd
   LangString DESC_SecStartMenu ${LANG_FRENCH} "Création d'un groupe dans le menu Démarrer"
   LangString DESC_SecLaunchStartup ${LANG_FRENCH} `Création d'un raccourci dans "Menu Démarrer\Démarrage"`
   LangString DESC_SecIconDesktop ${LANG_FRENCH} `Ajout d'un raccourci sur le bureau`
+  LangString DESC_SecThemeClassic ${LANG_FRENCH} "Thème d'icônes par défaut"
+  LangString DESC_SecThemeKrystal ${LANG_FRENCH} "Un thème d'icônes sympa"
+  LangString DESC_SecThemeNoia ${LANG_FRENCH} "Un autre thème d'icônes sympa"
+  LangString DESC_SecThememS ${LANG_FRENCH} "L'invasion des pingouins !"
+  LangString DESC_SecTransFrench ${LANG_FRENCH} `Traduction française de qRezix`
+  LangString DESC_SecPiXplo ${LANG_FRENCH} "Plug-in de l'Xplo... pour la recherche de fichiers"
 
 
 ;--------------------------------
 ;Installer Sections
 
-Section "!Base" SecBase
-  SectionIn 1 RO   ; Section toujours sélectionnée
+Section "Fichiers de base de qRezix" SecBase
+  SetDetailsPrint textonly
+  DetailPrint "Base de qRezix"
+  SetDetailsPrint listonly
 
+  SectionIn 1 2 3 RO   ; Section toujours sélectionnée
+
+  ;Installation des Dlls utilisées par qRezix
   SetOutPath "$SYSDIR"
-  ifFileExists "msvcr71.dll" msvcr_ok
-  File "${SOURCESYSDIR}\msvcr71.dll"
-  ifErrors "" +3
-    Push "Impossible d'installer $SYSDIR\msvcr71.dll.$\Relancez l'installation en tant qu'Administrateur."
-    Call ShowAbort
+  SetOverwrite off
+  
+  !ifdef USE_MSVCR_DLL
+    File "${SOURCESYSDIR}\${MSVCR_DLL}"
+    ifErrors "" +3
+      Push "Impossible d'installer $SYSDIR\${MSVCR_DLL}.\nRelancez l'installation en tant qu'Administrateur."
+      Call ShowAbort
+    push "$SYSDIR\${MSVCR_DLL}"
+    Call AddSharedDLL
+  !endif
 
-msvcr_ok:
-  IfFileExists "qt-mt331.dll" dll_ok
-  File "${QTDIR}\bin\qt-mt331.dll"
+  File "${QTDIR}\bin\${QTDLL}"
   IfErrors "" +3
-    Push "Impossible d'installer $SYSDIR\qt-mt331.dll.$\nRelancez l'installation en tant qu'Administrateur."
+    Push "Impossible d'installer $SYSDIR\${QTDLL}.\nRelancez l'installation en tant qu'Administrateur."
     Call ShowAbort
+  push "$SYSDIR\${QTDLL}"
+  Call AddSharedDLL
 
-dll_ok:  
-
+  SetOverwrite on
   SetOutPath "$INSTDIR"
   File "..\qRezix\qRezix.exe"
   IfErrors "" +3
     Push "Impossible de remplacer $INSTDIR\qRezix.exe.$\nQuittez ${MUI_PRODUCT} avant de lancer la désinstallation."  
     Call ShowAbort
-    
-  File /oname=ReadMe.txt "..\README"
-  
-;  File /oname=qrezix.qm "..\qRezix\translations\qrezix.qm"
-;  File /oname=qrezix_fr.qm "..\qRezix\translations\qrezix_fr.qm"
 
+  File /oname=ReadMe.txt "..\README"
+
+  ;Création des répertoires pour le stockages des données  
   CreateDirectory "themes"
   CreateDirectory "icones"
   CreateDirectory "log"
   CreateDirectory "translations"
+  CreateDirectory "plugins"
 
-  SetOutPath "$INSTDIR\translations"
-  File "..\qrezix\translations\*.qm"
-  SetOutPath "$INSTDIR"
+  ;Install the shortcuts in start menu
+  !insertmacro MUI_STARTMENU_WRITE_BEGIN "qRezix"
+    CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\${MUI_PRODUCT}.lnk" "$INSTDIR\qRezix.exe"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\ReadMe.lnk" "$INSTDIR\ReadMe.txt"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Désinstaller ${MUI_PRODUCT}.lnk" "$INSTDIR\uninstall.exe"
+  !insertmacro MUI_STARTMENU_WRITE_END
+
+  ;Enregistrement du chemin de stockage
+  WriteRegExpandStr HKLM "Software\qRezix\installpath" "$INSTDIR"
   
   ;Create uninstaller
+  WriteRegExpandStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "UninstallString" '"$INSTDIR\Uninstall.exe"'
+  WriteRegExpandStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "InstallLocation" "$INSTDIR"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "DisplayName" "${MUI_NAME}"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "DisplayIcon" "$INSTDIR\qRezix.exe,0"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "DisplayVersion" "${MUI_VERSION}"
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "NoModify" "1"
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "NoRepair" "1"
   WriteUninstaller "$INSTDIR\Uninstall.exe"
-
 SectionEnd
 
-
-Section "Icônes dans le Menu Démarrer" SecStartMenu
-  SectionIn 1
-  CreateDirectory "$SMPROGRAMS\${MUI_PRODUCT}"
-  CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}\${MUI_PRODUCT}.lnk" "$INSTDIR\qRezix.exe"
-  CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}\Désinstaller ${MUI_PRODUCT}.lnk" "$INSTDIR\uninstall.exe"
-SectionEnd
-
+;Les icônes à installer
+SubSection "Lancement et raccourcis" SecIcons
 
 Section "Lancer au démarrage de Windows" SecLaunchStartup
-  SectionIn 1
+  SetDetailsPrint textonly
+  DetailPrint "Lancement au démarrage de Windows"
+  SetDetailsPrint listonly
+
+  SectionIn 1 2 3
   CreateShortCut "$SMSTARTUP\${MUI_PRODUCT}.lnk" "$INSTDIR\qRezix.exe"
 SectionEnd
 
-
 Section "Icône sur le Bureau" SecIconDesktop
+  SetDetailsPrint textonly
+  DetailPrint "Icône sur le bureau"
+  SetDetailsPrint listonly
+
+  SectionIn 1 2 3
   CreateShortCut "$DESKTOP\${MUI_PRODUCT}.lnk" "$INSTDIR\qRezix.exe"
 SectionEnd
 
+SubSectionEnd ; Raccourcis
+
 
 ; Les thèmes d'icônes
+SubSection "Thèmes d'icônes" SecTheme
+
 Section "Thème d'icônes 'classic'" SecThemeClassic
-  SectionIn 1 RO
+  SetDetailsPrint textonly
+  DetailPrint "Thèmes d'icônes | classic"
+  SetDetailsPrint listonly
+
+  SectionIn 1 2 3 RO
+
   !insertmacro INSTALL_THEME "classic"
 SectionEnd
 
-!insertmacro SECTION_THEME "krystal"
-!insertmacro SECTION_THEME "NoiaWarmKDE"
-!insertmacro SECTION_THEME "mS"
+Section "Thème d'icônes 'krystal'" SecThemeKrystal
+  SetDetailsPrint textonly
+  DetailPrint "Thèmes d'icônes | krystal"
+  SetDetailsPrint listonly
+
+  SectionIn 1 2
+
+  !insertmacro INSTALL_THEME "krystal"
+SectionEnd
+
+Section "Thème d'icônes 'Noia'" SecThemeNoia
+  SetDetailsPrint textonly
+  DetailPrint "Thèmes d'icônes | NoiaWarmKDE"
+  SetDetailsPrint listonly
+
+  SectionIn 1 2
+
+  !insertmacro INSTALL_THEME "NoiaWarmKDE"
+SectionEnd
+
+Section "Thème d'icônes 'mS'" SecThememS
+  SetDetailsPrint textonly
+  DetailPrint "Thèmes d'icônes | mS"
+  SetDetailsPrint listonly
+
+  SectionIn 1 2
+
+  !insertmacro INSTALL_THEME "mS"
+SectionEnd
+
+SubSectionEnd ; Theme
+
+
+;Traductions
+SubSection "Traductions" SecTrans
+
+Section "Traduction française" SecTransFrench
+  SetDetailsPrint textonly
+  DetailPrint "Traductions | Français"
+  SetDetailsPrint listonly
+
+  SectionIn 1 2 3
+
+  SetOutPath "$INSTDIR\translations"
+  File "..\qrezix\translations\qrezix_fr.qm"
+  SetOutPath "$INSTDIR"
+SectionEnd
+
+SubSectionEnd ; Traductions
+
+
+;Plug-ins
+SubSection "Plug-ins" SecPlugIns
+
+Section "Plug-in de l'Xplo" SecPiXplo
+  SetDetailsPrint textonly
+  DetailPrint "Plug-ins | Xplo"
+  SetDetailsPrint listonly
+
+  SectionIn 1
+
+  SetOutPath "$INSTDIR\plugins"
+  File "..\qrezix\plugins\rzxpixplo.dll"
+  SetOutPath "$INSTDIR"
+SectionEnd
+
+SubSectionEnd ; Plug-ins
 
 
 ; Juste pour s'assurer que le PWD soit bon à l'exécution de qrezix.exe
@@ -178,56 +347,83 @@ Section "-Post"
 SectionEnd
 
 
-;Display the Finish header
-;Insert this macro after the sections if you are not using a finish page
-;!insertmacro MUI_SECTIONS_FINISHHEADER
-
-
 ;--------------------------------
 ;Descriptions
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SecBase} $(DESC_SecBase)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecStartMenu} $(DESC_SecStartMenu)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecIcons} "Raccourcis et lancement"
   !insertmacro MUI_DESCRIPTION_TEXT ${SecLaunchStartup} $(DESC_SecLaunchStartup)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecIconDesktop} $(DESC_SecIconDesktop)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeClassic} "Thème d'icônes par défaut"
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeKrystal} "Un thème d'icônes sympa"
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeNoia_Warm_KDE} "Un autre thème d'icônes sympa"
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecThememS} "L'invasion des pingouins !"
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecTheme} "Thèmes d'icônes pour qRezix"
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeClassic} $(DESC_SecThemeClassic)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeKrystal} $(DESC_SecThemeKrystal)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeNoia} $(DESC_SecThemeNoia)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecThememS} $(DESC_SecThemems)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecTrans} "Traductions de qRezix"
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecTransFrench} $(DESC_SecTransFrench)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecPlugIns} "Plug-ins pour qRezix"
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecPiXplo} $(DESC_SecPiXplo)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
- 
+
 
 ;--------------------------------
-;Uninstaller Section
+;Uninstaller Sections
 
-;UninstallText "Ceci désinstallera ${MUI_NAME}. Appuyez sur suivant pour continuer."
+;Suppression du programme principale
+Section "un.Suppression de qRezix" Uninstall
+  SetDetailsPrint textonly
+  DetailPrint "Supression de qRezix"
+  SetDetailsPrint listonly
 
-Section "Uninstall"
+  SectionIn RO
 
   Delete "$INSTDIR\qRezix.exe"
   IfErrors "" +3
     Push "Impossible de supprimer $INSTDIR\qRezix.exe.$\nQuittez ${MUI_PRODUCT} avant de lancer la désinstallation."
     Call un.ShowAbort
 
-  Delete "$INSTDIR\Uninstall.exe"  
+  Delete "$INSTDIR\Uninstall.exe"
   Delete "$INSTDIR\ReadMe.txt"
-  Delete "$INSTDIR\translations\*.qm"
-
+  RMDir "$INSTDIR\translations"
+  RMDir /r "$INSTDIR\plug-ins"
   RMDir "$INSTDIR"
 
-  RMDir /r "$SMPROGRAMS\${MUI_PRODUCT}"
+  ;Suppression si nécessaire des DLL partagées
+  !ifdef USE_MSVCR_DLL
+    Push "$SYSDIR\${MSVCR_DLL}"
+    Call un.RemoveSharedDLL
+  !endif
+  Push "$SYSDIR\${QTDLL}"
+  Call un.RemoveSharedDLL
+
+  ;Suppression des raccourcis
+  !insertmacro MUI_STARTMENU_GETFOLDER "qRezix" $STARTMENU_FOLDER
+  RMDir /r "$SMPROGRAMS\$STARTMENU_FOLDER"
   Delete "$SMSTARTUP\${MUI_PRODUCT}.lnk"
   Delete "$DESKTOP\${MUI_PRODUCT}.lnk"
 
-  MessageBox MB_YESNO "Supprimer tout le contenu du répertoire $INSTDIR ?$\nCeci effacera vos préférences, vos historiques de communication et vos favoris... Il est fortement recommander de CONSERVER CE REPERTOIRE pour pouvoir se reconnecter au xNet ultérieurement" IDNO normal_clean
-  
+  ;Suppression des informations de désinstallation    
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" 
+SectionEnd
+
+
+;Suppression des préférences
+Section /o "un.Supprimer les préférences" UninstPref
+  SetDetailsPrint textonly
+  DetailPrint "Suppression des préférences"
+  SetDetailsPrint listonly
+
   Delete "$INSTDIR\*.*"
   RMDir /r "$INSTDIR"
-  
-normal_clean:  
-  
-  ;Display the Finish header
- ; !insertmacro MUI_UNFINISHHEADER
-
+  DeleteRegKey HKLM "Software\qRezix"
 SectionEnd
+
+
+;--------------------------------
+;Uninstaller description
+
+!insertmacro MUI_UNFUNCTION_DESCRIPTION_BEGIN
+  !insertmacro MUI_DESCRIPTION_TEXT ${Uninstall} "Supprimer qRezix"
+  !insertmacro MUI_DESCRIPTION_TEXT ${UninstPref} "Supprime les préférences, historiques des discussions... RAPPELEZ-VOUS DE VOTRE PASS POUR VOUS RECONNECTER AU xNet ULTERIEUREMENT"
+!insertmacro MUI_UNFUNCTION_DESCRIPTION_END

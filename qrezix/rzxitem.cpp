@@ -26,20 +26,25 @@
 //#include <kdebug.h>
 #endif
 
-RzxItem::RzxItem(QObject * parent, QListView * view)
-	 : QObject(parent)  {
+RzxItem::RzxItem(RzxComputer *parent, QListView * view, bool show)
+	 : QObject(parent), QListViewItem(view)  {
 	
-	item = new ListViewItem(view, this);
+	pixmaps.setAutoDelete(true);
+	texts.setAutoDelete(true);
+	textLengths.setAutoDelete(true);
+	textSplit.setAutoDelete(true);
 	
-	QObject * computer = QObject::parent();
-	ASSERT(computer -> inherits("RzxComputer"));
-	item -> ip = ((RzxComputer *) computer) -> getIP();
-	item -> repondeur = ((RzxComputer *) computer) ->getRepondeur();
-	item -> promo = ((RzxComputer *) computer) -> getPromo();
+	showNotFavorite = show;
+	
+	RzxComputer* computer = getComputer();
+	Q_ASSERT(computer != NULL);
+	ip = computer->getIP();
+	repondeur =  computer->getRepondeur();
+	promo =  computer->getPromo();
+	setVisible(show || RzxConfig::globalConfig()->favorites->find( computer->getName()));
 }
 
 RzxItem::~RzxItem(){
-	delete item;
 }
 
 //importé de rzxrezal.cpp
@@ -51,17 +56,14 @@ RzxItem::~RzxItem(){
 
 /** No descriptions */
 void RzxItem::update(){
-	QObject * computerObj = QObject::parent();
-	if (!computerObj)
-		return;
-	if (!computerObj -> inherits("RzxComputer"))
+	RzxComputer *computer = getComputer();
+	if (!computer)
 		return;
 
-	RzxComputer * computer = (RzxComputer *) computerObj;
-	item -> icon = computer  -> getIcon();
-	item -> drawComputerIcon();
-	item -> setText(RzxRezal::ColNom, computer -> getName());
-	item -> setText(RzxRezal::ColRemarque, computer -> getRemarque());
+	icon = computer  -> getIcon();
+	drawComputerIcon();
+	setText(RzxRezal::ColNom, computer -> getName());
+	setText(RzxRezal::ColRemarque, computer -> getRemarque());
 	
 	RzxComputer::options_t options = computer -> getOptions();
 	QArray<QPixmap *> yesno = RzxConfig::yesnoIcons();
@@ -77,90 +79,73 @@ void RzxItem::update(){
 		if(codeIdx!=2) {
 			imgIdx = options.Server & mask ? 1 : 0;
 			int code=codeIdx+base +(codeIdx>2 ? -1: 0);
-			item -> setPixmap(code, *yesno[imgIdx*5+codeIdx]);
+			setPixmap(code, *yesno[imgIdx*5+codeIdx]);
 		}
 		mask=mask<<1;
 	}
 	
 	QArray<QPixmap *> os = RzxConfig::osIcons();
-	item -> setPixmap(RzxRezal::ColOS, *os[(int) options.SysEx]);
+	setPixmap(RzxRezal::ColOS, *os[(int) options.SysEx]);
 	
 	RzxHostAddress ip = RzxServerListener::object() -> getIP();
-	item -> gateway = ip.sameGateway(computer -> getIP());
-	QArray<QPixmap *> gateway = RzxConfig::gatewayIcons();
+	gateway = ip.sameGateway(computer -> getIP());
+	QArray<QPixmap *> l_gateway = RzxConfig::gatewayIcons();
 	// gateway[0] contient l'icone qu'il faut afficher si les deux passerelles sont !=
 	// gateway[1] contient celle lorsqu'elles sont identiques.
-	if(!gateway[item->gateway?1:0]) qDebug(QString("No gateway pixmap for %1").arg(item->gateway));
-	item -> setPixmap(RzxRezal::ColGateway, *(gateway[item -> gateway ? 1 : 0]));
+	if(!l_gateway[gateway?1:0]) qDebug(QString("No gateway pixmap for %1").arg(gateway));
+	setPixmap(RzxRezal::ColGateway, *(l_gateway[gateway ? 1 : 0]));
 
-	item -> sysex = options.SysEx;
-	item -> servers = options.Server;
-	item -> repondeur = (options.Repondeur==RzxComputer::REP_ON);
-	if (item -> sysex < 3) item -> sysex += 6;
+	sysex = options.SysEx;
+	servers = options.Server;
+	repondeur = (options.Repondeur==RzxComputer::REP_ON);
+	if (sysex < 3) sysex += 6;
 
 	int promo=options.Promo;
 	QArray<QPixmap *> promos = RzxConfig::promoIcons();
 	if(promo==RzxComputer::PROMAL_ORANGE)
-		item->setPixmap(RzxRezal::ColPromo,*promos[0]);
+		setPixmap(RzxRezal::ColPromo,*promos[0]);
 	else if(promo==RzxComputer::PROMAL_ROUJE)
-		item->setPixmap(RzxRezal::ColPromo,*promos[1]);
+		setPixmap(RzxRezal::ColPromo,*promos[1]);
 	else if(promo==RzxComputer::PROMAL_JONE)
-		item->setPixmap(RzxRezal::ColPromo,*promos[2]);
+		setPixmap(RzxRezal::ColPromo,*promos[2]);
 		
-	item -> setup();
+	setup();
+	setVisible(showNotFavorite || RzxConfig::globalConfig()->favorites->find((computer -> getName())));
 	
-}
-
-RzxItem::ListViewItem::ListViewItem(QListView * view, RzxItem * item)
-	: QListViewItem(view), m_item(item)
-{
-//	setMultiLinesEnabled(true);
-	
-	pixmaps.setAutoDelete(true);
-	texts.setAutoDelete(true);
-	textLengths.setAutoDelete(true);
-	textSplit.setAutoDelete(true);
-
 }
 
 /** No descriptions */
-QString RzxItem::ListViewItem::key(int column, bool ascending) const{
-	QString prefix; bool test;
+QString RzxItem::key(int column, bool ascending) const{
+	QString prefix;
+	 bool test;
 
-	if(RzxConfig::favoritesMode()){
-		if(RzxConfig::globalConfig()->favorites->find(text(1)))
-			prefix="0";
-		else
-			prefix="1";
-	}
-	else prefix="";
 	switch(column) {
 		case RzxRezal::ColIcone: case RzxRezal::ColNom:
-			return prefix + text(1).lower();
+			return text(1).lower();
 		case RzxRezal::ColSamba: case RzxRezal::ColFTP:
 			test = (servers >> (column - 3)) & 1;
 			prefix += QString::number(!test);
-			return prefix + text(1).lower();
+			return text(1).lower();
 		case RzxRezal::ColHTTP: case RzxRezal::ColNews:
 			test = (servers >> (column - 2)) & 1;
 			prefix += QString::number(!test);
-			return prefix + text(1).lower();
+			return text(1).lower();
 		case RzxRezal::ColOS:
 			prefix += QString::number(sysex);
-			return prefix + text(1).lower();
+			return text(1).lower();
 		case RzxRezal::ColGateway:
 			prefix += gateway ? "0" : "1";
-			return prefix + text(1).lower();
+			return text(1).lower();
 		case RzxRezal::ColPromo:
 			prefix+= QString::number(promo);
-			return prefix + text(1).lower();
+			return text(1).lower();
 		
 		default:
 			return QListViewItem::key(column, ascending);
 	};
 }
 /** No descriptions */
-void RzxItem::ListViewItem::drawComputerIcon(){
+void RzxItem::drawComputerIcon(){
 	QPixmap tempIcon = icon;
 	if (!icon.isNull() && !RzxConfig::computerIconSize()) {
 		QImage img = icon.convertToImage();
@@ -170,7 +155,7 @@ void RzxItem::ListViewItem::drawComputerIcon(){
 	setPixmap(0, tempIcon);
 }
 
-void RzxItem::ListViewItem::resizeDataVectors(int size) {
+void RzxItem::resizeDataVectors(int size) {
 	colWidth.resize(size);
 	pixmaps.resize(size);
 	texts.resize(size);
@@ -179,7 +164,7 @@ void RzxItem::ListViewItem::resizeDataVectors(int size) {
 }
 	
 
-void RzxItem::ListViewItem::updatePixmap(int column, int width) {
+void RzxItem::updatePixmap(int column, int width) {
 	if ((int)pixmaps.size() <= column) resizeDataVectors(column + 1);
 	const QPixmap * pix = pixmap(column);	
 	if (!pix) return;
@@ -196,7 +181,7 @@ void RzxItem::ListViewItem::updatePixmap(int column, int width) {
 	}
 }
 
-void RzxItem::ListViewItem::updateText(int column, int width, const QFontMetrics& fm) {
+void RzxItem::updateText(int column, int width, const QFontMetrics& fm) {
 	if ((int)texts.size() <= column) resizeDataVectors(column + 1);
 	QString str = text(column);
 	if (str.isEmpty()) return;
@@ -248,10 +233,8 @@ void RzxItem::ListViewItem::updateText(int column, int width, const QFontMetrics
 	}
 }
 
-
-
 /** No descriptions */
-void RzxItem::ListViewItem::paintCell(QPainter * p, const QColorGroup& cg, int column, int width, int align){
+void RzxItem::paintCell(QPainter * p, const QColorGroup& cg, int column, int width, int align){
 	// ATTENTION: on considere que TOUTES les images sont centrees (on ne prend pas en compte align)
 	if (!width) return;
 	int height = QListViewItem::height();
@@ -307,7 +290,7 @@ void RzxItem::ListViewItem::paintCell(QPainter * p, const QColorGroup& cg, int c
 	p -> drawPixmap(x, y, *pix);
 }
 
-void RzxItem::ListViewItem::setText(int column, const QString& text) {
+void RzxItem::setText(int column, const QString& text) {
 	QListViewItem::setText(column, text);
 	if ((int) textSplit.size() <= column) resizeDataVectors(column + 1);
 	colWidth[column] = 0;
@@ -321,7 +304,7 @@ void RzxItem::ListViewItem::setText(int column, const QString& text) {
 	if (!texts[column]) texts.insert(column, new QString);
 }
 
-void RzxItem::ListViewItem::setPixmap(int column, const QPixmap& pix) {
+void RzxItem::setPixmap(int column, const QPixmap& pix) {
 	QListViewItem::setPixmap(column, pix);
 	if ((int) pixmaps.size() <= column) resizeDataVectors(column + 1);
 	colWidth[column] = 0;
@@ -334,8 +317,3 @@ void RzxItem::ListViewItem::setPixmap(int column, const QPixmap& pix) {
 	if (!pixmaps[column]) pixmaps.insert(column, new QPixmap);
 	*pixmaps[column] = pix;
 }
-
-RzxItem * RzxItem::ListViewItem::getItem() const {
-	return m_item;
-}
-

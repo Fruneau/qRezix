@@ -98,12 +98,10 @@ void RzxProtocole::parse(const QString& msg){
 						val = pwd.toInt(&ok, 16);
 						if (ok) {
 							sendAuth(val, RzxConfig::localHost());
-							RzxConfig::globalConfig()->writeEntry("pass", val);
-							RzxConfig::globalConfig()->write();
+							RzxConfig::globalConfig()->setPass(val);
 						}
 					}
 				}
-//				emit sysmsg(QString("Wrong password"));
 				break;
 
 			case SERVER_FATAL:
@@ -117,14 +115,13 @@ void RzxProtocole::parse(const QString& msg){
 									   "KEEP IT WELL because without it, you may not be able to connect to the server")).arg(msgParams));
 				val = msgParams.toInt(&ok, 16);
 				if (ok) {
-					RzxConfig::globalConfig()->writeEntry("pass", val);
-					RzxConfig::globalConfig()->write();
+					RzxConfig::globalConfig()->setPass(ok);
 				}
 				break;
 				
 			case SERVER_PART:
 				val = msgParams.toULong(&ok, 16);
-				if (ok)					
+				if (ok)
 					emit logout(RzxHostAddress::fromRezix(val));
 				break;
 				
@@ -182,16 +179,6 @@ void RzxProtocole::sendRefresh(RzxComputer * thisComputer) {
 	QString msg = "REFRESH ";
 	msg = msg + thisComputer -> serialize() + "\r\n";
 	emit send(msg);
-}
-
-void RzxProtocole::sendFileList(int n, const QString& files)
-{
-	emit send(QString("SETINDEX %1\r\n").arg(n) + files);
-}
-
-void RzxProtocole::sendDeleteList()
-{
-	emit send(QString("DELINDEX\r\n"));
 }
 
 void RzxProtocole::sendPart() {

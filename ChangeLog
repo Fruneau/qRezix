@@ -1,4 +1,13 @@
-[v1.3.666] 2004-07-10 <br2002@frankiz@polytechnique.fr>
+[v1.3.666] 2004-08-22 <br2002@frankiz.polytechnique.fr>
+    * Affichage des propriétés et de l'historique dépendamment de la fenêtre de chat [Fruneau]
+    * Ajout d'un message d'un ping-pong pour le DCC en tapant "/ping" [Fruneau]
+    * Ajout d'une classe propre pour la gestion de la connexion DCC [Fruneau]
+    * Interface plus conviviale avec extension des thèmes d'icônes au menu [Fruneau]
+    * Ajout de la date à l'historique... c'est plus pratique [Fruneau]
+    * Bloquage de qRezix si les données personnelles ne sont pas rentrées [Fruneau]
+    * Changement de la trayicon pour qu'elle s'intègre correctement avec Gnome [Pico, Fruneau]
+    * Changement du format de stockage des configurations en QSettings (c plus pratique et plus portable) [Fruneau]
+    * Ajout du structure d'accueil de plug-ins [Fruneau]
     * Passage du peer-to-peer en TCP [Fruneau]
     * Ajout du choix de client ftp, http, news personnalisé [NC]
     * Ajout de la détection automatique des serveurs ftp, http, news et samba [Fruneau]
@@ -69,7 +78,7 @@ install [Steak, Kikx]
     * détection auto de l'OS et du localhost [Mummy]
 
 2002-02-22 <br2000@frankiz.polytechnique.fr>
-
+    
     * les icones s'enregistrent toujours dans leur format d'origine
 (corrige le bug des icones en 16 couleurs de Manao) [Doudou]
 
