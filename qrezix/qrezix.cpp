@@ -345,6 +345,11 @@ void QRezix::activateAutoResponder( bool state )
 ///Lancement d'une recherche sur le pseudo dans la liste des personnes connectées
 void QRezix::launchSearch()
 {
+	if(btnSearch->isOn())
+	{
+		btnSearch->setOn(false);
+		return;
+	}
 	if(!leSearch->text().length()) btnSearch->setOn(false);
 	else btnSearch->setOn(true);
 }
