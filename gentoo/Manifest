@@ -2,7 +2,7 @@
 Hash: SHA1
 
 MD5 d6f415ab6c306bfb91ce7a026b8fc9e9 ChangeLog 6525
-MD5 b49b78fd2dd9aeb2080560ad7a4bfa02 qrezix-1.6.1.ebuild 633
+MD5 d85db9e71296c84ee013751b6eda5683 qrezix-1.6.1.ebuild 594
 MD5 2655f645efbb3d7828009930257a325e files/digest-qrezix-1.6.1.ebuild 65
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.2.6 (GNU/Linux)

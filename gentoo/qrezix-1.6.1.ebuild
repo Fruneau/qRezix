@@ -6,7 +6,6 @@ inherit eutils
 
 DESCRIPTION="qRezix : a xNet client made in Qt"
 HOMEPAGE="http://frankiz/"
-export FEATURES="-sandbox ${FEATURES}"
 
 # Point to any required sources; these will be automatically downloaded by
 # Portage.
