@@ -69,13 +69,16 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	connect(btnMAJcolonnes, SIGNAL(clicked()), rezalFavorites, SLOT(afficheColonnes()));
 	connect(btnAutoResponder, SIGNAL(toggled(bool)), this, SLOT(activateAutoResponder(bool)));
 	connect(btnPlugins, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
-	connect(btnSearch, SIGNAL(toggled(bool)), rezal, SLOT(activeFilter(bool)));
-	connect(btnSearch, SIGNAL(toggled(bool)), rezalFavorites, SLOT(activeFilter(bool)));
-	connect(leSearch, SIGNAL(returnPressed()), this, SLOT(launchSearch()));
 	connect(&menuPlugins, SIGNAL(aboutToHide()), btnPlugins, SLOT(toggle()));
  
 	connect(RzxClientListener::object(), SIGNAL(chatSent()), this, SLOT(chatSent()));
 
+	connect(leSearch, SIGNAL(returnPressed()), this, SLOT(launchSearch()));
+	connect(btnSearch, SIGNAL(toggled(bool)), rezal, SLOT(activeFilter(bool)));
+	connect(btnSearch, SIGNAL(toggled(bool)), rezalFavorites, SLOT(activeFilter(bool)));
+	connect(leSearch, SIGNAL(textChanged(const QString&)), rezal, SLOT(setFilter(const QString&)));
+	connect(leSearch, SIGNAL(textChanged(const QString&)), rezalFavorites, SLOT(setFilter(const QString&)));
+	
 	// Préparation de l'insterface
 	activateAutoResponder( RzxConfig::autoResponder() != 0 );
 
@@ -296,8 +299,6 @@ void QRezix::activateAutoResponder( bool state )
 ///Lancement d'une recherche sur le pseudo dans la liste des personnes connectées
 void QRezix::launchSearch()
 {
-	rezal->setFilter(leSearch->text());
-	rezalFavorites->setFilter(leSearch->text());
 	if(!leSearch->text().length()) btnSearch->setOn(false);
 	else btnSearch->setOn(true);
 }
@@ -392,7 +393,6 @@ void QRezix::changeTheme()
 	btnSearch->setIconSet(search);
 	tbRezalContainer->setItemIconSet(1,not_favorite);
 	tbRezalContainer->setItemIconSet(0,favorite);
-	tbRezalContainer->setItemIconSet(2,search);
 	if(statusFlag)
 		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("on"));
 	else
@@ -427,7 +427,6 @@ void QRezix::menuFormatChange()
 				btnSearch->setIconSet(empty);
 				tbRezalContainer->setItemIconSet(0,empty);
 				tbRezalContainer->setItemIconSet(1,empty);
-				tbRezalContainer->setItemIconSet(2,empty);
 				lblStatusIcon->setHidden(TRUE);
 			}
 			break;
