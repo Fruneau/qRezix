@@ -187,8 +187,12 @@ void QRezix::saveSettings()
 	QString height = QString("%1").arg(s.height(), 4, 10).replace(' ', '0');
 	QString width =  QString("%1").arg(s.width(), 4, 10).replace(' ', '0');
 	QString windowSize;
-	if( statusMax ) windowSize = "100000000";
-	else windowSize="0"+height+width;
+	#ifndef Q_OS_MACX
+	if( statusMax )
+		windowSize = "100000000";
+	else
+	#endif
+		windowSize="0"+height+width;
 	qDebug("Fermeture des plugins");
 	delete RzxPlugInLoader::global();
 	qDebug("Fermeture de l'enregistrement des configurations");
