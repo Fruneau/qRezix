@@ -17,6 +17,7 @@
 #include <qimage.h>
 #include <qbrush.h>
 #include <qpainter.h>
+#include <qfont.h>
 #include "rzxitem.h"
 #include "rzxcomputer.h"
 #include "rzxserverlistener.h"
@@ -278,7 +279,12 @@ void RzxItem::paintCell(QPainter * p, const QColorGroup& cg, int column, int wid
 		return;
 	}
 	
-	if (!pix) {
+	if (!pix) 
+	{
+		QFont font = p->font();
+		font.setBold(isSelected() && column == RzxRezal::ColNom);
+		font.setItalic(repondeur);
+		p->setFont(font);
 		p -> setBackgroundMode(OpaqueMode);
 		p -> drawText(0, 0, width, height, align, *txt);
 		return;

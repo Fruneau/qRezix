@@ -125,7 +125,7 @@ protected slots: // Protected slots
 	void onListDblClicked(QListViewItem * sender);
 	void onListClicked(QListViewItem *, const QPoint &, int);
 	void historique();
-	void redrawSelectedIcon(QListViewItem *sel);
+	void redrawSelectedIcon(QListViewItem *sel = NULL);
 
 protected:
 	void resizeEvent(QResizeEvent * e);
