@@ -555,7 +555,6 @@ void RzxClientListener::close()
 void RzxClientListener::attach(RzxChatSocket *sock)
 {
 	connect(sock, SIGNAL(propertiesSent(const RzxHostAddress& )), this, SIGNAL(propertiesSent(const RzxHostAddress& )));
-	connect(sock, SIGNAL(chat(const RzxHostAddress&)), this, SIGNAL(chat(const RzxHostAddress&)));
 	connect(sock, SIGNAL(chatSent()), this, SIGNAL(chatSent()));
 }
 
