@@ -294,18 +294,6 @@ void RzxRezal::init()
 	selected = NULL;
 }
 
-///Retourne la liste des IP des gens connectés
-/** Permet pour les plug-ins d'obtenir facilement la liste les ip connectées */
-QStringList RzxRezal::getIpList()
-{
-	QDictIterator<RzxComputer> it(lister->iplist);
-	QStringList ips;
-	for( ; it.current() ; ++it)
-	{
-		ips << (it.currentKey());
-	}
-	return ips;
-}
 
 /*************************
 * GESTION DU CHAT
@@ -313,25 +301,11 @@ QStringList RzxRezal::getIpList()
 
 RzxChat * RzxRezal::chatCreate(const QString& login)
 {
-	RzxItem *item;
+	QString m_login = login;
 	if(!login)
-		item=(RzxItem*) currentItem();
-	else
-		item=(RzxItem*) findItem(login, ColNom, ExactMatch);
-	if(!item) return NULL;
-	RzxHostAddress tempip = (item->ip);
-	return lister->chatCreate(tempip);
+		m_login = currentItem()->text(ColNom);
+	return lister->chatCreate(m_login);
 }
-
-///Fermeture du chat (si il existe) associé au login
-void RzxRezal::closeChat( const QString& login )
-{
-	RzxItem * item = ( RzxItem* ) findItem( login, ColNom, ExactMatch );
-	if ( !item ) return ;
-	RzxChat *chat = lister->chats.find( item->ip.toString() );
-	chat->close();
-}
-
 
 
 /** CRASSOU AU POSSIBLE
