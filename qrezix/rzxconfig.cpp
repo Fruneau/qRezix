@@ -217,7 +217,35 @@ RzxConfig::RzxConfig()
 /**
 */
 RzxConfig::~RzxConfig(){
-	delete fontProperties;
+	if(settings)
+		delete settings;
+	if(fontProperties)
+	{
+		fontProperties->setAutoDelete(true);
+		fontProperties->clear();
+		delete fontProperties;
+	}
+	if(favorites)
+	{
+		favorites->setAutoDelete(true);
+		favorites->clear();
+		delete favorites;
+	}
+	if(ignoreList)
+	{
+		ignoreList->setAutoDelete(true);
+		ignoreList->clear();
+		delete ignoreList;
+	}
+	translations.setAutoDelete(true);
+	allIcons.setAutoDelete(true);
+	progIcons.setAutoDelete(true);
+	fileEntries.setAutoDelete(true);
+	translations.clear();
+	allIcons.clear();
+	progIcons.clear();
+	fileEntries.clear();
+	Config = NULL;
 }
 
 /**
