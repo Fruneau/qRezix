@@ -18,6 +18,7 @@
 #include <qobjectlist.h>
 
 #include "rzxrezal.h"
+
 #include "rzxconfig.h"
 #include "rzxchat.h"
 #include "rzxitem.h"
