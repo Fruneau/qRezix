@@ -425,11 +425,11 @@ Les discussions et les propriétés sont désactivées</translation>
         <translation>Message du serveur XNet</translation>
     </message>
     <message>
-        <source>Properties sent to </source>
+        <source>has checked your properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>has checked your properties</source>
+        <source>Properties sent to </source>
         <translation type="unfinished"></translation>
     </message>
 </context>

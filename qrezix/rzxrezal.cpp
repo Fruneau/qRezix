@@ -675,7 +675,7 @@ void RzxRezal::warnProperties(const RzxHostAddress& peer) {
                                 cur.second());
 				
 	if (!object) {
-		sysmsg(tr("("+heure+") Properties sent to ")+computer->getName()+" ("+peer.toString()+")");
+		sysmsg("("+heure+") " +tr("Properties sent to ")+computer->getName()+" ("+peer.toString()+")");
 		return;
 	}
 	object->append("gray", computer->getName(), tr("has checked your properties"));
