@@ -60,7 +60,7 @@ RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 void RzxChat::init()
 {
 	hist = prop = NULL;
-
+	
 	//
 	QAccel * accel = new QAccel(btnSend);
 	accel -> insertItem(CTRL + Key_Return, 100);
@@ -286,11 +286,6 @@ void RzxChat::append(const QString& color, const QString& host, const QString& m
 /** Affiche un message reçu, et emet un son s'il faut */
 void RzxChat::receive(const QString& msg)
 {
-	if(RzxConfig::autoResponder())
-	{
-		send(RzxConfig::autoResponderMsg());
-		return;
-	}
 	QString message = msg;
 	RzxPlugInLoader::global()->chatChanged(edMsg);
 	RzxPlugInLoader::global()->chatReceived(&message);

@@ -56,8 +56,6 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	connect( chkBeep, SIGNAL(toggled(bool)), btnBeepBrowse, SLOT(setEnabled(bool)));
 	connect( chkBeep, SIGNAL(toggled(bool)), txtBeep, SLOT(setEnabled(bool)));
 	connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
-	connect( hostname, SIGNAL(textChanged(const QString&)), this, SLOT(validDns()));
-	connect( remarque, SIGNAL(textChanged(const QString&)), this, SLOT(validRemarque()));
 	
 	hostname->setValidator( new DnsValidator() );
 	QRegExp mask("[^\n\r]+");
