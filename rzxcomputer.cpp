@@ -173,17 +173,17 @@ QString RzxComputer::getPromoText() const
 QString RzxComputer::getFilename() const 
 { return QString::number(stamp, 16) + "-" + QString::number(ip.ip4Addr(),16) + ".png"; }
 QString RzxComputer::getName() const 
-{ return name; };
+{ return name; }
 RzxComputer::options_t RzxComputer::getOptions() const 
-{ return options; };
+{ return options; }
 RzxComputer::version_t RzxComputer::getVersion() const 
-{ return version; };
+{ return version; }
 RzxHostAddress RzxComputer::getIP() const 
-{ return ip; };
+{ return ip; }
 unsigned long RzxComputer::getFlags() const
-{ return flags; };
+{ return flags; }
 QString RzxComputer::getRemarque() const 
-{ return remarque; };
+{ return remarque; }
 QPixmap RzxComputer::getIcon() const 
 { return icon; }
 int RzxComputer::getServers() const
