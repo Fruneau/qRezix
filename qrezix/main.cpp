@@ -104,7 +104,9 @@ int main(int argc, char *argv[])
 			rezix->show();
 		
 		QObject::connect(&a, SIGNAL(aboutToQuit()), rezix, SLOT(saveSettings()));
-			
+		
+		rezix->changeTrayIcon();
+		
 		return a.exec();
 	}
 }
