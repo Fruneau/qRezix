@@ -187,6 +187,8 @@ void RzxProperty::initDlg() {
 	cbcPromo ->setChecked( colonnes & (1<<RzxRezal::ColPromo) );
 	cbQuit->setChecked(RzxConfig::showQuit());
 
+	cbHighlight->setChecked(RzxConfig::computerIconHighlight());
+	
 	clientFtp ->clear();
 	clientHttp ->clear();
 	clientNews ->clear();
@@ -244,7 +246,7 @@ void RzxProperty::initDlg() {
 
 	txtWorkDir->setText( RzxConfig::globalConfig() ->FTPPath() );
 	writeColDisplay();
-
+	
 	cbSystray->setChecked( RzxConfig::globalConfig() ->useSystray() );
 	cbPropertiesWarning->setChecked(RzxConfig::globalConfig() -> warnCheckingProperties() );
 	cbPrintTime->setChecked(RzxConfig::globalConfig() -> printTime());
