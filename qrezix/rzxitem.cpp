@@ -105,7 +105,7 @@ void RzxItem::update(){
 
 	int promo=options.Promo;
 	QArray<QPixmap *> promos = RzxConfig::promoIcons();
-	if(promo==RzxComputer::PROMAL_ORANGE)
+	if(promo==RzxComputer::PROMAL_ORANGE || promo==RzxComputer::PROMAL_UNK)
 		setPixmap(RzxRezal::ColPromo,*promos[0]);
 	else if(promo==RzxComputer::PROMAL_ROUJE)
 		setPixmap(RzxRezal::ColPromo,*promos[1]);
