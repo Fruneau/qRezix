@@ -163,6 +163,7 @@ protected: // Protected methods
 	void showEvent ( QShowEvent * e);
 #endif
 	void closeEvent(QCloseEvent * e);
+	void moveEvent(QMoveEvent *e);
 };
 
 /// Retourne un socket valide
