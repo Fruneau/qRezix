@@ -76,6 +76,7 @@ protected:
 	QTimer * timer;
 	ListText * history;
 	ListText * curLine;
+	QFont* defFont;
 	
 signals: // Signals
 	void send(const RzxHostAddress& peer, const QString& message);
@@ -93,6 +94,9 @@ protected slots:
 	void messageReceived();
 	void btnHistoriqueClicked();
 	void btnPropertiesClicked();
+	void fontChanged(int index);
+	void sizeChanged(int index);
+	void activateFormat(bool on);
 	void onReturnPressed();
 	void onArrowPressed(bool down);
 	void onTextChanged();

@@ -28,6 +28,7 @@
 #include <qdir.h>
 #include <qregexp.h>
 #include <qcheckbox.h>
+#include <qcombobox.h>
 
 #include <qsound.h>
 #ifndef WIN32
@@ -56,9 +57,20 @@ RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 	//on ajoute l'icone du son
 	btnSound -> setPixmap(*RzxConfig::soundIcon(false)); //true par défaut
 	
-	
+	//gestion touches haut et bas
 	curLine = history = 0;
 	
+	defFont = new QFont("Terminal", 11);
+	//chargement des fontes
+	cbFontSelect->insertStringList(RzxConfig::globalConfig()->getFontList());
+	connect(cbFontSelect, SIGNAL(activated(int)), this, SLOT(fontChanged(int)));
+	fontChanged(0);
+	connect(btnBold, SIGNAL(toggled(bool)), edMsg, SLOT(setBold(bool)));
+	connect(btnItalic, SIGNAL(toggled(bool)), edMsg, SLOT(setItalic(bool)));
+	connect(btnUnderline, SIGNAL(toggled(bool)), edMsg, SLOT(setUnderline(bool)));
+	connect(cbSize, SIGNAL(activated(int)), this, SLOT(sizeChanged(int)));
+	txtHistory -> setTextFormat(Qt::RichText);
+	txtHistory -> setReadOnly(true);
 	// on rajoute le bouton maximiser
 	peer = peerAddress;
 
@@ -77,6 +89,8 @@ RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 	connect(edMsg, SIGNAL(arrowPressed(bool)), this, SLOT(onArrowPressed(bool)));
 	connect(edMsg, SIGNAL(textWritten()), this, SLOT(onTextChanged()));
 	connect(btnSound, SIGNAL(toggled(bool)), this, SLOT(soundToggled(bool)));
+	connect(cbSendHTML, SIGNAL(toggled(bool)), this, SLOT(activateFormat(bool)));
+	activateFormat(false);
 }
 
 RzxChat::~RzxChat(){
@@ -105,6 +119,7 @@ RzxChat::ListText::~ListText() {
 
 RzxTextEdit::RzxTextEdit(QWidget *parent, const char*name)
 		: QTextEdit(parent, name) {
+	setTextFormat(Qt::RichText);
 }
 
 RzxTextEdit::~RzxTextEdit() {
@@ -269,6 +284,47 @@ void RzxChat::onTextChanged() {
 
 }
 
+void RzxChat::fontChanged(int index) {
+	QString family = cbFontSelect->text(index);
+	btnBold->setEnabled(RzxConfig::globalConfig()->isBoldSupported(family));
+	btnItalic->setEnabled(RzxConfig::globalConfig()->isItalicSupported(family));
+	QValueList<int> pSize = RzxConfig::globalConfig()->getSizes(family);
+	
+	cbSize->clear();
+	for (QValueList<int>::Iterator points = pSize.begin(); points != pSize.end(); ++points )
+        	cbSize->insertItem(QString::number(*points));
+		
+	edMsg -> setFamily(family);
+}
+
+void RzxChat::sizeChanged(int index) {
+	QString size = cbSize -> text(index);
+	bool ok;
+	int point = size.toInt(&ok, 10);
+	if(!ok)
+		return;
+	edMsg -> setPointSize(point);
+}
+
+void RzxChat::activateFormat(bool on) {
+	cbFontSelect->setEnabled(on);
+	cbColorSelect->setEnabled(on);
+	cbSize->setEnabled(on);
+	btnBold->setEnabled(on);
+	btnUnderline->setEnabled(on);
+	btnItalic->setEnabled(on);
+	if(!on) {
+		edMsg -> setFamily("Terminal");
+		edMsg -> setPointSize(11);
+		edMsg -> setBold(false);
+		edMsg -> setItalic(false);
+		edMsg -> setUnderline(false);
+		edMsg -> setTextFormat(Qt::PlainText);
+	}
+	else
+		edMsg -> setTextFormat(Qt::RichText);
+}
+
 /** No descriptions */
 void RzxChat::btnSendClicked(){
 	QString msg = edMsg -> text();
@@ -296,9 +352,21 @@ void RzxChat::btnSendClicked(){
 		static const QRegExp dblspace("  ");
 		msg.replace(dblspace, " &nbsp;");
 	}
+	else {
+		QString msgB(msg);
+		msgB.remove("<p>");
+		msgB.remove("</p>");
+		msgB.remove("<html>");
+		msgB.remove("</html>");
+		//int endHeaderPos = msgB.find("</head>");
+		//msgB.remove(0, endHeaderPos+7);
+		msg=msgB;
+	}
 	
 	append("red", "> ", msg);
 	emit send(peer, msg);
+	qDebug("Message envoyé");
+	qDebug(msg);
 	edMsg -> setText("");
 }
 

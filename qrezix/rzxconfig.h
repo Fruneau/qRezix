@@ -46,6 +46,17 @@ class RzxConfig : public QObject  {
 	friend class RzxProperty;
 	friend class RzxProtocole;
 
+	class FontProperty {
+	public:
+		bool bold;
+		bool italic;
+		QValueList<int> sizes;
+		
+		FontProperty(bool b, bool i, QValueList<int> pS);
+		
+		~FontProperty();
+	};
+	
 	static RzxConfig * Config;
 	RzxConfig();
 	QDict<QPixmap> allIcons;
@@ -54,6 +65,9 @@ class RzxConfig : public QObject  {
 	QDir m_systemDir;
 	QDir m_userDir;
 	QDir m_themeDir;
+	QStringList fontFamilies;
+	QDict<FontProperty> * fontProperties;
+
 	
 public:
 	static QDict<QTranslator> translations;
@@ -65,6 +79,10 @@ public:
 	void parse();
 	void write();
 	void writeFavorites();
+	QStringList getFontList();
+	QValueList<int> getSizes(const QString&);
+	bool isItalicSupported(const QString&);
+	bool isBoldSupported(const QString&);
 	
 	static int favoritesMode();
 	static void setFavoritesMode(int);

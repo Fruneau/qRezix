@@ -22,6 +22,7 @@
 #include <qmessagebox.h>
 #include <qpixmap.h>
 #include <qbitmap.h>
+#include <qfontdatabase.h>
 
 #ifndef WIN32
 #include <unistd.h>
@@ -141,11 +142,48 @@ RzxConfig::RzxConfig()
 	qDebug("Trying to open "+ findData("action.png",  themePath + "/" + iconTheme()));	
 	
 	QMimeSourceFactory::defaultFactory()->setImage( "action", findData("action.png", themePath+"/"+iconTheme()) );	//TODO trouver le répertoire du thême cournat
+	
+	//Chargement des données QVB sur les fontes du système
+	qDebug("Loading system Fonts !");
+	QFontDatabase fdb;
+	fontProperties = new QDict<FontProperty>(907); //nombre premier plus grand que le nombre de polices supposé
+    	fontFamilies = fdb.families();
+    	for ( QStringList::Iterator f = fontFamilies.begin(); f != fontFamilies.end();) {
+        	QString family = *f;
+        	qDebug( family );
+        	QStringList styles = fdb.styles( family );
+		if(styles.contains("Normal")!=0) {
+			QValueList<int> size = fdb.smoothSizes(family, "Normal");
+			bool b = styles.contains("Bold")!=0;
+			bool i = styles.contains("Italic")!=0 || styles.contains("Oblique")!=0;
+			FontProperty * fp = new FontProperty( b, i, size);
+			fontProperties -> insert(family, fp);
+			++f;
+			qDebug("Inserted "+family+" into QDict");
+		}
+		else {
+			f=fontFamilies.remove(f);
+			qDebug("Removed "+family+" from family list");	
+		}
+        	/*for ( QStringList::Iterator s = styles.begin(); s != styles.end(); ++s ) {
+            		QString style = *s;
+            		QString dstyle = "\t" + style + " (";
+            		QValueList<int> smoothies = fdb.smoothSizes( family, style );
+            		for ( QValueList<int>::Iterator points = smoothies.begin();
+                  		points != smoothies.end(); ++points ) {
+                		dstyle += QString::number( *points ) + " ";
+            		}
+            		dstyle = dstyle.left( dstyle.length() - 1 ) + ")";
+            		qDebug( dstyle );
+        	}*/
+    	}
+	
 }
 
 /**
 */
 RzxConfig::~RzxConfig(){
+	delete fontProperties;
 }
 
 /**
@@ -157,6 +195,13 @@ RzxConfig * RzxConfig::globalConfig() {
 	return Config;
 }
 
+
+RzxConfig::FontProperty::FontProperty(bool b, bool i, QValueList<int> pS)
+			: bold(b), italic(i), sizes(pS) {
+}
+
+RzxConfig::FontProperty::~FontProperty() {
+}
 
 /*****************************************************************************
 * REPERTOIRES DES DONNEES																	  *
@@ -307,6 +352,31 @@ void RzxConfig::saveIcon(const QString& name, const QPixmap& image){
 /******************************************************************************
 * FONCTIONS DE LECTURE DES ENTREES															*
 ******************************************************************************/
+
+/** Renvoie la liste des familles de fonte initialisée au début */
+QStringList RzxConfig::getFontList() {	return fontFamilies; }
+
+/** Renvoie la liste des tailles acceptées par cette police */
+QValueList<int> RzxConfig::getSizes(const QString& family) {
+	FontProperty * fp = fontProperties->find(family);
+	if(!fp)
+		qDebug("Problème, chargement de la police "+family+" impossible");
+	return fp->sizes;
+}
+
+bool RzxConfig::isItalicSupported(const QString& family) {
+	FontProperty * fp = fontProperties->find(family);
+	if(!fp)
+		qDebug("Problème, chargement de la police "+family+" impossible");
+	return fp->italic;
+}
+
+bool RzxConfig::isBoldSupported(const QString& family) {
+	FontProperty * fp = fontProperties->find(family);
+	if(!fp)
+		qDebug("Problème, chargement de la police "+family+" impossible");
+	return fp->bold;
+}
 
 /** Renvoie une chaine correspondant ï¿½la taille de la fenï¿½re principale*/
 QString RzxConfig::readWindowSize(){return globalConfig() -> readEntry("window_size",DEFAULT_WINDOWSIZE); }
