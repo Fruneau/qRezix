@@ -205,6 +205,7 @@ QString RzxComputer::getClient() const
 		case 5: client = "CocoaXNet"; break;
 		case 6: case 0x60: client = "qRezix"; break; //gère le cas de la version erronée
 		case 7: client = "mxNet"; break;
+		case 8: client = "Rezix.NET"; break;
 		default : client = tr("Unknown"); break;
 	}
 	client += QString(" %1.%2.%3").arg(version.MajorVersion).arg(version.MinorVersion).arg(version.FunnyVersion);
