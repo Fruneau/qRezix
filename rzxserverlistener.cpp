@@ -230,7 +230,8 @@ void RzxServerListener::serverReceive() {
 		
 		if (socket.canReadLine()) {
 			temp = socket.readLine();
-			parse(temp.left(temp.length() - 2));
+			if(temp.find("\r\n") != -1)
+				parse(temp);
 		}
 	}
 }
