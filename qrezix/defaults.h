@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#define DEFAULT_COMMENT "qRezix v1.3 : la nouvelle version de Rezix !! (mais si tu lis ca, je suis un boulet)"
+#define DEFAULT_COMMENT "La nouvelle version de qRezix, plus que le WEI, c'est le feu... merci les BRmen"
 #define DEFAULT_SERVER "xnetserver.eleves.polytechnique.fr"
 #define DEFAULT_PORT 5053
 #define DEFAULT_CHATPORT 5050

@@ -62,6 +62,8 @@ RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 
 void RzxChat::init()
 {
+	hist = prop = NULL;
+
 	//
 	QAccel * accel = new QAccel(btnSend);
 	accel -> insertItem(CTRL + Key_Return, 100);
@@ -73,8 +75,8 @@ void RzxChat::init()
 	accel -> connectItem(102, btnClose, SIGNAL(clicked()));
 
 	//on ajoute l'icone du son
-	changeIconFormat();
 	changeTheme();
+	changeIconFormat();
 
 	//ajout du timer de connection
 
@@ -101,8 +103,8 @@ void RzxChat::init()
 
 	connect(btnSend, SIGNAL(clicked()), this, SLOT(btnSendClicked()));
 	connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
-	connect(btnHistorique, SIGNAL(clicked()), this, SLOT(btnHistoriqueClicked()));
-	connect(btnProperties, SIGNAL(clicked()), this, SLOT(btnPropertiesClicked()));
+	connect(btnHistorique, SIGNAL(toggled(bool)), this, SLOT(btnHistoriqueClicked(bool)));
+	connect(btnProperties, SIGNAL(toggled(bool)), this, SLOT(btnPropertiesClicked(bool)));
 	connect(btnPlugins, SIGNAL(clicked()), this, SLOT(pluginsMenu()));
 	connect(edMsg, SIGNAL(enterPressed()), this, SLOT(onReturnPressed()));
 	connect(edMsg, SIGNAL(arrowPressed(bool)), this, SLOT(onArrowPressed(bool)));
@@ -486,7 +488,17 @@ void RzxChat::btnSendClicked()
 	}
 }
 
-void RzxChat::btnHistoriqueClicked(){
+void RzxChat::btnHistoriqueClicked(bool on){
+	if(!on)
+	{
+		if(hist)
+			hist->close();
+		hist = NULL;
+		return;
+	}
+
+	if(hist) return;
+	
 	QString temp = textHistorique;
 
 	QString filename = RzxConfig::historique(peer.toRezix(), hostname);
@@ -497,12 +509,21 @@ void RzxChat::btnHistoriqueClicked(){
 	file.writeBlock(temp, temp.length());
 	file.close();
 	QPoint *pos = new QPoint(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
-	emit showHistorique( peer.toRezix(), hostname, false, this, pos);
+	hist = RzxChatSocket::showHistorique( peer.toRezix(), hostname, false, this, pos);
 }
 
-
-void RzxChat::btnPropertiesClicked()
+void RzxChat::btnPropertiesClicked(bool on)
 {
+	if(!on)
+	{
+		if(prop)
+			prop->close();
+		prop = NULL;
+		return;
+	}
+	
+	if(prop) return;
+	
 	getValidSocket()->sendPropQuery();
 }
 
@@ -510,7 +531,7 @@ void RzxChat::btnPropertiesClicked()
 void RzxChat::receiveProperties(const QString& msg)
 {
 	QPoint *pos = new QPoint(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
-	emit showProperties(peer, msg, false, this, pos);
+	prop = socket->showProperties(peer, msg, false, this, pos);
 }
 
 #ifdef WIN32
@@ -532,6 +553,11 @@ void RzxChat::sendChat(const QString& msg)
 /** No descriptions */
 void RzxChat::closeEvent(QCloseEvent * e)
 {
+	if(hist)
+		hist->close();
+	if(prop)
+		prop->close();
+	hist = prop = NULL;
 	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_CHAT, NULL);
 	e -> accept();
 	emit closed(peer);
@@ -553,12 +579,18 @@ bool RzxChat::event(QEvent *e)
 void RzxChat::changeTheme()
 {
 	QIconSet sound, pi, hist, send, prop, close;
+	int icons = RzxConfig::menuIconSize();
+	int texts = RzxConfig::menuTextPosition();
+	
+	if(icons || !texts)
+	{
+		pi.setPixmap(*RzxConfig::themedIcon("plugin"), QIconSet::Automatic);
+		hist.setPixmap(*RzxConfig::themedIcon("historique"), QIconSet::Automatic);
+		send.setPixmap(*RzxConfig::themedIcon("send"), QIconSet::Automatic);
+		prop.setPixmap(*RzxConfig::themedIcon("prop"), QIconSet::Automatic);
+	}
 	sound.setPixmap(*RzxConfig::soundIcon(false), QIconSet::Automatic, QIconSet::Normal, QIconSet::Off);
 	sound.setPixmap(*RzxConfig::soundIcon(true), QIconSet::Automatic, QIconSet::Normal, QIconSet::On);
-	pi.setPixmap(*RzxConfig::themedIcon("plugin"), QIconSet::Automatic);
-	hist.setPixmap(*RzxConfig::themedIcon("historique"), QIconSet::Automatic);
-	send.setPixmap(*RzxConfig::themedIcon("send"), QIconSet::Automatic);
-	prop.setPixmap(*RzxConfig::themedIcon("prop"), QIconSet::Automatic);
 	close.setPixmap(*RzxConfig::themedIcon("cancel"), QIconSet::Automatic);
 	btnSound->setIconSet(sound);
 	btnPlugins->setIconSet(pi);
