@@ -182,10 +182,10 @@ void QRezix::saveSettings()
 {
 	byTray = true;
 	QSize s = size();       // store size
-	QString height="";
-	height.sprintf("%4d",s.height());
-	QString width = "";
-	width.sprintf("%4d",s.width());
+	
+	//Pas très beau, mais c'est juste pour voir si ça améliore le rétablissement de l'état de la fenêtre sur mac
+	QString height = QString("%1").arg(s.height(), 4, 10).replace(' ', '0');
+	QString width =  QString("%1").arg(s.width(), 4, 10).replace(' ', '0');
 	QString windowSize;
 	if( statusMax ) windowSize = "100000000";
 	else windowSize="0"+height+width;
