@@ -24,6 +24,7 @@
 #include <qpopupmenu.h>
 #include <qsocket.h>
 #include <qtimer.h>
+#include <qdatetime.h>
 
 #define USER_HASH_TABLE_LENGTH 1663
 
@@ -51,10 +52,10 @@ class RzxPopupMenu : public QPopupMenu {
 
 class RzxRezal : public QListView  {
 	Q_OBJECT
-	
+
 	RzxConnectionLister *lister;
 	QDict<RzxItem> itemByIp;
-	
+
 public: 
 	RzxRezal(QWidget * parent, const char * name);
 	~RzxRezal();
@@ -84,6 +85,9 @@ protected: // Protected attributes
 	// Definit necessaire pour le menu contextuel
 	RzxPopupMenu popup;
 
+	QTime search_timeout;
+	QString search_patern;
+	
 	NumColonne lastColumnClicked;  // Pour savoir sur quelle icone on double-clique
 	
 public slots: // Public slots
