@@ -250,13 +250,14 @@ void RzxRezal::login(RzxComputer *computer)
 	{
 		item = new RzxItem(computer, this, dispNotFavorites);
 		itemByIp.insert(computer->getIP().toString(), item);
-	
-		// informe de la reconnexion si c'est pas juste un refresh
-		connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
-		connect(this, SIGNAL(favoriteChanged()), item, SLOT(update()));
 	}
+	
+	disconnect(item, SLOT(update()));
 	disconnect(item, 0, this, SLOT(logout(QObject* )));
+	
 	connect(computer, SIGNAL(destroyed(QObject *)), this, SLOT(logout(QObject * )));
+	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
+	connect(this, SIGNAL(favoriteChanged()), item, SLOT(update()));
 
 	item -> update();
 }
