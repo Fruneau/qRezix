@@ -25,46 +25,17 @@ email                : sylvain.joyeux@m4x.org
 #include "q.xpm"
 #include "rzxconfig.h"
 
-#ifdef WITH_KDE
-#include <kapp.h>
-#include <kcmdlineargs.h>
-#include <kaboutdata.h>
-#include <klocale.h>
-#else
 #include <qapplication.h>
-#endif
+
 
 #include "trayicon.h"
 #include "rzxpluginloader.h"
 
-#ifdef WITH_KDE
-static const char *description =
-I18N_NOOP("qReziX");
-// INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
-
-
-static KCmdLineOptions options[] =
-{
-  { 0, 0, 0 }
-  // INSERT YOUR COMMANDLINE OPTIONS HERE
-};
-#endif
 
 int main(int argc, char *argv[])
 {
-	
-#ifdef WITH_KDE
-	KAboutData aboutData( "qrezix", I18N_NOOP("qRezix"),
-		VERSION, description, KAboutData::License_GPL,
-		"(c) 2002, Sylvain Joyeux", 0, 0, "sylvain.joyeux@m4x.org");
-	aboutData.addAuthor("Sylvain Joyeux",0, "sylvain.joyeux@m4x.org");
-	KCmdLineArgs::init( argc, argv, &aboutData );
-	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
-	
-	KApplication a;
-#else
 	QApplication a(argc,argv);
-#endif
+
 	QPixmap iconeProg((const char **)q);
 	iconeProg.setMask(iconeProg.createHeuristicMask() );
 	

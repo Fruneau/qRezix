@@ -16,9 +16,5 @@ if test "x$enable_kde" = "xyes"; then
 	qrezix_dir="/usr/share/apps/qrezix"
 fi
 
-AC_ARG_ENABLE(kde, [ --enable-kde			enable KDE support [default=disable]],
-							enable_kde=$enableval,
-							enable_kde=no)
-
-	AC_DEFINE_UNQUOTED(QREZIX_DATA_DIR, "$qrezix_dir", [ Chemin vers le repertoire d'installation des icones qrezix])
+AC_DEFINE_UNQUOTED(QREZIX_DATA_DIR, "$qrezix_dir", [ Chemin vers le repertoire d'installation des icones qrezix])
 
