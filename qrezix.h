@@ -40,6 +40,7 @@ class QRezix : public QRezixUI
 	RzxProperty * m_properties;
 	QPopupMenu menuPlugins;
 	static QRezix *object;
+	bool statusFlag;
 	
 public:
     QRezix(QWidget* parent=0, const char *name=0);
