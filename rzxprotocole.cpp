@@ -27,8 +27,8 @@
 #include "rzxcomputer.h"
 #include "rzxconfig.h"
 #include "rzxwrongpassui.h"
-//#include "md5.h"
-//#define MD5_ADD "Vive le BR"
+#include "md5.h"
+#define MD5_ADD "Vive le BR"
 const char * RzxProtocole::ServerFormat[] = {
 	"^JOIN ([0-9A-Fa-f]+ .* [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ .*)\r\n",
 	"^REFRESH ([0-9A-Fa-f]+ .* [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ .*)\r\n",
@@ -112,6 +112,9 @@ void RzxProtocole::parse(const QString& msg){
 					QString pwd = wp.ledPassword->text();
 					if(pwd.length())
 					{
+						pwd += MD5_ADD;
+						pwd=MD5String(pwd.latin1());
+						qDebug(pwd);
 						sendAuth(pwd, RzxConfig::localHost());
 						RzxConfig::globalConfig()->setPass(pwd);
 					}
@@ -192,10 +195,10 @@ QStringList RzxProtocole::split(char sep, const QString& command, unsigned int c
 void RzxProtocole::sendAuth(const QString& passcode, RzxComputer * thisComputer) {
 	QString msg = "VERSION 3.9\r\n";
 	msg = msg + "PASS " + passcode + "\r\n";
-      //avec hash:
-      //QString pass_added=passcode+MD5_ADD;
-     // QString hash=MD5String(pass_added.latin1());
-     //     msg = msg + "HASH " + hash + "\r\n";
+/*      //avec hash:
+	QString pass_added=passcode+MD5_ADD;
+	QString hash=MD5String(pass_added.latin1());
+	msg = msg + "HASH " + hash + "\r\n";*/
 
 	msg = msg + "JOIN " + thisComputer -> serialize() + "\r\n";
 	
@@ -227,7 +230,7 @@ void RzxProtocole::changePass(const QString& oldPass)
 	changepass = new RzxChangePassUI();
 	
 	//Application du masque pour être sur du formatage du password
-	changepass->leNewPass->setValidator(new QRegExpValidator(QRegExp("[^ ]{6,63}"), this));
+	changepass->leNewPass->setValidator(new QRegExpValidator(QRegExp(".{6,63}"), this));
 	connect(changepass->leNewPass, SIGNAL(textChanged(const QString&)), this, SLOT(analyseNewPass()));
 	changepass->btnOK->setEnabled(false);
 	
@@ -267,14 +270,15 @@ void RzxProtocole::validChangePass()
 	{
 		m_oldPass = changepass->leOldPass->text();
 		m_newPass = changepass->leNewPass->text();
-		qDebug(m_oldPass + " ==> " + m_newPass);
-		emit send("CHANGEPASS " + m_oldPass + " " + m_newPass + "\r\n");
+/*		qDebug(m_oldPass + " ==> " + m_newPass);
+		emit send("CHANGEPASS " + m_oldPass + " " + m_newPass + "\r\n");*/
        //avec hash:
-       //QString m_oldPass_added= m_oldPass+MD5_ADD;
-       //QString m_newPass_added=m_newPass+MD5_ADD;
-       //QString oldhash=MD5String(m_oldPass_added.latin1());
-       //QString newhash=MD5String(m_newPass_added.latin1());
-       // emit send("CHANGEPASS " + oldhash + " " + newhash + "\r\n");
+		m_oldPass = m_oldPass+MD5_ADD;
+		m_newPass = m_newPass+MD5_ADD;
+		m_oldPass = MD5String(m_oldPass.latin1());
+		m_newPass = MD5String(m_newPass.latin1());
+		qDebug(m_oldPass + " " + m_newPass);
+		emit send("CHANGEPASS " + m_oldPass + " " + m_newPass + "\r\n");
 
 		changepass->deleteLater();
 		changepass = NULL;

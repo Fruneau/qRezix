@@ -26,7 +26,8 @@ HEADERS	+= qrezix.h \
 	rzxplugin.h \
 	rzxpluginloader.h \
 	rzxutilslauncher.h \
-	rzxconnectionlister.h
+	rzxconnectionlister.h \
+	md5.h
 
 SOURCES	+= main.cpp \
 	qrezix.cpp \
@@ -47,7 +48,8 @@ SOURCES	+= main.cpp \
 	rzxplugin.cpp \
 	rzxpluginloader.cpp \
 	rzxutilslauncher.cpp \
-	rzxconnectionlister.cpp
+	rzxconnectionlister.cpp \
+	md5.cpp
 
 FORMS	= qrezixui.ui \
 	rzxchatui.ui \
