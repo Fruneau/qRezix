@@ -19,6 +19,8 @@
 #define RZXCHAT_IMPL_H
 
 #include <qtextedit.h>
+#include <qsocket.h>
+#include <qtimer.h>
 #include "rzxhostaddress.h"
 #include "rzxchatui.h"
 
@@ -65,9 +67,18 @@ class RzxChat : public RzxChatUI {
 		ListText(QString t, ListText * pN);
 		~ListText();
 	};
+
 public: 
 	RzxChat(const RzxHostAddress& peerAddress);
+	RzxChat(QSocket* sock);
 	~RzxChat();
+	QSocket *getSocket();
+	void setSocket(QSocket* sock);
+	void sendChat(const QString& msg);
+
+private:
+	void init();
+	QString tmpChat;
 	
 protected:
 	RzxHostAddress peer;
@@ -77,16 +88,18 @@ protected:
 	ListText * history;
 	ListText * curLine;
 	QFont* defFont;
+	QSocket *socket;
+	QTimer timeOut;
 	
 signals: // Signals
-	void send(const RzxHostAddress& peer, const QString& message);
+	void send(QSocket* sock, const QString& message);
 	void closed(const RzxHostAddress& peer);
 	void showHistorique(unsigned long ip, QString hostname);
-    	void askProperties(const RzxHostAddress& peer);
+	void askProperties(const RzxHostAddress& peer);
 
 public slots: // Public slots
 	void receive(const QString& msg);
-    void info(const QString& msg);
+	void info(const QString& msg);
 	void setHostname(const QString& name);
 
 protected slots:
@@ -101,6 +114,11 @@ protected slots:
 	void onArrowPressed(bool down);
 	void onTextChanged();
 	void soundToggled(bool state);
+	void getChat();
+	void chatConnexionEtablished();
+	void chatConnexionClosed();
+	void chatConnexionError(int Error);
+	void chatConnexionTimeout();
 
 protected: // Protected methods
 	void append(const QString& color, const QString& host, const QString& msg);

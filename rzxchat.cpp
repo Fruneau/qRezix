@@ -29,6 +29,7 @@
 #include <qregexp.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
+#include <qsocket.h>
 
 #include <qsound.h>
 #ifndef WIN32
@@ -38,28 +39,46 @@
 #include "rzxchat.h"
 #include "rzxconfig.h"
 #include "rzxcomputer.h"
+#include "rzxclientlistener.h"
 
+//On crée la fenêtre soit avec un socket d'une connection déjà établie
+RzxChat::RzxChat(QSocket* sock)
+{
+	setSocket(sock);
+	init();
+}
+
+//Soit sans socket, celui-ci sera initialisé de par la suite
 RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 {
+	peer = peerAddress;
+	socket = NULL;
+	init();
+}
+
+void RzxChat::init()
+{
+	tmpChat = QString();
+	
+	//
 	QAccel * accel = new QAccel(btnSend);
 	accel -> insertItem(CTRL + Key_Return, 100);
 	accel -> connectItem(100, btnSend, SIGNAL(clicked()));
 	accel -> insertItem(CTRL + Key_Enter, 101);
 	accel -> connectItem(101, btnSend, SIGNAL(clicked()));
-//	accel -> insertItem(SHIFT + Key_Enter, 103);
-//	accel -> connectItem(103, this, SLOT(onShiftReturnPressed()));
-	//accel -> insertItem(SHIFT + Key_Return, 104);
-	//accel -> connectItem(104, this, SLOT(onShiftReturnPressed()));
 	btnSound -> setAccel(Key_F1);
 	accel -> insertItem(Key_Escape, 102);
 	accel -> connectItem(102, btnClose, SIGNAL(clicked()));
-	
+
 	//on ajoute l'icone du son
 	btnSound -> setPixmap(*RzxConfig::soundIcon(false)); //true par défaut
-	
+
+	//ajout du timer de connection
+	connect(&timeOut, SIGNAL(timeout()), this, SLOT(chatConnexionTimeout()));
+
 	//gestion touches haut et bas
 	curLine = history = 0;
-	
+
 	defFont = new QFont("Terminal", 11);
 	//chargement des fontes
 	cbFontSelect->insertStringList(RzxConfig::globalConfig()->getFontList());
@@ -72,9 +91,6 @@ RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 	txtHistory -> setTextFormat(Qt::RichText);
 	txtHistory -> setReadOnly(true);
 	// on rajoute le bouton maximiser
-	peer = peerAddress;
-
-//	setCaption("Chat - " + peer.toString());
 
 #ifdef WIN32
   timer = new QTimer( this );
@@ -103,6 +119,12 @@ RzxChat::~RzxChat(){
 	file.open(IO_ReadWrite |IO_Append);
 	file.writeBlock(temp, temp.length());
 	file.close();
+	if(socket)
+	{
+		socket->close();
+		delete socket;
+		qDebug("Connection with " + hostname + "has been closed by killing the chat window");
+	}
 }
 
 RzxChat::ListText::ListText(QString t, ListText * pN) {
@@ -172,6 +194,27 @@ void RzxChat::messageReceived(){
 /******************************
 * CHAT
 */
+
+QSocket *RzxChat::getSocket()
+{
+	return socket;
+}
+
+void RzxChat::setSocket(QSocket* sock)
+{
+	if(socket != NULL && socket->state() == QSocket::Connected && sock->socket() != socket->socket())
+	{
+		qDebug("Un nouveau socket différent a été proposé à " + hostname);
+		socket->close();
+		delete socket;
+	}
+	socket = sock;
+	connect(socket, SIGNAL(connectionClosed()), this, SLOT(chatConnexionClosed()));
+	connect(socket, SIGNAL(readyRead()), this, SLOT(getChat()));
+	connect(socket, SIGNAL(error(int)), this, SLOT(chatConnexionError(int)));
+	connect(socket, SIGNAL(connected()), this, SLOT(chatConnexionEtablished()));
+}
+
 
 void RzxChat::setHostname(const QString& name){
 	hostname=name;
@@ -388,9 +431,7 @@ void RzxChat::btnSendClicked(){
 	
 
 	append("red", "> ", msg);
-	emit send(peer, msg);
-	qDebug("Message envoyé");
-	qDebug(msg);
+	sendChat(msg);	//passage par la sous-couche de gestion du socket avant d'émettre
 	edMsg -> setText("");
 
 	if(!format && cbSendHTML->isChecked())
@@ -433,8 +474,88 @@ bool RzxChat::event ( QEvent * e){
 }
 #endif
 
+/** Gestion de la connexion avec l'autre client **/
+//cette méthode permet de gérer les deux cas :
+//		soit la connexion est déjà établie, on utilise le socket déjà en place
+//		soit il n'y a pas connexion, dans ce cas, on ouvre la connexion
+//			l'émission du message se fera dès que celle-ci sera prête
+void RzxChat::sendChat(const QString& msg)
+{
+	if(socket && socket->state() == QSocket::Connected)
+	{
+		qDebug("Envoi sur socket existant");
+		emit send(socket, msg);
+	}
+	else
+	{
+		qDebug("Ouverture d'un nouveau socket");
+		tmpChat = msg;
+		setSocket(new QSocket());
+		socket->connectToHost(peer.toString(), RzxConfig::chatPort());
+		timeOut.start(1000);
+	}
+}
+
+//émission du message lorsque la connexion est établie
+void RzxChat::chatConnexionEtablished()
+{
+	qDebug("Socket ouvert vers " + hostname + "... envoi du message");
+	emit send(socket, tmpChat);
+	timeOut.stop();
+}
+
+//réception d'un message par le socket du chat
+//ce message va être analysé par rzxclientlistener
+void RzxChat::getChat()
+{
+	RzxClientListener::object()->readSocket(socket);
+}
+
+//la connexion a été fermée (sans doute par fermeture de la fenêtre de chat)
+//on l'indique à l'utilisateur
+void RzxChat::chatConnexionClosed()
+{
+	info(tr("ends the chat"));
+	qDebug("Connection with " + hostname + " closed by peer");
+	if(socket)
+	{
+		socket->close();
+		delete socket;
+		socket = NULL;
+	}
+}
+
+//Gestion des erreurs lors de la connexion et de la communication
+//chaque erreur donne lieu a une mise en garde de l'utilisateur
+void RzxChat::chatConnexionError(int Error)
+{
+	switch(Error)
+	{
+		case QSocket::ErrConnectionRefused:
+			info(tr("can't be contact, check his firewall... CONNECTION ERROR"));
+			qDebug("Connexion has been refused by the client");
+			break;
+		case QSocket::ErrHostNotFound:
+			info(tr("can't be found... CONNECTION ERROR"));
+			qDebug("Can't find client");
+			break;
+		case QSocket::ErrSocketRead:
+			info(tr("has sent datas which can't be read... CONNECTION ERROR"));
+			qDebug("Error while reading datas");
+			break;
+	}
+	if(timeOut.isActive()) timeOut.stop();
+}
+
+//Cas où la connexion n'a pas pu être établie dans les délais
+void RzxChat::chatConnexionTimeout()
+{
+	socket->close();
+	chatConnexionError(QSocket::ErrConnectionRefused);
+}
+
 /** No descriptions */
 void RzxChat::closeEvent(QCloseEvent * e){
-	 e -> accept();
-	 emit closed(peer);
+	e -> accept();
+	emit closed(peer);
 }

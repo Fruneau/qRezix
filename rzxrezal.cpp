@@ -23,6 +23,7 @@
 #include <qtextview.h>
 #include <qtextedit.h>
 #include <qtextstream.h>
+#include <qsocket.h>
 
 #include "rzxrezal.h"
 #include "rzxitem.h"
@@ -100,12 +101,12 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	lastColumnClicked = ColIcone;
 			
 	// CHAT
-	connect(client, SIGNAL(chat(const RzxHostAddress&, const QString&)),
-		this, SLOT(chat(const RzxHostAddress&, const QString&)));
+	connect(client, SIGNAL(chat(QSocket*, const QString&)),
+		this, SLOT(chat(QSocket*, const QString&)));
 
 	// RECEPTION DES PROPRIETES D'UN ORDINATEUR
 	connect(client, SIGNAL(propAnswer(const RzxHostAddress&, const QString&)), this, SLOT(showProperties(const RzxHostAddress&, const QString&)));
-	connect(client, SIGNAL(propQuery(const RzxHostAddress&)), RzxClientListener::object(), SLOT(sendProperties(const RzxHostAddress&)));
+	connect(client, SIGNAL(propQuery(QSocket*)), RzxClientListener::object(), SLOT(sendProperties(QSocket*)));
 	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), this, SLOT(warnProperties(const RzxHostAddress&)));
 	
 	// FERMETURE DU SOCKET
@@ -154,13 +155,26 @@ void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos,
 	}
 }
 
-void RzxRezal::proprietes(const RzxHostAddress& peer){
-	client -> sendPropQuery( peer );
+void RzxRezal::proprietes(const RzxHostAddress& peer)
+{
+	RzxChat * object = chats.find(peer.toString());
+	RzxComputer * computer = iplist.find(peer.toString());
+	if (!computer)
+		return;
+	if (!object)
+		client->checkProperty(peer);
+	else
+	{
+		if(object->getSocket())
+			client->sendPropQuery(object->getSocket());
+		else
+			client->checkProperty(peer);
+	}
 }
 
 void RzxRezal::proprietes(){
 	RzxItem::ListViewItem* item=(RzxItem::ListViewItem*) currentItem();
-	client -> sendPropQuery(item->ip);
+	proprietes(item->ip);
 }
 
 void RzxRezal::historique(){
@@ -386,14 +400,14 @@ void RzxRezal::ftp(){
 #else
 	QString cmd = "cd "+tempPath+"; "+RzxConfig::globalConfig()->ftpCmd()+" "+tempip;
 	if(RzxConfig::globalConfig()->ftpCmd() == "lftp")
-		// on lance le client dans un terminal
-		#ifdef WITH_KDE
-			cmd = "konsole -e \"" + cmd + "\" &";
-		#else
-			cmd = "xterm -e \"" + cmd + "\" &";
-		#endif
+	// on lance le client dans un terminal
+	#ifdef WITH_KDE
+		cmd = "konsole -e \"" + cmd + "\" &";
+	#else
+		cmd = "xterm -e \"" + cmd + "\" &";
+	#endif
 	else
-		// client graphique
+	//client graphique
 		cmd = cmd + " &";
 
 	system(cmd.latin1());
@@ -442,6 +456,7 @@ void RzxRezal::http(){
 		RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("Software"), 0, KEY_ALL_ACCESS, &hKey);
 
 		if ( cmd == "Opera" && !RegOpenKeyEx(hKey, TEXT("Opera Software"), 0, KEY_ALL_ACCESS, &hKey) ) {
+		
 			unsigned char buffer[MAX_PATH];
 			unsigned long KeyType = 0;
 			unsigned long KeySize = sizeof(TCHAR) * MAX_PATH;
@@ -604,15 +619,17 @@ void RzxRezal::logout(const RzxHostAddress& ip){
 * GESTION DU CHAT
 */
 
-void RzxRezal::chat(const RzxHostAddress& peer, const QString& msg) {
+void RzxRezal::chat(QSocket* socket, const QString& msg) {
+	RzxHostAddress peer = socket->peerAddress();
 	RzxClientListener * dcc = RzxClientListener::object();
 	if(RzxConfig::autoResponder()) {
-		dcc -> sendResponder(peer, RzxConfig::autoResponderMsg());
+		dcc -> sendResponder(socket, RzxConfig::autoResponderMsg());
 		emit status(tr("%1 is now marked as away").arg(peer.toString()), false);
 	}
 	else {
 		RzxChat * chatWindow = chatCreate(peer);
 		if (!chatWindow) return;
+		chatWindow->setSocket(socket);      //on change le socket si nécessaire
 		chatWindow -> receive(msg);
 	}
 }
@@ -632,8 +649,7 @@ RzxChat * RzxRezal::chatCreate(const RzxHostAddress& peer) {
 			qWarning(tr("%1 is NOT logged").arg(peer.toString()));
 			return 0;
 		}
-
-        object = new RzxChat(peer);
+		object = new RzxChat(peer);
 
 		QPixmap iconeProg((const char **)q);
 		iconeProg.setMask(iconeProg.createHeuristicMask() );
@@ -649,13 +665,12 @@ RzxChat * RzxRezal::chatCreate(const RzxHostAddress& peer) {
 		object->edMsg->setFocus();
 
 		connect(object, SIGNAL(closed(const RzxHostAddress&)), this, SLOT(chatDelete(const RzxHostAddress&)));
-		connect(object, SIGNAL(send(const RzxHostAddress&, const QString&)), 
-	    	client, SLOT(sendChat(const RzxHostAddress&, const QString&)));
+		connect(object, SIGNAL(send(QSocket*, const QString&)),
+	    	client, SLOT(sendChat(QSocket*, const QString&)));
 		connect(object, SIGNAL(showHistorique(unsigned long, QString)), this, SLOT(showHistorique(unsigned long, QString)));
 		connect(object, SIGNAL(askProperties(const RzxHostAddress&)), this, SLOT(proprietes(const RzxHostAddress&)));
 		chats.insert(peer.toString(), object);
 	}
-	
 	object -> show();
 
 	return object;

@@ -20,6 +20,8 @@
 
 #include <qobject.h>
 #include <qsocketdevice.h>
+#include <qsocket.h>
+#include <qtimer.h>
 #include "rzxhostaddress.h"
 
 /**
@@ -57,34 +59,46 @@ public:
 		DCC_MSGSIZE=516
 	};
 	
-	void sendPropAnswer(const RzxHostAddress& host, const QString& msg);
-	void sendPropQuery(const RzxHostAddress& host);
+	int readSocket(QSocket* sock);
+	void checkProperty(const RzxHostAddress& host);
+//	void sendPropAnswer(QSocket* sock, const QString& msg);
+	void sendPropQuery(QSocket* sock);
 	void close();
 
 public slots:
-	void sendChat(const RzxHostAddress& ip, const QString& msg);
-	void sendResponder(const RzxHostAddress& ip, const QString& msg);
-	void sendProperties(const RzxHostAddress &peer);
+	void sendChat(QSocket* sock, const QString& msg);
+	void sendResponder(QSocket* sock, const QString& msg);
+	void sendProperties(QSocket* sock);
 	
 protected: // Protected attributes
-	char * buffer;
+	char *buffer;
 	unsigned long bufferSize;
 	bool WaitingForProperties;
-	QSocketDevice udpSocket;
+	QSocketDevice listenSocket;
+	QSocket propSocket; // Pour les checks de propriétés ésseullés
+	QTimer timeOut;
+	QSocket *propSendSocket;
 	bool valid;
+	int parse(const QString& msg, QSocket* sock);
+	void send(QSocket* sock, const QString& msg);
 
 protected slots: // Protected slots
 	void socketRead(int socket);
+	void propCheckError(int);
+	void receivePropCheck();
+	void propCheckDeconnected();
+	void propCheckConnected();
+	void propCheckTimeout();
+	void endSendProp();
 
 protected: // Protected methods
-	void parse(const QString& msg);
 	void enforceBufferSize( unsigned long size );
-	void sendDccChat(const RzxHostAddress& ip, const QString& msg);
+	void sendDccChat(QSocket* sock, const QString& msg);
 
 signals: // Signals
-	void propQuery(const RzxHostAddress& host);
+	void propQuery(QSocket*);
 	void propAnswer(const RzxHostAddress& host, const QString& msg);
-	void chat(const RzxHostAddress& peer, const QString& msg);
+	void chat(QSocket* socket, const QString& msg);
 	void chatSent();
 	void propertiesSent(const RzxHostAddress& host);
 };
