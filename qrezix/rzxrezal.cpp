@@ -14,17 +14,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qimage.h>
-#include <qbitmap.h>
-#include <qmessagebox.h>
-#include <qlayout.h>
 #include <qapplication.h>
-#include <qdir.h>
-#include <qtextview.h>
-#include <qtextedit.h>
-#include <qtextstream.h>
-#include <qsocket.h>
-#include <qframe.h>
+//#include <qdir.h>
+//#include <qtextedit.h>
+//#include <qtextstream.h>
+//#include <qobjectlist.h>
 
 #include "rzxrezal.h"
 #include "rzxitem.h"
@@ -32,15 +26,10 @@
 #include "rzxchat.h"
 #include "rzxitem.h"
 #include "rzxclientlistener.h"
-#include "rzxmessagebox.h"
 #include "rzxpluginloader.h"
 #include "rzxutilslauncher.h"
-#include "q.xpm"
+#include "rzxconnectionlister.h"
 
-
-RzxServerListener * RzxRezal::server = NULL;
-RzxClientListener * RzxRezal::client = NULL;
-QDict<RzxChat> RzxRezal::chats = QDict<RzxChat>();
 
 const char * RzxRezal::colNames[RzxRezal::numColonnes] =
 		{ QT_TR_NOOP("Icon"), QT_TR_NOOP("Computer name"), QT_TR_NOOP("Comment"),
@@ -50,14 +39,10 @@ const char * RzxRezal::colNames[RzxRezal::numColonnes] =
 			QT_TR_NOOP("Gateway"), QT_TR_NOOP("Promo") };
 
 
-RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name), iplist(USER_HASH_TABLE_LENGTH)
+RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name)
 {
 	selected = NULL;
-	iplist.setAutoDelete(true);
-
-	// Comme ça les chats sont détruits lorsque RzxRezal est détruit.
-	chats.setAutoDelete(true);
-
+	
 	int i;
 	for (i = 0; i < numColonnes; i++) {
 		addColumn(tr(colNames[i]));
@@ -73,29 +58,18 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
  
 	server = RzxServerListener::object();
 	client = RzxClientListener::object();
-
-	connect(server, SIGNAL(login(const QString&)), this, SLOT(login(const QString&)));
-	connect(server, SIGNAL(logout(const RzxHostAddress&)), this, SLOT(logout(const RzxHostAddress&)));
-	connect(server, SIGNAL(rcvIcon(QImage*,const RzxHostAddress&)), this, SLOT(recvIcon(QImage*,const RzxHostAddress&)));
-	connect(server, SIGNAL(disconnected()), this, SLOT(serverDisconnected()));
-
-	connect(server, SIGNAL(status(const QString&, bool)), this, SIGNAL(status(const QString&, bool)));
-
-	connect(server, SIGNAL(connected()), this, SLOT(serverConnected()));
-
-	connect(this, SIGNAL(doubleClicked(QListViewItem *)),
-		this, SLOT(onListDblClicked(QListViewItem *)));
+	lister = RzxConnectionLister::global();
+	
+	connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(login(RzxComputer*)));
 
 	// On est obligé d'utiliser ce signal pour savoir dans quelle colonne le
 	// double-clic suivant a lieu
 	connect(this, SIGNAL(pressed(QListViewItem *, const QPoint &, int)),
 		this, SLOT(onListClicked(QListViewItem *, const QPoint &, int)));
+	connect(this, SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(onListDblClicked(QListViewItem *)));
 
 	lastColumnClicked = ColIcone;
   
-	// FERMETURE DU SOCKET
-	connect(server, SIGNAL(disconnected()), this, SIGNAL(socketClosed()));
-
 	// GESTION DU MENU CONTEXTUEL
 	connect(this,SIGNAL(rightButtonPressed(QListViewItem *,const QPoint &,int )),this,SLOT(creePopUpMenu(QListViewItem *,const QPoint &,int )));
 	connect(this, SIGNAL(spacePressed(QListViewItem *)), this, SLOT(chatCreate()));
@@ -150,8 +124,8 @@ void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos,
 
 void RzxRezal::proprietes(const RzxHostAddress& peer)
 {
-	RzxChat * object = chats.find(peer.toString());
-	RzxComputer * computer = iplist.find(peer.toString());
+	RzxChat * object = lister->chats.find(peer.toString());
+	RzxComputer * computer = lister->iplist.find(peer.toString());
 	if (!computer)
 		return;
 	if (!object)
@@ -172,7 +146,7 @@ void RzxRezal::proprietes(){
 
 void RzxRezal::historique(){
 	RzxItem * item=(RzxItem*) currentItem();
-	QString hostname = iplist.find(item -> ip.toString()) -> getName();
+	QString hostname = lister->iplist.find(item -> ip.toString()) -> getName();
 	if(!RzxChatSocket::showHistorique( item -> ip.toRezix(), hostname))
 		emit status(tr("No history file for user %1").arg(hostname), false);
 }
@@ -263,91 +237,26 @@ void RzxRezal::adapteColonnes(){
 	triggerUpdate(); 
 }
 
-void RzxRezal::initConnection() {
-	server -> setupConnection();
-	if( ! client -> listenOnPort(RzxConfig::chatPort()) )
-		RzxMessageBox::warning( (QWidget *) parent(), "qRezix",
-		tr("Cannot create peer to peer socket !\n\nChat and properties browsing are disabled") );
-}
-
 /** No descriptions */
-void RzxRezal::recvIcon(QImage* icon, const RzxHostAddress& ip){
-	RzxComputer * object = iplist.find(ip.toString());
-	if (object) {
-		icon -> save(RzxConfig::computerIconsDir().absFilePath(object -> getFilename()), "PNG");
-		QPixmap pix;
-		pix.convertFromImage(*icon);
-		object -> setIcon(pix);
-	}
-}
-
-/** No descriptions */
-void RzxRezal::login(const QString& ordi)
+void RzxRezal::login(RzxComputer *computer)
 {
-	RzxComputer * newComputer = new RzxComputer;
-	connect(newComputer, SIGNAL(needIcon(const RzxHostAddress&)), this, SIGNAL(needIcon(const RzxHostAddress&)));
-	if (newComputer -> parse(ordi)) {
-		delete newComputer;
-		return;
-	}
-  
-	// Recherche si cet ordinateur était déjà présent
-	QString tempIP = newComputer -> getIP().toString();
-	RzxComputer * object = iplist.find(tempIP);
-	RzxItem * item;
-	bool alreadyHere = object != NULL;
-	// non ==> nouvel item
-	if (!alreadyHere) 
-	{
-		item = new RzxItem(newComputer, this, dispNotFavorites);
-	}
-	else {
-		item = (RzxItem *) object -> child(0, "RzxItem");
-		if (!item) return;
+	RzxItem *item = new RzxItem(computer, this, dispNotFavorites);
 
-		object -> removeChild(item);
-		iplist.remove(newComputer -> getIP().toString());
-
-		newComputer -> insertChild(item);
-	}
-
-	iplist.insert(newComputer -> getIP().toString(), newComputer);
-	RzxChat * chatWithLogin=chats.find(newComputer -> getIP().toString());
 	// informe de la reconnexion si c'est pas juste un refresh
-	if( !object && chatWithLogin )
-	chatWithLogin->info(tr("reconnected"));
-
-	connect(newComputer, SIGNAL(isUpdated()), item, SLOT(update()));
+	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 	connect(this, SIGNAL(favoriteChanged()), item, SLOT(update()));
-	emit countChange(tr("%1 clients connected").arg(iplist.count()));
 	item -> update();
 
-	if( alreadyHere ) sort(); // Retrie la liste pour les éventuelles modifs
+	sort(); // Retrie la liste pour les éventuelles modifs
   
 	afficheColonnes();
-	
- 
-}
-
-/** No descriptions */
-void RzxRezal::logout(const RzxHostAddress& ip){
-        QString key = ip.toString();
-        RzxComputer * object = iplist.find(key);
-        if (object) {
-                iplist.remove(key);
-                emit countChange(tr("%1 clients connected").arg(iplist.count()));
-        }
-        
-RzxChat * chatWithLogin=chats.find(ip.toString());
-	if(chatWithLogin)
-		chatWithLogin->info(tr("disconnected"));
 }
 
 ///Retourne la liste des IP des gens connectés
 /** Permet pour les plug-ins d'obtenir facilement la liste les ip connectées */
 QStringList RzxRezal::getIpList()
 {
-	QDictIterator<RzxComputer> it(iplist);
+	QDictIterator<RzxComputer> it(lister->iplist);
 	QStringList ips;
 	for( ; it.current() ; ++it)
 	{
@@ -360,20 +269,6 @@ QStringList RzxRezal::getIpList()
 * GESTION DU CHAT
 */
 
-void RzxRezal::chat(QSocket* socket, const QString& msg) {
-	RzxHostAddress peer = socket->peerAddress();
-	if(RzxConfig::autoResponder()) {
-		((RzxChatSocket*) socket) -> sendResponder(RzxConfig::autoResponderMsg());
-		emit status(tr("%1 is now marked as away").arg(peer.toString()), false);
-	}
-	else {
-		RzxChat * chatWindow = chatCreate(peer);
-		if (!chatWindow) return;
-		chatWindow->setSocket((RzxChatSocket*)socket);      //on change le socket si nécessaire
-		chatWindow -> receive(msg);
-	}
-}
-
 RzxChat * RzxRezal::chatCreate(const QString& login)
 {
 	RzxItem *item;
@@ -383,111 +278,19 @@ RzxChat * RzxRezal::chatCreate(const QString& login)
 		item=(RzxItem*) findItem(login, ColNom, ExactMatch);
 	if(!item) return NULL;
 	RzxHostAddress tempip = (item->ip);
-	return chatCreate(tempip);
-}
-
-RzxChat * RzxRezal::chatCreate(const RzxHostAddress& peer) {
-	RzxChat * object = chats.find(peer.toString());
-	if (!object) {
-		RzxComputer * computer = iplist.find(peer.toString());
-		if (!computer) {
-			qWarning(tr("Received a chat request from %1").arg(peer.toString()));
-			qWarning(tr("%1 is NOT logged").arg(peer.toString()));
-			return 0;
-		}
-		/*  if(computer->getName() == RzxConfig::localHost()->getName())
-		{
-			RzxMessageBox::information(NULL, tr("Can't open chat"), tr("Hey, it's you %1... you can't have a chat with yourself.\n If you really want to chat to yourself, you just have to find a mirror...").arg(computer->getName()));
-			return NULL;
-		}*/
-		object = new RzxChat(peer);
-
-		QPixmap iconeProg((const char **)q);
-		iconeProg.setMask(iconeProg.createHeuristicMask() );
-		object->setIcon(iconeProg);
-
-#ifdef WIN32
-		object->setCaption(tr("Chat")+" - " + computer->getName() +" [Qt]");
-#else
-		object->setCaption(tr("Chat")+" - " + computer->getName());
-#endif
-		object->setHostname(computer->getName());
-
-		object->edMsg->setFocus();
-
-		connect(object, SIGNAL(closed(const RzxHostAddress&)), this, SLOT(chatDelete(const RzxHostAddress&)));
-//		connect(object, SIGNAL(showHistorique(unsigned long, QString, bool, QWidget*, QPoint*)),
-//			this, SLOT(showHistorique(unsigned long, QString, bool, QWidget*, QPoint*)));
-//		connect(object, SIGNAL(showProperties(const RzxHostAddress&, const QString&, bool, QWidget*, QPoint*)),
-//			this, SLOT(showProperties(const RzxHostAddress&, const QString&, bool, QWidget*, QPoint* )));
-		connect(RzxConfig::globalConfig(), SIGNAL(themeChanged()), object, SLOT(changeTheme()));
-		connect(RzxConfig::globalConfig(), SIGNAL(iconFormatChange()), object, SLOT(changeIconFormat()));
-		chats.insert(peer.toString(), object);
-	}
-	object -> show();
-
-	return object;
+	return lister->chatCreate(tempip);
 }
 
 ///Fermeture du chat (si il existe) associé au login
-void RzxRezal::closeChat(const QString& login)
+void RzxRezal::closeChat( const QString& login )
 {
-	RzxItem *item=(RzxItem*) findItem(login, ColNom, ExactMatch);
-	if(!item) return;
-	RzxChat *chat = chats.find(item->ip.toString());
+	RzxItem * item = ( RzxItem* ) findItem( login, ColNom, ExactMatch );
+	if ( !item ) return ;
+	RzxChat *chat = lister->chats.find( item->ip.toString() );
 	chat->close();
 }
 
 
-/** No descriptions */
-void RzxRezal::chatDelete(const RzxHostAddress& peerAddress){        
-	// Auto-Delete = true, le chat est supprimé automatiquement. Qt rules !!!
-	chats.remove(peerAddress.toString());
-}
-
-///Fermeture des chats en cours
-/** Cette méthode à pour but de fermer tous les chats en cours pour libérer en particulier le port 5050. Normalement l'appel de cette méthode à la fermeture de qRezix doit corriger le problème de réouverture de l'écoute qui intervient à certains moments lors du démarrage de qRezix */
-void RzxRezal::closeChats()
-{
-	QDictIterator<RzxChat> it(chats);
-	for( ; it.current() ; ++it)
-	{
-		it.current()->close();
-	}
-}
-
-
-void RzxRezal::warnProperties(const RzxHostAddress& peer) {
-	RzxChat * object = chats.find(peer.toString());
-	RzxComputer * computer = iplist.find(peer.toString());
-	if (!computer)
-		return;
-	QTime cur = QTime::currentTime();
-        QString heure;
-        heure.sprintf("<i>%2i:%.2i:%.2i",
-                                cur.hour(),
-                                cur.minute(),
-                                cur.second());
-    
-	if (!object) {
-		if(RzxConfig::globalConfig()->warnCheckingProperties()==0)
-			return;
-		sysmsg(tr("Properties sent to %2 (%3) at %1").arg(heure).arg(computer->getName()).arg(peer.toString()));
-		return;
-	}
-	object->notify(tr("has checked your properties"), true);
-}
-
-/** No descriptions */
-void RzxRezal::sysmsg(const QString& msg){
-	// Boîte de dialogue non modale, pour que les comms continuent.
-	RzxMessageBox::information( (QWidget *) parent(), tr("XNet Server message:"), msg );
-}
-/** No descriptions */
-void RzxRezal::fatal(const QString& msg){
-	// Boîte de dialogue modale
-	RzxMessageBox::critical( (QWidget *) parent(), tr("Error")+" - "+tr("XNet Server message"), msg, true );
-}
 
 /** CRASSOU AU POSSIBLE
 * TODO: gerer ca autrement */
@@ -526,7 +329,7 @@ void RzxRezal::onListDblClicked(QListViewItem * sender){
 		}
 		else {/*chat*/
 			RzxItem * listItem = (RzxItem *) sender;
-			chatCreate(listItem -> ip);
+			lister->chatCreate(listItem -> ip);
 		}
 	}
 }
@@ -534,30 +337,6 @@ void RzxRezal::onListDblClicked(QListViewItem * sender){
 /** Memorise la colonne cliquee */
 void RzxRezal::onListClicked( QListViewItem * item, const QPoint & pnt, int c ){
 	lastColumnClicked = (NumColonne) c;
-}
-
-/** No descriptions */
-void RzxRezal::serverDisconnected()
-{        
-}
-
-/** No descriptions */
-void RzxRezal::serverConnected(){
-        setEnabled(true);
-        iplist.clear();        
-}
-
-/** No descriptions */
-bool RzxRezal::isSocketClosed() const{
-        return server -> isSocketClosed();
-}
-
-/** No descriptions */
-void RzxRezal::closeSocket(){
-        disconnect(server, SIGNAL(disconnected()), this, SLOT(serverDisconnected()));
-        client -> close();        
-        chats.clear();
-        if(server) server -> close();
 }
 
 void RzxRezal::resizeEvent(QResizeEvent * e) {
@@ -598,7 +377,7 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 			item=static_cast<RzxItem*>(firstChild()); //au bout on revient au début
 		if(item->ip == ipSaved)
 			return; //on a fait le tour, personne avec cette lettre
-		RzxComputer * comp=iplist.find((item->ip).toString());
+		RzxComputer * comp=lister->iplist.find((item->ip).toString());
 		if(comp->getName().lower().at(0)==c) {
 			setCurrentItem(item);
 			ensureItemVisible(item);
@@ -634,7 +413,6 @@ void RzxRezal::redrawSelectedIcon(QListViewItem *sel)
 }
 
 void RzxRezal::languageChanged(){
-	qDebug("RzxRezal::languageChanged()");
 	for (int i = 0; i < numColonnes; i++) {
 		setColumnText(i, tr(colNames[i]));
 	}

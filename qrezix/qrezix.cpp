@@ -36,6 +36,7 @@
 #include "rzxproperty.h"
 #include "rzxpluginloader.h"
 #include "rzxutilslauncher.h"
+#include "rzxconnectionlister.h"
 
 #include "defaults.h"
 
@@ -65,22 +66,8 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	connect(btnPlugins, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
 	connect(&menuPlugins, SIGNAL(aboutToHide()), btnPlugins, SLOT(toggle()));
  
-	RzxClientListener *client = RzxClientListener::object();
-	connect(client, SIGNAL(chatSent()), this, SLOT(chatSent()));
- 
-	// CHAT
-	connect(client, SIGNAL(chat(QSocket*, const QString& )), rezal, SLOT(chat(QSocket*, const QString& )));
-	// RECEPTION DES PROPRIETES D'UN ORDINATEUR
-//	connect(client, SIGNAL(propAnswer(const RzxHostAddress&, const QString&)), rezal, SLOT(showProperties(const RzxHostAddress&, const QString&)));
-	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), rezal, SLOT(warnProperties(const RzxHostAddress&)));
+	connect(RzxClientListener::object(), SIGNAL(chatSent()), this, SLOT(chatSent()));
 
-	// Connexion des événement serveur au rézal
-	RzxServerListener *server = RzxServerListener::object();
-	connect(server, SIGNAL(sysmsg(const QString&)), rezal, SLOT(sysmsg(const QString&)));
-	connect(server, SIGNAL(fatal(const QString&)), rezal, SLOT(fatal(const QString&)));
-
-	connect(rezal, SIGNAL(needIcon(const RzxHostAddress&)), server, SLOT(getIcon(const RzxHostAddress&)));
- 
 	// Préparation de l'insterface
 	activateAutoResponder( RzxConfig::autoResponder() != 0 );
 
@@ -88,9 +75,11 @@ QRezix::QRezix(QWidget *parent, const char *name)
 
 	clearWFlags(WStyle_SysMenu|WStyle_Minimize);
 	alreadyOpened=false;
-	connect(rezal, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
-	connect(rezal, SIGNAL(countChange(const QString&)), lblCount, SLOT(setText(const QString&)));
-	connect(rezal, SIGNAL(countChange(const QString&)), this, SIGNAL(setToolTip(const QString&)));
+	
+	RzxConnectionLister *lister = RzxConnectionLister::global();
+	connect(lister, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
+	connect(lister, SIGNAL(countChange(const QString&)), lblCount, SLOT(setText(const QString&)));
+	connect(lister, SIGNAL(countChange(const QString&)), this, SIGNAL(setToolTip(const QString&)));
 
 
 	m_properties = new RzxProperty(this);
@@ -101,7 +90,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	}
 
 	//RzxConfig::loadTranslators();
-	rezal -> initConnection();
+	lister -> initConnection();
 
 	connect(rezal, SIGNAL(selectionChanged(QListViewItem*)), RzxPlugInLoader::global(), SLOT(itemChanged(QListViewItem*)));
 	connect(rezalFavorites, SIGNAL(selectionChanged(QListViewItem*)), RzxPlugInLoader::global(), SLOT(favoriteChanged(QListViewItem*)));
@@ -173,15 +162,16 @@ void QRezix::saveSettings()
 	RzxConfig::globalConfig()->writeWindowSize(windowSize);
 	RzxConfig::globalConfig() -> closeSettings();
 	qDebug("Fermeture des fenêtres de chat");
-	rezal->closeChats();
+	RzxConnectionLister::global() ->closeChats();
 	qDebug("Fermeture de l'écoute réseau");
 	RzxClientListener::object()->close();
 	qDebug("Fermeture de la connexion avec le serveur");
-	if (!rezal -> isSocketClosed()){
+	if (!RzxConnectionLister::global() -> isSocketClosed()){
 		lblStatus -> setText(tr("Closing socket..."));
-		rezal -> setEnabled(false);
-		connect(rezal, SIGNAL(socketClosed()), this, SLOT(socketClosed()));
-		rezal -> closeSocket();
+		rezal-> setEnabled(false);
+		rezalFavorites->setEnabled(false);
+		connect(RzxConnectionLister::global(), SIGNAL(socketClosed()), this, SLOT(socketClosed()));
+		RzxConnectionLister::global() -> closeSocket();
 	}
 	disconnect(qApp, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
 	qDebug("Fermeture de qRezix terminée");
@@ -216,7 +206,7 @@ void QRezix::closeEvent(QCloseEvent * e){
 
 	saveSettings();
 
-	if (rezal -> isSocketClosed())
+	if (RzxConnectionLister::global()-> isSocketClosed())
 		e -> accept();
 	else
 		e -> ignore();
@@ -244,7 +234,7 @@ bool QRezix::event(QEvent * e){
 
 void QRezix::delayedInit() {
 	disconnect(m_properties, SIGNAL(end()), this, SLOT(delayedInit()));
-	rezal -> initConnection();
+	RzxConnectionLister::global()  -> initConnection();
 }
 
 void QRezix::boitePreferences(){

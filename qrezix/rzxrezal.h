@@ -35,28 +35,29 @@
   *@author Sylvain Joyeux
   */
 
-#define USER_HASH_TABLE_LENGTH 1663
-
 class RzxItem;
+class RzxConnectionLister;
 
 //pour réimplanter le clavier et la touche droite, ne mérite pas un .h/.cpp pour lui tt seul
 class RzxPopupMenu : public QPopupMenu {
 	Q_OBJECT
-public:
-	RzxPopupMenu( QWidget * parent = 0, const char * name = 0 );
+	public:
+		RzxPopupMenu( QWidget * parent = 0, const char * name = 0 );
 
-protected:
-	void keyPressEvent(QKeyEvent *e);
+	protected:
+		void keyPressEvent(QKeyEvent *e);
 };
 
 class RzxRezal : public QListView  {
 	Q_OBJECT
+	
+	RzxConnectionLister *lister;
+	
 public: 
 	RzxRezal(QWidget * parent, const char * name);
-	void showNotFavorites(bool val);
-	void initConnection();
 	~RzxRezal();
-	void closeSocket();
+	
+	void showNotFavorites(bool val);
 
 	// Numero des colonnes
 	enum NumColonne
@@ -69,10 +70,9 @@ public:
 
 protected: // Protected attributes
 	bool dispNotFavorites;
-	QDict<RzxComputer> iplist;
-	static RzxServerListener * server;
-	static RzxClientListener * client;
-	static QDict<RzxChat> chats;
+	RzxServerListener * server;
+	RzxClientListener * client;
+	
 	// Definit necessaire pour le menu contextuel
 	RzxPopupMenu popup;
 
@@ -90,35 +90,21 @@ public slots: // Public slots
 
 	void afficheColonnes();
 	void adapteColonnes();
-	virtual void recvIcon(QImage*Icon, const RzxHostAddress&);
-	virtual void login(const QString& ordi);
-	virtual void logout(const RzxHostAddress& ip);
+	void login(RzxComputer *computer);
+	//void logout(const RzxHostAddress& ip);
 	QStringList getIpList();
 	void redrawAllIcons();
-	bool isSocketClosed() const;
-	void sysmsg(const QString& msg);
-	void fatal(const QString& msg);
 
 	void removeFromFavorites();
 	void addToFavorites();
 	
-	void chat(QSocket* socket, const QString& msg);
-	RzxChat * chatCreate(const RzxHostAddress& peer);
 	RzxChat * chatCreate(const QString& login = 0);
-	void chatDelete(const RzxHostAddress& peerAddress);
 	void closeChat(const QString& login);
-	void warnProperties(const RzxHostAddress& peer);
-	void closeChats();
 	
-	void serverConnected();
-	void serverDisconnected();
 	void languageChanged();
 
 signals: // Signals
-	void needIcon(const RzxHostAddress&);
 	void status(const QString& msg, bool fatal);
-	void countChange(const QString& newCount);
-	void socketClosed();
 	void favoriteChanged();
 
 protected slots: // Protected slots
