@@ -28,7 +28,8 @@
 #include <qpixmap.h>
 #include <qbitmap.h>
 #include <qapplication.h>
-#include <qlayout.h> 
+#include <qlayout.h>
+#include <qaccel.h>
 
 #include "qrezix.h"
 #include "rzxquit.h"
@@ -114,7 +115,10 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	tbRezalContainer -> setCurrentIndex(RzxConfig::defaultTab());
 	leSearch -> setShown(RzxConfig::globalConfig()->useSearch());
 	btnSearch -> setShown(RzxConfig::globalConfig()->useSearch());
-
+	
+	//Raccourcis claviers particuliers
+	accel = new QAccel(this, "RezixAccel");
+	accel->connectItem(accel->insertItem(Key_Tab+SHIFT), this, SLOT(switchTab()));
 	changeTheme();
 	wellInit = TRUE; 
 }
@@ -247,6 +251,11 @@ bool QRezix::event(QEvent * e){
 		statusMax = isMaximized();
 
 	return QWidget::event(e);
+}
+
+void QRezix::switchTab()
+{
+	tbRezalContainer->setCurrentIndex(1 - tbRezalContainer->currentIndex());
 }
 
 void QRezix::delayedInit() {
