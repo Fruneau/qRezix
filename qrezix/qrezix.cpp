@@ -146,6 +146,9 @@ void QRezix::toggleAutoResponder(){
 	activateAutoResponder( btnAutoResponder -> isOn() );
 }
 
+void QRezix::toggleButtonResponder() {
+	activateAutoResponder( ! btnAutoResponder -> isOn() );
+}
 
 void QRezix::activateAutoResponder( bool state ){
 	if( btnAutoResponder -> isOn() != state ) btnAutoResponder -> toggle();

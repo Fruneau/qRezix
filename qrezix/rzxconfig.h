@@ -150,6 +150,7 @@ public:
 
 signals:
 	void languageChanged();
+	void updateResponder();
 	
 protected: // Protected attributes
 	void loadLocalHost();

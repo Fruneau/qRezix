@@ -30,6 +30,6 @@
 // Version envoyee au serveur
 #define RZX_CLIENT_ID (0x60)
 #define RZX_MAJOR_VERSION (1)
-#define RZX_MINOR_VERSION (2)
-#define RZX_FUNNY_VERSION (1234)
+#define RZX_MINOR_VERSION (3)
+#define RZX_FUNNY_VERSION (666)
 
