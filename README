@@ -12,6 +12,19 @@ v1.5
 qRezix est un logiciel développé par le BR pour assurer la connexion des X. Ce logiciel fournit les outils nécessaires pour le chat et le partage des fichiers. C'est aussi une clef de voûte pour structurer le rezal. Il est important que chaque personne connectée utilise ce programme, où tout autre client xNet de façon constante depuis le démarrage, jusqu'à l'extinction de l'ordinateur.
 
 
+--------------------------------------------------------------------------------
+Contenu:
+--------------------------------------------------------------------------------
+I   - Configuration nécessaire
+II  - Démarrage de qRezix
+III - Chat
+IV  - Clients-serveurs
+V   - Changer l'icône dans le systray
+VI  - License
+--------------------------------------------------------------------------------
+
+
+
 I - Configuration nécessaire
 
 qRezix fonctionne sur les ordinateurs sous Linux, Mac OS X et Windows.
@@ -20,6 +33,7 @@ Pour Linux et Mac OS X, des paquets debian et Mandrake sont généré et les source
 
 Avant de lancer qRezix, il faut convenablement configurer l'ordinateur, en particulier, il faut ouvrir les ports 5050 (connexion serveur) et 5053 (connexion de chat) en tcp du pare-feu.
 
+--------------------------------------------------------------------------------
 
 II - Démarrage de qRezix
 
@@ -31,11 +45,13 @@ Au premier démarrage de qRezix, il y a 2 événements importants :
 
 L'ordinateur est dès lors connecté au rezal, la fenêtre principale se rempli de la liste des utilisateurs connectés.
 
+--------------------------------------------------------------------------------
 
 III - Chat
 
 Pour utiliser le chat, simplement effectué un double clic sur le pseudo de la personne avec qui vous voulez chatté. La chat commencera dès que vous enverrez votre message. En cliquant sur 'Envoyer en html' vous avez accès aux outils de formatage du texte et aux commandes html.
 
+--------------------------------------------------------------------------------
 
 IV - Clients-serveurs
 
@@ -46,8 +62,19 @@ A l'exception des serveurs samba sous Windows, qRezix est capable de détecté la 
 
 qRezix vous permet également d'ouvrir une connexion vers les serveurs des autres utilisateurs. Pour ceci choisissez le client qui vous permettra d'ouvrir ces connexions, et définissez le répertoire dans lequel vous voulez que les fichiers téléchargés soit stockés par défaut.
 
+--------------------------------------------------------------------------------
 
-V - License
+V - Changer l'icône dans le systray
+
+qRezix vous permet de modifier l'icône qui apparait dans le systray, si l'icône par défaut ne vous plait pas.
+
+Pour cela, il suffit de placer dans le répertoire correspondant au thème que vous utilisez des images au format png, nommées systray.png et systrayAway.png qui seront affichées en fonction de l'état présent/absent du client.
+
+Au prochain démarrage de qRezix, votre icône remplace alors l'icône par défaut.
+
+--------------------------------------------------------------------------------
+
+VI - License
 
 qRezix est distribué sous license GNU GPL.
 Vous avez le droit de le redistribuer et/ou de le modifier selon les termes de la version 2.1 ou supérieure de cette license.

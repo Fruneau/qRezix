@@ -1,3 +1,10 @@
+qrezix (1.5.2) unstable; urgency=low
+
+  * New upstream version (Pass crypté MD5)
+  * Nouvelles icônes dans le systray
+
+ -- pico <pico@melix.org>  Wed,  6 Oct 2004 18:06:32 +0200
+
 qrezix (1.5.1-rc1) unstable; urgency=high
 
   * Version distribuée pour des tests à grande échelle
