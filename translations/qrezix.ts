@@ -686,7 +686,7 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>Sport:</source>
-        <translation type="unfinished">Sport:</translation>
+        <translation type="obsolete">Sport:</translation>
     </message>
     <message>
         <source>Room:</source>
@@ -850,39 +850,39 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>begin &amp;Chat</source>
-        <translation type="obsolete">Ouvrir une fenêtre &amp;de chat</translation>
+        <translation type="unfinished">Ouvrir une fenêtre &amp;de chat</translation>
     </message>
     <message>
         <source>Samba connect</source>
-        <translation type="obsolete">Connection en Samba</translation>
+        <translation type="unfinished">Connection en Samba</translation>
     </message>
     <message>
         <source>FTP connect</source>
-        <translation type="obsolete">Connection en FTP</translation>
+        <translation type="unfinished">Connection en FTP</translation>
     </message>
     <message>
         <source>browse Web</source>
-        <translation type="obsolete">Voir le site Web</translation>
+        <translation type="unfinished">Voir le site Web</translation>
     </message>
     <message>
         <source>read News</source>
-        <translation type="obsolete">Lire les News</translation>
+        <translation type="unfinished">Lire les News</translation>
     </message>
     <message>
         <source>History</source>
-        <translation type="obsolete">Historique</translation>
+        <translation type="unfinished">Historique</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation type="obsolete">Propriétés</translation>
+        <translation type="unfinished">Propriétés</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
-        <translation type="obsolete">Retirer des favoris</translation>
+        <translation type="unfinished">Retirer des favoris</translation>
     </message>
     <message>
         <source>Add to favorites</source>
-        <translation type="obsolete">Ajouter aux favoris</translation>
+        <translation type="unfinished">Ajouter aux favoris</translation>
     </message>
     <message>
         <source>No history file for user %1</source>
@@ -950,7 +950,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="obsolete">Annuler</translation>
+        <translation type="unfinished">Annuler</translation>
     </message>
     <message>
         <source>Informations :</source>
@@ -980,12 +980,20 @@ Les discussions et les propriétés sont désactivées</translation>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add to ignore list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from ignore list</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
     <message>
         <source>Will try to reconnect in %1 seconds</source>
-        <translation>Prochaine tentative de connection dans %1 secondes</translation>
+        <translation type="obsolete">Prochaine tentative de connection dans %1 secondes</translation>
     </message>
     <message>
         <source>Connexion refused</source>
@@ -993,7 +1001,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Host not found. Manual search...</source>
-        <translation>Impossible de trouver l&apos;hôte. Recherche manuelle...</translation>
+        <translation type="obsolete">Impossible de trouver l&apos;hôte. Recherche manuelle...</translation>
     </message>
     <message>
         <source>Cannot find server %1</source>
@@ -1052,6 +1060,10 @@ Erreur DNS
         <source>Socket error, cannot write</source>
         <translation>Erreur de socket, écriture impossible</translation>
     </message>
+    <message>
+        <source>will try to reconnect in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxTrayWindow</name>
@@ -1097,7 +1109,19 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
     <name>TrayIcon</name>
     <message>
         <source>&amp;Quit</source>
-        <translation type="obsolete">&amp;Quitter</translation>
+        <translation type="unfinished">&amp;Quitter</translation>
+    </message>
+    <message>
+        <source>&amp;I&apos;m back !</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>I&apos;m &amp;away !</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Preference</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
