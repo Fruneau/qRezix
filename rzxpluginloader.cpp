@@ -146,12 +146,12 @@ RzxPlugInLoader *RzxPlugInLoader::global()
 void RzxPlugInLoader::init()
 {
 	RzxPlugIn *it;
+	initialized = true;
 	for(it = plugins.first() ; it ; it = plugins.next())
 		//le userDir sert à donner l'emplacement des données de configuration
 		//en particulier, c'est comme ça que les plug-ins peuvent écrirent leurs données
 		//dans le qrezixrc du rep .rezix
 		it->init(RzxConfig::globalConfig()->settings, "127.0.0.1");
-	initialized = true;
 }
 
 /// Arrêt de l'exécution de tous les plug-ins
