@@ -7,6 +7,8 @@
 *                                                                         *
 ***************************************************************************/
 
+#ifndef RZXFILESHARING_H
+#define RZXFILESHARING_H
 /*Gestion du partage des fichiers du ftp*/
 
 #include <qobject.h>
@@ -16,6 +18,7 @@
 #include <qvaluestack.h>
 #include <qvaluelist.h>
 #include <qfile.h>
+#include <qtimer.h>
 
 class FileTable
 {
@@ -40,8 +43,11 @@ class FileTable
 class RzxFileSharing:public QFtp
 {
 	Q_OBJECT
+	
+	QString ftpname;
 
 	int listingId;
+	bool isRunning;
 	QValueStack<int> commandPile;
 	QValueStack<QString> urlPile;
 	QValueStack<QUrlInfo> infoPile;
@@ -54,14 +60,18 @@ class RzxFileSharing:public QFtp
 
 //Donnée du fichier
 	QValueList<FileTable> logs;
+	QTimer *timer;
 
 //Fichier de log des ftps
 	public:
-		RzxFileSharing(QObject* parent=0, const char *name=0);
+		RzxFileSharing(const QString& ftpn, const QString& ftpentete, QObject* parent=0, const char *name=0);
 		~RzxFileSharing();
-
-		void launch(const QString& ftpname);
+		void stop();
 		void runNextCommand();
+		void changeDns(const QString& dnsname);
+
+	public slots:	
+		void launch();
 
 	protected:
 		void fileHash(const QString& filename);
@@ -71,7 +81,7 @@ class RzxFileSharing:public QFtp
 		QValueListIterator<FileTable> existEntry(const QString& path, const QString& name);
 		void addEntry(const QString& path, const QString& name, const QString& hash, const QString& date);
 		void cleanLogs();
-		bool writeLogs();
+		bool writeLogs(bool clean = TRUE);
 
 	protected slots:
 		void index(const QUrlInfo& i);
@@ -82,4 +92,7 @@ class RzxFileSharing:public QFtp
 		void dataGet(int done, int size);
 		void readData();
 };
+
+#endif
+
 

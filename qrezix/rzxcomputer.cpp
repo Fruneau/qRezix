@@ -47,6 +47,11 @@ void RzxComputer::initLocalHost( void )
 	options.ServerFlags = options.Server = 0;
 }
 
+RzxComputer::RzxComputer()
+{
+	indexFtp = NULL;
+}
+
 
 /** Recuperation des parametres d'ordinateur a partir d'un message Xnet
 Retourne true en cas d'echec, false sinon */
@@ -125,7 +130,10 @@ QString RzxComputer::serialize(bool stamp) {
 }
 
 void RzxComputer::setName(const QString& newName) 
-{ name = newName; }
+{
+	if(newName.lower() != name.lower() && indexFtp) indexFtp->changeDns(newName);
+	name = newName;
+}
 void RzxComputer::setRepondeur(bool i){
 	options.Repondeur = i ? REP_ON : REP_ACCEPT;
 }
@@ -205,6 +213,29 @@ void RzxComputer::removePreviousIcons(){
 	}
 }
 
+//Prépare le scan des ftp
+void RzxComputer::initScanFtp()
+{
+	if(!indexFtp)
+		indexFtp = new RzxFileSharing(ip.toString(), name);
+}
+
+
+//Démarrage d'un scan du ftp
+void RzxComputer::runScanFtp()
+{
+	if(!RzxConfig::indexFtp()) return;
+	if(!getServers() & RzxComputer::SERVER_FTP) return;
+	if(!indexFtp) return;
+	indexFtp->launch();
+}
+
+//Arrêt du scan du ftp
+void RzxComputer::stopScanFtp()
+{
+	if(indexFtp)  indexFtp->stop();
+}
+
 
 
 //Scan des servers ouverts
@@ -262,6 +293,8 @@ void RzxComputer::scanServers()
 		servers = RzxComputer::SERVER_FTP | RzxComputer::SERVER_HTTP | RzxComputer::SERVER_NEWS | RzxComputer::SERVER_SAMBA;
 #endif
 
+	if(!servers & RzxComputer::SERVER_FTP) stopScanFtp();
+	else runScanFtp();
 	if(servers != getServers())
 	{
 		setServers(servers);

@@ -6,6 +6,7 @@
 #include <qstring.h>
 #include <qfile.h>
 #include <qdir.h>
+#include <qtimer.h>
 #include "rzxmessagebox.h"
 
 #include "rzxfilesharing.h"
@@ -50,8 +51,8 @@ bool FileTable::operator<=(const FileTable& t)
 
 
 /**Classe d'indexation du ftp**/
-RzxFileSharing::RzxFileSharing(QObject* parent, const char *name)
-	:QFtp(parent, name), commandPile(), urlPile(), infoPile(), url(), info(), logs()
+RzxFileSharing::RzxFileSharing(const QString& ftpn, const QString& ftpentete, QObject* parent, const char *name)
+	:QFtp(parent, name), ftpname(ftpn), commandPile(), urlPile(), infoPile(), url(), info(), logs()
 {
 	connect(this, SIGNAL(stateChanged(int)), this, SLOT(stateChange(int)));
 	connect(this, SIGNAL(done(bool)), this, SLOT(commandDone(bool)));
@@ -59,17 +60,57 @@ RzxFileSharing::RzxFileSharing(QObject* parent, const char *name)
 	connect(this, SIGNAL(listInfo(const QUrlInfo&)), this, SLOT(index(const QUrlInfo&)));
 	connect(this, SIGNAL(dataTransferProgress(int, int)), this, SLOT(dataGet(int, int)));
 	hash = 0;
+	isRunning = FALSE;
 	logFile = NULL;
+	timer = NULL;
+	url = QString("ftp://" + ftpentete.lower() + "/");
 }
 
 RzxFileSharing::~RzxFileSharing()
 { }
 
-void RzxFileSharing::launch(const QString& ftpname)
+void RzxFileSharing::changeDns(const QString& dnsname)
 {
-	loadLogFile();
+	url = url.mid(6);
+	int offset = url.find('/');
+	url = url.mid(offset);
+	url = "ftp://" + dnsname.lower() + url;
+	if(!isRunning)
+		loadLogFile();
+		
+	QValueListIterator<FileTable> it;
+	for(it = logs.begin() ; it != logs.end() ; it++)
+		(*it).path = "ftp://" + dnsname.lower() + (*it).path.mid(offset + 6);
+	
+	if(!isRunning)
+		writeLogs(FALSE);
+}
+
+void RzxFileSharing::launch()
+{
+	if(isRunning || !loadLogFile()) return;
+	if(!timer)
+	{
+		timer = new QTimer();
+		connect(timer, SIGNAL(timeout()), this, SLOT(launch())); 
+	}
+	else
+		return;
 	qDebug("ftp connecting to " + ftpname);
+	isRunning = TRUE;
 	connectToHost(ftpname);
+}
+
+void RzxFileSharing::stop()
+{
+	if(timer)
+	{
+		timer->stop();
+		delete timer;
+		timer = NULL;
+	}
+	abort();
+	close();
 }
 
 void RzxFileSharing::stateChange(int state)
@@ -88,6 +129,7 @@ void RzxFileSharing::stateChange(int state)
 
 		case QFtp::Unconnected:
 			qDebug("ftp unconnected");
+			isRunning = FALSE;
 			break;
 
 		case QFtp::HostLookup:
@@ -100,7 +142,17 @@ void RzxFileSharing::stateChange(int state)
 
 		case QFtp::Closing:
 			qDebug("ftp closing connection");
-			writeLogs();
+			commandPile.erase(commandPile.begin(), commandPile.end());
+			urlPile.erase(urlPile.begin(), urlPile.end());
+			infoPile.erase(infoPile.begin(), infoPile.end());
+			if(timer)
+			{
+				timer->start(6*3600*1000);
+				writeLogs();
+			}
+			else
+				writeLogs(FALSE);
+			logs.erase(logs.begin(), logs.end());
 			break;
 
 		default: qDebug("ftp state changed");
@@ -306,7 +358,7 @@ bool RzxFileSharing::loadLogFile()
 	return TRUE;
 }
 
-bool RzxFileSharing::writeLogs()
+bool RzxFileSharing::writeLogs(bool clean)
 {
 	if(!logFile) return FALSE;
 	if(!logFile->open(IO_WriteOnly))
@@ -318,18 +370,15 @@ bool RzxFileSharing::writeLogs()
 
 	if(!logs.isEmpty())
 	{
-		qDebug("ftp cleaning database");
-		cleanLogs();
+		if(clean) cleanLogs();
 		QValueListIterator<FileTable> it;
 		for(it = logs.begin() ; it != logs.end() ; it++)
 		{
 
 			QString msg =  QString((*it).path + (*it).name +  (*it).hash + (*it).date + "\n");
 			const char *buf = msg.latin1();
-			qDebug(msg);
 			if(logFile->writeBlock(buf, msg.length()) == -1)
 			{
-				qDebug("ftp can't write in log file");
 				logFile->close();
 				delete logFile;
 				return FALSE;
@@ -364,8 +413,6 @@ FileTable RzxFileSharing::parse(const QString &ligne)
 	}
 	else
 		path = "";
-
-	qDebug("ftp load " + path + " " + msg + " " + hash + " " + date);
 
 	return FileTable(path, msg, hash, date);
 }

@@ -111,6 +111,8 @@ public:
 	static void ftpCmd(QString newstr);
 	static void httpCmd(QString newstr);
 	static void newsCmd(QString newstr);
+	
+	static bool indexFtp();
 
 	// proprietes de l'ordinateur
 	static QString propLastName();
