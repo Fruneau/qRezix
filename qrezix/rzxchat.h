@@ -124,6 +124,7 @@ protected:
 	
 signals: // Signals
 	void send(const QString& message);
+	void sendResponder(const QString& message);
 	void closed(const RzxHostAddress& peer);
 	void showHistorique(unsigned long ip, QString hostname, bool, QWidget*, QPoint*);
 	void showProperties(const RzxHostAddress&, const QString&, bool, QWidget*, QPoint*);
