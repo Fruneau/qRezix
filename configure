@@ -25480,6 +25480,8 @@ done
 
           ac_config_files="$ac_config_files icons/themes/Makefile"
 
+          ac_config_files="$ac_config_files icons/themes/MacOSX/Makefile"
+
           ac_config_files="$ac_config_files icons/themes/NoiaWarmKDE/Makefile"
 
           ac_config_files="$ac_config_files icons/themes/classic/Makefile"
@@ -26035,6 +26037,7 @@ do
   "doc/en/Makefile" ) CONFIG_FILES="$CONFIG_FILES doc/en/Makefile" ;;
   "icons/Makefile" ) CONFIG_FILES="$CONFIG_FILES icons/Makefile" ;;
   "icons/themes/Makefile" ) CONFIG_FILES="$CONFIG_FILES icons/themes/Makefile" ;;
+  "icons/themes/MacOSX/Makefile" ) CONFIG_FILES="$CONFIG_FILES icons/themes/MacOSX/Makefile" ;;
   "icons/themes/NoiaWarmKDE/Makefile" ) CONFIG_FILES="$CONFIG_FILES icons/themes/NoiaWarmKDE/Makefile" ;;
   "icons/themes/classic/Makefile" ) CONFIG_FILES="$CONFIG_FILES icons/themes/classic/Makefile" ;;
   "icons/themes/krystal/Makefile" ) CONFIG_FILES="$CONFIG_FILES icons/themes/krystal/Makefile" ;;
