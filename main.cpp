@@ -145,6 +145,12 @@ int main(int argc, char *argv[])
 		
 		rezix->changeTrayIcon();
 		
-		return a.exec();
+		int retour = a.exec();
+		delete rezix;
+		if(RzxConfig::globalConfig())
+			delete RzxConfig::globalConfig();
+		return retour;
 	}
+	delete rezix;
+	return 0;
 }
