@@ -29,6 +29,9 @@
     </property>
     <property name="layoutMargin" stdset="0">
     </property>
+    <property name="whatsThis" stdset="0">
+        <string>&lt;h3&gt;Menu&lt;/h3&gt;&lt;p&gt;Define the appearance of the menus and butons of the interface&lt;/p&gt;</string>
+    </property>
     <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
@@ -74,6 +77,9 @@
                                 </property>
                                 <property name="title">
                                     <string>Personnal information</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;Personnal information&lt;/h3&gt;&lt;p&gt;Give here some informations about you.&lt;/p&gt;&lt;p&gt;This informations can be very useful, so you should fill it with honesty&lt;/p&gt;</string>
                                 </property>
                                 <grid>
                                     <property name="name">
@@ -275,6 +281,9 @@
                                 <property name="title">
                                     <string>How to contact</string>
                                 </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;How to contact&lt;/h3&gt;&lt;p&gt;Some informations which give ways to contact you&lt;/p&gt;</string>
+                                </property>
                                 <widget class="QLabel">
                                     <property name="name">
                                         <cstring>lblPhone</cstring>
@@ -293,22 +302,6 @@
                                 </widget>
                                 <widget class="QLabel">
                                     <property name="name">
-                                        <cstring>lblWeb</cstring>
-                                    </property>
-                                    <property name="geometry">
-                                        <rect>
-                                            <x>11</x>
-                                            <y>59</y>
-                                            <width>98</width>
-                                            <height>26</height>
-                                        </rect>
-                                    </property>
-                                    <property name="text">
-                                        <string>Web page:</string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel">
-                                    <property name="name">
                                         <cstring>lblCasert</cstring>
                                     </property>
                                     <property name="geometry">
@@ -321,22 +314,6 @@
                                     </property>
                                     <property name="text">
                                         <string>Room:</string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>lblMail</cstring>
-                                    </property>
-                                    <property name="geometry">
-                                        <rect>
-                                            <x>11</x>
-                                            <y>27</y>
-                                            <width>98</width>
-                                            <height>26</height>
-                                        </rect>
-                                    </property>
-                                    <property name="text">
-                                        <string>e-mail:</string>
                                     </property>
                                 </widget>
                                 <widget class="QLineEdit">
@@ -416,6 +393,38 @@
                                         </rect>
                                     </property>
                                 </widget>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>lblWeb</cstring>
+                                    </property>
+                                    <property name="geometry">
+                                        <rect>
+                                            <x>11</x>
+                                            <y>59</y>
+                                            <width>98</width>
+                                            <height>26</height>
+                                        </rect>
+                                    </property>
+                                    <property name="text">
+                                        <string>Web page:</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>lblMail</cstring>
+                                    </property>
+                                    <property name="geometry">
+                                        <rect>
+                                            <x>11</x>
+                                            <y>27</y>
+                                            <width>98</width>
+                                            <height>26</height>
+                                        </rect>
+                                    </property>
+                                    <property name="text">
+                                        <string>e-mail:</string>
+                                    </property>
+                                </widget>
                             </widget>
                         </hbox>
                     </widget>
@@ -458,6 +467,9 @@
                                 </property>
                                 <property name="title">
                                     <string>Icon selection</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;Icon&lt;/h3&gt;&lt;p&gt;Select a small picture (64x64) which will be a kind of logo for your computer&lt;/p&gt;</string>
                                 </property>
                                 <grid>
                                     <property name="name">
@@ -616,6 +628,9 @@
                                         <property name="text">
                                             <string>Change my password ...</string>
                                         </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>&lt;h3&gt;Change my password&lt;/h3&gt;&lt;p&gt;Your connection with the server is secured with a password... This password is defined the first time you get connected to the server, but it can be change&lt;/p&gt;</string>
+                                        </property>
                                     </widget>
                                     <widget class="QLineEdit" row="0" column="1">
                                         <property name="name">
@@ -631,6 +646,11 @@
                                         </property>
                                         <property name="cursorPosition">
                                             <number>0</number>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>&lt;h3&gt;Computer name&lt;/h3&gt;
+&lt;p&gt;Name of your computer on the network. You can choose it here&lt;/p&gt;
+&lt;p&gt;Your name should only contains letters, numbers et '-', should not begin or finish with a '-' and each '-' should be isolated. Moreover, this name can't be more than 24 characters long&lt;/p&gt;</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="0" column="0">
@@ -648,10 +668,16 @@
                                         <property name="text">
                                             <string>Away:</string>
                                         </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>&lt;h3&gt;Away&lt;/h3&gt;&lt;p&gt;Check this case if you want to be marked away by default&lt;/p&gt;</string>
+                                        </property>
                                     </widget>
                                     <widget class="QLineEdit" row="5" column="1" rowspan="1" colspan="2">
                                         <property name="name">
                                             <cstring>txtAutoResponderMsg</cstring>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>&lt;h3&gt;Responder&lt;/h3&gt;&lt;p&gt;When you are away, people who want to chat with you will receive this message&lt;/p&gt;</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="4" column="0">
@@ -665,6 +691,9 @@
                                     <widget class="QLineEdit" row="4" column="1" rowspan="1" colspan="2">
                                         <property name="name">
                                             <cstring>remarque</cstring>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>&lt;h3&gt;Comment&lt;/h3&gt;&lt;p&gt;Tell here what you want...&lt;/p&gt;</string>
                                         </property>
                                     </widget>
                                     <widget class="Line" row="2" column="0" rowspan="1" colspan="3">
@@ -904,6 +933,9 @@
                                                         <property name="currentItem">
                                                             <number>1</number>
                                                         </property>
+                                                        <property name="whatsThis" stdset="0">
+                                                            <string>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</string>
+                                                        </property>
                                                     </widget>
                                                 </hbox>
                                             </widget>
@@ -913,6 +945,9 @@
                                                 </property>
                                                 <property name="text">
                                                     <string>Show Search Tools</string>
+                                                </property>
+                                                <property name="whatsThis" stdset="0">
+                                                    <string>&lt;h3&gt;Search&lt;/h3&gt;&lt;p&gt;Do you want to see the search tool ?&lt;/p&gt;</string>
                                                 </property>
                                             </widget>
                                         </grid>
@@ -931,6 +966,9 @@
                                 </property>
                                 <property name="checkable">
                                     <bool>false</bool>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;ToolTips are little windows that appears when you </string>
                                 </property>
                                 <grid>
                                     <property name="name">
@@ -1080,6 +1118,9 @@
                                 </property>
                                 <property name="title">
                                     <string>Columns layout</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</string>
                                 </property>
                                 <grid>
                                     <property name="name">
@@ -1243,6 +1284,9 @@
                                                         <height>0</height>
                                                     </size>
                                                 </property>
+                                                <property name="whatsThis" stdset="0">
+                                                    <string>&lt;h3&gt;Themes&lt;/h3&gt;&lt;p&gt;Choose a themes for the icons.&lt;/p&gt;</string>
+                                                </property>
                                             </widget>
                                         </hbox>
                                     </widget>
@@ -1275,6 +1319,9 @@
                                                 </item>
                                                 <property name="name">
                                                     <cstring>cmdDoubleClic</cstring>
+                                                </property>
+                                                <property name="whatsThis" stdset="0">
+                                                    <string>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Define the action to execute when you double click on an item&lt;/p&gt;</string>
                                                 </property>
                                             </widget>
                                         </hbox>
@@ -1309,6 +1356,9 @@
                                                 <property name="name">
                                                     <cstring>cmbIconSize</cstring>
                                                 </property>
+                                                <property name="whatsThis" stdset="0">
+                                                    <string>&lt;h3&gt;Icon size&lt;/h3&gt;&lt;p&gt;Do you prefer big icons (64x64) or small icons (32x32) for the pictures of the users&lt;/p&gt;</string>
+                                                </property>
                                             </widget>
                                         </hbox>
                                     </widget>
@@ -1321,6 +1371,9 @@
                                         </property>
                                         <property name="checked">
                                             <bool>true</bool>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>&lt;h3&gt;Highlight&lt;/h3&gt;&lt;p&gt;If you choose to display small icons and check this box then the selected item will be displayed with a big icon.&lt;/p&gt;</string>
                                         </property>
                                     </widget>
                                 </grid>
@@ -1376,6 +1429,9 @@
                             <widget class="QLineEdit">
                                 <property name="name">
                                     <cstring>txtWorkDir</cstring>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;Working directory&lt;/h3&gt;&lt;p&gt;Define the default directory where you want your clients store the files you download&lt;/p&gt;</string>
                                 </property>
                             </widget>
                             <widget class="QToolButton">
@@ -1453,6 +1509,9 @@
                                         <property name="cursorPosition">
                                             <number>34</number>
                                         </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>&lt;h3&gt;Server&lt;/h3&gt;&lt;p&gt;Define the address of the xnetserver&lt;/p&gt;</string>
+                                        </property>
                                     </widget>
                                 </hbox>
                             </widget>
@@ -1479,6 +1538,9 @@
                                         </property>
                                         <property name="value">
                                             <number>5050</number>
+                                        </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>&lt;h3&gt;Peer2peer port&lt;/h3&gt;&lt;p&gt;Define the port of the chat&lt;/p&gt;&lt;p&gt;You shouldn't have to modify this value&lt;/p&gt;</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="0" column="0">
@@ -1507,6 +1569,9 @@
                                         <property name="value">
                                             <number>5053</number>
                                         </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Defines the port to connect to on the xnetserver&lt;/p&gt;&lt;p&gt;You shouldn't have to modify this value&lt;/p&gt;</string>
+                                        </property>
                                     </widget>
                                     <widget class="QLabel" row="1" column="0">
                                         <property name="name">
@@ -1534,6 +1599,9 @@
                         </property>
                         <property name="title">
                             <string>Reconnection</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;h3&gt;Reconnection&lt;/h3&gt;&lt;p&gt;Defines the parameters of the reconnection.&lt;p&gt;&lt;p&gt;You shouldn't have to modify this values&lt;/p&gt;</string>
                         </property>
                         <grid>
                             <property name="name">
@@ -1594,6 +1662,9 @@
                         </property>
                         <property name="title">
                             <string>Open services</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;h3&gt;Open services&lt;/h3&gt;&lt;p&gt;Select the servers you want to share with all the users of the network. If a server is not present, it won't be displayed as present&lt;/p&gt;</string>
                         </property>
                         <vbox>
                             <property name="name">
@@ -1679,6 +1750,9 @@
                         </property>
                         <property name="title">
                             <string>Clients</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;h3&gt;Clients&lt;/h3&gt;&lt;p&gt;Choose the program you want to use. You can choose a predefined client, or typed the command line to use&lt;/p&gt;</string>
                         </property>
                         <grid>
                             <property name="name">
@@ -1788,6 +1862,9 @@
                                 <property name="text">
                                     <string>Show dialog when clicking on X</string>
                                 </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;Quitting dialog&lt;/h3&gt;&lt;p&gt;Enable/disable the dialog box which is displayed when you close the qRezix's main window&lt;/p&gt;</string>
+                                </property>
                             </widget>
                         </grid>
                     </widget>
@@ -1809,6 +1886,9 @@
                                 <property name="text">
                                     <string>Refuse messages when away</string>
                                 </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;Responder mode&lt;/h3&gt;&lt;p&gt;There are 2 kinds of responder&lt;p&gt;&lt;p&gt;&lt;b&gt;Refuse,&lt;/b&gt; in this mode, all the messages you receive while away are lost&lt;/p&gt;&lt;p&gt;&lt;b&gt;Store,&lt;/b&gt; in this mode, you can read you messages as if you were not marked away&lt;/p&gt;</string>
+                                </property>
                             </widget>
                             <widget class="QCheckBox" row="0" column="1">
                                 <property name="name">
@@ -1824,6 +1904,9 @@
                                 </property>
                                 <property name="text">
                                     <string>Warn me when properties are being checked</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;warning&lt;/h3&gt;&lt;p&gt;If you check this you will receive an notification each time somebody check you properties&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning :&lt;/b&gt; in some cases, this option can be used to spam you with notification windows&lt;/p&gt;</string>
                                 </property>
                             </widget>
                         </grid>
@@ -1842,6 +1925,9 @@
                                 </property>
                                 <property name="title">
                                     <string>Translation</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;Translation&lt;/h3&gt;&lt;p&gt;Select your language&lt;/p&gt;</string>
                                 </property>
                                 <grid>
                                     <property name="name">
@@ -1868,6 +1954,9 @@
                                 </property>
                                 <property name="title">
                                     <string>Systray</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;Systray&lt;/h3&gt;&lt;p&gt;Do you want to have qRezix reduced to an icon in the systray ?&lt;/p&gt;</string>
                                 </property>
                                 <grid>
                                     <property name="name">
@@ -1925,6 +2014,9 @@
                                         <property name="name">
                                             <cstring>txtBeep</cstring>
                                         </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Select the sound to play when you receive a new message&lt;/p&gt;</string>
+                                        </property>
                                     </widget>
                                     <widget class="QToolButton">
                                         <property name="name">
@@ -1943,6 +2035,9 @@
                                 <property name="text">
                                     <string>play</string>
                                 </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;Sound command&lt;/h3&gt;&lt;p&gt;Select the commant to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p&gt;</string>
+                                </property>
                             </widget>
                             <widget class="QLabel" row="0" column="0">
                                 <property name="name">
@@ -1958,6 +2053,9 @@
                                 </property>
                                 <property name="text">
                                     <string>Beep on message receiption</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive en message&lt;/p&gt;</string>
                                 </property>
                             </widget>
                             <widget class="QLayoutWidget" row="5" column="0" rowspan="1" colspan="2">
@@ -1989,6 +2087,9 @@
                                         <property name="name">
                                             <cstring>txtBeepFavorites</cstring>
                                         </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Select the sound to play when a favorite get connected&lt;/p&gt;</string>
+                                        </property>
                                     </widget>
                                     <widget class="QToolButton">
                                         <property name="name">
@@ -2007,6 +2108,9 @@
                                 <property name="text">
                                     <string>Beep on connection of one of your favorites</string>
                                 </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when a favorite get connected&lt;/p&gt;</string>
+                                </property>
                             </widget>
                             <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
                                 <property name="name">
@@ -2014,6 +2118,9 @@
                                 </property>
                                 <property name="text">
                                     <string>Show a notification window on favorite's state modification</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p&gt;</string>
                                 </property>
                             </widget>
                         </grid>
@@ -2095,6 +2202,9 @@
                                         <verstretch>0</verstretch>
                                     </sizepolicy>
                                 </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;h3&gt;Plug-ins&lt;/h3&gt;&lt;p&gt;Shows the detected plug-ins&lt;/p&gt;</string>
+                                </property>
                             </widget>
                             <widget class="QLayoutWidget" row="1" column="0">
                                 <property name="name">
@@ -2113,6 +2223,9 @@
                                         </property>
                                         <property name="accel">
                                             <string>Alt+R</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>&lt;h3&gt;Reload plug-in&lt;/h3&gt;&lt;p&gt;Click here to reload the selected plug-in&lt;/p&gt;</string>
                                         </property>
                                     </widget>
                                     <spacer>
@@ -2141,6 +2254,9 @@
                                         </property>
                                         <property name="accel">
                                             <string>Alt+O</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>&lt;h3&gt;Plug-in properties&lt;/h3&gt;&lt;p&gt;Displays the properties window of the selected plug-in&lt;/p&gt;</string>
                                         </property>
                                     </widget>
                                 </hbox>
