@@ -265,6 +265,7 @@ void RzxChatSocket::sendChat(const QString& msg)
 {
 	emit chatSent();
 	sendDccChat(msg);
+	sendTyping(false);
 }
 
 ///Emission du message du répondeur automatique
