@@ -22,7 +22,9 @@ HEADERS	+= qrezix.h \
 	dnsvalidator.h \
 	trayicon.h \
 	rzxquit.h \
-	rzxfilesharing.h
+	rzxplugin.h \
+	rzxpluginloader.h
+
 SOURCES	+= main.cpp \
 	qrezix.cpp \
 	rzxchat.cpp \
@@ -39,79 +41,14 @@ SOURCES	+= main.cpp \
 	dnsValidator.cpp \
 	trayicon.cpp \
 	rzxquit.cpp \
-	rzxfilesharing.cpp
+	rzxplugin.cpp \
+	rzxpluginloader.cpp
+
 FORMS	+= qrezixui.ui \
 	rzxchatui.ui \
 	rzxpropertyui.ui \
-	rzxquitui.ui
+	rzxquitui.ui \
+	rzxwrongpassui.ui
 
 TRANSLATIONS	= ./translations/qrezix.ts ./translations/qrezix_fr.ts
 RC_FILE          =icone.rc
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-CONFIG	+= qt warn_on release
-
-
-

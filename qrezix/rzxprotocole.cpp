@@ -16,10 +16,12 @@
  ***************************************************************************/
 #include <qstringlist.h>
 #include <qregexp.h>
+#include <qlineedit.h>
 
 #include "rzxprotocole.h"
 #include "rzxcomputer.h"
 #include "rzxconfig.h"
+#include "rzxwrongpassui.h"
 
 const char * RzxProtocole::ServerFormat[] = {
 	"^JOIN [0-9A-Fa-f]+ .* [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ .*",
@@ -31,6 +33,7 @@ const char * RzxProtocole::ServerFormat[] = {
 	"^UPGRADE v[0-9]+,[0-9]+,[0-9]+ .*",
 	"^FATAL",
 	"^ICON [0-9A-Fa-f]+",
+	"^WRONGPASS",
 	0
 };
 
@@ -84,11 +87,30 @@ void RzxProtocole::parse(const QString& msg){
 			case SERVER_PING:
 				emit ping();
 				break;
-				
+
+			case SERVER_WRONGPASS:
+				{
+					RzxWrongPassUI wp;
+					wp.exec();
+					QString pwd = wp.ledPassword->text();
+					if(pwd.length())
+					{
+						val = pwd.toInt(&ok, 16);
+						if (ok) {
+							sendAuth(val, RzxConfig::localHost());
+							RzxConfig::globalConfig()->writeEntry("pass", val);
+							RzxConfig::globalConfig()->write();
+						}
+					}
+				}
+//				emit sysmsg(QString("Wrong password"));
+				break;
+
 			case SERVER_FATAL:
 				if (!msgParams.isEmpty())
 					emit fatal(msgParams);
 				break;
+				
 			case SERVER_PASS:
 				emit sysmsg(QString(tr("Your XNet password  is  : %1\n"
 					                   "This is an identification code used to authentificate your connection to the server and avoid IP-spoofing.\n\n"
@@ -160,6 +182,16 @@ void RzxProtocole::sendRefresh(RzxComputer * thisComputer) {
 	QString msg = "REFRESH ";
 	msg = msg + thisComputer -> serialize() + "\r\n";
 	emit send(msg);
+}
+
+void RzxProtocole::sendFileList(int n, const QString& files)
+{
+	emit send(QString("SETINDEX %1\r\n").arg(n) + files);
+}
+
+void RzxProtocole::sendDeleteList()
+{
+	emit send(QString("DELINDEX\r\n"));
 }
 
 void RzxProtocole::sendPart() {

@@ -221,7 +221,7 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>Cannot open configuration file %1</source>
-        <translation>Impossible d&apos;ouvrir le fichier de configuration %1</translation>
+        <translation type="obsolete">Impossible d&apos;ouvrir le fichier de configuration %1</translation>
     </message>
     <message>
         <source>Unable to open configuration file %1 for writing</source>
@@ -246,12 +246,12 @@ dans lequel il enregistre sa configuration</translation>
         <source>Septembre cannot create %1, which is the folder
 in which its configuration is saved
 </source>
-        <translation>Septembre ne peut pas créer le répertoire %1,
+        <translation type="obsolete">Septembre ne peut pas créer le répertoire %1,
 dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>You will not be able to save your configuration</source>
-        <translation>Il vous sera impossible de sauvegarder vos paramètres</translation>
+        <translation type="obsolete">Il vous sera impossible de sauvegarder vos paramètres</translation>
     </message>
 </context>
 <context>
@@ -648,6 +648,31 @@ Erreur DNS
     </message>
 </context>
 <context>
+    <name>RzxWrongPassUI</name>
+    <message>
+        <source>Enter you Password</source>
+        <translation>Entrez votre pass</translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation>Pass:</translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation>Alt+O</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Wrong Password&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+Please, reenter your password. You can&apos;t get connected to the xnetserver unless you got the good password. You have been given this password when you got connected for the first time to the server.</source>
+        <translation>&lt;b&gt;Pass incorrect&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+Le pass avec lequel vous avez tenté de vous connecter au serveur xnt est incorrect. Rentrez le pass qui vous a été donné lors de la première connexion à ce serveur sans quoi vous ne pourrez plus vous connecter.</translation>
+    </message>
+</context>
+<context>
     <name>TrayIcon</name>
     <message>
         <source>&amp;I&apos;m back !</source>
@@ -1022,7 +1047,31 @@ Erreur DNS
     </message>
     <message>
         <source>Be in xPlo</source>
-        <translation>Aider xPlo</translation>
+        <translation type="obsolete">Aider xPlo</translation>
+    </message>
+    <message>
+        <source>&amp;Plug-ins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plug-ins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plug-in pr&amp;operties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+O</source>
+        <translation type="unfinished">Alt+O</translation>
+    </message>
+    <message>
+        <source>Nom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

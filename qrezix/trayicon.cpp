@@ -1,6 +1,7 @@
 #include "trayicon.h"
 #include "qpopupmenu.h"
 #include <qtooltip.h>
+#include "rzxpluginloader.h"
 
 #ifdef WIN32
 #include "qt_windows.h"
