@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>516</width>
-            <height>590</height>
+            <height>641</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -63,7 +63,7 @@
                         <bool>true</bool>
                     </property>
                     <property name="usesBigPixmap">
-                        <bool>true</bool>
+                        <bool>false</bool>
                     </property>
                     <property name="usesTextLabel">
                         <bool>true</bool>
@@ -75,7 +75,7 @@
                         <bool>true</bool>
                     </property>
                     <property name="textPosition">
-                        <enum>BelowIcon</enum>
+                        <enum>BesideIcon</enum>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Plug-ins</string>
@@ -115,7 +115,7 @@
                         <bool>true</bool>
                     </property>
                     <property name="usesBigPixmap">
-                        <bool>true</bool>
+                        <bool>false</bool>
                     </property>
                     <property name="usesTextLabel">
                         <bool>true</bool>
@@ -125,6 +125,9 @@
                     </property>
                     <property name="autoRaise">
                         <bool>true</bool>
+                    </property>
+                    <property name="textPosition">
+                        <enum>BesideIcon</enum>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Away</string>
@@ -144,7 +147,7 @@
                         <string></string>
                     </property>
                     <property name="usesBigPixmap">
-                        <bool>true</bool>
+                        <bool>false</bool>
                     </property>
                     <property name="usesTextLabel">
                         <bool>true</bool>
@@ -154,6 +157,9 @@
                     </property>
                     <property name="autoRaise">
                         <bool>true</bool>
+                    </property>
+                    <property name="textPosition">
+                        <enum>BesideIcon</enum>
                     </property>
                 </widget>
                 <widget class="QToolButton">
@@ -170,7 +176,7 @@
                         <string>Alt+P</string>
                     </property>
                     <property name="usesBigPixmap">
-                        <bool>true</bool>
+                        <bool>false</bool>
                     </property>
                     <property name="usesTextLabel">
                         <bool>true</bool>
@@ -180,6 +186,9 @@
                     </property>
                     <property name="autoRaise">
                         <bool>true</bool>
+                    </property>
+                    <property name="textPosition">
+                        <enum>BesideIcon</enum>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Preferences</string>
