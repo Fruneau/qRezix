@@ -100,7 +100,7 @@ void RzxItem::update(){
 
 	sysex = options.SysEx;
 	servers = options.Server;
-	repondeur = (options.Repondeur==RzxComputer::REP_ON);
+	repondeur = (options.Repondeur==RzxComputer::REP_ON || options.Repondeur==RzxComputer::REP_REFUSE);
 	if (sysex < 3) sysex += 6;
 
 	int promo=options.Promo;

@@ -128,6 +128,8 @@ QString RzxComputer::serialize(bool stamp) {
 	QString ret;
 	options_t test = options;
 	test.Server &= ServerFlags;
+	//Pour préserver la compatibilité avec les versions antérieures qui ne respectent pas le protocole !!!
+	if(test.Repondeur == REP_REFUSE) test.Repondeur = REP_ON;
 	Q_UINT32 opts = *((Q_UINT32*) &test);
 	Q_UINT32 vers = *((Q_UINT32*) &version);
 	
@@ -148,7 +150,7 @@ void RzxComputer::setName(const QString& newName)
 	name = newName;
 }
 void RzxComputer::setRepondeur(bool i){
-	options.Repondeur = i ? REP_ON : REP_ACCEPT;
+	options.Repondeur = i ? (RzxConfig::refuseWhenAway() ? REP_REFUSE :REP_ON) : REP_ACCEPT;
 }
 void RzxComputer::setIcon(const QPixmap& image){
 	icon = image;
@@ -165,7 +167,7 @@ void RzxComputer::setRemarque(const QString& text)
 
 
 
-bool RzxComputer::getRepondeur() const 
+int RzxComputer::getRepondeur() const 
 { return options.Repondeur; }
 
 int RzxComputer::getPromo() const 

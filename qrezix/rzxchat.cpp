@@ -362,8 +362,11 @@ void RzxChat::receive(const QString& msg)
 #endif
 	
 	}
-		
-	append("blue", hostname + "> ", message);
+	
+	if(RzxConfig::autoResponder())
+		append("darkgray", hostname + "> ", message);
+	else
+		append("blue", hostname + "> ", message);
 	if(!isActiveWindow())
 	{
 		unread++;

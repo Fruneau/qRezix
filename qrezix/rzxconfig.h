@@ -150,13 +150,14 @@ public:
 	static int colonnes();	
 	static int computerIconSize();
 	static bool computerIconHighlight();
+	static bool refuseWhenAway();
 	
 	static int menuTextPosition();
 	static int menuIconSize();
 	static int tooltip();
 	static QStringList ignoredPluginsList();
 	
-	static bool autoResponder();
+	static int autoResponder();
 	static QString autoResponderMsg();
 	static void setAutoResponder(bool val);
 	static QColor repondeurHighlight();

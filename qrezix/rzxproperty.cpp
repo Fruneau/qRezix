@@ -216,6 +216,7 @@ void RzxProperty::initDlg() {
 	cbQuit->setChecked(RzxConfig::showQuit());
 
 	cbHighlight->setChecked(RzxConfig::computerIconHighlight());
+	cbRefuseAway->setChecked(RzxConfig::refuseWhenAway());
 	
 	clientFtp ->clear();
 	clientHttp ->clear();
@@ -321,6 +322,8 @@ bool RzxProperty::updateLocalHost()
 	RzxConfig::localHost() -> setPromo(cmbPromo->currentItem() + 1);
 	refresh = refresh || RzxConfig::autoResponder() != chkAutoResponder->isChecked();
 	RzxConfig::localHost() -> setRepondeur(chkAutoResponder -> isChecked());
+	
+	refresh = refresh || (RzxConfig::refuseWhenAway() ^ cbRefuseAway->isChecked());
 
 	int servers = 0;
 	if ( CbSamba->isChecked() )
@@ -430,6 +433,9 @@ bool RzxProperty::miseAJour() {
 	cfgObject -> writeEntry( "numSport", cmbSport->currentItem());
 	cfgObject -> writeEntry( "language", languageBox->currentText() );
 	cfgObject -> writeShowQuit(cbQuit->isChecked());
+	
+	cfgObject -> writeEntry( "refuseAway", cbRefuseAway->isChecked());
+	RzxConfig::setAutoResponder(RzxConfig::autoResponder());
 
 	if(RzxConfig::menuTextPosition() != cmbMenuText->currentItem() || RzxConfig::menuIconSize() != cmbMenuIcons->currentItem())
 	{
