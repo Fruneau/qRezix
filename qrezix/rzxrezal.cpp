@@ -671,7 +671,7 @@ void RzxRezal::fatal(const QString& msg){
 }
 
 void RzxRezal::passReceived(int val) {
-	fatal("Pass Received");
+	RzxConfig::globalConfig()->writeEntry("pass", val);
 }
 
 /** CRASSOU AU POSSIBLE

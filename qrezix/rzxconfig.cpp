@@ -60,7 +60,7 @@ void RzxConfig::loadTranslators(){
 	translations.setAutoDelete(true);
 	translations.clear();
 	loadTranslatorsInDir(globalConfig()->m_systemDir);
-	loadTranslatorsInDir(globalConfig()->m_userDir);
+	//loadTranslatorsInDir(globalConfig()->m_userDir);
 }
 
 void RzxConfig::loadTranslatorsInDir(QDir sourceDir){

@@ -44,6 +44,7 @@ class RzxProperty;
 class RzxConfig : public QObject  {
 	Q_OBJECT
 	friend class RzxProperty;
+	friend class RzxRezal;
 
 	static RzxConfig * Config;
 	RzxConfig();
