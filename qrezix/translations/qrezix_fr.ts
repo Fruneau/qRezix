@@ -1197,6 +1197,21 @@ Erreur DNS
     </message>
 </context>
 <context>
+    <name>RzxTrayWindow</name>
+    <message>
+        <source>is now away</source>
+        <translation>est absent</translation>
+    </message>
+    <message>
+        <source>is now here</source>
+        <translation>est là</translation>
+    </message>
+    <message>
+        <source>is now disconnected</source>
+        <translation>vient de se déconnecter</translation>
+    </message>
+</context>
+<context>
     <name>RzxWrongPassUI</name>
     <message>
         <source>Enter you Password</source>
@@ -1696,7 +1711,7 @@ Le mot de passe avec lequel vous avez tenté de vous connecter au serveur Xnet e
     </message>
     <message>
         <source>Sound</source>
-        <translation>Son</translation>
+        <translation type="obsolete">Son</translation>
     </message>
     <message>
         <source>Translation</source>
@@ -1765,6 +1780,14 @@ Le mot de passe avec lequel vous avez tenté de vous connecter au serveur Xnet e
     <message>
         <source>Beep on connection of one of your favorites</source>
         <translation>Bip à la connexion d&apos;un favoris</translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation>Notifications</translation>
+    </message>
+    <message>
+        <source>Show a notification window on favorite&apos;s state modification</source>
+        <translation>Afficher une fenêtre de notification lorsqu&apos;un favoris change d&apos;état</translation>
     </message>
 </context>
 </TS>

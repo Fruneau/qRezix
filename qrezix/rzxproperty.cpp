@@ -153,6 +153,7 @@ void RzxProperty::initDlg() {
 	initLangCombo();
 	chkBeep->setChecked( RzxConfig::beep() );
 	chkBeepFavorites->setChecked( RzxConfig::beepConnection());
+	cbWarnFavorite->setChecked( RzxConfig::showConnection());
 	
 	hostname->setText( RzxConfig::localHost() -> getName() );
 	remarque->setText( RzxConfig::localHost() -> getRemarque() );
@@ -392,6 +393,7 @@ bool RzxProperty::miseAJour() {
 	cfgObject -> writeEntry( "iconhighlight", cbHighlight->isChecked());
 	cfgObject -> writeEntry( "beep", chkBeep->isChecked() ? 1 : 0 );
 	cfgObject -> writeEntry( "beepConnection", chkBeepFavorites->isChecked() ? 1: 0);
+	cfgObject -> writeEntry( "showConnection", cbWarnFavorite->isChecked() ? 1 : 0);
 	cfgObject -> writeEntry( "txtBeep", txtBeep->text());
 	cfgObject -> writeEntry( "txtBeepConnection", txtBeepFavorites->text());
 	cfgObject -> writeEntry( "txtBeepCmd", txtBeepCmd->text());

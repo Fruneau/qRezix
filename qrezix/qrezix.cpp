@@ -393,7 +393,7 @@ void QRezix::warnForFavorite(RzxComputer *computer)
 {
 	//ne garde que les favoris avec en plus comme condition que ce ne soit pas les gens présents à la connexion
 	//evite de notifier la présence de favoris si en fait c'est nous qui arrivons.
-	if(!RzxConnectionLister::global()->isInitialized() || !favoriteWarn)
+	if(!RzxConnectionLister::global()->isInitialized() || !favoriteWarn || computer->getName() == RzxConfig::localHost()->getName())
 	{
 		favoriteWarn = true;
 		return;

@@ -16,13 +16,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qwidget.h>
+#include <qframe.h>
 #include <qtimer.h>
 
 class RzxComputer;
 
 class RzxTrayWindow: public QFrame
 {
+	Q_OBJECT
+	
 	QTimer timer;
 	
 	public:

@@ -1054,6 +1054,21 @@ Erreur DNS
     </message>
 </context>
 <context>
+    <name>RzxTrayWindow</name>
+    <message>
+        <source>is now away</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is now here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is now disconnected</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RzxWrongPassUI</name>
     <message>
         <source>Enter you Password</source>
@@ -1531,10 +1546,6 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sound</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Translation</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1596,6 +1607,14 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     </message>
     <message>
         <source>Beep on connection of one of your favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show a notification window on favorite&apos;s state modification</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
