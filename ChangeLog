@@ -13,6 +13,9 @@ ListView/RzxRezal [Steak]
     * Gestion de lftp en plus de gftp avec ouverture de console [Steak, ZyGot]
     * Icones thématisées rajoutées pour le bouton du son + ajout dans le make
 install [Steak, Kikx]
+    * Bugfixs pour le multilinguisme (sport, chargt des qm) [Steak]
+    * Utilisation d'un QTextEdit dérivé au lieu du MultiEdit obsolete,
+shift+enter pr changer de ligne [Steak]
 
 [v1.2] JiBee Mais je sais pas ce qu'il a fait, il l'a pas écrit :)
 	[Steak]

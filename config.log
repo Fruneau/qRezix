@@ -876,9 +876,9 @@ configure:18465: checking for crt_externs.h
 configure:18472: result: no
 configure:18485: checking for _NSGetEnviron
 configure:18542: gcc -o conftest -ansi -W -Wall -pedantic -Wshadow -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -O2     conftest.c  >&5
-/home/steak/tmp/cc6Lda13.o(.text+0xe): In function `main':
+/home/steak/tmp/ccm0MbGn.o(.text+0xe): In function `main':
 : undefined reference to `_NSGetEnviron'
-/home/steak/tmp/cc6Lda13.o(.data+0x0): undefined reference to `_NSGetEnviron'
+/home/steak/tmp/ccm0MbGn.o(.data+0x0): undefined reference to `_NSGetEnviron'
 collect2: ld returned 1 exit status
 configure:18548: $? = 1
 configure: failed program was:
@@ -1740,16 +1740,16 @@ lt_lt_cv_sys_global_symbol_to_cdecl='"sed -n -e '\''s/^. .* \\(.*\\)\$/extern in
 ## Output variables. ##
 ## ----------------- ##
 
-ACLOCAL='${SHELL} /home/steak/devel/qrezix/admin/missing --run aclocal-1.6'
+ACLOCAL='${SHELL} /home/steak/devel/test/qrezix/admin/missing --run aclocal-1.6'
 AMDEPBACKSLASH='\'
 AMDEP_FALSE='#'
 AMDEP_TRUE=''
-AMTAR='${SHELL} /home/steak/devel/qrezix/admin/missing --run tar'
+AMTAR='${SHELL} /home/steak/devel/test/qrezix/admin/missing --run tar'
 ARTSCCONFIG=''
-AUTOCONF='${SHELL} /home/steak/devel/qrezix/admin/missing --run autoconf'
+AUTOCONF='${SHELL} /home/steak/devel/test/qrezix/admin/missing --run autoconf'
 AUTODIRS=''
-AUTOHEADER='${SHELL} /home/steak/devel/qrezix/admin/missing --run autoheader'
-AUTOMAKE='${SHELL} /home/steak/devel/qrezix/admin/missing --run automake-1.6'
+AUTOHEADER='${SHELL} /home/steak/devel/test/qrezix/admin/missing --run autoheader'
+AUTOMAKE='${SHELL} /home/steak/devel/test/qrezix/admin/missing --run automake-1.6'
 AWK='gawk'
 CC='gcc'
 CCDEPMODE='depmode=gcc3'
@@ -1827,7 +1827,7 @@ LIB_X11='-lX11 $(LIBSOCKET)'
 LIB_XEXT='-lXext'
 LN_S='ln -s'
 LTLIBOBJS=''
-MAKEINFO='${SHELL} /home/steak/devel/qrezix/admin/missing --run makeinfo'
+MAKEINFO='${SHELL} /home/steak/devel/test/qrezix/admin/missing --run makeinfo'
 MCOPIDL=''
 MEINPROC=''
 MOC='/usr/lib/qt3//bin/moc'
@@ -1889,7 +1889,7 @@ host_os='linux-gnu'
 host_vendor='pc'
 includedir='${prefix}/include'
 infodir='${prefix}/info'
-install_sh='/home/steak/devel/qrezix/admin/install-sh'
+install_sh='/home/steak/devel/test/qrezix/admin/install-sh'
 kde_appsdir=''
 kde_bindir=''
 kde_confdir=''
