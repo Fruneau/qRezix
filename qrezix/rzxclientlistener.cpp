@@ -543,6 +543,7 @@ RzxClientListener::RzxClientListener()
 	: QObject(0, "Client"), listenSocket(QSocketDevice::Stream)
 {
 	valid = false;
+	notify = NULL;
 }
 
 ///Ouverture de l'écoute du port 5050
@@ -569,13 +570,15 @@ bool RzxClientListener::listenOnPort(Q_UINT32 port) {
 
 	valid = true;
 	
-	QSocketNotifier * notify = new QSocketNotifier(listenSocket.socket(), QSocketNotifier::Read, this);
+	notify = new QSocketNotifier(listenSocket.socket(), QSocketNotifier::Read, this);
 	notify -> setEnabled(true);
 	connect(notify, SIGNAL(activated(int)), SLOT(socketRead(int)));
 	return true;
 }
 
 RzxClientListener::~RzxClientListener(){
+	if(notify)
+		delete notify;
 }
 
 void RzxClientListener::close()
