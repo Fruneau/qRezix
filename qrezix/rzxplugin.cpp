@@ -41,6 +41,7 @@ RzxPlugIn::RzxPlugIn() : QObject(0, 0)
 	chat = NULL;
 	icon = NULL;
 	version = PLUGIN_VERSION;
+	features = 0;
 }
 
 /// Construction d'un plug-in
@@ -59,6 +60,7 @@ RzxPlugIn::RzxPlugIn(const QString& nm, const QString& desc) : QObject(0, 0)
 	chat = NULL;
 	icon = NULL;
 	version = PLUGIN_VERSION;
+	features = 0;
 }
 
 /// Fermeture du plugin

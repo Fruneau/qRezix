@@ -108,12 +108,7 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 				}
 				else
 				{
-					/* Pour l'instant c'est crade, mais à terme je vais mettre un truc plus propre pour gérer les id des plugins
-					Mais comme j'ai pas envie de faire de modif de la structure de plugin aujourd'hui je laisse ça comme ça pour l'instant */
-					if(pi->getName().contains("chat", false))
-						pluginFlags |= RzxComputer::CAP_CHAT;
-					if(pi->getName().contains("xplo", false))
-						pluginFlags |= RzxComputer::CAP_XPLO;
+					pluginFlags |= pi->getFeatures();
 					connect(pi, SIGNAL(send(const QString&)), RzxServerListener::object(), SLOT(sendProtocolMsg(const QString&)));
 					connect(pi, SIGNAL(queryData(RzxPlugIn::Data, RzxPlugIn*)), this, SLOT(sendQuery(RzxPlugIn::Data, RzxPlugIn*)));
 					connect(pi, SIGNAL(requestAction(RzxPlugIn::Action, const QString& )), this, SLOT(action(RzxPlugIn::Action, const QString& )));
@@ -431,6 +426,13 @@ void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 		case RzxPlugIn::DATA_ICONBAN: value = new QVariant(*RzxConfig::themedIcon("ban")); break;
 		case RzxPlugIn::DATA_ICONUNBAN: value = new QVariant(*RzxConfig::themedIcon("unban")); break;
 		case RzxPlugIn::DATA_ICONQUIT: value = new QVariant(*RzxConfig::themedIcon("quit")); break;
+		case RzxPlugIn::DATA_FEATUREDLIST:
+			if(plugin)
+				value = new QVariant(RzxConnectionLister::global()->getIpList(plugin->getFeatures()));
+			else
+				value = new QVariant(RzxConnectionLister::global()->getIpList());
+			break;
+				
 		default: return;
 	}
 	

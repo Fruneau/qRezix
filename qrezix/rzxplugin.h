@@ -37,7 +37,7 @@
  *
  * Il est important de comprendre que ce numéro de version ne dépend pas du comportement de qRezix envers le plug-in (on peut très bien envisager de faire évoluer qRezix pour garder la compatibilité avec les anciennes version de plug-ins) mais de l'évolution de la structure du plug-in. En fait, Cette structure dépend de QObject et de RzxPlugIn, mais seule les évolutions de RzxPlugIn entre en compte pour le calcul de cette version (le principe étant de compiler les plugins de qRezix avec la même version de Qt que pour qRezix lui-même).
  */
-#define PLUGIN_VERSION 0x00203002
+#define PLUGIN_VERSION 0x00204000
 
 class QWidget;
 class QPixmap;
@@ -178,7 +178,8 @@ class RzxPlugIn : public QObject		//NE PAS MODIFIER
 			DATA_USERDIR = 69,		/**< envoi le répertoire utilisateur, émit dès le démarrage du plug-in et NE PEUT PAS ÊTRE DEMANDÉ, on attend un QString */
 			DATA_ICONBAN = 70,		/**< demande l'icône d'ajout à l'ignore list du thème actuel, on attend un QPixmap en retour*/
 			DATA_ICONUNBAN = 71,		/**< demande l'icône de suppression de l'ignore list du thème actuel, on attend un QPixmap en retour*/
-			DATA_ICONQUIT = 72		/**< demande l'icône de fermeture du programme du thème actuel, on attend un QPixmap en retour*/
+			DATA_ICONQUIT = 72,		/**< demande l'icône de fermeture du programme du thème actuel, on attend un QPixmap en retour*/
+			DATA_FEATUREDLIST = 73	/**< demande la liste des gens connectés ayant la feature du plug-in */
 		};
 		
 		
@@ -212,12 +213,27 @@ class RzxPlugIn : public QObject		//NE PAS MODIFIER
 		QPopupMenu *action;
 		///Contribution du plug-in au menu plug-in de la fenêtre de chat
 		QPopupMenu *chat;
-
+		
 		/*Les fonctions qui suivents fournissent au plug-in
 		le matériel pour enregistrer et lire des données de
 		configuration de manière organisée*/
 		///Outils de stockage des propriétés cohérent avec celui de qRezix
 		QSettings *settings;
+
+		///Liste des features disponibles
+		/** Cette liste correspond à ce qui est établit dans le protocole client/serveur */
+		enum Features
+		{
+			None = 0,
+			Chat = 2,
+			Xplo = 4
+		};
+		///Indication des services fournies par le plugin
+		/** Cette valeur est initialisée par défaut à 0, il convient aux plug-ins qui entre dans le cadres de ce genre de features donner une valeur différente */
+		unsigned int features;
+		///Inscription des features
+		/** \sa features */
+		inline void setFeatures(Features feat) { features = feat; }
 
 	private:
 		RzxPlugIn();
@@ -242,6 +258,10 @@ class RzxPlugIn : public QObject		//NE PAS MODIFIER
 		bool hasProp();
 		QPixmap *getIcon();
 
+		///Lecture des features
+		/** \sa features */
+		inline unsigned int getFeatures() { return features; }
+		
 		/* Partie abstraite devant être réimplémentée dans chaque
 		classe fille qui définira un plug-in */
 		///Envoi de la contribution au menu de la trayicon

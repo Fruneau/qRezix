@@ -176,13 +176,14 @@ void RzxConnectionLister::logout( const RzxHostAddress& ip )
 
 ///Retourne la liste des IP des gens connectés
 /** Permet pour les plug-ins d'obtenir facilement la liste les ip connectées */
-QStringList RzxConnectionLister::getIpList()
+QStringList RzxConnectionLister::getIpList(unsigned int features)
 {
 	QDictIterator<RzxComputer> it(iplist);
 	QStringList ips;
 	for( ; it.current() ; ++it)
 	{
-		ips << (it.currentKey());
+		if(!features || it.current()->can(features))
+			ips << (it.currentKey());
 	}
 	return ips;
 }

@@ -57,7 +57,7 @@ class RzxConnectionLister : public QObject
 	public slots:
 		void login(const QString& ordi = QString::null);
 		void logout(const RzxHostAddress& ip);
-		QStringList getIpList();
+		QStringList getIpList(unsigned int features = 0);
 		
 		bool isSocketClosed() const;
 		
