@@ -26,7 +26,7 @@
 #define RZX_CLIENT_ID (0x06)
 #define RZX_MAJOR_VERSION (1)
 #define RZX_MINOR_VERSION (6)
-#define RZX_FUNNY_VERSION (0)
+#define RZX_FUNNY_VERSION (1)
 
 #define RZX_VERSION QString("%1.%2").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION)
 
@@ -35,7 +35,6 @@
 #endif
 
 #define DEFAULT_COMMENT "La nouvelle version de qRezix, plus que le WEI, c'est le feu... merci les BRmen\n" \
-	"J'ai diminué un peu la vitesse de démarrage de MultiDeskOS pour accélérer son exécution.-- Jayce - Allez comprendre ! --\n" \
 	"L'ascenseur : \"Quand tu montes dans un ascenseur... tu penses. À des tas de choses ; à des créations, à des gens, à des souvenirs... Donc on est jamais seul spirituellement! Mais physiquement, \"dans l'enveloppe\", si je suis seul... eh bien... je suis là. Et je reste là. Jusqu'à ce que les portes s'ouvrent... Et puis je commence à marcher. Je bouge mon enveloppe. Vers ma mission de tous les jours... -+- Jean-Claude VanDamme -+-\n" \
 	"meme ke moloss il a un alias il tape /mortderire et ca ecrit <moloss> mdr -+- Big-Toof in GPJ: Les alias les plus courts sont les meilleurs -+-\n" \
 	"Mieux vaut penser le changement que changer de pansement. -+- Francis Blanche -+-\n" \

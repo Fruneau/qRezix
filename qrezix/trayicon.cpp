@@ -126,7 +126,7 @@ void TrayIcon::buildMenu()
 		pop.insertItem(*RzxConfig::themedIcon("here"), tr("&I'm back !"), parent(), SLOT(toggleAutoResponder()));
 	else
 		pop.insertItem(*RzxConfig::themedIcon("away"), tr("I'm &away !"), parent(), SLOT(toggleAutoResponder()));
-	pop.insertItem(tr("&Quit"), parent(), SLOT(closeByTray()));
+	pop.insertItem(*RzxConfig::themedIcon("quit"), tr("&Quit"), parent(), SLOT(closeByTray()));
 }
 
 
