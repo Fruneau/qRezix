@@ -502,12 +502,23 @@ dans lequel il enregistre sa configuration
         <source>QRezix cannot create %1, which is the folder
 in which its configuration is saved
 </source>
-        <translation>QRezix ne peut pas créer le répertoire %1,
+        <translation type="obsolete">QRezix ne peut pas créer le répertoire %1,
 dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>QRezix can&apos;t find  %s/%s</source>
-        <translation>QRezix ne peut pas trouver %s/%s</translation>
+        <translation type="obsolete">QRezix ne peut pas trouver %s/%s</translation>
+    </message>
+    <message>
+        <source>qRezix cannot create %1, which is the folder
+in which its configuration is saved
+</source>
+        <translation>qRezix ne peut pas créer le répertoire %1,
+dans lequel il enregistre sa configuration</translation>
+    </message>
+    <message>
+        <source>qRezix can&apos;t find  %s/%s</source>
+        <translation>qRezix ne peut pas trouver %s/%s</translation>
     </message>
 </context>
 <context>
