@@ -393,6 +393,65 @@ dans lequel il enregistre sa configuration</translation>
     </message>
 </context>
 <context>
+    <name>RzxConnectionLister</name>
+    <message>
+        <source>reconnected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 clients connected</source>
+        <translation type="unfinished">%1 clients connectés</translation>
+    </message>
+    <message>
+        <source>disconnected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot create peer to peer socket !
+
+Chat and properties browsing are disabled</source>
+        <translation type="unfinished">Impossible de créer les communications client à client!
+
+Les discussions et les propriétés sont désactivées</translation>
+    </message>
+    <message>
+        <source>%1 is now marked as away</source>
+        <translation type="unfinished">%1 est désormais absent</translation>
+    </message>
+    <message>
+        <source>Received a chat request from %1</source>
+        <translation type="unfinished">Vous avez reçu une demande de chat de %1</translation>
+    </message>
+    <message>
+        <source>%1 is NOT logged</source>
+        <translation type="unfinished">%1 n&apos;est pas connecté au serveur</translation>
+    </message>
+    <message>
+        <source>Chat</source>
+        <translation type="unfinished">Discussion</translation>
+    </message>
+    <message>
+        <source>Properties sent to %2 (%3) at %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>has checked your properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>XNet Server message:</source>
+        <translation type="unfinished">Message du serveur XNet:</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished">Erreur</translation>
+    </message>
+    <message>
+        <source>XNet Server message</source>
+        <translation type="unfinished">Message du serveur XNet</translation>
+    </message>
+</context>
+<context>
     <name>RzxFileSharing</name>
     <message>
         <source>Septembre cannot create %1, which is the folder
@@ -749,7 +808,7 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
         <source>Cannot create peer to peer socket !
 
 Chat and properties browsing are disabled</source>
-        <translation>Impossible de créer les communications client à client!
+        <translation type="obsolete">Impossible de créer les communications client à client!
 
 Les discussions et les propriétés sont désactivées</translation>
     </message>
@@ -759,7 +818,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>%1 clients connected</source>
-        <translation>%1 clients connectés</translation>
+        <translation type="obsolete">%1 clients connectés</translation>
     </message>
     <message>
         <source>DISCONNECTED</source>
@@ -767,51 +826,35 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>%1 is now marked as away</source>
-        <translation>%1 est désormais absent</translation>
+        <translation type="obsolete">%1 est désormais absent</translation>
     </message>
     <message>
         <source>Received a chat request from %1</source>
-        <translation>Vous avez reçu une demande de chat de %1</translation>
+        <translation type="obsolete">Vous avez reçu une demande de chat de %1</translation>
     </message>
     <message>
         <source>%1 is NOT logged</source>
-        <translation>%1 n&apos;est pas connecté au serveur</translation>
+        <translation type="obsolete">%1 n&apos;est pas connecté au serveur</translation>
     </message>
     <message>
         <source>Chat</source>
-        <translation>Discussion</translation>
+        <translation type="obsolete">Discussion</translation>
     </message>
     <message>
         <source>XNet Server message:</source>
-        <translation>Message du serveur XNet:</translation>
+        <translation type="obsolete">Message du serveur XNet:</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation>Erreur</translation>
+        <translation type="obsolete">Erreur</translation>
     </message>
     <message>
         <source>XNet Server message</source>
-        <translation>Message du serveur XNet</translation>
-    </message>
-    <message>
-        <source>has checked your properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Message du serveur XNet</translation>
     </message>
     <message>
         <source>Cancel</source>
         <translation type="unfinished">Annuler</translation>
-    </message>
-    <message>
-        <source>reconnected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>disconnected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Properties sent to %2 (%3) at %1</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
