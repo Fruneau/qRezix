@@ -199,55 +199,55 @@ dans lequel il enregistre sa configuration</translation>
     <name>RzxProperty</name>
     <message>
         <source>default</source>
-        <translation>défaut</translation>
+        <translation type="obsolete">défaut</translation>
     </message>
     <message>
         <source>LeechFTP</source>
-        <translation>LeechFTP</translation>
+        <translation type="obsolete">LeechFTP</translation>
     </message>
     <message>
         <source>SmartFTP</source>
-        <translation>SmartFTP</translation>
+        <translation type="obsolete">SmartFTP</translation>
     </message>
     <message>
         <source>iExplore</source>
-        <translation>iExplore</translation>
+        <translation type="obsolete">iExplore</translation>
     </message>
     <message>
         <source>Opera</source>
-        <translation>Opera</translation>
+        <translation type="obsolete">Opera</translation>
     </message>
     <message>
         <source>gftp</source>
-        <translation>gftp</translation>
+        <translation type="obsolete">gftp</translation>
     </message>
     <message>
         <source>galeon</source>
-        <translation>Galeon</translation>
+        <translation type="obsolete">Galeon</translation>
     </message>
     <message>
         <source>konqueror</source>
-        <translation>Konqueror</translation>
+        <translation type="obsolete">Konqueror</translation>
     </message>
     <message>
         <source>lynx</source>
-        <translation>Lynx</translation>
+        <translation type="obsolete">Lynx</translation>
     </message>
     <message>
         <source>mozilla</source>
-        <translation>Mozilla</translation>
+        <translation type="obsolete">Mozilla</translation>
     </message>
     <message>
         <source>netscape</source>
-        <translation>Netscape</translation>
+        <translation type="obsolete">Netscape</translation>
     </message>
     <message>
         <source>opera</source>
-        <translation>Opera</translation>
+        <translation type="obsolete">Opera</translation>
     </message>
     <message>
         <source>knode</source>
-        <translation>Knode</translation>
+        <translation type="obsolete">Knode</translation>
     </message>
     <message>
         <source>Icon selection</source>
@@ -275,10 +275,6 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>Selected file is not valid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>lftp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

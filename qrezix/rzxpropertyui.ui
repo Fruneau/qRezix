@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>frmPref</class>
 <widget class="QDialog">
     <property name="name">
@@ -625,12 +625,6 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <property name="margin">
-                        <number>11</number>
-                    </property>
-                    <property name="spacing">
-                        <number>6</number>
-                    </property>
                     <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="3">
                         <property name="name">
                             <cstring>Layout8</cstring>
@@ -951,10 +945,16 @@
                                 <property name="name">
                                     <cstring>clientFtp</cstring>
                                 </property>
+                                <property name="editable">
+                                    <bool>true</bool>
+                                </property>
                             </widget>
                             <widget class="QComboBox" row="5" column="0">
                                 <property name="name">
                                     <cstring>clientNews</cstring>
+                                </property>
+                                <property name="editable">
+                                    <bool>true</bool>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="4" column="0">
@@ -968,6 +968,9 @@
                             <widget class="QComboBox" row="3" column="0">
                                 <property name="name">
                                     <cstring>clientHttp</cstring>
+                                </property>
+                                <property name="editable">
+                                    <bool>true</bool>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="2" column="0">

@@ -158,33 +158,41 @@ void RzxProperty::initDlg() {
 	clientHttp ->clear();
 	clientNews ->clear();
 
+
 #ifdef WIN32
+	// attention a rzxrezal.cpp en cas de modif
 
-	clientFtp ->insertItem( tr("default") );
-	clientFtp ->insertItem( tr("LeechFTP") );
-	clientFtp ->insertItem( tr("SmartFTP") );
+	clientFtp->insertItem("standard");
+	clientFtp->insertItem("LeechFTP");
+	clientFtp->insertItem("SmartFTP");
 
- 	clientHttp ->insertItem( tr("default") );
- 	clientHttp ->insertItem( tr("iExplore"), 1 );
- 	clientHttp ->insertItem( tr("Opera"), 2 );
+	clientHttp->insertItem("standard");
+	clientHttp->insertItem("iExplore", 1);
+	clientHttp->insertItem("Opera", 2);
 
-	clientNews ->insertItem( tr("default") );
+	clientNews->insertItem("standard");
 #else
+	// commandes a executer sous nux
 
-	clientFtp->insertItem( tr("gftp") );
-	clientFtp->insertItem( tr("lftp") );
-	//A RAJOUTER ICI pour les ftps ss nux - BITEBITE (ca c'est pour le grep)
+	clientFtp->insertItem("gftp", 0);
+	clientFtp->insertItem("lftp", 1);
 
-	clientHttp->insertItem( tr("galeon"), 0 );
-	clientHttp->insertItem( tr("konqueror"), 1 );
-	clientHttp->insertItem( tr("lynx"), 2 );
-	clientHttp->insertItem( tr("mozilla"), 3 );
-	clientHttp->insertItem( tr("netscape"), 4 );
-	clientHttp->insertItem( tr("opera"), 5 );
+	clientHttp->insertItem("galeon", 0);
+	clientHttp->insertItem("konqueror", 1);
+	clientHttp->insertItem("lynx", 2);
+	clientHttp->insertItem("mozilla", 3);
+	clientHttp->insertItem("firefox", 4);
+	clientHttp->insertItem("netscape", 5);
+	clientHttp->insertItem("opera", 6);
 
-	clientNews->insertItem( tr("knode"), 0 );
+	clientNews->insertItem("knode", 0);
 #endif
 
+	clientFtp->setCurrentText(RzxConfig::globalConfig()->ftpCmd());
+	clientHttp->setCurrentText(RzxConfig::globalConfig()->httpCmd());
+	clientNews->setCurrentText(RzxConfig::globalConfig()->newsCmd());
+
+/*
 	clientFtp->setCurrentItem( 0 );
 	for ( i = 0; i < clientFtp->count(); i++ )
 		if ( !RzxConfig::globalConfig() ->ftpCmd().compare( clientFtp->text( i ) ) )
@@ -199,6 +207,7 @@ void RzxProperty::initDlg() {
 	for ( i = 0; i < clientNews->count(); i++ )
 		if ( !RzxConfig::globalConfig() ->newsCmd().compare( clientNews->text( i ) ) )
 			clientNews->setCurrentItem( i );
+*/
 
 	txtWorkDir->setText( RzxConfig::globalConfig() ->FTPPath() );
 	writeColDisplay();
@@ -277,9 +286,9 @@ void RzxProperty::miseAJour() {
 	cfgObject -> writeEntry( "reconnection", reconnection->value() * 1000 );
 	cfgObject -> writeEntry( "ping_timeout", ping_timeout->value() * 1000 );
 
-	cfgObject -> httpCmd( clientHttp -> text( clientHttp -> currentItem() ) );
-	cfgObject -> ftpCmd( clientFtp -> text( clientFtp -> currentItem() ) );
-	cfgObject -> newsCmd( clientNews -> text( clientNews -> currentItem() ) );
+	cfgObject -> httpCmd( clientHttp -> currentText() );
+	cfgObject -> ftpCmd( clientFtp -> currentText() );
+	cfgObject -> newsCmd( clientNews -> currentText() );
 
 	writeColDisplay();
 	cfgObject -> writeEntry( "autoCol",1);
