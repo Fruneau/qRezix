@@ -12,22 +12,25 @@
 ;Définition de versions
   !define MUI_PRODUCT "qRezix"
   !define MUI_VERSION "v1.6"
+  !define MUI_COMPLETEVERSION "v1.6.1"
   !define MUI_NAME "${MUI_PRODUCT} ${MUI_VERSION}"
+  !define MUI_COMPLETENAME "${MUI_PRODUCT} ${MUI_COMPLETEVERSION}"
 
 ;Inclusion de fichiers
   !include "MUI.nsh"
   !include "Sections.nsh"
 
-;Pour pouvoir copier qt-mt331.dll dans l'installeur
-  !define QTDIR "C:\Qt"
+;Pour pouvoir copier qt-mtedu333.dll dans l'installeur
+  !define QTDIR "C:\Qt\3.3.3Educational"
   !define SOURCESYSDIR "C:\windows\system32"
-  !define QTDLL "qt-mt331.dll"
+  !define QTDLL "qt-mtedu333.dll"
 
 ;Pour le cas ou on utilise VC++ pour compiler
   !define USE_MSVCR_DLL
 
   !ifdef USE_MSVCR_DLL
      !define MSVCR_DLL "msvcr71.dll"
+     !define MSVCP_DLL "msvcp71.dll"
   !endif
 
 ;--------------------------------
@@ -35,10 +38,10 @@
 
 ;Nom
   Name ${MUI_PRODUCT}
-  Caption "Installation de ${MUI_NAME}"
+  Caption "Installation de ${MUI_COMPLETENAME}"
 
 ;General
-  OutFile "${MUI_NAME} - Installer.exe"
+  OutFile "${MUI_COMPLETENAME} - Installer.exe"
   SetCompressor lzma
   
   ShowInstDetails show
@@ -149,21 +152,21 @@ FunctionEnd
   SetOutPath "$INSTDIR\plugins\themes"
   CreateDirectory "${THEME}"
   SetOutPath "$INSTDIR\plugins\themes\${THEME}"
-  File "..\..\xplo\xploplugin2\src\themes\${THEME}\*.png"
+  File "..\..\qrezix-plugins\xplo\src\themes\${THEME}\*.png"
 !macroend
 
 !macro INSTALL_SMILEY_THEME THEME
   SetOutPath "$INSTDIR\plugins\themes"
   CreateDirectory "${THEME}"
   SetOutPath "$INSTDIR\plugins\themes\${THEME}"
-  File "..\..\smilix\themes\${THEME}\*.png"
+  File "..\..\qrezix-plugins\smilix\themes\${THEME}\*.png"
 !macroend
 
 !macro INSTALL_SMILEY_IMAGES THEME
   SetOutPath "$INSTDIR\plugins\smiley"
   CreateDirectory "${THEME}"
   SetOutPath "$INSTDIR\plugins\smileys\${THEME}"
-  File "..\..\smilix\smileys\${THEME}\*.png"
+  File "..\..\qrezix-plugins\smilix\smileys\${THEME}\*.png"
 !macroend
   
 ;--------------------------------
@@ -209,10 +212,17 @@ Section "Fichiers de base de qRezix" SecBase
       Call ShowAbort
     push "$SYSDIR\${MSVCR_DLL}"
     Call AddSharedDLL
+
+    File "${SOURCESYSDIR}\${MSVCP_DLL}"
+    ifErrors "" +3
+      Push "Impossible d'installer $SYSDIR\${MSVCP_DLL}.\nRelancez l'installation en tant qu'Administrateur."
+      Call ShowAbort
+    push "$SYSDIR\${MSVCP_DLL}"
+    Call AddSharedDLL
   !endif
 
   SetOverwrite on
-  SetOutPath "$SYSDIR"
+  SetOutPath "$INSTDIR"
   File "${QTDIR}\bin\${QTDLL}"
   IfErrors "" +3
     Push "Impossible d'installer $SYSDIR\${QTDLL}.\nRelancez l'installation en tant qu'Administrateur."
@@ -355,7 +365,7 @@ Section "Plug-in de l'Xplo" SecPiXplo
   SectionIn 1
 
   SetOutPath "$INSTDIR\plugins"
-  File "..\..\xplo\xploplugin2\bin\rzxpixplo.dll"
+  File "..\..\qrezix-plugins\xplo\bin\rzxpixplo.dll"
   CreateDirectory "themes"
   !insertmacro INSTALL_XPLO_THEME "classic"
   !insertmacro INSTALL_XPLO_THEME "krystal"
@@ -371,7 +381,7 @@ Section "Smilix, pour que le chat soit plus beau" SecPiSmiley
   SectionIn 1
 
   SetOutPath "$INSTDIR\plugins"
-  File "..\..\smilix\bin\rzxpismiley.dll"
+  File "..\..\qrezix-plugins\smilix\bin\rzxpismiley.dll"
   CreateDirectory "themes"
   CreateDirectory "smileys"
   !insertmacro INSTALL_SMILEY_THEME "classic"
@@ -381,6 +391,7 @@ Section "Smilix, pour que le chat soit plus beau" SecPiSmiley
   !insertmacro INSTALL_SMILEY_IMAGES "basic"
   !insertmacro INSTALL_SMILEY_IMAGES "basic2"
   !insertmacro INSTALL_SMILEY_IMAGES "msnlike"
+  !insertmacro INSTALL_SMILEY_IMAGES "pingu"
 
   SetOutPath "$INSTDIR"
 SectionEnd
