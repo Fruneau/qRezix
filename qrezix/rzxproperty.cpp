@@ -204,8 +204,7 @@ void RzxProperty::initDlg() {
 
 
 #ifdef WIN32
-	// attention a rzxrezal.cpp en cas de modif
-
+	// attention a rzxutilslauncher.cpp en cas de modif
 	clientFtp->insertItem("standard");
 	clientFtp->insertItem("iExplore");
 	clientFtp->insertItem("LeechFTP");
@@ -217,8 +216,13 @@ void RzxProperty::initDlg() {
 
 	clientNews->insertItem("standard");
 #else
+#ifdef Q_OS_MACX
+	// commandes à exécuter sous macos X
+	clientFtp->insertItem("Default");
+	clientHttp->insertItem("Default");
+	clientNews->insertItem("Default");
+#else
 	// commandes a executer sous nux
-
 	clientFtp->insertItem("gftp", 0);
 	clientFtp->insertItem("lftp", 1);
 
@@ -231,7 +235,8 @@ void RzxProperty::initDlg() {
 	clientHttp->insertItem("opera", 6);
 
 	clientNews->insertItem("knode", 0);
-#endif
+#endif //MACX
+#endif //WIN32
 
 	clientFtp->setCurrentText(RzxConfig::globalConfig()->ftpCmd());
 	clientHttp->setCurrentText(RzxConfig::globalConfig()->httpCmd());
