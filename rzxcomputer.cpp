@@ -191,6 +191,25 @@ int RzxComputer::getServers() const
 int RzxComputer::getServerFlags() const
 { return options.ServerFlags; }
 
+///Retourne le client utilisé avec la version
+/**Permet d'obtenir le nom et le numéro de version du client xNet utilisé*/
+QString RzxComputer::getClient() const
+{
+	QString client;
+	switch(version.Client)
+	{
+		case 1: client = "Rezix"; break;
+		case 2: client = "XNet"; break;
+		case 3: client = "MacXNet"; break;
+		case 4: client = "CPANet"; break;
+		case 5: client = "CocoaXNet"; break;
+		case 6: case 0x60: client = "qRezix"; break; //gère le cas de la version erronée
+		case 7: client = "mxNet"; break;
+		default : client = tr("Unknown"); break;
+	}
+	client += QString(" %1.%2.%3").arg(version.MajorVersion).arg(version.MinorVersion).arg(version.FunnyVersion);
+	return client;
+}
 
 
 

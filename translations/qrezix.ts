@@ -366,6 +366,10 @@
         <source>Jone</source>
         <translation>Jône</translation>
     </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxConfig</name>
@@ -448,10 +452,6 @@ Les discussions et les propriétés sont désactivées</translation>
         <translation type="obsolete">Discussion</translation>
     </message>
     <message>
-        <source>Properties sent to %2 (%3) at %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>has checked your properties</source>
         <translation type="unfinished"></translation>
     </message>
@@ -466,6 +466,14 @@ Les discussions et les propriétés sont désactivées</translation>
     <message>
         <source>XNet Server message</source>
         <translation type="unfinished">Message du serveur XNet</translation>
+    </message>
+    <message>
+        <source>Properties sent to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>name : &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;address : &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;client : &lt;i&gt;%3&lt;/i&gt;&lt;br&gt;time : &lt;i&gt;%4&lt;/i&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

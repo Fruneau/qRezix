@@ -413,6 +413,10 @@ Vérifiez que votre correspondant a bien ouvert le port de chat dans son firewal
         <source>Jone</source>
         <translation>Jône</translation>
     </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Inconnu</translation>
+    </message>
 </context>
 <context>
     <name>RzxConfig</name>
@@ -497,7 +501,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Properties sent to %2 (%3) at %1</source>
-        <translation>Propriétés envoyées à %2 (%3) à %1</translation>
+        <translation type="obsolete">Propriétés envoyées à %2 (%3) à %1</translation>
     </message>
     <message>
         <source>has checked your properties</source>
@@ -514,6 +518,14 @@ Les discussions et les propriétés sont désactivées</translation>
     <message>
         <source>XNet Server message</source>
         <translation>Message du serveur XNet</translation>
+    </message>
+    <message>
+        <source>Properties sent to %1</source>
+        <translation>Propriétés envoyées à %1</translation>
+    </message>
+    <message>
+        <source>name : &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;address : &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;client : &lt;i&gt;%3&lt;/i&gt;&lt;br&gt;time : &lt;i&gt;%4&lt;/i&gt;</source>
+        <translation>nom : &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;adresse : &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;client : &lt;i&gt;%3&lt;/i&gt;&lt;br&gt;heure : &lt;i&gt;%4&lt;/i&gt;</translation>
     </message>
 </context>
 <context>
