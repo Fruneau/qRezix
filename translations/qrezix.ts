@@ -1083,12 +1083,13 @@ Erreur DNS
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;b&gt;Wrong Password&lt;/b&gt;&lt;br&gt;&lt;br&gt;
-Please, reenter your password. You can&apos;t get connected to the xnetserver unless you got the good password. You have been given this password when you got connected for the first time to the server.</source>
+        <source>Alt+O, Return</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+O, Return</source>
+        <source>&lt;b&gt;Wrong Password&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+If you&apos;ve never been connected to the xnetserver, it&apos;s possible that the name you choosed is already used by somebody else. &lt;br&gt;&lt;i&gt;Try to change your Computer Name.&lt;/i&gt;&lt;br&gt;&lt;br&gt;
+If you&apos;re sure that you entered the good Computer Name then reenter your password in order to login.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
