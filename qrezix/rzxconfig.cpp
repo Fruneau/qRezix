@@ -40,7 +40,7 @@
 #endif
 
 #ifdef Q_OS_MACX
-#define QREZIX_DATA_DIR "qrezix.app/Contents/Resources/"
+#define QREZIX_DATA_DIR "./qrezix.app/Contents/Resources/"
 #endif
 
 #endif
