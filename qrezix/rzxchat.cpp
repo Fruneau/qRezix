@@ -314,6 +314,18 @@ void RzxChat::activateFormat(bool on) {
 	btnUnderline->setEnabled(on);
 	btnItalic->setEnabled(on);
 	if(!on) {
+#ifdef WIN32
+		edMsg -> setFamily("Arial");
+		edMsg -> setPointSize(11);
+		edMsg -> setBold(false);
+		edMsg -> setItalic(false);
+		edMsg -> setUnderline(false);
+		edMsg -> setTextFormat(Qt::PlainText);
+	}
+	else
+		edMsg -> setTextFormat(Qt::RichText);
+}
+#endif
 		edMsg -> setFamily("Terminal");
 		edMsg -> setPointSize(11);
 		edMsg -> setBold(false);
@@ -324,7 +336,6 @@ void RzxChat::activateFormat(bool on) {
 	else
 		edMsg -> setTextFormat(Qt::RichText);
 }
-
 /** No descriptions */
 void RzxChat::btnSendClicked(){
 	QString msg = edMsg -> text();
