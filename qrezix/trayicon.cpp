@@ -941,5 +941,9 @@ void TrayIcon::sysUpdateToolTip()
 
 QPoint TrayIcon::getPos()
 {
+#ifdef Q_OS_MACX
+	return QPoint(0,0);
+#else
 	return d->mapToGlobal(d->pos());
+#endif
 }
