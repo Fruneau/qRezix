@@ -300,6 +300,11 @@ int RzxConfig::readEntry(const QString& name, int def) {
 	return settings->readNumEntry("/qRezix/general/" + name, def);
 }
 
+QStringList RzxConfig::readEntry(const QString& name) {
+	if(!settings) return QStringList();
+	return settings->readListEntry("/qRezix/general/" + name);
+}
+
 void RzxConfig::writeEntry(const QString& name, const QString& val) {
 	if(!settings) return;
 	settings->writeEntry("/qRezix/general/" + name, val);
@@ -310,6 +315,11 @@ void RzxConfig::writeEntry(const QString& name, const QString& val) {
 void RzxConfig::writeEntry(const QString& name, int val) {
 	if(!settings) return;
 	settings->writeEntry("/qRezix/general/" + name, val);
+}
+
+void RzxConfig::writeEntry(const QString& name, const QStringList& list) {
+	if(!settings) return;
+	settings->writeEntry("/qRezix/general/" + name, list);
 }
 
 void RzxConfig::flush()
@@ -503,12 +513,14 @@ QString	RzxConfig::FTPPath(){ return globalConfig() -> readEntry("FTPPath", "");
 
 int RzxConfig::menuTextPosition() { return globalConfig() ->readEntry("menuTextPos", 2); }
 int RzxConfig::menuIconSize() { return globalConfig() ->readEntry("menuIconSize", 2); }
+QStringList RzxConfig::ignoredPluginsList() { return globalConfig()->readEntry("ignoredPlugins"); }
 
 QString RzxConfig::propPromo() { return localHost() -> getPromoText(); }
 int RzxConfig::quitMode(){ return globalConfig() -> readEntry("quitmode", 1); }
 bool RzxConfig::showQuit(){ return globalConfig() -> readEntry("showquit", true); }
 void RzxConfig::writeQuitMode(int mode){ globalConfig() -> writeEntry("quitmode", mode); }
 void RzxConfig::writeShowQuit(bool mode){ globalConfig() -> writeEntry("showquit", mode); }
+void RzxConfig::writeIgnoredPluginsList(const QStringList& list) { globalConfig()->writeEntry("ignoredPlugins", list); }
 
 /** Renvoie le password xnet */
 QString RzxConfig::pass()
@@ -781,7 +793,7 @@ void RzxConfig::readFavorites()
 	le fichier de config sous forme de liste */
 	else
 	{
-		QStringList favoriteList =  settings->readListEntry("/qRezix/general/favorites");
+		QStringList favoriteList = readEntry("favorites");
 		QStringList::iterator it;
 		for(it = favoriteList.begin() ; it != favoriteList.end() ; it++)
 			favorites->insert(*it, new QString("1"));
@@ -796,7 +808,7 @@ void RzxConfig::writeFavorites()
 	for (; strConfig2.current(); ++strConfig2) {
 		favoriteList << strConfig2.currentKey();
 	}
-	settings->writeEntry("/qRezix/general/favorites", favoriteList);
+	writeEntry("favorites", favoriteList);
 }
 
 /******************************************************************************
@@ -838,7 +850,7 @@ void RzxConfig::readIgnoreList()
 	le fichier de config sous forme de liste */
 	else
 	{
-		QStringList ignoreListList =  settings->readListEntry("/qRezix/general/ignoreList");
+		QStringList ignoreListList =  readEntry("ignoreList");
 		QStringList::iterator it;
 		for(it = ignoreListList.begin() ; it != ignoreListList.end() ; it++)
 			ignoreList->insert(*it, new QString("1"));
@@ -853,5 +865,5 @@ void RzxConfig::writeIgnoreList()
 	for (; strConfig2.current(); ++strConfig2) {
 		ignoreListList << strConfig2.currentKey();
 	}
-	settings->writeEntry("/qRezix/general/ignoreList", ignoreListList);
+	writeEntry("ignoreList", ignoreListList);
 }

@@ -20,6 +20,9 @@
 
 #include <qpopupmenu.h>
 #include <qptrlist.h>
+#include <qvaluelist.h>
+#include <qdict.h>
+#include <qlibrary.h>
 #include <qobject.h>
 #include <qdir.h>
 #include <qlistview.h>
@@ -45,9 +48,13 @@ class RzxPlugInLoader : public QObject
 {
 	Q_OBJECT
 
+	QDict<QLibrary> fileByName;
+	QDict<RzxPlugIn> pluginByName;
 	QPtrList<RzxPlugIn> plugins;
 	QPtrList<QListViewItem> lvItems;
+	QValueList<bool> state;
 	int selectedPlugIn;
+	QString selectedPlugInName;
 	bool initialized;
 	
 	unsigned int pluginFlags;
@@ -64,8 +71,10 @@ class RzxPlugInLoader : public QObject
 		static RzxPlugInLoader *global();
 
 		void init();
+		void init(const QString&);
 		void stop();
-
+		void stop(const QString&);
+		
 		void menuTray(QPopupMenu& menu);
 		void menuItem(QPopupMenu& menu);
 		void menuAction(QPopupMenu& menu);
@@ -74,7 +83,8 @@ class RzxPlugInLoader : public QObject
 		void setSettings();
 		inline int getFeatures() { return pluginFlags; };
 		
-		void makePropListView(QListView *lv, QToolButton *btn);
+		void makePropListView(QListView *lv, QToolButton *btnProp, QToolButton *btnReload);
+		void validPropListView();
 
 	public slots:
 		void chatChanged(QTextEdit *chat);
@@ -87,6 +97,7 @@ class RzxPlugInLoader : public QObject
 		void action(RzxPlugIn::Action action, const QString& args);
 
 	protected slots:
+		void reload();
 		void dispProperties();
 		void changePlugIn();
 };

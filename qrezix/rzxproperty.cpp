@@ -298,7 +298,7 @@ void RzxProperty::initDlg() {
 		}
 	}
 
-	RzxPlugInLoader::global()->makePropListView(lvPlugInList, btnPlugInProp);
+	RzxPlugInLoader::global()->makePropListView(lvPlugInList, btnPlugInProp, btnPlugInReload);
 }
 
 ///Vérifie si le texte de la dns est valide
@@ -491,11 +491,17 @@ bool RzxProperty::miseAJour() {
 		changeTheme();
 	}
 	
+	/* Mise à jour de l'affichage des Rezal */
 	if (ui -> rezal)
 		ui -> rezal -> afficheColonnes();
 
 	if (ui -> rezalFavorites)
 		ui -> rezalFavorites -> afficheColonnes();
+	
+	/* Mise à jour de l'état des plugins */
+	RzxPlugInLoader::global()->validPropListView();
+	
+	/* Sauvegarde du fichier du conf */
 	RzxConfig::globalConfig()->flush();
 	
 	return true;

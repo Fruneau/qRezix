@@ -93,7 +93,8 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 		
 		//tout plug-in doit avoir une fonction RzxPlugIn *getPlugIn() qui renvoi un plugin
 		//à partir duquel on peut traiter.
-		loadPlugInProc getPlugIn = (loadPlugInProc)QLibrary::resolve(sourceDir.filePath(*it), "getPlugIn");
+		QLibrary *lib = new QLibrary(sourceDir.filePath(*it));
+		loadPlugInProc getPlugIn = (loadPlugInProc)(lib->resolve("getPlugIn"));
 		if(getPlugIn)
 		{
 			RzxPlugIn *pi = getPlugIn();
@@ -104,7 +105,13 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 				if(pi->getVersion() > PLUGIN_VERSION || (pi->getVersion() & 0xfffff000) != (PLUGIN_VERSION & 0xfffff000))
 				{
 					qDebug("Wrong plug-in version number");
-					RzxMessageBox::information(NULL, tr("Unable to load a plug-in"), tr("The plug-in named %1 owns a version number which is not supported by this version of qRezix.\n").arg(pi->getName()) + (pi->getVersion() > PLUGIN_VERSION ? tr("A more recent version of qRezix is certainly available. Update qRezix if you want to use this plug-in."):tr("A new version of the plug-in may be available. Install it if you want to use this plug-in.")));
+					RzxMessageBox::information(NULL,
+						tr("Unable to load a plug-in"),
+						tr("The plug-in named %1 owns a version number which is not supported by this version of qRezix.\n")
+							.arg(pi->getName()) + (pi->getVersion() > PLUGIN_VERSION ? 
+								tr("A more recent version of qRezix is certainly available. Update qRezix if you want to use this plug-in.")
+								:tr("A new version of the plug-in may be available. Install it if you want to use this plug-in.")));
+					delete lib;
 				}
 				else
 				{
@@ -115,11 +122,19 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 					pi->getData(RzxPlugIn::DATA_PLUGINPATH, pipath);
 					pi->getData(RzxPlugIn::DATA_USERDIR, userpath);
 					plugins.append(pi);
+					pluginByName.insert(pi->getName(), pi);
+					fileByName.insert(pi->getName(), lib);
+					state.append(false);
 				}
 			}
 		}
 		else
-			RzxMessageBox::information(NULL, tr("Unable to load a plug-in"), tr("A plug-in file has been found but qRezix can't extract any plug-in from it. Maybe the plug-in file is corrupted or not up-to-date.\n Try to install the last version of this plug-in (file %1).").arg(*it));
+		{
+			RzxMessageBox::information(NULL,
+				tr("Unable to load a plug-in"),
+				tr("A plug-in file has been found but qRezix can't extract any plug-in from it. Maybe the plug-in file is corrupted or not up-to-date.\n Try to install the last version of this plug-in (file %1).").arg(*it));
+			delete lib;
+		}
 	}
 	delete pipath;
 	delete userpath;
@@ -135,6 +150,8 @@ RzxPlugInLoader::~RzxPlugInLoader()
 		it->stop();
 		delete it;
 	}
+	fileByName.setAutoDelete(true);
+	fileByName.clear();
 }
 
 /// retour de l'objet global
@@ -150,12 +167,35 @@ RzxPlugInLoader *RzxPlugInLoader::global()
 void RzxPlugInLoader::init()
 {
 	RzxPlugIn *it;
+	int i = 0;
 	initialized = true;
-	for(it = plugins.first() ; it ; it = plugins.next())
-		//le userDir sert à donner l'emplacement des données de configuration
-		//en particulier, c'est comme ça que les plug-ins peuvent écrirent leurs données
-		//dans le qrezixrc du rep .rezix
-		it->init(RzxConfig::globalConfig()->settings, "127.0.0.1");
+	QStringList ignored = RzxConfig::ignoredPluginsList();
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+	{
+		if(ignored.contains(it->getName()))
+			state[i] = false;
+		else
+		{
+			//le userDir sert à donner l'emplacement des données de configuration
+			//en particulier, c'est comme ça que les plug-ins peuvent écrirent leurs données
+			//dans le qrezixrc du rep .rezix
+			if(!state[i]) it->init(RzxConfig::globalConfig()->settings, "127.0.0.1");
+			state[i] = true;
+		}
+	}
+}
+
+/// Lancement de l'exécution d'un plug-in particulier
+void RzxPlugInLoader::init(const QString& name)
+{
+	RzxPlugIn *pi = pluginByName[name];
+	if(pi)
+	{
+		int pos = plugins.find(pi);
+		if(!state[pos]) pi->init(RzxConfig::globalConfig()->settings, "127.0.0.1");
+		if(pos > -1)
+			state[pos] = true;
+	}
 }
 
 /// Arrêt de l'exécution de tous les plug-ins
@@ -163,9 +203,32 @@ void RzxPlugInLoader::init()
 void RzxPlugInLoader::stop()
 {
 	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next())
-		it->stop();
+	int i;
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+	{
+		if(state[i]) it->stop();
+		state[i] = false;
+	}
 }
+
+/// Arrêt de l'exécution d'un plug-in particulier
+void RzxPlugInLoader::stop(const QString& name)
+{
+	RzxPlugIn *pi = pluginByName[name];
+	if(pi)
+	{
+		int pos = plugins.find(pi);
+		if(state[pos]) pi->stop();
+		if(pos > -1)
+			state[pos] = false;
+	}
+}
+
+/// Recharge le plug-in
+void RzxPlugInLoader::reload()
+{
+}
+
 
 ///Changement de la classe setting
 /** Pour permettre un flush des settings par qRezix */
@@ -187,10 +250,11 @@ void RzxPlugInLoader::menuTray(QPopupMenu& menu)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next())
+	int i = 0;
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
 	{
 		QPopupMenu *piMenu = it->getTrayMenu();
-		if(piMenu && piMenu->count())
+		if(piMenu && piMenu->count() && state[i])
 		{
 			QPixmap *icon = it->getIcon();
 			if(icon)
@@ -214,12 +278,13 @@ void RzxPlugInLoader::menuItem(QPopupMenu& menu)
 {
 	if(!initialized) return;
 	int i=0;
+	int k=0;
 
 	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next())
+	for(it = plugins.first() ; it ; it = plugins.next(), k++)
 	{
 		QPopupMenu *piMenu = it->getItemMenu();
-		if(piMenu && piMenu->count())
+		if(piMenu && piMenu->count() && state[k])
 		{
 			if(!i) menu.insertSeparator();
 			QPixmap *icon = it->getIcon();
@@ -244,10 +309,11 @@ void RzxPlugInLoader::menuAction(QPopupMenu& menu)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next())
+	int i = 0;
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
 	{
 		QPopupMenu *piMenu = it->getActionMenu();
-		if(piMenu && piMenu->count())
+		if(piMenu && piMenu->count() && state[i])
 		{
 			QPixmap *icon = it->getIcon();
 			if(icon)
@@ -270,10 +336,11 @@ void RzxPlugInLoader::menuChat(QPopupMenu& menu)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next())
+	int i = 0;
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
 	{
 		QPopupMenu *piMenu = it->getChatMenu();
-		if(piMenu && piMenu->count())
+		if(piMenu && piMenu->count() && state[i])
 		{
 			QPixmap *icon = it->getIcon();
 			if(icon)
@@ -297,22 +364,26 @@ void RzxPlugInLoader::menuChat(QPopupMenu& menu)
 //pour faire des réglages propres aux plug-in.
 
 /// Préparation de la liste des plug-ins
-void RzxPlugInLoader::makePropListView(QListView *lv, QToolButton *btn)
+void RzxPlugInLoader::makePropListView(QListView *lv, QToolButton *btnProp, QToolButton *btnReload)
 {
 	if(!initialized) return;
 	if(!lvItems.isEmpty()) return;
 	pluginListView = lv;
-	pluginGetProp = btn;
+	pluginGetProp = btnProp;
 	RzxPlugIn *it;
+	int i = 0;
+	
+	//Non encore implémenté
+	btnReload->setEnabled(false);
 	
 	//la fenêtre consiste en 1 - le nom du plug-in     2 - la description
 	//les deux étant fournis par le plug-in
-	for(it = plugins.first() ; it ; it = plugins.next())
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
 	{
 		QCheckListItem *lvi = new QCheckListItem(lv, it->getName(), QCheckListItem::CheckBox);
 		lvi->setText(1, it->getDescription());
 		lvi->setText(2, it->getInternalVersion());
-		lvi->setOn(true);
+		lvi->setOn(state[i]);
 		QPixmap *icon = it->getIcon();
 		if(icon)
 		{
@@ -325,11 +396,35 @@ void RzxPlugInLoader::makePropListView(QListView *lv, QToolButton *btn)
 		lvi->setVisible(true);
 		lvItems.append(lvi);
 	}
-	btn->setEnabled(false);
+	btnProp->setEnabled(false);
 	
 	//gestion des actions
 	connect(lv, SIGNAL(selectionChanged()), this, SLOT(changePlugIn()));
-	connect(btn, SIGNAL(clicked()), this, SLOT(dispProperties()));
+	connect(btnProp, SIGNAL(clicked()), this, SLOT(dispProperties()));
+	connect(btnReload, SIGNAL(clicked()), this, SLOT(reload()));
+}
+
+/// Mise à jour de l'état des plug-ins à partir du statut de la listview
+void RzxPlugInLoader::validPropListView()
+{
+	RzxPlugIn *it;
+	QStringList ignored;
+	QCheckListItem *lvi;
+	int i = 0;
+
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+	{
+		lvi = (QCheckListItem*)lvItems.at(i);
+		if(lvi && lvi->isOn() && !state[i])
+			init(lvi->text(0));
+		else if(lvi && !lvi->isOn() && state[i])
+		{
+			stop(lvi->text(0));
+			ignored.append(lvi->text(0));
+		}
+	}
+	
+	RzxConfig::writeIgnoredPluginsList(ignored);
 }
 
 /// Mise à jour de l'état du bouton en fonction du plug-in sélectionné
@@ -338,12 +433,13 @@ void RzxPlugInLoader::changePlugIn()
 	if(!initialized) return;
 	QListViewItem *lvi = pluginListView->selectedItem();
 	selectedPlugIn = lvItems.findRef(lvi);
-	if(selectedPlugIn == -1)
+	if(selectedPlugIn == -1 || !state[selectedPlugIn])
 	{
 		pluginGetProp->setEnabled(false);
 		return;
 	}
 	pluginGetProp->setEnabled(plugins.at(selectedPlugIn)->hasProp());
+	selectedPlugInName = plugins.at(selectedPlugIn)->getName();
 }
 
 /// Lancement de la gestion des propriétés
@@ -447,8 +543,9 @@ void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 	else
 	{
 		RzxPlugIn *it;
-		for(it = plugins.first() ; it ; it = plugins.next())
-			it->getData(data, value);
+		int i;
+		for(it = plugins.first() ; it ; it = plugins.next(), i++)
+			if(state[i]) it->getData(data, value);
 	}
 
 	delete value;
@@ -503,8 +600,9 @@ void RzxPlugInLoader::chatChanged(QTextEdit *chat)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next())
-		it->getData(RzxPlugIn::DATA_CHAT, (QVariant*)chat);
+	int i=0;
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+		if(state[i]) it->getData(RzxPlugIn::DATA_CHAT, (QVariant*)chat);
 }
 
 /// On indique que le chat envoie le message
@@ -512,8 +610,9 @@ void RzxPlugInLoader::chatSending()
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next())
-		it->getData(RzxPlugIn::DATA_CHATEMIT, NULL);
+	int i=0;
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+		if(state[i]) it->getData(RzxPlugIn::DATA_CHATEMIT, NULL);
 }
 
 /// On indique que le chat reçoit un message
@@ -521,8 +620,9 @@ void RzxPlugInLoader::chatReceived(QString *chat)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next())
-		it->getData(RzxPlugIn::DATA_CHATRECEIVE, (QVariant*)chat);
+	int i=0;
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+		if(state[i]) it->getData(RzxPlugIn::DATA_CHATRECEIVE, (QVariant*)chat);
 }
 
 /// On indique que le chat a envoyé un plug-in
@@ -530,8 +630,9 @@ void RzxPlugInLoader::chatEmitted(QString *chat)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next())
-		it->getData(RzxPlugIn::DATA_CHATEMITTED, (QVariant*)chat);
+	int i=0;
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+		if(state[i]) it->getData(RzxPlugIn::DATA_CHATEMITTED, (QVariant*)chat);
 }
 
 ///On indique qu'un nouvel item vient d'être sélectionné
