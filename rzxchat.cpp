@@ -476,7 +476,7 @@ void RzxChat::btnSendClicked()
 
 	QString dispMsg = msg;
 	RzxPlugInLoader::global()->chatEmitted(&dispMsg);
-	append("red", "> ", msg);
+	append("red", "> ", dispMsg);
 	sendChat(msg);	//passage par la sous-couche de gestion du socket avant d'émettre
 	edMsg -> setText("");
 
