@@ -37,6 +37,11 @@ Architecture: all
 Provides: qrezix-theme
 Description: Thèmes d'icone pour QRezix par Lathuile: Open M$$!
 
+Package: qrezix-theme-MacOSX
+Architecture: all
+Provides: qrezix-theme
+Description: Thèmes d'icone pour QRezix par Fruneau
+
 Package: qrezix-translations-fr
 Architecture: all
 Provides: qrezix-translations
