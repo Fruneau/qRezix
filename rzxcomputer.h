@@ -143,7 +143,7 @@ public:
 	QString getRemarque() const;
 	QPixmap getIcon() const;
 	QString getClient() const;
-	bool can(Capabilities cap);
+	bool can(unsigned int cap);
 
 	QString getFilename() const;
 	options_t getOptions() const;
