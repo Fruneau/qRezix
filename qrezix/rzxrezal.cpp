@@ -19,6 +19,8 @@
 #include <qtooltip.h>
 #include <qtimer.h>
 #include <qprocess.h>
+#include <qpixmap.h>
+#include <qimage.h>
 
 #include "rzxrezal.h"
 
@@ -121,37 +123,51 @@ void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos,
 		RzxComputer *computer = item->getComputer();
 		int serveurs=item->servers;
 		popup.clear();
+		
+		QPixmap pixmap;
+		#define newItem(name, trad, receiver, slot)  { pixmap = *RzxConfig::themedIcon(name); \
+			if(!pixmap.isNull()) \
+			{ \
+				QImage image = pixmap.convertToImage(); \
+				image = image.smoothScale(16,16); \
+				pixmap.convertFromImage(image); }\
+			popup.insertItem(pixmap, tr(trad), receiver, slot); }
   
 		if(item->ignored) {
-			if(serveurs & 1) popup.insertItem(*RzxConfig::themedIcon("samba"), tr("Samba connect"),this,SLOT(samba()));
-			if((serveurs>>1) & 1) popup.insertItem(*RzxConfig::themedIcon("ftp"), tr("FTP connect"), this, SLOT(ftp()));
-			if((serveurs>>3) & 1) popup.insertItem(*RzxConfig::themedIcon("http"), tr("browse Web"), this, SLOT(http()));
-			if((serveurs>>4) & 1) popup.insertItem(*RzxConfig::themedIcon("news"), tr("read News"), this, SLOT(news()));
+			if(serveurs & 1) newItem("samba", "Samba connect", this, SLOT(samba()));
+			if((serveurs>>1) & 1) newItem("ftp", "FTP connect", this, SLOT(ftp()));
+			if((serveurs>>3) & 1) newItem("http", "browse Web", this, SLOT(http()));
+			if((serveurs>>4) & 1) newItem("news", "read News", this, SLOT(news()));
 			popup.insertSeparator();
-			popup.insertItem(*RzxConfig::themedIcon("unban"), tr("Remove from ignore list"),this,SLOT(removeFromIgnoreList()));
+			newItem("unban", "Remove frome ignore list", this, SLOT(removeFromIgnoreList()));
 		}
 		else {
 			if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur())
-				popup.insertItem(*RzxConfig::themedIcon("chat"), tr("begin &Chat"),this,SLOT(chatCreate()));
-			if(serveurs & 1) popup.insertItem(*RzxConfig::themedIcon("samba"), tr("Samba connect"),this,SLOT(samba()));
-			if((serveurs>>1) & 1) popup.insertItem(*RzxConfig::themedIcon("ftp"), tr("FTP connect"), this, SLOT(ftp()));
-			if((serveurs>>3) & 1) popup.insertItem(*RzxConfig::themedIcon("http"), tr("browse Web"), this, SLOT(http()));
-			if((serveurs>>4) & 1) popup.insertItem(*RzxConfig::themedIcon("news"), tr("read News"), this, SLOT(news()));
+				newItem("chat", "begin &Chat", this, SLOT("chatCreate()"));
+				//popup.insertItem(*RzxConfig::themedIcon("chat"), tr("begin &Chat"),this,SLOT(chatCreate()));
+			if(serveurs & 1) newItem("samba", "Samba connect", this, SLOT(samba()));
+			if((serveurs>>1) & 1) newItem("ftp", "FTP connect", this, SLOT(ftp()));
+			if((serveurs>>3) & 1) newItem("http", "browse Web", this, SLOT(http()));
+			if((serveurs>>4) & 1) newItem("news", "read News", this, SLOT(news()));
 			popup.insertSeparator();
-			popup.insertItem(*RzxConfig::themedIcon("historique"), tr("History"),this,SLOT(historique()));
-			popup.insertItem(*RzxConfig::themedIcon("prop"), tr("Properties"),this,SLOT(proprietes()));
+			newItem("historique", "History", this, SLOT(historique()));
+			newItem("prop", "Properties", this, SLOT(proprietes()));
 			popup.insertSeparator();
 			if(RzxConfig::globalConfig()->favorites->find(ordinateurSelect->text(1)))
-				popup.insertItem(*RzxConfig::themedIcon("not_favorite"), tr("Remove from favorites"),this,SLOT(removeFromFavorites()));
+			{
+				newItem("not_favorite", "Remove from favorites", this, SLOT(removeFromFavorites()));
+			}
 			else {
-				popup.insertItem(*RzxConfig::themedIcon("favorite"), tr("Add to favorites"),this,SLOT(addToFavorites()));
-				popup.insertItem(*RzxConfig::themedIcon("ban"), tr("Add to ignore list"),this,SLOT(addToIgnoreList()));
+				newItem("favorite", "Add to favorites", this, SLOT(addToFavorites()));
+				newItem("ban", "Add to ignore list", this, SLOT(addToIgnoreList()));
 			}
 		}
 		popup.insertSeparator();
-		popup.insertItem(*RzxConfig::themedIcon("cancel"), tr("Cancel"), &popup, SLOT(hide()));
+		newItem("cancel", "Cancel", &popup, SLOT(hide()));
 		RzxPlugInLoader::global()->menuItem(popup);
 		popup.popup(pos);
+		
+		#undef newItem
 	}
 }
 
