@@ -288,15 +288,14 @@ void QRezix::activateAutoResponder( bool state )
 		trayIcon = *(RzxConfig::themedIcon("systray"));
 		if(trayIcon.isNull())
 			trayIcon = QPixmap::QPixmap(q);
-		tray->setIcon(trayIcon);
 	}
 	else
 	{
 		trayIcon = *(RzxConfig::themedIcon("systrayAway"));
 		if(trayIcon.isNull())
 			trayIcon = QPixmap::QPixmap(t);
-		tray->setIcon(trayIcon);
 	}
+	tray->setIcon(trayIcon);
 }
 
 void QRezix::toggleVisible(){
@@ -372,7 +371,7 @@ void QRezix::changeTheme()
 		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("on"));
 	else
 		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("off"));
-	toggleAutoResponder();
+	activateAutoResponder(RzxConfig::autoResponder());
 }
 
 ///Changement de format des boutons de la barre d'outils
