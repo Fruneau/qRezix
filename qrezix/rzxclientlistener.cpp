@@ -32,9 +32,10 @@
 #include <qlistview.h>
 #include <qframe.h>
 
-#include "rzxmessagebox.h"
-
 #include "rzxclientlistener.h"
+
+#include "rzxconnectionlister.h"
+#include "rzxmessagebox.h"
 #include "rzxconfig.h"
 #include "rzxchat.h"
 #include "qrezix.h"
@@ -173,9 +174,11 @@ int RzxChatSocket::parse(const QString& msg)
 				case DCC_CHAT:
 					qDebug("Parsing CHAT: " + cmd.cap(2));
 					if(!chatWindow)
-						emit chat(this, cmd.cap(2));
-					else
-						emit chat(cmd.cap(2));
+					{
+						chatWindow = RzxConnectionLister::global()->chatCreate(this->peerAddress());
+						chatWindow->setSocket(this);
+					}
+					emit chat(cmd.cap(2));
 					return DCC_CHAT;
 					break;
 				case DCC_PING:
@@ -552,7 +555,7 @@ void RzxClientListener::close()
 void RzxClientListener::attach(RzxChatSocket *sock)
 {
 	connect(sock, SIGNAL(propertiesSent(const RzxHostAddress& )), this, SIGNAL(propertiesSent(const RzxHostAddress& )));
-	connect(sock, SIGNAL(chat(QSocket*, const QString& )), this, SIGNAL(chat(QSocket*, const QString& )));
+	connect(sock, SIGNAL(chat(const RzxHostAddress&)), this, SIGNAL(chat(const RzxHostAddress&)));
 	connect(sock, SIGNAL(chatSent()), this, SIGNAL(chatSent()));
 }
 

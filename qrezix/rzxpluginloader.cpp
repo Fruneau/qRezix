@@ -40,6 +40,7 @@
 #include "rzxhostaddress.h"
 #include "rzxmessagebox.h"
 #include "rzxutilslauncher.h"
+#include "rzxconnectionlister.h"
 
 ///L'object global... normalement seul objet de cette classe lors de l'exécution
 RzxPlugInLoader *RzxPlugInLoader::object = NULL;
@@ -378,7 +379,7 @@ void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 		case RzxPlugIn::DATA_ICONTEXT: value = new QVariant(RzxConfig::menuTextPosition()); break;
 		case RzxPlugIn::DATA_ICONFAVORITE: value = new QVariant(*RzxConfig::themedIcon("favorite")); break;
 		case RzxPlugIn::DATA_ICONNOTFAVORITE: value = new QVariant(*RzxConfig::themedIcon("not_favorite")); break;
-		case RzxPlugIn::DATA_CONNECTEDLIST: value = new QVariant(QRezix::global()->rezal->getIpList()); break;
+		case RzxPlugIn::DATA_CONNECTEDLIST: value = new QVariant(RzxConnectionLister::global()->getIpList()); break;
 		case RzxPlugIn::DATA_ICONOK: value = new QVariant(*RzxConfig::themedIcon("ok")); break;
 		case RzxPlugIn::DATA_ICONAPPLY: value = new QVariant(*RzxConfig::themedIcon("apply")); break;
 		case RzxPlugIn::DATA_ICONCANCEL: value = new QVariant(*RzxConfig::themedIcon("cancel")); break;
@@ -410,11 +411,11 @@ void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
 			break;
 
 		case RzxPlugIn::ACTION_CHAT:
-			QRezix::global()->rezal->chatCreate(param);
+			RzxConnectionLister::global()->chatCreate(param);
 			break;
 
 		case RzxPlugIn::ACTION_CLOSE_CHAT:
-			QRezix::global()->rezal->closeChat(param);
+			RzxConnectionLister::global()->closeChat(param);
 			break;
 			
 		case RzxPlugIn::ACTION_FTP:

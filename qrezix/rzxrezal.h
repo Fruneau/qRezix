@@ -94,14 +94,12 @@ public slots: // Public slots
 	void login(RzxComputer *computer);
 	void logout(QObject *computer);
 	void init();
-	QStringList getIpList();
 	void redrawAllIcons();
 
 	void removeFromFavorites();
 	void addToFavorites();
 	
 	RzxChat * chatCreate(const QString& login = 0);
-	void closeChat(const QString& login);
 	
 	void languageChanged();
 
