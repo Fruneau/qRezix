@@ -109,10 +109,19 @@ void QRezix::closeEvent(QCloseEvent * e){
 }
 
 bool QRezix::event(QEvent * e){
+#ifdef WIN32
+	if(e->type()==QEvent::WindowDeactivate)
+	{
+		if(isMinimized() && RzxConfig::globalConfig()->useSystray())
+			hide();
+		return true;
+	}
+#else //WIN32
 	if(e->type()==QEvent::ShowMinimized || e->type()==QEvent::Hide){
 		if(RzxConfig::globalConfig()->useSystray()) hide();
 		return true;
 	}
+#endif //WIN32
 	else if( e->type() == QEvent::Resize && alreadyOpened )
 		statusMax = isMaximized();
 
