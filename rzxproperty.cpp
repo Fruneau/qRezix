@@ -370,6 +370,12 @@ void RzxProperty::miseAJour() {
 			ui -> rezal -> adapteColonnes();
 	}
 
+	if (ui -> rezalFavorites) {
+		ui -> rezalFavorites -> afficheColonnes();
+		if (cfgObject -> autoColonne())
+			ui -> rezalFavorites -> adapteColonnes();
+	}
+
 //	cfgObject -> write(); //flush du fichier de conf
 
 	QPixmap * localhostIcon = pxmIcon -> pixmap();
