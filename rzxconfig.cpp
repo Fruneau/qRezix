@@ -16,6 +16,11 @@
  ***************************************************************************/
 
 #include <stdlib.h>
+
+#ifndef WIN32
+	#include <math.h>
+#endif
+
 #include <qfile.h>
 #include <qdir.h>
 #include <qtextstream.h>
@@ -24,6 +29,7 @@
 #include <qbitmap.h>
 #include <qfontdatabase.h>
 #include <qapplication.h>
+#include <qstringlist.h>
 
 #ifndef WIN32
 #include <unistd.h>
@@ -499,16 +505,23 @@ void RzxConfig::loadLocalHost() {
 #endif
 
 	QString dnsname = QString(localhost);
-	QString comment = DEFAULT_COMMENT;
+	QString comment;
 	int promo = RzxComputer::PROMAL_UNK;
 	bool repondeur = false;
 	int servers = 0;
 
 	dnsname = readEntry( "dnsname", dnsname );
-	comment = readEntry( "comment", comment );
+	comment = readEntry( "comment", "$#x" ); //chaîne de merde qui identifie le tirage aléatoire d'une chaîne
 	promo = readEntry( "promo", promo );
 	repondeur = readEntry( "repondeur", repondeur );
 	servers = readEntry( "servers", servers );
+
+	if(comment == "$#x")
+	{
+		QStringList comments = QStringList::split("\n", DEFAULT_COMMENT);
+		int i = rand()%comments.size();
+		comment = comments[i];
+	}
 
 	if (!computer) computer = new RzxComputer();
 	computer->initLocalHost();

@@ -115,7 +115,7 @@ void RzxProtocole::parse(const QString& msg){
 									   "KEEP IT WELL because without it, you may not be able to connect to the server")).arg(msgParams));
 				val = msgParams.toInt(&ok, 16);
 				if (ok) {
-					RzxConfig::globalConfig()->setPass(ok);
+					RzxConfig::globalConfig()->setPass(val);
 				}
 				break;
 				
