@@ -63,9 +63,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	new RzxUtilsLauncher(rezal);
 	
 	rezal->showNotFavorites(true);
-	rezal->beepOnConnection(false);
 	rezalFavorites->showNotFavorites(false);
-	rezalFavorites->beepOnConnection(true);
 	
 	connect(btnPreferences, SIGNAL(clicked()), this, SLOT(boitePreferences()));
 	connect(btnMAJcolonnes, SIGNAL(clicked()), rezal, SLOT(afficheColonnes()));

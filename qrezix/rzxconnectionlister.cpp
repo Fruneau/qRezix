@@ -151,7 +151,11 @@ void RzxConnectionLister::login( const QString& newOrdi )
 	emit countChange( tr( "%1 clients connected" ).arg( iplist.count() ) );
 	
 	if(!displayWaiter.isEmpty()) delayDisplay.start(5, true);
-	else emit loginEnd();
+	else
+	{
+		emit loginEnd();
+		initialized = true;
+	}
 }
 
 ///Enregistre la déconnexion d'un client
@@ -208,6 +212,7 @@ void RzxConnectionLister::serverConnected()
 	iplist.clear();
 	computerByLogin.clear();
 	displayWaiter.clear();
+	initialized = false;
 }
 
 /** No descriptions */
