@@ -69,9 +69,11 @@ class RzxConnectionLister : public QObject
 	signals:
 		void needIcon(const RzxHostAddress&);
 		void login(RzxComputer* computer);
+		void logout(const QString& ip);
 		void status(const QString& msg, bool fatal);
 		void countChange(const QString& newCount);
 		void socketClosed();
+		void connectionEtablished();
 };
 
 

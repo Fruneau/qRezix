@@ -52,6 +52,7 @@ class RzxRezal : public QListView  {
 	Q_OBJECT
 	
 	RzxConnectionLister *lister;
+	QDict<RzxItem> itemByIp;
 	
 public: 
 	RzxRezal(QWidget * parent, const char * name);
@@ -91,7 +92,8 @@ public slots: // Public slots
 	void afficheColonnes();
 	void adapteColonnes();
 	void login(RzxComputer *computer);
-	//void logout(const RzxHostAddress& ip);
+	void logout(const QString& ip);
+	void init();
 	QStringList getIpList();
 	void redrawAllIcons();
 
