@@ -114,7 +114,11 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	menuFormatChange();
 	
 
-	tbRezalContainer->setCurrentIndex(1);
+	tbRezalContainer -> setCurrentIndex(RzxConfig::defaultTab());
+	tbRezalContainer -> setItemEnabled (2, RzxConfig::globalConfig()->useSearch());
+	leSearch -> setShown(RzxConfig::globalConfig()->useSearch());
+	btnSearch -> setShown(RzxConfig::globalConfig()->useSearch());
+
 	changeTheme();
 	wellInit = TRUE; 
 }
