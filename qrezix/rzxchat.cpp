@@ -233,9 +233,59 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 		}
 		eMapped =new QKeyEvent(QEvent::KeyRelease, e->key(), e->ascii(), e->state());
 		
+	case Qt::Key_Tab:
+		//Pour que quand on appuie sur tab ça fasse la complétion du nick
+		if(!nickAutocompletion())
+		{
+			QTextEdit::keyPressEvent(eMapped);
+			emit textWritten();
+		}
+		break;
+		
 	default:
 		QTextEdit::keyPressEvent(eMapped);
 		emit textWritten();
+	}
+}
+
+///Fait une completion automatique du nick au niveau du curseur.
+/** La completion n'est réalisée que si aucune sélection n'est actuellement définie */
+bool RzxTextEdit::nickAutocompletion()
+{
+	int para, index;
+	
+	//Si y'a une sélection, on zappe
+	if(hasSelectedText())
+		return false;
+	
+	//On récupère la position du curseur et la paragraphe concerné
+	getCursorPosition(&para, &index);
+	if(!index) return false;
+	QRegExp mask("[^-A-Za-z0-9]([-A-Za-z0-9]+)$");
+	QString textPara = text(para);
+	//Juste pour se souvenir des pseudos possibles
+	QString localName = RzxConfig::globalConfig()->localHost()->getName();
+	QString remoteName = ((RzxChat*)parent())->getHostName();
+	for(int i = 1 ; i <= index ; i++)
+	{
+		//Chaine de caractère qui précède le curseur de taille i
+		QString nick = textPara.mid(index-i, i);
+		
+		if(mask.search(nick) != -1 || i == index)
+		{
+			if(mask.search(nick) != -1) nick = mask.cap(1);
+			if(!remoteName.lower().find(nick.lower()) && localName.lower().find(nick.lower()))
+			{
+				insert(remoteName.right(remoteName.length()-nick.length()) + " ");
+				return true;
+			}
+			else if(remoteName.lower().find(nick.lower()) && !localName.lower().find(nick.lower()))
+			{
+				insert(localName.right(localName.length()-nick.length()) + " ");
+				return true;
+			}
+			return false;
+		}
 	}
 }
 
