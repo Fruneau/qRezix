@@ -5,7 +5,7 @@
 inherit kde-functions cvs
 need-qt 3.3
 
-DESCRIPTION="qRezix : a xNet client made in Qt"
+DESCRIPTION="qRezix-xplo : xplo plugin for qRezix"
 HOMEPAGE="http://frankiz/"
 
 # Point to any required sources; these will be automatically downloaded by
@@ -14,17 +14,15 @@ LICENSE="GPL-2"
 SLOT="0"
 
 KEYWORDS="x86"
-IUSE="xplo smillix"
+IUSE=""
 
-DEPEND=">=x11-libs/qt-3.3.3
-	xplo ? (=x11-plugins/qrezix-xplo-9999)
-	smilix ? (=x11-plugins/qrezix-smilix-9999)"
+DEPEND=">=x11-libs/qt-3.3.3"
 
 S=${WORKDIR}/${PN}
 
 ECVS_SERVER="gwennoz:/home/anoncvs/"
-ECVS_MODULE="qrezix"
-ECVS_BRANCH="qrezix-tcp"
+ECVS_MODULE="qrezix-plugins/xplo"
+ECVS_BRANCH=""
 ECVS_USER="anoncvs"
 ECVS_PASS=""
 
