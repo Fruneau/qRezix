@@ -307,6 +307,7 @@ void QRezix::toggleVisible(){
 		raise();
 		alreadyOpened=true;
 		rezal->adapteColonnes();
+		rezalFavorites->adapteColonnes();
 	}
 }
 
