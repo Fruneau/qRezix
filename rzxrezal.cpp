@@ -123,6 +123,11 @@ void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos,
 		popup.clear();
   
 		if(item->ignored) {
+			if(serveurs & 1) popup.insertItem(*RzxConfig::themedIcon("samba"), tr("Samba connect"),this,SLOT(samba()));
+			if((serveurs>>1) & 1) popup.insertItem(*RzxConfig::themedIcon("ftp"), tr("FTP connect"), this, SLOT(ftp()));
+			if((serveurs>>3) & 1) popup.insertItem(*RzxConfig::themedIcon("http"), tr("browse Web"), this, SLOT(http()));
+			if((serveurs>>4) & 1) popup.insertItem(*RzxConfig::themedIcon("news"), tr("read News"), this, SLOT(news()));
+			popup.insertSeparator();
 			popup.insertItem(*RzxConfig::themedIcon("not_ignoreList"), tr("Remove from ignore list"),this,SLOT(removeFromIgnoreList()));
 		}
 		else {
