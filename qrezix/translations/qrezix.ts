@@ -1805,5 +1805,159 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
         <source>Features</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&lt;h3&gt;Menu&lt;/h3&gt;&lt;p&gt;Define the appearance of the menus and butons of the interface&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Personnal information&lt;/h3&gt;&lt;p&gt;Give here some informations about you.&lt;/p&gt;&lt;p&gt;This informations can be very useful, so you should fill it with honesty&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;How to contact&lt;/h3&gt;&lt;p&gt;Some informations which give ways to contact you&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Icon&lt;/h3&gt;&lt;p&gt;Select a small picture (64x64) which will be a kind of logo for your computer&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Change my password&lt;/h3&gt;&lt;p&gt;Your connection with the server is secured with a password... This password is defined the first time you get connected to the server, but it can be change&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Computer name&lt;/h3&gt;
+&lt;p&gt;Name of your computer on the network. You can choose it here&lt;/p&gt;
+&lt;p&gt;Your name should only contains letters, numbers et &apos;-&apos;, should not begin or finish with a &apos;-&apos; and each &apos;-&apos; should be isolated. Moreover, this name can&apos;t be more than 24 characters long&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Away&lt;/h3&gt;&lt;p&gt;Check this case if you want to be marked away by default&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Responder&lt;/h3&gt;&lt;p&gt;When you are away, people who want to chat with you will receive this message&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Comment&lt;/h3&gt;&lt;p&gt;Tell here what you want...&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Search&lt;/h3&gt;&lt;p&gt;Do you want to see the search tool ?&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;ToolTips are little windows that appears when you </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Themes&lt;/h3&gt;&lt;p&gt;Choose a themes for the icons.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Define the action to execute when you double click on an item&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Icon size&lt;/h3&gt;&lt;p&gt;Do you prefer big icons (64x64) or small icons (32x32) for the pictures of the users&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Highlight&lt;/h3&gt;&lt;p&gt;If you choose to display small icons and check this box then the selected item will be displayed with a big icon.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Working directory&lt;/h3&gt;&lt;p&gt;Define the default directory where you want your clients store the files you download&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Server&lt;/h3&gt;&lt;p&gt;Define the address of the xnetserver&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Peer2peer port&lt;/h3&gt;&lt;p&gt;Define the port of the chat&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Defines the port to connect to on the xnetserver&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Reconnection&lt;/h3&gt;&lt;p&gt;Defines the parameters of the reconnection.&lt;p&gt;&lt;p&gt;You shouldn&apos;t have to modify this values&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Open services&lt;/h3&gt;&lt;p&gt;Select the servers you want to share with all the users of the network. If a server is not present, it won&apos;t be displayed as present&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Clients&lt;/h3&gt;&lt;p&gt;Choose the program you want to use. You can choose a predefined client, or typed the command line to use&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Quitting dialog&lt;/h3&gt;&lt;p&gt;Enable/disable the dialog box which is displayed when you close the qRezix&apos;s main window&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Responder mode&lt;/h3&gt;&lt;p&gt;There are 2 kinds of responder&lt;p&gt;&lt;p&gt;&lt;b&gt;Refuse,&lt;/b&gt; in this mode, all the messages you receive while away are lost&lt;/p&gt;&lt;p&gt;&lt;b&gt;Store,&lt;/b&gt; in this mode, you can read you messages as if you were not marked away&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;warning&lt;/h3&gt;&lt;p&gt;If you check this you will receive an notification each time somebody check you properties&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning :&lt;/b&gt; in some cases, this option can be used to spam you with notification windows&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Translation&lt;/h3&gt;&lt;p&gt;Select your language&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Systray&lt;/h3&gt;&lt;p&gt;Do you want to have qRezix reduced to an icon in the systray ?&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Select the sound to play when you receive a new message&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Sound command&lt;/h3&gt;&lt;p&gt;Select the commant to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive en message&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Select the sound to play when a favorite get connected&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when a favorite get connected&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Plug-ins&lt;/h3&gt;&lt;p&gt;Shows the detected plug-ins&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Reload plug-in&lt;/h3&gt;&lt;p&gt;Click here to reload the selected plug-in&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Plug-in properties&lt;/h3&gt;&lt;p&gt;Displays the properties window of the selected plug-in&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
