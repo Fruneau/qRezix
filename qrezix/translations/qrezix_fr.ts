@@ -528,6 +528,10 @@ dans lequel il enregistre sa configuration</translation>
         <source>qRezix can&apos;t find  %s/%s</source>
         <translation>qRezix ne peut pas trouver %s/%s</translation>
     </message>
+    <message>
+        <source>Unable to open ignoreList file %1</source>
+        <translation>Impossible d&apos;ouvrir le fichier de l&apos;ignore-list %1</translation>
+    </message>
 </context>
 <context>
     <name>RzxConnectionLister</name>
@@ -1102,6 +1106,14 @@ Propriétés envoyées à %2 (%3)</translation>
     <message>
         <source>Unknown</source>
         <translation>Inconnu</translation>
+    </message>
+    <message>
+        <source>Remove from ignore list</source>
+        <translation>Ne plus ignorer l&apos;utilisateur</translation>
+    </message>
+    <message>
+        <source>Add to ignore list</source>
+        <translation>Ignorer l&apos;utilisateur</translation>
     </message>
 </context>
 <context>
@@ -1741,6 +1753,10 @@ Le mot de passe avec lequel vous avez tenté de vous connecter au serveur Xnet e
     <message>
         <source>Client version</source>
         <translation>Version du client</translation>
+    </message>
+    <message>
+        <source>Beep on connection of one of your favorites</source>
+        <translation>Bip à la connexion d&apos;un favoris</translation>
     </message>
 </context>
 </TS>

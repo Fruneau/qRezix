@@ -14,6 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <qbitmap.h>
 #include <qimage.h>
 #include <qbrush.h>
 #include <qpainter.h>
@@ -181,7 +182,8 @@ void RzxItem::updatePixmap(int column, int width) {
 	int w = pix -> width(), h = pix -> height();
 	if (width < pix -> width()) w = width;
 	if (height() < pix -> height()) h = height();
-	if (tempPix -> height() != h || tempPix -> width() != w) {
+	if (tempPix -> height() != h || tempPix -> width() != w)
+	{
 		*tempPix = *pix;
 		tempPix -> resize(w,h);
 	}

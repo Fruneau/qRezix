@@ -459,6 +459,10 @@ in which its configuration is saved
         <source>qRezix can&apos;t find  %s/%s</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unable to open ignoreList file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxConnectionLister</name>
@@ -966,6 +970,14 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from ignore list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to ignore list</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1588,6 +1600,10 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     </message>
     <message>
         <source>Client version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Beep on connection of one of your favorites</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -128,7 +128,7 @@ void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos,
 			if((serveurs>>3) & 1) popup.insertItem(*RzxConfig::themedIcon("http"), tr("browse Web"), this, SLOT(http()));
 			if((serveurs>>4) & 1) popup.insertItem(*RzxConfig::themedIcon("news"), tr("read News"), this, SLOT(news()));
 			popup.insertSeparator();
-			popup.insertItem(*RzxConfig::themedIcon("not_ignoreList"), tr("Remove from ignore list"),this,SLOT(removeFromIgnoreList()));
+			popup.insertItem(*RzxConfig::themedIcon("unban"), tr("Remove from ignore list"),this,SLOT(removeFromIgnoreList()));
 		}
 		else {
 			if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur())
@@ -145,7 +145,7 @@ void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos,
 				popup.insertItem(*RzxConfig::themedIcon("not_favorite"), tr("Remove from favorites"),this,SLOT(removeFromFavorites()));
 			else {
 				popup.insertItem(*RzxConfig::themedIcon("favorite"), tr("Add to favorites"),this,SLOT(addToFavorites()));
-				popup.insertItem(*RzxConfig::themedIcon("ignoreList"), tr("Add to ignore list"),this,SLOT(addToIgnoreList()));
+				popup.insertItem(*RzxConfig::themedIcon("ban"), tr("Add to ignore list"),this,SLOT(addToIgnoreList()));
 			}
 		}
 		popup.insertSeparator();
@@ -278,7 +278,6 @@ void RzxRezal::afficheColonnes(){
 	setUpdatesEnabled ( FALSE);
 	for(i =0; i<columns(); i++){
 		setColumnWidthMode(i,Manual);
-		setColumnWidth(i,0);
 		if((colonnesAffichees>>i) & 1){
 			if(i==0)
 			{
@@ -291,6 +290,8 @@ void RzxRezal::afficheColonnes(){
 				setColumnWidth(i,40);
 			}
 		}
+		else
+			setColumnWidth(i,0);
 	}
 	adapteColonnes();
 }
