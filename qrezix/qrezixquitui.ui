@@ -1,0 +1,141 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>QRezixQuitUI</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>QRezixQuitUI</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>290</width>
+            <height>172</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Quit</string>
+    </property>
+    <widget class="QButtonGroup">
+        <property name="name">
+            <cstring>radioGroup</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>30</y>
+                <width>280</width>
+                <height>110</height>
+            </rect>
+        </property>
+        <property name="frameShape">
+            <enum>NoFrame</enum>
+        </property>
+        <property name="title">
+            <string></string>
+        </property>
+        <widget class="QRadioButton">
+            <property name="name">
+                <cstring>radioMinimize</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>30</x>
+                    <y>40</y>
+                    <width>228</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>no, I want to &amp;Minimize qRezix</string>
+            </property>
+            <property name="accel">
+                <string>Alt+M</string>
+            </property>
+        </widget>
+        <widget class="QRadioButton">
+            <property name="name">
+                <cstring>radioDoNothing</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>30</x>
+                    <y>70</y>
+                    <width>228</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Oops, do nothing</string>
+            </property>
+            <property name="accel">
+                <string></string>
+            </property>
+        </widget>
+        <widget class="QRadioButton">
+            <property name="name">
+                <cstring>radioQuit</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>30</x>
+                    <y>10</y>
+                    <width>228</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>yes, I want to &amp;Leave qRezix</string>
+            </property>
+            <property name="accel">
+                <string>Alt+L</string>
+            </property>
+            <property name="checked">
+                <bool>true</bool>
+            </property>
+        </widget>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>btnApply</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>140</y>
+                <width>270</width>
+                <height>27</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string></string>
+        </property>
+        <property name="accel">
+            <string>Return</string>
+        </property>
+        <property name="toggleButton">
+            <bool>false</bool>
+        </property>
+        <property name="on">
+            <bool>false</bool>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>lblQuit</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>280</width>
+                <height>17</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Are you sure you want to &lt;b&gt;Quit qRezix &lt;/b&gt;?</string>
+        </property>
+    </widget>
+</widget>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
