@@ -322,7 +322,7 @@ void RzxConnectionLister::warnProperties( const RzxHostAddress& peer )
 		return ;
 	QTime cur = QTime::currentTime();
 	QString heure;
-	heure.sprintf( "<i>%2i:%.2i:%.2i",
+	heure.sprintf( "%2i:%.2i:%.2i",
 	               cur.hour(),
 	               cur.minute(),
 	               cur.second() );
@@ -331,7 +331,12 @@ void RzxConnectionLister::warnProperties( const RzxHostAddress& peer )
 	{
 		if ( RzxConfig::globalConfig() ->warnCheckingProperties() == 0 )
 			return ;
-		sysmsg( tr( "Properties sent to %2 (%3) at %1" ).arg( heure ).arg( computer->getName() ).arg( peer.toString() ) );
+		RzxMessageBox::information(NULL, tr("Properties sent to %1").arg( computer->getName() ),
+			tr("name : <i>%1</i><br>"
+				"address : <i>%2</i><br>"
+				"client : <i>%3</i><br>"
+				"time : <i>%4</i>")
+				.arg(computer->getName()).arg(peer.toString()).arg(computer->getClient()).arg(heure));
 		return ;
 	}
 	chat->notify( tr( "has checked your properties" ), true );
@@ -341,13 +346,13 @@ void RzxConnectionLister::warnProperties( const RzxHostAddress& peer )
 void RzxConnectionLister::sysmsg( const QString& msg )
 {
 	// Boîte de dialogue non modale, pour que les comms continuent.
-	RzxMessageBox::information( ( QWidget * ) parent(), tr( "XNet Server message:" ), msg );
+	RzxMessageBox::information(NULL, tr( "XNet Server message:" ), msg );
 }
 /** No descriptions */
 void RzxConnectionLister::fatal( const QString& msg )
 {
 	// Boîte de dialogue modale
-	RzxMessageBox::critical( ( QWidget * ) parent(), tr( "Error" ) + " - " + tr( "XNet Server message" ), msg, true );
+	RzxMessageBox::critical(NULL, tr( "Error" ) + " - " + tr( "XNet Server message" ), msg, true );
 }
 
 /** No descriptions */
