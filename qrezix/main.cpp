@@ -72,6 +72,20 @@ void fatalHandler( int signum )
 
 void sigTermHandler( int signum )
 {
+	void * array[ 128 ];
+	size_t size;
+	char **strings;
+
+	size = backtrace ( array, 128 * sizeof( void* ) );
+	strings = backtrace_symbols ( array, size );
+	qDebug( "%s", strings[ 0 ] );
+	for ( uint i = 0; i < size; i++ )
+	{
+		qDebug( "[frame %i]: %s", i, strings[ i ] );
+	}
+	qDebug( "Received a %i signal, automatic backtrace", signum );
+	qDebug( "State of the stack: %i frames", size );
+
 	QApplication::exit( 255 );
 	qDebug( "Terminated" );
 }

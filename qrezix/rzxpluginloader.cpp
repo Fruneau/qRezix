@@ -543,7 +543,7 @@ void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 	else
 	{
 		RzxPlugIn *it;
-		int i;
+		int i=0;
 		for(it = plugins.first() ; it ; it = plugins.next(), i++)
 			if(state[i]) it->getData(data, value);
 	}
