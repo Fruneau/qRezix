@@ -339,11 +339,11 @@ void RzxRezal::adapteColonnes(){
 }
 
 void RzxRezal::bufferedLogin(RzxComputer *computer) {
-	if(!dispNotFavorites && !RzxConfig::globalConfig()->favorites->find( computer->getName())) return;
-	
 	RzxItem *item = itemByIp.find(computer->getIP().toString());
 	if(!item)
 	{
+		if(!dispNotFavorites && !RzxConfig::globalConfig()->favorites->find( computer->getName()))
+			return;
 		setUpdatesEnabled(!dispNotFavorites);
 		item = new RzxItem(computer, this, dispNotFavorites);
 		itemByIp.insert(computer->getIP().toString(), item);
@@ -352,7 +352,14 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 			emit newFavorite(computer);
 	}
 	else if(!dispNotFavorites)
+	{
+		if(!RzxConfig::globalConfig()->favorites->find( computer->getName()))
+		{
+			RzxConfig::globalConfig()->favorites->insert(computer->getName(),new QString("1"));
+			RzxConfig::globalConfig()->writeFavorites();
+		}
 		emit changeFavorite(computer);
+	}
 
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 
