@@ -60,7 +60,6 @@ public:
 	
 	void showNotFavorites(bool val);
 	void loginFromLister(bool val);
-	void setFilter(const QString &text);
 
 	// Numero des colonnes
 	enum NumColonne
@@ -104,6 +103,7 @@ public slots: // Public slots
 	void init();
 	void redrawAllIcons();
 	void activeFilter(bool on);
+	void setFilter(const QString &text);
 
 	void removeFromFavorites();
 	void addToFavorites();
