@@ -131,6 +131,7 @@ void RzxConnectionLister::login( const QString& newOrdi )
 				newComputer->insertChild(item);
 			}
 		}
+		disconnect(computer, 0, 0, 0);
 	}
 
 	emit login( newComputer);
