@@ -2,12 +2,13 @@ Source: qrezix
 Section: net
 Priority: optional
 Build-Depends: libqt3c102-mt,kdelibs4-dev,qt3-dev-tools
-Maintainer: br <br@frankiz.polytechnique.fr>
+Maintainer: Pico <pico@melix.net>
 Standards-Version: 3.2.1
 
 Package: qrezix
 Architecture: any
 Depends: ${shlibs:Depends},qrezix-theme,qrezix-translations
+Recommends: net-tools
 Description: QRezix Paquet CVS
  
 Package: qrezix-theme-noia-warm
