@@ -126,20 +126,20 @@ QString RzxItem::key(int column, bool ascending) const{
 		case RzxRezal::ColSamba: case RzxRezal::ColFTP:
 			test = (servers >> (column - 3)) & 1;
 			prefix += QString::number(!test);
-			return text(1).lower();
+			return prefix + text(1).lower();
 		case RzxRezal::ColHTTP: case RzxRezal::ColNews:
 			test = (servers >> (column - 2)) & 1;
 			prefix += QString::number(!test);
-			return text(1).lower();
+			return prefix + text(1).lower();
 		case RzxRezal::ColOS:
 			prefix += QString::number(sysex);
-			return text(1).lower();
+			return prefix + text(1).lower();
 		case RzxRezal::ColGateway:
 			prefix += gateway ? "0" : "1";
-			return text(1).lower();
+			return prefix + text(1).lower();
 		case RzxRezal::ColPromo:
 			prefix+= QString::number(promo);
-			return text(1).lower();
+			return prefix + text(1).lower();
 		
 		default:
 			return QListViewItem::key(column, ascending);

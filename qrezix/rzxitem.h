@@ -82,10 +82,10 @@ class RzxItem : public QObject, public QListViewItem
 inline RzxComputer *RzxItem::getComputer()
 {
 	QObject *computer = QObject::parent();
-	if(computer && computer->inherits("RzxComputer"))
+//	if(computer && computer->inherits("RzxComputer"))
 		return (RzxComputer*)computer;
-	else
-		return NULL;
+//	else
+//		return NULL;
 }
 
 #endif
