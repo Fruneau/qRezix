@@ -29,6 +29,8 @@
 #include <qimage.h>
 #include <qiconset.h>
 
+#include "qrezix.h"
+#include "rzxrezal.h"
 #include "rzxplugin.h"
 #include "rzxcomputer.h"
 #include "rzxconfig.h"
@@ -373,6 +375,7 @@ void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 		case RzxPlugIn::DATA_ICONTEXT: value = new QVariant(RzxConfig::menuTextPosition()); break;
 		case RzxPlugIn::DATA_ICONFAVORITE: value = new QVariant(*RzxConfig::themedIcon("favorite")); break;
 		case RzxPlugIn::DATA_ICONNOTFAVORITE: value = new QVariant(*RzxConfig::themedIcon("not_favorite")); break;
+		case RzxPlugIn::DATA_CONNECTEDLIST: value = new QVariant(QRezix::global()->rezal->getIpList()); break;
 		default: return;
 	}
 	

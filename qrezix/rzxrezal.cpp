@@ -646,6 +646,19 @@ RzxChat * chatWithLogin=chats.find(ip.toString());
 		chatWithLogin->info(tr("DISCONNECTED"));
 }
 
+///Retourne la liste des IP des gens connectés
+/** Permet pour les plug-ins d'obtenir facilement la liste les ip connectées */
+QStringList RzxRezal::getIpList()
+{
+	QDictIterator<RzxComputer> it(iplist);
+	QStringList ips;
+	for( ; it.current() ; ++it)
+	{
+		ips << (it.currentKey());
+	}
+	return ips;
+}
+
 /*************************
 * GESTION DU CHAT
 */
@@ -811,9 +824,10 @@ void RzxRezal::onListClicked( QListViewItem * item, const QPoint & pnt, int c ){
 }
 
 /** No descriptions */
-void RzxRezal::serverDisconnected(){        
-        setEnabled(false);
+void RzxRezal::serverDisconnected()
+{        
 }
+
 /** No descriptions */
 void RzxRezal::serverConnected(){
         setEnabled(true);
