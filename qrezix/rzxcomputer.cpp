@@ -193,10 +193,10 @@ int RzxComputer::getServers() const
 { return options.Server; }
 int RzxComputer::getServerFlags() const
 { return ServerFlags; }
-bool RzxComputer::can(RzxComputer::Capabilities cap)
+bool RzxComputer::can(unsigned int cap)
 {
 	if(!options.Capabilities & CAP_ON) return true;
-	else return (bool)(options.Capabilities & cap);
+	else return (options.Capabilities & cap) == cap;
 }
 
 ///Retourne le client utilisé avec la version
