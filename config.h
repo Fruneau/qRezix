@@ -2,10 +2,10 @@
 /* config.h.in.  Generated from configure.in by autoheader.  */
 
 /* Define if you have the CoreAudio API */
-#define HAVE_COREAUDIO 1
+/* #undef HAVE_COREAUDIO */
 
 /* Define to 1 if you have the <crt_externs.h> header file. */
-#define HAVE_CRT_EXTERNS_H 1
+/* #undef HAVE_CRT_EXTERNS_H */
 
 /* Defines if your system has the crypt function */
 #define HAVE_CRYPT 1
@@ -17,10 +17,10 @@
 #define HAVE_INTTYPES_H 1
 
 /* Define if you have libjpeg */
-/* #undef HAVE_LIBJPEG */
+#define HAVE_LIBJPEG 1
 
 /* Define if you have libpng */
-/* #undef HAVE_LIBPNG */
+#define HAVE_LIBPNG 1
 
 /* Define if you have a working libpthread (will enable threaded code) */
 #define HAVE_LIBPTHREAD 1
@@ -32,17 +32,17 @@
 #define HAVE_MEMORY_H 1
 
 /* Define if your system needs _NSGetEnviron to set up the environment */
-#define HAVE_NSGETENVIRON 1
+/* #undef HAVE_NSGETENVIRON */
 
 /* Define to 1 if you have the <pthread/linuxthreads/pthread.h> header file.
    */
 /* #undef HAVE_PTHREAD_LINUXTHREADS_PTHREAD_H */
 
 /* Define if you have res_init */
-/* #undef HAVE_RES_INIT */
+#define HAVE_RES_INIT 1
 
 /* Define if you have the res_init prototype */
-/* #undef HAVE_RES_INIT_PROTO */
+#define HAVE_RES_INIT_PROTO 1
 
 /* Define to 1 if you have the `snprintf' function. */
 #define HAVE_SNPRINTF 1
@@ -100,6 +100,9 @@
 
 /* Chemin vers le repertoire d'installation des icones qrezix */
 #define QREZIX_DATA_DIR "/usr/share/qrezix"
+
+/* Chemin vers le répertoire d'installation des plug-ins de qrezix */
+#define QREZIX_LIB_DIR "/usr/lib/qrezix"
 
 /* The size of a `char', as computed by sizeof. */
 #define SIZEOF_CHAR 1

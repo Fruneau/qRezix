@@ -23893,6 +23893,7 @@ test -z "$KDE_MT_LIBS" || LIB_QT="$LIB_QT $KDE_MT_LIBS"
 if test "x$enable_kde" = "xno" || test "x$enable_kde" = "x"; then
 	cp -f klocale.h.qtonly qrezix/klocale.h
 	qrezix_dir="/usr/share/qrezix"
+	plugin_dir="/usr/lib/qrezix"
 fi
 
 if test "x$enable_kde" = "xyes"; then
@@ -24116,7 +24117,7 @@ for i in $kde_incdirs;
 do
   for j in $kde_check_header;
   do
-    echo "configure: 24119: $i/$j" >&5
+    echo "configure: 24120: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       kde_incdir=$i
@@ -24146,7 +24147,7 @@ for i in $kde_libdirs;
 do
   for j in $kde_check_lib;
   do
-    echo "configure: 24149: $i/$j" >&5
+    echo "configure: 24150: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       kde_libdir=$i
@@ -24164,7 +24165,7 @@ for i in $kde_libdirs;
 do
   for j in "kde3/plugins/designer/kdewidgets.la";
   do
-    echo "configure: 24167: $i/$j" >&5
+    echo "configure: 24168: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       kde_widgetdir=$i
@@ -25266,7 +25267,7 @@ for i in $kde_sharedirs;
 do
   for j in apps/ksgmltools2/customization/kde-chunk.xsl;
   do
-    echo "configure: 25269: $i/$j" >&5
+    echo "configure: 25270: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       KDE_XSL_STYLESHEET=$i
@@ -25410,11 +25411,17 @@ fi
 
 	rm -f qrezix/klocale.h
 	qrezix_dir="/usr/share/apps/qrezix"
+	plugin_dir="/usr/lib/qrezix"
 fi
 
 
 cat >>confdefs.h <<_ACEOF
 #define QREZIX_DATA_DIR "$qrezix_dir"
+_ACEOF
+
+
+cat >>confdefs.h <<_ACEOF
+#define QREZIX_LIB_DIR "$plugin_dir"
 _ACEOF
 
 
@@ -26910,11 +26917,6 @@ cat >>$CONFIG_STATUS <<\_ACEOF
 
 { (exit 0); exit 0; }
 _ACEOF
-if test "x$with_fast_perl" = "xyes"; then    
-  perl -i.bak $ac_aux_dir/conf.change.pl $CONFIG_STATUS    \
-    || mv $CONFIG_STATUS.bak $CONFIG_STATUS    
-  rm -f $CONFIG_STATUS.bak
-fi    
 chmod +x $CONFIG_STATUS
 ac_clean_files=$ac_clean_files_save
 

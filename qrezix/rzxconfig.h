@@ -62,6 +62,7 @@ class RzxConfig : public QObject  {
 	QDir m_systemDir;
 	QDir m_userDir;
 	QDir m_themeDir;
+	QDir m_libDir;
 	QStringList fontFamilies;
 	QDict<FontProperty> * fontProperties;
 
@@ -184,6 +185,7 @@ public:
 	static QDir logDir();
 	static QDir userDir();
 	static QDir systemDir();
+	static QDir libDir();
 	/** the name of the log's subdirectory */
 	static const QString logPath;
 	static const QString themePath;
