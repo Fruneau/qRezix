@@ -1232,12 +1232,20 @@ Erreur DNS
     <message>
         <source>&lt;b&gt;Wrong Password&lt;/b&gt;&lt;br&gt;&lt;br&gt;
 Please, reenter your password. You can&apos;t get connected to the xnetserver unless you got the good password. You have been given this password when you got connected for the first time to the server.</source>
-        <translation>&lt;b&gt;Mot de passe incorrect&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+        <translation type="obsolete">&lt;b&gt;Mot de passe incorrect&lt;/b&gt;&lt;br&gt;&lt;br&gt;
 Le mot de passe avec lequel vous avez tenté de vous connecter au serveur Xnet est incorrect. Rentrez le mot de passe qui vous a été donné lors de la première connexion à ce serveur sans quoi vous ne pourrez plus vous connecter.</translation>
     </message>
     <message>
         <source>Alt+O, Return</source>
         <translation>Alt+O, Return</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Wrong Password&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+If you&apos;ve never been connected to the xnetserver, it&apos;s possible that the name you choosed is already used by somebody else. &lt;br&gt;&lt;i&gt;Try to change your Computer Name.&lt;/i&gt;&lt;br&gt;&lt;br&gt;
+If you&apos;re sure that you entered the good Computer Name then reenter your password in order to login.</source>
+        <translation>&lt;b&gt;Mot de passe incorrect&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+Si vous n&apos;avez jamais été connecté au xnetserver, il est possible que le nom d&apos;ordinateur que vous avez choisi soit déjà utilisé par un autre utilisateur. Dans ce cas : &lt;br&gt;&lt;i&gt;Essayez de changer votre nom d&apos;ordinateur&lt;/i&gt;&lt;br&gt;&lt;br&gt;
+Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot de passe.</translation>
     </message>
 </context>
 <context>
