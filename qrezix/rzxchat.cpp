@@ -242,7 +242,13 @@ void RzxChat::setSocket(RzxChatSocket* sock)
 }
 
 
-void RzxChat::setHostname(const QString& name){
+void RzxChat::setHostname(const QString& name)
+{
+#ifdef WIN32
+	setCaption( tr( "Chat" ) + " - " + name + " [Qt]" );
+#else
+	setCaption( tr( "Chat" ) + " - " + name );
+#endif
 	hostname=name;
 }
 
@@ -284,6 +290,11 @@ void RzxChat::append(const QString& color, const QString& host, const QString& m
 /** Affiche un message reçu, et emet un son s'il faut */
 void RzxChat::receive(const QString& msg)
 {
+	if(RzxConfig::autoResponder())
+	{
+		send(RzxConfig::autoResponderMsg());
+		return;
+	}
 	QString message = msg;
 	RzxPlugInLoader::global()->chatChanged(edMsg);
 	RzxPlugInLoader::global()->chatReceived(&message);
