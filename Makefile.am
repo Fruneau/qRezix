@@ -43,4 +43,4 @@ messages:
 AM_CFLAGS = 
 AM_CXXFLAGS = 
 AM_FFLAGS = 
-SUBDIRS = 
+SUBDIRS = translations
