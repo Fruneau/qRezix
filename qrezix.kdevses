@@ -2,152 +2,22 @@
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
  <Mainframe MaximizeMode="1" />
- <DocsAndViews NumberOfDocuments="29" >
-  <Doc0 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/main.cpp" >
-   <View0 line="97" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
+ <DocsAndViews NumberOfDocuments="3" >
+  <Doc0 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/rzxproperty.h" >
+   <View0 line="72" Type="???" >
+    <AdditionalSettings Top="2" Width="1217" Attach="1" Height="498" Left="2" MinMaxMode="0" />
    </View0>
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxchat.cpp" >
-   <View0 line="61" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="775" Left="1" MinMaxMode="0" />
+  <Doc1 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/rzxproperty.cpp" >
+   <View0 line="559" Type="???" >
+    <AdditionalSettings Top="2" Width="1217" Attach="1" Height="498" Left="2" MinMaxMode="0" />
    </View0>
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxchat.h" >
-   <View0 line="87" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
+  <Doc2 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix-plugin-smiley/src/smileyprop.cpp" >
+   <View0 line="30" Type="???" >
+    <AdditionalSettings Top="2" Width="1217" Attach="1" Height="612" Left="2" MinMaxMode="0" />
    </View0>
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxplugin.h" >
-   <View0 line="42" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxpluginloader.cpp" >
-   <View0 line="425" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxpluginloader.h" >
-   <View0 line="78" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxplugin.cpp" >
-   <View0 line="0" Type="???" >
-    <AdditionalSettings Top="1" Width="1331" Attach="1" Height="740" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/qrezix.cpp" >
-   <View0 line="111" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="740" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/qrezix.h" >
-   <View0 line="70" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="740" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxconfig.cpp" >
-   <View0 line="412" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="744" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/trayicon.cpp" >
-   <View0 line="536" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="740" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/trayicon.h" >
-   <View0 line="48" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="749" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxconfig.h" >
-   <View0 line="74" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="744" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxprotocole.cpp" >
-   <View0 line="181" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxprotocole.h" >
-   <View0 line="75" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="743" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc14>
-  <Doc15 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxserverlistener.cpp" >
-   <View0 line="187" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc15>
-  <Doc16 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxserverlistener.h" >
-   <View0 line="41" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc16>
-  <Doc17 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxproperty.cpp" >
-   <View0 line="55" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc17>
-  <Doc18 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxproperty.h" >
-   <View0 line="63" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc18>
-  <Doc19 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxitem.cpp" >
-   <View0 line="109" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="620" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc19>
-  <Doc20 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxitem.h" >
-   <View0 line="30" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc20>
-  <Doc21 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxrezal.cpp" >
-   <View0 line="732" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc21>
-  <Doc22 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxrezal.h" >
-   <View0 line="71" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc22>
-  <Doc23 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxcomputer.cpp" >
-   <View0 line="113" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc23>
-  <Doc24 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxcomputer.h" >
-   <View0 line="41" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="740" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc24>
-  <Doc25 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxhostaddress.h" >
-   <View0 line="33" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc25>
-  <Doc26 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxclientlistener.cpp" >
-   <View0 line="159" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc26>
-  <Doc27 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/rzxclientlistener.h" >
-   <View0 line="27" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="740" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc27>
-  <Doc28 NumberOfViews="1" URL="file:/home/fruneau/qrezix/qrezix/defaults.h" >
-   <View0 line="32" Type="???" >
-    <AdditionalSettings Top="1" Width="1335" Attach="1" Height="616" Left="1" MinMaxMode="0" />
-   </View0>
-  </Doc28>
  </DocsAndViews>
  <LastCompileConfig>(Par défaut)</LastCompileConfig>
  <pluginList>
