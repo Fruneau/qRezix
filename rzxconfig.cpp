@@ -405,6 +405,9 @@ QString RzxConfig::serverName(){ return globalConfig() -> readEntry("server_name
 /** Renvoie le rle du double clic (0 pour Chat, 1 pour FTP)*/
 int RzxConfig::doubleClicRole(){ return globalConfig() -> readEntry("doubleClic", 0); }
 
+/** Renvoie l'état de tooltips à utiliser */
+int RzxConfig::tooltip(){ return globalConfig()->readEntry("tooltip", 0); }
+
 /** Renvoie si on utilise le systray ou non */
 #ifndef Q_OS_MACX
 int RzxConfig::useSystray(){ return globalConfig() -> readEntry("useSystray", 1); }
