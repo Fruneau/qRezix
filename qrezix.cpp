@@ -102,7 +102,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	menuFormatChange();
 	
 
-	
+	tbRezalContainer->setCurrentIndex(1);
 	changeTheme();
 }
 
@@ -320,8 +320,8 @@ void QRezix::languageChange()
 	//Parce que Qt oublie de traduire les deux noms
 	//Alors faut le faire à la main, mais franchement, c du foutage de gueule
 	//à mon avis ça leur prendrait 5 minutes chez trolltech pour corriger le pb
-	tbRezalContainer->setItemLabel(0, tr("Everybody"));
-	tbRezalContainer->setItemLabel(1, tr("Favorites"));
+	tbRezalContainer->setItemLabel(0, tr("Favorites"));
+	tbRezalContainer->setItemLabel(1, tr("Everybody"));
 }
 
 void QRezix::chatSent() {
@@ -352,8 +352,8 @@ void QRezix::changeTheme()
 	btnAutoResponder->setIconSet(away);
 	btnMAJcolonnes->setIconSet(columns);
 	btnPreferences->setIconSet(prefs);
-	tbRezalContainer->setItemIconSet(0,not_favorite);
-	tbRezalContainer->setItemIconSet(1,favorite);
+	tbRezalContainer->setItemIconSet(1,not_favorite);
+	tbRezalContainer->setItemIconSet(0,favorite);
 }
 
 ///Changement de format des boutons de la barre d'outils
