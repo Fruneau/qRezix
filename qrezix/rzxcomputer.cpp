@@ -231,7 +231,7 @@ QString RzxComputer::getClient() const
 QString RzxComputer::getResal(bool shortname) const
 {
 	QString m_ip = ip.toString();
-	QRegExp mask("(\\d{1,3}\\.\\d{1,3})\\.(\\d{1,3})\\.\\d{1,3}");
+	QRegExp mask("(\\d{1,3}\\.\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})");
 	
 	if(mask.search(m_ip) == -1) return tr("Unknown");
 	
@@ -239,7 +239,23 @@ QString RzxComputer::getResal(bool shortname) const
 	if(mask.cap(1) != "129.104") return tr("World");
 	
 	int resal = mask.cap(2).toUInt();
-	if(resal == 201) return (shortname?"Binets":"Binets et Kès");
+	int adr = mask.cap(3).toUInt();
+	//Kes et binet... avec un cas particulier pour le BR :))
+	if(resal == 201)
+	{
+		if(adr >= 50 && adr <= 62) return "BR";
+		return (shortname?"Binets":"Binets & Kès");
+	}
+	
+	//Cas des bar d'étages
+	//Comment ça y'a pas de bar au premier étage ? faudra dire ça à NC :ş
+	if(resal == 208 || resal == 212 || resal == 218 || resal == 222)
+	{
+		if(adr >= 97 && adr <= 100) resal -= 2;
+		if(adr >= 101 && adr <= 104) resal--;
+	}
+	
+	//Distribution (stribution) des bâtiments en fonction du sous-réseau
 	if(resal == 203 || resal == 204) return "BEM";
 	if(resal >= 205 && resal <= 208) return (shortname?"Foch":"Foch ") + QString::number(resal - 205);
 	if(resal >= 209 && resal <= 212) return (shortname?"Fay.":"Fayolle ") + QString::number(resal - 209);
@@ -247,6 +263,8 @@ QString RzxComputer::getResal(bool shortname) const
 	if(resal >= 215 && resal <= 218) return (shortname?"Jof.":"Joffre ") + QString::number(resal - 215);
 	if(resal >= 219 && resal <= 222) return (shortname?"Mau.":"Maunoury ") + QString::number(resal - 219);
 	if(resal == 223) return (shortname?"B.411":"Bat. 411");
+	
+	//Si y'a rien, on sait au moins que c'est à l'X...
 	return "X";
 }
 
