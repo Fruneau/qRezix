@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 		
 		a.setMainWidget(rezix);
 		
-		QString windowSize=RzxConfig::globalConfig()->readWindowSize();
+		QString windowSize=RzxConfig::readWindowSize();
 		#ifndef Q_OS_MACX
 		if(windowSize.left(1)=="1")
 			rezix->statusMax=true;
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 			int height=windowSize.mid(1,4).toInt();
 			int width =windowSize.mid(5,4).toInt();
 			rezix->resize(QSize(width,height));
-			rezix->move(QPoint(2,24));
+			rezix->move(RzxConfig::readWindowPosition()); //QPoint(2,24));
 		}
 		
 		if(RzxConfig::globalConfig()->useSystray())
