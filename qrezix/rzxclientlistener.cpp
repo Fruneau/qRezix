@@ -22,6 +22,7 @@
 #include <qframe.h>
 #include <qimage.h>
 #include <qbitmap.h>
+#include <qlabel.h>
 #include <qmessagebox.h>
 #include <qlayout.h>
 #include <qapplication.h>
@@ -36,6 +37,7 @@
 
 #include "rzxconnectionlister.h"
 #include "rzxmessagebox.h"
+#include "rzxcomputer.h"
 #include "rzxconfig.h"
 #include "rzxchat.h"
 #include "qrezix.h"
@@ -367,24 +369,28 @@ void RzxChatSocket::chatConnexionTimeout()
 }
 
 // affichage des proprietes d'un ordinateur
-QWidget *RzxChatSocket::showProperties(const RzxHostAddress&, const QString& msg, bool withFrame, QWidget *parent, QPoint *pos )
+QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString& msg, bool withFrame, QWidget *parent, QPoint *pos )
 {
 	QWidget *propertiesDialog;
+	RzxComputer *computer = RzxConnectionLister::global()->iplist.find(peer.toString());
+
+	if(!computer)
+		return NULL;
 
 	if(withFrame)
 	{
 		// creation de la boite de dialogue (non modale, elle se detruit automatiquement grace a WDestructiveClose)
 		propertiesDialog = new QDialog(parent?parent:QRezix::global(), "ClientProp", false, WDestructiveClose | WStyle_Customize | WStyle_Tool | WStyle_Title | WStyle_SysMenu);
-		propertiesDialog->resize(300, 300);
+		propertiesDialog->resize(300, 320);
 
 		QPixmap iconeProg((const char **)q);
 		iconeProg.setMask(iconeProg.createHeuristicMask() );
 		propertiesDialog->setIcon(iconeProg);
 
 	#ifdef WIN32
-		propertiesDialog->setCaption( tr( "Computer properties" ) +" [Qt]");
+		propertiesDialog->setCaption( tr( "%1's properties" ).arg(computer->getName()) +" [Qt]");
 	#else
-		propertiesDialog->setCaption( tr( "Computer properties" ) );
+		propertiesDialog->setCaption( tr( "%1's properties" ).arg(computer->getName()) );
 	#endif
 	}
 	else
@@ -402,7 +408,9 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress&, const QString& msg
  
 	// creation de la liste des proprietes et ajout au layout
 	QListView* PropList = new QListView(propertiesDialog, "PropView");
+	QLabel *clientLabel = new QLabel(tr("xNet client : %1").arg(computer->getClient()), propertiesDialog, "ClientLabel");
 	qPropertiesLayout->addWidget((QWidget*)PropList, 0, 0);
+	qPropertiesLayout->addWidget((QWidget*)clientLabel, 300, 0);
  
 	PropList->resize(300, 300);
 	PropList->addColumn(tr("Property"), -1);
@@ -430,12 +438,9 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress&, const QString& msg
 		propertiesDialog->show();
  
 	// Fit de la fenetre, on ne le fait pas si il n'y a pas d'accents, sinon ca plante
-	if (propCount > 0)
-	{
-		int width=PropList->columnWidth(0)+PropList->columnWidth(1)+4+12;
-		int height=(PropList->childCount()+1)*(*PropList->firstChild()).height()+8+12;
-		propertiesDialog->resize(width,height);
-	}
+	int width=PropList->columnWidth(0)+PropList->columnWidth(1)+4+12;
+	int height=(PropList->childCount()+1)*(*PropList->firstChild()).height()+8+12+20; //+20 pour le client xnet
+	propertiesDialog->resize(width,height);
 	return propertiesDialog;
 }
 
@@ -467,9 +472,9 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool
 		histoDialog->setIcon(iconeProg);
 
 	#ifdef WIN32
-		histoDialog->setCaption( tr( "History" ) +"[Qt]");
+		histoDialog->setCaption( tr( "History - %1" ).arg(hostname) +" - [Qt]");
 	#else
-		histoDialog->setCaption( tr( "History" ) );
+		histoDialog->setCaption( tr( "History - %1" ).arg(hostname) );
 	#endif
 	}
 	else

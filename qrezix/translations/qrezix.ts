@@ -198,7 +198,7 @@
     </message>
     <message>
         <source>Computer properties</source>
-        <translation type="unfinished">Propriétés de l&apos;ordinateur</translation>
+        <translation type="obsolete">Propriétés de l&apos;ordinateur</translation>
     </message>
     <message>
         <source>Property</source>
@@ -210,10 +210,22 @@
     </message>
     <message>
         <source>History</source>
-        <translation type="unfinished">Historique</translation>
+        <translation type="obsolete">Historique</translation>
     </message>
     <message>
         <source>Unable to send data... writeBlock returns -1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1&apos;s properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>xNet client : %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>History - %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
