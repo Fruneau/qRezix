@@ -86,6 +86,7 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	connect(this, SIGNAL(onItem(QListViewItem*)), this, SLOT(buildToolTip(QListViewItem*)));
 	filter = QString::null;
 	filterOn = false;
+	setUpdatesEnabled ( FALSE);
 	
 	n=0;
 }
@@ -291,7 +292,6 @@ void RzxRezal::samba()
 void RzxRezal::afficheColonnes(){
 	int colonnesAffichees=RzxConfig::colonnes();
 	int i;
-	setUpdatesEnabled ( FALSE);
 	for(i =0; i<columns(); i++){
 		setColumnWidthMode(i,Manual);
 		if((colonnesAffichees>>i) & 1){
@@ -314,7 +314,6 @@ void RzxRezal::afficheColonnes(){
 }
 
 void RzxRezal::adapteColonnes(){
-	setUpdatesEnabled ( FALSE);
 	int colonnesAffichees=RzxConfig::colonnes();
 	int somme=0;
 	int i;
@@ -330,12 +329,7 @@ void RzxRezal::adapteColonnes(){
 		else
 			setColumnWidth(ColRemarque, 100);
 	}
-	setUpdatesEnabled (TRUE);
 	triggerUpdate(); 
-}
-
-void RzxRezal::beepOnConnection(bool b) {
-	warnConnection = b;
 }
 
 void RzxRezal::bufferedLogin(RzxComputer *computer) {
@@ -351,12 +345,12 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 
 	item -> update();
-	item -> setVisible(false);
+	item -> setVisible(true);
 	++n;
 }
 
 void RzxRezal::logBufLogins() { //en fait vu que le QPtrList faisait des segfaults, je trace toute la listview, c pas très long
-	if(warnConnection && n>0 && RzxConfig::beepConnection()) {
+	if(!dispNotFavorites && lister->isInitialized() && n>0 && RzxConfig::beepConnection()) {
 #ifdef WIN32
 		QString file = RzxConfig::connectionSound();
 		if( !file.isEmpty() && QFile( file ).exists() )
@@ -373,10 +367,7 @@ void RzxRezal::logBufLogins() { //en fait vu que le QPtrList faisait des segfaul
 		}
 #endif
 	}
-	QListViewItem *item;
-	QListViewItemIterator it(this);
-	while(item=(it++).current())
-		item->setVisible(!filterOn || !item->text(ColNom).find(filter, 0, false));
+	triggerUpdate(); 
 	n=0;
 }
 

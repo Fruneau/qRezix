@@ -275,38 +275,48 @@ void RzxComputer::scanServers()
 	if(!detectSMB.bind(ip, 139))
 		servers |= RzxComputer::SERVER_SAMBA;
 #else
-#ifdef Q_OS_MACX
-	servers = RzxComputer::SERVER_FTP | RzxComputer::SERVER_HTTP | RzxComputer::SERVER_NEWS | RzxComputer::SERVER_SAMBA;
-#else
-  QProcess *netstat;
-  QStringList res;
+	QProcess *netstat;
+	QStringList res;
   
-  netstat = new QProcess();
-  netstat->addArgument("netstat");
-  netstat->addArgument("-ltn");
+	netstat = new QProcess();
+	netstat->addArgument("netstat");
+  
+	#ifdef Q_OS_MACX
+		netstat->addArgument("-f inet");
+		netstat->addArgumetn("-an");
+	#else
+		netstat->addArgument("-ltn");
+	#endif
 
-  //On exéctue netstat pour obtenir les infos sur les différents ports utilisés
-  if(netstat->start())
-  {
-    while(netstat->isRunning());
-    while(netstat->canReadLineStdout())
-    {
-      QString *q;
-      q = new QString(netstat->readLineStdout());
-      res += *q;
-    }
-    delete netstat;
+	//On exéctue netstat pour obtenir les infos sur les différents ports utilisés
+	if(netstat->start())
+	{
+		while(netstat->isRunning());
+		while(netstat->canReadLineStdout())
+		{
+			QString *q;
+			q = new QString(netstat->readLineStdout());
+			res += *q;
+		}
+		delete netstat;
 
-    //lecture des différents port pour voir s'il sont listen
-    if(!(res.grep(":21 ")).isEmpty()) servers |= RzxComputer::SERVER_FTP;
-    if(!(res.grep(":80 ")).isEmpty()) servers |= RzxComputer::SERVER_HTTP;
-    if(!(res.grep(":119 ")).isEmpty()) servers |= RzxComputer::SERVER_NEWS;
-    if(!(res.grep(":139 ")).isEmpty()) servers |= RzxComputer::SERVER_SAMBA;
-  }
-  //au cas où netstat fail ou qu'il ne soit pas installé
-  else
+		#ifdef Q_OS_MACX
+			res = res.grep("LISTEN");
+			if(!(res.grep(".21 ")).isEmpty()) servers |= RzxComputer::SERVER_FTP;
+			if(!(res.grep(".80 ")).isEmpty()) servers |= RzxComputer::SERVER_HTTP;
+			if(!(res.grep(".119 ")).isEmpty()) servers |= RzxComputer::SERVER_NEWS;
+			if(!(res.grep(".139 ")).isEmpty()) servers |= RzxComputer::SERVER_SAMBA;
+		#else
+			//lecture des différents port pour voir s'il sont listen
+			if(!(res.grep(":21 ")).isEmpty()) servers |= RzxComputer::SERVER_FTP;
+			if(!(res.grep(":80 ")).isEmpty()) servers |= RzxComputer::SERVER_HTTP;
+			if(!(res.grep(":119 ")).isEmpty()) servers |= RzxComputer::SERVER_NEWS;
+			if(!(res.grep(":139 ")).isEmpty()) servers |= RzxComputer::SERVER_SAMBA;
+		#endif
+	}
+	//au cas où netstat fail ou qu'il ne soit pas installé
+	else
 		servers = RzxComputer::SERVER_FTP | RzxComputer::SERVER_HTTP | RzxComputer::SERVER_NEWS | RzxComputer::SERVER_SAMBA;
-#endif //MACX
 #endif //WIN32
 	int oldServers = getServers();
 	

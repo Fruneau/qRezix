@@ -39,6 +39,7 @@ class RzxConnectionLister : public QObject
 	static RzxConnectionLister *object;
 	QTimer delayDisplay;
 	QStringList displayWaiter;
+	bool initialized;
 	
 	public:
 		QDict<RzxComputer> iplist;
@@ -53,6 +54,7 @@ class RzxConnectionLister : public QObject
 		inline static RzxConnectionLister *global() { if(!object) new RzxConnectionLister(NULL, "Lister"); return object; }
 		void initConnection();
 		void closeSocket();
+		inline bool isInitialized() { return initialized; }
 		
 	public slots:
 		void login(const QString& ordi = QString::null);
