@@ -408,7 +408,11 @@ void RzxConfig::sambaCmd(QString newstr){ globalConfig() -> writeEntry("samba_cm
 void RzxConfig::ftpCmd(QString newstr)  { globalConfig() -> writeEntry("ftp_cmd", newstr); }
 void RzxConfig::httpCmd(QString newstr) { globalConfig() -> writeEntry("http_cmd",newstr); }
 void RzxConfig::newsCmd(QString newstr) { globalConfig() -> writeEntry("newsCmd", newstr); }
-void RzxConfig::setPass(int passcode) { globalConfig() -> writeEntry(RzxServerListener::object()->getServerIP().toString() + "/pass", passcode); }
+void RzxConfig::setPass(int passcode)
+{
+	globalConfig() -> writeEntry(RzxServerListener::object()->getServerIP().toString() + "/pass", passcode);
+	globalConfig() -> writeEntry("pass", passcode);
+}
 
 QString RzxConfig::propLastName(){ return globalConfig() -> readEntry("txtFirstname", "");}
 QString RzxConfig::propName(){ return globalConfig() -> readEntry("txtName", "");}
@@ -438,7 +442,7 @@ int RzxConfig::pass()
 	if(i == 1) //Pour la compatibilité avec les anciennes formes de stockage sous nux
 	{
 		i = globalConfig() -> readEntry("pass", 1);
-		globalConfig()->setPass(i);
+//		globalConfig()->setPass(i);
 	}
 	return i;
 }

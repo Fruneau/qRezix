@@ -333,7 +333,7 @@ am__depfiles_maybe = depfiles
 #>- @AMDEP_TRUE@	./$(DEPDIR)/rzxserverlistener.Po \
 #>- @AMDEP_TRUE@	./$(DEPDIR)/trayicon.Po
 #>+ 27
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =  $(DEPDIR)/rzxwrongpassui.P $(DEPDIR)/rzxchatui.P $(DEPDIR)/qrezixui.P $(DEPDIR)/rzxquitui.P $(DEPDIR)/rzxpropertyui.P $(DEPDIR)/rzxcomputer.moc.P $(DEPDIR)/rzxclientlistener.moc.P $(DEPDIR)/qrezix.moc.P $(DEPDIR)/rzxplugin.moc.P $(DEPDIR)/trayicon.moc.P $(DEPDIR)/rzxserverlistener.moc.P $(DEPDIR)/rzxquit.moc.P $(DEPDIR)/rzxpluginloader.moc.P $(DEPDIR)/rzxproperty.moc.P $(DEPDIR)/rzxconfig.moc.P $(DEPDIR)/rzxchat.moc.P $(DEPDIR)/dnsvalidator.moc.P $(DEPDIR)/rzxrezal.moc.P  $(DEPDIR)/rzxprotocole.moc.P $(DEPDIR)/rzxitem.moc.P  $(DEPDIR)/qrezix.all_cpp.P  ./$(DEPDIR)/dnsValidator.Po ./$(DEPDIR)/main.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =  $(DEPDIR)/rzxwrongpassui.P $(DEPDIR)/rzxchatui.P $(DEPDIR)/qrezixui.P $(DEPDIR)/rzxquitui.P $(DEPDIR)/rzxpropertyui.P $(DEPDIR)/rzxcomputer.moc.P $(DEPDIR)/rzxclientlistener.moc.P $(DEPDIR)/qrezix.moc.P $(DEPDIR)/rzxplugin.moc.P $(DEPDIR)/trayicon.moc.P $(DEPDIR)/rzxserverlistener.moc.P $(DEPDIR)/rzxquit.moc.P $(DEPDIR)/rzxpluginloader.moc.P $(DEPDIR)/rzxproperty.moc.P $(DEPDIR)/rzxconfig.moc.P $(DEPDIR)/rzxchat.moc.P $(DEPDIR)/dnsvalidator.moc.P $(DEPDIR)/rzxrezal.moc.P $(DEPDIR)/rzxprotocole.moc.P $(DEPDIR)/rzxitem.moc.P  $(DEPDIR)/qrezix.all_cpp.P  ./$(DEPDIR)/dnsValidator.Po ./$(DEPDIR)/main.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/qrezix.Po ./$(DEPDIR)/rzxchat.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rzxclientlistener.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rzxcomputer.Po ./$(DEPDIR)/rzxconfig.Po \
@@ -346,7 +346,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rzxrezal.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/rzxserverlistener.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	./$(DEPDIR)/trayicon.Po
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  $(DEPDIR)/rzxwrongpassui.P $(DEPDIR)/rzxchatui.P $(DEPDIR)/qrezixui.P $(DEPDIR)/rzxquitui.P $(DEPDIR)/rzxpropertyui.P $(DEPDIR)/rzxcomputer.moc.P $(DEPDIR)/rzxclientlistener.moc.P $(DEPDIR)/qrezix.moc.P $(DEPDIR)/rzxplugin.moc.P $(DEPDIR)/trayicon.moc.P $(DEPDIR)/rzxserverlistener.moc.P $(DEPDIR)/rzxquit.moc.P $(DEPDIR)/rzxpluginloader.moc.P $(DEPDIR)/rzxproperty.moc.P $(DEPDIR)/rzxconfig.moc.P $(DEPDIR)/rzxchat.moc.P $(DEPDIR)/dnsvalidator.moc.P $(DEPDIR)/rzxrezal.moc.P  $(DEPDIR)/rzxprotocole.moc.P $(DEPDIR)/rzxitem.moc.P  ./$(DEPDIR)/dnsValidator.Po ./$(DEPDIR)/main.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  $(DEPDIR)/rzxwrongpassui.P $(DEPDIR)/rzxchatui.P $(DEPDIR)/qrezixui.P $(DEPDIR)/rzxquitui.P $(DEPDIR)/rzxpropertyui.P $(DEPDIR)/rzxcomputer.moc.P $(DEPDIR)/rzxclientlistener.moc.P $(DEPDIR)/qrezix.moc.P $(DEPDIR)/rzxplugin.moc.P $(DEPDIR)/trayicon.moc.P $(DEPDIR)/rzxserverlistener.moc.P $(DEPDIR)/rzxquit.moc.P $(DEPDIR)/rzxpluginloader.moc.P $(DEPDIR)/rzxproperty.moc.P $(DEPDIR)/rzxconfig.moc.P $(DEPDIR)/rzxchat.moc.P $(DEPDIR)/dnsvalidator.moc.P $(DEPDIR)/rzxrezal.moc.P $(DEPDIR)/rzxprotocole.moc.P $(DEPDIR)/rzxitem.moc.P  ./$(DEPDIR)/dnsValidator.Po ./$(DEPDIR)/main.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/qrezix.Po ./$(DEPDIR)/rzxchat.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rzxclientlistener.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	./$(DEPDIR)/rzxcomputer.Po ./$(DEPDIR)/rzxconfig.Po \
@@ -599,7 +599,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=xploplugin.h icone.rc qrezix.pro rzxpropertyui.h qrezix.png qrezix.ico qrezixui.h rzxquitui.h grepped.txt qrezix2.ico qrezix.dsp Makefile.w32 qrezix_meta_unload.cpp qrezix rzxchatui.h q.xpm 
+KDE_DIST=icone.rc qrezix.pro rzxpropertyui.h qrezix.png qrezix.ico qrezixui.h rzxquitui.h grepped.txt qrezix2.ico qrezix.dsp Makefile.w32 qrezix_meta_unload.cpp qrezix rzxchatui.h moc_rzxpropertyui.cpp q.xpm 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 

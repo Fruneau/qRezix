@@ -67,6 +67,7 @@ public slots: // Public slots
 	void closeByTray();
 	void changeTheme();
 	void menuFormatChange();
+	void saveSettings();
 	
 protected slots: // Protected slots
 	void delayedInit();

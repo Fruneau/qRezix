@@ -26,6 +26,7 @@
 #include <qiconset.h>
 #include <qpixmap.h>
 #include <qbitmap.h>
+#include <qapplication.h>
 
 #include "qrezix.h"
 #include "rzxquit.h"
@@ -65,6 +66,14 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	connect(client, SIGNAL(propAnswer(const RzxHostAddress&, const QString&)), rezal, SLOT(showProperties(const RzxHostAddress&, const QString&)));
 	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), rezal, SLOT(warnProperties(const RzxHostAddress&)));
 
+	// Connexion des événement serveur au rézal
+	RzxServerListener *server = RzxServerListener::object();
+	connect(server, SIGNAL(sysmsg(const QString&)), rezal, SLOT(sysmsg(const QString&)));
+	connect(server, SIGNAL(fatal(const QString&)), rezal, SLOT(fatal(const QString&)));
+
+	connect(rezal, SIGNAL(needIcon(const RzxHostAddress&)), server, SLOT(getIcon(const RzxHostAddress&)));
+	
+	// Préparation de l'insterface
 	activateAutoResponder( RzxConfig::autoResponder() != 0 );
 
 	connect(rezal, SIGNAL(favoriteChanged()), rezalFavorites, SIGNAL(favoriteChanged()));
@@ -132,6 +141,33 @@ void QRezix::closeByTray()
 	close();
 }
 
+///Sauvegarde des données au moment de la fermeture
+/** Lance la sauvegarde des données principales lors de la fermeture de rezix. Cette méthode est censée permettre l'enregistrement des données lors de la fermeture de l'environnement graphique... */
+void QRezix::saveSettings()
+{
+	QSize s = size();       // store size
+	QString height="";
+	height.sprintf("%4d",s.height());
+	QString width = "";
+	width.sprintf("%4d",s.width());
+	QString windowSize;
+	if( statusMax ) windowSize = "100000000";
+	else windowSize="0"+height+width;
+	qDebug("Fermeture des plugins");
+	delete RzxPlugInLoader::global();
+	qDebug("Fermeture de l'enregistrement des configurations");
+	RzxConfig::globalConfig()->writeWindowSize(windowSize);
+	RzxConfig::globalConfig() -> closeSettings();
+	qDebug("Fermeture du rezal");
+	if (!rezal -> isSocketClosed()){
+		lblStatus -> setText(tr("Closing socket..."));
+		rezal -> setEnabled(false);
+		connect(rezal, SIGNAL(socketClosed()), this, SLOT(socketClosed()));
+		rezal -> closeSocket();
+	}
+	disconnect(qApp, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
+}
+
 void QRezix::closeEvent(QCloseEvent * e){
 	//pour éviter de fermer rezix par mégarde, on affiche un boite de dialogue laissant le choix
 	//de fermer qrezix, de minimiser la fenêtre principale --> trayicon, ou d'annuler l'action
@@ -159,27 +195,8 @@ void QRezix::closeEvent(QCloseEvent * e){
 		}
 	}
 
-	QSize s = size();       // store size
-	QString height="";
-	height.sprintf("%4d",s.height());
-	QString width = "";
-	width.sprintf("%4d",s.width());
-	QString windowSize;
-	if( statusMax ) windowSize = "100000000";
-	else windowSize="0"+height+width;
-	qDebug("Fermeture des plugins");
-	delete RzxPlugInLoader::global();
-	qDebug("Fermeture de l'enregistrement des configurations");
-	RzxConfig::globalConfig()->writeWindowSize(windowSize);
-	RzxConfig::globalConfig() -> closeSettings();
-	qDebug("Fermeture du rezal");
+	saveSettings();
 
-	if (!rezal -> isSocketClosed()){
-		lblStatus -> setText(tr("Closing socket..."));
-		rezal -> setEnabled(false);
-		connect(rezal, SIGNAL(socketClosed()), this, SLOT(socketClosed()));
-		rezal -> closeSocket();
-	}
 	if (rezal -> isSocketClosed())
 		e -> accept();
 	else
@@ -231,7 +248,7 @@ void QRezix::socketClosed(){
 
 void QRezix::toggleAutoResponder()
 {
-	activateAutoResponder( !btnAutoResponder->isOn());	
+	activateAutoResponder( !btnAutoResponder->isOn());
 }
 
 void QRezix::toggleButtonResponder()

@@ -89,15 +89,10 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	server = RzxServerListener::object();
 	client = RzxClientListener::object();
 
-	connect(server, SIGNAL(sysmsg(const QString&)), this, SLOT(sysmsg(const QString&)));
-	connect(server, SIGNAL(fatal(const QString&)), this, SLOT(fatal(const QString&)));
-	
 	connect(server, SIGNAL(login(const QString&)), this, SLOT(login(const QString&)));
 	connect(server, SIGNAL(logout(const RzxHostAddress&)), this, SLOT(logout(const RzxHostAddress&)));
 	connect(server, SIGNAL(rcvIcon(QImage*,const RzxHostAddress&)), this, SLOT(recvIcon(QImage*,const RzxHostAddress&)));
 	connect(server, SIGNAL(disconnected()), this, SLOT(serverDisconnected()));
-
-	connect(this, SIGNAL(needIcon(const RzxHostAddress&)), server, SLOT(getIcon(const RzxHostAddress&)));
 
 	connect(server, SIGNAL(status(const QString&, bool)), this, SIGNAL(status(const QString&, bool)));
 
