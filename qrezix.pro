@@ -74,7 +74,7 @@ macx {
 
   shlibcommand.files =
   shlibcommand.path = ./qrezix.app/Contents/Frameworks
-  shlibcommand.commands = install_name_tool -change libqt-mt.3.dylib ./qrezix.app/Contents/Frameworks/libqt-mt.3.dylib ./qrezix.app/Contents/MacOS/qrezix
+  shlibcommand.commands = install_name_tool -change libqt-mt.3.dylib '@executable_path/../Frameworks/libqt-mt.3.dylib' ./qrezix.app/Contents/MacOS/qrezix
 
   INSTALLS += translations \
            themes \
