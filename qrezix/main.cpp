@@ -22,6 +22,9 @@ email                : sylvain.joyeux@m4x.org
 #include <qpopupmenu.h>
 #include <qdir.h>
 #include <qstring.h>
+#include <qtoolbox.h> 
+#include <qtoolbutton.h> 
+#include <qlineedit.h> 
 #include "q.xpm"
 #include "rzxconfig.h"
 
@@ -46,7 +49,9 @@ int main(int argc, char *argv[])
 		RzxConfig::globalConfig();
 		
 		QObject::connect(RzxConfig::globalConfig(), SIGNAL(languageChanged()), rezix, SLOT(languageChanged()));
-			
+		
+		rezix -> tbRezalContainer -> setCurrentIndex(RzxConfig::defaultTab());
+		
 		rezix -> setIcon(iconeProg);
 		rezix -> languageChanged();
 		rezix -> tray = new TrayIcon(iconeProg, "Rezix", rezix );
@@ -68,6 +73,10 @@ int main(int argc, char *argv[])
 			rezix->resize(QSize(width,height));
 			rezix->move(QPoint(0,0));
 		}
+		
+		rezix -> tbRezalContainer -> setItemEnabled (2, RzxConfig::globalConfig()->useSearch());
+		rezix -> leSearch -> setShown(RzxConfig::globalConfig()->useSearch());
+		rezix -> btnSearch -> setShown(RzxConfig::globalConfig()->useSearch());
 		
 		if(RzxConfig::globalConfig()->useSystray())
 			rezix->tray->show();

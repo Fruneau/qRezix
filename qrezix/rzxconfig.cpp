@@ -412,6 +412,8 @@ int RzxConfig::useSystray(){ return globalConfig() -> readEntry("useSystray", 1)
 int RzxConfig::useSystray(){ return globalConfig() -> readEntry("useSystray", 0); }
 #endif
 
+int RzxConfig::useSearch(){ return globalConfig() -> readEntry("useSearch", 1); }
+int RzxConfig::defaultTab(){ return globalConfig() -> readEntry("defaultTab", 1); }
 /* Renvoie si une boite d'info doit etre ouverte quand qqun checke nos propriétés ou pas */
 int RzxConfig::warnCheckingProperties() { return globalConfig()-> readEntry("warnCheckingProperties", 0); }
 
