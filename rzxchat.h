@@ -23,6 +23,8 @@
 #include <qtimer.h>
 #include <qpopupmenu.h>
 #include <qframe.h>
+#include <qcolor.h>
+#include <qcolordialog.h>
 
 #include "rzxhostaddress.h"
 #include "rzxclientlistener.h"
@@ -106,8 +108,11 @@ public:
 	void setSocket(RzxChatSocket* sock);
 	void sendChat(const QString& msg);
 
+	static const QColor preDefinedColors[16];
+	
 private:
 	void init();
+	void addColor(QColor color);
 	QPopupMenu menuPlugins;
 	QWidget *hist;
 	QWidget *prop;
@@ -121,6 +126,7 @@ protected:
 	ListText * curLine;
 	QFont* defFont;
 	RzxChatSocket *socket;
+	QColor curColor;
 	
 signals: // Signals
 	void send(const QString& message);
@@ -128,6 +134,7 @@ signals: // Signals
 	void closed(const RzxHostAddress& peer);
 	void showHistorique(unsigned long ip, QString hostname, bool, QWidget*, QPoint*);
 	void showProperties(const RzxHostAddress&, const QString&, bool, QWidget*, QPoint*);
+	void colorChanged(const QColor&);
 
 public slots: // Public slots
 	void receive(const QString& msg);
@@ -155,6 +162,7 @@ protected slots:
 	void onTextChanged();
 	bool event(QEvent *e);
 	void pluginsMenu();
+	void colorClicked(int index);
 	RzxChatSocket *getValidSocket();
 
 protected: // Protected methods
