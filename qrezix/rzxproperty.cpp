@@ -60,7 +60,7 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	connect( remarque, SIGNAL(textChanged(const QString&)), this, SLOT(validRemarque()));
 	
 	hostname->setValidator( new DnsValidator() );
-	QRegExp mask("[^\x0000-\x0019]+");
+	QRegExp mask("[^\n\r]+");
 	remarque->setValidator( new QRegExpValidator(mask, remarque, "RemarqueValidator") );
 #ifndef WIN32
 	btnAboutQt->hide();
