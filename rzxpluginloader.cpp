@@ -423,7 +423,7 @@ void RzxPlugInLoader::validPropListView()
 			ignored.append(lvi->text(0));
 		}
 	}
-	
+	changePlugIn();
 	RzxConfig::writeIgnoredPluginsList(ignored);
 }
 
