@@ -1,4 +1,4 @@
-# Copyright 1999-2004 Binet Réseau
+# Copyright 1999-2005 Binet Réseau
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 
@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS="x86"
 IUSE=""
 
-DEPEND="qt? ( >=x11-libs/qt-3.3.3 )"
+DEPEND=">=x11-libs/qt-3.3.3"
 
 S=${WORKDIR}/${PN}
 
