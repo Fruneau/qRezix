@@ -36,6 +36,7 @@
 
 class QDns;
 class QTimer;
+class QAccel;
 class QTextEdit;
 class RzxChatSocket;
 
@@ -113,6 +114,7 @@ public:
 private:
 	void init();
 	void addColor(QColor color);
+	QAccel * accel;
 	QPopupMenu menuPlugins;
 	QWidget *hist;
 	QWidget *prop;

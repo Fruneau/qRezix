@@ -66,7 +66,7 @@ void RzxChat::init()
 	hist = prop = NULL;
 	
 	//
-	QAccel * accel = new QAccel(btnSend);
+	accel = new QAccel(btnSend);
 	accel -> insertItem(CTRL + Key_Return, 100);
 	accel -> connectItem(100, btnSend, SIGNAL(clicked()));
 	accel -> insertItem(CTRL + Key_Enter, 101);
@@ -127,9 +127,9 @@ void RzxChat::init()
 }
 
 void RzxChat::addColor(QColor color) {
-	QPixmap *p = new QPixmap(100, 15);
-	p -> fill(color);
-	cbColorSelect->insertItem(*p);
+	QPixmap p = QPixmap(100, 15);
+	p.fill(color);
+	cbColorSelect->insertItem(p);
 }
 
 void RzxChat::colorClicked(int index) {
@@ -157,6 +157,13 @@ RzxChat::~RzxChat(){
 	file.open(IO_ReadWrite |IO_Append);
 	file.writeBlock(temp, temp.length());
 	file.close();
+	
+	#ifdef WIN32
+	if(timer) delete timer;
+	#endif
+	
+	if(accel) delete accel;
+	if(defFont) delete defFont;
 	if(socket)
 	{
 		socket->close();
@@ -618,6 +625,7 @@ void RzxChat::btnHistoriqueClicked(bool on){
 	file.close();
 	QPoint *pos = new QPoint(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
 	hist = RzxChatSocket::showHistorique( peer.toRezix(), hostname, false, this, pos);
+	delete pos;
 	hist->show();
 }
 
@@ -643,6 +651,7 @@ void RzxChat::receiveProperties(const QString& msg)
 	QPoint *pos = new QPoint(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
 	prop = socket->showProperties(peer, msg, false, this, pos);
 	prop->show();
+	delete pos;
 }
 
 #ifdef WIN32

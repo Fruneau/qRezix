@@ -145,9 +145,10 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 RzxPlugInLoader::~RzxPlugInLoader()
 {
 	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next())
+	int i = 0;
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
 	{
-		it->stop();
+		if(state[i]) it->stop();
 		delete it;
 	}
 	fileByName.setAutoDelete(true);
@@ -203,7 +204,7 @@ void RzxPlugInLoader::init(const QString& name)
 void RzxPlugInLoader::stop()
 {
 	RzxPlugIn *it;
-	int i;
+	int i = 0;
 	for(it = plugins.first() ; it ; it = plugins.next(), i++)
 	{
 		if(state[i]) it->stop();
@@ -236,8 +237,9 @@ void RzxPlugInLoader::setSettings()
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next())
-		it->setSettings(RzxConfig::globalConfig()->settings);
+	int i = 0;
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+		if(state[i]) it->setSettings(RzxConfig::globalConfig()->settings);
 }
 
 /* mélange avec l'interface */
@@ -640,8 +642,9 @@ void RzxPlugInLoader::itemChanged(QListViewItem *item)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next())
-		it->getData(RzxPlugIn::DATA_ITEMSELECTED, (QVariant*)item);
+	int i = 0;
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+		if(state[i]) it->getData(RzxPlugIn::DATA_ITEMSELECTED, (QVariant*)item);
 }
 
 ///On indique que l'item sélectionné chez les favoris à changé
@@ -649,6 +652,7 @@ void RzxPlugInLoader::favoriteChanged(QListViewItem *item)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next())
-		it->getData(RzxPlugIn::DATA_FAVORITESELECTED, (QVariant*)item);
+	int i = 0;
+	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+		if(state[i]) it->getData(RzxPlugIn::DATA_FAVORITESELECTED, (QVariant*)item);
 }
