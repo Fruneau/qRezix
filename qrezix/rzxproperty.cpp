@@ -428,11 +428,11 @@ bool RzxProperty::miseAJour() {
 	{
 		localHostUpdated = true;
 		RzxConfig::saveIcon( "localhost", *localhostIcon );
-		if (!RzxServerListener::object() -> isSocketClosed())
+		if (ui->wellInit && !RzxServerListener::object() -> isSocketClosed())
 			RzxServerListener::object() -> sendIcon( localhostIcon -> convertToImage() );
 	}
 
-	if(localHostUpdated)
+	if(ui->wellInit && localHostUpdated)
 		serverUpdate();
 
 	if (ui -> btnAutoResponder)	
