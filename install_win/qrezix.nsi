@@ -49,7 +49,7 @@
   InstType "Complète - sans plug-ins"
   InstType "Minimum"
 
-  InstallDir "$PROGRAMFILES\ReziX"
+  InstallDir "$PROGRAMFILES\qRezix"
   
 
 ;--------------------------------
