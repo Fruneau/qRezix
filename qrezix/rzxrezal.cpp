@@ -87,6 +87,12 @@ void RzxRezal::showNotFavorites(bool val)
 	dispNotFavorites = val;
 }
 
+void RzxRezal::loginFromLister(bool val)
+{
+	if(!val)
+		disconnect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(login(RzxComputer*)));
+}
+
 RzxPopupMenu::RzxPopupMenu(QWidget * parent, const char * name) : QPopupMenu(parent, name) {
 }
 
@@ -144,6 +150,23 @@ void RzxRezal::proprietes(const RzxHostAddress& peer)
 	}
 }
 
+int RzxRezal::search(const QString& text)
+{
+	if(!text.length()) return 0;
+	RzxItem *item = (RzxItem*)firstChild();
+	int i = 0;
+	while(item)
+	{
+		if(!item->text(ColNom).find(text, 0, false))
+		{
+			emit itemFound(item->getComputer());
+			i++;
+		}
+		item = (RzxItem*)item->nextSibling();
+	}
+	return i;
+}
+
 void RzxRezal::proprietes(){
 	RzxItem* item=(RzxItem*) currentItem();
 	proprietes(item->ip);
@@ -156,18 +179,22 @@ void RzxRezal::historique(){
 		emit status(tr("No history file for user %1").arg(hostname), false);
 }
 
-void RzxRezal::removeFromFavorites(){
-	QString temp=currentItem()->text(ColNom);
+void RzxRezal::removeFromFavorites()
+{
+	RzxItem *item = (RzxItem*)currentItem();
+	QString temp= item->text(ColNom);
 	RzxConfig::globalConfig()->favorites->remove(temp);
 	RzxConfig::globalConfig()->writeFavorites();
-	emit favoriteChanged();
+	emit favoriteRemoved(item->getComputer());
 }
 
-void RzxRezal::addToFavorites(){
-	QString temp=currentItem()->text(ColNom);
+void RzxRezal::addToFavorites()
+{
+	RzxItem *item = (RzxItem*)currentItem();
+	QString temp= item->text(ColNom);
 	RzxConfig::globalConfig()->favorites->insert(temp,new QString("1"));
 	RzxConfig::globalConfig()->writeFavorites();
-	emit favoriteChanged();
+	emit favoriteAdded(item->getComputer());
 }
 
 ///Lancement du client ftp
@@ -247,6 +274,8 @@ void RzxRezal::adapteColonnes(){
 /** No descriptions */
 void RzxRezal::login(RzxComputer *computer)
 {
+	if(!dispNotFavorites && !RzxConfig::globalConfig()->favorites->find( computer->getName())) return;
+	
 	RzxItem *item = itemByIp.find(computer->getIP().toString());
 	if(!item)
 	{
@@ -264,9 +293,31 @@ void RzxRezal::login(RzxComputer *computer)
 void RzxRezal::logout(const QString& ip)
 {
 	RzxItem *item = itemByIp.take(ip);
+	if(!item) return;
+
 	if((selected == item))
 		selected = NULL;
 	item->deleteLater();
+}
+
+/** Déconnexion à partir d'un RzxComputer* */
+void RzxRezal::logout(RzxComputer *computer)
+{
+	logout(computer->getIP().toString());
+}
+
+/** On vide la liste des gens connectés */
+void RzxRezal::clear()
+{
+	RzxItem *item = (RzxItem*)firstChild();
+	while(item)
+	{
+		RzxItem *next = (RzxItem*)item->nextSibling();
+		logout(item->getComputer());
+		item = next;
+	}
+	init();
+	QListView::clear();
 }
 
 /** Réinitialisation de la liste des personnes connectées */
