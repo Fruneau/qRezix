@@ -76,7 +76,7 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
   
 	// GESTION DU MENU CONTEXTUEL
 	connect(this,SIGNAL(rightButtonPressed(QListViewItem *,const QPoint &,int )),this,SLOT(creePopUpMenu(QListViewItem *,const QPoint &,int )));
-	connect(this, SIGNAL(spacePressed(QListViewItem *)), this, SLOT(chatCreate()));
+	connect(this, SIGNAL(spacePressed(QListViewItem *)), this, SLOT(onListDblClicked(QListViewItem *)));
 	connect(this, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(redrawSelectedIcon(QListViewItem*)));
 	connect(this, SIGNAL(onItem(QListViewItem*)), this, SLOT(buildToolTip(QListViewItem*)));
 	filter = QString::null;
@@ -116,20 +116,27 @@ void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos,
 		int serveurs=item->servers;
 		popup.clear();
   
-		if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur())
-			popup.insertItem(*RzxConfig::themedIcon("chat"), tr("begin &Chat"),this,SLOT(chatCreate()));
-		if(serveurs & 1) popup.insertItem(*RzxConfig::themedIcon("samba"), tr("Samba connect"),this,SLOT(samba()));
-		if((serveurs>>1) & 1) popup.insertItem(*RzxConfig::themedIcon("ftp"), tr("FTP connect"), this, SLOT(ftp()));
-		if((serveurs>>3) & 1) popup.insertItem(*RzxConfig::themedIcon("http"), tr("browse Web"), this, SLOT(http()));
-		if((serveurs>>4) & 1) popup.insertItem(*RzxConfig::themedIcon("news"), tr("read News"), this, SLOT(news()));
-		popup.insertSeparator();
-		popup.insertItem(*RzxConfig::themedIcon("historique"), tr("History"),this,SLOT(historique()));
-		popup.insertItem(*RzxConfig::themedIcon("prop"), tr("Properties"),this,SLOT(proprietes()));
-		popup.insertSeparator();
-		if(RzxConfig::globalConfig()->favorites->find(ordinateurSelect->text(1)))
-			popup.insertItem(*RzxConfig::themedIcon("not_favorite"), tr("Remove from favorites"),this,SLOT(removeFromFavorites()));
-		else
-			popup.insertItem(*RzxConfig::themedIcon("favorite"), tr("Add to favorites"),this,SLOT(addToFavorites()));
+		if(item->ignored) {
+			popup.insertItem(*RzxConfig::themedIcon("not_ignoreList"), tr("Remove from ignore list"),this,SLOT(removeFromIgnoreList()));
+		}
+		else {
+			if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur())
+				popup.insertItem(*RzxConfig::themedIcon("chat"), tr("begin &Chat"),this,SLOT(chatCreate()));
+			if(serveurs & 1) popup.insertItem(*RzxConfig::themedIcon("samba"), tr("Samba connect"),this,SLOT(samba()));
+			if((serveurs>>1) & 1) popup.insertItem(*RzxConfig::themedIcon("ftp"), tr("FTP connect"), this, SLOT(ftp()));
+			if((serveurs>>3) & 1) popup.insertItem(*RzxConfig::themedIcon("http"), tr("browse Web"), this, SLOT(http()));
+			if((serveurs>>4) & 1) popup.insertItem(*RzxConfig::themedIcon("news"), tr("read News"), this, SLOT(news()));
+			popup.insertSeparator();
+			popup.insertItem(*RzxConfig::themedIcon("historique"), tr("History"),this,SLOT(historique()));
+			popup.insertItem(*RzxConfig::themedIcon("prop"), tr("Properties"),this,SLOT(proprietes()));
+			popup.insertSeparator();
+			if(RzxConfig::globalConfig()->favorites->find(ordinateurSelect->text(1)))
+				popup.insertItem(*RzxConfig::themedIcon("not_favorite"), tr("Remove from favorites"),this,SLOT(removeFromFavorites()));
+			else {
+				popup.insertItem(*RzxConfig::themedIcon("favorite"), tr("Add to favorites"),this,SLOT(addToFavorites()));
+				popup.insertItem(*RzxConfig::themedIcon("ignoreList"), tr("Add to ignore list"),this,SLOT(addToIgnoreList()));
+			}
+		}
 		popup.insertSeparator();
 		popup.insertItem(*RzxConfig::themedIcon("cancel"), tr("Cancel"), &popup, SLOT(hide()));
 		RzxPlugInLoader::global()->menuItem(popup);
@@ -202,6 +209,27 @@ void RzxRezal::addToFavorites()
 	RzxConfig::globalConfig()->favorites->insert(temp,new QString("1"));
 	RzxConfig::globalConfig()->writeFavorites();
 	emit favoriteAdded(item->getComputer());
+}
+
+void RzxRezal::removeFromIgnoreList()
+{
+	RzxItem *item = (RzxItem*)currentItem();
+	item -> ignored = false;
+	RzxComputer * c = item->getComputer();
+	QString ip = c->getIP().toString();
+	RzxConfig::globalConfig()->ignoreList->remove(ip);
+	RzxConfig::globalConfig()->writeIgnoreList();
+}
+
+void RzxRezal::addToIgnoreList()
+{
+	RzxItem *item = (RzxItem*)currentItem();
+	item -> ignored = true;
+	QString temp= item->text(ColNom);
+	RzxComputer * c = item->getComputer();
+	QString ip = c->getIP().toString();
+	RzxConfig::globalConfig()->ignoreList->insert(ip,new QString("1"));
+	RzxConfig::globalConfig()->writeIgnoreList();
 }
 
 ///Lancement du client ftp
@@ -359,6 +387,9 @@ RzxChat * RzxRezal::chatCreate(const QString& login)
 * TODO: gerer ca autrement */
 void RzxRezal::onListDblClicked(QListViewItem * sender){
 	RzxItem * item = static_cast<RzxItem*> (sender);
+	if(item->ignored) //ignored user, donc on ne va pas communiquer avec lui, faut savoir ce qu'on veut hein
+		return;
+	
 	int serveurs=item->servers;
 
 	bool gere = false;

@@ -43,7 +43,7 @@ class RzxItem : public QObject, public QListViewItem
 		
 		// C caca, mais on se fait pas chier
 		int sysex, servers;
-		bool gateway,repondeur;
+		bool gateway,repondeur,ignored;
 		QPixmap icon;
 	 	int promo;		
 		
