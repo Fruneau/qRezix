@@ -1,3 +1,12 @@
+[v1.3.666] 2004-06-06 <br2002@frankiz@polytechnique.fr>
+    * Utilisation d'un QTextEdit dérivé au lieu du MultiEdit obsolete,
+Shift+enter pr changer de ligne [Steak]
+    * Sauvegarde du pass quand il est reçu du serveur [Steak]
+    * Bugfixes pour Windows [Fruneau@br2k3]
+    * Makefile pour Windows [Fruneau]
+    * Ajout repondeur dans menu TrayIcon [Steak]
+    * Ajout des warnings à l'envoi des propriétés [Steak]
+    * Plus d'étoile avec le /me, chgt de couleur en plus [Falco]
 
 [v1.3] 2004-05-01 <br2002@frankiz.polytechnique.fr>
     * bug des sons fixés pour Linux   [Steak]
@@ -14,9 +23,6 @@ ListView/RzxRezal [Steak]
     * Icones thématisées rajoutées pour le bouton du son + ajout dans le make
 install [Steak, Kikx]
     * Bugfixs pour le multilinguisme (sport, chargt des qm) [Steak]
-    * Utilisation d'un QTextEdit dérivé au lieu du MultiEdit obsolete,
-shift+enter pr changer de ligne [Steak]
-    * Sauvegarde du pass quand il est reçu du serveur
 
 [v1.2] JiBee Mais je sais pas ce qu'il a fait, il l'a pas écrit :)
 	[Steak]
