@@ -21,6 +21,7 @@
 #include <qfile.h>
 
 #include "qrezix.h"
+#include "qrezixquit.h"
 #include "rzxconfig.h"
 #include "rzxrezal.h"
 #include "rzxproperty.h"
@@ -81,7 +82,26 @@ void QRezix::status(const QString& msg, bool fatal){
 }
 
 void QRezix::closeEvent(QCloseEvent * e){
-  QSize s = size();       // store size
+	//pour éviter de fermer rezix par mégarde, on affiche un boite de dialogue laissant le choix
+	//de fermer qrezix, de minimiser la fenêtre principale --> trayicon, ou d'annuler l'action
+	if(isShown() && !isMinimized())
+	{
+		QRezixQuit quitDialog(this);
+		int i = quitDialog.exec();
+		if(i!=QRezixQuit::selectQuit)
+		{
+			if(i==QRezixQuit::selectMinimize)
+				showMinimized();
+#ifdef WIN32 //c'est très très très très très très moche, mais g pas trouvé d'autre manière de le faire
+			 //c'est pas ma fautre à moi si windows se comporte comme de la merde
+				QEvent e(QEvent::WindowDeactivate); 
+				event(&e);
+#endif
+			return;
+		}
+	}
+
+	QSize s = size();       // store size
 	QString height="";
 	height.sprintf("%4d",s.height());
 	QString width = "";

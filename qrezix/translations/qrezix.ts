@@ -26,6 +26,56 @@
     </message>
 </context>
 <context>
+    <name>QRezixQuit</name>
+    <message>
+        <source>Quit now !</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimize me...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Abort quitting please</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QRezixQuitUI</name>
+    <message>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>no, I want to &amp;Minimize qRezix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Oops, do nothing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>yes, I want to &amp;Leave qRezix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Return</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to &lt;b&gt;Quit qRezix &lt;/b&gt;?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QRezixUI</name>
     <message>
         <source>Septembre</source>
@@ -84,6 +134,18 @@
     </message>
     <message>
         <source>Alt+H</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>B</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>I</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>U</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -56,7 +56,8 @@ HEADERS =	qrezix.h \
 		trayicon.h \
 		dnsvalidator.h \
 		klocale.h \
-		resource.h
+		resource.h \
+		qrezixquit.h
 SOURCES =	main.cpp \
 		qrezix.cpp \
 		rzxchat.cpp \
@@ -71,7 +72,9 @@ SOURCES =	main.cpp \
 		rzxserverlistener.cpp \
 		rzxmessagebox.cpp \
 		trayicon.cpp \
-		dnsValidator.cpp
+		dnsValidator.cpp \
+		qrezixquit.cpp \
+		qrezixquitui.cpp
 OBJECTS =	main.obj \
 		qrezix.obj \
 		rzxchat.obj \
@@ -89,16 +92,21 @@ OBJECTS =	main.obj \
 		dnsValidator.obj \
 		qrezixui.obj \
 		rzxchatui.obj \
-		rzxpropertyui.obj
+		rzxpropertyui.obj \
+		qrezixquitui.obj \
+		qrezixquit.obj
 FORMS =	qrezixui.ui \
 		rzxchatui.ui \
-		rzxpropertyui.ui
+		rzxpropertyui.ui \
+		qrezixquitui.ui
 UICDECLS =	qrezixui.h \
 		rzxchatui.h \
-		rzxpropertyui.h
+		rzxpropertyui.h \
+		qrezixquitui.h
 UICIMPLS =	qrezixui.cpp \
 		rzxchatui.cpp \
-		rzxpropertyui.cpp
+		rzxpropertyui.cpp \
+		qrezixquitui.cpp
 SRCMOC	=	moc_qrezix.cpp \
 		moc_rzxchat.cpp \
 		moc_rzxclientlistener.cpp \
@@ -113,7 +121,9 @@ SRCMOC	=	moc_qrezix.cpp \
 		moc_dnsvalidator.cpp \
 		moc_qrezixui.cpp \
 		moc_rzxchatui.cpp \
-		moc_rzxpropertyui.cpp
+		moc_rzxpropertyui.cpp \
+		moc_qrezixquitui.cpp \
+		moc_qrezixquit.cpp
 OBJMOC	=	moc_qrezix.obj \
 		moc_rzxchat.obj \
 		moc_rzxclientlistener.obj \
@@ -128,7 +138,9 @@ OBJMOC	=	moc_qrezix.obj \
 		moc_dnsvalidator.obj \
 		moc_qrezixui.obj \
 		moc_rzxchatui.obj \
-		moc_rzxpropertyui.obj
+		moc_rzxpropertyui.obj \
+		moc_qrezixquitui.obj \
+		moc_qrezixquit.obj
 DIST	=	
 TARGET	=	qrezix.exe
 
@@ -190,9 +202,11 @@ uiclean:
 	-$(DEL_FILE) qrezixui.h
 	-$(DEL_FILE) rzxchatui.h
 	-$(DEL_FILE) rzxpropertyui.h
+	-$(DEL_FILE) qrezixquitui.h
 	-$(DEL_FILE) qrezixui.cpp
 	-$(DEL_FILE) rzxchatui.cpp
 	-$(DEL_FILE) rzxpropertyui.cpp
+	-$(DEL_FILE) qrezixquitui.cpp
 mocclean:
 	-$(DEL_FILE) moc_qrezix.cpp
 	-$(DEL_FILE) moc_rzxchat.cpp
@@ -224,6 +238,8 @@ mocclean:
 	-$(DEL_FILE) moc_qrezixui.obj
 	-$(DEL_FILE) moc_rzxchatui.obj
 	-$(DEL_FILE) moc_rzxpropertyui.obj
+	-$(DEL_FILE) moc_qrezixquit.obj
+	-$(DEL_FILE) moc_qrezixquitui.obj
 clean: uiclean mocclean
 	-$(DEL_FILE) main.obj
 	-$(DEL_FILE) qrezix.obj
@@ -244,6 +260,8 @@ clean: uiclean mocclean
 	-$(DEL_FILE) qrezixui.obj
 	-$(DEL_FILE) rzxchatui.obj
 	-$(DEL_FILE) rzxpropertyui.obj
+	-$(DEL_FILE) qrezixquit.obj
+	-$(DEL_FILE) qrezixquitui.obj
 	-$(DEL_FILE) icone.res
 
 
@@ -282,6 +300,8 @@ qrezix.obj: qrezix.cpp  \
 		rzxchatui.h \
 		rzxpropertyui.h \
 		dnsvalidator.h \
+		qrezixquitui.h \
+		qrezixquit.h \
 		
 
 rzxchat.obj: rzxchat.cpp  \
@@ -408,9 +428,12 @@ dnsValidator.obj: dnsValidator.cpp  \
 		rzxhostaddress.h \
 		
 
-qrezix_meta_unload.obj: qrezix_meta_unload.cpp  \
-		
+qrezix_meta_unload.obj: qrezix_meta_unload.cpp \
 
+qrezixquit.obj: qrezixquit.cpp \
+		qrezixquit.h \
+		qrezixquitui.h \
+		
 qrezixui.h: qrezixui.ui rzxrezal.h \
 		rzxserverlistener.h \
 		rzxclientlistener.h \
@@ -445,6 +468,12 @@ rzxpropertyui.h: rzxpropertyui.ui
 rzxpropertyui.cpp: rzxpropertyui.h rzxpropertyui.ui 
 	$(UIC) rzxpropertyui.ui -i rzxpropertyui.h -o rzxpropertyui.cpp
 
+qrezixquitui.h: qrezixquitui.ui
+	$(UIC) qrezixquitui.ui -o qrezixquitui.h
+
+qrezixquitui.cpp: qrezixquitui.h qrezixquitui.ui
+	$(UIC) qrezixquitui.ui -i qrezixquitui.h -o qrezixquitui.cpp
+
 qrezixui.obj: qrezixui.cpp  \
 		qrezixui.h \
 		
@@ -455,7 +484,10 @@ rzxchatui.obj: rzxchatui.cpp  \
 
 rzxpropertyui.obj: rzxpropertyui.cpp  \
 		rzxpropertyui.h \
-		
+
+qrezixquitui.obj: qrezixquitui.cpp  \
+		qrezixquitui.h \
+	
 
 moc_qrezix.obj: moc_qrezix.cpp  qrezix.h qrezixui.h \
 		trayicon.h
@@ -491,6 +523,8 @@ moc_rzxproperty.obj: moc_rzxproperty.cpp  rzxproperty.h rzxhostaddress.h \
 		qrezixui.h \
 		trayicon.h
 
+moc_qrezixquit.obj : moc_qrezixquit.cpp qrezixquit.h qrezixquitui.h
+
 moc_trayicon.obj: moc_trayicon.cpp  trayicon.h 
 
 moc_dnsvalidator.obj: moc_dnsvalidator.cpp  dnsvalidator.h 
@@ -500,6 +534,9 @@ moc_qrezixui.obj: moc_qrezixui.cpp  qrezixui.h
 moc_rzxchatui.obj: moc_rzxchatui.cpp  rzxchatui.h 
 
 moc_rzxpropertyui.obj: moc_rzxpropertyui.cpp  rzxpropertyui.h 
+
+moc_qrezixquitui.obj: moc_qrezixquitui.cpp  qrezixquitui.h 
+
 
 moc_qrezix.cpp: $(MOC) qrezix.h
 	$(MOC) qrezix.h -o moc_qrezix.cpp
@@ -531,6 +568,9 @@ moc_rzxserverlistener.cpp: $(MOC) rzxserverlistener.h
 moc_rzxproperty.cpp: $(MOC) rzxproperty.h
 	$(MOC) rzxproperty.h -o moc_rzxproperty.cpp
 
+moc_qrezixquit.cpp : $(MOC) qrezixquit.h
+	$(MOC) qrezixquit.h -o moc_qrezixquit.cpp
+
 moc_trayicon.cpp: $(MOC) trayicon.h
 	$(MOC) trayicon.h -o moc_trayicon.cpp
 
@@ -545,6 +585,10 @@ moc_rzxchatui.cpp: $(MOC) rzxchatui.h
 
 moc_rzxpropertyui.cpp: $(MOC) rzxpropertyui.h
 	$(MOC) rzxpropertyui.h -o moc_rzxpropertyui.cpp
+
+moc_qrezixquitui.cpp: $(MOC) qrezixquitui.h
+	$(MOC) qrezixquitui.h -o moc_qrezixquitui.cpp
+
 
 ####### Install
 

@@ -26,6 +26,56 @@
     </message>
 </context>
 <context>
+    <name>QRezixQuit</name>
+    <message>
+        <source>Quit now !</source>
+        <translation>Je pars maintenant !</translation>
+    </message>
+    <message>
+        <source>Minimize me...</source>
+        <translation>Minimise la fenêtre...</translation>
+    </message>
+    <message>
+        <source>Abort quitting please</source>
+        <translation>Attend, je reste</translation>
+    </message>
+</context>
+<context>
+    <name>QRezixQuitUI</name>
+    <message>
+        <source>Quit</source>
+        <translation>Quitter</translation>
+    </message>
+    <message>
+        <source>no, I want to &amp;Minimize qRezix</source>
+        <translation>non, je veux &amp;Minimiser qRezix</translation>
+    </message>
+    <message>
+        <source>Alt+M</source>
+        <translation>Alt+M</translation>
+    </message>
+    <message>
+        <source>Oops, do nothing</source>
+        <translation>Oups, ne fait rien</translation>
+    </message>
+    <message>
+        <source>yes, I want to &amp;Leave qRezix</source>
+        <translation>oui, je veux &amp;Quitter qRezix</translation>
+    </message>
+    <message>
+        <source>Alt+L</source>
+        <translation>Alt+Q</translation>
+    </message>
+    <message>
+        <source>Return</source>
+        <translation>Return</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to &lt;b&gt;Quit qRezix &lt;/b&gt;?</source>
+        <translation>Est-tu sûr de vouloir &lt;b&gt;Quitter qRezix&lt;/b&gt; ?</translation>
+    </message>
+</context>
+<context>
     <name>QRezixUI</name>
     <message>
         <source>Septembre</source>
@@ -85,6 +135,18 @@
     <message>
         <source>Alt+H</source>
         <translation>Alt+H</translation>
+    </message>
+    <message>
+        <source>B</source>
+        <translation>G</translation>
+    </message>
+    <message>
+        <source>I</source>
+        <translation>I</translation>
+    </message>
+    <message>
+        <source>U</source>
+        <translation>S</translation>
     </message>
 </context>
 <context>
