@@ -200,6 +200,7 @@ void RzxProperty::initDlg() {
 	cbTooltipVersion->setChecked(tooltip & RzxConfig::Client);
 	cbTooltipIP->setChecked(tooltip & RzxConfig::IP);
 	cbTooltipResal->setChecked(tooltip & RzxConfig::Resal);
+	cbTooltipFeatures->setChecked(tooltip & RzxConfig::Features);
 
 	//QRezix * rezix = getRezix();
 	int colonnes = RzxConfig::colonnes();
@@ -461,6 +462,7 @@ bool RzxProperty::miseAJour() {
 	if(cbTooltipVersion->isChecked()) tooltip += RzxConfig::Client;
 	if(cbTooltipIP->isChecked()) tooltip += RzxConfig::IP;
 	if(cbTooltipResal->isChecked()) tooltip += RzxConfig::Resal;
+	if(cbTooltipFeatures->isChecked()) tooltip += RzxConfig::Features;
 	cfgObject -> writeEntry( "tooltip", tooltip);
 
 //	cfgObject -> write(); //flush du fichier de conf

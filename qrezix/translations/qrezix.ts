@@ -1008,6 +1008,18 @@ Les discussions et les propriétés sont désactivées</translation>
         <source>place : </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>features : </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>chat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>none</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
@@ -1684,6 +1696,10 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
     </message>
     <message>
         <source>Place</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Features</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

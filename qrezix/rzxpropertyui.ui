@@ -936,7 +936,7 @@
                                     <property name="name">
                                         <cstring>unnamed</cstring>
                                     </property>
-                                    <widget class="QCheckBox" row="2" column="0">
+                                    <widget class="QCheckBox" row="3" column="0">
                                         <property name="name">
                                             <cstring>cbTooltipFtp</cstring>
                                         </property>
@@ -947,7 +947,7 @@
                                             <string>FTP</string>
                                         </property>
                                     </widget>
-                                    <widget class="QCheckBox" row="4" column="0">
+                                    <widget class="QCheckBox" row="5" column="0">
                                         <property name="name">
                                             <cstring>cbTooltipNews</cstring>
                                         </property>
@@ -958,7 +958,7 @@
                                             <string>News</string>
                                         </property>
                                     </widget>
-                                    <widget class="Line" row="1" column="0" rowspan="1" colspan="2">
+                                    <widget class="Line" row="1" column="0" rowspan="2" colspan="2">
                                         <property name="name">
                                             <cstring>line2</cstring>
                                         </property>
@@ -972,7 +972,7 @@
                                             <enum>Horizontal</enum>
                                         </property>
                                     </widget>
-                                    <widget class="QCheckBox" row="5" column="0">
+                                    <widget class="QCheckBox" row="6" column="0">
                                         <property name="name">
                                             <cstring>cbTooltipSamba</cstring>
                                         </property>
@@ -983,7 +983,7 @@
                                             <string>Samba</string>
                                         </property>
                                     </widget>
-                                    <widget class="QCheckBox" row="3" column="1">
+                                    <widget class="QCheckBox" row="4" column="1">
                                         <property name="name">
                                             <cstring>cbTooltipVersion</cstring>
                                         </property>
@@ -994,7 +994,7 @@
                                             <string>Client version</string>
                                         </property>
                                     </widget>
-                                    <widget class="QCheckBox" row="6" column="0">
+                                    <widget class="QCheckBox" row="7" column="0">
                                         <property name="name">
                                             <cstring>cbTooltipPromo</cstring>
                                         </property>
@@ -1005,7 +1005,7 @@
                                             <string>Promotion</string>
                                         </property>
                                     </widget>
-                                    <widget class="QCheckBox" row="4" column="1">
+                                    <widget class="QCheckBox" row="5" column="1">
                                         <property name="name">
                                             <cstring>cbTooltipIP</cstring>
                                         </property>
@@ -1016,7 +1016,26 @@
                                             <string>Ip address</string>
                                         </property>
                                     </widget>
-                                    <widget class="QCheckBox" row="3" column="0">
+                                    <widget class="QCheckBox" row="2" column="1" rowspan="2" colspan="1">
+                                        <property name="name">
+                                            <cstring>cbTooltipOS</cstring>
+                                        </property>
+                                        <property name="enabled">
+                                            <bool>false</bool>
+                                        </property>
+                                        <property name="text">
+                                            <string>OS</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="QCheckBox" row="6" column="1">
+                                        <property name="name">
+                                            <cstring>cbTooltipResal</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Place</string>
+                                        </property>
+                                    </widget>
+                                    <widget class="QCheckBox" row="4" column="0">
                                         <property name="name">
                                             <cstring>cbTooltipHttp</cstring>
                                         </property>
@@ -1035,23 +1054,12 @@
                                             <string>Enable tooltips</string>
                                         </property>
                                     </widget>
-                                    <widget class="QCheckBox" row="5" column="1">
+                                    <widget class="QCheckBox" row="7" column="1">
                                         <property name="name">
-                                            <cstring>cbTooltipResal</cstring>
+                                            <cstring>cbTooltipFeatures</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>Place</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="QCheckBox" row="2" column="1">
-                                        <property name="name">
-                                            <cstring>cbTooltipOS</cstring>
-                                        </property>
-                                        <property name="enabled">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="text">
-                                            <string>OS</string>
+                                            <string>Features</string>
                                         </property>
                                     </widget>
                                 </grid>

@@ -77,7 +77,8 @@ public:
 		OS = 64,
 		Client = 128,
 		IP = 256,
-		Resal = 512
+		Resal = 512,
+		Features = 1024
 	};
 	
 	QSettings *settings;
