@@ -1334,7 +1334,7 @@ Erreur DNS
     </message>
     <message>
         <source>Server found, trying to connect</source>
-        <translation>Serveur trouvé, essai de connection</translation>
+        <translation>Serveur trouvé, tentative de connexion</translation>
     </message>
     <message>
         <source>Connected</source>
