@@ -12,7 +12,9 @@ HEADERS		= qrezix.h \
 		  rzxserverlistener.h \
 		  rzxproperty.h \
 		  rzxmessagebox.h \
-		  defaults.h
+		  defaults.h \
+		  dnsvalidator.h \
+		  trayicon.h
 SOURCES		= main.cpp \
 		  qrezix.cpp \
 		  rzxchat.cpp \
@@ -25,7 +27,9 @@ SOURCES		= main.cpp \
 		  rzxrezal.cpp \
 		  rzxproperty.cpp \
 		  rzxserverlistener.cpp \
-		  rzxmessagebox.cpp
+		  rzxmessagebox.cpp \
+		  dnsValidator.cpp \
+		  trayicon.cpp
 INTERFACES	= qrezixui.ui \
 		  rzxchatui.ui \
 		  rzxpropertyui.ui

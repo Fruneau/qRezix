@@ -424,6 +424,14 @@ Les discussions et les propriétés sont désactivées</translation>
         <source>XNet Server message</source>
         <translation>Message du serveur XNet</translation>
     </message>
+    <message>
+        <source>Properties sent to </source>
+        <translation>Propriétés envoyées à </translation>
+    </message>
+    <message>
+        <source>has checked your properties</source>
+        <translation>a demandé à voir vos propriétés</translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
@@ -501,11 +509,11 @@ Erreur DNS
     <name>TrayIcon</name>
     <message>
         <source>&amp;I&apos;m back !</source>
-        <translation type="obsolete">Je suis &amp;revenu !</translation>
+        <translation>Je suis &amp;revenu !</translation>
     </message>
     <message>
         <source>I&apos;m &amp;away !</source>
-        <translation type="obsolete">Je m&apos;en &amp;vais !</translation>
+        <translation>Je m&apos;en &amp;vais !</translation>
     </message>
 </context>
 <context>
