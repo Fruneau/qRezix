@@ -20,6 +20,8 @@
 #include <qpushbutton.h>
 #include <qiconset.h>
 #include <qvalidator.h>
+#include <qpixmap.h>
+#include <qimage.h>
 
 #include "rzxprotocole.h"
 #include "rzxcomputer.h"
@@ -40,6 +42,7 @@ const char * RzxProtocole::ServerFormat[] = {
 	"^WRONGPASS\r\n",
 	"^CHANGEPASSOK\r\n",
 	"^CHANGEPASSFAILED (.*)\r\n",
+	"^UPLOAD\r\n",
 	0
 };
 
@@ -122,13 +125,15 @@ void RzxProtocole::parse(const QString& msg){
 				
 			case SERVER_PASS:
 				RzxConfig::globalConfig()->setPass(cmd.cap(1));
-				qDebug(cmd.cap(1));
+				RzxConfig::globalConfig()->flush();
+				
 				changePass(cmd.cap(1));
 				break;
 			
 			case SERVER_CHANGEPASSOK:
 				emit sysmsg(tr("Your pass has been successfully changed by the server. Keep it well because it can be useful."));
 				RzxConfig::globalConfig()->setPass(m_newPass);
+				RzxConfig::globalConfig()->flush();
 				break;
 			
 			case SERVER_CHANGEPASSFAILED:
@@ -145,8 +150,8 @@ void RzxProtocole::parse(const QString& msg){
 			case SERVER_ICON: 	// non geres par l'objet protocole du fait du pb
 						// des donnees binaires. Les icones sont par contre
 						// gerees dans RzxServerListener
-				break;				
-				
+				break;
+
 			case SERVER_UPGRADE:
 			default:;
 		}

@@ -236,15 +236,14 @@ void RzxServerListener::serverReceive() {
 	}
 }
 
-
+///Parsage des données reçes du serveur
+/** Permet de répartir entre les données brutes (icônes) et les données 'protocolaires' qui elles sont gérées par RzxProtocole */
 void RzxServerListener::parse(const QString& msg) {
 	QRegExp cmd;
+	
+	/* Réception d'une icône... passe l'écute en mode attente de données brutes */
 	cmd.setPattern(RzxProtocole::ServerFormat[RzxProtocole::SERVER_ICON]);
-#if (QT_VERSION >= 0x030000)
 	if (cmd.search(msg, 0) >= 0) {
-#else
-	if (cmd.find(msg, 0) >= 0) {
-#endif
 		// on supprime l'en-tete du message
 		QString msgClean = msg, msgParams;
 		msgClean.stripWhiteSpace();
@@ -258,10 +257,23 @@ void RzxServerListener::parse(const QString& msg) {
 		if (!ok)
 			return;
 		iconMode = true;
+		return;
 	}
-	else {
-		RzxProtocole::parse(msg);
+	
+	/* Envoie de l'icône suite à la requête du serveur */
+	cmd.setPattern(RzxProtocole::ServerFormat[RzxProtocole::SERVER_UPLOAD]);
+	if(cmd.search(msg, 0) >= 0)
+	{
+		QPixmap *icon = RzxConfig::localhostIcon();
+		if(icon)
+		{
+			sendIcon( icon->convertToImage());
+		}
+		return;
 	}
+	
+	/* Gestion du protocol autre */
+	RzxProtocole::parse(msg);
 }
 
 /** Change l'icone de l'ordinateur local */
