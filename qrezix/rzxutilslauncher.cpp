@@ -33,6 +33,17 @@
 	#include <stdlib.h>
 #endif
 
+#ifdef WIN32
+#include <windows.h>
+#include <qapplication.h>
+#define RZXCHAT_IMPL_H
+#define RZXCLIENTLISTENER_H
+class RzxChat;
+class RzxClientListener;
+class RzxChatSocket;
+#endif
+
+
 #include "rzxutilslauncher.h"
 #include "rzxconfig.h"
 #include "rzxrezal.h"
