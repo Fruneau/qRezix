@@ -100,6 +100,9 @@
 /* Chemin vers le repertoire d'installation des icones qrezix */
 #undef QREZIX_DATA_DIR
 
+/* Chemin vers le répertoire d'installation des plug-ins de qrezix */
+#undef QREZIX_LIB_DIR
+
 /* The size of a `char', as computed by sizeof. */
 #undef SIZEOF_CHAR
 
