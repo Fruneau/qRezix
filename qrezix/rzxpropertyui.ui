@@ -791,105 +791,6 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QGroupBox" row="1" column="0">
-                        <property name="name">
-                            <cstring>grpMenu</cstring>
-                        </property>
-                        <property name="title">
-                            <string>Menu</string>
-                        </property>
-                        <grid>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <widget class="QLayoutWidget" row="0" column="0">
-                                <property name="name">
-                                    <cstring>layout17</cstring>
-                                </property>
-                                <hbox>
-                                    <property name="name">
-                                        <cstring>unnamed</cstring>
-                                    </property>
-                                    <widget class="QLabel">
-                                        <property name="name">
-                                            <cstring>lblMenuIconSize</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Icon size:</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="QComboBox">
-                                        <item>
-                                            <property name="text">
-                                                <string>No icon</string>
-                                            </property>
-                                        </item>
-                                        <item>
-                                            <property name="text">
-                                                <string>Small icons</string>
-                                            </property>
-                                        </item>
-                                        <item>
-                                            <property name="text">
-                                                <string>Big icons</string>
-                                            </property>
-                                        </item>
-                                        <property name="name">
-                                            <cstring>cmbMenuIcons</cstring>
-                                        </property>
-                                        <property name="currentItem">
-                                            <number>2</number>
-                                        </property>
-                                    </widget>
-                                    <widget class="Line">
-                                        <property name="name">
-                                            <cstring>line2_2</cstring>
-                                        </property>
-                                        <property name="frameShape">
-                                            <enum>VLine</enum>
-                                        </property>
-                                        <property name="frameShadow">
-                                            <enum>Sunken</enum>
-                                        </property>
-                                        <property name="orientation">
-                                            <enum>Vertical</enum>
-                                        </property>
-                                    </widget>
-                                    <widget class="QLabel">
-                                        <property name="name">
-                                            <cstring>lblMenuText</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Text position:</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="QComboBox">
-                                        <item>
-                                            <property name="text">
-                                                <string>No text</string>
-                                            </property>
-                                        </item>
-                                        <item>
-                                            <property name="text">
-                                                <string>Beside icon</string>
-                                            </property>
-                                        </item>
-                                        <item>
-                                            <property name="text">
-                                                <string>Below icon</string>
-                                            </property>
-                                        </item>
-                                        <property name="name">
-                                            <cstring>cmbMenuText</cstring>
-                                        </property>
-                                        <property name="currentItem">
-                                            <number>2</number>
-                                        </property>
-                                    </widget>
-                                </hbox>
-                            </widget>
-                        </grid>
-                    </widget>
                     <widget class="QLayoutWidget" row="0" column="0">
                         <property name="name">
                             <cstring>layout16</cstring>
@@ -1140,10 +1041,172 @@
                         <property name="sizeHint">
                             <size>
                                 <width>31</width>
-                                <height>151</height>
+                                <height>130</height>
                             </size>
                         </property>
                     </spacer>
+                    <widget class="QLayoutWidget" row="1" column="0">
+                        <property name="name">
+                            <cstring>layout23</cstring>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QGroupBox" row="0" column="0">
+                                <property name="name">
+                                    <cstring>grpMenu</cstring>
+                                </property>
+                                <property name="title">
+                                    <string>Menu</string>
+                                </property>
+                                <grid>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QLayoutWidget" row="0" column="0">
+                                        <property name="name">
+                                            <cstring>layout19</cstring>
+                                        </property>
+                                        <hbox>
+                                            <property name="name">
+                                                <cstring>unnamed</cstring>
+                                            </property>
+                                            <widget class="QLabel">
+                                                <property name="name">
+                                                    <cstring>lblMenuIconSize</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>Icon size:</string>
+                                                </property>
+                                            </widget>
+                                            <widget class="QComboBox">
+                                                <item>
+                                                    <property name="text">
+                                                        <string>No icon</string>
+                                                    </property>
+                                                </item>
+                                                <item>
+                                                    <property name="text">
+                                                        <string>Small icons</string>
+                                                    </property>
+                                                </item>
+                                                <item>
+                                                    <property name="text">
+                                                        <string>Big icons</string>
+                                                    </property>
+                                                </item>
+                                                <property name="name">
+                                                    <cstring>cmbMenuIcons</cstring>
+                                                </property>
+                                                <property name="currentItem">
+                                                    <number>2</number>
+                                                </property>
+                                            </widget>
+                                        </hbox>
+                                    </widget>
+                                    <widget class="QLayoutWidget" row="1" column="0">
+                                        <property name="name">
+                                            <cstring>layout20</cstring>
+                                        </property>
+                                        <hbox>
+                                            <property name="name">
+                                                <cstring>unnamed</cstring>
+                                            </property>
+                                            <widget class="QLabel">
+                                                <property name="name">
+                                                    <cstring>lblMenuText</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>Text position:</string>
+                                                </property>
+                                            </widget>
+                                            <widget class="QComboBox">
+                                                <item>
+                                                    <property name="text">
+                                                        <string>No text</string>
+                                                    </property>
+                                                </item>
+                                                <item>
+                                                    <property name="text">
+                                                        <string>Beside icon</string>
+                                                    </property>
+                                                </item>
+                                                <item>
+                                                    <property name="text">
+                                                        <string>Below icon</string>
+                                                    </property>
+                                                </item>
+                                                <property name="name">
+                                                    <cstring>cmbMenuText</cstring>
+                                                </property>
+                                                <property name="currentItem">
+                                                    <number>2</number>
+                                                </property>
+                                            </widget>
+                                        </hbox>
+                                    </widget>
+                                </grid>
+                            </widget>
+                            <widget class="QGroupBox" row="0" column="1">
+                                <property name="name">
+                                    <cstring>grpTab</cstring>
+                                </property>
+                                <property name="title">
+                                    <string>Tab</string>
+                                </property>
+                                <grid>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QLayoutWidget" row="0" column="0">
+                                        <property name="name">
+                                            <cstring>layout20_2</cstring>
+                                        </property>
+                                        <hbox>
+                                            <property name="name">
+                                                <cstring>unnamed</cstring>
+                                            </property>
+                                            <widget class="QLabel">
+                                                <property name="name">
+                                                    <cstring>lblDefaultTab</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>Tab to select on start:</string>
+                                                </property>
+                                            </widget>
+                                            <widget class="QComboBox">
+                                                <item>
+                                                    <property name="text">
+                                                        <string>Favorites</string>
+                                                    </property>
+                                                </item>
+                                                <item>
+                                                    <property name="text">
+                                                        <string>Everybody</string>
+                                                    </property>
+                                                </item>
+                                                <property name="name">
+                                                    <cstring>cmbDefaultTab</cstring>
+                                                </property>
+                                                <property name="currentItem">
+                                                    <number>1</number>
+                                                </property>
+                                            </widget>
+                                        </hbox>
+                                    </widget>
+                                    <widget class="QCheckBox" row="1" column="0">
+                                        <property name="name">
+                                            <cstring>cbSearch</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Show Search Tab</string>
+                                        </property>
+                                    </widget>
+                                </grid>
+                            </widget>
+                        </grid>
+                    </widget>
                 </grid>
             </widget>
             <widget class="QWidget">

@@ -6,6 +6,7 @@ email                : benoit.casoetto@m4x.org
 ***************************************************************************/
 #include <qpushbutton.h>
 #include <qtoolbutton.h>
+#include <qtoolbox.h> 
 #include <qobjectlist.h>
 #include <qlineedit.h>
 #include <qspinbox.h>
@@ -163,7 +164,7 @@ void RzxProperty::initDlg() {
 	cmbIconTheme -> setCurrentItem( 0 );
 
 	cmbMenuText->setCurrentItem(RzxConfig::menuTextPosition());
-
+	cmbDefaultTab -> setCurrentItem(RzxConfig::defaultTab());
 	cmbMenuIcons->setCurrentItem(RzxConfig::menuIconSize());
 	lockCmbMenuText(RzxConfig::menuIconSize());
 	
@@ -263,6 +264,7 @@ void RzxProperty::initDlg() {
 	writeColDisplay();
 	
 	cbSystray->setChecked( RzxConfig::globalConfig() ->useSystray() );
+	cbSearch->setChecked( RzxConfig::globalConfig() ->useSearch() );
 	cbPropertiesWarning->setChecked(RzxConfig::globalConfig() -> warnCheckingProperties() );
 	cbPrintTime->setChecked(RzxConfig::globalConfig() -> printTime());
 	
@@ -398,6 +400,9 @@ bool RzxProperty::miseAJour() {
 
 	writeColDisplay();
 	cfgObject -> writeEntry( "useSystray", cbSystray->isChecked() ? 1 : 0 );
+	cfgObject -> writeEntry( "useSearch", cbSearch->isChecked() ? 1 : 0 );
+	cfgObject -> writeEntry( "defaultTab", cmbDefaultTab ->currentItem() );
+	
 	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_WORKSPACE, NULL);
 	cfgObject -> writeEntry( "FTPPath", txtWorkDir->text() );
 	cfgObject -> writeEntry( "txtSport", cmbSport->currentText() );
@@ -443,6 +448,7 @@ bool RzxProperty::miseAJour() {
 	if (ui -> tray)
 		ui -> tray -> setVisible(cbSystray->isChecked());
 	
+		
 	RzxConfig::globalConfig() -> writeEntry("warnCheckingProperties", (cbPropertiesWarning->isChecked() ? 1: 0));
 	RzxConfig::globalConfig() -> writeEntry("printTime", cbPrintTime->isChecked() ? 1 : 0);
 		
@@ -452,7 +458,14 @@ bool RzxProperty::miseAJour() {
 		ui -> rezalSearch -> redrawAllIcons();
 	if ( iconSizeChanged && ui -> rezalFavorites)
 		ui -> rezalFavorites -> redrawAllIcons();
-		
+	
+	if(ui -> tbRezalContainer -> item(2))
+	{
+		ui -> tbRezalContainer -> setItemEnabled (2, cbSearch->isChecked());
+		ui -> leSearch -> setShown(cbSearch->isChecked());
+		ui -> btnSearch -> setShown(cbSearch->isChecked());
+	}
+	
 	if ( themeChanged )
 	{
 		RzxConfig::setIconTheme( QObject::parent(), cmbIconTheme -> currentText() );

@@ -83,6 +83,8 @@ public:
 	void setPass(const QString& passcode);
 	
 	static int useSystray();
+	static int useSearch();
+	static int defaultTab();
 	static int warnCheckingProperties();
 	static int printTime();
 	static int beep();
