@@ -22,9 +22,6 @@ qt_only.stamp: checkdir configure
 	QTDIR=/usr/share/qt3 ./configure --prefix=/usr --disable-rpath --datadir=/usr/share
 	$(MAKE) 
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/qrezix-bin
-	# Supprime les entrées KDE
-	rm -r $(CURDIR)/debian/qrezix-bin/Applications
-	rm -r $(CURDIR)/debian/qrezix-bin/locolor
 	# Paquets séparés pour les thèmes
 	mkdir -p $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/
 	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/themes/ms $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/
