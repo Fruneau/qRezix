@@ -365,6 +365,7 @@ QString RzxConfig::propName(){ return globalConfig() -> readEntry("txtName", "")
 QString RzxConfig::propSurname(){ return globalConfig() -> readEntry("txtSurname", "");}
 QString RzxConfig::propTel(){ return globalConfig() -> readEntry("txtPhone", "");}
 QString RzxConfig::propSport(){ return globalConfig() -> readEntry("txtSport", "");}
+int RzxConfig::numSport(){ return globalConfig() -> readEntry("numSport", 0);}
 QString RzxConfig::propMail(){ return globalConfig() -> readEntry("txtMail", DEFAULT_MAIL);}
 QString RzxConfig::propWebPage(){ return globalConfig() -> readEntry("txtWeb", "");}
 QString RzxConfig::propCasert(){ return globalConfig() -> readEntry("txtCasert", "");}
@@ -431,7 +432,7 @@ void RzxConfig::loadLocalHost() {
 	int servers = 0;
 
 	// pour rester compatible avec l'ancien stockage de localhost
-	QString entry = readEntry( "localhost", "" );
+/*	QString entry = readEntry( "localhost", "" );
 	if( ! entry.isEmpty() )
 	{
 		RzxComputer c;
@@ -443,7 +444,7 @@ void RzxConfig::loadLocalHost() {
 			repondeur = c.getRepondeur();
 			servers = c.getServers();
 		}
-	}
+	}*/
 
 	dnsname = readEntry( "dnsname", dnsname );
 	comment = readEntry( "comment", comment );

@@ -100,6 +100,7 @@ public:
 	static QString propWebPage();
 	static QString propTel();
 	static QString propSport();
+	static int numSport();
 	static QString propPromo();
 
 	static int pass();

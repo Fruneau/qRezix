@@ -42,10 +42,10 @@ pkglibdir = $(libdir)/qrezix
 pkgincludedir = $(includedir)/qrezix
 top_builddir = ..
 
-ACLOCAL = ${SHELL} /home/steak/devel/test/qrezix/admin/missing --run aclocal-1.6
-AUTOCONF = ${SHELL} /home/steak/devel/test/qrezix/admin/missing --run autoconf
-AUTOMAKE = ${SHELL} /home/steak/devel/test/qrezix/admin/missing --run automake-1.6
-AUTOHEADER = ${SHELL} /home/steak/devel/test/qrezix/admin/missing --run autoheader
+ACLOCAL = ${SHELL} /home/steak/devel/qrezix/admin/missing --run aclocal-1.6
+AUTOCONF = ${SHELL} /home/steak/devel/qrezix/admin/missing --run autoconf
+AUTOMAKE = ${SHELL} /home/steak/devel/qrezix/admin/missing --run automake-1.6
+AUTOHEADER = ${SHELL} /home/steak/devel/qrezix/admin/missing --run autoheader
 
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 INSTALL = /usr//bin/install -c -p
@@ -73,7 +73,7 @@ target_triplet = i686-pc-linux-gnu
 EXEEXT = 
 OBJEXT = o
 PATH_SEPARATOR = :
-AMTAR = ${SHELL} /home/steak/devel/test/qrezix/admin/missing --run tar
+AMTAR = ${SHELL} /home/steak/devel/qrezix/admin/missing --run tar
 ARTSCCONFIG = 
 AS = @AS@
 AUTODIRS = 
@@ -218,7 +218,7 @@ all_libraries = -L/usr/X11R6/lib -L/usr/lib/qt3//lib
 am__include = include
 am__quote = 
 idldir = @idldir@
-install_sh = /home/steak/devel/test/qrezix/admin/install-sh
+install_sh = /home/steak/devel/qrezix/admin/install-sh
 jni_includes = @jni_includes@
 kde_appsdir = 
 kde_bindir = 

@@ -209,10 +209,8 @@ void RzxProperty::initDlg() {
 	QPixmap localhostIcon = *RzxConfig::localhostIcon();
 	pxmIcon -> setPixmap( localhostIcon );
 
-	cmbSport->setCurrentItem( 0 );
-	for ( i = 0; i < cmbSport->count(); i++ )
-		if ( !RzxConfig::globalConfig() ->propSport().compare( cmbSport->text( i ) ) )
-			cmbSport->setCurrentItem( i );
+	cmbSport->setCurrentItem( RzxConfig::globalConfig() -> numSport() );
+	
 	languageBox->setCurrentItem( 0 );
 	for ( i = 0; i < languageBox->count(); i++ ){
 		if (tr("English")==languageBox->text(i)){
@@ -286,6 +284,7 @@ void RzxProperty::miseAJour() {
 	cfgObject -> writeEntry( "useSystray", cbSystray->isChecked() ? 1 : 0 );
 	cfgObject -> writeEntry( "FTPPath", txtWorkDir->text() );
 	cfgObject -> writeEntry( "txtSport", cmbSport->currentText() );
+	cfgObject -> writeEntry( "numSport", cmbSport->currentItem());
 	cfgObject -> writeEntry( "language", languageBox->currentText() );
 	if (ui -> rezal) {
 		ui -> rezal -> afficheColonnes();
@@ -317,8 +316,6 @@ void RzxProperty::miseAJour() {
 		ui -> rezal -> redrawAllIcons();
 	if ( themeChanged )
 		RzxConfig::setIconTheme( QObject::parent(), cmbIconTheme -> currentText() );
-	if(tr("English")!=languageBox->currentText())
-		RzxConfig::setLanguage(languageBox->currentText());
 		
 }
 
@@ -330,6 +327,8 @@ void RzxProperty::annuler() {
 
 void RzxProperty::oK() {
 	miseAJour();
+	if(tr("English")!=languageBox->currentText())
+		RzxConfig::setLanguage(languageBox->currentText());
 	close();
 }
 
