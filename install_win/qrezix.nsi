@@ -64,7 +64,7 @@ FunctionEnd
   SetOutPath "$INSTDIR\themes"
   CreateDirectory "${THEME}"
   SetOutPath "$INSTDIR\themes\${THEME}"
-  File "..\icons\themes\${THEME}\*"
+  File "..\icons\themes\${THEME}\*.png"
 !macroend
 
 

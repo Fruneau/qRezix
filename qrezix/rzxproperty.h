@@ -45,10 +45,11 @@ public slots: // Public slots
 	void oK();
 	void annuler();
 	void initDlg();
+	static void serverUpdate();
+
 
 protected: // Protected methods
 	QRezix * getRezix() const;
-	void serverUpdate();
 	void writeColDisplay();
 
 private:

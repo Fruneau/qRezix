@@ -19,6 +19,7 @@
 
 #include <qobject.h>
 #include <qpixmap.h>
+#include <qsocket.h>
 #include "rzxhostaddress.h"
 
 /**
@@ -117,6 +118,13 @@ signals: // Signals
 	void isUpdated();
 	void needIcon(const RzxHostAddress&);
 
+protected slots: //Slots pour la détection du ftp
+	void acceptFTP();
+	void refuseFTP();
+
+public slots:
+	void rescanFTP();
+
 protected:
 	QString name;
 	options_t options;
@@ -126,6 +134,8 @@ protected:
 	unsigned long stamp;
 	QString remarque;
 	QPixmap icon;
+	QSocket *detectFTP;
+	QTimer *delayFTP;
 	
 };
 

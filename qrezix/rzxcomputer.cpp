@@ -23,6 +23,8 @@
 #include "rzxconfig.h"
 #include "defaults.h"
 #include "rzxchat.h"
+#include "rzxproperty.h"
+#include "rzxmessagebox.h"
 
 const char *RzxComputer::promalText[4] = { "?", QT_TR_NOOP("Orange") , QT_TR_NOOP("Rouje"), QT_TR_NOOP("Jone") };
 
@@ -38,6 +40,12 @@ void RzxComputer::initLocalHost( void )
 	autoSetOs();
 
 	ip = RzxHostAddress::fromRezix(0);
+	detectFTP = new QSocket();
+	delayFTP = new QTimer();
+	connect(delayFTP, SIGNAL(timeout()), this, SLOT(rescanFTP()));
+	connect(detectFTP, SIGNAL(connected()), this, SLOT(acceptFTP()));
+	connect(detectFTP, SIGNAL(error(int)), this, SLOT(refuseFTP()));
+	detectFTP->connectToHost("127.0.0.1", 21);
 }
 
 
@@ -189,4 +197,36 @@ void RzxComputer::removePreviousIcons(){
 			}
 		}
 	}
+}
+
+//Détection du serveur ftp pour localHost
+void RzxComputer::acceptFTP()
+{
+	int t = RzxConfig::FTPTestTime();
+	if(!(options.Server & RzxComputer::SERVER_FTP))
+	{
+		options.Server |= RzxComputer::SERVER_FTP;
+		if(RzxConfig::FTPDisplay()) RzxProperty::serverUpdate();
+	}
+	detectFTP->close();
+	if(t && RzxConfig::FTPDisplay())
+		delayFTP->start(RzxConfig::FTPTestTime());
+}
+
+void RzxComputer::refuseFTP()
+{
+	int t = RzxConfig::FTPTestTime();
+	if((options.Server & RzxComputer::SERVER_FTP))
+	{
+		options.Server &= ~(RzxComputer::SERVER_FTP);
+		RzxProperty::serverUpdate();
+	}
+	if(t && RzxConfig::FTPDisplay())
+		delayFTP->start(RzxConfig::FTPTestTime());
+}
+
+void RzxComputer::rescanFTP()
+{
+	if(detectFTP)
+		detectFTP->connectToHost("127.0.0.1", 21);
 }

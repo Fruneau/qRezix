@@ -1,4 +1,6 @@
-[v1.3.666] 2004-06-06 <br2002@frankiz@polytechnique.fr>
+[v1.3.666] 2004-06-27 <br2002@frankiz@polytechnique.fr>
+    * Ajout de la détection automatique des ftps sur le port 21 [Fruneau]
+    * Ajout d'une boîte de dialogue à la fermeture du client [Fruneau]
     * Utilisation d'un QTextEdit dérivé au lieu du MultiEdit obsolete,
 Shift+enter pr changer de ligne [Steak]
     * Sauvegarde du pass quand il est reçu du serveur [Steak]
