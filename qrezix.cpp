@@ -17,6 +17,7 @@
 #include <qmessagebox.h>
 #include <qlabel.h>
 #include <qtoolbutton.h>
+#include <qlineedit.h>
 #include <qtoolbox.h>
 #include <qpopupmenu.h>
 #include <qrect.h>
@@ -61,12 +62,16 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	new RzxUtilsLauncher(rezal);
 	
 	rezal->showNotFavorites(true);
+	rezalSearch->showNotFavorites(true);
 	rezalFavorites->showNotFavorites(false);
+	rezalSearch->loginFromLister(false);
 	connect(btnPreferences, SIGNAL(clicked()), this, SLOT(boitePreferences()));
 	connect(btnMAJcolonnes, SIGNAL(clicked()), rezal, SLOT(afficheColonnes()));
 	connect(btnMAJcolonnes, SIGNAL(clicked()), rezalFavorites, SLOT(afficheColonnes()));
 	connect(btnAutoResponder, SIGNAL(toggled(bool)), this, SLOT(activateAutoResponder(bool)));
 	connect(btnPlugins, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
+	connect(btnSearch, SIGNAL(clicked()), this, SLOT(launchSearch()));
+	connect(leSearch, SIGNAL(returnPressed()), this, SLOT(launchSearch()));
 	connect(&menuPlugins, SIGNAL(aboutToHide()), btnPlugins, SLOT(toggle()));
  
 	connect(RzxClientListener::object(), SIGNAL(chatSent()), this, SLOT(chatSent()));
@@ -74,7 +79,13 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	// Préparation de l'insterface
 	activateAutoResponder( RzxConfig::autoResponder() != 0 );
 
-	connect(rezal, SIGNAL(favoriteChanged()), rezalFavorites, SIGNAL(favoriteChanged()));
+	connect(rezal, SIGNAL(favoriteRemoved(RzxComputer*)), rezalFavorites, SLOT(logout(RzxComputer*)));
+	connect(rezalSearch, SIGNAL(favoriteRemoved(RzxComputer*)), rezalFavorites, SLOT(logout(RzxComputer*)));
+	connect(rezalFavorites, SIGNAL(favoriteRemoved(RzxComputer*)), rezalFavorites, SLOT(logout(RzxComputer*)));
+	connect(rezal, SIGNAL(favoriteAdded(RzxComputer*)), rezalFavorites, SLOT(login(RzxComputer*)));
+	connect(rezalSearch, SIGNAL(favoriteAdded(RzxComputer*)), rezalFavorites, SLOT(login(RzxComputer*)));
+	
+	connect(rezal, SIGNAL(itemFound(RzxComputer*)), rezalSearch, SLOT(login(RzxComputer*)));
 
 	clearWFlags(WStyle_SysMenu|WStyle_Minimize);
 	alreadyOpened=false;
@@ -285,6 +296,14 @@ void QRezix::activateAutoResponder( bool state )
 	changeTrayIcon();
 }
 
+///Lancement d'une recherche sur le pseudo dans la liste des personnes connectées
+void QRezix::launchSearch()
+{
+	rezalSearch->clear();
+	if(rezal->search(leSearch->text()))
+		tbRezalContainer->setCurrentIndex(2);
+}
+
 void QRezix::changeTrayIcon(){
 	// Change l'icone dans la tray
 	QPixmap trayIcon;
@@ -341,6 +360,7 @@ void QRezix::languageChange()
 	//à mon avis ça leur prendrait 5 minutes chez trolltech pour corriger le pb
 	tbRezalContainer->setItemLabel(0, tr("Favorites"));
 	tbRezalContainer->setItemLabel(1, tr("Everybody"));
+	tbRezalContainer->setItemLabel(2, tr("Search"));
 }
 
 void QRezix::chatSent() {
@@ -354,7 +374,7 @@ void QRezix::changeTheme()
 {
 	rezal -> redrawAllIcons();
 	rezalFavorites -> redrawAllIcons();
-	QIconSet pi, away, columns, prefs,favorite,not_favorite;
+	QIconSet pi, away, columns, prefs,favorite,not_favorite, search;
 	int icons = RzxConfig::menuIconSize();
 	int texts = RzxConfig::menuTextPosition();
 	if(icons || !texts)
@@ -366,13 +386,16 @@ void QRezix::changeTheme()
 		prefs.setPixmap(*RzxConfig::themedIcon("pref"), QIconSet::Automatic);
 		favorite.setPixmap(*RzxConfig::themedIcon("favorite"), QIconSet::Automatic);
 		not_favorite.setPixmap(*RzxConfig::themedIcon("not_favorite"), QIconSet::Automatic);
+		search.setPixmap(*RzxConfig::themedIcon("search"), QIconSet::Automatic);
 	}
 	btnPlugins->setIconSet(pi);
 	btnAutoResponder->setIconSet(away);
 	btnMAJcolonnes->setIconSet(columns);
 	btnPreferences->setIconSet(prefs);
+	btnSearch->setIconSet(search);
 	tbRezalContainer->setItemIconSet(1,not_favorite);
 	tbRezalContainer->setItemIconSet(0,favorite);
+	tbRezalContainer->setItemIconSet(2,search);
 	if(statusFlag)
 		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("on"));
 	else
@@ -404,8 +427,10 @@ void QRezix::menuFormatChange()
 				btnAutoResponder->setIconSet(empty);
 				btnMAJcolonnes->setIconSet(empty);
 				btnPreferences->setIconSet(empty);
+				btnSearch->setIconSet(empty);
 				tbRezalContainer->setItemIconSet(0,empty);
 				tbRezalContainer->setItemIconSet(1,empty);
+				tbRezalContainer->setItemIconSet(2,empty);
 				lblStatusIcon->setHidden(TRUE);
 			}
 			break;
@@ -419,6 +444,7 @@ void QRezix::menuFormatChange()
 				btnAutoResponder->setUsesBigPixmap(big);
 				btnMAJcolonnes->setUsesBigPixmap(big);
 				btnPreferences->setUsesBigPixmap(big);
+				btnSearch->setUsesBigPixmap(big);
 				lblStatusIcon->setShown(TRUE);
 			}
 			break;
@@ -429,6 +455,7 @@ void QRezix::menuFormatChange()
 	btnAutoResponder->setUsesTextLabel(texts);
 	btnMAJcolonnes->setUsesTextLabel(texts);
 	btnPreferences->setUsesTextLabel(texts);
+	btnSearch->setUsesTextLabel(texts);
 	if(texts)
 	{
 		QToolButton::TextPosition pos = (texts == 1)? QToolButton::BesideIcon : QToolButton::BelowIcon;
@@ -436,6 +463,7 @@ void QRezix::menuFormatChange()
 		btnAutoResponder->setTextPosition(pos);
 		btnMAJcolonnes->setTextPosition(pos);
 		btnPreferences->setTextPosition(pos);
+		btnSearch->setTextPosition(pos);
 		lblStatus->setShown(TRUE);
 		spacerStatus->changeSize(1,1,QSizePolicy::Minimum,QSizePolicy::Minimum);
 	}

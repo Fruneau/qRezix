@@ -29,8 +29,6 @@
 RzxItem::RzxItem(RzxComputer *parent, QListView * view, bool show)
 	 : QObject(parent), QListViewItem(view)
 {
-	
-	
 	pixmaps.setAutoDelete(true);
 	texts.setAutoDelete(true);
 	textLengths.setAutoDelete(true);

@@ -59,6 +59,8 @@ public:
 	~RzxRezal();
 	
 	void showNotFavorites(bool val);
+	void loginFromLister(bool val);
+	int search(const QString &text);
 
 	// Numero des colonnes
 	enum NumColonne
@@ -92,6 +94,8 @@ public slots: // Public slots
 	void adapteColonnes();
 	void login(RzxComputer *computer);
 	void logout(const QString& ip);
+	void logout(RzxComputer *computer);
+	void clear();
 	void init();
 	void redrawAllIcons();
 
@@ -104,7 +108,9 @@ public slots: // Public slots
 
 signals: // Signals
 	void status(const QString& msg, bool fatal);
-	void favoriteChanged();
+	void favoriteRemoved(RzxComputer*);
+	void favoriteAdded(RzxComputer*);
+	void itemFound(RzxComputer*);
 
 protected slots: // Protected slots
 	void onListDblClicked(QListViewItem * sender);
