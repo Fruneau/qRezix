@@ -201,6 +201,8 @@ int RzxComputer::getServerFlags() const
 { return ServerFlags; }
 bool RzxComputer::can(unsigned int cap)
 {
+	if(cap == CAP_ON) return options.Capabilities & CAP_ON;
+
 	if(!(options.Capabilities & CAP_ON)) return true;
 	else return (options.Capabilities & cap);
 }

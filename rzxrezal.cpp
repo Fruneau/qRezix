@@ -142,7 +142,7 @@ void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos,
 			newItem("unban", tr("Remove from ignore list"), this, SLOT(removeFromIgnoreList()));
 		}
 		else {
-			if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur())
+			if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur() && computer->can(RzxComputer::CAP_CHAT))
 				newItem("chat", tr("begin &Chat"), this, SLOT(chatCreate()));
 				//popup.insertItem(*RzxConfig::themedIcon("chat"), tr("begin &Chat"),this,SLOT(chatCreate()));
 			if(serveurs & 1) newItem("samba", tr("Samba connect"), this, SLOT(samba()));
@@ -472,7 +472,7 @@ void RzxRezal::onListDblClicked(QListViewItem * sender){
 		else {/*chat*/
 			RzxItem * listItem = (RzxItem *) sender;
 			RzxComputer *computer = listItem->getComputer();
-			if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur())
+			if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur() && computer->can(RzxComputer::CAP_CHAT))
 				lister->chatCreate(listItem -> ip);
 		}
 	}
@@ -597,10 +597,29 @@ void RzxRezal::buildToolTip(QListViewItem *i)
 	}
 	if(tooltipFlags & (int)RzxConfig::Client)
 		tooltip += "<li>" + computer->getClient() + "</li>";
+	if(tooltipFlags & (int)RzxConfig::Features)
+	{
+		if(computer->can(RzxComputer::CAP_ON))
+		{
+			int nb = 0;
+			tooltip += "<li>" + tr("features : ");
+			if(computer->can(RzxComputer::CAP_CHAT))
+			{
+				tooltip += tr("chat");
+				nb++;
+			}
+			if(computer->can(RzxComputer::CAP_XPLO))
+			{
+				tooltip += QString(nb?", ":"") + "Xplo";
+				nb++;
+			}
+			if(!nb) tooltip += tr("none");
+		}
+	}
 	if(tooltipFlags & (int)RzxConfig::IP)
 		tooltip += "<li> ip : <i>" + computer->getIP().toString() + "</i></li>";
 	if(tooltipFlags & (int)RzxConfig::Resal)
-		tooltip += "<li>" + tr("place : ") +"<i>" + computer->getResal(false) + "</i></li>";	
+		tooltip += "<li>" + tr("place : ") + computer->getResal(false) + "</li>";
 	tooltip +="</ul>";
 	
 	QToolTip::add(this->viewport(), itemRect(i), tooltip);

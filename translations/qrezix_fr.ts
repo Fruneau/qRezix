@@ -1147,6 +1147,18 @@ Propriétés envoyées à %2 (%3)</translation>
         <source>place : </source>
         <translation>bâtiment : </translation>
     </message>
+    <message>
+        <source>features : </source>
+        <translation>fonctionnalités : </translation>
+    </message>
+    <message>
+        <source>chat</source>
+        <translation>chat</translation>
+    </message>
+    <message>
+        <source>none</source>
+        <translation>aucune</translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
@@ -1852,6 +1864,10 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <message>
         <source>Place</source>
         <translation>Bâtiment</translation>
+    </message>
+    <message>
+        <source>Features</source>
+        <translation>Fonctionnalités</translation>
     </message>
 </context>
 </TS>
