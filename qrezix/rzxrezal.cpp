@@ -18,6 +18,7 @@
 #include <qobjectlist.h>
 #include <qtooltip.h>
 #include <qtimer.h>
+#include <qprocess.h>
 
 #include "rzxrezal.h"
 
@@ -83,6 +84,8 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	connect(this, SIGNAL(onItem(QListViewItem*)), this, SLOT(buildToolTip(QListViewItem*)));
 	filter = QString::null;
 	filterOn = false;
+	
+	n=0;
 }
 
 RzxRezal::~RzxRezal(){
@@ -309,6 +312,10 @@ void RzxRezal::adapteColonnes(){
 	triggerUpdate(); 
 }
 
+void RzxRezal::beepOnConnection(bool b) {
+	warnConnection = b;
+}
+
 void RzxRezal::bufferedLogin(RzxComputer *computer) {
 	if(!dispNotFavorites && !RzxConfig::globalConfig()->favorites->find( computer->getName())) return;
 	
@@ -323,13 +330,32 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 
 	item -> update();
 	item -> setVisible(false);
+	++n;
 }
 
 void RzxRezal::logBufLogins() { //en fait vu que le QPtrList faisait des segfaults, je trace toute la listview, c pas très long
+	if(warnConnection && n>0 && RzxConfig::beepConnection()) {
+#ifdef WIN32
+		QString file = RzxConfig::connectionSound();
+		if( !file.isEmpty() && QFile( file ).exists() )
+			QSound::play( file );
+        else
+            QApplication::beep();
+#else
+		QString cmd = RzxConfig::beepCmd(), file = RzxConfig::connectionSound();
+		if (!cmd.isEmpty() && !file.isEmpty()) {
+			QProcess process;
+			process.addArgument(cmd);
+			process.addArgument(file);
+			process.start();
+		}
+#endif
+	}
 	QListViewItem *item;
 	QListViewItemIterator it(this);
 	while(item=(it++).current())
 		item->setVisible(!filterOn || !item->text(ColNom).find(filter, 0, false));
+	n=0;
 }
 
 /** Déconnexion d'un personne */

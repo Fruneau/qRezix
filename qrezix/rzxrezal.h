@@ -60,6 +60,7 @@ public:
 	~RzxRezal();
 	
 	void showNotFavorites(bool val);
+	void beepOnConnection(bool val);
 	void loginFromLister(bool val);
 
 	// Numero des colonnes
@@ -70,9 +71,11 @@ public:
 
 	static const char * colNames[numColonnes];
 	RzxItem *selected;
+	
+	QTimer *timer;
 
 protected: // Protected attributes
-	bool dispNotFavorites;
+	bool dispNotFavorites, warnConnection;
 	RzxClientListener * client;
 	
 	// Pour les filtres
@@ -84,8 +87,8 @@ protected: // Protected attributes
 
 	NumColonne lastColumnClicked;  // Pour savoir sur quelle icone on double-clique
 
-	QTimer *timer;
-
+	int n;
+	
 public slots: // Public slots
 	void creePopUpMenu(QListViewItem *inutile1,const QPoint & pos,int inutile);
 	void proprietes();

@@ -1,3 +1,10 @@
+[v1.6] 2004-10 <br2003@frankiz.polytechnique.fr>
+    * Ajout d'une ignore List par IP [Steak]
+    * Ajout de tooltips sur les RzxItem [Fruneau]
+    * Ajout de la couleur dans les boites d'édition [Steak]
+    * Buffering de l'affichage des nouveaux connectés [Steak]
+    * Son pour prévenir de la connection d'un favori [Steak]
+
 [v1.5] 2004-09-17 <br2002@frankiz.polytechnique.fr>
     * Ajout d'un outils de recherche [Fruneau]
     * Hashage md5 des mots de passe [Alyx]
@@ -32,6 +39,7 @@
     * Plus d'étoile avec le /me, chgt de couleur en plus [Falco]
     * Problème du titre de la fenetre réglé [Fruneau]
     * Ajout d'une historique accessible à l'édition par shift up/down, comme sur IRC [Steak]
+    * Edition HTML simplifiée avec choix des polices et des styles [Steak]
 
 [v1.3] 2004-05-01 <br2002@frankiz.polytechnique.fr>
     * bug des sons fixés pour Linux   [Steak]
