@@ -77,7 +77,7 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 	//les plugins doivent avoir un nom de fichier qui contient rzxpi
 	//		par exemple librzxpixplo.so ou rzxpixplo.dll
 #ifndef WIN32 //sous linux c'est librzxpi<nomduplugin>.so
-	sourceDir.setNameFilter("librzxpi*.so");
+	sourceDir.setNameFilter("librzxpi*");
 #else //sous windows c'est rzxpi<nomduplugin>.dll
 	sourceDir.setNameFilter("rzxpi*");
 #endif
@@ -111,6 +111,11 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 							.arg(pi->getName()) + (pi->getVersion() > PLUGIN_VERSION ? 
 								tr("A more recent version of qRezix is certainly available. Update qRezix if you want to use this plug-in.")
 								:tr("A new version of the plug-in may be available. Install it if you want to use this plug-in.")));
+					delete lib;
+				}
+				else if(pluginByName[pi->getName()])
+				{
+					qDebug("A plug-in with the same name has already be loaded");
 					delete lib;
 				}
 				else
