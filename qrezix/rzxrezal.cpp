@@ -47,6 +47,8 @@ const char * RzxRezal::colNames[RzxRezal::numColonnes] =
 
 RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name), itemByIp(USER_HASH_TABLE_LENGTH)
 {
+	search_patern = QString();
+	search_timeout.start();
 	timer = false;
 	selected = NULL;
 	
@@ -370,7 +372,7 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 void RzxRezal::logBufLogins() { //en fait vu que le QPtrList faisait des segfaults, je trace toute la listview, c pas très long
 	QListViewItem *item;
 	QListViewItemIterator it(this);
-	while(item=(it++).current())
+	while((item=(it++).current())!=NULL)
 	{
 		if(!item->isVisible())
 			item->setVisible(!filterOn || !item->text(ColNom).find(filter, 0, false));
@@ -500,15 +502,19 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 	QString s=e->text();
 
 #ifndef WIN32
-	if(s.isNull() == TRUE)
+	QChar c;
+	if(e->key()!=Qt::Key_Backspace)
+	{
+	  if(s.isNull() == TRUE)
 		return;
-	QChar c=s.at(0);
-	if(!c.isLetter()) {
+	  c=s.at(0);
+	}
+	if((e->key()!=Qt::Key_Backspace)&&(!c.isLetter())) {
 #else
 	QChar c;
 	if(s.isNull() != TRUE)
 		c = s.at(0);
-	if(s.isNull() == TRUE || !c.isLetter()) {
+	if((e->key()!=Qt::Key_Backspace) && (s.isNull() == TRUE || !c.isLetter())) {
 #endif
 		if(e->key()==Qt::Key_Right) {
 			QRect r(itemRect( currentItem())); //r != 0 car the currentItem IS visible
@@ -520,20 +526,58 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 		QListView::keyPressEvent(e); //on laisse Qt gérer
 		return;
 	}
-	RzxItem* item=static_cast<RzxItem*> (currentItem());
+
+	if(search_timeout.elapsed()>5000) // On a attendu trop longtemps depuis la dernière pression
+		search_patern = QString();
+	// On continue à augmenter le patern
+	if(e->key()==Qt::Key_Backspace)
+		if(search_patern.length())
+			search_patern=search_patern.left(search_patern.length()-1);
+		else
+			return;
+	else
+		search_patern += c.lower();
+	search_timeout.start();
+
+	qDebug(QString() + "searchPatern=" + search_patern);
+	RzxItem* item=static_cast<RzxItem*> (currentItem()), *last_item;
+	if(!item)
+		item=static_cast<RzxItem*>(firstChild()); //au bout on revient au début
 	RzxHostAddress ipSaved=item->ip; //y a des chances que item soit ! null :)
+	int last_match_length=0, 
+	    match_length, 
+	    search_patern_length = search_patern.length(),
+	    match_length_max;
 	while(true) {
 		item=static_cast<RzxItem*>(item->itemBelow());
 		if(!item)
 			item=static_cast<RzxItem*>(firstChild()); //au bout on revient au début
-		if(item->ip == ipSaved)
-			return; //on a fait le tour, personne avec cette lettre
 		RzxComputer * comp=lister->iplist.find((item->ip).toString());
-		if(comp->getName().lower().at(0)==c.lower()) {
+		QString current_name = comp->getName().lower();
+		match_length_max = comp->getName().length();
+		if(search_patern_length<match_length_max)
+			match_length_max = search_patern_length;
+		for(match_length=0; 
+		    (match_length < match_length_max) && (current_name.at(match_length)==search_patern.at(match_length)); 
+		    match_length++);
+
+		if((match_length==search_patern_length)||(last_match_length>match_length)||(item->ip == ipSaved))
+		{
+			if(last_match_length>match_length)
+			{
+				item = last_item;
+				match_length = last_match_length;
+			}
+			
+			if(match_length<search_patern_length)
+				search_patern = search_patern.left(search_patern_length-1);
 			setCurrentItem(item);
 			ensureItemVisible(item);
 			return;
 		}
+
+		last_item = item;
+		last_match_length = match_length;
 	}
 	//ICI JAI LAISSE DS TRUCS EN PLAN
 	//
