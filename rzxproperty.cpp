@@ -239,7 +239,6 @@ void RzxProperty::initDlg() {
 	txtWorkDir->setText( RzxConfig::globalConfig() ->FTPPath() );
 	writeColDisplay();
 
-	//adjustAuto->setChecked( RzxConfig::globalConfig() ->readEntry( "autoCol", 1 ) );
 	cbSystray->setChecked( RzxConfig::globalConfig() ->useSystray() );
 	cbPropertiesWarning->setChecked(RzxConfig::globalConfig() -> warnCheckingProperties() );
 	cbPrintTime->setChecked(RzxConfig::globalConfig() -> printTime());
@@ -348,7 +347,6 @@ void RzxProperty::miseAJour() {
 	cfgObject -> newsCmd( clientNews -> currentText() );
 
 	writeColDisplay();
-	cfgObject -> writeEntry( "autoCol",1);
 	cfgObject -> writeEntry( "useSystray", cbSystray->isChecked() ? 1 : 0 );
 	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_WORKSPACE, NULL);
 	cfgObject -> writeEntry( "FTPPath", txtWorkDir->text() );

@@ -130,7 +130,6 @@ public:
 
 	static int pass();
 	static int colonnes();	
-	static int autoColonne();
 	static int computerIconSize();
 	
 	static int menuTextPosition();
