@@ -1628,7 +1628,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Reconnection</source>
-        <translation>Reconnection</translation>
+        <translation>Reconnexion</translation>
     </message>
     <message>
         <source>Auto-reconnect delay:</source>
@@ -1989,6 +1989,162 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <message>
         <source>Features</source>
         <translation>Fonctionnalités</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Menu&lt;/h3&gt;&lt;p&gt;Define the appearance of the menus and butons of the interface&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Menu&lt;/h3&gt;&lt;p&gt;Permet de configurer l&apos;apparence du menu et des boutons de l&apos;interface&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Personnal information&lt;/h3&gt;&lt;p&gt;Give here some informations about you.&lt;/p&gt;&lt;p&gt;This informations can be very useful, so you should fill it with honesty&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Informations personnelles&lt;/h3&gt;&lt;p&gt;Donne des informatios vous concernant.&lt;/p&gt;&lt;p&gt;Ces informations peuvent être très utiles, il est donc conseillé de les remplir avec la plus grande honnêteté.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;How to contact&lt;/h3&gt;&lt;p&gt;Some informations which give ways to contact you&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Contacts&lt;/h3&gt;&lt;p&gt;Quelques informations pour vous contacter...&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Icon&lt;/h3&gt;&lt;p&gt;Select a small picture (64x64) which will be a kind of logo for your computer&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Sélection de l&apos;icône&lt;/h3&gt;&lt;p&gt;Chaque personne connectée est identifiée par une petite image (64x64 pixels).&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Change my password&lt;/h3&gt;&lt;p&gt;Your connection with the server is secured with a password... This password is defined the first time you get connected to the server, but it can be change&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Changer mon mot de passes...&lt;/h3&gt;&lt;p&gt;Votre connexion avec le serveur est authentifiée à l&apos;aide d&apos;un mot de passe que vous avez dû définir lors du premier lancement de qRezix. Cette option permet de changer ce mot de passe.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Computer name&lt;/h3&gt;
+&lt;p&gt;Name of your computer on the network. You can choose it here&lt;/p&gt;
+&lt;p&gt;Your name should only contains letters, numbers et &apos;-&apos;, should not begin or finish with a &apos;-&apos; and each &apos;-&apos; should be isolated. Moreover, this name can&apos;t be more than 24 characters long&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Nom d&apos;ordinateur&lt;/h3&gt;
+&lt;p&gt;Ce nom permet d&apos;identifier votre ordinateur sur le réseau (nom DNS).&lt;/p&gt;
+&lt;p&gt;Ce nom doit respecter quelques règles. Il ne peut contenir que des lettres, des chiffres et des tirets (&apos;-&apos;). Les tirets ne peuvent ni commencer, ni finir le nom et doivent être isolés. De plus le nom est limité à 24 caractères&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Away&lt;/h3&gt;&lt;p&gt;Check this case if you want to be marked away by default&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Loin&lt;/p&gt;&lt;p&gt;Cochez cette case pour être sur répondeur par défaut.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Responder&lt;/h3&gt;&lt;p&gt;When you are away, people who want to chat with you will receive this message&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Répondeur&lt;/h3&gt;&lt;p&gt;Message envoyé aux personnes qui tentent de discuter avec vous lorsques vous être marqué &apos;Loin&apos;.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Comment&lt;/h3&gt;&lt;p&gt;Tell here what you want...&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Remarque&lt;/h3&gt;&lt;p&gt;Commentaire personnalisé... chacun voit ce qu&apos;il y met :-)&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Onglet&lt;/h3&gt;&lt;p&gt;Quand vous lancez qRezix, vous pouvez soit affichier vos Favoris, soit afficher Tout le Monde. qRezix sera néanmoins plus rapide à charger la liste des personnes connectées si vous choisissez de démarrer sur la liste des favoris.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Search&lt;/h3&gt;&lt;p&gt;Do you want to see the search tool ?&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Recherche&lt;/h3&gt;&lt;p&gt;Cochez la case si vous voulez voir apparaître l&apos;outil de recherche&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;ToolTips are little windows that appears when you </source>
+        <translation>&lt;h3&gt;Boites d&apos;information&lt;/h3&gt;&lt;p&gt;Les Boites d&apos;informations sont des petites fenêtres qui s&apos;affichent lorsque la souris reste au dessus d&apos;un élément&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Afficher les colonnes...&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir s&apos;afficher&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Themes&lt;/h3&gt;&lt;p&gt;Choose a themes for the icons.&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Thèmes&lt;/h3&gt;&lt;p&gt;Choisissez le thème des icônes qui illustrent qRezix.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Define the action to execute when you double click on an item&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Action du double-clic&lt;/h3&gt;&lt;p&gt;Lorsque vous double-cliquez sur un ordinateur, une action est exécutée. Vous pouvez choisir cette action parmi l&apos;ouverture d&apos;une discussion, la connexion au FTP, ...&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Icon size&lt;/h3&gt;&lt;p&gt;Do you prefer big icons (64x64) or small icons (32x32) for the pictures of the users&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Taille des icônes&lt;/h3&gt;&lt;p&gt;Préférez- ous des grandes (64x64) ou des petites icônes (32x32) ? Les grandes icônes sont plus belles à voir, mais limite le nombre d&apos;utilisateurs affichés simultanément.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Highlight&lt;/h3&gt;&lt;p&gt;If you choose to display small icons and check this box then the selected item will be displayed with a big icon.&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Démarquer la sélection&lt;/h3&gt;&lt;p&gt;Si vous avez choisi d&apos;afficher de petite icônes, vous pouvez sélectionnez cette option qui permettra d&apos;afficher une grande icône pour l&apos;ordinateur sélectionné... pratique pour le retrouver :-)&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Working directory&lt;/h3&gt;&lt;p&gt;Define the default directory where you want your clients store the files you download&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Répertoire de travail&lt;/h3&gt;&lt;p&gt;Répertoire par défaut dans lequel sont stockés les fichiers téléchargés par vos clients (FTP surtout).&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Server&lt;/h3&gt;&lt;p&gt;Define the address of the xnetserver&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Serveur&lt;/h3&gt;&lt;p&gt;qRezix doit se connecter à un serveur. Ce champs spécifie l&apos;adresse du xnetserveur.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Peer2peer port&lt;/h3&gt;&lt;p&gt;Define the port of the chat&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Port P2P&lt;/h3&gt;&lt;p&gt;Port à utiliser pour le chat&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir besoin de modifier cette valeur&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Defines the port to connect to on the xnetserver&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Port vers lequel se connecter sur le xnetserver&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir à modifer cette valeur.&lt;p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Reconnection&lt;/h3&gt;&lt;p&gt;Defines the parameters of the reconnection.&lt;p&gt;&lt;p&gt;You shouldn&apos;t have to modify this values&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Reconnexion&lt;/h3&gt;&lt;p&gt;Paramètres pour les tentatives de connexions au xnetserver.&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir à modifier ces valeurs.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Open services&lt;/h3&gt;&lt;p&gt;Select the servers you want to share with all the users of the network. If a server is not present, it won&apos;t be displayed as present&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Services&lt;/h3&gt;&lt;p&gt;Indique les services que vous voulez partager avec les autres utilisateurs.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt; Ce sont les services que vous hébergés qui sont attendu ici, et nous ceux auxquels vous désirez accéder.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Clients&lt;/h3&gt;&lt;p&gt;Choose the program you want to use. You can choose a predefined client, or typed the command line to use&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Clients&lt;/h3&gt;&lt;p&gt;Choisissez les programmes que vous voulez utiliser pour ouvrir les connexions FTP, les pages web ou encore les serveurs de news. Vous avez le choix parmi des clients prédéfinis, mais rien ne vous empêche de taper la ligne de commande qui vous permettra de lancer un client personnalisé.&lt;/h3&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Quitting dialog&lt;/h3&gt;&lt;p&gt;Enable/disable the dialog box which is displayed when you close the qRezix&apos;s main window&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Boite de dialogue à la fermeture&lt;/h3&gt;&lt;p&gt;(Dés)active la boite de dialogue qui est affichée lorsque vous fermez la fenêtre principale de qRezix&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Responder mode&lt;/h3&gt;&lt;p&gt;There are 2 kinds of responder&lt;p&gt;&lt;p&gt;&lt;b&gt;Refuse,&lt;/b&gt; in this mode, all the messages you receive while away are lost&lt;/p&gt;&lt;p&gt;&lt;b&gt;Store,&lt;/b&gt; in this mode, you can read you messages as if you were not marked away&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Mode du répondeur&lt;/h3&gt;&lt;p&gt;Deux modes sont disponibles pour le répondeur. Soit vous refusez tous les messages dès lors que vous êtes marquez &apos;Loin&apos;, soit vous continuez à les recevoir. Dans les deux cas, votre correspondant recevra votre message de réponse automatique.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;warning&lt;/h3&gt;&lt;p&gt;If you check this you will receive an notification each time somebody check you properties&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning :&lt;/b&gt; in some cases, this option can be used to spam you with notification windows&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Propriétés&lt;/h3&gt;&lt;p&gt;Si vous cochez cette case, vous recevrez un message de notification chaque fois que quelqu&apos;un regarde vos propriétés&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt; Dans certaines conditions cette option peut-être utilisée par un utilisateur malveillant faire apparaître une multitude de fenêtre.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Translation&lt;/h3&gt;&lt;p&gt;Select your language&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Traductions&lt;/h3&gt;&lt;p&gt;Choisissez votre langue&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Systray&lt;/h3&gt;&lt;p&gt;Do you want to have qRezix reduced to an icon in the systray ?&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Icône de la barre des tâches&lt;/h3&gt;&lt;p&gt;Voulez-vous avoir accès à qRezix via une icône dans la barre des tâches ?&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Select the sound to play when you receive a new message&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Choisissez le son à jouer à la réception d&apos;un nouveau message&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Sound command&lt;/h3&gt;&lt;p&gt;Select the commant to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Commande de son&lt;/h3&gt;&lt;p&gt;Choisissez la command à utiliser quand qRezix doit jouer un son (artsplay pour arts, esdplay pour esound, alsaplayer pour alsa, ...).&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive en message&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez que qRezix joue un son à la réception d&apos;un nouveau message.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Select the sound to play when a favorite get connected&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Choisissez le son à jouer à la connexion d&apos;un favori.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when a favorite get connected&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez que qRezix joue un son à la connexion d&apos;un favori.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez qu&apos;une petite fenêtre de notification s&apos;affiche chaque fois qu&apos;un favori se connecte, se déconnecte ou passe sur répondeur.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Plug-ins&lt;/h3&gt;&lt;p&gt;Shows the detected plug-ins&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Plug-ins&lt;/h3&gt;&lt;p&gt;Affiche la liste des plug-ins détectés sur votre machine.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Reload plug-in&lt;/h3&gt;&lt;p&gt;Click here to reload the selected plug-in&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Recharger le plug-in&lt;/h3&gt;&lt;p&gt;Permet de recharger le plug-in sélectionné.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Plug-in properties&lt;/h3&gt;&lt;p&gt;Displays the properties window of the selected plug-in&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Propriétés du plug-in...&lt;/h3&gt;&lt;p&gt;Affiche les propriétés du plug-in sélectionné.&lt;/p&gt;</translation>
     </message>
 </context>
 </TS>
