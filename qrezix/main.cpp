@@ -98,6 +98,8 @@ int main(int argc, char *argv[])
 		rezix->tray->show();
 	else
 		rezix->show();
+	
+	QObject::connect(&a, SIGNAL(aboutToQuit()), rezix, SLOT(saveSettings()));
 		
 	return a.exec();
 }
