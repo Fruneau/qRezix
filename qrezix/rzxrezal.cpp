@@ -63,6 +63,7 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(login(RzxComputer*)));
 	connect(lister, SIGNAL(connectionEtablished()), this, SLOT(init()));
 	connect(lister, SIGNAL(loginEnd()), this, SLOT(forceSort()));
+	connect(lister, SIGNAL(logout(const QString& )), this, SLOT(logout(const QString& )));
 
 	// On est obligé d'utiliser ce signal pour savoir dans quelle colonne le
 	// double-clic suivant a lieu
@@ -244,8 +245,7 @@ void RzxRezal::adapteColonnes(){
 /** No descriptions */
 void RzxRezal::login(RzxComputer *computer)
 {
-	RzxItem *item = NULL;
-	item = itemByIp.find(computer->getIP().toString());
+	RzxItem *item = itemByIp.find(computer->getIP().toString());
 	if(!item)
 	{
 		item = new RzxItem(computer, this, dispNotFavorites);
@@ -253,18 +253,18 @@ void RzxRezal::login(RzxComputer *computer)
 		connect(this, SIGNAL(favoriteChanged()), item, SLOT(update()));
 	}
 	
-	connect(computer, SIGNAL(destroyed(QObject *)), this, SLOT(logout(QObject * )));
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 
 	item -> update();
 }
 
 /** Déconnexion d'un personne */
-void RzxRezal::logout(QObject *computer)
+void RzxRezal::logout(const QString& ip)
 {
-	RzxItem *item = itemByIp.take(((RzxComputer*)computer)->getIP().toString());
+	RzxItem *item = itemByIp.take(ip);
 	if((selected == item))
 		selected = NULL;
+	item->deleteLater();
 }
 
 /** Réinitialisation de la liste des personnes connectées */
