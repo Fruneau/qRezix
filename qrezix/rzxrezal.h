@@ -111,6 +111,7 @@ protected slots: // Protected slots
 	void onListClicked(QListViewItem *, const QPoint &, int);
 	void historique();
 	void redrawSelectedIcon(QListViewItem *sel = NULL);
+	void forceSort();
 
 protected:
 	void resizeEvent(QResizeEvent * e);

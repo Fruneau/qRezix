@@ -61,6 +61,7 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	
 	connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(login(RzxComputer*)));
 	connect(lister, SIGNAL(connectionEtablished()), this, SLOT(init()));
+	connect(lister, SIGNAL(loginEnd()), this, SLOT(forceSort()));
 
 	// On est obligé d'utiliser ce signal pour savoir dans quelle colonne le
 	// double-clic suivant a lieu
@@ -216,7 +217,7 @@ void RzxRezal::afficheColonnes(){
 			}
 		}
 	}
-		adapteColonnes();
+	adapteColonnes();
 }
 
 void RzxRezal::adapteColonnes(){
@@ -273,11 +274,8 @@ void RzxRezal::login(RzxComputer *computer)
 	// informe de la reconnexion si c'est pas juste un refresh
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 	connect(this, SIGNAL(favoriteChanged()), item, SLOT(update()));
-	item -> update();
 
-	if(!newItem) sort(); // Retrie la liste pour les éventuelles modifs
-  
-	afficheColonnes();
+	item -> update();
 }
 
 /** Déconnexion d'un personne */
@@ -293,6 +291,13 @@ void RzxRezal::init()
 {
 	itemByIp.clear();
 	selected = NULL;
+}
+
+/** Tri les items */
+void RzxRezal::forceSort()
+{
+	afficheColonnes();
+	sort();
 }
 
 
