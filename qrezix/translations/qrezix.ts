@@ -212,6 +212,10 @@
         <source>History</source>
         <translation type="unfinished">Historique</translation>
     </message>
+    <message>
+        <source>Unable to send data... writeBlock returns -1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxChatUI</name>
@@ -337,6 +341,15 @@
     <message>
         <source>Error</source>
         <translation type="obsolete">Erreur</translation>
+    </message>
+    <message>
+        <source>Connection error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An error occured while checking properties :
+</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

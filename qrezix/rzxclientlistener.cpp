@@ -275,7 +275,10 @@ void RzxChatSocket::send(const QString& msg)
 	{
 		case Connected:
 			if(writeBlock(msg.latin1(), (msg.length())) == -1)
+			{
 				qDebug("Impossible d'émettre les données vers ");
+				emit info(tr("Unable to send data... writeBlock returns -1"));
+			}
 			else
 			{
 				flush();
@@ -585,5 +588,11 @@ void RzxClientListener::socketRead(int socket){
 /** Crée un socket pour la demande des propriétés à l'utilisateur en face */
 void RzxClientListener::checkProperty(const RzxHostAddress& host)
 {
-	new RzxChatSocket(host, true);
+	connect(new RzxChatSocket(host, true), SIGNAL(info(const QString&)), this, SLOT(info(const QString&)));
+}
+
+///Permet l'affichage des messages d'erreur des socket conçus uniquement pour le check de propriétés
+void RzxClientListener::info(const QString& msg)
+{
+	RzxMessageBox::information(NULL, tr("Connection error"), tr("An error occured while checking properties :\n") + msg);
 }
