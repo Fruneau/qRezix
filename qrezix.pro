@@ -61,16 +61,27 @@ FORMS	= qrezixui.ui \
 	rzxchangepassui.ui
 
 TRANSLATIONS	= ./translations/qrezix.ts ./translations/qrezix_fr.ts
-RC_FILE          =icone.rc
+RC_FILE         = icone.rc
 
 macx {
   translations.files = ./translations/*
-  themes.files = ../icons/themes/*
-  icone.files = ./application.icns
   translations.path = ./qrezix.app/Contents/Resources/translations
+  themes.files = ../icons/themes/*
   themes.path = ./qrezix.app/Contents/Resources/themes
+  icone.files = ./application.icns
   icone.path = ./qrezix.app/Contents/Resources
+
+  libqt.files = /usr/lib/libqt-mt.3.dylib
+  libqt.path = ./qrezix.app/Contents/Frameworks
+
+  shlibcommand.files =
+  shlibcommand.path = ./qrezix.app/Contents/Frameworks
+  shlibcommand.commands = install_name_tool -change libqt-mt.3.dylib ./qrezix.app/Contents/Frameworks/libqt-mt.3.dylib ./qrezix.app/Contents/MacOS/qrezix
+
   INSTALLS += translations \
            themes \
-           icone
+           icone \
+           libqt \
+           shlibcommand
+
 }
