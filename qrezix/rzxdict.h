@@ -1,12 +1,12 @@
-#ifndef ADict23432432432432432
-#define ADict23432432432432432
+#ifndef RzxDict23432432432432432
+#define RzxDict23432432432432432
 
-template <class KEY, class VALUE> class ADictIterator;
+template <class KEY, class VALUE> class RzxDictIterator;
 
-template <class KEY, class VALUE> class ADict
+template <class KEY, class VALUE> class RzxDict
 {
   private:
-    friend class ADictIterator<KEY,VALUE>;
+    friend class RzxDictIterator<KEY,VALUE>;
     class Node
     {
       public:
@@ -31,8 +31,8 @@ template <class KEY, class VALUE> class ADict
     Node *last;
 
   public:
-    ADict();
-    ~ADict();
+    RzxDict();
+    ~RzxDict();
 
     void clear();
 
@@ -50,7 +50,7 @@ template <class KEY, class VALUE> class ADict
 
 //-------------------
 
-template <class KEY, class VALUE> ADict<KEY,VALUE>::Node::Node(KEY nkey, VALUE *nvalue)
+template <class KEY, class VALUE> RzxDict<KEY,VALUE>::Node::Node(KEY nkey, VALUE *nvalue)
 {
   key = nkey;
   value = nvalue;
@@ -58,9 +58,9 @@ template <class KEY, class VALUE> ADict<KEY,VALUE>::Node::Node(KEY nkey, VALUE *
 }
 
 template <class KEY, class VALUE> bool
-  ADict<KEY,VALUE>::Node::insert(ADict<KEY,VALUE>::Node *&root, ADict<KEY,VALUE>::Node *&first,
-  				 ADict<KEY,VALUE>::Node *&last, ADict<KEY,VALUE>::Node *prev,
-				 ADict<KEY,VALUE>::Node *next, KEY nkey, VALUE *nvalue)
+  RzxDict<KEY,VALUE>::Node::insert(RzxDict<KEY,VALUE>::Node *&root, RzxDict<KEY,VALUE>::Node *&first,
+  				 RzxDict<KEY,VALUE>::Node *&last, RzxDict<KEY,VALUE>::Node *prev,
+				 RzxDict<KEY,VALUE>::Node *next, KEY nkey, VALUE *nvalue)
 {
   if(root==NULL)
   {
@@ -167,8 +167,8 @@ template <class KEY, class VALUE> bool
 }
 
 template <class KEY, class VALUE> bool
-  ADict<KEY,VALUE>::Node::remove(ADict<KEY,VALUE>::Node *&root, ADict<KEY,VALUE>::Node *&first,
-  				 ADict<KEY,VALUE>::Node *&last, KEY nkey, VALUE *&nvalue)
+  RzxDict<KEY,VALUE>::Node::remove(RzxDict<KEY,VALUE>::Node *&root, RzxDict<KEY,VALUE>::Node *&first,
+  				 RzxDict<KEY,VALUE>::Node *&last, KEY nkey, VALUE *&nvalue)
 {
   if(root==NULL)
     return false;
@@ -279,7 +279,7 @@ template <class KEY, class VALUE> bool
 }
 
 template <class KEY, class VALUE> bool 
-  ADict<KEY,VALUE>::Node::find(ADict<KEY,VALUE>::Node *&root, KEY nkey, VALUE *&nvalue)
+  RzxDict<KEY,VALUE>::Node::find(RzxDict<KEY,VALUE>::Node *&root, KEY nkey, VALUE *&nvalue)
 {
   Node *pos = root;
   while(pos!=NULL)
@@ -296,7 +296,7 @@ template <class KEY, class VALUE> bool
 }
 
 template <class KEY, class VALUE> bool 
-  ADict<KEY,VALUE>::Node::find_nearest(ADict<KEY,VALUE>::Node *&root, KEY nkey, KEY &nkey_lower, KEY &nkey_higher)
+  RzxDict<KEY,VALUE>::Node::find_nearest(RzxDict<KEY,VALUE>::Node *&root, KEY nkey, KEY &nkey_lower, KEY &nkey_higher)
 {
   Node *prev_pos = NULL;
   Node *pos = root;
@@ -327,17 +327,17 @@ template <class KEY, class VALUE> bool
   return false;
 }
 
-template <class KEY, class VALUE> ADict<KEY,VALUE>::ADict()
+template <class KEY, class VALUE> RzxDict<KEY,VALUE>::RzxDict()
 {
   root = first = last = NULL;
 }
 
-template <class KEY, class VALUE> ADict<KEY,VALUE>::~ADict()
+template <class KEY, class VALUE> RzxDict<KEY,VALUE>::~RzxDict()
 {
   clear();
 }
 
-template <class KEY, class VALUE> void ADict<KEY,VALUE>::clear()
+template <class KEY, class VALUE> void RzxDict<KEY,VALUE>::clear()
 {
   Node *pos1, *pos2 = first;
   while(pos2!=NULL)
@@ -350,32 +350,32 @@ template <class KEY, class VALUE> void ADict<KEY,VALUE>::clear()
   root = first = last = NULL;
 }
 
-template <class KEY, class VALUE> bool ADict<KEY,VALUE>::insert(KEY key, VALUE *value)
+template <class KEY, class VALUE> bool RzxDict<KEY,VALUE>::insert(KEY key, VALUE *value)
 {
   return Node::insert(root,first,last,NULL,NULL,key,value);
 }
 
-template <class KEY, class VALUE> bool ADict<KEY,VALUE>::contains(KEY key)
+template <class KEY, class VALUE> bool RzxDict<KEY,VALUE>::contains(KEY key)
 {
   VALUE *val;
   return Node::find(root,key,val);
 }
 
-template <class KEY, class VALUE> bool ADict<KEY,VALUE>::find(KEY key, VALUE *&value)
+template <class KEY, class VALUE> bool RzxDict<KEY,VALUE>::find(KEY key, VALUE *&value)
 {
   return Node::find(root,key,value);
 }
-template <class KEY, class VALUE> bool ADict<KEY,VALUE>::find_nearest(KEY key, KEY &key_lower, KEY &key_higher)
+template <class KEY, class VALUE> bool RzxDict<KEY,VALUE>::find_nearest(KEY key, KEY &key_lower, KEY &key_higher)
 {
   return Node::find_nearest(root,key,key_lower,key_higher);
 }
 
-template <class KEY, class VALUE> bool ADict<KEY,VALUE>::remove(KEY key, VALUE *&value)
+template <class KEY, class VALUE> bool RzxDict<KEY,VALUE>::remove(KEY key, VALUE *&value)
 {
   return Node::remove(root,first,last,key,value);
 }
 
-template <class KEY, class VALUE> bool ADict<KEY,VALUE>::remove(KEY key)
+template <class KEY, class VALUE> bool RzxDict<KEY,VALUE>::remove(KEY key)
 {
   VALUE *val;
   if(!Node::remove(root,first,last,key,val))
@@ -385,7 +385,7 @@ template <class KEY, class VALUE> bool ADict<KEY,VALUE>::remove(KEY key)
   return true;
 }
 
-template <class KEY, class VALUE> unsigned ADict<KEY,VALUE>::count()
+template <class KEY, class VALUE> unsigned RzxDict<KEY,VALUE>::count()
 {
   if(root==NULL)
     return 0;
