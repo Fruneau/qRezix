@@ -328,6 +328,13 @@ void RzxServerListener::close(){
 void RzxServerListener::closeWaitFlush(){
 	emit disconnected();
 }
+
+/** No descriptions */
+RzxHostAddress RzxServerListener::getServerIP() const
+{
+	return RzxHostAddress(socket.peerAddress());
+}
+
 /** No descriptions */
 RzxHostAddress RzxServerListener::getIP() const{
 	return RzxHostAddress(socket.address());

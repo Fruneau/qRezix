@@ -51,6 +51,7 @@ public:
 	void setupReconnection(const QString& msg, bool fatal);
 	bool isSocketClosed() const;
 	void close();
+	RzxHostAddress getServerIP() const;
 	RzxHostAddress getIP() const;
 
 protected:
