@@ -241,6 +241,20 @@ dans lequel il enregistre sa configuration</translation>
     </message>
 </context>
 <context>
+    <name>RzxFileSharing</name>
+    <message>
+        <source>Septembre cannot create %1, which is the folder
+in which its configuration is saved
+</source>
+        <translation>Septembre ne peut pas créer le répertoire %1,
+dans lequel il enregistre sa configuration</translation>
+    </message>
+    <message>
+        <source>You will not be able to save your configuration</source>
+        <translation>Il vous sera impossible de sauvegarder vos paramètres</translation>
+    </message>
+</context>
+<context>
     <name>RzxProperty</name>
     <message>
         <source>default</source>
@@ -1005,6 +1019,10 @@ Erreur DNS
     <message>
         <source>Print hh:mm:ss in chat</source>
         <translation>Afficher hh:mm:ss dans le chat</translation>
+    </message>
+    <message>
+        <source>Be in xPlo</source>
+        <translation>Aider xPlo</translation>
     </message>
 </context>
 </TS>

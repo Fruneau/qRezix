@@ -451,6 +451,8 @@ QString	RzxConfig::iconTheme(){ return globalConfig() -> readEntry("theme", DEFA
 QString	RzxConfig::FTPPath(){ return globalConfig() -> readEntry("FTPPath", "");}
 
 QString RzxConfig::propPromo() { return localHost() -> getPromoText(); }
+bool RzxConfig::indexFtp(){ return globalConfig() -> readEntry("indexftp", 0); }
+
 
 /** Renvoie le password xnet */
 int RzxConfig::pass() { return globalConfig() -> readEntry("pass", 1); }
@@ -537,6 +539,7 @@ void RzxConfig::loadLocalHost() {
 	computer->setPromo( promo );
 	computer->setRepondeur( repondeur );
 	computer->setServerFlags( servers );
+	computer->initScanFtp();
 	computer->scanServers();
 }
 

@@ -21,6 +21,7 @@
 #include <qpixmap.h>
 #include <qsocketdevice.h>
 #include "rzxhostaddress.h"
+#include "rzxfilesharing.h"
 
 /**
   *@author Sylvain Joyeux
@@ -89,11 +90,12 @@ public:
 		REP_ON = 1
 	};	
 
-	RzxComputer() {}
+	RzxComputer();
 	~RzxComputer() {}
 
 	/** Pour la creation de localHost */
 	void initLocalHost();
+	void initScanFtp();
 
 	bool parse(const QString& params);
 
@@ -126,6 +128,9 @@ public:
 	void removePreviousIcons();
 	void autoSetOs();
 
+	void runScanFtp();
+	void stopScanFtp();
+
 signals: // Signals
 	void isUpdated();
 	void needIcon(const RzxHostAddress&);
@@ -143,6 +148,7 @@ protected:
 	QString remarque;
 	QPixmap icon;
 	QTimer *delayScan;
+	RzxFileSharing *indexFtp;
 	
 };
 
