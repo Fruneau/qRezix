@@ -84,7 +84,7 @@ public:
 	
 	QSettings *settings;
 	static QDict<QTranslator> translations;
-	static void loadTranslators();
+	void loadTranslators();
 	static void setLanguage(QString language);
 	QDict<QString> * favorites;
 	QDict<QString> * ignoreList;
@@ -230,7 +230,7 @@ protected: // Protected attributes
 	static QString name();
 
 private: // Public attributes
-	static void loadTranslatorsInDir(QDir rep);
+	void loadTranslatorsInDir(const QDir &rep);
 	static QTranslator* currentTranslator;
 	RzxComputer * computer;
 };

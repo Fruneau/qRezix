@@ -43,7 +43,8 @@
 	"Pour toi, je serai femme, maîtresse, mère. -+- Louis Calaferte, La mécanique des femmes -+-\n" \
 	"> Sérieusement tu crois que la Debian est plus stable que les autres ? Pour moi c'est juste une simple distrib pour une bande de pauvres cons fanatiques\n" \
 	"Ta mère c'est Bernard Minet. -+- SH in GFA : Bien configurer sa mère -+-\n" \
-	"Si ça marche pas c'est que problème est entre la chaine et le clavier\nLe fait que le monde soit peuplé de crétins permet à chacun de nous de ne pas se faire remarquer. -+- Sim -+-\n" \
+	"Si ça marche pas c'est que problème est entre la chaine et le clavier\n" \
+	"Le fait que le monde soit peuplé de crétins permet à chacun de nous de ne pas se faire remarquer. -+- Sim -+-\n" \
 	"INFINITÉSIMAL : On ne sais pas ce que ce c'est, mais a rapport à l'homéopathie. -+- Gustave Flaubert, Dictionnaire des idées reçues -+-\n" \
 	"Chic à la jône X2003 !!!\n" \
 	"o< o< o< o< o< o< o< \\_o< \\_0< COIN ! COIN !\n" \
