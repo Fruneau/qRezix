@@ -38,9 +38,11 @@ class RzxConnectionLister : public QObject
 	
 	public:
 		QDict<RzxComputer> iplist;
+		QDict<RzxComputer> computerByLogin;
 		RzxServerListener * server;
 		RzxClientListener * client;
 		QDict<RzxChat> chats;
+		QDict<RzxChat> chatsByLogin;
 
 		RzxConnectionLister(QObject *parent = NULL, const char *name = NULL);
 		~RzxConnectionLister();
@@ -51,13 +53,18 @@ class RzxConnectionLister : public QObject
 	public slots:
 		void login(const QString& ordi);
 		void logout(const RzxHostAddress& ip);
+		QStringList getIpList();
+		
 		bool isSocketClosed() const;
+		
 		void sysmsg(const QString& msg);
 		void fatal(const QString& msg);
+		
 		void warnProperties(const RzxHostAddress& peer);
 	
-		void chat(QSocket* socket, const QString& msg);
 		RzxChat *chatCreate( const RzxHostAddress& peer );
+		RzxChat *chatCreate( const QString& login);
+		void closeChat(const QString& login);
 		void chatDelete(const RzxHostAddress& peerAddress);
 		void closeChats();
 		
@@ -65,6 +72,7 @@ class RzxConnectionLister : public QObject
 		void recvIcon(QImage*Icon, const RzxHostAddress&);
 		void serverDisconnected();
 		void serverConnected();
+		RzxChat *createChat( RzxComputer *computer);
 		
 	signals:
 		void needIcon(const RzxHostAddress&);

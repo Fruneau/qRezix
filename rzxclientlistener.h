@@ -101,7 +101,6 @@ class RzxChatSocket : public QSocket
 	signals: // Signals
 		void propQuery();
 		
-		void chat(QSocket *sock, const QString& msg);
 		void chat(const QString& msg);
 		
 		void chatSent();
@@ -139,7 +138,6 @@ class RzxClientListener : public QObject  {
 		
 	signals:
 		void propertiesSent(const RzxHostAddress& host);
-		void chat(QSocket *sock, const QString& msg);
 		void chatSent();
 };
 
