@@ -60,7 +60,6 @@ public:
 	~RzxRezal();
 	
 	void showNotFavorites(bool val);
-	void beepOnConnection(bool val);
 	void loginFromLister(bool val);
 
 	// Numero des colonnes
