@@ -1,5 +1,5 @@
 !define MUI_PRODUCT "qRezix"
-!define MUI_VERSION "v1.3"
+!define MUI_VERSION "v3.x"
 !define MUI_NAME "${MUI_PRODUCT} ${MUI_VERSION}"
 
 !include "MUI.nsh"
@@ -63,7 +63,7 @@ FunctionEnd
   SetOutPath "$INSTDIR\themes"
   CreateDirectory "${THEME}"
   SetOutPath "$INSTDIR\themes\${THEME}"
-  File "..\qrezix\themes\${THEME}\*"
+  File "..\icons\themes\${THEME}\*"
 !macroend
 
 
@@ -98,7 +98,7 @@ SectionEnd
 
 Section "!Base" SecBase
   SectionIn 1 RO   ; Section toujours sélectionnée
-  
+
   SetOutPath "$SYSDIR"
   IfFileExists "qt-mt331.dll" dll_ok
   File "${QTDIR}\bin\qt-mt331.dll"
@@ -117,11 +117,15 @@ dll_ok:
   File /oname=ReadMe.txt "..\README"
   
 ;  File /oname=qrezix.qm "..\qRezix\translations\qrezix.qm"
-  File /oname=qrezix_fr.qm "..\qRezix\translations\qrezix_fr.qm"
+;  File /oname=qrezix_fr.qm "..\qRezix\translations\qrezix_fr.qm"
 
   CreateDirectory "themes"
   CreateDirectory "icones"
   CreateDirectory "log"
+  CreateDirectory "translations"
+
+  SetOutPath "$INSTDIR\translations"
+  File "..\qrezix\translations\*.qm"
   
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -155,7 +159,7 @@ Section "Thème d'icônes 'classic'" SecThemeClassic
 SectionEnd
 
 !insertmacro SECTION_THEME "krystal"
-!insertmacro SECTION_THEME "Noia_Warm_KDE"
+!insertmacro SECTION_THEME "NoiaWarmKDE"
 !insertmacro SECTION_THEME "mS"
 
 
@@ -173,7 +177,7 @@ SectionEnd
 ;--------------------------------
 ;Descriptions
 
-!insertmacro MUI_FUNCTIONS_DESCRIPTION_BEGIN
+!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SecBase} $(DESC_SecBase)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecStartMenu} $(DESC_SecStartMenu)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecLaunchStartup} $(DESC_SecLaunchStartup)
@@ -182,7 +186,7 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeKrystal} "Un thème d'icônes sympa"
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeNoia_Warm_KDE} "Un autre thème d'icônes sympa"
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThememS} "L'invasion des pingouins !"
-!insertmacro MUI_FUNCTIONS_DESCRIPTION_END
+!insertmacro MUI_FUNCTION_DESCRIPTION_END
  
 
 ;--------------------------------
@@ -199,9 +203,7 @@ Section "Uninstall"
 
   Delete "$INSTDIR\Uninstall.exe"  
   Delete "$INSTDIR\ReadMe.txt"
-  Delete "$INSTDIR\qrezix.qm"
-  Delete "$INSTDIR\qrezix_fr.qm"
-
+  Delete "$INSTDIR\translations\*.qm"
 
   RMDir "$INSTDIR"
 
@@ -209,7 +211,7 @@ Section "Uninstall"
   Delete "$SMSTARTUP\${MUI_PRODUCT}.lnk"
   Delete "$DESKTOP\${MUI_PRODUCT}.lnk"
 
-  MessageBox MB_YESNO "Supprimer tout le contenu du répertoire $INSTDIR ?$\nCeci effacera la configuration, les favoris, les historiques, ..." IDNO normal_clean
+  MessageBox MB_YESNO "Supprimer tout le contenu du répertoire $INSTDIR ?$\nCeci effacera vos préférences, vos historiques de communication et vos favoris... Il est fortement recommander de CONSERVER CE REPERTOIRE pour pouvoir se reconnecter au xNet ultérieurement" IDNO normal_clean
   
   Delete "$INSTDIR\*.*"
   RMDir /r "$INSTDIR"
