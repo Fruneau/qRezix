@@ -279,6 +279,16 @@ dans lequel il enregistre sa configuration</translation>
     </message>
 </context>
 <context>
+    <name>RzxProtocole</name>
+    <message>
+        <source>Your XNet password  is  : %1
+This is an identification code used to authentificate your connection to the server and avoid IP-spoofing.
+
+KEEP IT WELL because without it, you may not be able to connect to the server</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RzxRezal</name>
     <message>
         <source>Icon</source>
@@ -426,7 +436,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Properties sent to </source>
-        <translation>Propriétés envoyées à </translation>
+        <translation type="obsolete">Propriétés envoyées à </translation>
     </message>
     <message>
         <source>has checked your properties</source>
