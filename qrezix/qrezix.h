@@ -45,6 +45,7 @@ class QRezix : public QRezixUI
 	QPopupMenu menuPlugins;
 	static QRezix *object;
 	bool statusFlag;
+	bool favoriteWarn;
 	
 	
 public:
@@ -90,6 +91,8 @@ protected slots: // Protected slots
 	void pluginsMenu(bool show = false);
 	void switchTab();
 	void warnForFavorite(RzxComputer *computer);
+	void warnForDeparture(RzxComputer *computer);
+	void newFavorite();
 };
 
 #endif

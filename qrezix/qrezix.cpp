@@ -58,6 +58,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	object = this;
 	byTray = false;
 	statusFlag = false;
+	favoriteWarn = true;
 	wellInit = FALSE;
 	
 	///Chargement des plug-ins
@@ -86,6 +87,10 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	// Préparation de l'insterface
 	activateAutoResponder( RzxConfig::autoResponder() != 0 );
 
+	connect(rezal, SIGNAL(favoriteAdded(RzxComputer*)), this, SLOT(newFavorite()));
+	connect(rezalFavorites, SIGNAL(favoriteRemoved(RzxComputer*)), this, SLOT(newFavorite()));
+	connect(rezal, SIGNAL(favoriteRemoved(RzxComputer*)), this, SLOT(newFavorite()));
+	
 	connect(rezal, SIGNAL(favoriteRemoved(RzxComputer*)), rezalFavorites, SLOT(logout(RzxComputer*)));
 	connect(rezalFavorites, SIGNAL(favoriteRemoved(RzxComputer*)), rezalFavorites, SLOT(logout(RzxComputer*)));
 	connect(rezal, SIGNAL(favoriteAdded(RzxComputer*)), rezalFavorites, SLOT(bufferedLogin(RzxComputer*)));
@@ -100,6 +105,8 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	
 	/* Gestion des favoris */
 	connect(rezalFavorites, SIGNAL(newFavorite(RzxComputer*)), this, SLOT(warnForFavorite(RzxComputer*)));
+	connect(rezalFavorites, SIGNAL(lostFavorite(RzxComputer*)), this, SLOT(warnForDeparture(RzxComputer*)));
+	connect(rezalFavorites, SIGNAL(changeFavorite(RzxComputer*)), this, SLOT(warnForFavorite(RzxComputer*)));
 
 	m_properties = new RzxProperty(this);
 	if(!RzxConfig::globalConfig()->find() || !m_properties->infoCompleted())
@@ -386,12 +393,14 @@ void QRezix::warnForFavorite(RzxComputer *computer)
 {
 	//ne garde que les favoris avec en plus comme condition que ce ne soit pas les gens présents à la connexion
 	//evite de notifier la présence de favoris si en fait c'est nous qui arrivons.
-	if(!RzxConfig::globalConfig()->favorites->find( computer->getName()) 
-		|| !RzxConnectionLister::global()->isInitialized())
+	if(!RzxConnectionLister::global()->isInitialized() || !favoriteWarn)
+	{
+		favoriteWarn = true;
 		return;
+	}
 		
 	//Bah, beep à la connexion
-	if(RzxConfig::beepConnection()) {
+	if(RzxConfig::beepConnection() && computer->getRepondeur()) {
 #ifdef WIN32
 		QString file = RzxConfig::connectionSound();
 		if( !file.isEmpty() && QFile( file ).exists() )
@@ -412,6 +421,22 @@ void QRezix::warnForFavorite(RzxComputer *computer)
 	//Affichage de la fenêtre de notification de connexion
 	if(RzxConfig::showConnection())
 		new RzxTrayWindow(computer);
+}
+
+/// Pour la notification de la déconnexion d'un favoris
+void QRezix::warnForDeparture(RzxComputer *computer)
+{
+	//Affichage de la fenêtre de notification de déconnexion
+	if(RzxConfig::showConnection() && favoriteWarn)
+		new RzxTrayWindow(computer, false);
+	favoriteWarn = true;
+}
+
+/// Pour se souvenir que la prochaine connexion sera celle d'un nouveau favoris
+/** Permet d'éviter la notification d'arrivée d'un favoris, lorsqu'une personne change uniquement de statut non-favoris -> favoris */
+void QRezix::newFavorite()
+{
+	favoriteWarn = false;
 }
 
 /// Changement du thème d'icone
