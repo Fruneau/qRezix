@@ -38,6 +38,7 @@ class RzxServerListener : public RzxProtocole {
 	
 	RzxServerListener();
 	static RzxServerListener * globalObject;
+	
 public:
 	static RzxServerListener * object();
 		
@@ -62,13 +63,14 @@ protected slots:
 	void serverReceive();
 	void serverError(int);
 	void serverTimeout();
-	void slotConnect();
+	void connectToXnetserver();
 	void sendProtocolMsg(const QString& msg);
 	void serverConnected();
 	void beginAuth();
 	void serverFound();
 	void serverResetTimer();
 	void closeWaitFlush();
+	void waitReconnection();
 
 signals: // Signals
 	/** Emit lorsque on passe un message ICON a @ref parse
@@ -88,12 +90,16 @@ protected: // Protected attributes
 	RzxHostAddress iconHost;
 	bool iconMode;	
 
-	/** Timer utilisï¿½pour les reconnections automatiques */
+	/** Timer utilisé pour les reconnexions automatiques */
 	QTimer reconnection;
 	/** Nom d'hote du serveur */
 	QString serverHostname;
 	/** Pour le timeout sur les ping/pong */
 	QTimer pingTimer;
+	/** Temps restant avant la tentative de reconnexion */
+	int timeToConnection;
+	/** Message */
+	QString message;
 	
 private:
 	inline void notify(const QString& text) { emit status(text, socket.state()!=QSocket::Connected); }
