@@ -4,6 +4,7 @@ LANGUAGE	= C++
 CONFIG	+= qt warn_on release
 
 LIBS	+= IMM32.LIB
+
 DEFINES	+= QT_DLL
 
 HEADERS	+= qrezix.h \
@@ -44,7 +45,7 @@ SOURCES	+= main.cpp \
 	rzxplugin.cpp \
 	rzxpluginloader.cpp
 
-FORMS	+= qrezixui.ui \
+FORMS	= qrezixui.ui \
 	rzxchatui.ui \
 	rzxpropertyui.ui \
 	rzxquitui.ui \
