@@ -78,7 +78,6 @@ protected: // Protected attributes
 	bool filterOn;
 	QString filter;
 
-	
 	// Definit necessaire pour le menu contextuel
 	RzxPopupMenu popup;
 
