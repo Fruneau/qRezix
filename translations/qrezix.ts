@@ -1508,5 +1508,25 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
         <source>Comment:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tab to select on start:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">Favoris</translation>
+    </message>
+    <message>
+        <source>Everybody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Search Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
