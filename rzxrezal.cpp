@@ -281,7 +281,6 @@ void RzxRezal::login(RzxComputer *computer)
 	{
 		item = new RzxItem(computer, this, dispNotFavorites);
 		itemByIp.insert(computer->getIP().toString(), item);
-		connect(this, SIGNAL(favoriteChanged()), item, SLOT(update()));
 	}
 	
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
