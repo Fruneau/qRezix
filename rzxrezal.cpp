@@ -514,7 +514,7 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 		if(item->ip == ipSaved)
 			return; //on a fait le tour, personne avec cette lettre
 		RzxComputer * comp=lister->iplist.find((item->ip).toString());
-		if(comp->getName().lower().at(0)==c) {
+		if(comp->getName().lower().at(0)==c.lower()) {
 			setCurrentItem(item);
 			ensureItemVisible(item);
 			return;
