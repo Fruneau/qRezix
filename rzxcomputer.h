@@ -42,12 +42,11 @@ public:
   struct options_t
 	{
 		unsigned Server			:6;
-		unsigned SysEx			:3;	//0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X
-		unsigned Promo			:2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje !)
-		unsigned Repondeur	    :2; //0=accepter, 1= repondeur, 2=refuser les messages, 3= unused
-		unsigned ServerFlags	:6;
+		unsigned SysEx				:3;	//0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X
+		unsigned Promo				:2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje !)
+		unsigned Repondeur		:2; //0=accepter, 1= repondeur, 2=refuser les messages, 3= unused
 		// total 13 bits / 32
-		unsigned align			:13;
+		unsigned Capabilities	:19;
 	};
 #else
 	struct version_t
@@ -59,15 +58,15 @@ public:
 	};
   struct options_t
 	{
-		unsigned align			:13;
-		unsigned ServerFlags	:6;
+		unsigned Capabilities	:19;
 		// total 13 bits / 32
-		unsigned Repondeur	    :2; //0=accepter, 1= repondeur, 2=refuser les messages, 3= unused
-		unsigned Promo			:2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje !)
-		unsigned SysEx			:3;	//0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X
+		unsigned Repondeur		:2; //0=accepter, 1= repondeur, 2=refuser les messages, 3= unused
+		unsigned Promo				:2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje !)
+		unsigned SysEx				:3;	//0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X
 		unsigned Server			:6;
 	};
 #endif
+	unsigned int ServerFlags;
 	
 	enum Server {
 		SERVER_SAMBA = 1,
@@ -106,8 +105,16 @@ public:
 	
 	enum Repondeur {
 		REP_ACCEPT = 0,
-		REP_ON = 1
+		REP_ON = 1,
+		REP_REFUSE = 2
 	};	
+	
+	//définition des capabilities supplémentaires connues
+	enum Capabilities {
+		CAP_ON = 1,
+		CAP_CHAT = 2,
+		CAP_XPLO = 3
+	};
 
 	RzxComputer();
 	~RzxComputer();
@@ -136,6 +143,7 @@ public:
 	QString getRemarque() const;
 	QPixmap getIcon() const;
 	QString getClient() const;
+	bool can(Capabilities cap);
 
 	QString getFilename() const;
 	options_t getOptions() const;

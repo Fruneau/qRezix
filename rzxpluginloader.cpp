@@ -59,6 +59,7 @@ RzxPlugInLoader::RzxPlugInLoader() : QObject(0, 0)
 	
 	initialized = false;
 	object = this;
+	pluginFlags = 0;
 }
 
 /// Recherche des plugins et chargement dans un répertoire
@@ -107,6 +108,12 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 				}
 				else
 				{
+					/* Pour l'instant c'est crade, mais à terme je vais mettre un truc plus propre pour gérer les id des plugins
+					Mais comme j'ai pas envie de faire de modif de la structure de plugin aujourd'hui je laisse ça comme ça pour l'instant */
+					if(pi->getName().contains("chat", false))
+						pluginFlags |= RzxComputer::CAP_CHAT;
+					if(pi->getName().contains("xplo", false))
+						pluginFlags |= RzxComputer::CAP_XPLO;
 					connect(pi, SIGNAL(send(const QString&)), RzxServerListener::object(), SLOT(sendProtocolMsg(const QString&)));
 					connect(pi, SIGNAL(queryData(RzxPlugIn::Data, RzxPlugIn*)), this, SLOT(sendQuery(RzxPlugIn::Data, RzxPlugIn*)));
 					connect(pi, SIGNAL(requestAction(RzxPlugIn::Action, const QString& )), this, SLOT(action(RzxPlugIn::Action, const QString& )));
