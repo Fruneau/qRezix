@@ -213,6 +213,8 @@ void RzxProperty::initDlg() {
 	cbcOS ->setChecked( colonnes & (1<<RzxRezal::ColOS) );
 	cbcGateway ->setChecked( colonnes & (1<<RzxRezal::ColGateway) );
 	cbcPromo ->setChecked( colonnes & (1<<RzxRezal::ColPromo) );
+	cbcIP ->setChecked( colonnes & (1<<RzxRezal::ColIP) );
+	cbcClient ->setChecked( colonnes & (1<<RzxRezal::ColClient) );
 	cbQuit->setChecked(RzxConfig::showQuit());
 
 	cbHighlight->setChecked(RzxConfig::computerIconHighlight());
@@ -588,6 +590,8 @@ void RzxProperty::writeColDisplay() {
 	if ( cbcOS ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColOS;
 	if ( cbcGateway ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColGateway;
 	if ( cbcPromo ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColPromo;
+	if ( cbcClient ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColClient;
+	if ( cbcIP ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColIP;
 
 	RzxConfig::globalConfig() ->writeEntry( "colonnes", colonnesAffichees );
 }
