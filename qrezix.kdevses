@@ -1,0 +1,28 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!DOCTYPE KDevPrjSession>
+<KDevPrjSession>
+ <Mainframe MaximizeMode="1" />
+ <DocsAndViews NumberOfDocuments="3" >
+  <Doc0 NumberOfViews="1" URL="file:/home/jibee/binets/BR/qrezix/qrezix/rzxitem.h" >
+   <View0 line="19" Type="???" >
+    <AdditionalSettings/>
+   </View0>
+  </Doc0>
+  <Doc1 NumberOfViews="1" URL="file:/home/jibee/binets/BR/qrezix/qrezix/rzxchat.h" >
+   <View0 line="35" Type="???" >
+    <AdditionalSettings/>
+   </View0>
+  </Doc1>
+  <Doc2 NumberOfViews="1" URL="file:/home/jibee/binets/BR/qrezix/qrezix/rzxchat.cpp" >
+   <View0 line="39" Type="???" >
+    <AdditionalSettings/>
+   </View0>
+  </Doc2>
+ </DocsAndViews>
+ <LastCompileConfig>(Par défaut)</LastCompileConfig>
+ <pluginList>
+  <kdevdebugger>
+   <breakpointList/>
+  </kdevdebugger>
+ </pluginList>
+</KDevPrjSession>

@@ -1,0 +1,45 @@
+Source: qrezix
+Section: net
+Priority: optional
+Build-Depends: libqt3c102-mt,kdelibs4-dev,qt3-dev-tools
+Maintainer: br <br@frankiz.polytechnique.fr>
+Standards-Version: 3.2.1
+
+Package: qrezix
+Architecture: any
+Depends: ${shlibs:Depends},qrezix-theme
+Description: QRezix (Qt seul)
+ Paquet compile pour Qt seul
+ 
+Package: qrezix-kde
+Architecture: any
+Depends: ${shlibs:Depends},qrezix-theme
+Provides: qrezix
+Conflicts: qrezix
+Description: QRezix (avec support KDE)
+ Paquet compile pour KDE
+
+Package: qrezix-theme-noia-warm
+Architecture: all
+Provides: qrezix-theme
+Description: Thèmes d'icone pour QRezix basé sur le thème d'icones KDE du même nom, par Lathuile
+
+Package: qrezix-theme-classic
+Architecture: all
+Provides: qrezix-theme
+Description: Thèmes d'icone pour QRezix par défaut
+
+Package: qrezix-theme-krystal
+Architecture: all
+Provides: qrezix-theme
+Description: Thèmes d'icone pour QRezix basé sur le thème d'icones Krystal de KDE
+
+Package: qrezix-theme-ms
+Architecture: all
+Provides: qrezix-theme
+Description: Thèmes d'icone pour QRezix par Lathuile: Open M$$!
+
+Package: qrezix-translations
+Architecture: all
+Description: Fichiers de traduction pour QRézix
+
