@@ -321,17 +321,15 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 	
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 
-	qDebug("adding item "+computer->getIP().toString());
 	item -> update();
 	item -> setVisible(false);
 }
 
-void RzxRezal::logBufLogins() {
+void RzxRezal::logBufLogins() { //en fait vu que le QPtrList faisait des segfaults, je trace toute la listview, c pas très long
 	QListViewItem *item;
 	QListViewItemIterator it(this);
 	while(item=(it++).current())
 		item->setVisible(!filterOn || !item->text(ColNom).find(filter, 0, false));
-	qDebug("Nbre de clients connectés : %d",this->childCount());
 }
 
 /** Déconnexion d'un personne */
