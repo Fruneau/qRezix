@@ -53,8 +53,8 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	rezal->showNotFavorites(true);
 	rezalFavorites->showNotFavorites(false);
 	connect(btnPreferences, SIGNAL(clicked()), this, SLOT(boitePreferences()));
-	connect(btnMAJcolonnes, SIGNAL(clicked()), rezal, SLOT(adapteColonnes()));
-	connect(btnMAJcolonnes, SIGNAL(clicked()), rezalFavorites, SLOT(adapteColonnes()));
+	connect(btnMAJcolonnes, SIGNAL(clicked()), rezal, SLOT(afficheColonnes()));
+	connect(btnMAJcolonnes, SIGNAL(clicked()), rezalFavorites, SLOT(afficheColonnes()));
 	connect(btnAutoResponder, SIGNAL(toggled(bool)), this, SLOT(activateAutoResponder(bool)));
 	connect(btnPlugins, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
 	connect(&menuPlugins, SIGNAL(aboutToHide()), btnPlugins, SLOT(toggle()));

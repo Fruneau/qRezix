@@ -366,17 +366,11 @@ void RzxProperty::miseAJour() {
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_ICONTEXT, NULL);
 	}
 	
-	if (ui -> rezal) {
+	if (ui -> rezal)
 		ui -> rezal -> afficheColonnes();
-		if (cfgObject -> autoColonne())
-			ui -> rezal -> adapteColonnes();
-	}
 
-	if (ui -> rezalFavorites) {
+	if (ui -> rezalFavorites)
 		ui -> rezalFavorites -> afficheColonnes();
-		if (cfgObject -> autoColonne())
-			ui -> rezalFavorites -> adapteColonnes();
-	}
 
 //	cfgObject -> write(); //flush du fichier de conf
 

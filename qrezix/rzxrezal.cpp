@@ -426,21 +426,22 @@ void RzxRezal::afficheColonnes(){
 
 	for(i =0; i<columns(); i++){
 		setColumnWidthMode(i,Manual);
+		setColumnWidth(i,0);
 		if((colonnesAffichees>>i) & 1){
 			if(i==0) {
 				setColumnWidth(i,(RzxConfig::globalConfig()->computerIconSize()+1)*32+4);
 			} else if(i==1) {
-				setColumnWidthMode(i,QListView::Maximum);
+				adjustColumn (i); setColumnWidthMode(i,QListView::Maximum);
 			} else if(i==2) {
-				if(columnWidth(i)==0) setColumnWidth(i,200);
+				//if(columnWidth(i)==0) setColumnWidth(i,200);
 			} else {
 				setColumnWidth(i,40);
 			}
-		} else {
-		setColumnWidth(i,0);
 		}
 	}
-	triggerUpdate();
+	
+	if(RzxConfig::globalConfig()->autoColonne())
+		adapteColonnes();
 }
 
 void RzxRezal::adapteColonnes(){
@@ -523,8 +524,7 @@ void RzxRezal::login(const QString& ordi){
 	if( alreadyHere ) sort(); // Retrie la liste pour les éventuelles modifs
   
 	afficheColonnes();
-	if(RzxConfig::globalConfig()->autoColonne())
-		adapteColonnes();
+	
  
 }
 
