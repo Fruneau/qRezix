@@ -121,12 +121,27 @@ void TrayIcon::buildMenu()
 {
 	if(pop.count()) pop.clear();
 	
+	QPixmap pixmap;
+	#define newItem(name, trad, receiver, slot)  { pixmap = *RzxConfig::themedIcon(name); \
+		if(!pixmap.isNull()) \
+		{ \
+			QImage image = pixmap.convertToImage(); \
+			image = image.smoothScale(16,16); \
+			pixmap.convertFromImage(image); }\
+		pop.insertItem(pixmap, tr(trad), receiver, slot); }
+	
 	RzxPlugInLoader::global()->menuTray(pop);
 	if(RzxConfig::globalConfig()->autoResponder())
-		pop.insertItem(*RzxConfig::themedIcon("here"), tr("&I'm back !"), parent(), SLOT(toggleAutoResponder()));
+	{
+		newItem("here", "&I'm back !", parent(), SLOT(toggleAutoResponder()));
+	}
 	else
-		pop.insertItem(*RzxConfig::themedIcon("away"), tr("I'm &away !"), parent(), SLOT(toggleAutoResponder()));
-	pop.insertItem(*RzxConfig::themedIcon("quit"), tr("&Quit"), parent(), SLOT(closeByTray()));
+	{
+		newItem("away", "I'm &away !", parent(), SLOT(toggleAutoResponder()));
+	}
+	newItem("quit", "&Quit", parent(), SLOT(closeByTray()));
+	
+	#undef newItem
 }
 
 
