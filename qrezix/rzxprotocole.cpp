@@ -85,6 +85,13 @@ void RzxProtocole::parse(const QString& msg){
 			case SERVER_JOIN:
 			case SERVER_REFRESH:
 				emit login(cmd.cap(1));
+				
+				//Si le pass donné par le serveur est encore valide, alors, on demande le changement de pass
+				if(testOldPass && RzxConfig::oldPass())
+				{
+					testOldPass = false;
+					changePass(RzxConfig::oldPass());
+				}
 				break;
 				
 			case SERVER_SYSMSG:
