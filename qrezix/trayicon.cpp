@@ -128,18 +128,18 @@ void TrayIcon::buildMenu()
 			QImage image = pixmap.convertToImage(); \
 			image = image.smoothScale(16,16); \
 			pixmap.convertFromImage(image); }\
-		pop.insertItem(pixmap, tr(trad), receiver, slot); }
+		pop.insertItem(pixmap, trad, receiver, slot); }
 	
 	RzxPlugInLoader::global()->menuTray(pop);
 	if(RzxConfig::globalConfig()->autoResponder())
 	{
-		newItem("here", "&I'm back !", parent(), SLOT(toggleAutoResponder()));
+		newItem("here", tr("&I'm back !"), parent(), SLOT(toggleAutoResponder()));
 	}
 	else
 	{
-		newItem("away", "I'm &away !", parent(), SLOT(toggleAutoResponder()));
+		newItem("away", tr("I'm &away !"), parent(), SLOT(toggleAutoResponder()));
 	}
-	newItem("quit", "&Quit", parent(), SLOT(closeByTray()));
+	newItem("quit", tr("&Quit"), parent(), SLOT(closeByTray()));
 	
 	#undef newItem
 }
