@@ -309,7 +309,7 @@ void RzxChatSocket::send(const QString& msg)
 		case Idle:
 			connectToHost();
 		default:
-			tmpChat = msg;
+			tmpChat += msg;
 			return;
 	}
 }
