@@ -98,7 +98,7 @@ void RzxConnectionLister::login( const QString& ordi )
 		if(chat)
 		{
 			//Indication au chat de la reconnexion
-			if (!computer && chat)
+			if (!computer)
 				chat->info( tr( "reconnected" ) );
 
 			chatsByLogin.insert(newComputer->getName(), chat);
