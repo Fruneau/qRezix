@@ -230,7 +230,7 @@ void RzxProtocole::changePass(const QString& oldPass)
 	if(!oldPass)
 		changepass = new RzxChangePassUI(NULL, "ChangePass");
 	else
-		changepass = new RzxChangePassUI(NULL, "ChangePass", false, WStyle_Customize | WStyle_NormalBorder | WStyle_Title);
+		changepass = new RzxChangePassUI(NULL, "ChangePass", false, WStyle_Customize | WStyle_StaysOnTop);
 	
 	//Application du masque pour être sur du formatage du password
 	changepass->leNewPass->setValidator(new QRegExpValidator(QRegExp(".{6,63}"), this));

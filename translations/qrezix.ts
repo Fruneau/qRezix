@@ -96,7 +96,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>QRezix</source>
+        <source>qRezix</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1236,7 +1236,7 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     </message>
     <message>
         <source>xnetserver</source>
-        <translation>xnetserver</translation>
+        <translation type="obsolete">xnetserver</translation>
     </message>
     <message>
         <source>Port:</source>
@@ -1536,6 +1536,10 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     </message>
     <message>
         <source>Show Search Tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>xnetserver.eleves.polytechnique.fr</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
