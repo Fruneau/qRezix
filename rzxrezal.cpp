@@ -245,36 +245,18 @@ void RzxRezal::adapteColonnes(){
 void RzxRezal::login(RzxComputer *computer)
 {
 	RzxItem *item = NULL;
-	bool newItem = false;
-	if(computer->children())
-	{
-		QObjectList list = *(computer->children());
-		for(item = (RzxItem*)list.first() ; item ; item = (RzxItem*)list.next())
-		{
-			if(item->inherits("RzxItem") && item->listView() == this)
-				break;
-		}
-	}
+	item = itemByIp.find(computer->getIP().toString());
 	if(!item)
 	{
-		newItem = true;
 		item = new RzxItem(computer, this, dispNotFavorites);
-	}
-	connect(computer, SIGNAL(destroyed(QObject *)), this, SLOT(logout(QObject * )));
+		itemByIp.insert(computer->getIP().toString(), item);
 	
-	if(newItem)
-	{
-		RzxItem *old = itemByIp.take(computer->getIP().toString());
-		if(old && old == selected)
-		{
-			setSelected(item, true);
-			selected = item;
-		}
+		// informe de la reconnexion si c'est pas juste un refresh
+		connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
+		connect(this, SIGNAL(favoriteChanged()), item, SLOT(update()));
 	}
-
-	// informe de la reconnexion si c'est pas juste un refresh
-	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
-	connect(this, SIGNAL(favoriteChanged()), item, SLOT(update()));
+	disconnect(item, 0, this, SLOT(logout(QObject* )));
+	connect(computer, SIGNAL(destroyed(QObject *)), this, SLOT(logout(QObject * )));
 
 	item -> update();
 }
