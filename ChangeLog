@@ -1,5 +1,7 @@
-[v1.3.666] 2004-06-27 <br2002@frankiz@polytechnique.fr>
-    * Ajout de la détection automatique des ftps sur le port 21 [Fruneau]
+[v1.3.666] 2004-07-10 <br2002@frankiz@polytechnique.fr>
+    * Passage du peer-to-peer en TCP [Fruneau]
+    * Ajout du choix de client ftp, http, news personnalisé [NC]
+    * Ajout de la détection automatique des serveurs ftp, http, news et samba [Fruneau]
     * Ajout d'une boîte de dialogue à la fermeture du client [Fruneau]
     * Utilisation d'un QTextEdit dérivé au lieu du MultiEdit obsolete,
 Shift+enter pr changer de ligne [Steak]
