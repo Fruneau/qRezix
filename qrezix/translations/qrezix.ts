@@ -1642,5 +1642,17 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
         <source>Show a notification window on favorite&apos;s state modification</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Refuse messages when away</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Reload plug-in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+R</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
