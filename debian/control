@@ -8,17 +8,9 @@ Standards-Version: 3.2.1
 Package: qrezix
 Architecture: any
 Depends: ${shlibs:Depends},qrezix-theme
-Description: QRezix (Qt seul)
- Paquet compile pour Qt seul
+Description: QRezix
+ Paquet CVS
  
-Package: qrezix-kde
-Architecture: any
-Depends: ${shlibs:Depends},qrezix-theme
-Provides: qrezix
-Conflicts: qrezix
-Description: QRezix (avec support KDE)
- Paquet compile pour KDE
-
 Package: qrezix-theme-noia-warm
 Architecture: all
 Provides: qrezix-theme

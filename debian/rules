@@ -14,7 +14,7 @@ ifeq ($(DEB_BUILD_GNU_TYPE),i386-linux)
   FAST_MALLOC=--enable-fast-malloc=full
 endif
 
-build: qt_only.stamp kde.stamp
+build: qt_only.stamp
 	touch build
 qt_only.stamp: checkdir configure
 	# On commence par compiler pour Qt seul
@@ -23,13 +23,6 @@ qt_only.stamp: checkdir configure
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/qrezix
 	$(MAKE) clean
 	touch qt_only.stamp
-
-kde.stamp: checkdir configure
-	QTDIR=/usr/share/qt3 ./configure --prefix=/usr --disable-rpath --enable-kde --with-xinerama --datadir=/usr/share
-	$(MAKE)
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/qrezix-kde
-	$(MAKE) clean
-	touch kde.stamp
 
 checkdir:
 	$(checkdir)
