@@ -279,14 +279,15 @@ void RzxRezal::afficheColonnes(){
 	for(i =0; i<columns(); i++){
 		setColumnWidthMode(i,Manual);
 		if((colonnesAffichees>>i) & 1){
-			if(i==0)
-			{
+			if(i==ColIcone) {
 				setColumnWidth(i, ((RzxConfig::computerIconSize() || RzxConfig::computerIconHighlight()) ?64:32 )+4);
-			} else if(i==1) {
-				adjustColumn (i); setColumnWidthMode(i,QListView::Maximum);
-			} else if(i==2) {
-				//if(columnWidth(i)==0) setColumnWidth(i,200);
-			} else {
+			}
+			else if(i==ColNom) {
+				adjustColumn (i);
+				setColumnWidthMode(i,QListView::Maximum);
+			//Les colonnes des icones d'information, la colonne de commentaire est gérée par le adapteColonnes()
+			}
+			else if(i!=ColRemarque) {
 				setColumnWidth(i,40);
 			}
 		}
@@ -301,18 +302,17 @@ void RzxRezal::adapteColonnes(){
 	int colonnesAffichees=RzxConfig::colonnes();
 	int somme=0;
 	int i;
-	const int colrem=2;
 
 	for(i =0;i<columns();i++){
-		if(i!=colrem)
+		if(i!=ColRemarque)
 			somme+=columnWidth(i);
 	}
   
-	if(((colonnesAffichees >> colrem) & 1)) {
+	if(((colonnesAffichees >> ColRemarque) & 1)) {
 		if(width()>(somme+110))
-			setColumnWidth(colrem, width()-somme-11);
+			setColumnWidth(ColRemarque, width()-somme-20);
 		else
-			setColumnWidth(colrem,100);
+			setColumnWidth(ColRemarque, 100);
 	}
 	setUpdatesEnabled (TRUE);
 	triggerUpdate(); 
