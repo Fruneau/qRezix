@@ -130,6 +130,17 @@ RzxChat::~RzxChat(){
 	}
 }
 
+RzxPopup::RzxPopup(QWidget *parent, const char *name)
+	:QFrame(parent, name, WDestructiveClose | WStyle_Customize | WType_TopLevel | WType_Popup)
+{ }
+
+RzxPopup::~RzxPopup()
+{
+	emit aboutToQuit();
+}
+
+
+
 RzxChat::ListText::ListText(QString t, ListText * pN) {
 	texte = t;
 	pNext = pN;
@@ -494,10 +505,12 @@ void RzxChat::btnHistoriqueClicked(bool on){
 		if(hist)
 			hist->close();
 		hist = NULL;
+		if(btnHistorique->isOn()) btnHistorique->setOn(false);
 		return;
 	}
 
 	if(hist) return;
+	btnProperties->setOn(false);
 	
 	QString temp = textHistorique;
 
@@ -509,7 +522,8 @@ void RzxChat::btnHistoriqueClicked(bool on){
 	file.writeBlock(temp, temp.length());
 	file.close();
 	QPoint *pos = new QPoint(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
-	hist = RzxChatSocket::showHistorique( peer.toRezix(), hostname, false, this, pos);
+	connect(hist = RzxChatSocket::showHistorique( peer.toRezix(), hostname, false, this, pos), SIGNAL(aboutToQuit()),
+		this, SLOT(btnHistoriqueClicked()));
 }
 
 void RzxChat::btnPropertiesClicked(bool on)
@@ -519,10 +533,12 @@ void RzxChat::btnPropertiesClicked(bool on)
 		if(prop)
 			prop->close();
 		prop = NULL;
+		if(btnProperties->isOn()) btnProperties->setOn(false);
 		return;
 	}
 	
 	if(prop) return;
+	btnHistorique->setOn(false);
 	
 	getValidSocket()->sendPropQuery();
 }
@@ -531,7 +547,8 @@ void RzxChat::btnPropertiesClicked(bool on)
 void RzxChat::receiveProperties(const QString& msg)
 {
 	QPoint *pos = new QPoint(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
-	prop = socket->showProperties(peer, msg, false, this, pos);
+	connect(prop = socket->showProperties(peer, msg, false, this, pos), SIGNAL(aboutToQuit()),
+		this, SLOT(btnPropertiesClicked()));
 }
 
 #ifdef WIN32
