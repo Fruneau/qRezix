@@ -904,6 +904,8 @@ Les discussions et les propriétés sont désactivées</translation>
         <source>%1 is NOT logged</source>
         <translation type="obsolete">%1 n&apos;est pas connecté au serveur</translation>
     </message>
+    <message>
+        <source>Chat</source>
         <translation type="obsolete">Discussion</translation>
     </message>
     <message>
