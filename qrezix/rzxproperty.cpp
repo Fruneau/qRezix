@@ -148,7 +148,9 @@ void RzxProperty::initDlg() {
 	cmbIconTheme -> setCurrentItem( 0 );
 
 	cmbMenuText->setCurrentItem(RzxConfig::menuTextPosition());
+
 	cmbMenuIcons->setCurrentItem(RzxConfig::menuIconSize());
+	lockCmbMenuText(RzxConfig::menuIconSize());
 	
 	int i;	// oui, moins beau, mais c parceque VC++ 6 est pas compatible avec
 			// la dernière norme C++ ANSI
