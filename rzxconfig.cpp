@@ -429,11 +429,18 @@ QString RzxConfig::ftpCmd(){ return globalConfig() -> readEntry("ftp_cmd", "stan
 QString RzxConfig::httpCmd(){ return globalConfig() -> readEntry("http_cmd", "standard"); }
 QString RzxConfig::newsCmd(){ return globalConfig() -> readEntry("newsCmd", "standard"); }
 #else
+#ifdef Q_OS_MACX
+QString RzxConfig::sambaCmd(){ return globalConfig() -> readEntry("samba_cmd", "open"); }
+QString RzxConfig::ftpCmd(){ return globalConfig() -> readEntry("ftp_cmd", "Default"); }
+QString RzxConfig::httpCmd(){ return globalConfig() -> readEntry("http_cmd", "Default"); }
+QString RzxConfig::newsCmd(){ return globalConfig() -> readEntry("newsCmd", "Default"); }
+#else
 QString RzxConfig::sambaCmd(){ return globalConfig() -> readEntry("samba_cmd", "standard"); }
 QString RzxConfig::ftpCmd(){ return globalConfig() -> readEntry("ftp_cmd", "gftp"); }
 QString RzxConfig::httpCmd(){ return globalConfig() -> readEntry("http_cmd", "konqueror"); }
 QString RzxConfig::newsCmd(){ return globalConfig() -> readEntry("newsCmd", "knode"); }
-#endif
+#endif //MACX
+#endif //WIN32
 
 void RzxConfig::sambaCmd(QString newstr){ globalConfig() -> writeEntry("samba_cmd",newstr);}
 void RzxConfig::ftpCmd(QString newstr)  { globalConfig() -> writeEntry("ftp_cmd", newstr); }
