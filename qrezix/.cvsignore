@@ -1,0 +1,8 @@
+Makefile
+*.moc.cpp
+*ui.h
+*.moc
+.deps
+.libs
+qrezix
+*ui.cpp
