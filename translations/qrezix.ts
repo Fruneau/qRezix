@@ -129,6 +129,10 @@
         <source>Pong received within %1 msecs</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Chat</source>
+        <translation type="unfinished">Discussion</translation>
+    </message>
 </context>
 <context>
     <name>RzxChatSocket</name>
@@ -416,7 +420,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>%1 is now marked as away</source>
-        <translation type="unfinished">%1 est désormais absent</translation>
+        <translation type="obsolete">%1 est désormais absent</translation>
     </message>
     <message>
         <source>Received a chat request from %1</source>
@@ -428,7 +432,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Chat</source>
-        <translation type="unfinished">Discussion</translation>
+        <translation type="obsolete">Discussion</translation>
     </message>
     <message>
         <source>Properties sent to %2 (%3) at %1</source>
