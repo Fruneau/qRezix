@@ -76,7 +76,8 @@ public:
 		Promo = 32,
 		OS = 64,
 		Client = 128,
-		IP = 256
+		IP = 256,
+		Resal = 512
 	};
 	
 	QSettings *settings;
