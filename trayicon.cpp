@@ -938,3 +938,8 @@ void TrayIcon::sysUpdateToolTip()
 
 #endif
 #endif
+
+QPoint TrayIcon::getPos()
+{
+	return d->mapToGlobal(d->pos());
+}

@@ -23,6 +23,8 @@
 #include "rzxtraywindow.h"
 
 #include "rzxcomputer.h"
+#include "trayicon.h"
+#include "qrezix.h"
 
 ///Construction de la fenêtre de notification d'état de connexion de computer
 /** La fenêtre est construite pour disparaître automatiquement au bout de time secondes */
@@ -50,6 +52,9 @@ RzxTrayWindow::RzxTrayWindow(RzxComputer* computer, unsigned int time)
 	name->setTextFormat(RichText);
 	name->setText("<h2>" + computer->getName() + "</h2>");
 	description->setText(computer->getRepondeur() ? tr("is connected but away") : tr("is connected and here"));
+
+	QPoint point(0,0);
+	move(point);
 	
 	raise();
 	show();
