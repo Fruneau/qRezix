@@ -303,8 +303,8 @@
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
-                                <hsizetype>5</hsizetype>
-                                <vsizetype>5</vsizetype>
+                                <hsizetype>2</hsizetype>
+                                <vsizetype>2</vsizetype>
                                 <horstretch>0</horstretch>
                                 <verstretch>0</verstretch>
                             </sizepolicy>
@@ -344,8 +344,8 @@
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
-                                <hsizetype>5</hsizetype>
-                                <vsizetype>5</vsizetype>
+                                <hsizetype>2</hsizetype>
+                                <vsizetype>2</vsizetype>
                                 <horstretch>0</horstretch>
                                 <verstretch>0</verstretch>
                             </sizepolicy>
