@@ -3,19 +3,11 @@
     <name>@default</name>
     <message>
         <source>&amp;Quit</source>
-        <translation>&amp;Quitter</translation>
+        <translation type="obsolete">&amp;Quitter</translation>
     </message>
     <message>
         <source>&amp;Away</source>
         <translation type="obsolete">&amp;Loin</translation>
-    </message>
-    <message>
-        <source>&amp;I&apos;m back !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>I&apos;m &amp;away !</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -23,6 +15,14 @@
     <message>
         <source>Closing socket...</source>
         <translation>Fermeture du socket...</translation>
+    </message>
+    <message>
+        <source>Everybody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">Favoris</translation>
     </message>
 </context>
 <context>
@@ -51,11 +51,82 @@
         <source>Adjust columns</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Pl&amp;ug-ins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+U</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+P</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Everybody</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxChat</name>
     <message>
+        <source>Ping emitted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pong received within %1 msecs</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RzxChatSocket</name>
+    <message>
+        <source>Surname</source>
+        <translation type="unfinished">Nom</translation>
+    </message>
+    <message>
+        <source>First name</source>
+        <translation type="unfinished">Prénom</translation>
+    </message>
+    <message>
+        <source>Nick</source>
+        <translation type="unfinished">Surnom</translation>
+    </message>
+    <message>
+        <source>Phone</source>
+        <translation type="unfinished">Téléphone</translation>
+    </message>
+    <message>
+        <source>E-Mail</source>
+        <translation type="unfinished">Courriel</translation>
+    </message>
+    <message>
+        <source>Web</source>
+        <translation type="unfinished">Web</translation>
+    </message>
+    <message>
+        <source>Room</source>
+        <translation type="unfinished">Kazert</translation>
+    </message>
+    <message>
+        <source>Sport</source>
+        <translation type="unfinished">Sport</translation>
+    </message>
+    <message>
+        <source>Promo</source>
+        <translation type="unfinished">Promâl</translation>
+    </message>
+    <message>
         <source>ends the chat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>can&apos;t be contact, check his firewall... CONNECTION ERROR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -67,7 +138,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>can&apos;t be contact, check his firewall... CONNECTION ERROR</source>
+        <source>has send empty properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ping received</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -117,65 +192,76 @@
         <source>U</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Pl&amp;ug-ins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+U</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+B</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+U</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+S</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
+    </message>
 </context>
 <context>
     <name>RzxClientListener</name>
     <message>
         <source>Surname</source>
-        <translation>Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
     <message>
         <source>First name</source>
-        <translation>Prénom</translation>
+        <translation type="obsolete">Prénom</translation>
     </message>
     <message>
         <source>Nick</source>
-        <translation>Surnom</translation>
+        <translation type="obsolete">Surnom</translation>
     </message>
     <message>
         <source>Phone</source>
-        <translation>Téléphone</translation>
+        <translation type="obsolete">Téléphone</translation>
     </message>
     <message>
         <source>E-Mail</source>
-        <translation>Courriel</translation>
+        <translation type="obsolete">Courriel</translation>
     </message>
     <message>
         <source>Web</source>
-        <translation>Web</translation>
+        <translation type="obsolete">Web</translation>
     </message>
     <message>
         <source>Room</source>
-        <translation>Kazert</translation>
+        <translation type="obsolete">Kazert</translation>
     </message>
     <message>
         <source>Sport</source>
-        <translation>Sport</translation>
+        <translation type="obsolete">Sport</translation>
     </message>
     <message>
         <source>Promo</source>
-        <translation>Promâl</translation>
+        <translation type="obsolete">Promâl</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished">Erreur</translation>
-    </message>
-    <message>
-        <source>Connection has been anormally lost while getting properties</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unable to set a connection
-Host may not have open the chat port from his firewall</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unable to find host</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Can&apos;t read datas from host</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Erreur</translation>
     </message>
 </context>
 <context>
@@ -212,7 +298,7 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>qReziX error</source>
-        <translation>Erreur de qRéziX</translation>
+        <translation type="obsolete">Erreur de qRéziX</translation>
     </message>
     <message>
         <source>Cannot open configuration file %1</source>
@@ -220,7 +306,7 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>Unable to open configuration file %1 for writing</source>
-        <translation>Impossible d&apos;ouvrir le fichier de configuration %1 en écriture</translation>
+        <translation type="obsolete">Impossible d&apos;ouvrir le fichier de configuration %1 en écriture</translation>
     </message>
     <message>
         <source>qRezix error</source>
@@ -247,6 +333,35 @@ dans lequel il enregistre sa configuration</translation>
     <message>
         <source>You will not be able to save your configuration</source>
         <translation type="obsolete">Il vous sera impossible de sauvegarder vos paramètres</translation>
+    </message>
+</context>
+<context>
+    <name>RzxPlugInLoader</name>
+    <message>
+        <source>English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to load a plug-in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The plug-in named %1 owns a version number which is not supported by this version of qRezix.
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A more recent version of qRezix is certainly available. Update qRezix if you want to use this plug-in.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A new version of the plug-in may be available. Install it if you want to use this plug-in.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A plug-in file has been found but qRezix can&apos;t extract any plug-in from it. Maybe the plug-in file is corrupted or not up-to-date.
+ Try to install the last version of this plug-in (file %1).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -339,6 +454,47 @@ dans lequel il enregistre sa configuration</translation>
         <source>Sound file selection</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Incomplete datas</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>First name:</source>
+        <translation type="unfinished">Prénom:</translation>
+    </message>
+    <message>
+        <source>Nick:</source>
+        <translation type="obsolete">Surnom:</translation>
+    </message>
+    <message>
+        <source>Surname:</source>
+        <translation type="unfinished">Nom:</translation>
+    </message>
+    <message>
+        <source>Sport:</source>
+        <translation type="unfinished">Sport:</translation>
+    </message>
+    <message>
+        <source>Room:</source>
+        <translation type="unfinished">Kazert:</translation>
+    </message>
+    <message>
+        <source>Phone number:</source>
+        <translation type="unfinished">Téléphone:</translation>
+    </message>
+    <message>
+        <source>e-mail:</source>
+        <translation type="unfinished">Courriel:</translation>
+    </message>
+    <message>
+        <source>Press OK to reenter these informations, or Cancel to quit qRezix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to use qRezix, you have to complete all the following informations :
+</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxProtocole</name>
@@ -400,6 +556,14 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>Are you sure you want to &lt;b&gt;Quit qRezix &lt;/b&gt;?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Always do like that</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+A</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -557,6 +721,10 @@ Les discussions et les propriétés sont désactivées</translation>
         <source>Properties sent to </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annuler</translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
@@ -663,6 +831,10 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     <message>
         <source>I&apos;m &amp;away !</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Quit</source>
+        <translation type="unfinished">&amp;Quitter</translation>
     </message>
 </context>
 <context>
@@ -837,7 +1009,7 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     </message>
     <message>
         <source>Browse</source>
-        <translation>Parcourir</translation>
+        <translation type="obsolete">Parcourir</translation>
     </message>
     <message>
         <source>Working directory :</source>
@@ -1049,6 +1221,50 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     </message>
     <message>
         <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show dialog when clicking on X</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Beside icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Below icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text position:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Small icons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Big icons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Icon size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

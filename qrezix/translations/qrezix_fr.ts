@@ -3,7 +3,7 @@
     <name>@default</name>
     <message>
         <source>&amp;Quit</source>
-        <translation>&amp;Quitter</translation>
+        <translation type="obsolete">&amp;Quitter</translation>
     </message>
     <message>
         <source>&amp;Away</source>
@@ -11,11 +11,11 @@
     </message>
     <message>
         <source>&amp;I&apos;m back !</source>
-        <translation>Je suis &amp;revenu !</translation>
+        <translation type="obsolete">Je suis &amp;revenu !</translation>
     </message>
     <message>
         <source>I&apos;m &amp;away !</source>
-        <translation>Je m&apos;en &amp;vais !</translation>
+        <translation type="obsolete">Je m&apos;en &amp;vais !</translation>
     </message>
 </context>
 <context>
@@ -23,6 +23,14 @@
     <message>
         <source>Closing socket...</source>
         <translation>Fermeture du socket...</translation>
+    </message>
+    <message>
+        <source>Everybody</source>
+        <translation>Tout le monde</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favoris</translation>
     </message>
 </context>
 <context>
@@ -51,12 +59,103 @@
         <source>Adjust columns</source>
         <translation>Ajuster les colonnes</translation>
     </message>
+    <message>
+        <source>Pl&amp;ug-ins</source>
+        <translation>Pl&amp;ug-ins</translation>
+    </message>
+    <message>
+        <source>Alt+U</source>
+        <translation>Alt+U</translation>
+    </message>
+    <message>
+        <source>Alt+A</source>
+        <translation>Alt+L</translation>
+    </message>
+    <message>
+        <source>Alt+P</source>
+        <translation>Alt+P</translation>
+    </message>
+    <message>
+        <source>Everybody</source>
+        <translation>Tout le monde</translation>
+    </message>
 </context>
 <context>
     <name>RzxChat</name>
     <message>
         <source>ends the chat</source>
+        <translation type="obsolete">a mis fin au chat</translation>
+    </message>
+    <message>
+        <source>can&apos;t be found... CONNECTION ERROR</source>
+        <translation type="obsolete">n&apos;a pas été trouvé... Erreur lors de la connexion</translation>
+    </message>
+    <message>
+        <source>has sent datas which can&apos;t be read... CONNECTION ERROR</source>
+        <translation type="obsolete">a envoyé des données qui ne peuvent pas être lues... Erreur de connexion</translation>
+    </message>
+    <message>
+        <source>can&apos;t be contact... CONNECTION ERROR</source>
+        <translation type="obsolete">ne peut être contacté... Erreur lors de la connexion</translation>
+    </message>
+    <message>
+        <source>can&apos;t be contact, check his firewall... CONNECTION ERROR</source>
+        <translation type="obsolete">ne peut être contacté, vérifiez son firewall... Erreur lors de la connexion</translation>
+    </message>
+    <message>
+        <source>Ping emitted</source>
+        <translation>Ping envoyé</translation>
+    </message>
+    <message>
+        <source>Pong received within %1 msecs</source>
+        <translation>Pong reçu après %1 ms</translation>
+    </message>
+</context>
+<context>
+    <name>RzxChatSocket</name>
+    <message>
+        <source>Surname</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <source>First name</source>
+        <translation>Prénom</translation>
+    </message>
+    <message>
+        <source>Nick</source>
+        <translation>Surnom</translation>
+    </message>
+    <message>
+        <source>Phone</source>
+        <translation>Téléphone</translation>
+    </message>
+    <message>
+        <source>E-Mail</source>
+        <translation>Courriel</translation>
+    </message>
+    <message>
+        <source>Web</source>
+        <translation>Web</translation>
+    </message>
+    <message>
+        <source>Room</source>
+        <translation>Kazert</translation>
+    </message>
+    <message>
+        <source>Sport</source>
+        <translation>Sport</translation>
+    </message>
+    <message>
+        <source>Promo</source>
+        <translation>Promâl</translation>
+    </message>
+    <message>
+        <source>ends the chat</source>
         <translation>a mis fin au chat</translation>
+    </message>
+    <message>
+        <source>can&apos;t be contact, check his firewall... CONNECTION ERROR</source>
+        <translation>ne peut être contacté, vérifiez son firewall... Erreur lors de la connexion</translation>
     </message>
     <message>
         <source>can&apos;t be found... CONNECTION ERROR</source>
@@ -67,12 +166,12 @@
         <translation>a envoyé des données qui ne peuvent pas être lues... Erreur de connexion</translation>
     </message>
     <message>
-        <source>can&apos;t be contact... CONNECTION ERROR</source>
-        <translation type="obsolete">ne peut être contacté... Erreur lors de la connexion</translation>
+        <source>has send empty properties</source>
+        <translation>a envoyé ses propriétés mais elles sont vides</translation>
     </message>
     <message>
-        <source>can&apos;t be contact, check his firewall... CONNECTION ERROR</source>
-        <translation>ne peut être contacté, vérifiez son firewall... Erreur lors de la connexion</translation>
+        <source>Ping received</source>
+        <translation>Ping reçu</translation>
     </message>
 </context>
 <context>
@@ -121,66 +220,94 @@
         <source>U</source>
         <translation>S</translation>
     </message>
+    <message>
+        <source>Pl&amp;ug-ins</source>
+        <translation>Pl&amp;ug-ins</translation>
+    </message>
+    <message>
+        <source>Alt+U</source>
+        <translation>Alt+U</translation>
+    </message>
+    <message>
+        <source>Ctrl+B</source>
+        <translation>Ctrl+G</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation>Ctrl+I</translation>
+    </message>
+    <message>
+        <source>Ctrl+U</source>
+        <translation>Ctrl+S</translation>
+    </message>
+    <message>
+        <source>Ctrl+S</source>
+        <translation>Ctrl+H</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
 </context>
 <context>
     <name>RzxClientListener</name>
     <message>
         <source>Surname</source>
-        <translation>Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
     <message>
         <source>First name</source>
-        <translation>Prénom</translation>
+        <translation type="obsolete">Prénom</translation>
     </message>
     <message>
         <source>Nick</source>
-        <translation>Surnom</translation>
+        <translation type="obsolete">Surnom</translation>
     </message>
     <message>
         <source>Phone</source>
-        <translation>Téléphone</translation>
+        <translation type="obsolete">Téléphone</translation>
     </message>
     <message>
         <source>E-Mail</source>
-        <translation>Courriel</translation>
+        <translation type="obsolete">Courriel</translation>
     </message>
     <message>
         <source>Web</source>
-        <translation>Web</translation>
+        <translation type="obsolete">Web</translation>
     </message>
     <message>
         <source>Room</source>
-        <translation>Kazert</translation>
+        <translation type="obsolete">Kazert</translation>
     </message>
     <message>
         <source>Sport</source>
-        <translation>Sport</translation>
+        <translation type="obsolete">Sport</translation>
     </message>
     <message>
         <source>Promo</source>
-        <translation>Promâl</translation>
+        <translation type="obsolete">Promâl</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation>Erreur</translation>
+        <translation type="obsolete">Erreur</translation>
     </message>
     <message>
         <source>Connection has been anormally lost while getting properties</source>
-        <translation>La connexion a été anormalement perdue pendant l&apos;obtention des propriétés</translation>
+        <translation type="obsolete">La connexion a été anormalement perdue pendant l&apos;obtention des propriétés</translation>
     </message>
     <message>
         <source>Unable to set a connection
 Host may not have open the chat port from his firewall</source>
-        <translation>Impossible d&apos;établir la connexion
+        <translation type="obsolete">Impossible d&apos;établir la connexion
 Vérifiez que votre correspondant a bien ouvert le port de chat dans son firewall</translation>
     </message>
     <message>
         <source>Unable to find host</source>
-        <translation>Impossible de trouver votre correspondant</translation>
+        <translation type="obsolete">Impossible de trouver votre correspondant</translation>
     </message>
     <message>
         <source>Can&apos;t read datas from host</source>
-        <translation>Impossible de lire les données émisent par votre correspondant</translation>
+        <translation type="obsolete">Impossible de lire les données émisent par votre correspondant</translation>
     </message>
 </context>
 <context>
@@ -217,7 +344,7 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>qReziX error</source>
-        <translation>Erreur de qRéziX</translation>
+        <translation type="obsolete">Erreur de qRéziX</translation>
     </message>
     <message>
         <source>Cannot open configuration file %1</source>
@@ -225,7 +352,7 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>Unable to open configuration file %1 for writing</source>
-        <translation>Impossible d&apos;ouvrir le fichier de configuration %1 en écriture</translation>
+        <translation type="obsolete">Impossible d&apos;ouvrir le fichier de configuration %1 en écriture</translation>
     </message>
     <message>
         <source>qRezix error</source>
@@ -252,6 +379,37 @@ dans lequel il enregistre sa configuration</translation>
     <message>
         <source>You will not be able to save your configuration</source>
         <translation type="obsolete">Il vous sera impossible de sauvegarder vos paramètres</translation>
+    </message>
+</context>
+<context>
+    <name>RzxPlugInLoader</name>
+    <message>
+        <source>English</source>
+        <translation>Français</translation>
+    </message>
+    <message>
+        <source>Unable to load a plug-in</source>
+        <translation>Impossible de charger le plug-in</translation>
+    </message>
+    <message>
+        <source>The plug-in named %1 owns a version number which is not supported by this version of qRezix.
+</source>
+        <translation>Le plug-in nommé %1 possède un numéro de version non-supporté par cette version de qRezix.
+</translation>
+    </message>
+    <message>
+        <source>A more recent version of qRezix is certainly available. Update qRezix if you want to use this plug-in.</source>
+        <translation>Une version plus récente de qRezix est certainement disponible. Mettez à jour qRezix pour utiliser ce plug-in.</translation>
+    </message>
+    <message>
+        <source>A new version of the plug-in may be available. Install it if you want to use this plug-in.</source>
+        <translation>Une nouvelle version de ce plug-in est peut-être disponible. Installez-la pour utiliser ce plug-in.</translation>
+    </message>
+    <message>
+        <source>A plug-in file has been found but qRezix can&apos;t extract any plug-in from it. Maybe the plug-in file is corrupted or not up-to-date.
+ Try to install the last version of this plug-in (file %1).</source>
+        <translation>Un fichier de plug-in a été trouvé mais qRezix ne peut en extraire de plug-in. Ce fichier est peut-être corrompu ou d&apos;une version non supportée par qRezix.
+Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translation>
     </message>
 </context>
 <context>
@@ -356,6 +514,54 @@ dans lequel il enregistre sa configuration</translation>
         <source>firefox</source>
         <translation type="obsolete">firefox</translation>
     </message>
+    <message>
+        <source>Incomplete datas</source>
+        <translation>Données incomplètes</translation>
+    </message>
+    <message>
+        <source>In order to use qRezix, you have to complete all the following information :
+</source>
+        <translation type="obsolete">Pour utiliser qRezix, il vous faut avoir rempli les champs suivants :
+</translation>
+    </message>
+    <message>
+        <source>First name:</source>
+        <translation>Prénom:</translation>
+    </message>
+    <message>
+        <source>Nick:</source>
+        <translation type="obsolete">Surnom:</translation>
+    </message>
+    <message>
+        <source>Surname:</source>
+        <translation>Nom:</translation>
+    </message>
+    <message>
+        <source>Sport:</source>
+        <translation>Sport:</translation>
+    </message>
+    <message>
+        <source>Room:</source>
+        <translation>Kazert:</translation>
+    </message>
+    <message>
+        <source>Phone number:</source>
+        <translation>Téléphone:</translation>
+    </message>
+    <message>
+        <source>e-mail:</source>
+        <translation>Courriel:</translation>
+    </message>
+    <message>
+        <source>Press OK to reenter these informations, or Cancel to quit qRezix</source>
+        <translation>Cliquez sur OK pour réentrer ces informations, ou cliquez sur Annuler pour quitter qRezix</translation>
+    </message>
+    <message>
+        <source>In order to use qRezix, you have to complete all the following informations :
+</source>
+        <translation>Pour pouvoir utiliser qRezix, vous devez avoir complèté les champs suivants :
+</translation>
+    </message>
 </context>
 <context>
     <name>RzxProtocole</name>
@@ -418,6 +624,14 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     <message>
         <source>Are you sure you want to &lt;b&gt;Quit qRezix &lt;/b&gt;?</source>
         <translation>Es-tu sûr de vouloir &lt;b&gt;Quitter qRezix &lt;/b&gt;?</translation>
+    </message>
+    <message>
+        <source>&amp;Always do like that</source>
+        <translation>&amp;Toujours faire comme ça</translation>
+    </message>
+    <message>
+        <source>Alt+A</source>
+        <translation>Alt+A</translation>
     </message>
 </context>
 <context>
@@ -574,6 +788,24 @@ Les discussions et les propriétés sont désactivées</translation>
         <source>Properties sent to </source>
         <translation>Propriétés envoyées à</translation>
     </message>
+    <message>
+        <source>Can&apos;t open chat</source>
+        <translation type="obsolete">Impossible d&apos;ouvrir le chat</translation>
+    </message>
+    <message>
+        <source>Hey, it&apos;s you %1... you can&apos;t have a chat with yourself. If you really want to chat to yourself, you just have to find a mirror...</source>
+        <translation type="obsolete">Hei, c&apos;est toi %1... ça sert à rien de discutter avec toi-même, mais si tu y tiens vraiment, trouve un mirroir, ce sera plus mieux que qRezix :)...</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuler</translation>
+    </message>
+    <message>
+        <source>Hey, it&apos;s you %1... you can&apos;t have a chat with yourself.
+ If you really want to chat to yourself, you just have to find a mirror...</source>
+        <translation type="obsolete">Hé, c&apos;est toi %1... ça sert à rien de discutter avec toi-même.
+Mais si tu y tiens vraiment, trouve un mirroir, ce sera plus mieux que qRezix :)...</translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
@@ -681,6 +913,10 @@ Le pass avec lequel vous avez tenté de vous connecter au serveur xnt est incorr
     <message>
         <source>I&apos;m &amp;away !</source>
         <translation>Je m&apos;en &amp;vais !</translation>
+    </message>
+    <message>
+        <source>&amp;Quit</source>
+        <translation>&amp;Quit</translation>
     </message>
 </context>
 <context>
@@ -855,7 +1091,7 @@ Le pass avec lequel vous avez tenté de vous connecter au serveur xnt est incorr
     </message>
     <message>
         <source>Browse</source>
-        <translation>Parcourir</translation>
+        <translation type="obsolete">Parcourir</translation>
     </message>
     <message>
         <source>Working directory :</source>
@@ -1051,27 +1287,71 @@ Le pass avec lequel vous avez tenté de vous connecter au serveur xnt est incorr
     </message>
     <message>
         <source>&amp;Plug-ins</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Plug-ins</translation>
     </message>
     <message>
         <source>Plug-ins</source>
-        <translation type="unfinished"></translation>
+        <translation>Plug-ins</translation>
     </message>
     <message>
         <source>Plug-in pr&amp;operties</source>
-        <translation type="unfinished"></translation>
+        <translation>Pr&amp;opriétés du plug-in</translation>
     </message>
     <message>
         <source>Alt+O</source>
-        <translation type="unfinished">Alt+O</translation>
+        <translation>Alt+O</translation>
     </message>
     <message>
         <source>Nom</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
+    </message>
+    <message>
+        <source>Show dialog when clicking on X</source>
+        <translation>Afficher une boîte de dialogue en cliquant sur X</translation>
+    </message>
+    <message>
+        <source>Menu</source>
+        <translation>Menu</translation>
+    </message>
+    <message>
+        <source>No text</source>
+        <translation>Pas de texte</translation>
+    </message>
+    <message>
+        <source>Beside icon</source>
+        <translation>A côté de l&apos;icône</translation>
+    </message>
+    <message>
+        <source>Below icon</source>
+        <translation>En dessous de l&apos;icône</translation>
+    </message>
+    <message>
+        <source>Text position:</source>
+        <translation>Position du texte :</translation>
+    </message>
+    <message>
+        <source>No icon</source>
+        <translation>Pas d&apos;icône</translation>
+    </message>
+    <message>
+        <source>Small icons</source>
+        <translation>Petites icônes</translation>
+    </message>
+    <message>
+        <source>Big icons</source>
+        <translation>Grandes icônes</translation>
+    </message>
+    <message>
+        <source>Icon size:</source>
+        <translation>Taille des icônes :</translation>
+    </message>
+    <message>
+        <source>About Qt</source>
+        <translation>A propos de Qt</translation>
     </message>
 </context>
 </TS>
