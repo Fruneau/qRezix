@@ -1411,5 +1411,9 @@ Le pass avec lequel vous avez tenté de vous connecter au serveur xnt est incorr
         <source>Version</source>
         <translation>Version</translation>
     </message>
+    <message>
+        <source>Highlight the selection</source>
+        <translation>Démarquer le sélection</translation>
+    </message>
 </context>
 </TS>

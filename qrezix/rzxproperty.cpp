@@ -309,7 +309,7 @@ void RzxProperty::miseAJour() {
 	}
 	delete l;
 	
-	bool iconSizeChanged = cfgObject -> computerIconSize() != cmbIconSize -> currentItem();
+	bool iconSizeChanged = (cfgObject -> computerIconSize() != cmbIconSize -> currentItem() || cfgObject->computerIconHighlight() != cbHighlight->isChecked());
 	bool themeChanged = RzxConfig::iconTheme().compare( cmbIconTheme -> currentText() );
 
 	bool localHostUpdated = updateLocalHost();
@@ -322,6 +322,7 @@ void RzxProperty::miseAJour() {
 
 	cfgObject -> writeEntry( "doubleClic", cmdDoubleClic->currentItem() );
 	cfgObject -> writeEntry( "iconsize", cmbIconSize -> currentItem() );
+	cfgObject -> writeEntry( "iconhighlight", cbHighlight->isChecked());
 	cfgObject -> writeEntry( "beep", chkBeep->isChecked() ? 1 : 0 );
 	cfgObject -> writeEntry( "txtBeep", txtBeep->text());
 	cfgObject -> writeEntry( "txtBeepCmd", txtBeepCmd->text());

@@ -24,7 +24,8 @@ HEADERS	+= qrezix.h \
 	trayicon.h \
 	rzxquit.h \
 	rzxplugin.h \
-	rzxpluginloader.h
+	rzxpluginloader.h \
+	 rzxutilslauncher.h
 
 SOURCES	+= main.cpp \
 	qrezix.cpp \
@@ -43,7 +44,8 @@ SOURCES	+= main.cpp \
 	trayicon.cpp \
 	rzxquit.cpp \
 	rzxplugin.cpp \
-	rzxpluginloader.cpp
+	rzxpluginloader.cpp \
+	 rzxutilslauncher.cpp
 
 FORMS	= qrezixui.ui \
 	rzxchatui.ui \

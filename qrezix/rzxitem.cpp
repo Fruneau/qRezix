@@ -147,7 +147,8 @@ QString RzxItem::key(int column, bool ascending) const{
 /** No descriptions */
 void RzxItem::drawComputerIcon(){
 	QPixmap tempIcon = icon;
-	if (!icon.isNull() && !RzxConfig::computerIconSize()) {
+	if (!icon.isNull() && !RzxConfig::computerIconSize() && (!isSelected() || !RzxConfig::computerIconHighlight()))
+	{
 		QImage img = icon.convertToImage();
 		img = img.smoothScale(32, 32);
 		tempIcon.convertFromImage(img);

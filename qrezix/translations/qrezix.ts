@@ -1315,5 +1315,9 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Highlight the selection</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

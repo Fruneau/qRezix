@@ -35,6 +35,7 @@
 #include "rzxrezal.h"
 #include "rzxproperty.h"
 #include "rzxpluginloader.h"
+#include "rzxutilslauncher.h"
 
 #include "defaults.h"
 
@@ -49,7 +50,12 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	object = this;
 	byTray = false;
 	statusFlag = false;
+	
+	///Chargement des plug-ins
 	RzxPlugInLoader::global();
+	///Préparation du lanceur des clients http...
+	new RzxUtilsLauncher(rezal);
+	
 	rezal->showNotFavorites(true);
 	rezalFavorites->showNotFavorites(false);
 	connect(btnPreferences, SIGNAL(clicked()), this, SLOT(boitePreferences()));
