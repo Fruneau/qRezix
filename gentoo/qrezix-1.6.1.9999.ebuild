@@ -1,4 +1,4 @@
-# Copyright 1999-2005 Binet Réseau
+# Copyright 1999-2005 Binet RÃ©seau
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 
@@ -13,7 +13,7 @@ HOMEPAGE="http://frankiz/"
 LICENSE="GPL-2"
 SLOT="0"
 
-KEYWORDS="x86"
+KEYWORDS="~x86 ~amd64"
 IUSE="xplo smilix"
 
 DEPEND=">=x11-libs/qt-3.3.3
