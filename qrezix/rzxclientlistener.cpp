@@ -198,7 +198,7 @@ int RzxChatSocket::parse(const QString& msg)
 					return DCC_PONG;
 					break;
 				case DCC_TYPING:
-					emit typing(cmd.cap(3)=="1");
+					emit typing(cmd.cap(2)=="1");
 					qDebug("Parsing TYPING");
 					return DCC_TYPING;
 					break;
