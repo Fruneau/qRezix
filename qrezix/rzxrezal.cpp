@@ -426,7 +426,7 @@ void RzxRezal::http(){
 #ifdef WIN32
     if( RzxConfig::globalConfig()->httpCmd().compare("standard") == 0)
     {
-        ShellExecute( NULL, NULL, tempip, NULL, NULL, SW_SHOW );
+        ShellExecute( NULL, NULL, (LPCSTR)(tempip.unicode()), NULL, NULL, SW_SHOW );
     }
     else
     {
@@ -440,7 +440,7 @@ void RzxRezal::http(){
 			unsigned char buffer[MAX_PATH];
 			unsigned long KeyType = 0;
 			unsigned long KeySize = sizeof(TCHAR) * MAX_PATH;
-			RegQueryValueEx(hKey, "Last CommandLine", 0, &KeyType, buffer, &KeySize);
+			RegQueryValueEx(hKey, TEXT("Last CommandLine"), 0, &KeyType, buffer, &KeySize);
 			RegCloseKey(hKey);
 			QString temp=(char *)buffer;
 			cmd = temp + tempip;
