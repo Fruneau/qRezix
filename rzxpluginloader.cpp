@@ -49,6 +49,7 @@ RzxPlugInLoader *RzxPlugInLoader::object = NULL;
 /** La construction du programme se fait simplement par recherche et chargement des plugins existant. Le chargement et le lancement de l'exécution des plug-ins se fait de manière distincte. On peut donc envisager la désactivation des plugs-ins par le programme principale */
 RzxPlugInLoader::RzxPlugInLoader() : QObject(0, 0)
 {
+	qDebug("=== Loading plugins ===");
 	pluginFlags = 0;
 	initialized = false;
 	object = this;
@@ -61,6 +62,7 @@ RzxPlugInLoader::RzxPlugInLoader() : QObject(0, 0)
 		loadPlugIn(RzxConfig::globalConfig()->userDir());
 	if (RzxConfig::globalConfig()->libDir() != RzxConfig::globalConfig()->systemDir())
 		loadPlugIn(RzxConfig::globalConfig()->libDir());
+	qDebug("=== Plugins loaded ===\n");
 }
 
 /// Recherche des plugins et chargement dans un répertoire
@@ -73,7 +75,6 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 		qDebug(QString("Cannot cd to %1/plugins").arg(sourceDir.canonicalPath()));
 		return;
 	}
-	else qDebug(QString("Exploring %1").arg(sourceDir.canonicalPath()));
 
 	//les plugins doivent avoir un nom de fichier qui contient rzxpi
 	//		par exemple librzxpixplo.so ou rzxpixplo.dll
@@ -87,15 +88,12 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 #endif
 #endif
 	QStringList trans=sourceDir.entryList(QDir::Files|QDir::Readable);
-	qDebug(QString("Found %1 plugins in %2").arg(trans.count()).arg(sourceDir.canonicalPath()));
-
+	
 	//chargement des plugins dans les fichiers
 	QVariant *pipath = new QVariant(sourceDir.canonicalPath());
 	QVariant *userpath = new QVariant(RzxConfig::globalConfig()->userDir().canonicalPath());
 	for(QStringList::Iterator it=trans.begin(); it!=trans.end(); ++it)
 	{
-		qDebug(QString("Loading plug-in file %1").arg(*it));
-		
 		//tout plug-in doit avoir une fonction RzxPlugIn *getPlugIn() qui renvoi un plugin
 		//à partir duquel on peut traiter.
 		QLibrary *lib = new QLibrary(sourceDir.filePath(*it));
@@ -105,11 +103,11 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 			RzxPlugIn *pi = getPlugIn();
 			if(pi)
 			{
+				QString log = "Plugin " + pi->getName() + " (version: " + QString::number(pi->getVersion(), 16) + "/" + QString::number(PLUGIN_VERSION, 16) + ")";
 				//chargement du plugin et connexion au programme
-				qDebug("Plugin is " + pi->getName() + " (version: " + QString::number(pi->getVersion(), 16) + "/" + QString::number(PLUGIN_VERSION, 16) + ")");
 				if(pi->getVersion() > PLUGIN_VERSION || (pi->getVersion() & 0xfffff000) != (PLUGIN_VERSION & 0xfffff000))
 				{
-					qDebug("Wrong plug-in version number");
+					log += " - not loaded : wrong version number";
 					RzxMessageBox::information(NULL,
 						tr("Unable to load a plug-in"),
 						tr("The plug-in named %1 owns a version number which is not supported by this version of qRezix.\n")
@@ -120,11 +118,12 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 				}
 				else if(pluginByName[pi->getName()])
 				{
-					qDebug("A plug-in with the same name has already be loaded");
+					log += " - not loaded : already loaded";
 					delete lib;
 				}
 				else
 				{
+					log += " - loaded from " + sourceDir.absPath();
 					pluginFlags |= pi->getFeatures();
 					connect(pi, SIGNAL(send(const QString&)), RzxServerListener::object(), SLOT(sendProtocolMsg(const QString&)));
 					connect(pi, SIGNAL(queryData(RzxPlugIn::Data, RzxPlugIn*)), this, SLOT(sendQuery(RzxPlugIn::Data, RzxPlugIn*)));
@@ -137,6 +136,7 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 					fileByName.insert(pi->getName(), lib);
 					state.append(false);
 				}
+				qDebug(log);
 			}
 		}
 		else
