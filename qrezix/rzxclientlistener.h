@@ -31,6 +31,8 @@
   */
   
 class RzxChat;
+class QSocketNotifier;
+
 class RzxChatSocket : public QSocket
 {
 	Q_OBJECT
@@ -114,7 +116,7 @@ class RzxClientListener : public QObject  {
 
 	QSocketDevice listenSocket;
 	bool valid;
-	
+	QSocketNotifier * notify;
 	static RzxClientListener * globalObject;
 	
 	public:

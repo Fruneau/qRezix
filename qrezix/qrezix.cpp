@@ -154,6 +154,7 @@ void QRezix::languageChanged(){
 }
 
 QRezix::~QRezix() {
+	delete RzxUtilsLauncher::global();
 	qDebug("Bye Bye\n");
 }
 
