@@ -54,6 +54,11 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	connect( chkBeep, SIGNAL(toggled(bool)), txtBeep, SLOT(setEnabled(bool)));
 	
 	hostname->setValidator( new DnsValidator() );
+	
+#ifndef WIN32
+	btnAboutQt->hide();
+#endif
+
 	initDlg();
 }
 
