@@ -13,7 +13,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#define DEFAULT_COMMENT "La nouvelle version de qRezix, plus que le WEI, c'est le feu... merci les BRmen"
+#define DEFAULT_COMMENT "La nouvelle version de qRezix, plus que le WEI, c'est le feu... merci les BRmen\nJ'ai diminué un peu la vitesse de démarrage de MultiDeskOS pour accélérer son exécution.-- Jayce - Allez comprendre ! --\nL'ascenseur : \"Quand tu montes dans un ascenseur... tu penses. À des tas de choses ; à des créations, à des gens, à des souvenirs... Donc on est jamais seul spirituellement! Mais physiquement, \"dans l'enveloppe\", si je suis seul... eh bien... je suis là. Et je reste là. Jusqu'à ce que les portes s'ouvrent... Et puis je commence à marcher. Je bouge mon enveloppe. Vers ma mission de tous les jours... -+- Jean-Claude VanDamme -+-\n meme ke moloss il a un alias il tape /mortderire et ca ecrit <moloss> mdr -+- Big-Toof in GPJ: Les alias les plus courts sont les meilleurs -+-\nMieux vaut penser le changement que changer de pansement. -+- Francis Blanche -+-\nUn bousier dans chaque narine... et plus besoin... de se mettre les doigts dans le nez...\nPour toi, je serai femme, maîtresse, mère. -+- Louis Calaferte, La mécanique des femmes -+-\n> Sérieusement tu crois que la Debian est plus stable que les autres ? Pour moi c'est juste une simple distrib pour une bande de pauvres cons fanatiques     Ta mère c'est Bernard Minet. -+- SH in GFA : Bien configurer sa mère -+-\nSi ça marche pas c'est que problème est entre la chaine et le clavier\nLe fait que le monde soit peuplé de crétins permet à chacun de nous de ne pas se faire remarquer. -+- Sim -+-\nINFINITÉSIMAL : On ne sais pas ce que ce c'est, mais a rapport à l'homéopathie. -+- Gustave Flaubert, Dictionnaire des idées reçues -+-"
+
+
 #define DEFAULT_SERVER "xnetserver.eleves.polytechnique.fr"
 #define DEFAULT_PORT 5053
 #define DEFAULT_CHATPORT 5050
