@@ -311,8 +311,8 @@ void RzxComputer::scanServers()
 	netstat->addArgument("netstat");
   
 	#ifdef Q_OS_MACX
-		netstat->addArgument("-f inet");
-		netstat->addArgument("-an");
+		netstat->addArgument("-anf");
+		netstat->addArgument("inet");
 	#else
 		netstat->addArgument("-ltn");
 	#endif
@@ -327,10 +327,10 @@ void RzxComputer::scanServers()
 
 		#ifdef Q_OS_MACX
 			res = res.grep("LISTEN");
-			if(!(res.grep(QRegExp("\\.21\\s")).isEmpty()) servers |= RzxComputer::SERVER_FTP;
-			if(!(res.grep(QRegExp("\\.80\\s")).isEmpty()) servers |= RzxComputer::SERVER_HTTP;
-			if(!(res.grep(QRegExp("\\.119\\s")).isEmpty()) servers |= RzxComputer::SERVER_NEWS;
-			if(!(res.grep(QRegExp("\\.139\\s")).isEmpty()) servers |= RzxComputer::SERVER_SAMBA;
+			if(!(res.grep(QRegExp("\\.21\\s")).isEmpty())) servers |= RzxComputer::SERVER_FTP;
+			if(!(res.grep(QRegExp("\\.80\\s")).isEmpty())) servers |= RzxComputer::SERVER_HTTP;
+			if(!(res.grep(QRegExp("\\.119\\s")).isEmpty())) servers |= RzxComputer::SERVER_NEWS;
+			if(!(res.grep(QRegExp("\\.139\\s")).isEmpty())) servers |= RzxComputer::SERVER_SAMBA;
 		#else
 			//lecture des différents port pour voir s'il sont listen
 			if(!(res.grep(":21 ")).isEmpty()) servers |= RzxComputer::SERVER_FTP;
