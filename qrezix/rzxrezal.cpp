@@ -719,6 +719,18 @@ void RzxRezal::chatDelete(const RzxHostAddress& peerAddress){
   	chats.remove(peerAddress.toString());
 }
 
+///Fermeture des chats en cours
+/** Cette méthode à pour but de fermer tous les chats en cours pour libérer en particulier le port 5050. Normalement l'appel de cette méthode à la fermeture de qRezix doit corriger le problème de réouverture de l'écoute qui intervient à certains moments lors du démarrage de qRezix */
+void RzxRezal::closeChats()
+{
+	QDictIterator<RzxChat> it(chats);
+	for( ; it.current() ; ++it)
+	{
+		it.current()->close();
+	}
+}
+
+
 void RzxRezal::warnProperties(const RzxHostAddress& peer) {
 	RzxChat * object = chats.find(peer.toString());
 	RzxComputer * computer = iplist.find(peer.toString());

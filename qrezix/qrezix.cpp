@@ -158,7 +158,11 @@ void QRezix::saveSettings()
 	qDebug("Fermeture de l'enregistrement des configurations");
 	RzxConfig::globalConfig()->writeWindowSize(windowSize);
 	RzxConfig::globalConfig() -> closeSettings();
-	qDebug("Fermeture du rezal");
+	qDebug("Fermeture des fenêtres de chat");
+	rezal->closeChats();
+	qDebug("Fermeture de l'écoute réseau");
+	RzxClientListener::object()->close();
+	qDebug("Fermeture de la connexion avec le serveur");
 	if (!rezal -> isSocketClosed()){
 		lblStatus -> setText(tr("Closing socket..."));
 		rezal -> setEnabled(false);
@@ -166,6 +170,7 @@ void QRezix::saveSettings()
 		rezal -> closeSocket();
 	}
 	disconnect(qApp, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
+	qDebug("Fermeture de qRezix terminée");
 }
 
 void QRezix::closeEvent(QCloseEvent * e){
