@@ -17,6 +17,7 @@ email                : benoit.casoetto@m4x.org
 #include <qapplication.h>
 #include <qmessagebox.h>
 #include <qbitmap.h>
+#include <qvalidator.h>
 
 #ifdef WITH_KDE
 #include <kfiledialog.h>
@@ -56,8 +57,11 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	connect( chkBeep, SIGNAL(toggled(bool)), txtBeep, SLOT(setEnabled(bool)));
 	connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
 	connect( hostname, SIGNAL(textChanged(const QString&)), this, SLOT(validDns()));
+	connect( remarque, SIGNAL(textChanged(const QString&)), this, SLOT(validRemarque()));
 	
 	hostname->setValidator( new DnsValidator() );
+	QRegExp mask("[^\n\r]+");
+	remarque->setValidator( new QRegExpValidator(mask, remarque, "RemarqueValidator") );
 #ifndef WIN32
 	btnAboutQt->hide();
 #else
@@ -271,11 +275,11 @@ void RzxProperty::initDlg() {
 
 ///Vérifie si le texte de la dns est valide
 /** Les boutons de validations ne seront validés que si la valeur entrée est conforme à ce que l'on attend */
-void RzxProperty::validDns()
+/*void RzxProperty::validDns()
 {
 	btnOK->setEnabled(hostname->hasAcceptableInput());
 	btnMiseAJour->setEnabled(hostname->hasAcceptableInput());
-}
+}*/
 
 bool RzxProperty::updateLocalHost()
 {
@@ -315,7 +319,24 @@ bool RzxProperty::updateLocalHost()
 }
 
 
-void RzxProperty::miseAJour() {
+bool RzxProperty::miseAJour() {
+	//Vérification que les données sont correctes
+	if(!hostname->hasAcceptableInput())
+	{
+		QMessageBox::information(this, tr("Bad properties"),
+			tr("Your computer name is not valid...<br>"
+				"A computer name can only contains letters, numbers and '-'"));
+		return false;
+	}
+	else if(!remarque->hasAcceptableInput())
+	{
+		QMessageBox::information(this, tr("Bad properties"),
+			tr("Your comment is not valid...<br>"
+				"It can't contain linebreaks or other 'special' character"));
+		return false;
+	}
+	
+	//Mise à jours des données de configuration
 	RzxConfig * cfgObject = RzxConfig::globalConfig();
 	QRezix * ui = getRezix();
 	
@@ -330,6 +351,8 @@ void RzxProperty::miseAJour() {
 	bool iconSizeChanged = (cfgObject -> computerIconSize() != cmbIconSize -> currentItem() || cfgObject->computerIconHighlight() != cbHighlight->isChecked());
 	bool themeChanged = RzxConfig::iconTheme().compare( cmbIconTheme -> currentText() );
 
+	//Indique si les données 'partagées' ont été modifiées
+	//localHostUpdated = true ==> besoin de rafraichir le serveur
 	bool localHostUpdated = updateLocalHost();
 	
 	cfgObject -> writeEntry( "dnsname", RzxConfig::localHost() -> getName() );
@@ -425,6 +448,7 @@ void RzxProperty::miseAJour() {
 	}
 	
 	RzxConfig::globalConfig()->flush();
+	return true;
 }
 
 bool RzxProperty::infoCompleted()
@@ -466,7 +490,8 @@ void RzxProperty::annuler() {
 
 
 void RzxProperty::oK() {
-	miseAJour();
+	if(!miseAJour())
+		return;
 	if(tr("English")!=languageBox->currentText())
 		RzxConfig::setLanguage(languageBox->currentText());
 	annuler();
