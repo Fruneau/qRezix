@@ -26,6 +26,6 @@ class RzxTrayWindow: public QFrame
 	QTimer timer;
 	
 	public:
-		RzxTrayWindow(RzxComputer *computer, unsigned int time = 5);
+		RzxTrayWindow(RzxComputer *computer, bool connected = true, unsigned int time = 5);
 		~RzxTrayWindow();
 };
