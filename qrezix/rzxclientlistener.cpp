@@ -596,7 +596,12 @@ void RzxClientListener::socketRead(int socket){
 	sock = new RzxChatSocket();
 	sock->setSocket(listenSocket.accept());
 	host = sock->peerAddress();
-	qDebug("Accept connexion to client " + host.toString());
+	if(!RzxConfig::globalConfig()->ignoreList->find(host.toString())) 
+		qDebug("Accept connexion to client " + host.toString());
+	else {
+		qDebug("Message from client "+ host.toString()+ " has been ignored");
+		delete sock;
+	}
 }
 
 ///Demande des propriétés de manière indépendante

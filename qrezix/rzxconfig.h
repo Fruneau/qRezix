@@ -83,9 +83,11 @@ public:
 	static void loadTranslators();
 	static void setLanguage(QString language);
 	QDict<QString> * favorites;
+	QDict<QString> * ignoreList;
 	static RzxConfig * globalConfig();
 	~RzxConfig();
 	void writeFavorites();
+	void writeIgnoreList();
 	QStringList getFontList();
 	QValueList<int> getSizes(const QString&);
 	bool isItalicSupported(const QString&);
@@ -114,6 +116,7 @@ public:
 	static int quitMode();
 	static bool showQuit();
 	void readFavorites();
+	void readIgnoreList();
 
 	static QString sambaCmd();
 	static QString ftpCmd();
@@ -153,6 +156,8 @@ public:
 	static QColor repondeurBase();
 	static QColor repondeurHighlightedText();
 	static QColor repondeurNormalText();
+	static QColor ignoredBGColor();
+	static QColor ignoredText();
 	static void setIconTheme(QObject* parent, const QString& name);
 	static QString readWindowSize();
 	static void writeWindowSize(QString ws);

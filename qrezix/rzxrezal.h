@@ -107,6 +107,9 @@ public slots: // Public slots
 	void removeFromFavorites();
 	void addToFavorites();
 	
+	void removeFromIgnoreList();
+	void addToIgnoreList();
+	
 	RzxChat * chatCreate(const QString& login = 0);
 	
 	void languageChanged();
