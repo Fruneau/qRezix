@@ -112,7 +112,11 @@ void RzxComputer::autoSetOs() //0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5
 	else
 		options.SysEx = 1;
 #else
+#ifdef Q_OS_MACX
+	options.SysEx = 5;
+#else
 	options.SysEx = 3;
+#endif
 #endif
 }
 

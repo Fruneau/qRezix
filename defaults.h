@@ -13,10 +13,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef WIN32			// sous linux, la version est definie dans le makefile
-#define VERSION "3.x"
-#endif
-
 #define DEFAULT_COMMENT "qRezix v1.3 : la nouvelle version de Rezix !! (mais si tu lis ca, je suis un boulet)"
 #define DEFAULT_SERVER "xnetserver.eleves.polytechnique.fr"
 #define DEFAULT_PORT 5053
@@ -32,4 +28,8 @@
 #define RZX_MAJOR_VERSION (1)
 #define RZX_MINOR_VERSION (3)
 #define RZX_FUNNY_VERSION (666)
+
+#ifdef WIN32			// sous linux, la version est definie dans le makefile
+#define VERSION QString("%1.%2").arg(RZX_MAJOR_VERSION, RZX_MINOR_VERSION)
+#endif
 
