@@ -25,6 +25,7 @@
 #include <qsocket.h>
 #include <qtimer.h>
 #include <qdatetime.h>
+#include "adict.h"
 
 #define USER_HASH_TABLE_LENGTH 1663
 
@@ -87,6 +88,10 @@ protected: // Protected attributes
 
 	QTime search_timeout;
 	QString search_patern;
+
+	ADict<QString,RzxItem*> search_items;	// Arbre binaire de recherche équilibré
+						// contenant les associations nom->Item
+	QDict<QString> search_items0;	// dictionnaire avec référencement des noms/IP
 	
 	NumColonne lastColumnClicked;  // Pour savoir sur quelle icone on double-clique
 	
