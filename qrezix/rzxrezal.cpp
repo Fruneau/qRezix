@@ -253,7 +253,6 @@ void RzxRezal::login(RzxComputer *computer)
 	}
 	
 	disconnect(item, SLOT(update()));
-	disconnect(item, 0, this, SLOT(logout(QObject* )));
 	
 	connect(computer, SIGNAL(destroyed(QObject *)), this, SLOT(logout(QObject * )));
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
