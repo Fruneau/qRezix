@@ -14,10 +14,6 @@
 
 @SET_MAKE@
 
-####### kdevelop will overwrite this part!!! (begin)##########
-
-####### kdevelop will overwrite this part!!! (end)############
-
 SHELL = @SHELL@
 
 srcdir = @srcdir@
@@ -241,13 +237,16 @@ qt_libraries = @qt_libraries@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
 
-KDE_LANG = en
-KDE_DOCS = qrezix
-subdir = doc/en
+translationdir = $(pkgdatadir)/translations
+translation_DATA = *.qm
+EXTRA_DIST = $(translation_DATA)
+subdir = qrezix/translations
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 DIST_SOURCES =
+DATA = $(translation_DATA)
+
 DIST_COMMON = Makefile.am Makefile.in
 #>- all: all-am
 #>+ 1
@@ -265,21 +264,43 @@ distclean-libtool:
 	-rm -f libtool
 $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 #>- 	cd $(top_srcdir) && \
-#>- 	  $(AUTOMAKE) --gnu  doc/en/Makefile
+#>- 	  $(AUTOMAKE) --gnu  qrezix/translations/Makefile
 #>+ 3
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  doc/en/Makefile
-	cd $(top_srcdir) && perl admin/am_edit doc/en/Makefile.in
+	  $(AUTOMAKE) --gnu  qrezix/translations/Makefile
+	cd $(top_srcdir) && perl admin/am_edit qrezix/translations/Makefile.in
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	  CONFIG_HEADERS= CONFIG_LINKS= \
 	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
 uninstall-info-am:
+install-translationDATA: $(translation_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(translationdir)
+	@list='$(translation_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(translationdir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(translationdir)/$$f; \
+	done
+
+uninstall-translationDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(translation_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(translationdir)/$$f"; \
+	  rm -f $(DESTDIR)$(translationdir)/$$f; \
+	done
 tags: TAGS
 TAGS:
 
 
-DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>+ 4
+KDE_DIST=qrezix_fr.ts qrezix.ts qrezix_fr.qm 
+
+DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
+
 
 top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
@@ -302,9 +323,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile
+all-am: Makefile $(DATA)
 
 installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(translationdir)
 
 install: install-am
 install-exec: install-exec-am
@@ -347,7 +369,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-translationDATA
 
 install-exec-am:
 
@@ -365,16 +387,17 @@ mostlyclean: mostlyclean-am
 
 mostlyclean-am: mostlyclean-generic mostlyclean-libtool
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-info-am uninstall-translationDATA
 
 .PHONY: all all-am check check-am clean clean-generic clean-libtool \
 	distclean distclean-generic distclean-libtool distdir dvi \
 	dvi-am info info-am install install-am install-data \
 	install-data-am install-exec install-exec-am install-info \
-	install-info-am install-man install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic \
-	mostlyclean-libtool uninstall uninstall-am uninstall-info-am
+	install-info-am install-man install-strip \
+	install-translationDATA installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-generic mostlyclean-libtool uninstall \
+	uninstall-am uninstall-info-am uninstall-translationDATA
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
@@ -386,8 +409,8 @@ docs-am:
 #>+ 6
 force-reedit:
 		cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  doc/en/Makefile
-	cd $(top_srcdir) && perl admin/am_edit doc/en/Makefile.in
+	  $(AUTOMAKE) --gnu  qrezix/translations/Makefile
+	cd $(top_srcdir) && perl admin/am_edit qrezix/translations/Makefile.in
 
 
 #>+ 2

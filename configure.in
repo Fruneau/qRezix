@@ -81,12 +81,13 @@ AC_CONFIG_FILES([ doc/Makefile ])
 AC_CONFIG_FILES([ doc/en/Makefile ])
 AC_CONFIG_FILES([ icons/Makefile ])
 AC_CONFIG_FILES([ icons/themes/Makefile ])
+AC_CONFIG_FILES([ icons/themes/NoiaWarmKDE/Makefile ])
 AC_CONFIG_FILES([ icons/themes/classic/Makefile ])
 AC_CONFIG_FILES([ icons/themes/krystal/Makefile ])
 AC_CONFIG_FILES([ icons/themes/ms/Makefile ])
-AC_CONFIG_FILES([ icons/themes/NoiaWarmKDE/Makefile ])
 AC_CONFIG_FILES([ po/Makefile ])
 AC_CONFIG_FILES([ qrezix/Makefile ])
+AC_CONFIG_FILES([ qrezix/translations/Makefile ])
 AC_OUTPUT
 if test "$all_tests" = "bad"; then
   if test ! "$cache_file" = "/dev/null"; then
