@@ -1,4 +1,6 @@
 [v1.5] 2004-09-17 <br2002@frankiz.polytechnique.fr>
+    * Ajout d'un outils de recherche [Fruneau]
+    * Hashage md5 des mots de passe [Alyx]
     * Mise à jour des Makefile [Pico]
     * Bugfix pour les systèmes 64bits [Fruneau]
     * Réorganisation de la fenêtre des propriétés [Fruneau]

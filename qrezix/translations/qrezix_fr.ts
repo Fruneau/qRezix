@@ -142,6 +142,12 @@
         <source>Return</source>
         <translation>Return</translation>
     </message>
+    <message>
+        <source>Your password can contains any character.&lt;br&gt;
+It must be at least&lt;b&gt; 6 characters long&lt;/b&gt;.</source>
+        <translation>Votre mot de passe peut contenir n&apos;importe quel caractère,&lt;br&gt;
+mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</translation>
+    </message>
 </context>
 <context>
     <name>RzxChat</name>
