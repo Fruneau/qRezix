@@ -70,6 +70,8 @@ int main(int argc, char *argv[])
 	QRezix *rezix = new QRezix();
 	RzxConfig::globalConfig();
 	
+	QObject::connect(RzxConfig::globalConfig(), SIGNAL(languageChanged()), rezix, SLOT(languageChanged()));
+	
 	rezix -> setIcon(iconeProg);
 	rezix -> languageChanged();
 	

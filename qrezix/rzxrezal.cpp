@@ -804,6 +804,7 @@ void RzxRezal::redrawAllIcons(){
 }
 
 void RzxRezal::languageChanged(){
+	qDebug("RzxRezal::languageChanged()");
 	for (int i = 0; i < numColonnes; i++) {
 		setColumnText(i, tr(colNames[i]));
 	}

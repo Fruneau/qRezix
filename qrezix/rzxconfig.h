@@ -148,6 +148,9 @@ public:
 	
 	static QString buildLocalhost();
 
+signals:
+	void languageChanged();
+	
 protected: // Protected attributes
 	void loadLocalHost();
 	

@@ -89,6 +89,8 @@ void RzxConfig::setLanguage(QString language){
 			currentTranslator=translations[language];
 			qApp->installTranslator(currentTranslator);
 		}
+		qDebug("Config->languageChanged() emitted");
+		emit Config->languageChanged();
 	}
 }
 
