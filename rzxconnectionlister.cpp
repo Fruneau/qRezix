@@ -101,25 +101,13 @@ void RzxConnectionLister::login( const QString& newOrdi )
 		return ;
 	}
 
-	// Recherche si cet ordinateur était déjà présent
+	// Recherche si cet ordinateur était déjà présent (refresh ou login)
 	QString tempIP = newComputer -> getIP().toString();
 	RzxComputer *computer = iplist.take( tempIP );
 	if(computer)
 	{
 		//suppression de l'ancien computer du qdict par nom
 		computerByLogin.remove(computer->getName());
-		
-		//mise à jour des données concernant le chat
-		RzxChat *chat = chatsByLogin.take(computer->getName());
-		if(chat)
-		{
-			//Indication au chat de la reconnexion
-			if (!computer)
-				chat->info( tr( "reconnected" ) );
-
-			chatsByLogin.insert(newComputer->getName(), chat);
-			chat->setHostname(newComputer->getName());
-		}
 		
 		//transfert des fenêtres fille vers le nouveau computer
 		if(computer->children())
@@ -134,6 +122,23 @@ void RzxConnectionLister::login( const QString& newOrdi )
 		disconnect(computer, 0, 0, 0);
 	}
 
+	//mise à jour des données concernant le chat
+	RzxChat *chat;
+	if(computer)
+		chat = chatsByLogin.take(computer->getName());
+	else
+		chat = chatsByLogin.take(newComputer->getName());
+
+	if(chat)
+	{
+		//Indication au chat de la reconnexion
+		if (!computer)
+			chat->info( tr( "reconnected" ) );
+
+		chatsByLogin.insert(newComputer->getName(), chat);
+		chat->setHostname(newComputer->getName());
+	}
+		
 	emit login( newComputer);
 
 	//Placé après le emit login, pour que les signaux emits par la destruction n'interfèrent pas avec l'affichage
