@@ -97,12 +97,11 @@ void RzxConnectionLister::login( const QString& ordi )
 		RzxChat *chat = chatsByLogin.take(computer->getName());
 		if(chat)
 		{
+			//Indication au chat de la reconnexion
+			if (!computer && chat)
+				chat->info( tr( "reconnected" ) );
+
 			chatsByLogin.insert(newComputer->getName(), chat);
-#ifdef WIN32
-			chat->setCaption( tr( "Chat" ) + " - " + newComputer->getName() + " [Qt]" );
-#else
-			chat->setCaption( tr( "Chat" ) + " - " + newComputer->getName() );
-#endif
 			chat->setHostname(newComputer->getName());
 		}
 		
@@ -127,11 +126,7 @@ void RzxConnectionLister::login( const QString& ordi )
 	//Ajout du nouvel ordinateur dans les qdict
 	computerByLogin.insert(newComputer->getName(), newComputer);
 	iplist.insert( newComputer -> getIP().toString(), newComputer );
-	
-	//Indication au chat de la reconnexion
-	RzxChat * chatWithLogin = chats.find( newComputer -> getIP().toString() );
-	if (!computer && chatWithLogin)
-		chatWithLogin->info( tr( "reconnected" ) );
+
 	emit countChange( tr( "%1 clients connected" ).arg( iplist.count() ) );
 }
 
@@ -249,15 +244,9 @@ RzxChat *RzxConnectionLister::createChat(RzxComputer *computer)
 
 	QPixmap iconeProg( ( const char ** ) q );
 	iconeProg.setMask( iconeProg.createHeuristicMask() );
+	
 	chat->setIcon( iconeProg );
-
-#ifdef WIN32
-	chat->setCaption( tr( "Chat" ) + " - " + computer->getName() + " [Qt]" );
-#else
-	chat->setCaption( tr( "Chat" ) + " - " + computer->getName() );
-#endif
 	chat->setHostname( computer->getName() );
-
 	chat->edMsg->setFocus();
 
 	connect( chat, SIGNAL( closed( const RzxHostAddress& ) ), this, SLOT( chatDelete( const RzxHostAddress& ) ) );
