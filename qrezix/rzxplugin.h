@@ -143,7 +143,7 @@ class RzxPlugIn : public QObject		//NE PAS MODIFIER
 			DATA_ICONORANGE = 34,	/**< demande l'icône orange du thème actuel, on attend un QPixmap en retour */
 			DATA_ICONROUJE = 35,		/**< demande l'icône rouje du thème actuel, on attend un QPixmap en retour */
 			DATA_ICONUNKOS = 36,		/**< demande l'icône os_0 du thème actuel, on attend un QPixmap en retour */
-			DATA_ICONUNKOSLARGE = 37,	/** < demande l'icône os_0_large du thème actuel, on attend un QPixmap en retour */
+			DATA_ICONUNKOSLARGE = 37,	/**< demande l'icône os_0_large du thème actuel, on attend un QPixmap en retour */
 			DATA_ICONWIN = 38,		/**< demande l'icône os_1 du thème actuel, on attend un QPixmap en retour */
 			DATA_ICONWINLARGE = 39,	/**< demande l'icône os_1_large du thème actuel, on attend un QPixmap en retour */
 			DATA_ICONWINNT = 40,		/**< demande l'icône os_2 du thème actuel, on attend un QPixmap en retour */

@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "qmessagebox.h"
+#include <qmessagebox.h>
 #include "rzxmessagebox.h"
 
 

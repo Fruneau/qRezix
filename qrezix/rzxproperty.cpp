@@ -589,7 +589,6 @@ void RzxProperty::writeColDisplay() {
 	if ( cbcRemarque->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColRemarque;
 	if ( cbcSamba ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColSamba;
 	if ( cbcFTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColFTP;
-	//if ( cbcHotline ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColHotline;
 	if ( cbcHTTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColHTTP;
 	if ( cbcNews ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColNews;
 	if ( cbcOS ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColOS;

@@ -1318,11 +1318,11 @@ Erreur DNS
     </message>
     <message>
         <source>Connection closed</source>
-        <translation>Connection fermée</translation>
+        <translation>Connexion fermée</translation>
     </message>
     <message>
         <source>Connection lost</source>
-        <translation>Connection perdue</translation>
+        <translation>Connexion perdue</translation>
     </message>
     <message>
         <source>Server name and port are not configured</source>
@@ -1342,7 +1342,7 @@ Erreur DNS
     </message>
     <message>
         <source>qReziX error</source>
-        <translation>Erreur de qRéziX</translation>
+        <translation>Erreur de qReziX</translation>
     </message>
     <message>
         <source>Configuration error, cannot connect</source>
@@ -1354,7 +1354,7 @@ Erreur DNS
     </message>
     <message>
         <source>will try to reconnect in %1 seconds</source>
-        <translation>prochaine tentative de connection dans %1 secondes</translation>
+        <translation>prochaine tentative de connexion dans %1 secondes</translation>
     </message>
 </context>
 <context>
