@@ -12,9 +12,12 @@
     <version>1.1</version>
     <description/>
     <ignoreparts>
-      <part>KDevPerforce</part>
       <part>KDevVisualBoyAdvance</part>
+      <part>KDevPerforce</part>
     </ignoreparts>
+    <projectdirectory>.</projectdirectory>
+    <absoluteprojectpath>false</absoluteprojectpath>
+    <secondaryLanguages/>
   </general>
   <kdevautoproject>
     <general>
@@ -27,7 +30,7 @@
     </configure>
     <make>
       <abortonerror>true</abortonerror>
-      <numberofjobs>1</numberofjobs>
+      <numberofjobs>2</numberofjobs>
       <dontact>false</dontact>
       <makebin/>
       <envvars>
@@ -95,9 +98,12 @@
       <dbgshell>libtool</dbgshell>
       <programargs/>
       <gdbpath/>
-      <breakonloadinglibs>true</breakonloadinglibs>
+      <breakonloadinglibs>false</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
+      <configGdbScript/>
+      <runShellScript/>
+      <runGdbScript/>
     </general>
     <breakpoints/>
     <display>
