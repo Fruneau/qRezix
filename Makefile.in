@@ -255,27 +255,13 @@ qrezix_LDADD = $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 
 EXTRA_DIST = main.cpp qrezix.cpp qrezix.h qrezix.desktop lo32-app-qrezix.png lo16-app-qrezix.png lo16-app-kdexnet.png lo32-app-kdexnet.png qrezixui.ui rzxchatui.ui rzxclientlistener.cpp rzxclientlistener.h rzxcomputer.cpp rzxcomputer.h rzxconfig.cpp rzxconfig.h rzxhostaddress.cpp rzxhostaddress.h rzxitem.cpp rzxitem.h rzxprotocole.cpp rzxprotocole.h rzxrezal.cpp rzxrezal.h rzxserverlistener.cpp rzxserverlistener.h rzxpropertyui.ui rzxproperty.cpp rzxproperty.h rzxchat.cpp rzxchat.h trayicon.cpp trayicon.h dnsValidator.cpp dnsvalidator.h rzxmessagebox.cpp rzxmessagebox.h defaults.h rzxquit.h rzxquit.cpp rzxquitui.ui rzxplugin.h rzxwrongpassui.ui rzxwrongpassui.h rzxwrongpassui.cpp rzxplugin.cpp rzxpluginloader.h rzxpluginloader.cpp rzxutilslauncher.h rzxutilslauncher.cpp rzxchangepassui.ui rzxchangepassui.h rzxchangepassui.cpp rzxconnectionlister.cpp rzxconnectionlister.h
 
-####### kdevelop will overwrite this part!!! (end)############
-# this 10 paths are KDE specific. Use them:
-# kde_htmldir       Where your docs should go to. (contains lang subdirs)
-# kde_appsdir       Where your application file (.kdelnk) should go to. 
-# kde_icondir       Where your icon should go to.
-# kde_minidir       Where your mini icon should go to.
-# kde_datadir       Where you install application data. (Use a subdir)
-# kde_locale        Where translation files should go to.(contains lang subdirs)
-# kde_cgidir        Where cgi-bin executables should go to.
-# kde_confdir       Where config files should go to.
-# kde_mimedir       Where mimetypes should go to.
-# kde_toolbardir    Where general toolbar icons should go to.
-# kde_wallpaperdir  Where general wallpapers should go to.
-
 # set the include path for X, qt and KDE
-INCLUDES = $(all_includes) -I/usr/include/kde
+INCLUDES = $(all_includes)
 
 #>- METASOURCES = AUTO
 
 # the library search path. 
-qrezix_LDFLAGS = $(all_libraries) $(KDE_RPATH)
+qrezix_LDFLAGS = $(all_libraries) 
 
 AM_CFLAGS = 
 AM_CXXFLAGS = 
@@ -609,7 +595,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=t.xpm icone.rc qrezix.pro rzxpropertyui.h qrezix.png qrezix.ico qrezixui.h rzxquitui.h qrezix2.ico qrezix.dsp Makefile.w32 qrezix_meta_unload.cpp qrezix rzxchatui.h q.xpm 
+KDE_DIST=t.xpm icone.rc qrezix.pro rzxpropertyui.h qrezix.png qrezix.ico qrezixui.h rzxquitui.h qrezix2.ico Makefile.w32 qrezix.dsp qrezix_meta_unload.cpp md5.h qrezix rzxchatui.h q.xpm md5.cpp 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 
@@ -703,7 +689,7 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-data-local
+install-data-am:
 
 install-exec-am: install-binPROGRAMS
 
@@ -722,7 +708,7 @@ mostlyclean: mostlyclean-recursive
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-binPROGRAMS uninstall-info-am uninstall-local
+uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 
 uninstall-info: uninstall-info-recursive
 
@@ -732,50 +718,17 @@ uninstall-info: uninstall-info-recursive
 	distclean-libtool distclean-recursive distclean-tags distdir \
 	dvi dvi-am dvi-recursive info info-am info-recursive install \
 	install-am install-binPROGRAMS install-data install-data-am \
-	install-data-local install-data-recursive install-exec \
-	install-exec-am install-exec-recursive install-info \
-	install-info-am install-info-recursive install-man \
-	install-recursive install-strip installcheck installcheck-am \
-	installdirs installdirs-am installdirs-recursive \
-	maintainer-clean maintainer-clean-generic \
-	maintainer-clean-recursive mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
-	tags tags-recursive uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-info-am \
-	uninstall-info-recursive uninstall-local uninstall-recursive
+	install-data-recursive install-exec install-exec-am \
+	install-exec-recursive install-info install-info-am \
+	install-info-recursive install-man install-recursive \
+	install-strip installcheck installcheck-am installdirs \
+	installdirs-am installdirs-recursive maintainer-clean \
+	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	mostlyclean-recursive tags tags-recursive uninstall \
+	uninstall-am uninstall-binPROGRAMS uninstall-info-am \
+	uninstall-info-recursive uninstall-recursive
 
-
-#ignorer cette partie pour la version QT?
-install-data-local:
-#>- 	$(mkinstalldirs) $(kde_appsdir)/Applications/
-#>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Applications/
-#>- 	$(INSTALL_DATA) $(srcdir)/qrezix.desktop $(kde_appsdir)/Applications/qrezix.desktop
-#>+ 1
-	$(INSTALL_DATA) $(srcdir)/qrezix.desktop $(DESTDIR)$(kde_appsdir)/Applications/qrezix.desktop
-#>- 	$(mkinstalldirs) $(kde_icondir)/locolor/32x32/apps/
-#>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/locolor/32x32/apps/
-#>- 	$(INSTALL_DATA) $(srcdir)/lo32-app-qrezix.png $(kde_icondir)/locolor/32x32/apps/qrezix.png
-#>+ 1
-	$(INSTALL_DATA) $(srcdir)/lo32-app-qrezix.png $(DESTDIR)$(kde_icondir)/locolor/32x32/apps/qrezix.png
-#>- 	$(mkinstalldirs) $(kde_icondir)/locolor/16x16/apps/
-#>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/locolor/16x16/apps/
-#>- 	$(INSTALL_DATA) $(srcdir)/lo16-app-qrezix.png $(kde_icondir)/locolor/16x16/apps/qrezix.png
-#>+ 1
-	$(INSTALL_DATA) $(srcdir)/lo16-app-qrezix.png $(DESTDIR)$(kde_icondir)/locolor/16x16/apps/qrezix.png
-
-uninstall-local:
-#>- 	-rm -f $(kde_appsdir)/Applications/qrezix.desktop
-#>+ 1
-	-rm -f $(DESTDIR)$(kde_appsdir)/Applications/qrezix.desktop
-#>- 	-rm -f $(kde_icondir)/locolor/32x32/apps/qrezix.png
-#>+ 1
-	-rm -f $(DESTDIR)$(kde_icondir)/locolor/32x32/apps/qrezix.png
-#>- 	-rm -f $(kde_icondir)/locolor/16x16/apps/qrezix.png
-#>+ 1
-	-rm -f $(DESTDIR)$(kde_icondir)/locolor/16x16/apps/qrezix.png
 
 # Uncomment the following two lines if you add a ui.rc file for your application to make use of
 # KDE
