@@ -11,11 +11,11 @@
     </message>
     <message>
         <source>&amp;I&apos;m back !</source>
-        <translation type="unfinished"></translation>
+        <translation>Je suis &amp;revenu !</translation>
     </message>
     <message>
         <source>I&apos;m &amp;away !</source>
-        <translation type="unfinished"></translation>
+        <translation>Je m&apos;en &amp;vais !</translation>
     </message>
 </context>
 <context>
@@ -50,6 +50,29 @@
     <message>
         <source>Adjust columns</source>
         <translation>Ajuster les colonnes</translation>
+    </message>
+</context>
+<context>
+    <name>RzxChat</name>
+    <message>
+        <source>ends the chat</source>
+        <translation>a mis fin au chat</translation>
+    </message>
+    <message>
+        <source>can&apos;t be found... CONNECTION ERROR</source>
+        <translation>n&apos;a pas été trouvé... Erreur lors de la connexion</translation>
+    </message>
+    <message>
+        <source>has sent datas which can&apos;t be read... CONNECTION ERROR</source>
+        <translation>a envoyé des données qui ne peuvent pas être lues... Erreur de connexion</translation>
+    </message>
+    <message>
+        <source>can&apos;t be contact... CONNECTION ERROR</source>
+        <translation type="obsolete">ne peut être contacté... Erreur lors de la connexion</translation>
+    </message>
+    <message>
+        <source>can&apos;t be contact, check his firewall... CONNECTION ERROR</source>
+        <translation>ne peut être contacté, vérifiez son firewall... Erreur lors de la connexion</translation>
     </message>
 </context>
 <context>
@@ -137,6 +160,28 @@
         <source>Promo</source>
         <translation>Promâl</translation>
     </message>
+    <message>
+        <source>Error</source>
+        <translation>Erreur</translation>
+    </message>
+    <message>
+        <source>Connection has been anormally lost while getting properties</source>
+        <translation>La connexion a été anormalement perdue pendant l&apos;obtention des propriétés</translation>
+    </message>
+    <message>
+        <source>Unable to set a connection
+Host may not have open the chat port from his firewall</source>
+        <translation>Impossible d&apos;établir la connexion
+Vérifiez que votre correspondant a bien ouvert le port de chat dans son firewall</translation>
+    </message>
+    <message>
+        <source>Unable to find host</source>
+        <translation>Impossible de trouver votre correspondant</translation>
+    </message>
+    <message>
+        <source>Can&apos;t read datas from host</source>
+        <translation>Impossible de lire les données émisent par votre correspondant</translation>
+    </message>
 </context>
 <context>
     <name>RzxComputer</name>
@@ -223,31 +268,31 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>galeon</source>
-        <translation type="obsolete">galeon</translation>
+        <translation type="obsolete">Galeon</translation>
     </message>
     <message>
         <source>konqueror</source>
-        <translation type="obsolete">konqueror</translation>
+        <translation type="obsolete">Konqueror</translation>
     </message>
     <message>
         <source>lynx</source>
-        <translation type="obsolete">lynx</translation>
+        <translation type="obsolete">Lynx</translation>
     </message>
     <message>
         <source>mozilla</source>
-        <translation type="obsolete">mozilla</translation>
+        <translation type="obsolete">Mozilla</translation>
     </message>
     <message>
         <source>netscape</source>
-        <translation type="obsolete">netscape</translation>
+        <translation type="obsolete">Netscape</translation>
     </message>
     <message>
         <source>opera</source>
-        <translation type="obsolete">opera</translation>
+        <translation type="obsolete">Opera</translation>
     </message>
     <message>
         <source>knode</source>
-        <translation type="obsolete">knode</translation>
+        <translation type="obsolete">Knode</translation>
     </message>
     <message>
         <source>Icon selection</source>
@@ -315,50 +360,50 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     <name>RzxQuit</name>
     <message>
         <source>Quit now !</source>
-        <translation type="unfinished"></translation>
+        <translation>Je pars maintenant !</translation>
     </message>
     <message>
         <source>Minimize me...</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimise la fenêtre...</translation>
     </message>
     <message>
         <source>Abort quitting please</source>
-        <translation type="unfinished"></translation>
+        <translation>Attend, je reste</translation>
     </message>
 </context>
 <context>
     <name>RzxQuitUI</name>
     <message>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Quitter</translation>
     </message>
     <message>
         <source>Oops, do nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>Oups, ne fait rien</translation>
     </message>
     <message>
         <source>yes, I want to &amp;Leave qRezix</source>
-        <translation type="unfinished"></translation>
+        <translation>oui, je veux &amp;Quitter qRezix</translation>
     </message>
     <message>
         <source>Alt+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Q</translation>
     </message>
     <message>
         <source>no, I want to &amp;Minimize qRezix</source>
-        <translation type="unfinished"></translation>
+        <translation>non, je veux &amp;Minimiser qRezix</translation>
     </message>
     <message>
         <source>Alt+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+M</translation>
     </message>
     <message>
         <source>Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Return</translation>
     </message>
     <message>
         <source>Are you sure you want to &lt;b&gt;Quit qRezix &lt;/b&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Es-tu sûr de vouloir &lt;b&gt;Quitter qRezix &lt;/b&gt;?</translation>
     </message>
 </context>
 <context>
@@ -509,11 +554,11 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>has checked your properties</source>
-        <translation type="unfinished"></translation>
+        <translation>a demander vous propriétés</translation>
     </message>
     <message>
         <source>Properties sent to </source>
-        <translation type="unfinished"></translation>
+        <translation>Propriétés envoyées à</translation>
     </message>
 </context>
 <context>
@@ -592,11 +637,11 @@ Erreur DNS
     <name>TrayIcon</name>
     <message>
         <source>&amp;I&apos;m back !</source>
-        <translation type="unfinished"></translation>
+        <translation>Je suis &amp;revenu !</translation>
     </message>
     <message>
         <source>I&apos;m &amp;away !</source>
-        <translation type="unfinished"></translation>
+        <translation>Je m&apos;en &amp;vais !</translation>
     </message>
 </context>
 <context>
@@ -951,15 +996,15 @@ Erreur DNS
     </message>
     <message>
         <source>UI Language :</source>
-        <translation type="unfinished">Langue de l&apos;interface :</translation>
+        <translation>Langue:</translation>
     </message>
     <message>
         <source>Warn me when properties are being checked</source>
-        <translation type="unfinished"></translation>
+        <translation>Prévenir quand les propriétés sont envoyées</translation>
     </message>
     <message>
         <source>Print hh:mm:ss in chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher hh:mm:ss dans le chat</translation>
     </message>
 </context>
 </TS>
