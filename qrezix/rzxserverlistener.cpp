@@ -269,9 +269,11 @@ void RzxServerListener::sendIcon(const QImage& image) {
 	if (image.isNull()) return;
 	// on convertit l'image recue pour la rendre affichable
 	// on fait les copies par bloc de 4 octets --> besoin d'un peu de rab
-//	QImage workImage = image.convertDepth(32,0).swapRGB();
-	QImage workImage = image.convertDepth(32,0).smoothScale(ICON_WIDTH, ICON_HEIGHT);
-//  workImage = workImage.mirror(false, true);
+	QImage workImage = image.convertDepth(32,0);
+	if(!workImage.isNull())
+		workImage = workImage.smoothScale(ICON_WIDTH, ICON_HEIGHT);
+	else
+		return;
 
   unsigned char buffer[ICON_SIZE];
   unsigned char * dest;

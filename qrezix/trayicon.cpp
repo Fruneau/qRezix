@@ -707,7 +707,8 @@ void TrayIcon::TrayIconPrivate::setPixmap(const QPixmap &pm)
 {
 	pix = pm;
 	QImage img = pm.convertToImage();
-	img = img.smoothScale(22, 22);
+	if(!img.isNull())
+		img = img.smoothScale(22, 22);
 	pix.convertFromImage(img);
 	setIcon(pix);
 	repaint();
