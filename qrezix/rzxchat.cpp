@@ -317,7 +317,7 @@ void RzxChat::activateFormat(bool on) {
 #ifdef WIN32
 //parce que Terminal n'existe pas sous Win !
 		edMsg -> setFamily("Arial");
-		edMsg -> setPointSize(11);
+		edMsg -> setPointSize(8);
 		edMsg -> setBold(false);
 		edMsg -> setItalic(false);
 		edMsg -> setUnderline(false);
