@@ -37,7 +37,7 @@
  *
  * Il est important de comprendre que ce numéro de version ne dépend pas du comportement de qRezix envers le plug-in (on peut très bien envisager de faire évoluer qRezix pour garder la compatibilité avec les anciennes version de plug-ins) mais de l'évolution de la structure du plug-in. En fait, Cette structure dépend de QObject et de RzxPlugIn, mais seule les évolutions de RzxPlugIn entre en compte pour le calcul de cette version (le principe étant de compiler les plugins de qRezix avec la même version de Qt que pour qRezix lui-même).
  */
-#define PLUGIN_VERSION 0x00201000
+#define PLUGIN_VERSION 0x00202000
 
 class QWidget;
 class QPixmap;
@@ -219,7 +219,7 @@ class RzxPlugIn : public QObject		//NE PAS MODIFIER
 		virtual ~RzxPlugIn();
 
 		///Défini une version de produit pour le plug-in
-		virtual QString& getInternalVersion() = 0;
+		virtual QString getInternalVersion() = 0;
 		
 		QString readEntry(const QString& name, const QString& def);
 		int readNumEntry(const QString& name, int def);
