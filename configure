@@ -1881,7 +1881,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=qrezix
- VERSION="3.0.8"
+ VERSION="1.5.1"
 
 
 cat >>confdefs.h <<_ACEOF
