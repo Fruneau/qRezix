@@ -441,15 +441,21 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	PropList->setSorting(-1,FALSE);
 	QListViewItem* vi = NULL;
 	int propCount = 0;
-	if((props.size()&1)) props += "";
-	for (QStringList::Iterator itItem = props.begin(); itItem != props.end(); itItem++)
+	
+	for(QStringList::Iterator itItem = props.begin(); itItem != props.end(); itItem++)
 	{
 		QStringList::Iterator itLabel = itItem++;
-		if((*itLabel).length()==0) break;
-		if(*itItem) { // si la chaine est vide, on prend pas.
+		if(itItem == props.end()) break;
+		if((*itLabel).length() && (*itItem).length())
+		{
 			vi = new QListViewItem(PropList, vi, (*itLabel), (*itItem));
 			propCount++;
 		}
+	}
+	if(!propCount)
+	{
+		propertiesDialog->deleteLater();
+		return NULL;
 	}
 
 	propertiesDialog->raise();
