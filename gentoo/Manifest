@@ -1,6 +1,6 @@
-MD5 a7b681fb198b795815b6f976f1140485 qrezix-1.6.1.ebuild 710
-MD5 587a9e2ffe2b719d92569751d00b8b63 qrezix-1.6.1.9999.ebuild 857
-MD5 566399fb17d0df39cfe448c589a242b3 qrezix-1.6.2.ebuild
+MD5 bf7e35cdcabff0898bd5f54c1e19b48d qrezix-1.6.1.ebuild 697
+MD5 3e3010d7fe9285816d8926feb9c988fd qrezix-1.6.1.9999.ebuild 857
+MD5 a276f8889f6ba0dc51a4930df7f20192 qrezix-1.6.2.ebuild 696
 MD5 d6f415ab6c306bfb91ce7a026b8fc9e9 ChangeLog 6525
 MD5 fee1935a59a49e17bf7bf902875a983a files/digest-qrezix-1.6.1 65
 MD5 d41d8cd98f00b204e9800998ecf8427e files/digest-qrezix-1.6.1.9999 0
