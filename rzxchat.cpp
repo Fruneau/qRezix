@@ -14,7 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qdns.h>
 #include <qtextedit.h>
 #include <qtextview.h>
 #include <qpushbutton.h>
@@ -27,22 +26,20 @@
 #include <qapplication.h>
 #include <qfile.h>
 #include <qdir.h>
-#include <qregexp.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qsocket.h>
 #include <qiconset.h>
 #include <qpoint.h>
-
 #include <qsound.h>
 #ifndef WIN32
 #include <qprocess.h>
 #endif
 
 #include "rzxchat.h"
+
 #include "rzxconfig.h"
 #include "rzxcomputer.h"
-#include "rzxclientlistener.h"
 #include "rzxpluginloader.h"
 
 //On crée la fenêtre soit avec un socket d'une connection déjà établie
@@ -130,23 +127,23 @@ RzxChat::~RzxChat(){
 	}
 }
 
-RzxPopup::RzxPopup(QWidget *parent, const char *name)
-	:QFrame(parent, name, WDestructiveClose | WStyle_Customize | WType_TopLevel)
-{ }
 
-void RzxPopup::forceVisible(bool pos)
-{
-	if(pos) show();
-	else hide();
-}
+/****************************************************
+* RzxPopup
+****************************************************/
+RzxPopup::RzxPopup(QWidget *parent, const char *name)
+	:QFrame(parent, name, WDestructiveClose | WStyle_Customize | WType_TopLevel | WStyle_SysMenu)
+{ }
 
 RzxPopup::~RzxPopup()
 {
-//	emit aboutToQuit();
+	emit aboutToQuit();
 }
 
 
-
+/***************************************************
+* RzxChat::ListText
+***************************************************/
 RzxChat::ListText::ListText(QString t, ListText * pN) {
 	texte = t;
 	pNext = pN;
@@ -473,23 +470,23 @@ void RzxChat::btnSendClicked()
 	// Conversion du texte en HTML si necessaire
 	if(!cbSendHTML->isChecked())
 	{
-		static const QRegExp htmlflag("/<html>");
+		static const QString htmlflag("/<html>");
 		msg.replace(htmlflag, "<html>");
 
-		static const QRegExp ampersand("&");
+		static const QString ampersand("&");
 		msg.replace(ampersand, "&amp;");
 
-		static const QRegExp tag("<");
+		static const QString tag("<");
 		msg.replace(tag, "&lt;");
 
-		static const QRegExp returns_cr("\n");
+		static const QString returns_cr("\n");
 		msg.replace(returns_cr, "<br>");
 
 		// Pour que les espaces soient bien transmis
-		static const QRegExp tag_space("> ");
+		static const QString tag_space("> ");
 		msg.replace(tag_space, ">&nbsp;");
 
-		static const QRegExp dblspace("  ");
+		static const QString dblspace("  ");
 		msg.replace(dblspace, " &nbsp;");
 	}
 	else {

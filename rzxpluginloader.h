@@ -26,6 +26,7 @@
 
 #include "rzxplugin.h"
 
+
 class QTextEdit;
 class QToolButton;
 class QString;

@@ -29,14 +29,14 @@
 #include <qimage.h>
 #include <qiconset.h>
 
+#include "rzxpluginloader.h"
+
 #include "qrezix.h"
 #include "rzxrezal.h"
-#include "rzxplugin.h"
 #include "rzxcomputer.h"
 #include "rzxconfig.h"
 #include "rzxserverlistener.h"
 #include "rzxhostaddress.h"
-#include "rzxpluginloader.h"
 #include "rzxhostaddress.h"
 #include "rzxmessagebox.h"
 #include "rzxutilslauncher.h"
