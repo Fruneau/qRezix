@@ -44,7 +44,7 @@ signals:
 	
 public slots: // Public slots
 	/** Met a jour la base globale de configuration a partir des modifications de l'utilisateur */
-	void miseAJour();
+	bool miseAJour();
 	void oK();
 	void annuler();
 	void initDlg();
@@ -69,7 +69,6 @@ protected slots: // Protected slots
 	void chooseIcon();
 	void chooseBeep();
 	void lockCmbMenuText(int index);
-	void validDns();
 };
 
 #endif
