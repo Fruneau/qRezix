@@ -369,7 +369,7 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 		if(old_name!=NULL)
 		{
 			search_items.remove(*old_name);
-			search_items0.remove(*old_name);
+			search_items0.remove(computer->getIP().toString());
 		}
 	}
 
@@ -502,7 +502,7 @@ void RzxRezal::onListDblClicked(QListViewItem * sender){
 }
 
 /** Memorise la colonne cliquee */
-void RzxRezal::onListClicked( QListViewItem * item, const QPoint & pnt, int c ){
+void RzxRezal::onListClicked( QListViewItem *, const QPoint &, int c ){
 	lastColumnClicked = (NumColonne) c;
 }
 
