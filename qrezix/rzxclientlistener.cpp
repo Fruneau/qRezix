@@ -176,6 +176,7 @@ int RzxChatSocket::parse(const QString& msg)
 					if(!chatWindow)
 					{
 						chatWindow = RzxConnectionLister::global()->chatCreate(this->peerAddress());
+						if(!chatWindow) return DCC_CHAT;
 						chatWindow->setSocket(this);
 					}
 					emit chat(cmd.cap(2));
