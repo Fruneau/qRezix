@@ -154,6 +154,7 @@ void QRezix::languageChanged(){
 }
 
 QRezix::~QRezix() {
+	qDebug("Bye Bye\n");
 }
 
 void QRezix::status(const QString& msg, bool fatal){
@@ -211,6 +212,7 @@ void QRezix::saveSettings()
 		rezalFavorites->setEnabled(false);
 		connect(RzxConnectionLister::global(), SIGNAL(socketClosed()), this, SLOT(socketClosed()));
 		RzxConnectionLister::global() -> closeSocket();
+		RzxConnectionLister::global() -> deleteLater();
 	}
 	disconnect(qApp, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
 	qDebug("Fermeture de l'interface");
