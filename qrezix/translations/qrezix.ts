@@ -24,6 +24,10 @@
         <source>Favorites</source>
         <translation type="unfinished">Favoris</translation>
     </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QRezixUI</name>
@@ -82,6 +86,18 @@
     <message>
         <source>Preferences</source>
         <translation type="unfinished">Préférences</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+S</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -75,6 +75,7 @@ public slots: // Public slots
 	void saveSettings();
 	void launchPlugins();
 	void changeTrayIcon();
+	void launchSearch();
 
 protected slots: // Protected slots
 	void delayedInit();
