@@ -142,7 +142,6 @@ QRezix::QRezix(QWidget *parent, const char *name)
 
 void QRezix::launchPlugins()
 {
-	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_DNSNAME, NULL);
 	RzxPlugInLoader::global()->init();
 }
 
