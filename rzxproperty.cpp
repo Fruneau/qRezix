@@ -419,11 +419,7 @@ bool RzxProperty::miseAJour() {
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_ICONTEXT, NULL);
 	}
 	
-	if (ui -> rezal)
-		ui -> rezal -> afficheColonnes();
 
-	if (ui -> rezalFavorites)
-		ui -> rezalFavorites -> afficheColonnes();
 
 //	cfgObject -> write(); //flush du fichier de conf
 
@@ -464,7 +460,13 @@ bool RzxProperty::miseAJour() {
 		changeTheme();
 	}
 	
+	if (ui -> rezal)
+		ui -> rezal -> afficheColonnes();
+
+	if (ui -> rezalFavorites)
+		ui -> rezalFavorites -> afficheColonnes();
 	RzxConfig::globalConfig()->flush();
+	
 	return true;
 }
 
