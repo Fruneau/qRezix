@@ -69,6 +69,7 @@ protected slots: // Protected slots
 	void chooseIcon();
 	void chooseBeep();
 	void lockCmbMenuText(int index);
+	void validDns();
 };
 
 #endif

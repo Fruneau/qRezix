@@ -1,19 +1,14 @@
-#include "dnsvalidator.h"
+/* Ce fichier doit être supprimé dans un futur proche, car il n'apporte rien */
+#include <qregexp.h>
 #include <qwidget.h>
-#include "rzxconfig.h"
-#include "rzxcomputer.h"
 
-DnsValidator::DnsValidator(QWidget* parent, const char *name) : QValidator(parent, name){
+#include "dnsvalidator.h"
+
+DnsValidator::DnsValidator(QWidget* parent, const char *name)
+	:QRegExpValidator(parent, name)
+{
+	setRegExp(QRegExp("[a-zA-Z0-9\-]{1,63}"));
 }
 
 DnsValidator::~DnsValidator(){
-}
-
-QValidator::State DnsValidator::validate(QString &input, int&) const{
-	if(input.find(" ")+1) return QValidator::Intermediate;
-	else return QValidator::Acceptable;
-}
-
-void DnsValidator::fixup ( QString & input ) const{
-	input.replace(QRegExp(" "),"");
 }
