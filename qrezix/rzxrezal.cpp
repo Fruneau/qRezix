@@ -480,24 +480,44 @@ void RzxRezal::redrawSelectedIcon(QListViewItem *sel)
 void RzxRezal::buildToolTip(QListViewItem *i)
 {
 	QToolTip::remove(this->viewport());
-	if(!i) return;
+	int tooltipFlags = RzxConfig::tooltip();
+	if(!i || !(tooltipFlags & (int)RzxConfig::Enable) || tooltipFlags==(int)RzxConfig::Enable) return;
 	
 	RzxItem *item = (RzxItem*)i;
 	RzxComputer *computer = item->getComputer();
-	QString tooltip = "<b>"+ i->text(ColNom) + "</b><br><br>";
+	QString tooltip = "<b>"+ i->text(ColNom) + " </b>";
+	if(tooltipFlags & (int)RzxConfig::Promo)
+		tooltip += "<i>(" + computer->getPromoText() + ")</i>";
+	tooltip += "<br><br>";
  	tooltip += "<b><i>" + tr("Informations :") + "</b></i><br><ul>";
 	
 	int servers = computer->getServers();
-	if(servers & RzxComputer::SERVER_FTP)
-		tooltip += "<li>" + tr("ftp server :") + tr("<b>on</b>") + "</li>";
-	if(servers & RzxComputer::SERVER_HTTP)
-		tooltip += "<li>" + tr("web server :") + tr("<b>on</b>") + "</li>";
-	if(servers & RzxComputer::SERVER_NEWS)
-		tooltip += "<li>" + tr("news server :") + tr("<b>on</b>") + "</li>";
-	if(servers & RzxComputer::SERVER_SAMBA)
-		tooltip += "<li>" + tr("samba server :") + tr("<b>on</b>") + "</li>";
-	tooltip += "<li>" + computer->getClient() + "</li>";
-	tooltip += "<li> ip : <i>" + computer->getIP().toString() + "</i></li>";
+	if(servers & RzxComputer::SERVER_FTP && (tooltipFlags & (int)RzxConfig::Ftp))
+		tooltip += "<li>" + tr("ftp server : ") + tr("<b>on</b>") + "</li>";
+	if(servers & RzxComputer::SERVER_HTTP && (tooltipFlags & (int)RzxConfig::Http))
+		tooltip += "<li>" + tr("web server : ") + tr("<b>on</b>") + "</li>";
+	if(servers & RzxComputer::SERVER_NEWS && (tooltipFlags & (int)RzxConfig::News))
+		tooltip += "<li>" + tr("news server : ") + tr("<b>on</b>") + "</li>";
+	if(servers & RzxComputer::SERVER_SAMBA && (tooltipFlags & (int)RzxConfig::Samba))
+		tooltip += "<li>" + tr("samba server : ") + tr("<b>on</b>") + "</li>";
+	if(tooltipFlags & (int)RzxConfig::OS)
+	{
+		tooltip += "<li> os : ";
+		switch((int)computer->getOptions().SysEx)
+		{
+			case 1: tooltip += "Windows 9x/Me"; break;
+			case 2: tooltip += "Windows NT/2000/XP"; break;
+			case 3: tooltip += "Linux"; break;
+			case 4: tooltip += "MacOS"; break;
+			case 5: tooltip += "MacOS X"; break;
+			default: tooltip += tr("Unknown");
+		}
+		tooltip += "</li>";
+	}
+	if(tooltipFlags & (int)RzxConfig::Client)
+		tooltip += "<li>" + computer->getClient() + "</li>";
+	if(tooltipFlags & (int)RzxConfig::IP)
+		tooltip += "<li> ip : <i>" + computer->getIP().toString() + "</i></li>";
 	tooltip +="</ul>";
 	
 	QToolTip::add(this->viewport(), itemRect(i), tooltip);

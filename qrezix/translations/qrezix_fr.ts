@@ -191,6 +191,10 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <source>Chat</source>
         <translation>Discussion</translation>
     </message>
+    <message>
+        <source>Custom colours...</source>
+        <translation>Personnaliser...</translation>
+    </message>
 </context>
 <context>
     <name>RzxChatSocket</name>
@@ -1071,6 +1075,34 @@ Propriétés envoyées à %2 (%3)</translation>
         <source>Properties sent to %2 (%3) at %1</source>
         <translation type="obsolete">Propriétés envoyées à %2 (%3) à %1</translation>
     </message>
+    <message>
+        <source>Informations :</source>
+        <translation>Informations : </translation>
+    </message>
+    <message>
+        <source>ftp server : </source>
+        <translation>serveur ftp : </translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;on&lt;/b&gt;</source>
+        <translation>&lt;b&gt;lancé&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>web server : </source>
+        <translation>serveur web : </translation>
+    </message>
+    <message>
+        <source>news server : </source>
+        <translation>serveur de news : </translation>
+    </message>
+    <message>
+        <source>samba server : </source>
+        <translation>serveur samba : </translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Inconnu</translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
@@ -1693,6 +1725,22 @@ Le mot de passe avec lequel vous avez tenté de vous connecter au serveur Xnet e
     <message>
         <source>xnetserver.eleves.polytechnique.fr</source>
         <translation>xnetserver.eleves.polytechnique.fr</translation>
+    </message>
+    <message>
+        <source>ToolTips</source>
+        <translation>Boites d&apos;information</translation>
+    </message>
+    <message>
+        <source>Enable tooltips</source>
+        <translation>Afficher les boites d&apos;infomation</translation>
+    </message>
+    <message>
+        <source>Ip address</source>
+        <translation>Adresse IP</translation>
+    </message>
+    <message>
+        <source>Client version</source>
+        <translation>Version du client</translation>
     </message>
 </context>
 </TS>

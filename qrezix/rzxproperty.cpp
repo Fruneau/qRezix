@@ -180,7 +180,17 @@ void RzxProperty::initDlg() {
 	//CbHotline->setChecked( servers & RzxComputer::SERVER_HOTLINE );
 	CbHTTP->setChecked( servers & RzxComputer::FLAG_HTTP );
 	CbNews->setChecked( servers & RzxComputer::FLAG_NEWS );
-
+	
+	int tooltip = RzxConfig::tooltip();
+	cbTooltips->setChecked(tooltip & RzxConfig::Enable);
+	cbTooltipFtp->setChecked(tooltip & RzxConfig::Ftp);
+	cbTooltipHttp->setChecked(tooltip & RzxConfig::Http);
+	cbTooltipNews->setChecked(tooltip & RzxConfig::News);
+	cbTooltipSamba->setChecked(tooltip & RzxConfig::Samba);
+	cbTooltipPromo->setChecked(tooltip & RzxConfig::Promo);
+	cbTooltipOS->setChecked(tooltip & RzxConfig::OS);
+	cbTooltipVersion->setChecked(tooltip & RzxConfig::Client);
+	cbTooltipIP->setChecked(tooltip & RzxConfig::IP);
 
 	//QRezix * rezix = getRezix();
 	int colonnes = RzxConfig::colonnes();
@@ -419,7 +429,17 @@ bool RzxProperty::miseAJour() {
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_ICONTEXT, NULL);
 	}
 	
-
+	unsigned int tooltip = 0;
+	if(cbTooltips->isChecked()) tooltip += RzxConfig::Enable;
+	if(cbTooltipFtp->isChecked()) tooltip += RzxConfig::Ftp;
+	if(cbTooltipHttp->isChecked()) tooltip += RzxConfig::Http;
+	if(cbTooltipNews->isChecked()) tooltip += RzxConfig::News;
+	if(cbTooltipSamba->isChecked()) tooltip += RzxConfig::Samba;
+	if(cbTooltipPromo->isChecked()) tooltip += RzxConfig::Promo;
+	if(cbTooltipOS->isChecked()) tooltip += RzxConfig::OS;
+	if(cbTooltipVersion->isChecked()) tooltip += RzxConfig::Client;
+	if(cbTooltipIP->isChecked()) tooltip += RzxConfig::IP;
+	cfgObject -> writeEntry( "tooltip", tooltip);
 
 //	cfgObject -> write(); //flush du fichier de conf
 
