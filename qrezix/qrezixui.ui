@@ -284,49 +284,8 @@
                 <number>1</number>
             </property>
             <property name="currentIndex">
-                <number>0</number>
+                <number>1</number>
             </property>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>tabEverybody</cstring>
-                </property>
-                <property name="backgroundMode">
-                    <enum>PaletteBackground</enum>
-                </property>
-                <attribute name="label">
-                    <string>Everybody</string>
-                </attribute>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <property name="margin">
-                        <number>0</number>
-                    </property>
-                    <property name="spacing">
-                        <number>0</number>
-                    </property>
-                    <widget class="RzxRezal" row="0" column="0">
-                        <property name="name">
-                            <cstring>rezal</cstring>
-                        </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>2</hsizetype>
-                                <vsizetype>2</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
-                        </property>
-                        <property name="minimumSize">
-                            <size>
-                                <width>200</width>
-                                <height>0</height>
-                            </size>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
             <widget class="QWidget">
                 <property name="name">
                     <cstring>tabFavorites</cstring>
@@ -350,6 +309,47 @@
                     <widget class="RzxRezal" row="0" column="0">
                         <property name="name">
                             <cstring>rezalFavorites</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>2</hsizetype>
+                                <vsizetype>2</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>200</width>
+                                <height>0</height>
+                            </size>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tabEverybody</cstring>
+                </property>
+                <property name="backgroundMode">
+                    <enum>PaletteBackground</enum>
+                </property>
+                <attribute name="label">
+                    <string>Everybody</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
+                    <property name="spacing">
+                        <number>0</number>
+                    </property>
+                    <widget class="RzxRezal" row="0" column="0">
+                        <property name="name">
+                            <cstring>rezal</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
