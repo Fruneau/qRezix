@@ -136,6 +136,9 @@ public slots: // Public slots
 	void changeTheme();
 	void changeIconFormat();
 	void receiveProperties(const QString& msg);
+	
+public:
+	inline QString getHostName() const { return hostname; }
 
 protected slots:
 	void btnSendClicked();
