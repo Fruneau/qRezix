@@ -17,8 +17,8 @@ KEYWORDS="x86"
 IUSE="xplo smillix"
 
 DEPEND=">=x11-libs/qt-3.3.3
-	xplo ? (=x11-plugins/qrezix-xplo-9999)
-	smilix ? (=x11-plugins/qrezix-smilix-9999)"
+	xplo? ( =x11-plugins/qrezix-xplo-9999 )
+	smilix? ( =x11-plugins/qrezix-smilix-9999 )"
 
 S=${WORKDIR}/${PN}
 
