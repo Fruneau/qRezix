@@ -653,8 +653,13 @@ void RzxChat::receiveProperties(const QString& msg)
 {
 	QPoint *pos = new QPoint(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
 	prop = socket->showProperties(peer, msg, false, this, pos);
-	prop->show();
 	delete pos;
+	if(!prop)
+	{
+		btnProperties->setOn(false);
+		return;
+	}
+	prop->show();
 }
 
 #ifdef WIN32
