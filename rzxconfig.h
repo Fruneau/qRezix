@@ -26,6 +26,7 @@
 #include <qdir.h>
 #include <qtranslator.h>
 #include <qsettings.h>
+#include <qpoint.h>
 
 class RzxComputer;
 class QPixmap;
@@ -164,6 +165,8 @@ public:
 	static void setIconTheme(QObject* parent, const QString& name);
 	static QString readWindowSize();
 	static void writeWindowSize(QString ws);
+	static QPoint readWindowPosition();
+	static void writeWindowPosition(const QPoint&);
 	static void writeQuitMode(int mode);
 	static void writeShowQuit(bool mode);
 

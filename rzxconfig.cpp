@@ -391,6 +391,20 @@ QString RzxConfig::readWindowSize(){return globalConfig() -> readEntry("window_s
 /** Renvoie une chaine correspondant ï¿½la taille de la fenï¿½re principale*/
 void RzxConfig::writeWindowSize(QString ws){globalConfig() -> writeEntry("window_size",ws); }
 
+/** Renvoie le point où devrait se placer la fenêtre */
+QPoint RzxConfig::readWindowPosition()
+{
+	QString pos = globalConfig() -> readEntry("windowPosition", "00020024");
+	return QPoint(pos.left(4).toInt(), pos.right(4).toInt());
+}
+
+/** Ecrie la chaine correspondant à la position de la fenêtre */
+void RzxConfig::writeWindowPosition(const QPoint &position)
+{
+	QString pos = QString("%1%2").arg(position.x(), 4).arg(position.y(), 4).replace(' ', '0');
+	globalConfig() -> writeEntry("windowPosition", pos);
+}
+
 /** Renvoie le temps de reconnection en ms, 0 pour pas de reconnection */
 int RzxConfig::reconnection(){ return globalConfig() -> readEntry("reconnection", DEFAULT_RECONNECTION); }
 
