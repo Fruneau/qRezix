@@ -53,6 +53,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	object = this;
 	byTray = false;
 	statusFlag = false;
+	wellInit = FALSE;
 	
 	///Chargement des plug-ins
 	RzxPlugInLoader::global();
@@ -89,9 +90,9 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	{
 		m_properties->initDlg();
 		m_properties -> exec();
-		if(!m_properties->infoCompleted()) { QApplication::exit(0); return; }
 	}
-
+	if(!m_properties->infoCompleted()) { wellInit = FALSE; return;}
+	
 	//RzxConfig::loadTranslators();
 	lister -> initConnection();
 
@@ -104,6 +105,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 
 	tbRezalContainer->setCurrentIndex(1);
 	changeTheme();
+	wellInit = TRUE; 
 }
 
 void QRezix::launchPlugins()

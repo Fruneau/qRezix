@@ -43,6 +43,7 @@ class QRezix : public QRezixUI
 	static QRezix *object;
 	bool statusFlag;
 	
+	
 public:
     QRezix(QWidget* parent=0, const char *name=0);
     ~QRezix();
@@ -50,6 +51,7 @@ public:
 	bool alreadyOpened;
 	TrayIcon * tray;
 	bool byTray;
+	bool wellInit;
 	static QRezix *global();
 
 signals:
