@@ -109,7 +109,11 @@
     </message>
     <message>
         <source>QRezix</source>
-        <translation>QRezix</translation>
+        <translation type="obsolete">QRezix</translation>
+    </message>
+    <message>
+        <source>qRezix</source>
+        <translation>qRezix</translation>
     </message>
 </context>
 <context>
@@ -1372,7 +1376,7 @@ Le mot de passe avec lequel vous avez tenté de vous connecter au serveur Xnet e
     </message>
     <message>
         <source>xnetserver</source>
-        <translation>xnetserver</translation>
+        <translation type="obsolete">xnetserver</translation>
     </message>
     <message>
         <source>Port:</source>
@@ -1685,6 +1689,10 @@ Le mot de passe avec lequel vous avez tenté de vous connecter au serveur Xnet e
     <message>
         <source>Show Search Tools</source>
         <translation>Afficher les outils de recherche</translation>
+    </message>
+    <message>
+        <source>xnetserver.eleves.polytechnique.fr</source>
+        <translation>xnetserver.eleves.polytechnique.fr</translation>
     </message>
 </context>
 </TS>
