@@ -18,14 +18,14 @@
 #include <qobjectlist.h>
 
 #include "rzxrezal.h"
-#include "rzxitem.h"
 #include "rzxconfig.h"
 #include "rzxchat.h"
 #include "rzxitem.h"
-#include "rzxclientlistener.h"
+#include "rzxcomputer.h"
 #include "rzxpluginloader.h"
 #include "rzxutilslauncher.h"
 #include "rzxconnectionlister.h"
+#include "rzxclientlistener.h"
 
 
 #define USER_HASH_TABLE_LENGTH 1663
@@ -56,7 +56,6 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 
 	setAllColumnsShowFocus(true);
  
-	server = RzxServerListener::object();
 	client = RzxClientListener::object();
 	lister = RzxConnectionLister::global();
 	

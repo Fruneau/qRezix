@@ -18,10 +18,11 @@
 #ifndef RZXPROTOCOLE_H
 #define RZXPROTOCOLE_H
 
-#include "rzxhostaddress.h"
-#include "rzxchangepassui.h"
 #include <qobject.h>
 #include <qstring.h>
+
+#include "rzxhostaddress.h"
+#include "rzxchangepassui.h"
 
 /**
 	*Gere le protocole Xnet. Attention, les messages SERVER_ICON sont definis mais

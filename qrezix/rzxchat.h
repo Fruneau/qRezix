@@ -23,9 +23,10 @@
 #include <qtimer.h>
 #include <qpopupmenu.h>
 #include <qframe.h>
+
 #include "rzxhostaddress.h"
-#include "rzxchatui.h"
 #include "rzxclientlistener.h"
+#include "rzxchatui.h"
 
 /**
   *@author Sylvain Joyeux
@@ -34,8 +35,12 @@
 class QDns;
 class QTimer;
 class QTextEdit;
+class RzxChatSocket;
 
 ///Classe pour les fenêtre propriété et historique du chat
+/** Affiche une frame qui permet de contenir les données des propriétés et de l'historique.<br>
+  * Cette classe permet simplement une abstraction de la chose, sans pour autant apporter quoi que ce soit de vraiment nouveau
+  */
 class RzxPopup : public QFrame
 {
 	Q_OBJECT
@@ -49,6 +54,13 @@ class RzxPopup : public QFrame
 	signals:
 		void aboutToQuit();
 };
+
+inline void RzxPopup::forceVisible(bool pos)
+{
+	if(pos) show();
+	else hide();
+}
+
 
 //Rajout de Stéphane Lescuyer 2004/05/27
 //pour customiser la boite d'edition
