@@ -100,6 +100,8 @@ protected: // Protected attributes
 	int timeToConnection;
 	/** Message */
 	QString message;
+	/** indique si une connexion a été établie depuis la dernière erreur indiquée à l'utilisateur */
+	bool hasBeenConnected;
 	
 private:
 	inline void notify(const QString& text) { emit status(text, socket.state()!=QSocket::Connected); }
