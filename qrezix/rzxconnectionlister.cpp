@@ -131,11 +131,13 @@ void RzxConnectionLister::login( const QString& newOrdi )
 				newComputer->insertChild(item);
 			}
 		}
-		computer->deleteLater();
 	}
 
 	emit login( newComputer);
 
+	//Placé après le emit login, pour que les signaux emits par la destruction n'interfèrent pas avec l'affichage
+	if(computer) computer->deleteLater();
+	
 	//Ajout du nouvel ordinateur dans les qdict
 	computerByLogin.insert(newComputer->getName(), newComputer);
 	iplist.insert( newComputer -> getIP().toString(), newComputer );
