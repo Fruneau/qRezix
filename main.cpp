@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 			int height=windowSize.mid(1,4).toInt();
 			int width =windowSize.mid(5,4).toInt();
 			rezix->resize(QSize(width,height));
-			rezix->move(QPoint(0,0));
+			rezix->move(QPoint(2,24));
 		}
 		
 		if(RzxConfig::globalConfig()->useSystray())
