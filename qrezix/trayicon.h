@@ -24,6 +24,7 @@
 #include <qobject.h>
 #include <qimage.h>
 #include <qpopupmenu.h>
+#include <qpoint.h>
 
 class QPopupMenu;
 
@@ -47,6 +48,8 @@ public:
 	QString toolTip() const;
 
 	void gotCloseEvent();
+	
+	QPoint getPos();
 
 public slots:
 	void setIcon( const QPixmap &icon );
