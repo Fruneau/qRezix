@@ -23,6 +23,7 @@
 
 #include <stdlib.h>
 
+#include "rzxmessagebox.h"
 #include "rzxserverlistener.h"
 #include "rzxcomputer.h"
 #include "rzxconfig.h"
@@ -118,7 +119,7 @@ void RzxServerListener::serverError(int error) {
 		{
 			setupReconnection(tr("Cannot find server %1").arg(RzxConfig::serverName()));
 
-			QMessageBox::information( NULL, "qRezix",
+			RzxMessageBox::information( NULL, "qRezix",
 				tr("Cannot find server %1:\n\nDNS request failed").arg(RzxConfig::serverName()));
 		}
 		break;
@@ -202,7 +203,7 @@ void RzxServerListener::serverConnected(){
 void RzxServerListener::beginAuth(){
 	RzxComputer * localhost = RzxConfig::localHost();
 	if (!localhost) {
-		QMessageBox::critical(0, tr("qReziX error"), tr("Configuration error, cannot connect"));
+		RzxMessageBox::critical(0, tr("qReziX error"), tr("Configuration error, cannot connect"));
 		pingTimer.stop();
 		return;
 	}
