@@ -353,16 +353,27 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 		if(!dispNotFavorites)
 			emit newFavorite(computer);
 	}
-	else if(!dispNotFavorites)
+	else
 	{
-		if(!RzxConfig::globalConfig()->favorites->find( computer->getName()))
+		if(!dispNotFavorites)
 		{
-			RzxConfig::globalConfig()->favorites->insert(computer->getName(),new QString("1"));
-			RzxConfig::globalConfig()->writeFavorites();
+			if(!RzxConfig::globalConfig()->favorites->find( computer->getName()))
+			{
+				RzxConfig::globalConfig()->favorites->insert(computer->getName(),new QString("1"));
+				RzxConfig::globalConfig()->writeFavorites();
+			}
+			emit changeFavorite(computer);
 		}
-		emit changeFavorite(computer);
+		QString *old_name = search_items0.find(computer->getIP().toString());
+		if(old_name!=NULL)
+		{
+			search_items.remove(*old_name);
+			search_items0.remove(*old_name);
+		}
 	}
 
+	search_items.insert(computer->getName().lower(),new RzxItem*(item));
+	search_items0.insert(computer->getIP().toString(),new QString(computer->getName().lower()));
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 
 	item -> update();
@@ -390,6 +401,7 @@ void RzxRezal::logout(const QString& ip)
 		
 	if((selected == item))
 		selected = NULL;
+	search_items.remove(QString(item->getComputer()->getName().lower()));
 	item->deleteLater();
 }
 
@@ -539,53 +551,42 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 		search_patern += c.lower();
 	search_timeout.start();
 
-	qDebug(QString() + "searchPatern=" + search_patern);
-	RzxItem* item=static_cast<RzxItem*> (currentItem()), *last_item;
-	if(!item)
-		item=static_cast<RzxItem*>(firstChild()); //au bout on revient au début
-	RzxHostAddress ipSaved=item->ip; //y a des chances que item soit ! null :)
-	int last_match_length=0, 
-	    match_length, 
-	    search_patern_length = search_patern.length(),
-	    match_length_max;
-	while(true) {
-		item=static_cast<RzxItem*>(item->itemBelow());
-		if(!item)
-			item=static_cast<RzxItem*>(firstChild()); //au bout on revient au début
-		RzxComputer * comp=lister->iplist.find((item->ip).toString());
-		QString current_name = comp->getName().lower();
-		match_length_max = comp->getName().length();
-		if(search_patern_length<match_length_max)
-			match_length_max = search_patern_length;
-		for(match_length=0; 
-		    (match_length < match_length_max) && (current_name.at(match_length)==search_patern.at(match_length)); 
-		    match_length++);
+//	qDebug(QString() + "searchPatern=" + search_patern);
 
-		if((match_length==search_patern_length)||(last_match_length>match_length)||(item->ip == ipSaved))
+	RzxItem **item;
+	QString lower, higher;
+	
+	if(!search_items.find_nearest(search_patern,lower,higher))
+	{
+		bool lmatch, hmatch;
+		lmatch = lower.left(search_patern.length())==search_patern;
+		hmatch = higher.left(search_patern.length())==search_patern;
+		if((!lmatch) && (!hmatch))
 		{
-			if(last_match_length>match_length)
+			unsigned int i;
+			for(i=0, lmatch = true, hmatch=true;  lmatch && hmatch && (i<search_patern.length()); i++)
+			     lmatch = lower.at(i)==search_patern.at(i),
+			     hmatch = higher.at(i)==search_patern.at(i);
+			i--;
+			if((!hmatch) && (!lmatch))
 			{
-				item = last_item;
-				match_length = last_match_length;
+				char c  = search_patern.at(i).latin1(),
+				     lc = lower.at(i).latin1(),
+				     hc = higher.at(i).latin1();
+				if(abs(c-hc)<abs(c-lc))
+					hmatch=true;
 			}
-			
-			if(match_length<search_patern_length)
-				search_patern = search_patern.left(search_patern_length-1);
-			setCurrentItem(item);
-			ensureItemVisible(item);
-			return;
+			search_patern = search_patern.left(search_patern.length()-1);
 		}
-
-		last_item = item;
-		last_match_length = match_length;
+		if(hmatch && (!lmatch))
+			lower = higher;
 	}
-	//ICI JAI LAISSE DS TRUCS EN PLAN
-	//
-	//
-	// OUI ICI OUI !!!!!!!!!!!!!!!!!!
-	//
-	//
-	//BON CA DEVRAIT SUFFIRE LA  C ASSEZ VISIBLE
+
+	search_items.find(lower,item);
+
+	setCurrentItem(*item);
+	ensureItemVisible(*item);
+	return;
 }
 
 /** No descriptions */
