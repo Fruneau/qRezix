@@ -49,6 +49,8 @@ class RzxPlugInLoader : public QObject
 	QPtrList<QListViewItem> lvItems;
 	int selectedPlugIn;
 	bool initialized;
+	
+	unsigned int pluginFlags;
 
 	QListView *pluginListView;
 	QToolButton *pluginGetProp;
@@ -70,6 +72,7 @@ class RzxPlugInLoader : public QObject
 		void menuChat(QPopupMenu& menu);
 		
 		void setSettings();
+		inline int getFeatures() { return pluginFlags; };
 		
 		void makePropListView(QListView *lv, QToolButton *btn);
 

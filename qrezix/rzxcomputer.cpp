@@ -39,13 +39,16 @@ void RzxComputer::initLocalHost( void )
 	version.MajorVersion = RZX_MAJOR_VERSION;
 	version.FunnyVersion = RZX_FUNNY_VERSION;
 	version.MinorVersion = RZX_MINOR_VERSION;
+	
+	options.Capabilities = 3; //capable d'utiliser Capabilities et le chat
+	options.Capabilities |= RzxPlugInLoader::global()->getFeatures();
 
 	autoSetOs();
 
 	ip = RzxHostAddress::fromRezix(0);
 	delayScan = new QTimer();
 	connect(delayScan, SIGNAL(timeout()), this, SLOT(scanServers()));
-	options.ServerFlags = options.Server = 0;
+	ServerFlags = options.Server = 0;
 }
 
 RzxComputer::RzxComputer()
@@ -123,7 +126,7 @@ void RzxComputer::autoSetOs() //0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5
 QString RzxComputer::serialize(bool stamp) {
 	QString ret;
 	options_t test = options;
-	test.Server &= test.ServerFlags;
+	test.Server &= ServerFlags;
 	Q_UINT32 opts = *((Q_UINT32*) &test);
 	Q_UINT32 vers = *((Q_UINT32*) &version);
 	
@@ -153,7 +156,7 @@ void RzxComputer::setIcon(const QPixmap& image){
 void RzxComputer::setServers(int servers) 
 { options.Server = servers; }
 void RzxComputer::setServerFlags(int serverFlags) 
-{ options.ServerFlags = serverFlags; }
+{ ServerFlags = serverFlags; }
 void RzxComputer::setPromo(int promo)
 { options.Promo = promo; }
 void RzxComputer::setRemarque(const QString& text)
@@ -189,7 +192,12 @@ QPixmap RzxComputer::getIcon() const
 int RzxComputer::getServers() const
 { return options.Server; }
 int RzxComputer::getServerFlags() const
-{ return options.ServerFlags; }
+{ return ServerFlags; }
+bool RzxComputer::can(RzxComputer::Capabilities cap)
+{
+	if(!options.Capabilities & CAP_ON) return true;
+	else return (bool)(options.Capabilities & cap);
+}
 
 ///Retourne le client utilisé avec la version
 /**Permet d'obtenir le nom et le numéro de version du client xNet utilisé*/
