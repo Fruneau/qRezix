@@ -202,7 +202,7 @@
     </message>
     <message>
         <source>ends the chat</source>
-        <translation>a mis fin au chat</translation>
+        <translation>a mis fin à la discussion</translation>
     </message>
     <message>
         <source>can&apos;t be contact, check his firewall... CONNECTION ERROR</source>
@@ -734,6 +734,18 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
 </source>
         <translation>Pour pouvoir utiliser qRezix, vous devez avoir renseignés les champs suivants :
 </translation>
+    </message>
+    <message>
+        <source>Bad properties</source>
+        <translation>Propréiétés invalides</translation>
+    </message>
+    <message>
+        <source>Your computer name is not valid...&lt;br&gt;A computer name can only contains letters, numbers and &apos;-&apos;</source>
+        <translation>Votre nom d&apos;ordinateur n&apos;est pas valide...&lt;br&gt;Un nom d&apos;ordinateur peut seulement contenir des chiffres, des lettres et &apos;-&apos;</translation>
+    </message>
+    <message>
+        <source>Your comment is not valid...&lt;br&gt;It can&apos;t contain linebreaks or other &apos;special&apos; character</source>
+        <translation>Votre commentaire n&apos;est pas valide...&lt;br&gt;Il ne doit pas contenir de sauts de ligne ou d&apos;autres caractères spéciaux</translation>
     </message>
 </context>
 <context>
@@ -1424,7 +1436,7 @@ Le mot de passe avec lequel vous avez tenté de vous connecter au serveur Xnet e
     </message>
     <message>
         <source>Themes</source>
-        <translation>Thêmes d&apos;icônes</translation>
+        <translation>Thême d&apos;icônes</translation>
     </message>
     <message>
         <source>Action on double-clic</source>
@@ -1564,7 +1576,7 @@ Le mot de passe avec lequel vous avez tenté de vous connecter au serveur Xnet e
     </message>
     <message>
         <source>Highlight the selection</source>
-        <translation>Démarquer le sélection</translation>
+        <translation>Démarquer la sélection</translation>
     </message>
     <message>
         <source>Change my password ...</source>

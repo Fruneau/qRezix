@@ -662,6 +662,18 @@ dans lequel il enregistre sa configuration</translation>
 </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Bad properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your computer name is not valid...&lt;br&gt;A computer name can only contains letters, numbers and &apos;-&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your comment is not valid...&lt;br&gt;It can&apos;t contain linebreaks or other &apos;special&apos; character</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxProtocole</name>
