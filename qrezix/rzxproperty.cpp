@@ -206,6 +206,7 @@ void RzxProperty::initDlg() {
 	//adjustAuto->setChecked( RzxConfig::globalConfig() ->readEntry( "autoCol", 1 ) );
 	cbSystray->setChecked( RzxConfig::globalConfig() ->useSystray() );
 	cbPropertiesWarning->setChecked(RzxConfig::globalConfig() -> warnCheckingProperties() );
+	cbPrintTime->setChecked(RzxConfig::globalConfig() -> printTime());
 	
 	QPixmap localhostIcon = *RzxConfig::localhostIcon();
 	pxmIcon -> setPixmap( localhostIcon );
@@ -314,6 +315,7 @@ void RzxProperty::miseAJour() {
 		ui -> tray -> setVisible(cbSystray->isChecked());
 	
 	RzxConfig::globalConfig() -> writeEntry("warnCheckingProperties", (cbPropertiesWarning->isChecked() ? 1: 0));
+	RzxConfig::globalConfig() -> writeEntry("printTime", cbPrintTime->isChecked() ? 1 : 0);
 		
 	if ( iconSizeChanged && ui -> rezal)
 		ui -> rezal -> redrawAllIcons();

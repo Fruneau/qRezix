@@ -72,6 +72,7 @@ public:
 protected:
 	RzxHostAddress peer;
 	QString hostname;
+	QString textHistorique;
 	QTimer * timer;
 	ListText * history;
 	ListText * curLine;

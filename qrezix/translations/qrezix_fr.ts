@@ -285,7 +285,10 @@ dans lequel il enregistre sa configuration</translation>
 This is an identification code used to authentificate your connection to the server and avoid IP-spoofing.
 
 KEEP IT WELL because without it, you may not be able to connect to the server</source>
-        <translation type="unfinished"></translation>
+        <translation>Votre password XNet est : %1
+C&apos;est un code d&apos;authentification utilisé par le serveur pour éviter le vol de votre pseudo.
+
+GARDEZ-LE BIEN car sans lui, il se peut que vous ne puissiez plus vous connecter au serveur</translation>
     </message>
 </context>
 <context>
@@ -436,7 +439,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Properties sent to </source>
-        <translation type="obsolete">Propriétés envoyées à </translation>
+        <translation>Propriétés envoyées à </translation>
     </message>
     <message>
         <source>has checked your properties</source>
@@ -883,6 +886,10 @@ Erreur DNS
     <message>
         <source>Warn me when properties are being checked</source>
         <translation>Prévenir quand les propriétés sont envoyées</translation>
+    </message>
+    <message>
+        <source>Print hh:mm:ss in chat</source>
+        <translation>Afficher hh:mm:ss dans le chat</translation>
     </message>
 </context>
 </TS>

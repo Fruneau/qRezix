@@ -80,7 +80,7 @@ RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 }
 
 RzxChat::~RzxChat(){
-	QString temp = txtHistory -> text();
+	QString temp = textHistorique;
 
 	QString filename = RzxConfig::historique(peer.toRezix(), hostname);
 	if (filename.isNull()) return;
@@ -164,24 +164,31 @@ void RzxChat::setHostname(const QString& name){
 
 void RzxChat::append(const QString& color, const QString& host, const QString& msg) {
 	QTime cur = QTime::currentTime();
-	QString tmp;
-	tmp.sprintf("<i>%2i:%.2i:%.2i", 
-				cur.hour(),
-				cur.minute(),
-				cur.second());
+	QString tmp, tmpH, head="";
+	head.sprintf("<i>%2i:%.2i:%.2i", 
+			cur.hour(),
+			cur.minute(),
+			cur.second());
+	tmp.sprintf("<i>");
 	if(msg.left(4)=="/me "){
 		 //Action
 		if(host.length()<3) tmp = ("<font color=\"purple\">" + tmp + " * %1 %2</i></font><br>")
 					.arg(RzxConfig::globalConfig()->localHost()->getName()).arg(msg.mid(4));
 		else tmp = ("<font color=\"purple\">" + tmp + " * %1 %2</i></font><br>")
 					.arg(host.mid(0, host.length()-2)).arg(msg.mid(4));
+		tmpH = ("<font color=\"purple\">"+head+"</font>");
 		 
 	}
 	else{
 		tmp = ("<font color=\"%1\">" + tmp + " %2</i> %3</font><br>")
 					.arg(color).arg(host).arg(msg);
+		tmpH = ("<font color=\"%1\">"+head+"</font>").arg(color);
 	}
-	txtHistory -> setText(txtHistory -> text() + tmp);
+	if(RzxConfig::globalConfig()->printTime())
+		txtHistory -> setText(txtHistory -> text() + tmpH + tmp);
+	else
+		 txtHistory -> setText(txtHistory -> text() + tmp);
+	textHistorique = textHistorique + tmpH + tmp;
 	txtHistory -> ensureVisible(0, txtHistory -> contentsHeight());
 	edMsg->setFocus();
 }
@@ -266,7 +273,10 @@ void RzxChat::onTextChanged() {
 void RzxChat::btnSendClicked(){
 	QString msg = edMsg -> text();
 	if(msg.isEmpty()) return;
-	
+
+	history = new ListText(msg, history);
+	curLine = history;
+		
 	// Conversion du texte en HTML si necessaire
 	if( ! cbSendHTML->isChecked() )
 	{
@@ -286,9 +296,6 @@ void RzxChat::btnSendClicked(){
 		static const QRegExp dblspace("  ");
 		msg.replace(dblspace, " &nbsp;");
 	}
-
-	history = new ListText(msg, history);
-	curLine = history;
 	
 	append("red", "> ", msg);
 	emit send(peer, msg);
@@ -296,6 +303,15 @@ void RzxChat::btnSendClicked(){
 }
 
 void RzxChat::btnHistoriqueClicked(){
+	QString temp = textHistorique;
+
+	QString filename = RzxConfig::historique(peer.toRezix(), hostname);
+	if (filename.isNull()) return;
+	
+	QFile file(filename);		
+	file.open(IO_ReadWrite |IO_Append);
+	file.writeBlock(temp, temp.length());
+	file.close();
 	emit showHistorique( peer.toRezix(), hostname );
 }
 

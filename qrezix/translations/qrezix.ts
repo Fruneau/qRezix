@@ -441,6 +441,10 @@ Les discussions et les propriétés sont désactivées</translation>
         <source>has checked your properties</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Properties sent to </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
@@ -881,6 +885,10 @@ Erreur DNS
     </message>
     <message>
         <source>Warn me when properties are being checked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print hh:mm:ss in chat</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

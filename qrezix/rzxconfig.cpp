@@ -341,6 +341,9 @@ int RzxConfig::useSystray(){ return globalConfig() -> readEntry("useSystray", 1)
 /* Renvoie si une boite d'info doit etre ouverte quand qqun checke nos propriétés ou pas */
 int RzxConfig::warnCheckingProperties() { return globalConfig()-> readEntry("warnCheckingProperties", 0); }
 
+/* Renvoie si l'heure doit etre affichée devant chaque message dans la fenetre de chat */
+int RzxConfig::printTime() {return globalConfig()-> readEntry("printTime", 1);}
+
 /** Renvoie si on est beepï¿½ï¿½chaque fois qu'on reï¿½it un message */
 int RzxConfig::beep(){ return globalConfig() -> readEntry("beep", 0); }
 QString RzxConfig::beepCmd(){ return globalConfig() -> readEntry("txtBeepCmd", "play"); }
