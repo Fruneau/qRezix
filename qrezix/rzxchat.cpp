@@ -140,10 +140,10 @@ void RzxChat::append(const QString& color, const QString& host, const QString& m
 				cur.second());
 	if(msg.left(4)=="/me "){
 		 //Action
-		if(host.length()<3) tmp = ("<font color=\"%1\">" + tmp + " </i><img src=\"action\">  %2 %3</font><br>")
-					.arg(color).arg(RzxConfig::globalConfig()->localHost()->getName()).arg(msg.mid(4));
-		else tmp = ("<font color=\"%1\">" + tmp + " </i><img src=\"action\">  %2 %3</font><br>")
-					.arg(color).arg(host.mid(0, host.length()-2)).arg(msg.mid(4));
+		if(host.length()<3) tmp = ("<font color=\"purple\">" + tmp + " * %1 %2</i></font><br>")
+					.arg(RzxConfig::globalConfig()->localHost()->getName()).arg(msg.mid(4));
+		else tmp = ("<font color=\"purple\">" + tmp + " * %1 %2</i></font><br>")
+					.arg(host.mid(0, host.length()-2)).arg(msg.mid(4));
 		 
 	}
 	else{

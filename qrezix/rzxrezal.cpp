@@ -667,8 +667,15 @@ void RzxRezal::warnProperties(const RzxHostAddress& peer) {
 	RzxComputer * computer = iplist.find(peer.toString());
 	if (!computer)
 		return;
+        QTime cur = QTime::currentTime();
+        QString heure;
+        heure.sprintf("<i>%2i:%.2i:%.2i",
+                                cur.hour(),
+                                cur.minute(),
+                                cur.second());
+				
 	if (!object) {
-		sysmsg(tr("Properties sent to ")+computer->getName()+" ("+peer.toString()+")");
+		sysmsg(tr("("+heure+") Properties sent to ")+computer->getName()+" ("+peer.toString()+")");
 		return;
 	}
 	object->append("gray", computer->getName(), tr("has checked your properties"));
