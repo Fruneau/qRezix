@@ -327,10 +327,10 @@ void RzxComputer::scanServers()
 
 		#ifdef Q_OS_MACX
 			res = res.grep("LISTEN");
-			if(!(res.grep(".21 ")).isEmpty()) servers |= RzxComputer::SERVER_FTP;
-			if(!(res.grep(".80 ")).isEmpty()) servers |= RzxComputer::SERVER_HTTP;
-			if(!(res.grep(".119 ")).isEmpty()) servers |= RzxComputer::SERVER_NEWS;
-			if(!(res.grep(".139 ")).isEmpty()) servers |= RzxComputer::SERVER_SAMBA;
+			if(!(res.grep(QRegExp("\\.21\\s")).isEmpty()) servers |= RzxComputer::SERVER_FTP;
+			if(!(res.grep(QRegExp("\\.80\\s")).isEmpty()) servers |= RzxComputer::SERVER_HTTP;
+			if(!(res.grep(QRegExp("\\.119\\s")).isEmpty()) servers |= RzxComputer::SERVER_NEWS;
+			if(!(res.grep(QRegExp("\\.139\\s")).isEmpty()) servers |= RzxComputer::SERVER_SAMBA;
 		#else
 			//lecture des différents port pour voir s'il sont listen
 			if(!(res.grep(":21 ")).isEmpty()) servers |= RzxComputer::SERVER_FTP;
