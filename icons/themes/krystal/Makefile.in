@@ -301,7 +301,7 @@ TAGS:
 
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=hotline.png pref.png orange.png plugin.png os_0_large.png haut_parleur1.png favorite.png news.png chat.png action.png historique.png samba.png os_4_large.png column.png os_2.png here.png cancel.png os_0.png on.png apply.png os_4.png os_3_large.png os_5.png os_1_large.png not_favorite.png os_2_large.png ok.png ftp.png rouje.png same_gateway.png os_3.png prop.png os_5_large.png jone.png away.png off.png send.png http.png os_1.png haut_parleur2.png 
+KDE_DIST=hotline.png pref.png orange.png plugin.png os_0_large.png systrayAway.png haut_parleur1.png favorite.png news.png chat.png action.png historique.png samba.png os_4_large.png column.png os_2.png here.png cancel.png os_0.png on.png apply.png os_4.png os_3_large.png os_5.png os_1_large.png search.png not_favorite.png os_2_large.png ok.png ftp.png rouje.png same_gateway.png os_3.png prop.png os_5_large.png jone.png away.png off.png send.png http.png os_1.png haut_parleur2.png systray.png 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 
