@@ -113,7 +113,7 @@ public:
 	enum Capabilities {
 		CAP_ON = 1,
 		CAP_CHAT = 2,
-		CAP_XPLO = 3
+		CAP_XPLO = 4
 	};
 
 	RzxComputer();
@@ -137,7 +137,7 @@ public:
 	QString getName() const;
 	int getPromo() const;
 	QString getPromoText() const;
-	bool getRepondeur() const;
+	int getRepondeur() const;
 	int getServers() const;
 	int getServerFlags() const;
 	QString getRemarque() const;
