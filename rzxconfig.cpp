@@ -128,9 +128,18 @@ RzxConfig::RzxConfig()
 	ignoreList=new QDict<QString>(USER_HASH_TABLE_LENGTH,false);
 	ignoreList->setAutoDelete(true);
 	computer = 0;
+	settings = new QSettings();
 	
 #ifdef WIN32
-	m_libDir = m_systemDir = m_userDir = QDir::currentDirPath();	
+	QString dir = settings->readEntry("/qRezix/InstDir");
+	if(!dir)
+		m_libDir = m_systemDir = m_userDir = QDir::currentDirPath();	
+	else
+	{
+		m_systemDir.setPath(dir);
+		m_userDir.setPath(dir);
+		m_libDir.setPath(dir);
+	}
 #else
 #ifdef Q_OS_MACX
 	m_systemDir.setPath(QREZIX_DATA_DIR);
@@ -170,7 +179,6 @@ RzxConfig::RzxConfig()
 	//ATTENTION, LE NOUVEAU FORMAT NE PERMET PAS DE CONVERTIR LES DONNÉES DE CONFIGURATION
 	//DEPUIS L'ANCIEN FORMAT VERS LE NOUVEAU
 	//Ouverture du fichier de configuration
-	settings = new QSettings();
 	settings->insertSearchPath(QSettings::Unix,m_userDir.canonicalPath());
 	readFavorites();
 	readIgnoreList();
