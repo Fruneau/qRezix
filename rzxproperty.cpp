@@ -139,6 +139,9 @@ void RzxProperty::initDlg() {
 	//CbHotline->setChecked( servers & RzxComputer::SERVER_HOTLINE );
 	CbHTTP->setChecked( servers & RzxComputer::FLAG_HTTP );
 	CbNews->setChecked( servers & RzxComputer::FLAG_NEWS );
+	CbIndexFtp->setChecked(RzxConfig::indexFtp());
+	CbIndexFtp->setEnabled(RzxConfig::localHost()->getServers() & RzxComputer::SERVER_FTP);
+
 
 	//QRezix * rezix = getRezix();
 	int colonnes = RzxConfig::colonnes();
@@ -297,6 +300,11 @@ void RzxProperty::miseAJour() {
 	cfgObject -> writeEntry( "txtSport", cmbSport->currentText() );
 	cfgObject -> writeEntry( "numSport", cmbSport->currentItem());
 	cfgObject -> writeEntry( "language", languageBox->currentText() );
+	cfgObject -> writeEntry( "indexftp", CbIndexFtp->isChecked() ? 1 : 0 );
+	
+	if(CbIndexFtp->isChecked()) RzxConfig::localHost()->runScanFtp();
+	else RzxConfig::localHost()->stopScanFtp();
+	
 	if (ui -> rezal) {
 		ui -> rezal -> afficheColonnes();
 		if (cfgObject -> autoColonne())

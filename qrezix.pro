@@ -21,7 +21,8 @@ HEADERS	+= qrezix.h \
 	defaults.h \
 	dnsvalidator.h \
 	trayicon.h \
-	rzxquit.h
+	rzxquit.h \
+	rzxfilesharing.h
 SOURCES	+= main.cpp \
 	qrezix.cpp \
 	rzxchat.cpp \
@@ -37,7 +38,8 @@ SOURCES	+= main.cpp \
 	rzxmessagebox.cpp \
 	dnsValidator.cpp \
 	trayicon.cpp \
-	rzxquit.cpp
+	rzxquit.cpp \
+	rzxfilesharing.cpp
 FORMS	+= qrezixui.ui \
 	rzxchatui.ui \
 	rzxpropertyui.ui \
