@@ -70,38 +70,41 @@ int main(int argc, char *argv[])
 	
 	
 	QRezix *rezix = new QRezix();
-	RzxConfig::globalConfig();
-	
-	QObject::connect(RzxConfig::globalConfig(), SIGNAL(languageChanged()), rezix, SLOT(languageChanged()));
+	if(rezix->wellInit)
+	{
+		RzxConfig::globalConfig();
 		
-	rezix -> setIcon(iconeProg);
-	rezix -> languageChanged();
-	rezix -> tray = new TrayIcon(iconeProg, "Rezix", rezix );
-
-	QObject::connect(rezix->tray,SIGNAL(clicked(const QPoint&)),rezix,SLOT(toggleVisible()));
-	QObject::connect(rezix,SIGNAL(setToolTip(const QString &)),rezix->tray,SLOT(setToolTip(const QString &)));
+		QObject::connect(RzxConfig::globalConfig(), SIGNAL(languageChanged()), rezix, SLOT(languageChanged()));
+			
+		rezix -> setIcon(iconeProg);
+		rezix -> languageChanged();
+		rezix -> tray = new TrayIcon(iconeProg, "Rezix", rezix );
 	
-	rezix->launchPlugins();
-	
-	a.setMainWidget(rezix);
-	
-	QString windowSize=RzxConfig::globalConfig()->readWindowSize();	
-	if(windowSize.left(1)=="1")
-		rezix->statusMax=true;
-	else{
-		rezix->statusMax=false;
-		int height=windowSize.mid(1,4).toInt();
-		int width =windowSize.mid(5,4).toInt();
-		rezix->resize(QSize(width,height));
-		rezix->move(QPoint(0,0));
+		QObject::connect(rezix->tray,SIGNAL(clicked(const QPoint&)),rezix,SLOT(toggleVisible()));
+		QObject::connect(rezix,SIGNAL(setToolTip(const QString &)),rezix->tray,SLOT(setToolTip(const QString &)));
+		
+		rezix->launchPlugins();
+		
+		a.setMainWidget(rezix);
+		
+		QString windowSize=RzxConfig::globalConfig()->readWindowSize();	
+		if(windowSize.left(1)=="1")
+			rezix->statusMax=true;
+		else{
+			rezix->statusMax=false;
+			int height=windowSize.mid(1,4).toInt();
+			int width =windowSize.mid(5,4).toInt();
+			rezix->resize(QSize(width,height));
+			rezix->move(QPoint(0,0));
+		}
+		
+		if(RzxConfig::globalConfig()->useSystray())
+			rezix->tray->show();
+		else
+			rezix->show();
+		
+		QObject::connect(&a, SIGNAL(aboutToQuit()), rezix, SLOT(saveSettings()));
+			
+		return a.exec();
 	}
-	
-	if(RzxConfig::globalConfig()->useSystray())
-		rezix->tray->show();
-	else
-		rezix->show();
-	
-	QObject::connect(&a, SIGNAL(aboutToQuit()), rezix, SLOT(saveSettings()));
-		
-	return a.exec();
 }
