@@ -78,6 +78,7 @@ public:
 	
 protected:
 	void keyPressEvent(QKeyEvent *e);
+	bool nickAutocompletion();
 
 signals:
 	void enterPressed();
