@@ -39,7 +39,7 @@
 #include "../config.h"
 #endif
 
-#if defined(Q_OS_MACX)
+#ifdef Q_OS_MACX
 #define QREZIX_DATA_DIR "qrezix.app/Contents/Resources/"
 #endif
 
