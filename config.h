@@ -2,10 +2,10 @@
 /* config.h.in.  Generated from configure.in by autoheader.  */
 
 /* Define if you have the CoreAudio API */
-/* #undef HAVE_COREAUDIO */
+#define HAVE_COREAUDIO 1
 
 /* Define to 1 if you have the <crt_externs.h> header file. */
-/* #undef HAVE_CRT_EXTERNS_H */
+#define HAVE_CRT_EXTERNS_H 1
 
 /* Defines if your system has the crypt function */
 #define HAVE_CRYPT 1
@@ -17,10 +17,10 @@
 #define HAVE_INTTYPES_H 1
 
 /* Define if you have libjpeg */
-#define HAVE_LIBJPEG 1
+/* #undef HAVE_LIBJPEG */
 
 /* Define if you have libpng */
-#define HAVE_LIBPNG 1
+/* #undef HAVE_LIBPNG */
 
 /* Define if you have a working libpthread (will enable threaded code) */
 #define HAVE_LIBPTHREAD 1
@@ -32,17 +32,17 @@
 #define HAVE_MEMORY_H 1
 
 /* Define if your system needs _NSGetEnviron to set up the environment */
-/* #undef HAVE_NSGETENVIRON */
+#define HAVE_NSGETENVIRON 1
 
 /* Define to 1 if you have the <pthread/linuxthreads/pthread.h> header file.
    */
 /* #undef HAVE_PTHREAD_LINUXTHREADS_PTHREAD_H */
 
 /* Define if you have res_init */
-#define HAVE_RES_INIT 1
+/* #undef HAVE_RES_INIT */
 
 /* Define if you have the res_init prototype */
-#define HAVE_RES_INIT_PROTO 1
+/* #undef HAVE_RES_INIT_PROTO */
 
 /* Define to 1 if you have the `snprintf' function. */
 #define HAVE_SNPRINTF 1
