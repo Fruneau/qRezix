@@ -129,7 +129,7 @@ void RzxConnectionLister::login( const QString& ordi )
 	
 	//Indication au chat de la reconnexion
 	RzxChat * chatWithLogin = chats.find( newComputer -> getIP().toString() );
-	if (chatWithLogin)
+	if (!computer && chatWithLogin)
 		chatWithLogin->info( tr( "reconnected" ) );
 	emit countChange( tr( "%1 clients connected" ).arg( iplist.count() ) );
 }
