@@ -103,6 +103,7 @@ void RzxConnectionLister::login( const QString& ordi )
 #else
 			chat->setCaption( tr( "Chat" ) + " - " + newComputer->getName() );
 #endif
+			chat->setHostname(newComputer->getName());
 		}
 		
 		//transfert des fenêtres fille vers le nouveau computer
@@ -204,7 +205,7 @@ void RzxConnectionLister::closeSocket()
 /** Création à partir du login de l'utilisateur */
 RzxChat * RzxConnectionLister::chatCreate( const QString& login)
 {
-	RzxChat *chat = chats.find(login);
+	RzxChat *chat = chatsByLogin.find(login);
 	if(!chat)
 		chat = createChat(computerByLogin.find(login));
 	if(!chat)
