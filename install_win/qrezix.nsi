@@ -1,10 +1,10 @@
 !define MUI_PRODUCT "qRezix"
-!define MUI_VERSION "v2.x"
+!define MUI_VERSION "v1.3"
 !define MUI_NAME "${MUI_PRODUCT} ${MUI_VERSION}"
 
 !include "MUI.nsh"
 
-; Pour pouvoir copier qt-mt230nc.dll dans l'installeur
+; Pour pouvoir copier qt-mt331.dll dans l'installeur
 !define QTDIR "C:\Qt"
 
 
@@ -14,7 +14,7 @@
   ;General
   OutFile "Installer_qRezix.exe"
 
-  ; A laisser, pour réutiliser la conf & cie de l'ancienne version.
+  ; A laisser, pour réutiliser la conf & cie de l'ancienne version. (celle d'avant l'ancienne version en fait)
   InstallDir "$PROGRAMFILES\ReziX"
   
   ShowInstDetails show
@@ -39,7 +39,7 @@
   !define MUI_UNCONFIRMPAGE
   
   ;Modern UI System
-  !insertmacro MUI_SYSTEM
+;  !insertmacro MUI_SYSTEM ;parce que ne veut pas se compiler
 
 
 ;--------------------------------
@@ -63,7 +63,7 @@ FunctionEnd
   SetOutPath "$INSTDIR\themes"
   CreateDirectory "${THEME}"
   SetOutPath "$INSTDIR\themes\${THEME}"
-  File "..\themes\${THEME}\*"
+  File "..\qrezix\themes\${THEME}\*"
 !macroend
 
 
@@ -100,23 +100,23 @@ Section "!Base" SecBase
   SectionIn 1 RO   ; Section toujours sélectionnée
   
   SetOutPath "$SYSDIR"
-  IfFileExists "qt-mt230nc.dll" dll_ok
-  File "${QTDIR}\bin\qt-mt230nc.dll"
+  IfFileExists "qt-mt331.dll" dll_ok
+  File "${QTDIR}\bin\qt-mt331.dll"
   IfErrors "" +3
-    Push "Impossible d'installer $SYSDIR\qt-mt230nc.dll.$\nRelancez l'installation en tant qu'Administrateur."
+    Push "Impossible d'installer $SYSDIR\qt-mt331.dll.$\nRelancez l'installation en tant qu'Administrateur."
     Call ShowAbort
 
 dll_ok:  
 
   SetOutPath "$INSTDIR"
-  File "..\qRezix\Release\qRezix.exe"
+  File "..\qRezix\qRezix.exe"
   IfErrors "" +3
     Push "Impossible de remplacer $INSTDIR\qRezix.exe.$\nQuittez ${MUI_PRODUCT} avant de lancer la désinstallation."  
     Call ShowAbort
     
   File /oname=ReadMe.txt "..\README"
   
-  File /oname=qrezix.qm "..\qRezix\translations\qrezix.qm"
+;  File /oname=qrezix.qm "..\qRezix\translations\qrezix.qm"
   File /oname=qrezix_fr.qm "..\qRezix\translations\qrezix_fr.qm"
 
   CreateDirectory "themes"
@@ -167,7 +167,7 @@ SectionEnd
 
 ;Display the Finish header
 ;Insert this macro after the sections if you are not using a finish page
-!insertmacro MUI_SECTIONS_FINISHHEADER
+;!insertmacro MUI_SECTIONS_FINISHHEADER
 
 
 ;--------------------------------
@@ -217,6 +217,6 @@ Section "Uninstall"
 normal_clean:  
   
   ;Display the Finish header
-  !insertmacro MUI_UNFINISHHEADER
+ ; !insertmacro MUI_UNFINISHHEADER
 
 SectionEnd
