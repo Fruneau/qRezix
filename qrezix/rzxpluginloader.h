@@ -73,6 +73,7 @@ class RzxPlugInLoader : public QObject
 		void chatChanged(QTextEdit *chat);
 		void chatSending();
 		void chatReceived(QString *chat);
+		void chatEmitted(QString *chat);
 		void itemChanged(QListViewItem *item);
 		void favoriteChanged(QListViewItem *item);
 		void sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin);

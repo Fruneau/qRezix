@@ -476,6 +476,7 @@ void RzxChat::btnSendClicked()
 
 	append("red", "> ", msg);
 	sendChat(msg);	//passage par la sous-couche de gestion du socket avant d'émettre
+	RzxPlugInLoader::global()->chatEmitted(&msg);
 	edMsg -> setText("");
 
 	if(!format && cbSendHTML->isChecked())

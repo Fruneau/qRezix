@@ -462,7 +462,15 @@ void RzxPlugInLoader::chatReceived(QString *chat)
 	for(it = plugins.first() ; it ; it = plugins.next())
 		it->getData(RzxPlugIn::DATA_CHATRECEIVE, (QVariant*)chat);
 }
- 
+
+/// On indique que le chat a envoyé un plug-in
+void RzxPlugInLoader::chatEmitted(QString *chat)
+{
+	RzxPlugIn *it;
+	for(it = plugins.first() ; it ; it = plugins.next())
+		it->getData(RzxPlugIn::DATA_CHATEMITTED, (QVariant*)chat);
+}
+
 ///On indique qu'un nouvel item vient d'être sélectionné
 void RzxPlugInLoader::itemChanged(QListViewItem *item)
 {
