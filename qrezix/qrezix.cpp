@@ -132,6 +132,7 @@ void QRezix::languageChanged(){
 	qDebug("Language changed");
 	languageChange();
 	rezal->languageChanged();
+	rezalSearch->languageChanged();
 	rezalFavorites->languageChanged();
 }
 
@@ -185,6 +186,7 @@ void QRezix::saveSettings()
 	if (!RzxConnectionLister::global() -> isSocketClosed()){
 		lblStatus -> setText(tr("Closing socket..."));
 		rezal-> setEnabled(false);
+		rezalSearch-> setEnabled(false);
 		rezalFavorites->setEnabled(false);
 		connect(RzxConnectionLister::global(), SIGNAL(socketClosed()), this, SLOT(socketClosed()));
 		RzxConnectionLister::global() -> closeSocket();
@@ -342,6 +344,7 @@ void QRezix::toggleVisible(){
 		raise();
 		alreadyOpened=true;
 		rezal->afficheColonnes();
+		rezalSearch->afficheColonnes();
 		rezalFavorites->afficheColonnes();
 	}
 }

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>370</width>
-            <height>192</height>
+            <height>196</height>
         </rect>
     </property>
     <property name="caption">
@@ -19,80 +19,7 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="Line" row="1" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>line3</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>HLine</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-        </widget>
-        <widget class="QLabel" row="0" column="0">
-            <property name="name">
-                <cstring>textLabel3</cstring>
-            </property>
-            <property name="text">
-                <string>Old pass:</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="2" column="0">
-            <property name="name">
-                <cstring>textLabel4</cstring>
-            </property>
-            <property name="text">
-                <string>New pass:</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="3" column="0">
-            <property name="name">
-                <cstring>textLabel5</cstring>
-            </property>
-            <property name="text">
-                <string>Reenter you new pass:</string>
-            </property>
-        </widget>
-        <widget class="QLineEdit" row="0" column="1" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>leOldPass</cstring>
-            </property>
-            <property name="echoMode">
-                <enum>Password</enum>
-            </property>
-        </widget>
-        <widget class="QLineEdit" row="2" column="1" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>leNewPass</cstring>
-            </property>
-            <property name="echoMode">
-                <enum>Password</enum>
-            </property>
-        </widget>
-        <widget class="QLineEdit" row="3" column="1" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>leReenterNewPass</cstring>
-            </property>
-            <property name="echoMode">
-                <enum>Password</enum>
-            </property>
-        </widget>
-        <widget class="QPushButton" row="4" column="2">
-            <property name="name">
-                <cstring>btnCancel</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Cancel</string>
-            </property>
-            <property name="accel">
-                <string>Alt+C</string>
-            </property>
-        </widget>
-        <widget class="QPushButton" row="4" column="1">
+        <widget class="QPushButton" row="5" column="1">
             <property name="name">
                 <cstring>btnOK</cstring>
             </property>
@@ -104,6 +31,91 @@
             </property>
             <property name="default">
                 <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QLabel" row="4" column="0">
+            <property name="name">
+                <cstring>textLabel5</cstring>
+            </property>
+            <property name="text">
+                <string>Reenter you new pass:</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="1" column="1" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>leOldPass</cstring>
+            </property>
+            <property name="echoMode">
+                <enum>Password</enum>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="5" column="2">
+            <property name="name">
+                <cstring>btnCancel</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Cancel</string>
+            </property>
+            <property name="accel">
+                <string>Alt+C</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>textLabel3</cstring>
+            </property>
+            <property name="text">
+                <string>Old pass:</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="4" column="1" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>leReenterNewPass</cstring>
+            </property>
+            <property name="echoMode">
+                <enum>Password</enum>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="0">
+            <property name="name">
+                <cstring>textLabel4</cstring>
+            </property>
+            <property name="text">
+                <string>New pass:</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="3" column="1" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>leNewPass</cstring>
+            </property>
+            <property name="echoMode">
+                <enum>Password</enum>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Your password can contains any character.&lt;br&gt;
+It must be at least&lt;b&gt; 6 characters long&lt;/b&gt;.</string>
+            </property>
+            <property name="textFormat">
+                <enum>RichText</enum>
+            </property>
+        </widget>
+        <widget class="Line" row="2" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>line3</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>HLine</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
             </property>
         </widget>
     </grid>
