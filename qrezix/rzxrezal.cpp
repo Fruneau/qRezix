@@ -45,14 +45,12 @@
 	#ifdef UNICODE
 		#define RzxShellExecute(a, b, str, c, d, e) \
 			ShellExecute( a, b, (LPCWSTR)(str.unicode()), c, d, e )
-		#define RzxWinExec(str, a) \
-			WinExec((LPCSTR)(str.latin1()), a)
 	#else
 		#define RzxShellExecute(a, b, str, c, d, e) \
 			ShellExecute( a, b, (LPCSTR)(str.latin1()), c, d, e )
-		#define RzxWinExec(str, a) \
-			WinExec((LPCSTR)(str.latin1()), a)
 	#endif
+	#define RzxWinExec(str, a) \
+		WinExec((LPCSTR)(str.latin1()), a)
 #else
 	#include <stdlib.h>
 #endif
@@ -206,17 +204,27 @@ void RzxRezal::addToFavorites(){
 
 // lance le client ftp
 void RzxRezal::ftp(const QString& login){
+	qDebug(login);
+	int offset = login.find("/");
+	QString path;
+	if(offset == -1) path = "";
+	else path = login.mid(offset+1);
+	
+	QString m_login;
+	m_login = login.left(offset);
+	
 	RzxItem *item;
 	if(!login)
 		item=(RzxItem*) currentItem();
 	else
-		item=(RzxItem*) findItem(login, ColNom, ExactMatch);
+		item=(RzxItem*) findItem(m_login, ColNom, ExactMatch);
 	if(!item) return;
 	// int serveurs=item->servers;
 	QString tempPath = RzxConfig::globalConfig()->FTPPath();
 	QString tempip = (item->ip).toString();
 	QString ip=tempip;
-	tempip="ftp://"+tempip;
+	tempip="ftp://"+tempip+"/"+path;
+	qDebug(tempip);
 
 #ifdef WIN32
 	int iRegValue = 0;
@@ -353,7 +361,8 @@ void RzxRezal::samba(const QString& login){
 }*/
 
 // lance le client http
-void RzxRezal::http(const QString& login){
+void RzxRezal::http(const QString& login)
+{
 	RzxItem *item;
 	if(!login)
 		item=(RzxItem*) currentItem();
