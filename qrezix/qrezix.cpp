@@ -27,6 +27,7 @@
 #include <qpixmap.h>
 #include <qbitmap.h>
 #include <qapplication.h>
+#include <qlayout.h> 
 
 #include "qrezix.h"
 #include "rzxquit.h"
@@ -417,8 +418,13 @@ void QRezix::menuFormatChange()
 		btnMAJcolonnes->setTextPosition(pos);
 		btnPreferences->setTextPosition(pos);
 		lblStatus->setShown(TRUE);
+		spacerStatus->changeSize(1,1,QSizePolicy::Minimum,QSizePolicy::Minimum);
 	}
-	else lblStatus->setShown(FALSE);
+	else
+	{
+		lblStatus->setShown(FALSE);
+		spacerStatus->changeSize(1,1,QSizePolicy::Expanding,QSizePolicy::Minimum);
+	}
 }
 
 /// Affichage du menu plug-ins lors d'un clic sur le bouton
