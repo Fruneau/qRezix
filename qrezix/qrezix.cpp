@@ -63,7 +63,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	// CHAT
 	connect(client, SIGNAL(chat(QSocket*, const QString& )), rezal, SLOT(chat(QSocket*, const QString& )));
 	// RECEPTION DES PROPRIETES D'UN ORDINATEUR
-	connect(client, SIGNAL(propAnswer(const RzxHostAddress&, const QString&)), rezal, SLOT(showProperties(const RzxHostAddress&, const QString&)));
+//	connect(client, SIGNAL(propAnswer(const RzxHostAddress&, const QString&)), rezal, SLOT(showProperties(const RzxHostAddress&, const QString&)));
 	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), rezal, SLOT(warnProperties(const RzxHostAddress&)));
 
 	// Connexion des événement serveur au rézal
@@ -335,11 +335,16 @@ void QRezix::changeTheme()
 	rezal -> redrawAllIcons();
 	rezalFavorites -> redrawAllIcons();
 	QIconSet pi, away, columns, prefs;
-	pi.setPixmap(*RzxConfig::themedIcon("plugin"), QIconSet::Automatic);
-	away.setPixmap(*RzxConfig::themedIcon("away"), QIconSet::Automatic, QIconSet::Normal, QIconSet::Off);
-	away.setPixmap(*RzxConfig::themedIcon("here"), QIconSet::Automatic, QIconSet::Normal, QIconSet::On);
-	columns.setPixmap(*RzxConfig::themedIcon("column"), QIconSet::Automatic);
-	prefs.setPixmap(*RzxConfig::themedIcon("pref"), QIconSet::Automatic);
+	int icons = RzxConfig::menuIconSize();
+	int texts = RzxConfig::menuTextPosition();
+	if(icons || !texts)
+	{
+		pi.setPixmap(*RzxConfig::themedIcon("plugin"), QIconSet::Automatic);
+		away.setPixmap(*RzxConfig::themedIcon("away"), QIconSet::Automatic, QIconSet::Normal, QIconSet::Off);
+		away.setPixmap(*RzxConfig::themedIcon("here"), QIconSet::Automatic, QIconSet::Normal, QIconSet::On);
+		columns.setPixmap(*RzxConfig::themedIcon("column"), QIconSet::Automatic);
+		prefs.setPixmap(*RzxConfig::themedIcon("pref"), QIconSet::Automatic);
+	}
 	btnPlugins->setIconSet(pi);
 	btnAutoResponder->setIconSet(away);
 	btnMAJcolonnes->setIconSet(columns);

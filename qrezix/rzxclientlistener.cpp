@@ -18,11 +18,27 @@
 #include <qsocketnotifier.h>
 #include <qregexp.h>
 #include <qsocket.h>
+#include <qwidget.h>
+#include <qframe.h>
+#include <qimage.h>
+#include <qbitmap.h>
+#include <qmessagebox.h>
+#include <qlayout.h>
+#include <qapplication.h>
+#include <qdir.h>
+#include <qtextview.h>
+#include <qtextedit.h>
+#include <qtextstream.h>
+#include <qlistview.h>
+#include <qframe.h>
+
 #include "rzxmessagebox.h"
 
 #include "rzxclientlistener.h"
 #include "rzxconfig.h"
 #include "rzxchat.h"
+#include "qrezix.h"
+#include "q.xpm"
 
 //attention a toujours avoir DCCFormat[DCC_message] = messageFormat
 QString RzxChatSocket::DCCFormat[] = {
@@ -147,7 +163,7 @@ int RzxChatSocket::parse(const QString& msg)
 						return DCC_PROPANSWER;		// ou que l'on n'a rien demande on s'arrete
 					}
 					if(!chatWindow)
-						emit propAnswer(host, cmd.cap(2));
+						showProperties(host, cmd.cap(2));
 					else
 						chatWindow->receiveProperties(cmd.cap(2));
 					if(alone)
@@ -342,9 +358,135 @@ void RzxChatSocket::chatConnexionTimeout()
 	chatConnexionError(ErrConnectionRefused);
 }
 
+// affichage des proprietes d'un ordinateur
+QWidget *RzxChatSocket::showProperties(const RzxHostAddress&, const QString& msg, bool withFrame, QWidget *parent, QPoint *pos )
+{
+	QWidget *propertiesDialog;
+
+	if(withFrame)
+	{
+		// creation de la boite de dialogue (non modale, elle se detruit automatiquement grace a WDestructiveClose)
+		propertiesDialog = new QDialog(parent?parent:QRezix::global(), "ClientProp", false, WDestructiveClose | WStyle_Customize | WStyle_Tool | WStyle_Title);
+		propertiesDialog->resize(300, 300);
+
+		QPixmap iconeProg((const char **)q);
+		iconeProg.setMask(iconeProg.createHeuristicMask() );
+		propertiesDialog->setIcon(iconeProg);
+
+	#ifdef WIN32
+		propertiesDialog->setCaption( tr( "Computer properties" ) +" [Qt]");
+	#else
+		propertiesDialog->setCaption( tr( "Computer properties" ) );
+	#endif
+	}
+	else
+	{
+		propertiesDialog = new QFrame(parent?parent:QRezix::global(), "ClientProp", WDestructiveClose | WStyle_Customize | WType_TopLevel | WStyle_StaysOnTop);
+		((QFrame*)propertiesDialog) -> setFrameShape(QFrame::PopupPanel);
+		((QFrame*)propertiesDialog) -> setFrameShadow(QFrame::Raised);
+		if(pos) propertiesDialog->move(*pos);
+	}
+
+	// Layout, pour le resize libre
+	QGridLayout * qPropertiesLayout = new QGridLayout(propertiesDialog);
+	qPropertiesLayout->setSpacing(0);
+	qPropertiesLayout->setMargin(withFrame?6:0);
+ 
+	// creation de la liste des proprietes et ajout au layout
+	QListView* PropList = new QListView(propertiesDialog, "PropView");
+	qPropertiesLayout->addWidget((QWidget*)PropList, 0, 0);
+ 
+	PropList->resize(300, 300);
+	PropList->addColumn(tr("Property"), -1);
+	PropList->addColumn(tr("Value"), -1);
+	QScrollView::ScrollBarMode mode = QScrollView::AlwaysOff;
+	PropList -> setHScrollBarMode(mode);
+ 
+	QStringList props = QStringList::split('|', msg, true);
+	// ajout des proprietes de la liste, sans tri.
+	PropList->setSorting(-1,FALSE);
+	QListViewItem* vi = NULL;
+	int propCount = 0;
+	for (QStringList::Iterator itItem = props.begin(); itItem != props.end(); itItem++)
+	{
+		QStringList::Iterator itLabel = itItem++;
+		if((*itLabel).length()==0) break;
+		if(*itItem) { // si la chaine est vide, on prend pas.
+			vi = new QListViewItem(PropList, vi, (*itLabel), (*itItem));
+			propCount++;
+		}
+	}
+	propertiesDialog->show();
+ 
+	// Fit de la fenetre, on ne le fait pas si il n'y a pas d'accents, sinon ca plante
+	if (propCount > 0)
+	{
+		int width=PropList->columnWidth(0)+PropList->columnWidth(1)+4+12;
+		int height=(PropList->childCount()+1)*(*PropList->firstChild()).height()+8+12;
+		propertiesDialog->resize(width,height);
+	}
+	return propertiesDialog;
+}
+
+QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool withFrame, QWidget *parent, QPoint *pos ){
+	// chargement de l'historique
+	QString filename = RzxConfig::historique(ip, hostname);
+	if (filename.isNull())
+		return NULL;
+ 
+	QString text;
+	QFile file(filename);
+	if(!file.exists())
+		return NULL;
+	
+	file.open(IO_ReadOnly); 
+	QTextStream stream(&file);
+	while(!stream.eof()) {
+		text += stream.readLine();
+	}
+	file.close();
+ 
+	// construction de la boite de dialogue
+	QWidget *histoDialog;
+	if(withFrame)
+	{
+		histoDialog = new QDialog(parent?parent:QRezix::global(), "Histo", false, WDestructiveClose | WStyle_Customize | Qt::WStyle_Tool | WStyle_Title);
+		QPixmap iconeProg((const char **)q);
+		iconeProg.setMask(iconeProg.createHeuristicMask() );  
+		histoDialog->setIcon(iconeProg);
+
+	#ifdef WIN32
+		histoDialog->setCaption( tr( "History" ) +"[Qt]");
+	#else
+		histoDialog->setCaption( tr( "History" ) );
+	#endif
+	}
+	else
+	{
+		histoDialog = new QFrame(parent?parent:QRezix::global(), "Histo", WDestructiveClose | WStyle_Customize | WType_TopLevel | WStyle_StaysOnTop);
+		((QFrame*)histoDialog) -> setFrameShape(QFrame::PopupPanel);
+		((QFrame*)histoDialog) -> setFrameShadow(QFrame::Raised);
+		if(pos) 
+		{
+			QPoint ul = *pos;
+			//if(ul + 300 > 
+			histoDialog->move(ul);
+		}
+	}
+	QGridLayout * qHistoLayout = new QGridLayout(histoDialog);
+	qHistoLayout->setSpacing(0);
+	qHistoLayout->setMargin(withFrame?6:0);
 
 
-
+	// creation de la liste des proprietes et ajout au layout
+	QTextView* histoView = new QTextView(histoDialog, "HistoView");
+	qHistoLayout->addWidget((QWidget*)histoView, 0, 0);
+	
+	histoDialog->resize(300, 300);
+	histoView -> setText(text);
+	histoDialog->show();
+	return histoDialog;
+}
 
 
 RzxClientListener * RzxClientListener::globalObject = 0;
@@ -406,7 +548,6 @@ void RzxClientListener::close()
 ///Connexion d'un RzxChatSocket au reste du programme
 void RzxClientListener::attach(RzxChatSocket *sock)
 {
-	connect(sock, SIGNAL(propAnswer(const RzxHostAddress&, const QString& )), this, SIGNAL(propAnswer(const RzxHostAddress&, const QString& )));
 	connect(sock, SIGNAL(propertiesSent(const RzxHostAddress& )), this, SIGNAL(propertiesSent(const RzxHostAddress& )));
 	connect(sock, SIGNAL(chat(QSocket*, const QString& )), this, SIGNAL(chat(QSocket*, const QString& )));
 	connect(sock, SIGNAL(chatSent()), this, SIGNAL(chatSent()));

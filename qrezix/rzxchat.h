@@ -81,6 +81,8 @@ public:
 private:
 	void init();
 	QPopupMenu menuPlugins;
+	QWidget *hist;
+	QWidget *prop;
 	
 protected:
 	RzxHostAddress peer;
@@ -111,8 +113,8 @@ protected slots:
 	void btnSendClicked();
 	void messageReceived();
 	void pong(int ms);
-	void btnHistoriqueClicked();
-	void btnPropertiesClicked();
+	void btnHistoriqueClicked(bool);
+	void btnPropertiesClicked(bool);
 	void fontChanged(int index);
 	void sizeChanged(int index);
 	void activateFormat(bool on);
