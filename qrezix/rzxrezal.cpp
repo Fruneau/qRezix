@@ -89,6 +89,8 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	filter = QString::null;
 	filterOn = false;
 	setUpdatesEnabled (TRUE);
+
+	search_items0.setAutoDelete(true);
 }
 
 RzxRezal::~RzxRezal(){
