@@ -40,7 +40,7 @@ RzxServerListener * RzxServerListener::object() {
 RzxServerListener::RzxServerListener()
 	: RzxProtocole("Serveur"),
 		socket(0, "ServerSocket") {
-	connect(&reconnection, SIGNAL(timeout()), this, SLOT(slotConnect()));	
+	connect(&reconnection, SIGNAL(timeout()), this, SLOT(waitReconnection()));	
 	
 	connect(this, SIGNAL(ping()), this, SLOT(sendPong()));
 	connect(this, SIGNAL(ping()), this, SLOT(serverResetTimer()));
@@ -71,7 +71,7 @@ RzxServerListener::~RzxServerListener(){
 }
 
 void RzxServerListener::setupConnection() {
-	slotConnect();
+	connectToXnetserver();
 }
 
 void RzxServerListener::setupReconnection(const QString& msg) {
@@ -82,7 +82,8 @@ void RzxServerListener::setupReconnection(const QString& msg) {
 	if(premiereConnexion)
 	{
 		premiereConnexion = false;
-		reconnection.start(500, false);
+		timeToConnection = 500;
+		reconnection.start(500, true);
 		notify(msg);
 	}
 	else
@@ -90,11 +91,27 @@ void RzxServerListener::setupReconnection(const QString& msg) {
 		//on fait un random du temps entre 2 tentatives de connexion dans [time/2;3*time/2]
 		if(!time) time = 60000;
 		time >>= 1;
-		time += rand() % (time<<1);
+		if(time)
+			time += rand() % (time<<1);
 		temp = msg + "... " + tr("will try to reconnect in %1 seconds").arg(time/1000);
-		reconnection.start(time, false);
+		message = msg;
+		timeToConnection =  time;
+		reconnection.start(1000, false);
 		notify(temp);
 	}
+}
+
+///Pour afficher le décompte avant la tentative de reconnexion
+void RzxServerListener::waitReconnection()
+{
+	timeToConnection -= 1000;
+	if(timeToConnection <= 0)
+	{
+		reconnection.stop();
+		connectToXnetserver();
+	}
+	else
+		notify(message + "... " + tr("will try to reconnect in %1 seconds").arg(timeToConnection/1000));
 }
 
 /** Erreur ï¿½la conenction au serveur. On rï¿½ssaie en SERVER_RECONNECTION ms */
@@ -143,7 +160,7 @@ void RzxServerListener::serverTimeout(){
 	setupReconnection(tr("Connection lost"));
 }
 
-void RzxServerListener::slotConnect()
+void RzxServerListener::connectToXnetserver()
 {
 	iconMode = false;
 	reconnection.stop();
