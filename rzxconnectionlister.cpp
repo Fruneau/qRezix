@@ -149,8 +149,8 @@ void RzxConnectionLister::login( const QString& newOrdi )
 	if(computer) computer->deleteLater();
 	
 	//Ajout du nouvel ordinateur dans les qdict
-	computerByLogin.insert(newComputer->getName(), newComputer);
-	iplist.insert( newComputer -> getIP().toString(), newComputer );
+	computerByLogin.replace(newComputer->getName(), newComputer);
+	iplist.replace( newComputer -> getIP().toString(), newComputer );
 
 	emit countChange( tr( "%1 clients connected" ).arg( iplist.count() ) );
 	

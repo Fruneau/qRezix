@@ -64,8 +64,8 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	connect( chkBeepFavorites, SIGNAL(toggled(bool)), txtBeepFavorites, SLOT(setEnabled(bool)));
 	connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
 	
-	hostname->setValidator( new QRegExpValidator(QRegExp("[a-zA-Z0-9\\-]{1,63}"), remarque, "dnsnameValidator") );
-//	QRegExp mask("[^\n\r]+");
+	hostname->setValidator( new QRegExpValidator(QRegExp("[a-zA-Z0-9](-?[a-zA-Z0-9])*"), remarque, "dnsnameValidator") );
+	hostname->setMaxLength(24);
 	remarque->setValidator( new QRegExpValidator(QRegExp("[^\n\r]+"), remarque, "RemarqueValidator") );
 #ifndef WIN32
 	btnAboutQt->hide();
