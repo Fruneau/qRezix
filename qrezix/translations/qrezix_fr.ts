@@ -1127,6 +1127,14 @@ Propriétés envoyées à %2 (%3)</translation>
         <source>Remove frome ignore list</source>
         <translation type="obsolete">Ne plus ignorer l&apos;utilisateur</translation>
     </message>
+    <message>
+        <source>IP</source>
+        <translation>IP</translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <translation>Client</translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
@@ -1820,6 +1828,14 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <message>
         <source>Alt+R</source>
         <translation>Alt+R</translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <translation>Client</translation>
+    </message>
+    <message>
+        <source>IP</source>
+        <translation>IP</translation>
     </message>
 </context>
 </TS>

@@ -988,6 +988,14 @@ Les discussions et les propriétés sont désactivées</translation>
         <source>Remove from ignore list</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>IP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
@@ -1652,6 +1660,14 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
     </message>
     <message>
         <source>Alt+R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
