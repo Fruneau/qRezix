@@ -64,6 +64,7 @@ RzxServerListener::RzxServerListener()
 	connect (&pingTimer, SIGNAL(timeout()), this, SLOT(serverTimeout()));
 	
 	premiereConnexion = true;
+	hasBeenConnected = true;
 }
 
 
@@ -135,9 +136,12 @@ void RzxServerListener::serverError(int error) {
 		/*if( !alternateGetHostByName() )*/
 		{
 			setupReconnection(tr("Cannot find server %1").arg(RzxConfig::serverName()));
+	
 
-			RzxMessageBox::information( NULL, "qRezix",
-				tr("Cannot find server %1:\n\nDNS request failed").arg(RzxConfig::serverName()));
+			if(hasBeenConnected)
+				RzxMessageBox::information( NULL, "qRezix",
+					tr("Cannot find server %1:\n\nDNS request failed").arg(RzxConfig::serverName()));
+			hasBeenConnected = false;
 		}
 		break;
 
@@ -213,6 +217,7 @@ void RzxServerListener::serverFound() {
 /** No descriptions */
 void RzxServerListener::serverConnected(){
 	notify(tr("Connected"));
+	hasBeenConnected = true;
 	pingTimer.start(RzxConfig::pingTimeout());
 }
 
@@ -226,7 +231,6 @@ void RzxServerListener::beginAuth(){
 	}
 		
 	sendAuth(RzxConfig::pass(), localhost);
-	
 }
 
 void RzxServerListener::serverReceive() {
