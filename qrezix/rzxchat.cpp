@@ -34,6 +34,7 @@
 #include <qsound.h>
 #include <qcolor.h>
 #include <qcolordialog.h>
+#include <qregexp.h>
 #ifndef WIN32
 #include <qprocess.h>
 #endif
@@ -315,12 +316,22 @@ void RzxChat::append(const QString& color, const QString& host, const QString& m
 			cur.minute(),
 			cur.second());
 	tmp.sprintf("<i>");
-	if(msg.left(4)=="/me "){
-		 //Action
-		if(host.length()<3) tmp = ("<font color=\"purple\">" + tmp + " * %1 %2</i></font><br>")
-					.arg(RzxConfig::globalConfig()->localHost()->getName()).arg(msg.mid(4));
-		else tmp = ("<font color=\"purple\">" + tmp + " * %1 %2</i></font><br>")
-					.arg(host.mid(0, host.length()-2)).arg(msg.mid(4));
+	
+	QRegExp action("^(\\s*<[^<>]+>)*/me(<[^<>]+>|\\s)(.*)");
+	if(!action.search(msg)) {
+		QString entete = action.cap(1);
+		QString entext = action.cap(2);
+		QString pieddp = action.cap(3);
+		entete.remove("<head>").remove("</head>").remove("<html>").remove(QRegExp("<body[^<>]*>"));
+		entext.remove("</body>");
+		pieddp.remove("</body>");
+		qDebug(entete);
+		qDebug(entext);
+		qDebug(pieddp);
+		if(host.length()<3) tmp = ("<font color=\"purple\">" + tmp + " * %1%2%3%4</i></font><br>")
+					.arg(entete).arg(RzxConfig::globalConfig()->localHost()->getName()).arg(entext).arg(pieddp);
+		else tmp = ("<font color=\"purple\">" + tmp + " * %1%2%3%4</i></font><br>")
+					.arg(entete).arg(host.mid(0, host.length()-2)).arg(entext).arg(pieddp);
 		tmpD = QString("<font color=\"purple\"><i>%1 - %2</i></font>").arg(tmpD, head);
 		tmpH = ("<font color=\"purple\">"+head+"</font>");
 		 
