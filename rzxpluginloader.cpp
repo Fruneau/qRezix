@@ -78,10 +78,14 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 
 	//les plugins doivent avoir un nom de fichier qui contient rzxpi
 	//		par exemple librzxpixplo.so ou rzxpixplo.dll
-#ifndef WIN32 //sous linux c'est librzxpi<nomduplugin>.so
-	sourceDir.setNameFilter("librzxpi*");
-#else //sous windows c'est rzxpi<nomduplugin>.dll
+#ifdef WIN32 //sous linux c'est librzxpi<nomduplugin>.so
 	sourceDir.setNameFilter("rzxpi*");
+#else //sous windows c'est rzxpi<nomduplugin>.dll
+#ifdef Q_OS_MACX
+	sourceDir.setNameFilter("librzxpi*.dylib");
+#else
+	sourceDir.setNameFilter("librzxpi*.so");
+#endif
 #endif
 	QStringList trans=sourceDir.entryList(QDir::Files|QDir::Readable);
 	qDebug(QString("Found %1 plugins in %2").arg(trans.count()).arg(sourceDir.canonicalPath()));
