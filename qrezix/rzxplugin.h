@@ -37,7 +37,7 @@
  *
  * Il est important de comprendre que ce numéro de version ne dépend pas du comportement de qRezix envers le plug-in (on peut très bien envisager de faire évoluer qRezix pour garder la compatibilité avec les anciennes version de plug-ins) mais de l'évolution de la structure du plug-in. En fait, Cette structure dépend de QObject et de RzxPlugIn, mais seule les évolutions de RzxPlugIn entre en compte pour le calcul de cette version (le principe étant de compiler les plugins de qRezix avec la même version de Qt que pour qRezix lui-même).
  */
-#define PLUGIN_VERSION 0x00204001
+#define PLUGIN_VERSION 0x00204000
 
 class QWidget;
 class QPixmap;

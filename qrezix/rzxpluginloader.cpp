@@ -136,6 +136,7 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 			delete lib;
 		}
 	}
+	setSettings();
 	delete pipath;
 	delete userpath;
 }
@@ -237,9 +238,8 @@ void RzxPlugInLoader::setSettings()
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
-	int i = 0;
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
-		if(state[i]) it->setSettings(RzxConfig::globalConfig()->settings);
+	for(it = plugins.first() ; it ; it = plugins.next())
+		it->setSettings(RzxConfig::globalConfig()->settings);
 }
 
 /* mélange avec l'interface */
