@@ -45,6 +45,7 @@ RzxConnectionLister::RzxConnectionLister( QObject *parent, const char *name)
 	iplist.setAutoDelete( true );
 	chats.setAutoDelete( true );
 	chatsByLogin.setAutoDelete( false ); //surtout pas true, sinon on détruit 2 fois les mêmes objets
+	computerByLogin.setAutoDelete(false);
 
 	server = RzxServerListener::object();
 	client = RzxClientListener::object();
@@ -69,13 +70,14 @@ RzxConnectionLister::~RzxConnectionLister()
 {
 	iplist.clear();
 	chats.clear();
+	object = NULL;
 }
 
 ///Enregistrement de l'arrivée d'un nouveau client
 /** Sert aussi au raffraichissement des données*/
 void RzxConnectionLister::login( const QString& ordi )
 {
-	RzxComputer * newComputer = new RzxComputer;
+	RzxComputer * newComputer = new RzxComputer();
 	connect( newComputer, SIGNAL( needIcon( const RzxHostAddress& ) ), this, SIGNAL( needIcon( const RzxHostAddress& ) ) );
 	if( newComputer -> parse( ordi ) )
 	{
@@ -109,16 +111,15 @@ void RzxConnectionLister::login( const QString& ordi )
 			QObjectList list = *(computer->children());
 			for(QObject *item = list.first() ; item ; item = list.next())
 			{
-				if(item->inherits("RzxItem"))
-				{
+//				if(item->inherits("RzxItem"))
+				//{
 					computer->removeChild(item);
 					newComputer->insertChild(item);
-				}
+				//}
 			}
-			computer->deleteLater();
 		}
+		computer->deleteLater();
 	}
-	
 
 	emit login( newComputer);
 
@@ -147,9 +148,9 @@ void RzxConnectionLister::logout( const RzxHostAddress& ip )
 	
 	emit logout(key);
 
-	RzxChat * chatWithLogin = chats.find( ip.toString() );
-	if ( chatWithLogin )
-		chatWithLogin->info( tr( "disconnected" ) );
+	RzxChat *chat = chats.find(key);
+	if ( chat )
+		chat->info( tr( "disconnected" ) );
 }
 
 
