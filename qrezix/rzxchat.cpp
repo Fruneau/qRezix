@@ -56,6 +56,9 @@ RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 	//on ajoute l'icone du son
 	btnSound -> setPixmap(*RzxConfig::soundIcon(false)); //true par défaut
 	
+	
+	curLine = history = 0;
+	
 	// on rajoute le bouton maximiser
 	peer = peerAddress;
 
@@ -71,6 +74,8 @@ RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 	connect(btnHistorique, SIGNAL(clicked()), this, SLOT(btnHistoriqueClicked()));
 	connect(btnProperties, SIGNAL(clicked()), this, SLOT(btnPropertiesClicked()));
 	connect(edMsg, SIGNAL(enterPressed()), this, SLOT(onReturnPressed()));
+	connect(edMsg, SIGNAL(arrowPressed(bool)), this, SLOT(onArrowPressed(bool)));
+	connect(edMsg, SIGNAL(textWritten()), this, SLOT(onTextChanged()));
 	connect(btnSound, SIGNAL(toggled(bool)), this, SLOT(soundToggled(bool)));
 }
 
@@ -86,6 +91,18 @@ RzxChat::~RzxChat(){
 	file.close();
 }
 
+RzxChat::ListText::ListText(QString t, ListText * pN) {
+	texte = t;
+	pNext = pN;
+	pPrevious = 0;
+	if(pNext != 0)
+		pNext -> pPrevious = this;
+}
+
+RzxChat::ListText::~ListText() {
+	delete pNext;
+}
+
 RzxTextEdit::RzxTextEdit(QWidget *parent, const char*name)
 		: QTextEdit(parent, name) {
 }
@@ -95,6 +112,7 @@ RzxTextEdit::~RzxTextEdit() {
 
 void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 	QKeyEvent * eMapped=e;
+	bool down=false;
 	switch(eMapped->key()) {
 	case Qt::Key_Enter: case Qt::Key_Return:
 		if(!(eMapped->state() & Qt::ShiftButton)) {
@@ -102,8 +120,21 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 			break;
 		}
 		eMapped =new QKeyEvent(QEvent::KeyRelease, Qt::Key_Enter, e->ascii(), e->state());
+		QTextEdit::keyPressEvent(eMapped);
+		break;
+	case Qt::Key_Down: 
+		down=true;
+	case Qt::Key_Up:
+		if((eMapped->state() & Qt::ShiftButton) || (eMapped->state() & Qt::ControlButton)) {
+			//charger la ligne qui va bien dans l'historique
+			emit arrowPressed(down);
+			break;
+		}
+		eMapped =new QKeyEvent(QEvent::KeyRelease, e->key(), e->ascii(), e->state());
+		
 	default:
-		QTextEdit::keyPressEvent(eMapped);	
+		QTextEdit::keyPressEvent(eMapped);
+		emit textWritten();
 	}
 }
 
@@ -207,6 +238,30 @@ utilisant Shift+ Enter comme retour chariot */
 	edMsg->moveCursor(QTextEdit::MoveDown, false);
 }*/
 
+void RzxChat::onArrowPressed(bool down) {
+	if(history==0)
+		return;
+	ListText * newCur=0;
+	if(down)
+		newCur = curLine->pPrevious;
+	else
+		newCur = curLine->pNext;
+	if(!newCur)
+		newCur = history;
+	edMsg->setText(newCur->texte);
+	curLine = newCur;
+}
+
+void RzxChat::onTextChanged() {
+	if(!history) {
+		history = new ListText(edMsg->text(), 0);
+		curLine = history;
+		return;
+	}
+	history -> texte = edMsg->text();
+
+}
+
 /** No descriptions */
 void RzxChat::btnSendClicked(){
 	QString msg = edMsg -> text();
@@ -232,6 +287,9 @@ void RzxChat::btnSendClicked(){
 		msg.replace(dblspace, " &nbsp;");
 	}
 
+	history = new ListText(msg, history);
+	curLine = history;
+	
 	append("red", "> ", msg);
 	emit send(peer, msg);
 	edMsg -> setText("");

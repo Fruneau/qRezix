@@ -7,6 +7,8 @@ Shift+enter pr changer de ligne [Steak]
     * Ajout repondeur dans menu TrayIcon [Steak]
     * Ajout des warnings à l'envoi des propriétés [Steak]
     * Plus d'étoile avec le /me, chgt de couleur en plus [Falco]
+    * Problème du titre de la fenetre réglé [Fruneau]
+    * Ajout d'une historique accessible à l'édition par shift up/down, comme sur IRC [Steak]
 
 [v1.3] 2004-05-01 <br2002@frankiz.polytechnique.fr>
     * bug des sons fixés pour Linux   [Steak]

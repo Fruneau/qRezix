@@ -46,12 +46,25 @@ protected:
 
 signals:
 	void enterPressed();
+	void arrowPressed(bool down);
+	void textWritten();
 };
 
 class RzxChat : public RzxChatUI {
 	Q_OBJECT
 	
 	friend class RzxRezal;
+	
+	class ListText {
+	public:
+		ListText * pPrevious;
+		QString texte;
+		ListText * pNext;
+		
+	public:	
+		ListText(QString t, ListText * pN);
+		~ListText();
+	};
 public: 
 	RzxChat(const RzxHostAddress& peerAddress);
 	~RzxChat();
@@ -60,6 +73,8 @@ protected:
 	RzxHostAddress peer;
 	QString hostname;
 	QTimer * timer;
+	ListText * history;
+	ListText * curLine;
 	
 signals: // Signals
 	void send(const RzxHostAddress& peer, const QString& message);
@@ -78,6 +93,8 @@ protected slots:
 	void btnHistoriqueClicked();
 	void btnPropertiesClicked();
 	void onReturnPressed();
+	void onArrowPressed(bool down);
+	void onTextChanged();
 	void soundToggled(bool state);
 
 protected: // Protected methods
