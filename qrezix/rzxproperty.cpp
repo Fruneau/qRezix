@@ -450,7 +450,10 @@ void RzxProperty::annuler() {
 	if(!infoCompleted())
 	{
 		if(infoCompleteMessage() == QMessageBox::Cancel)
-			QRezix::global()->close();
+		{
+			close();
+			QRezix::global()->closeByTray();
+		}
 	}
 	else
 		close();

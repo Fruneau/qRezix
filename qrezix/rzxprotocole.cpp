@@ -27,18 +27,18 @@
 #include "rzxwrongpassui.h"
 
 const char * RzxProtocole::ServerFormat[] = {
-	"^JOIN [0-9A-Fa-f]+ .* [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ .*",
-	"^REFRESH [0-9A-Fa-f]+ .* [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ .*",
-	"^SYSMSG .*",
-	"^PING",
-	"^PASS [0-9]+",
-	"^PART [0-9A-Za-z]+",
-	"^UPGRADE v[0-9]+,[0-9]+,[0-9]+ .*",
-	"^FATAL",
-	"^ICON [0-9A-Fa-f]+",
-	"^WRONGPASS",
-	"^CHANGEPASSOK",
-	"^CHANGEPASSFAILED .*",
+	"^JOIN ([0-9A-Fa-f]+ .* [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ .*)\r\n",
+	"^REFRESH ([0-9A-Fa-f]+ .* [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ .*)\r\n",
+	"^SYSMSG (.*)\r\n",
+	"^PING\r\n",
+	"^PASS ([0-9A-Za-z]+)\r\n",
+	"^PART ([0-9A-Za-z]+)\r\n",
+	"^UPGRADE (v[0-9]+,[0-9]+,[0-9]+ .*)\r\n",
+	"^FATAL (.*)\r\n",
+	"^ICON ([0-9A-Fa-f]+)\r\n",
+	"^WRONGPASS\r\n",
+	"^CHANGEPASSOK\r\n",
+	"^CHANGEPASSFAILED (.*)\r\n",
 	0
 };
 
@@ -67,12 +67,12 @@ pas les messages ICON du fait des donnees binaires qui arrivent. Elle est
 reimplementer dans RzxServerListener */
 void RzxProtocole::parse(const QString& msg){
 	// on supprime l'en-tete du message
-	QString msgClean = msg, msgParams;
+/*	QString msgClean = msg, msgParams;
 	msgClean.stripWhiteSpace();
 	int offset = msgClean.find(" ");
 	if (offset >= 0)
 		msgParams = msgClean.right(msgClean.length() - offset);
-	msgParams = msgParams.stripWhiteSpace();
+	msgParams = msgParams.stripWhiteSpace();*/
 		
 	bool ok=true; unsigned long val;
 	
@@ -80,19 +80,19 @@ void RzxProtocole::parse(const QString& msg){
 	for (int i = 0; ServerFormat[i]; i++)
 	{
 		cmd.setPattern(ServerFormat[i]);
-		if (cmd.match(msg) == -1)
+		if (cmd.search(msg) == -1)
 			continue;
 		
 		switch (i)
 		{
 			case SERVER_JOIN:
 			case SERVER_REFRESH:
-				emit login(msgParams);
+				emit login(cmd.cap(1));
 				break;
 				
 			case SERVER_SYSMSG:
-				if (!msgParams.isEmpty())
-				  emit sysmsg(msgParams);
+				if (!cmd.cap(1).isEmpty())
+				  emit sysmsg(cmd.cap(1));
 				break;
 				
 			case SERVER_PING:
@@ -115,16 +115,17 @@ void RzxProtocole::parse(const QString& msg){
 				break;
 
 			case SERVER_FATAL:
-				if (!msgParams.isEmpty())
-					emit fatal(msgParams);
+				if (!cmd.cap(1).isEmpty())
+					emit fatal(cmd.cap(1));
 				break;
 				
 			case SERVER_PASS:
 /*				emit sysmsg(QString(tr("Your XNet password  is  : %1\n"
 					                   "This is an identification code used to authentificate your connection to the server and avoid IP-spoofing.\n\n"
 									   "KEEP IT WELL because without it, you may not be able to connect to the server")).arg(msgParams));*/
-				RzxConfig::globalConfig()->setPass(msgParams);
-				changePass(msgParams);
+				RzxConfig::globalConfig()->setPass(cmd.cap(1));
+				qDebug(cmd.cap(1));
+				changePass(cmd.cap(1));
 				break;
 			
 			case SERVER_CHANGEPASSOK:
@@ -133,12 +134,12 @@ void RzxProtocole::parse(const QString& msg){
 				break;
 			
 			case SERVER_CHANGEPASSFAILED:
-				emit sysmsg(tr("Server can't change your pass :\n") + msgParams);
+				emit sysmsg(tr("Server can't change your pass :\n") + cmd.cap(1));
 				RzxConfig::globalConfig()->setPass(m_oldPass);
 				break;
 				
 			case SERVER_PART:
-				val = msgParams.toULong(&ok, 16);
+				val = cmd.cap(1).toULong(&ok, 16);
 				if (ok)
 					emit logout(RzxHostAddress::fromRezix(val));
 				break;
@@ -258,6 +259,7 @@ void RzxProtocole::validChangePass()
 	{
 		m_oldPass = changepass->leOldPass->text();
 		m_newPass = changepass->leNewPass->text();
+		qDebug(m_oldPass + " ==> " + m_newPass);
 		emit send("CHANGEPASS " + m_oldPass + " " + m_newPass + "\r\n");
 		changepass->deleteLater();
 		changepass = NULL;
