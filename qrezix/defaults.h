@@ -25,8 +25,8 @@
 // Version envoyee au serveur
 #define RZX_CLIENT_ID (0x06)
 #define RZX_MAJOR_VERSION (1)
-#define RZX_MINOR_VERSION (5)
-#define RZX_FUNNY_VERSION (2)
+#define RZX_MINOR_VERSION (6)
+#define RZX_FUNNY_VERSION (0)
 
 #define RZX_VERSION QString("%1.%2").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION)
 

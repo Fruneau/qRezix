@@ -11,7 +11,7 @@
 
 ;Définition de versions
   !define MUI_PRODUCT "qRezix"
-  !define MUI_VERSION "v1.5.1"
+  !define MUI_VERSION "v1.6"
   !define MUI_NAME "${MUI_PRODUCT} ${MUI_VERSION}"
 
 ;Inclusion de fichiers
