@@ -55,13 +55,12 @@ RzxPlugInLoader::RzxPlugInLoader() : QObject(0, 0)
 	
 	//on charge les plug-ins dans les rep /usr/share/qrezix/plugins
 	loadPlugIn(RzxConfig::globalConfig()->systemDir());
-#ifndef WIN32
+	
 	//et $HOME/.rezix/plugins
 	if (RzxConfig::globalConfig()->userDir() != RzxConfig::globalConfig()->systemDir())
 		loadPlugIn(RzxConfig::globalConfig()->userDir());
 	if (RzxConfig::globalConfig()->libDir() != RzxConfig::globalConfig()->systemDir())
 		loadPlugIn(RzxConfig::globalConfig()->libDir());
-#endif
 }
 
 /// Recherche des plugins et chargement dans un répertoire
