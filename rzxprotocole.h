@@ -19,6 +19,7 @@
 #define RZXPROTOCOLE_H
 
 #include "rzxhostaddress.h"
+#include "rzxchangepassui.h"
 #include <qobject.h>
 #include <qstring.h>
 
@@ -37,11 +38,15 @@ class RzxComputer;
 class RzxProtocole : public QObject{
 	Q_OBJECT
 	
+	QString m_oldPass;
+	QString m_newPass;
+	RzxChangePassUI *changepass;
+	
 public: 
 	RzxProtocole();
 	RzxProtocole(const char * name);
 	~RzxProtocole();
- 	
+	
 	enum Icons {
 		ICON_SIZE=12288,
 		ICON_WIDTH=64,
@@ -60,7 +65,9 @@ public:
 		SERVER_UPGRADE = 6,
 		SERVER_FATAL = 7,
 		SERVER_ICON = 8,
-		SERVER_WRONGPASS = 9
+		SERVER_WRONGPASS = 9,
+		SERVER_CHANGEPASSOK = 10,
+		SERVER_CHANGEPASSFAILED = 11
 	};
 
 	static QStringList split(char sep, const QString& command, unsigned int count);
@@ -68,7 +75,7 @@ public:
 
 	/** Realise une sequence d'authentification aupres du serveur
 	*@param thisComputer donnees concernant l'ordinateur local */	
-	void sendAuth(int passcode, RzxComputer * thisComputer);
+	void sendAuth(const QString& passcode, RzxComputer * thisComputer);
 	/** Envoie une commande refresh
 	*@param thisComputer donnees concernant l'ordinateur local */
 	void sendRefresh(RzxComputer * thisComputer);
@@ -81,7 +88,18 @@ public slots:
 	void getIcon(const RzxHostAddress& ip);
 	/** Envoie un pong */
 	void sendPong();
-		
+	
+	/** Demande de changement de pass */
+	void changePass(const QString& oldPass = QString::null);
+	
+protected slots:
+	/** Validation d'un changement de pass */
+	void validChangePass();
+	/** Annulation d'un changement de pass */
+	void cancelChangePass();
+	/** Analyse du texte tapé pour le nouveau pass */
+	void analyseNewPass();
+
 signals: // Signals
 	/** ping() est emit quand on passe une commande PING a @ref parse */
  	void ping();

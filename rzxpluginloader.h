@@ -27,7 +27,7 @@
 #include "rzxplugin.h"
 
 class QTextEdit;
-class QPushButton;
+class QToolButton;
 class QString;
 
 /**
@@ -49,7 +49,7 @@ class RzxPlugInLoader : public QObject
 	int selectedPlugIn;
 
 	QListView *pluginListView;
-	QPushButton *pluginGetProp;
+	QToolButton *pluginGetProp;
 
 	static RzxPlugInLoader *object;
 	void loadPlugIn(QDir sourceDir);
@@ -67,7 +67,7 @@ class RzxPlugInLoader : public QObject
 		void menuAction(QPopupMenu& menu);
 		void menuChat(QPopupMenu& menu);
 		
-		void makePropListView(QListView *lv, QPushButton *btn);
+		void makePropListView(QListView *lv, QToolButton *btn);
 
 	public slots:
 		void chatChanged(QTextEdit *chat);

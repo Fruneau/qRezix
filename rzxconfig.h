@@ -86,7 +86,7 @@ public:
 	bool isBoldSupported(const QString&);
 	void closeSettings();
 
-	void setPass(int passcode);
+	void setPass(const QString& passcode);
 	
 	static int useSystray();
 	static int warnCheckingProperties();
@@ -128,7 +128,7 @@ public:
 	static int numSport();
 	static QString propPromo();
 
-	static int pass();
+	static QString pass();
 	static int colonnes();	
 	static int computerIconSize();
 	static bool computerIconHighlight();

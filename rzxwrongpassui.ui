@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>RzxWrongPassUI</class>
 <widget class="QDialog">
     <property name="name">
@@ -39,6 +39,9 @@
                     <property name="name">
                         <cstring>ledPassword</cstring>
                     </property>
+                    <property name="echoMode">
+                        <enum>Password</enum>
+                    </property>
                 </widget>
             </hbox>
         </widget>
@@ -67,10 +70,13 @@
                 <string>&amp;OK</string>
             </property>
             <property name="accel">
-                <string>Alt+O</string>
+                <string>Alt+O, Return</string>
             </property>
             <property name="autoDefault">
                 <bool>false</bool>
+            </property>
+            <property name="default">
+                <bool>true</bool>
             </property>
         </widget>
         <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
