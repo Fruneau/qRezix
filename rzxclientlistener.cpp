@@ -176,6 +176,12 @@ int RzxChatSocket::parse(const QString& msg)
 					break;
 				case DCC_CHAT:
 					qDebug("Parsing CHAT: " + cmd.cap(2));
+					if(RzxConfig::autoResponder())
+					{
+						sendResponder(RzxConfig::autoResponderMsg());
+						if(!chatWindow) deleteLater();
+						return DCC_CHAT;
+					}
 					if(!chatWindow)
 					{
 						chatWindow = RzxConnectionLister::global()->chatCreate(this->peerAddress());
