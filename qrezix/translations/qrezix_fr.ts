@@ -93,6 +93,41 @@
     </message>
 </context>
 <context>
+    <name>RzxChangePassUI</name>
+    <message>
+        <source>Change your pass</source>
+        <translation>Change ton pass</translation>
+    </message>
+    <message>
+        <source>Old pass:</source>
+        <translation>Ancien pass :</translation>
+    </message>
+    <message>
+        <source>New pass:</source>
+        <translation>Nouveau pass :</translation>
+    </message>
+    <message>
+        <source>Reenter you new pass:</source>
+        <translation>Confirmation :</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation>&amp;Annuler</translation>
+    </message>
+    <message>
+        <source>Alt+C</source>
+        <translation>Alt+A</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Return</source>
+        <translation>Return</translation>
+    </message>
+</context>
+<context>
     <name>RzxChat</name>
     <message>
         <source>ends the chat</source>
@@ -606,10 +641,20 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
 This is an identification code used to authentificate your connection to the server and avoid IP-spoofing.
 
 KEEP IT WELL because without it, you may not be able to connect to the server</source>
-        <translation>Ton pass de connexion XNet est : %1
+        <translation type="obsolete">Ton pass de connexion XNet est : %1
 Il s&apos;agit d&apos;un code d&apos;identification utilisé pour authentifier ta connexion avec le serveur et éviter l&apos;IP-sproofing.
 
 CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te connecter au serveur</translation>
+    </message>
+    <message>
+        <source>Your pass has been successfully changed by the server. Keep it well because it can be useful.</source>
+        <translation>Votre pass a été changé avec succès par le serveur. Gardez le précieusement, car il pourra vous être redemander.</translation>
+    </message>
+    <message>
+        <source>Server can&apos;t change your pass :
+</source>
+        <translation>Le serveur ne peut pas changer votre pass :
+</translation>
     </message>
 </context>
 <context>
@@ -949,13 +994,17 @@ Erreur DNS
     </message>
     <message>
         <source>Alt+O</source>
-        <translation>Alt+O</translation>
+        <translation type="obsolete">Alt+O</translation>
     </message>
     <message>
         <source>&lt;b&gt;Wrong Password&lt;/b&gt;&lt;br&gt;&lt;br&gt;
 Please, reenter your password. You can&apos;t get connected to the xnetserver unless you got the good password. You have been given this password when you got connected for the first time to the server.</source>
         <translation>&lt;b&gt;Pass incorrect&lt;/b&gt;&lt;br&gt;&lt;br&gt;
 Le pass avec lequel vous avez tenté de vous connecter au serveur xnt est incorrect. Rentrez le pass qui vous a été donné lors de la première connexion à ce serveur sans quoi vous ne pourrez plus vous connecter.</translation>
+    </message>
+    <message>
+        <source>Alt+O, Return</source>
+        <translation>Alt+O, Return</translation>
     </message>
 </context>
 <context>
@@ -1001,7 +1050,7 @@ Le pass avec lequel vous avez tenté de vous connecter au serveur xnt est incorr
     </message>
     <message>
         <source>Icon selection:</source>
-        <translation>Sélection de l&apos;icône:</translation>
+        <translation type="obsolete">Sélection de l&apos;icône:</translation>
     </message>
     <message>
         <source>...</source>
@@ -1293,7 +1342,7 @@ Le pass avec lequel vous avez tenté de vous connecter au serveur xnt est incorr
     </message>
     <message>
         <source>Misc.</source>
-        <translation>Divers</translation>
+        <translation type="obsolete">Divers</translation>
     </message>
     <message>
         <source>Command to play a sound :</source>
@@ -1349,7 +1398,7 @@ Le pass avec lequel vous avez tenté de vous connecter au serveur xnt est incorr
     </message>
     <message>
         <source>Plug-in pr&amp;operties</source>
-        <translation>Pr&amp;opriétés du plug-in</translation>
+        <translation type="obsolete">Pr&amp;opriétés du plug-in</translation>
     </message>
     <message>
         <source>Alt+O</source>
@@ -1414,6 +1463,38 @@ Le pass avec lequel vous avez tenté de vous connecter au serveur xnt est incorr
     <message>
         <source>Highlight the selection</source>
         <translation>Démarquer le sélection</translation>
+    </message>
+    <message>
+        <source>Change my password ...</source>
+        <translation>Changer mon mot de passe ...</translation>
+    </message>
+    <message>
+        <source>Icon selection</source>
+        <translation>Sélection de l&apos;icône</translation>
+    </message>
+    <message>
+        <source>&amp;Misc.</source>
+        <translation>&amp;Divers</translation>
+    </message>
+    <message>
+        <source>Sound</source>
+        <translation>Son</translation>
+    </message>
+    <message>
+        <source>Translation</source>
+        <translation>Traduction</translation>
+    </message>
+    <message>
+        <source>Systray</source>
+        <translation>Systray</translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation>Autre</translation>
+    </message>
+    <message>
+        <source>Plug-in pr&amp;operties ...</source>
+        <translation>Pr&amp;opriétés du plug-in ...</translation>
     </message>
 </context>
 </TS>

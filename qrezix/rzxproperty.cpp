@@ -53,6 +53,7 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	txtBeep -> setEnabled(false);
 	connect( chkBeep, SIGNAL(toggled(bool)), btnBeepBrowse, SLOT(setEnabled(bool)));
 	connect( chkBeep, SIGNAL(toggled(bool)), txtBeep, SLOT(setEnabled(bool)));
+	connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
 	
 	hostname->setValidator( new DnsValidator() );
 #ifndef WIN32
@@ -127,6 +128,8 @@ void RzxProperty::initDlg() {
 		static_cast<QLineEdit *> (obj) -> setText( config -> readEntry( obj -> name(), "" ) );
 	}
 	delete l;
+	
+	btnChangePass->setEnabled(!RzxServerListener::object()->isSocketClosed());
 	
 	initThemeCombo();
 	initLangCombo();
