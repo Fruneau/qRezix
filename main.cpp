@@ -70,12 +70,18 @@ int main(int argc, char *argv[])
 	QRezix *rezix = new QRezix();
 	RzxConfig::globalConfig();
 	
+	QObject::connect(RzxConfig::globalConfig(), SIGNAL(languageChanged()), rezix, SLOT(languageChanged()));
+		
 	rezix -> setIcon(iconeProg);
 	rezix -> languageChanged();
 	
 	QPopupMenu menu;
-	menu.insertItem( a.tr("&Quit"), rezix, SLOT(close()));
-	TrayIcon tray(iconeProg, "Rezix", &menu );
+	menu.insertItem( a.tr("&Quit"), rezix, SLOT(close()), 0, 1);
+	if(RzxConfig::globalConfig()->autoResponder())
+		menu.insertItem(a.tr("&I'm back !"), rezix, SLOT(toggleAutoResponder()), 0, 2);
+	else
+		menu.insertItem(a.tr("I'm &away !"), rezix, SLOT(toggleAutoResponder()), 0, 2);
+	TrayIcon tray(iconeProg, "Rezix", &menu, rezix );
 	rezix -> tray = &tray;
 	
 	QObject::connect(rezix->tray,SIGNAL(clicked(const QPoint&)),rezix,SLOT(toggleVisible()));

@@ -9,6 +9,14 @@
         <source>&amp;Away</source>
         <translation type="obsolete">&amp;Loin</translation>
     </message>
+    <message>
+        <source>&amp;I&apos;m back !</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>I&apos;m &amp;away !</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QRezix</name>
@@ -69,6 +77,26 @@
     <message>
         <source>Send as &amp;HTML</source>
         <translation>Envoyer en &amp;HTML</translation>
+    </message>
+    <message>
+        <source>Alt+S</source>
+        <translation>Alt+S</translation>
+    </message>
+    <message>
+        <source>Alt+H</source>
+        <translation>Alt+H</translation>
+    </message>
+    <message>
+        <source>B</source>
+        <translation>G</translation>
+    </message>
+    <message>
+        <source>I</source>
+        <translation>I</translation>
+    </message>
+    <message>
+        <source>U</source>
+        <translation>S</translation>
     </message>
 </context>
 <context>
@@ -171,55 +199,55 @@ dans lequel il enregistre sa configuration</translation>
     <name>RzxProperty</name>
     <message>
         <source>default</source>
-        <translation>défaut</translation>
+        <translation type="obsolete">défaut</translation>
     </message>
     <message>
         <source>LeechFTP</source>
-        <translation>LeechFTP</translation>
+        <translation type="obsolete">LeechFTP</translation>
     </message>
     <message>
         <source>SmartFTP</source>
-        <translation>SmartFTP</translation>
+        <translation type="obsolete">SmartFTP</translation>
     </message>
     <message>
         <source>iExplore</source>
-        <translation>iExplore</translation>
+        <translation type="obsolete">iExplore</translation>
     </message>
     <message>
         <source>Opera</source>
-        <translation>Opera</translation>
+        <translation type="obsolete">Opera</translation>
     </message>
     <message>
         <source>gftp</source>
-        <translation>gftp</translation>
+        <translation type="obsolete">gftp</translation>
     </message>
     <message>
         <source>galeon</source>
-        <translation>Galeon</translation>
+        <translation type="obsolete">galeon</translation>
     </message>
     <message>
         <source>konqueror</source>
-        <translation>Konqueror</translation>
+        <translation type="obsolete">konqueror</translation>
     </message>
     <message>
         <source>lynx</source>
-        <translation>Lynx</translation>
+        <translation type="obsolete">lynx</translation>
     </message>
     <message>
         <source>mozilla</source>
-        <translation>Mozilla</translation>
+        <translation type="obsolete">mozilla</translation>
     </message>
     <message>
         <source>netscape</source>
-        <translation>Netscape</translation>
+        <translation type="obsolete">netscape</translation>
     </message>
     <message>
         <source>opera</source>
-        <translation>Opera</translation>
+        <translation type="obsolete">opera</translation>
     </message>
     <message>
         <source>knode</source>
-        <translation>Knode</translation>
+        <translation type="obsolete">knode</translation>
     </message>
     <message>
         <source>Icon selection</source>
@@ -247,7 +275,90 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>Selected file is not valid</source>
-        <translation>Le fichier choisi est invalide</translation>
+        <translation>Fichier sélectionné invalide</translation>
+    </message>
+    <message>
+        <source>lftp</source>
+        <translation type="obsolete">lftp</translation>
+    </message>
+    <message>
+        <source>English</source>
+        <translation>Français</translation>
+    </message>
+    <message>
+        <source>Sound file selection</source>
+        <translation>Sélection du fichier son</translation>
+    </message>
+    <message>
+        <source>standard</source>
+        <translation type="obsolete">standard</translation>
+    </message>
+    <message>
+        <source>firefox</source>
+        <translation type="obsolete">firefox</translation>
+    </message>
+</context>
+<context>
+    <name>RzxProtocole</name>
+    <message>
+        <source>Your XNet password  is  : %1
+This is an identification code used to authentificate your connection to the server and avoid IP-spoofing.
+
+KEEP IT WELL because without it, you may not be able to connect to the server</source>
+        <translation>Ton pass de connexion XNet est : %1
+Il s&apos;agit d&apos;un code d&apos;identification utilisé pour authentifier ta connexion avec le serveur et éviter l&apos;IP-sproofing.
+
+CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te connecter au serveur</translation>
+    </message>
+</context>
+<context>
+    <name>RzxQuit</name>
+    <message>
+        <source>Quit now !</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimize me...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Abort quitting please</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RzxQuitUI</name>
+    <message>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Oops, do nothing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>yes, I want to &amp;Leave qRezix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>no, I want to &amp;Minimize qRezix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Return</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to &lt;b&gt;Quit qRezix &lt;/b&gt;?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -274,7 +385,7 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>Hotline</source>
-        <translation>HotLine</translation>
+        <translation type="obsolete">HotLine</translation>
     </message>
     <message>
         <source>Web</source>
@@ -396,6 +507,14 @@ Les discussions et les propriétés sont désactivées</translation>
         <source>XNet Server message</source>
         <translation>Message du serveur XNet</translation>
     </message>
+    <message>
+        <source>has checked your properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Properties sent to </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
@@ -467,6 +586,17 @@ Erreur DNS
     <message>
         <source>Socket error, cannot write</source>
         <translation>Erreur de socket, écriture impossible</translation>
+    </message>
+</context>
+<context>
+    <name>TrayIcon</name>
+    <message>
+        <source>&amp;I&apos;m back !</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>I&apos;m &amp;away !</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -685,7 +815,7 @@ Erreur DNS
     </message>
     <message>
         <source>Hotline</source>
-        <translation>HotLine</translation>
+        <translation type="obsolete">HotLine</translation>
     </message>
     <message>
         <source>FTP</source>
@@ -801,7 +931,7 @@ Erreur DNS
     </message>
     <message>
         <source>Automatic columns resize (buggy)</source>
-        <translation>Redimension automatique des colonnes (buggé)</translation>
+        <translation type="obsolete">Redimension automatique des colonnes (buggé)</translation>
     </message>
     <message>
         <source>Use Systray icon</source>
@@ -821,7 +951,15 @@ Erreur DNS
     </message>
     <message>
         <source>UI Language :</source>
-        <translation>Langue:</translation>
+        <translation type="unfinished">Langue de l&apos;interface :</translation>
+    </message>
+    <message>
+        <source>Warn me when properties are being checked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print hh:mm:ss in chat</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>frmPref</class>
 <widget class="QDialog">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>560</width>
-            <height>513</height>
+            <height>517</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -625,12 +625,6 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <property name="margin">
-                        <number>11</number>
-                    </property>
-                    <property name="spacing">
-                        <number>6</number>
-                    </property>
                     <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="3">
                         <property name="name">
                             <cstring>Layout8</cstring>
@@ -951,10 +945,16 @@
                                 <property name="name">
                                     <cstring>clientFtp</cstring>
                                 </property>
+                                <property name="editable">
+                                    <bool>true</bool>
+                                </property>
                             </widget>
                             <widget class="QComboBox" row="5" column="0">
                                 <property name="name">
                                     <cstring>clientNews</cstring>
+                                </property>
+                                <property name="editable">
+                                    <bool>true</bool>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="4" column="0">
@@ -968,6 +968,9 @@
                             <widget class="QComboBox" row="3" column="0">
                                 <property name="name">
                                     <cstring>clientHttp</cstring>
+                                </property>
+                                <property name="editable">
+                                    <bool>true</bool>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="2" column="0">
@@ -1294,7 +1297,7 @@
                         <property name="title">
                             <string>Misc.</string>
                         </property>
-                        <vbox>
+                        <grid>
                             <property name="name">
                                 <cstring>unnamed</cstring>
                             </property>
@@ -1304,31 +1307,7 @@
                             <property name="spacing">
                                 <number>6</number>
                             </property>
-                            <widget class="QCheckBox">
-                                <property name="name">
-                                    <cstring>cbSystray</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Use Systray icon</string>
-                                </property>
-                            </widget>
-                            <widget class="QLabel">
-                                <property name="name">
-                                    <cstring>lblWorkDir_2</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Command to play a sound :</string>
-                                </property>
-                            </widget>
-                            <widget class="QLineEdit">
-                                <property name="name">
-                                    <cstring>txtBeepCmd</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>play</string>
-                                </property>
-                            </widget>
-                            <widget class="QLabel">
+                            <widget class="QLabel" row="3" column="0" rowspan="1" colspan="2">
                                 <property name="name">
                                     <cstring>langLabel</cstring>
                                 </property>
@@ -1336,12 +1315,52 @@
                                     <string>UI Language :</string>
                                 </property>
                             </widget>
-                            <widget class="QComboBox">
+                            <widget class="QComboBox" row="4" column="0" rowspan="1" colspan="2">
                                 <property name="name">
                                     <cstring>languageBox</cstring>
                                 </property>
                             </widget>
-                        </vbox>
+                            <widget class="QCheckBox" row="0" column="0">
+                                <property name="name">
+                                    <cstring>cbSystray</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Use Systray icon</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="2" column="0">
+                                <property name="name">
+                                    <cstring>lblWorkDir_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Command to play a sound :</string>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="2" column="1">
+                                <property name="name">
+                                    <cstring>txtBeepCmd</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>play</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="1" column="0">
+                                <property name="name">
+                                    <cstring>cbPrintTime</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Print hh:mm:ss in chat</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="0" column="1">
+                                <property name="name">
+                                    <cstring>cbPropertiesWarning</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Warn me when properties are being checked</string>
+                                </property>
+                            </widget>
+                        </grid>
                     </widget>
                 </grid>
             </widget>

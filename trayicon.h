@@ -9,6 +9,8 @@
 #include <qimage.h>
 #include <qwidget.h>
 
+#include "rzxconfig.h"
+
 class QPopupMenu;
 class TrayIcon;
 #if defined(WIN32)
