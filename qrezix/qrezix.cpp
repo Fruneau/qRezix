@@ -197,6 +197,7 @@ void QRezix::saveSettings()
 	delete RzxPlugInLoader::global();
 	qDebug("Fermeture de l'enregistrement des configurations");
 	RzxConfig::globalConfig()->writeWindowSize(windowSize);
+	RzxConfig::globalConfig()->writeWindowPosition(pos());
 	RzxConfig::globalConfig() -> closeSettings();
 	qDebug("Fermeture des fenêtres de chat");
 	RzxConnectionLister::global() ->closeChats();
