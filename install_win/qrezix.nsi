@@ -211,12 +211,11 @@ Section "Fichiers de base de qRezix" SecBase
     Call AddSharedDLL
   !endif
 
+  SetOutPath "$SYSDIR"
   File "${QTDIR}\bin\${QTDLL}"
   IfErrors "" +3
     Push "Impossible d'installer $SYSDIR\${QTDLL}.\nRelancez l'installation en tant qu'Administrateur."
     Call ShowAbort
-  push "$SYSDIR\${QTDLL}"
-  Call AddSharedDLL
 
   SetOverwrite on
   SetOutPath "$INSTDIR"
@@ -313,15 +312,16 @@ Section "Thème d'icônes 'Noia'" SecThemeNoia
   !insertmacro INSTALL_THEME "NoiaWarmKDE"
 SectionEnd
 
-Section "Thème d'icônes 'mS'" SecThememS
-  SetDetailsPrint textonly
-  DetailPrint "Thèmes d'icônes | mS"
-  SetDetailsPrint listonly
-
-  SectionIn 1 2
-
-  !insertmacro INSTALL_THEME "mS"
-SectionEnd
+; Sauf si quelqu'un le complète, le thème mS est mort
+;Section "Thème d'icônes 'mS'" SecThememS
+;  SetDetailsPrint textonly
+;  DetailPrint "Thèmes d'icônes | mS"
+;  SetDetailsPrint listonly
+;
+;  SectionIn 1 2
+;
+;  !insertmacro INSTALL_THEME "mS"
+;SectionEnd
 
 SubSectionEnd ; Theme
 
@@ -359,6 +359,7 @@ Section "Plug-in de l'Xplo" SecPiXplo
   CreateDirectory "themes"
   !insertmacro INSTALL_XPLO_THEME "classic"
   !insertmacro INSTALL_XPLO_THEME "krystal"
+  !insertmacro INSTALL_XPLO_THEME "NoiaWarmKDE"
   SetOutPath "$INSTDIR"
 SectionEnd
 
@@ -405,7 +406,7 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeClassic} $(DESC_SecThemeClassic)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeKrystal} $(DESC_SecThemeKrystal)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeNoia} $(DESC_SecThemeNoia)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecThememS} $(DESC_SecThemems)
+;  !insertmacro MUI_DESCRIPTION_TEXT ${SecThememS} $(DESC_SecThemems)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecTrans} "Traductions de qRezix"
   !insertmacro MUI_DESCRIPTION_TEXT ${SecTransFrench} $(DESC_SecTransFrench)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecPlugIns} "Plug-ins pour qRezix"
@@ -433,7 +434,8 @@ Section "un.Suppression de qRezix" Uninstall
   Delete "$INSTDIR\Uninstall.exe"
   Delete "$INSTDIR\ReadMe.txt"
   RMDir "$INSTDIR\translations"
-  RMDir /r "$INSTDIR\plug-ins"
+  RMDir /r "$INSTDIR\themes"
+  RMDir /r "$INSTDIR\plugins"
   RMDir "$INSTDIR"
 
   ;Suppression si nécessaire des DLL partagées
