@@ -20,7 +20,6 @@ HEADERS	+= qrezix.h \
 	rzxproperty.h \
 	rzxmessagebox.h \
 	defaults.h \
-	dnsvalidator.h \
 	trayicon.h \
 	rzxquit.h \
 	rzxplugin.h \
@@ -43,7 +42,6 @@ SOURCES	+= main.cpp \
 	rzxproperty.cpp \
 	rzxserverlistener.cpp \
 	rzxmessagebox.cpp \
-	dnsValidator.cpp \
 	trayicon.cpp \
 	rzxquit.cpp \
 	rzxplugin.cpp \

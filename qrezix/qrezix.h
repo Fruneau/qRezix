@@ -80,11 +80,11 @@ public slots: // Public slots
 	void launchPlugins();
 	void changeTrayIcon();
 	void launchSearch();
+	void boitePreferences();
 
 protected slots: // Protected slots
 	void delayedInit();
 	/*affiche la boite de dialogue permettant de modifier les preferences*/
-	void boitePreferences();
 	void socketClosed();
 	void toggleVisible();
 	void languageChange();

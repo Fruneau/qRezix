@@ -48,14 +48,14 @@ public:
 	/** Change l'icone de l'ordinateur local */
 	void sendIcon(const QImage& image);
 	void setupConnection();
-	void setupReconnection(const QString& msg, bool fatal);
+	void setupReconnection(const QString& msg);
 	bool isSocketClosed() const;
 	void close();
 	RzxHostAddress getServerIP() const;
 	RzxHostAddress getIP() const;
 
 protected:
-	bool alternateGetHostByName( void );
+	//bool alternateGetHostByName( void );
 	
 protected slots:
 	void serverClose();
@@ -82,7 +82,7 @@ signals: // Signals
 
 protected: // Protected attributes
 	QSocket socket;
-	int premiereConnexion;
+	bool premiereConnexion;
 
 	/** Buffer de lecture/ecriture dans le socket */
 	RzxHostAddress iconHost;
@@ -94,7 +94,9 @@ protected: // Protected attributes
 	QString serverHostname;
 	/** Pour le timeout sur les ping/pong */
 	QTimer pingTimer;
-private: // Private attributes
+	
+private:
+	inline void notify(const QString& text) { emit status(text, socket.state()!=QSocket::Connected); }
 };
 
 #endif

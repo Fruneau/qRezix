@@ -31,6 +31,51 @@ email                : sylvain.joyeux@m4x.org
 #include "trayicon.h"
 #include "rzxpluginloader.h"
 
+#ifdef Q_OS_UNIX
+
+/* for signal handling */
+#include <signal.h>
+#include <stdio.h>
+
+#include <execinfo.h>
+typedef void ( *sighandler_t ) ( int );
+
+sighandler_t default_segv_handler, default_pipe_handler, default_term_handler, default_int_handler;
+
+void nonfatalHandler( int signum )
+{
+	qWarning( "Received a %i signal, continuing", signum );
+}
+
+void fatalHandler( int signum )
+{
+	void * array[ 128 ];
+	size_t size;
+	char **strings;
+
+	//restores the default behaviour
+	signal( SIGSEGV, default_segv_handler );
+
+	size = backtrace ( array, 128 * sizeof( void* ) );
+	strings = backtrace_symbols ( array, size );
+	qDebug( "%s", strings[ 0 ] );
+	for ( uint i = 0; i < size; i++ )
+	{
+		qDebug( "[frame %i]: %s", i, strings[ i ] );
+	}
+	qDebug( "Received a %i signal, automatic backtrace", signum );
+	qDebug( "State of the stack: %i frames", size );
+
+	delete strings;
+	QApplication::exit( 1 );
+}
+
+void sigTermHandler( int signum )
+{
+	QApplication::exit( 255 );
+	qDebug( "Terminated" );
+}
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -38,7 +83,13 @@ int main(int argc, char *argv[])
 
 	QPixmap iconeProg((const char **)q);
 	iconeProg.setMask(iconeProg.createHeuristicMask() );
-	
+
+#ifdef Q_OS_UNIX
+	default_segv_handler = signal( SIGSEGV, fatalHandler );
+	default_pipe_handler = signal( SIGPIPE, SIG_IGN );
+	default_term_handler = signal( SIGTERM, sigTermHandler );
+	default_int_handler = signal( SIGINT, sigTermHandler );
+#endif
 	
 	QRezix *rezix = new QRezix();
 	if(rezix->wellInit)
