@@ -42,10 +42,6 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	if(RzxConfig::favoritesMode())
 		btnFavorites -> toggle();
 
-	setCaption(caption() + " v" + VERSION);
-#ifdef WIN32
-	setCaption(caption() + " [Qt]");
-#endif
 	clearWFlags(WStyle_SysMenu|WStyle_Minimize);
 	alreadyOpened=false;
 	connect(rezal, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
@@ -181,7 +177,15 @@ void QRezix::toggleVisible(){
 		showNormal(); 
 		if(statusMax) showMaximized();
 			else showNormal();
-	show();
+		if(!alreadyOpened)
+		{
+			setCaption(caption() + " v" + VERSION);
+#ifdef WIN32
+			setCaption(caption() + " [Qt]");
+#endif*/
+		}
+
+		show();
 		setActiveWindow();raise();
 		alreadyOpened=true;
 		rezal->adapteColonnes();
