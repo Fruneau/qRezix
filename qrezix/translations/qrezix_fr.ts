@@ -195,6 +195,14 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <source>Custom colours...</source>
         <translation>Personnaliser...</translation>
     </message>
+    <message>
+        <source>Is typing a message</source>
+        <translation>Tape un message</translation>
+    </message>
+    <message>
+        <source>unread</source>
+        <translation>non-lu(s)</translation>
+    </message>
 </context>
 <context>
     <name>RzxChatSocket</name>
@@ -937,39 +945,39 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>begin &amp;Chat</source>
-        <translation>Ouvrir une fenêtre &amp;de chat</translation>
+        <translation type="obsolete">Ouvrir une fenêtre &amp;de chat</translation>
     </message>
     <message>
         <source>Samba connect</source>
-        <translation>Connection en Samba</translation>
+        <translation type="obsolete">Connection en Samba</translation>
     </message>
     <message>
         <source>FTP connect</source>
-        <translation>Connection en FTP</translation>
+        <translation type="obsolete">Connection en FTP</translation>
     </message>
     <message>
         <source>browse Web</source>
-        <translation>Voir le site Web</translation>
+        <translation type="obsolete">Voir le site Web</translation>
     </message>
     <message>
         <source>read News</source>
-        <translation>Lire les News</translation>
+        <translation type="obsolete">Lire les News</translation>
     </message>
     <message>
         <source>History</source>
-        <translation>Historique</translation>
+        <translation type="obsolete">Historique</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation>Propriétés</translation>
+        <translation type="obsolete">Propriétés</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
-        <translation>Retirer des favoris</translation>
+        <translation type="obsolete">Retirer des favoris</translation>
     </message>
     <message>
         <source>Add to favorites</source>
-        <translation>Ajouter aux favoris</translation>
+        <translation type="obsolete">Ajouter aux favoris</translation>
     </message>
     <message>
         <source>No history file for user %1</source>
@@ -1053,7 +1061,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuler</translation>
+        <translation type="obsolete">Annuler</translation>
     </message>
     <message>
         <source>Hey, it&apos;s you %1... you can&apos;t have a chat with yourself.
@@ -1109,11 +1117,11 @@ Propriétés envoyées à %2 (%3)</translation>
     </message>
     <message>
         <source>Remove from ignore list</source>
-        <translation>Ne plus ignorer l&apos;utilisateur</translation>
+        <translation type="obsolete">Ne plus ignorer l&apos;utilisateur</translation>
     </message>
     <message>
         <source>Add to ignore list</source>
-        <translation>Ignorer l&apos;utilisateur</translation>
+        <translation type="obsolete">Ignorer l&apos;utilisateur</translation>
     </message>
 </context>
 <context>
@@ -1221,15 +1229,15 @@ Le mot de passe avec lequel vous avez tenté de vous connecter au serveur Xnet e
     <name>TrayIcon</name>
     <message>
         <source>&amp;I&apos;m back !</source>
-        <translation>Je suis &amp;revenu !</translation>
+        <translation type="obsolete">Je suis &amp;revenu !</translation>
     </message>
     <message>
         <source>I&apos;m &amp;away !</source>
-        <translation>Je m&apos;en &amp;vais !</translation>
+        <translation type="obsolete">Je m&apos;en &amp;vais !</translation>
     </message>
     <message>
         <source>&amp;Quit</source>
-        <translation>&amp;Quit</translation>
+        <translation type="obsolete">&amp;Quit</translation>
     </message>
 </context>
 <context>

@@ -1,4 +1,6 @@
-[v1.6] 2004-10 <br2003@frankiz.polytechnique.fr>
+[v1.6.1] 2004-10 <br2003@frankiz.polytechnique.fr>
+    * Notification du nombre de message non lus [Fruneau]
+    * Notification de la frappe d'un message par l'autre utilisateur (proto de Moi) [Fruneau]
     * Ajout d'une ignore List par IP [Steak]
     * Ajout de tooltips sur les RzxItem [Fruneau]
     * Ajout de la couleur dans les boites d'édition [Steak]

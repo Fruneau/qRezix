@@ -121,6 +121,9 @@ void RzxChat::init()
 	for(int i=0; i<16; ++i)
 		addColor(preDefinedColors[i]);
 	cbColorSelect->setCurrentItem(1); //black par défaut
+	
+	typing = peerTyping = false;
+	unread = 0;
 }
 
 void RzxChat::addColor(QColor color) {
@@ -269,18 +272,28 @@ void RzxChat::setSocket(RzxChatSocket* sock)
 		connect(socket, SIGNAL(info(const QString& )), this, SLOT(info(const QString& )));
 		connect(socket, SIGNAL(notify(const QString&, bool)), this, SLOT(notify(const QString&, bool )));
 		connect(socket, SIGNAL(pongReceived(int )), this, SLOT(pong(int)));
+		connect(&typingTimer, SIGNAL(timeout()), socket, SLOT(sendTyping()));
+		connect(socket, SIGNAL(typing(bool)), this, SLOT(peerTypingStateChanged(bool)));
 	}
 }
 
 
 void RzxChat::setHostname(const QString& name)
 {
-#ifdef WIN32
-	setCaption( tr( "Chat" ) + " - " + name + " [Qt]" );
-#else
-	setCaption( tr( "Chat" ) + " - " + name );
-#endif
 	hostname=name;
+	updateTitle();
+}
+
+void RzxChat::updateTitle()
+{
+	QString title = tr("Chat") + " - " + hostname;
+	
+	if(peerTyping && isActiveWindow()) title += " - " + tr("Is typing a message");
+	if(unread) title += " - " + QString::number(unread) + " " + tr("unread");
+	#ifdef WIN32
+		title += " [Qt]";
+	#endif
+	setCaption(title);
 }
 
 void RzxChat::append(const QString& color, const QString& host, const QString& msg) {
@@ -344,6 +357,11 @@ void RzxChat::receive(const QString& msg)
 	}
 		
 	append("blue", hostname + "> ", message);
+	if(!isActiveWindow())
+	{
+		unread++;
+		updateTitle();
+	}
 #ifdef WIN32
   if(!timer->isActive()) timer->start( 1000, FALSE );
 #endif
@@ -405,14 +423,29 @@ void RzxChat::onArrowPressed(bool down) {
 	curLine = newCur;
 }
 
-void RzxChat::onTextChanged() {
+void RzxChat::onTextChanged()
+{
 	if(!history) {
 		history = new ListText(edMsg->text(), 0);
 		curLine = history;
 		return;
 	}
 	history -> texte = edMsg->text();
-
+	if(!typing && edMsg->text().length())
+	{
+		typing = true;
+		//On ne crée pas de socket pour envoyer typing
+		if(socket)
+			socket->sendTyping(true);
+		typingTimer.start(10*1000, true);
+	}
+	if(typing && !edMsg->text().length())
+	{
+		typing = false;
+		if(socket)
+			socket->sendTyping(false);
+		typingTimer.stop();
+	}
 }
 
 void RzxChat::fontChanged(int index) {
@@ -420,11 +453,17 @@ void RzxChat::fontChanged(int index) {
 	btnBold->setEnabled(RzxConfig::globalConfig()->isBoldSupported(family));
 	btnItalic->setEnabled(RzxConfig::globalConfig()->isItalicSupported(family));
 	QValueList<int> pSize = RzxConfig::globalConfig()->getSizes(family);
-	
+
+	QString size = cbSize -> currentText();
 	cbSize->clear();
 	for (QValueList<int>::Iterator points = pSize.begin(); points != pSize.end(); ++points )
-        	cbSize->insertItem(QString::number(*points));
-		
+	{
+		QString newItem = QString::number(*points);
+		cbSize->insertItem(newItem);
+		if(newItem == size)
+			cbSize->setCurrentText(size);
+	}
+	
 	edMsg -> setFamily(family);
 }
 
@@ -463,11 +502,20 @@ void RzxChat::activateFormat(bool on) {
 		edMsg -> setTextFormat(Qt::RichText);
 }
 
+///Changement de l'état de l'autre utilisateur
+void RzxChat::peerTypingStateChanged(bool state)
+{
+	peerTyping=state;
+	updateTitle();
+}
+
 /** No descriptions */
 void RzxChat::btnSendClicked()
 {
 	//Pour que les plug-ins qui en on besoin modifie le texte de chat
 	RzxPlugInLoader::global()->chatSending();
+	typingTimer.stop();
+	typing = false;
 	
 	//traitement du message
 	QString msg = edMsg -> text();
@@ -534,6 +582,16 @@ void RzxChat::btnSendClicked()
 	if(!format && cbSendHTML->isChecked())
 	{
 		cbSendHTML->setChecked(false);
+	}
+	
+	if(cbSendHTML->isChecked())
+	{
+		fontChanged(cbFontSelect->currentItem());
+		sizeChanged(cbSize->currentItem());
+		colorClicked(cbColorSelect->currentItem());
+		edMsg->setBold(btnBold->isOn());
+		edMsg->setItalic(btnItalic->isOn());
+		edMsg->setUnderline(btnUnderline->isOn());
 	}
 }
 
@@ -633,6 +691,11 @@ bool RzxChat::event(QEvent *e)
 	}*/
 	if(e->type() == QEvent::WindowActivate)
 	{
+		if(unread)
+		{
+			unread = 0;
+			updateTitle();
+		}
 #ifndef WIN32
 		if(hist) hist->raise();
 		if(prop) prop->raise();

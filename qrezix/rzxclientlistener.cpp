@@ -50,13 +50,7 @@ QString RzxChatSocket::DCCFormat[] = {
 	"(^CHAT )(.*)\r\n",
 	"(^PING )\r\n",
 	"(^PONG )\r\n",
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	"(^TYPING )(0|1)\r\n",
 	0
 };
 
@@ -189,16 +183,24 @@ int RzxChatSocket::parse(const QString& msg)
 						chatWindow->setSocket(this);
 					}
 					emit chat(cmd.cap(2));
+					emit typing(false);
 					return DCC_CHAT;
 					break;
 				case DCC_PING:
 					sendPong();
 					qDebug("Parsing PING");
 					emit notify(tr("Ping received"));
+					return DCC_PING;
 					break;
 				case DCC_PONG:
 					emit pongReceived(pongTime.msecsTo(QTime::currentTime()));
 					qDebug("Parsing PONG");
+					return DCC_PONG;
+					break;
+				case DCC_TYPING:
+					emit typing(cmd.cap(3)=="1");
+					qDebug("Parsing TYPING");
+					return DCC_TYPING;
 					break;
 			};
 		}
@@ -224,6 +226,14 @@ void RzxChatSocket::sendPing()
 void RzxChatSocket::sendPong()
 {
 	send("PONG \r\n");
+}
+
+///Envoi de l'état de la frappe
+void RzxChatSocket::sendTyping(bool state)
+{
+	QString msg = "TYPING ";
+	msg += (state?"1":"0");
+	send(msg + "\r\n");
 }
 
 ///Formatage des propriétés de l'utilisateur

@@ -158,6 +158,14 @@ It must be at least&lt;b&gt; 6 characters long&lt;/b&gt;.</source>
         <source>Custom colours...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Is typing a message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>unread</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxChatSocket</name>
@@ -842,39 +850,39 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>begin &amp;Chat</source>
-        <translation>Ouvrir une fenêtre &amp;de chat</translation>
+        <translation type="obsolete">Ouvrir une fenêtre &amp;de chat</translation>
     </message>
     <message>
         <source>Samba connect</source>
-        <translation>Connection en Samba</translation>
+        <translation type="obsolete">Connection en Samba</translation>
     </message>
     <message>
         <source>FTP connect</source>
-        <translation>Connection en FTP</translation>
+        <translation type="obsolete">Connection en FTP</translation>
     </message>
     <message>
         <source>browse Web</source>
-        <translation>Voir le site Web</translation>
+        <translation type="obsolete">Voir le site Web</translation>
     </message>
     <message>
         <source>read News</source>
-        <translation>Lire les News</translation>
+        <translation type="obsolete">Lire les News</translation>
     </message>
     <message>
         <source>History</source>
-        <translation>Historique</translation>
+        <translation type="obsolete">Historique</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation>Propriétés</translation>
+        <translation type="obsolete">Propriétés</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
-        <translation>Retirer des favoris</translation>
+        <translation type="obsolete">Retirer des favoris</translation>
     </message>
     <message>
         <source>Add to favorites</source>
-        <translation>Ajouter aux favoris</translation>
+        <translation type="obsolete">Ajouter aux favoris</translation>
     </message>
     <message>
         <source>No history file for user %1</source>
@@ -942,7 +950,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation type="obsolete">Annuler</translation>
     </message>
     <message>
         <source>Informations :</source>
@@ -970,14 +978,6 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove from ignore list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to ignore list</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1080,16 +1080,8 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
 <context>
     <name>TrayIcon</name>
     <message>
-        <source>&amp;I&apos;m back !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>I&apos;m &amp;away !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Quit</source>
-        <translation type="unfinished">&amp;Quitter</translation>
+        <translation type="obsolete">&amp;Quitter</translation>
     </message>
 </context>
 <context>
