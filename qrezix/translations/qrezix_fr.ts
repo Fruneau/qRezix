@@ -79,6 +79,18 @@
         <source>Everybody</source>
         <translation>Tout le monde</translation>
     </message>
+    <message>
+        <source>Plug-ins</source>
+        <translation>Plug-ins</translation>
+    </message>
+    <message>
+        <source>Away</source>
+        <translation>Loin</translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation>Préférences</translation>
+    </message>
 </context>
 <context>
     <name>RzxChat</name>
@@ -173,6 +185,22 @@
         <source>Ping received</source>
         <translation>Ping reçu</translation>
     </message>
+    <message>
+        <source>Computer properties</source>
+        <translation>Propriétés de l&apos;ordinateur</translation>
+    </message>
+    <message>
+        <source>Property</source>
+        <translation>Propriété</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Valeur</translation>
+    </message>
+    <message>
+        <source>History</source>
+        <translation>Historique</translation>
+    </message>
 </context>
 <context>
     <name>RzxChatUI</name>
@@ -247,6 +275,14 @@
     <message>
         <source>...</source>
         <translation>...</translation>
+    </message>
+    <message>
+        <source>Plug-ins</source>
+        <translation>Plug-ins</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Envoyer</translation>
     </message>
 </context>
 <context>
@@ -722,15 +758,15 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>Computer properties</source>
-        <translation>Propriétés de l&apos;ordinateur</translation>
+        <translation type="obsolete">Propriétés de l&apos;ordinateur</translation>
     </message>
     <message>
         <source>Property</source>
-        <translation>Propriété</translation>
+        <translation type="obsolete">Propriété</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation>Valeur</translation>
+        <translation type="obsolete">Valeur</translation>
     </message>
     <message>
         <source>Cannot create peer to peer socket !
@@ -742,7 +778,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>RECONNECTED</source>
-        <translation>RECONNECTÉ</translation>
+        <translation type="obsolete">RECONNECTÉ</translation>
     </message>
     <message>
         <source>%1 clients connected</source>
@@ -750,7 +786,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>DISCONNECTED</source>
-        <translation>DÉCONNECTÉ</translation>
+        <translation type="obsolete">DÉCONNECTÉ</translation>
     </message>
     <message>
         <source>%1 is now marked as away</source>
@@ -782,11 +818,11 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>has checked your properties</source>
-        <translation>a demander vous propriétés</translation>
+        <translation>a demandé vos propriétés</translation>
     </message>
     <message>
         <source>Properties sent to </source>
-        <translation>Propriétés envoyées à</translation>
+        <translation type="obsolete">Propriétés envoyées à</translation>
     </message>
     <message>
         <source>Can&apos;t open chat</source>
@@ -805,6 +841,24 @@ Les discussions et les propriétés sont désactivées</translation>
  If you really want to chat to yourself, you just have to find a mirror...</source>
         <translation type="obsolete">Hé, c&apos;est toi %1... ça sert à rien de discutter avec toi-même.
 Mais si tu y tiens vraiment, trouve un mirroir, ce sera plus mieux que qRezix :)...</translation>
+    </message>
+    <message>
+        <source>reconnected</source>
+        <translation>reconnecté</translation>
+    </message>
+    <message>
+        <source>disconnected</source>
+        <translation>déconnecté</translation>
+    </message>
+    <message>
+        <source>%1
+Properties sent to %2 (%3)</source>
+        <translation type="obsolete">%1\n
+Propriétés envoyées à %2 (%3)</translation>
+    </message>
+    <message>
+        <source>Properties sent to %2 (%3) at %1</source>
+        <translation>Propriétés envoyées à %2 (%3) à %1</translation>
     </message>
 </context>
 <context>
@@ -1352,6 +1406,10 @@ Le pass avec lequel vous avez tenté de vous connecter au serveur xnt est incorr
     <message>
         <source>About Qt</source>
         <translation>A propos de Qt</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Version</translation>
     </message>
 </context>
 </TS>
