@@ -416,7 +416,8 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress&, const QString& msg
 			propCount++;
 		}
 	}
-	propertiesDialog->show();
+	if(withFrame)
+		propertiesDialog->show();
  
 	// Fit de la fenetre, on ne le fait pas si il n'y a pas d'accents, sinon ca plante
 	if (propCount > 0)
@@ -484,7 +485,9 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool
 	
 	histoDialog->resize(300, 300);
 	histoView -> setText(text);
-	histoDialog->show();
+	
+	if(withFrame)
+		histoDialog->show();
 	return histoDialog;
 }
 
