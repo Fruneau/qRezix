@@ -48,6 +48,7 @@ const QColor RzxChat::preDefinedColors[16] = {Qt::black,Qt::red,Qt::darkRed,Qt::
 
 //On crée la fenêtre soit avec un socket d'une connection déjà établie
 RzxChat::RzxChat(RzxChatSocket* sock)
+	:RzxChatUI(0, "RzxChat", WStyle_ContextHelp)
 {
 	setSocket(sock);
 	init();
@@ -55,6 +56,7 @@ RzxChat::RzxChat(RzxChatSocket* sock)
 
 //Soit sans socket, celui-ci sera initialisé de par la suite
 RzxChat::RzxChat(const RzxHostAddress& peerAddress)
+	:RzxChatUI(0, "RzxChat", WStyle_ContextHelp)
 {
 	peer = peerAddress;
 	socket = NULL;
