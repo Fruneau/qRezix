@@ -599,7 +599,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=t.xpm qrezix.ico grepped.txt icone.rc qrezix2.ico qrezix.pro qrezix.dsp Makefile.w32 qrezix_meta_unload.cpp qrezix.png q.xpm 
+KDE_DIST=t.xpm icone.rc qrezix.pro rzxpropertyui.h qrezix.png qrezix.ico qrezixui.h rzxquitui.h grepped.txt qrezix2.ico qrezix.dsp Makefile.w32 qrezix_meta_unload.cpp qrezix rzxchatui.h q.xpm 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 
@@ -930,7 +930,7 @@ force-reedit:
 
 
 #>+ 11
-qrezix.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/rzxpluginloader.cpp $(srcdir)/rzxplugin.cpp $(srcdir)/rzxquit.cpp $(srcdir)/dnsValidator.cpp $(srcdir)/trayicon.cpp $(srcdir)/rzxchat.cpp $(srcdir)/rzxproperty.cpp $(srcdir)/rzxserverlistener.cpp $(srcdir)/rzxrezal.cpp $(srcdir)/rzxprotocole.cpp $(srcdir)/rzxitem.cpp $(srcdir)/rzxhostaddress.cpp $(srcdir)/rzxconfig.cpp $(srcdir)/rzxcomputer.cpp $(srcdir)/rzxclientlistener.cpp $(srcdir)/qrezix.cpp $(srcdir)/main.cpp $(srcdir)/rzxmessagebox.cpp rzxwrongpassui.cpp rzxchatui.cpp qrezixui.cpp rzxquitui.cpp rzxpropertyui.cpp rzxclientlistener.moc.cpp rzxcomputer.moc.cpp trayicon.moc.cpp rzxserverlistener.moc.cpp rzxproperty.moc.cpp rzxrezal.moc.cpp rzxprotocole.moc.cpp rzxitem.moc.cpp qrezix.moc.cpp rzxplugin.moc.cpp rzxquit.moc.cpp rzxpluginloader.moc.cpp rzxconfig.moc.cpp rzxchat.moc.cpp dnsvalidator.moc.cpp  rzxwrongpassui.moc rzxchatui.moc rzxquitui.moc rzxpropertyui.moc qrezixui.moc
+qrezix.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/rzxpluginloader.cpp $(srcdir)/rzxplugin.cpp $(srcdir)/rzxquit.cpp $(srcdir)/dnsValidator.cpp $(srcdir)/trayicon.cpp $(srcdir)/rzxchat.cpp $(srcdir)/rzxproperty.cpp $(srcdir)/rzxserverlistener.cpp $(srcdir)/rzxrezal.cpp $(srcdir)/rzxprotocole.cpp $(srcdir)/rzxitem.cpp $(srcdir)/rzxhostaddress.cpp $(srcdir)/rzxconfig.cpp $(srcdir)/rzxcomputer.cpp $(srcdir)/rzxclientlistener.cpp $(srcdir)/qrezix.cpp $(srcdir)/main.cpp $(srcdir)/rzxmessagebox.cpp $(srcdir)/rzxwrongpassui.cpp $(srcdir)/rzxchatui.cpp $(srcdir)/qrezixui.cpp $(srcdir)/rzxquitui.cpp $(srcdir)/rzxpropertyui.cpp $(srcdir)/rzxclientlistener.moc.cpp $(srcdir)/rzxcomputer.moc.cpp $(srcdir)/trayicon.moc.cpp $(srcdir)/rzxserverlistener.moc.cpp $(srcdir)/rzxproperty.moc.cpp $(srcdir)/rzxrezal.moc.cpp $(srcdir)/rzxprotocole.moc.cpp $(srcdir)/rzxitem.moc.cpp $(srcdir)/qrezix.moc.cpp $(srcdir)/rzxplugin.moc.cpp $(srcdir)/rzxquit.moc.cpp $(srcdir)/rzxpluginloader.moc.cpp $(srcdir)/rzxconfig.moc.cpp $(srcdir)/rzxchat.moc.cpp $(srcdir)/dnsvalidator.moc.cpp  rzxwrongpassui.moc rzxchatui.moc rzxquitui.moc rzxpropertyui.moc qrezixui.moc
 	@echo 'creating qrezix.all_cpp.cpp ...'; \
 	rm -f qrezix.all_cpp.files qrezix.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> qrezix.all_cpp.final; \

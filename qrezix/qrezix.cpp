@@ -311,7 +311,7 @@ void QRezix::toggleVisible(){
 void QRezix::languageChange()
 {
 	QRezixUI::languageChange();
-	setCaption(caption() + " v" + VERSION);
+	setCaption(caption() + " v" + RZX_VERSION);
 #ifdef WIN32
 	setCaption(caption() + " [Qt]");
 #endif
