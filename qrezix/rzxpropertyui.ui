@@ -2050,12 +2050,23 @@
                             </widget>
                             <widget class="QLayoutWidget" row="1" column="0">
                                 <property name="name">
-                                    <cstring>layout38</cstring>
+                                    <cstring>layout22</cstring>
                                 </property>
                                 <hbox>
                                     <property name="name">
                                         <cstring>unnamed</cstring>
                                     </property>
+                                    <widget class="QToolButton">
+                                        <property name="name">
+                                            <cstring>btnPlugInReload</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>&amp;Reload plug-in</string>
+                                        </property>
+                                        <property name="accel">
+                                            <string>Alt+R</string>
+                                        </property>
+                                    </widget>
                                     <spacer>
                                         <property name="name">
                                             <cstring>spacer10</cstring>
@@ -2068,7 +2079,7 @@
                                         </property>
                                         <property name="sizeHint">
                                             <size>
-                                                <width>330</width>
+                                                <width>270</width>
                                                 <height>21</height>
                                             </size>
                                         </property>
