@@ -130,39 +130,39 @@ void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos,
 				QImage image = pixmap.convertToImage(); \
 				image = image.smoothScale(16,16); \
 				pixmap.convertFromImage(image); }\
-			popup.insertItem(pixmap, tr(trad), receiver, slot); }
+			popup.insertItem(pixmap, trad, receiver, slot); }
   
 		if(item->ignored) {
-			if(serveurs & 1) newItem("samba", "Samba connect", this, SLOT(samba()));
-			if((serveurs>>1) & 1) newItem("ftp", "FTP connect", this, SLOT(ftp()));
-			if((serveurs>>3) & 1) newItem("http", "browse Web", this, SLOT(http()));
-			if((serveurs>>4) & 1) newItem("news", "read News", this, SLOT(news()));
+			if(serveurs & 1) newItem("samba", tr("Samba connect"), this, SLOT(samba()));
+			if((serveurs>>1) & 1) newItem("ftp", tr("FTP connect"), this, SLOT(ftp()));
+			if((serveurs>>3) & 1) newItem("http", tr("browse Web"), this, SLOT(http()));
+			if((serveurs>>4) & 1) newItem("news", tr("read News"), this, SLOT(news()));
 			popup.insertSeparator();
-			newItem("unban", "Remove frome ignore list", this, SLOT(removeFromIgnoreList()));
+			newItem("unban", tr("Remove frome ignore list"), this, SLOT(removeFromIgnoreList()));
 		}
 		else {
 			if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur())
-				newItem("chat", "begin &Chat", this, SLOT(chatCreate()));
+				newItem("chat", tr("begin &Chat"), this, SLOT(chatCreate()));
 				//popup.insertItem(*RzxConfig::themedIcon("chat"), tr("begin &Chat"),this,SLOT(chatCreate()));
-			if(serveurs & 1) newItem("samba", "Samba connect", this, SLOT(samba()));
-			if((serveurs>>1) & 1) newItem("ftp", "FTP connect", this, SLOT(ftp()));
-			if((serveurs>>3) & 1) newItem("http", "browse Web", this, SLOT(http()));
-			if((serveurs>>4) & 1) newItem("news", "read News", this, SLOT(news()));
+			if(serveurs & 1) newItem("samba", tr("Samba connect"), this, SLOT(samba()));
+			if((serveurs>>1) & 1) newItem("ftp", tr("FTP connect"), this, SLOT(ftp()));
+			if((serveurs>>3) & 1) newItem("http", tr("browse Web"), this, SLOT(http()));
+			if((serveurs>>4) & 1) newItem("news", tr("read News"), this, SLOT(news()));
 			popup.insertSeparator();
-			newItem("historique", "History", this, SLOT(historique()));
-			newItem("prop", "Properties", this, SLOT(proprietes()));
+			newItem("historique", tr("History"), this, SLOT(historique()));
+			newItem("prop", tr("Properties"), this, SLOT(proprietes()));
 			popup.insertSeparator();
 			if(RzxConfig::globalConfig()->favorites->find(ordinateurSelect->text(1)))
 			{
-				newItem("not_favorite", "Remove from favorites", this, SLOT(removeFromFavorites()));
+				newItem("not_favorite", tr("Remove from favorites"), this, SLOT(removeFromFavorites()));
 			}
 			else {
-				newItem("favorite", "Add to favorites", this, SLOT(addToFavorites()));
-				newItem("ban", "Add to ignore list", this, SLOT(addToIgnoreList()));
+				newItem("favorite", tr("Add to favorites"), this, SLOT(addToFavorites()));
+				newItem("ban", tr("Add to ignore list"), this, SLOT(addToIgnoreList()));
 			}
 		}
 		popup.insertSeparator();
-		newItem("cancel", "Cancel", &popup, SLOT(hide()));
+		newItem("cancel", tr("Cancel"), &popup, SLOT(hide()));
 		RzxPlugInLoader::global()->menuItem(popup);
 		popup.popup(pos);
 		
