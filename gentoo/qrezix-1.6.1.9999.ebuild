@@ -14,7 +14,7 @@ LICENSE="GPL-2"
 SLOT="0"
 
 KEYWORDS="x86"
-IUSE="xplo smillix"
+IUSE="xplo smilix"
 
 DEPEND=">=x11-libs/qt-3.3.3
 	xplo? ( =x11-plugins/qrezix-xplo-9999 )

@@ -2,7 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 
-inherit eutils
+inherit kde-functions
+need-qt 3.3
 
 DESCRIPTION="qRezix : a xNet client made in Qt"
 HOMEPAGE="http://frankiz/"
@@ -16,7 +17,7 @@ SLOT="0"
 KEYWORDS="x86"
 IUSE=""
 
-DEPEND="qt? ( >=x11-libs/qt-3.3.3 )"
+DEPEND=">=x11-libs/qt-3.3.3"
 
 S=${WORKDIR}/${PN}
 

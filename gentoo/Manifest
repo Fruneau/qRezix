@@ -1,14 +1,6 @@
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
-
+MD5 a7b681fb198b795815b6f976f1140485 qrezix-1.6.1.ebuild 710
+MD5 587a9e2ffe2b719d92569751d00b8b63 qrezix-1.6.1.9999.ebuild 857
 MD5 d6f415ab6c306bfb91ce7a026b8fc9e9 ChangeLog 6525
-MD5 d85db9e71296c84ee013751b6eda5683 qrezix-1.6.1.ebuild 594
-MD5 2655f645efbb3d7828009930257a325e files/digest-qrezix-1.6.1.ebuild 65
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.2.6 (GNU/Linux)
-
-iD8DBQFBkANjArHZZzCEUG0RAqxEAJ9QkiuBU1yZnG3pgHN3MOphNriEFACeIzMT
-MTj41+6bTypzmF/uOynEbkc=
-=uMT4
------END PGP SIGNATURE-----
-
+MD5 fee1935a59a49e17bf7bf902875a983a files/digest-qrezix-1.6.1 65
+MD5 6e9067e9989472b91b398c3750fecf3f files/digest-qrezix-1.6.2 65
+MD5 d41d8cd98f00b204e9800998ecf8427e files/digest-qrezix-1.6.1.9999 0
