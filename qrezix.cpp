@@ -54,7 +54,7 @@
 QRezix *QRezix::object = 0;
 
 QRezix::QRezix(QWidget *parent, const char *name)
- : QRezixUI(parent, name), m_properties(0), tray(0)
+ : QRezixUI(parent, name), m_properties(0), accel(0), tray(0)
 {
 	object = this;
 	byTray = false;
@@ -213,6 +213,22 @@ void QRezix::saveSettings()
 		RzxConnectionLister::global() -> closeSocket();
 	}
 	disconnect(qApp, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
+	qDebug("Fermeture de l'interface");
+	if(m_properties)
+	{
+		delete m_properties;
+		m_properties = NULL;
+	}
+	if(accel)
+	{
+		delete accel;
+		accel = NULL;
+	}
+	if(tray)
+	{
+		delete tray;
+		tray = NULL;
+	}
 	qDebug("Fermeture de qRezix terminée");
 }
 
