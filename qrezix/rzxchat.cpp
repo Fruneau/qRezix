@@ -556,6 +556,14 @@ void RzxChat::showEvent ( QShowEvent * e){
 }
 #endif
 
+void RzxChat::moveEvent(QMoveEvent *e)
+{
+	if(hist)
+		hist->move(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
+	if(prop)
+		prop->move(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
+}
+
 /// Gestion de la connexion avec l'autre client
 /** Cette méthode permet de gérer les deux cas :
  *		- soit la connexion est déjà établie, on utilise le socket déjà en place
