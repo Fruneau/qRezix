@@ -91,35 +91,52 @@ void RzxUtilsLauncher::ftp(const QString& login)
 	QString sFtpClient=RzxConfig::globalConfig()->ftpCmd();
 
 	// leechftp :
-	if( (!sFtpClient.compare("LeechFTP")) &&
+	if( (sFtpClient =="LeechFTP") &&
 		!RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("Software\\LeechFTP"), 0, KEY_ALL_ACCESS, &hKey) )
 	{
 		RegSetValueEx(hKey, TEXT("ProxyMode"), 0, REG_DWORD, LPBYTE(& iRegValue), 4);
 		RegSetValueEx(hKey, TEXT("LocalDir"),0,REG_SZ,
 			(unsigned char*)(QDir::convertSeparators(RzxConfig::globalConfig()->FTPPath()).latin1()),
 			RzxConfig::globalConfig()->FTPPath().length() * sizeof(unsigned char));
-
-		unsigned char buffer[MAX_PATH];
-		unsigned long KeyType = 0;
 		unsigned long KeySize = sizeof(TCHAR) * MAX_PATH;
-		RegQueryValueEx(hKey, TEXT("AppDir"), 0, &KeyType, buffer, &KeySize);
+		char *buffer;
+		// Type de données à lire
+        unsigned long dwType = REG_MULTI_SZ; // type : Multi_String: tableau de string 
+											// délimités par '\0' et finissant par '\0\0'
+		// 1er Query pour avoir la taille du contenu de la clé
+		RegQueryValueEx(hKey,TEXT("AppDir"),NULL,&dwType,NULL,&KeySize);
+		// On créé notre buffer
+        buffer = new char[KeySize];
+		int i = 0;
+		QString temp;
+		// ouverture de la clé pour lire la valeur
+		RegQueryValueEx(hKey,TEXT("AppDir"),NULL,&dwType,(LPBYTE)buffer,&KeySize); 
+		// Copie du buffer caractère par caractère, sinon ça marche pas
+		while ((i<KeySize) && ((buffer[i] != '\0') || (buffer[i+1] != '\0')))
+		{
+			if(buffer[i] != '\0') temp.append(buffer[i]);
+			i++;
+		}
 		RegCloseKey(hKey);
-		QString temp=(char*)buffer;
 		QString cmd=temp+"leechftp.exe " + tempip;
 
 		RzxWinExec(cmd, 1);
+		qDebug(cmd);
+		return;
 	}
 	// smartftp :
-	else if( (!sFtpClient.compare("SmartFTP")) &&
+	else if( (sFtpClient == "SmartFTP") &&
 		!RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("Software\\SmartFTP"), 0, KEY_ALL_ACCESS, &hKey))
 	{
 		RegCloseKey(hKey);
+		unsigned long KeySize = sizeof(TCHAR) * MAX_PATH;
+
+	// Règle les options de proxy, il me semble, je sais pas si c'est indispensable.
 		HKEY hKey2;
 		RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("Software\\SmartFTP\\ProxySettings"), 0, KEY_ALL_ACCESS, &hKey2);
-		unsigned char buffer[MAX_PATH];
 		unsigned char * pointer;
 		unsigned long KeyType = 0;
-		unsigned long KeySize = sizeof(TCHAR) * MAX_PATH;
+		
   
 		if ( QApplication::winVersion() & Qt::WV_NT_based ){
 			unsigned long size;
@@ -147,27 +164,61 @@ void RzxUtilsLauncher::ftp(const QString& login)
 				(unsigned char*)(QDir::convertSeparators(RzxConfig::globalConfig()->FTPPath()).latin1()),
 				RzxConfig::globalConfig()->FTPPath().length() * sizeof(unsigned char));
 		RegCloseKey(hKey2);
-  
+
 		RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("Software\\SmartFTP"), 0, KEY_ALL_ACCESS, &hKey);
-		RegQueryValueEx(hKey, TEXT("Install Directory"), 0, &KeyType, buffer, &KeySize);
-		QString temp=(char*)buffer;
+
+	// Recherche du repertoire de SmartFTP
+		char *buffer;
+		// Type de données à lire
+        unsigned long dwType = REG_MULTI_SZ; // type : Multi_String: tableau de string 
+											// délimités par '\0' et finissant par '\0\0'
+		// 1er Query pour avoir la taille du contenu de la clé
+		RegQueryValueEx(hKey,TEXT("Install Directory"),NULL,&dwType,NULL,&KeySize);
+		// On créé notre buffer
+        buffer = new char[KeySize];
+		int i = 0;
+		QString temp;
+		// ouverture de la clé pour lire la valeur
+		RegQueryValueEx(hKey,TEXT("Install Directory"),NULL,&dwType,(LPBYTE)buffer,&KeySize); 
+		// Copie du buffer caractère par caractère, sinon ça marche pas
+		while ((i<KeySize) && ((buffer[i] != '\0') || (buffer[i+1] != '\0')))
+		{
+			if(buffer[i] != '\0') temp.append(buffer[i]);
+			i++;
+		}
 		RegCloseKey(hKey);
 		QString cmd=temp+"smartftp.exe " + tempip;
 
 		RzxWinExec(cmd, 1);
-
+		qDebug(cmd);
+		return;
 	}
 
-	// bulletproof FTP
-/* else if (iFtpClient == 3)
+	else if (sFtpClient == "iExplore")
 	{
-		RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("Software\\BPFTP\\Bullet Proof FTP\\Options"), 0, KEY_ALL_ACCESS, &hKey);
-		RegSetValueEx(hKey, TEXT("FirewallEnabled"), 0, REG_SZ, LPBYTE(& strRegValue), 2 * sizeof(TCHAR));
-		RegCloseKey(hKey);
-	}*/
-
-	else{ // client FTP standard
 		QString cmd="explorer " + tempip;
+		RzxWinExec(cmd, 1);
+		return;
+	}
+
+	else if ((sFtpClient == "standard")||(sFtpClient == "LeechFTP")||(sFtpClient == "SmartFTP"))
+	{ // client FTP standard
+		#ifdef UNICODE
+			const char *lat = tempip.latin1(); 
+			ushort *unicode; 
+			unicode = new ushort[tempip.length() + 1]; 
+			unicode[tempip.length()] = 0; 
+			for(int i =0 ; i< tempip.length() ; i++) 
+			unicode[i] = (ushort)lat[i]; 
+			RzxShellExecute( NULL, NULL, unicode, NULL, NULL, SW_SHOW );
+		#else
+			RzxShellExecute( NULL, NULL, tempip, NULL, NULL, SW_SHOW );
+		#endif
+	}
+
+	else
+	{
+		QString cmd= sFtpClient+ " " + tempip;
 		RzxWinExec(cmd, 1);
 	}
 #else
@@ -252,8 +303,12 @@ void RzxUtilsLauncher::http(const QString& login)
 			QString temp=(char *)buffer;
 			cmd = temp + " " + tempip;
 		}
+		else if (cmd == "iExplore")
+		{
+			cmd = "explorer " + tempip;
+		}
 		else
-		cmd = "explorer " + tempip;
+		cmd = cmd+ " " + tempip;
 
  
 		RzxWinExec(cmd, 1);
