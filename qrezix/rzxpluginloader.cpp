@@ -309,7 +309,10 @@ void RzxPlugInLoader::makePropListView(QListView *lv, QToolButton *btn)
 	//les deux étant fournis par le plug-in
 	for(it = plugins.first() ; it ; it = plugins.next())
 	{
-		QListViewItem *lvi = new QListViewItem(lv, it->getName(), it->getDescription(), it->getInternalVersion());
+		QCheckListItem *lvi = new QCheckListItem(lv, it->getName(), QCheckListItem::CheckBox);
+		lvi->setText(1, it->getDescription());
+		lvi->setText(2, it->getInternalVersion());
+		lvi->setOn(true);
 		QPixmap *icon = it->getIcon();
 		if(icon)
 		{

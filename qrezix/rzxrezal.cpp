@@ -138,7 +138,7 @@ void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos,
 			if((serveurs>>3) & 1) newItem("http", tr("browse Web"), this, SLOT(http()));
 			if((serveurs>>4) & 1) newItem("news", tr("read News"), this, SLOT(news()));
 			popup.insertSeparator();
-			newItem("unban", tr("Remove frome ignore list"), this, SLOT(removeFromIgnoreList()));
+			newItem("unban", tr("Remove from ignore list"), this, SLOT(removeFromIgnoreList()));
 		}
 		else {
 			if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur())

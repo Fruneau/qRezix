@@ -62,7 +62,7 @@ RzxServerListener::RzxServerListener()
 
 	connect (&pingTimer, SIGNAL(timeout()), this, SLOT(serverTimeout()));
 	
-	premiereConnexion=1;
+	premiereConnexion = true;
 }
 
 
@@ -73,20 +73,26 @@ void RzxServerListener::setupConnection() {
 	slotConnect();
 }
 
-void RzxServerListener::setupReconnection(const QString& msg, bool fatal) {
+void RzxServerListener::setupReconnection(const QString& msg) {
 	emit disconnected();
 
-	int time = RzxConfig::reconnection();
+	unsigned int time = RzxConfig::reconnection();
 	QString temp;
-	if(premiereConnexion){
-		premiereConnexion=0;
-		reconnection.changeInterval(500);
-		}
-	else if (time) {
-		time += rand() * 30000 / RAND_MAX;
-		temp = msg + tr("Will try to reconnect in %1 seconds").arg(time/1000);
-		emit status(temp, fatal);
-		reconnection.changeInterval(time);
+	if(premiereConnexion)
+	{
+		premiereConnexion = false;
+		reconnection.start(500, false);
+		notify(msg);
+	}
+	else
+	{
+		//on fait un random du temps entre 2 tentatives de connexion dans [time/2;3*time/2]
+		if(!time) time = 60000;
+		time >>= 1;
+		time += rand() % (time<<1);
+		temp = msg + "... " + tr("will try to reconnect in %1 seconds").arg(time/1000);
+		reconnection.start(time, false);
+		notify(temp);
 	}
 }
 
@@ -96,15 +102,21 @@ void RzxServerListener::serverError(int error) {
 	
 	switch(error) {
 	case QSocket::ErrConnectionRefused:
-		setupReconnection(tr("Connexion refused"),true);
+		setupReconnection(tr("Connexion refused"));
 		break;
+		
 	case QSocket::ErrHostNotFound:
-		emit status(tr("Host not found. Manual search..."), true);
+//		notify(tr("Host not found. Manual search..."));
 
+		/* J'ai supprimé cette partie parce que la recherche 'manuelle' est bloquante et de toute façon d'une utilité douteuse...
+		En fait après des tests, il semble que ça ne serve à rien
+		quoi qu'en pense le BR2000
+		*/
+		
 		/* Recherche à la main du serveur. Pas gégène, mais ça marche. */
-		if( !alternateGetHostByName() )
+		/*if( !alternateGetHostByName() )*/
 		{
-			emit status(tr("Cannot find server %1").arg(RzxConfig::serverName()), true);
+			setupReconnection(tr("Cannot find server %1").arg(RzxConfig::serverName()));
 
 			QMessageBox::information( NULL, "qRezix",
 				tr("Cannot find server %1:\n\nDNS request failed").arg(RzxConfig::serverName()));
@@ -112,52 +124,53 @@ void RzxServerListener::serverError(int error) {
 		break;
 
 	case QSocket::ErrSocketRead:
-		setupReconnection(tr("Socket error"), true);
+		setupReconnection(tr("Socket error"));
 		break;
 
 	default:
-		setupReconnection(tr("Unknown QSocket error: %1").arg(error), true);
+		setupReconnection(tr("Unknown QSocket error: %1").arg(error));
 	}
 
 }
 
 void RzxServerListener::serverClose() {
-	setupReconnection(tr("Connection closed"), true);
+	setupReconnection(tr("Connection closed"));
 }
 
 /** Appelï¿½quand il n'y a pas eu de ping depuis plus de RzxConfig::pingTimeout() ms */
 void RzxServerListener::serverTimeout(){
-	setupReconnection(tr("Connection lost"), true);
+	setupReconnection(tr("Connection lost"));
 }
 
-void RzxServerListener::slotConnect(){
+void RzxServerListener::slotConnect()
+{
 	iconMode = false;
 	reconnection.stop();
 	
 	QString serverHostname = RzxConfig::serverName();
 	unsigned long serverPort = RzxConfig::serverPort();
 	if (serverHostname.isEmpty() || !serverPort) {
-		emit status(tr("Server name and port are not configured"), true);
+		notify(tr("Server name and port are not configured"));
 		return;
 	}
-			
-	emit status(tr("Looking for server %1").arg(serverHostname), false);
+	
 	socket.connectToHost(serverHostname, serverPort);	
+	notify(tr("Looking for server %1").arg(serverHostname));
 }
 
 /** no comment. */
-#ifdef WIN32
+/*#ifdef WIN32
 #include <winsock2.h>
 #else //!WIN32
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
-#endif //WIN32
+#endif //WIN32*/
 
 /** #### oui, c'est synchrone, donc bloquant. ####
     Et en plus c'est assez crade. */
-bool RzxServerListener::alternateGetHostByName( void )
+/*bool RzxServerListener::alternateGetHostByName( void )
 {
 	const char * hostname = RzxConfig::serverName().latin1();
 	struct hostent * p = gethostbyname( hostname );
@@ -167,21 +180,21 @@ bool RzxServerListener::alternateGetHostByName( void )
 		sin_addr.s_addr = *(unsigned long *) p->h_addr;
 		QString addr( inet_ntoa( sin_addr ) );
 
-		emit status(tr("Looking for server %1").arg(addr), false);
+		notify(tr("Looking for server %1").arg(addr));
 		socket.connectToHost(addr, RzxConfig::serverPort());	
 		return true;
     }
 
 	return false;
-}
+}*/
 
 void RzxServerListener::serverFound() {
-	emit status(tr("Server found, trying to connect"), false);
+	notify(tr("Server found, trying to connect"));
 }
 
 /** No descriptions */
 void RzxServerListener::serverConnected(){
-	emit status(tr("Connected"), false);
+	notify(tr("Connected"));
 	pingTimer.start(RzxConfig::pingTimeout());
 }
 
@@ -317,7 +330,7 @@ void RzxServerListener::sendIcon(const QImage& image) {
 void RzxServerListener::sendProtocolMsg(const QString& msg){	
 	const char * strMsg = msg.latin1();
 	if (socket.writeBlock(strMsg, msg.length()) != (int)msg.length())
-		emit status(tr("Socket error, cannot write"), true);
+		notify(tr("Socket error, cannot write"));
 }
 
 /** No descriptions */
@@ -330,6 +343,7 @@ void RzxServerListener::serverResetTimer(){
 bool RzxServerListener::isSocketClosed() const{
 	return (socket.state() != QSocket::Connection);// || (socket.state() == QSocket::Closing);
 }
+
 /** No descriptions */
 void RzxServerListener::close(){
 	disconnect(&socket, SIGNAL(connectionClosed()), this, SLOT(serverClose()));

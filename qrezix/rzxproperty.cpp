@@ -28,7 +28,6 @@ email                : benoit.casoetto@m4x.org
 
 #include "rzxproperty.h"
 
-#include "dnsvalidator.h"
 #include "rzxhostaddress.h"
 #include "rzxconfig.h"
 #include "rzxcomputer.h"
@@ -37,6 +36,7 @@ email                : benoit.casoetto@m4x.org
 #include "rzxrezal.h"
 #include "qrezix.h"
 #include "trayicon.h"
+#include "defaults.h"
 #include "q.xpm"
 
 RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
@@ -63,9 +63,9 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	connect( chkBeepFavorites, SIGNAL(toggled(bool)), txtBeepFavorites, SLOT(setEnabled(bool)));
 	connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
 	
-	hostname->setValidator( new DnsValidator() );
-	QRegExp mask("[^\n\r]+");
-	remarque->setValidator( new QRegExpValidator(mask, remarque, "RemarqueValidator") );
+	hostname->setValidator( new QRegExpValidator(QRegExp("[a-zA-Z0-9\-]{1,63}"), remarque, "dnsnameValidator") );
+//	QRegExp mask("[^\n\r]+");
+	remarque->setValidator( new QRegExpValidator(QRegExp("[^\n\r]+"), remarque, "RemarqueValidator") );
 #ifndef WIN32
 	btnAboutQt->hide();
 #else
@@ -502,8 +502,8 @@ bool RzxProperty::miseAJour() {
 
 bool RzxProperty::infoCompleted()
 {
-	return RzxConfig::propLastName() != "" && RzxConfig::propName() != "" && RzxConfig::numSport() && RzxConfig::propCasert() != "" 
-		&& RzxConfig::propMail() != "" && RzxConfig::propTel() != "";
+	return RzxConfig::propLastName() != "" && RzxConfig::propName() != "" && RzxConfig::propCasert() != "" 
+		&& RzxConfig::propMail() != DEFAULT_MAIL && RzxConfig::propTel() != "";
 }
 
 QString RzxProperty::infoNeeded()
@@ -513,8 +513,6 @@ QString RzxProperty::infoNeeded()
 		msg += "\t" + tr("Surname:").remove(':') + "\n";
 	if(RzxConfig::propName() == "")
 		msg += "\t" + tr("First name:").remove(':') + "\n";
-	if(!RzxConfig::numSport())
-		msg += "\t" + tr("Sport:").remove(':') + "\n";
 	if(RzxConfig::propCasert() == "")
 		msg += "\t" + tr("Room:").remove(':') + "\n";
 	if(RzxConfig::propMail() == "")

@@ -779,7 +779,7 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     </message>
     <message>
         <source>Sport:</source>
-        <translation>Sport:</translation>
+        <translation type="obsolete">Sport:</translation>
     </message>
     <message>
         <source>Room:</source>
@@ -945,39 +945,39 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>begin &amp;Chat</source>
-        <translation type="unfinished">Ouvrir une fenêtre &amp;de chat</translation>
+        <translation>Ouvrir une fenêtre &amp;de discussion</translation>
     </message>
     <message>
         <source>Samba connect</source>
-        <translation type="unfinished">Connection en Samba</translation>
+        <translation>Connexion en Samba</translation>
     </message>
     <message>
         <source>FTP connect</source>
-        <translation type="unfinished">Connection en FTP</translation>
+        <translation>Connexion en FTP</translation>
     </message>
     <message>
         <source>browse Web</source>
-        <translation type="unfinished">Voir le site Web</translation>
+        <translation>Voir le site Web</translation>
     </message>
     <message>
         <source>read News</source>
-        <translation type="unfinished">Lire les News</translation>
+        <translation>Lire les News</translation>
     </message>
     <message>
         <source>History</source>
-        <translation type="unfinished">Historique</translation>
+        <translation>Historique</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation type="unfinished">Propriétés</translation>
+        <translation>Propriétés</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
-        <translation type="unfinished">Retirer des favoris</translation>
+        <translation>Retirer des favoris</translation>
     </message>
     <message>
         <source>Add to favorites</source>
-        <translation type="unfinished">Ajouter aux favoris</translation>
+        <translation>Ajouter aux favoris</translation>
     </message>
     <message>
         <source>No history file for user %1</source>
@@ -1061,7 +1061,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <source>Hey, it&apos;s you %1... you can&apos;t have a chat with yourself.
@@ -1117,22 +1117,22 @@ Propriétés envoyées à %2 (%3)</translation>
     </message>
     <message>
         <source>Remove from ignore list</source>
-        <translation type="obsolete">Ne plus ignorer l&apos;utilisateur</translation>
+        <translation>Ne plus ignorer l&apos;utilisateur</translation>
     </message>
     <message>
         <source>Add to ignore list</source>
-        <translation type="unfinished">Ignorer l&apos;utilisateur</translation>
+        <translation>Ignorer l&apos;utilisateur</translation>
     </message>
     <message>
         <source>Remove frome ignore list</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Ne plus ignorer l&apos;utilisateur</translation>
     </message>
 </context>
 <context>
     <name>RzxServerListener</name>
     <message>
         <source>Will try to reconnect in %1 seconds</source>
-        <translation>Prochaine tentative de connection dans %1 secondes</translation>
+        <translation type="obsolete">Prochaine tentative de connection dans %1 secondes</translation>
     </message>
     <message>
         <source>Connexion refused</source>
@@ -1140,7 +1140,7 @@ Propriétés envoyées à %2 (%3)</translation>
     </message>
     <message>
         <source>Host not found. Manual search...</source>
-        <translation>Impossible de trouver l&apos;hôte. Recherche manuelle...</translation>
+        <translation type="obsolete">Impossible de trouver l&apos;hôte. Recherche manuelle...</translation>
     </message>
     <message>
         <source>Cannot find server %1</source>
@@ -1199,6 +1199,10 @@ Erreur DNS
         <source>Socket error, cannot write</source>
         <translation>Erreur de socket, écriture impossible</translation>
     </message>
+    <message>
+        <source>will try to reconnect in %1 seconds</source>
+        <translation>prochaine tentative de connection dans %1 secondes</translation>
+    </message>
 </context>
 <context>
     <name>RzxTrayWindow</name>
@@ -1256,15 +1260,19 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <name>TrayIcon</name>
     <message>
         <source>&amp;I&apos;m back !</source>
-        <translation type="unfinished">Je suis &amp;revenu !</translation>
+        <translation>Je suis &amp;revenu !</translation>
     </message>
     <message>
         <source>I&apos;m &amp;away !</source>
-        <translation type="unfinished">Je m&apos;en &amp;vais !</translation>
+        <translation>Je m&apos;en &amp;vais !</translation>
     </message>
     <message>
         <source>&amp;Quit</source>
-        <translation type="unfinished">&amp;Quit</translation>
+        <translation>&amp;Quitter</translation>
+    </message>
+    <message>
+        <source>&amp;Preference</source>
+        <translation>&amp;Préférences</translation>
     </message>
 </context>
 <context>

@@ -131,6 +131,7 @@ void TrayIcon::buildMenu()
 		pop.insertItem(pixmap, trad, receiver, slot); }
 	
 	RzxPlugInLoader::global()->menuTray(pop);
+	newItem("pref", tr("&Preference"), parent(), SLOT(boitePreferences()));
 	if(RzxConfig::globalConfig()->autoResponder())
 	{
 		newItem("here", tr("&I'm back !"), parent(), SLOT(toggleAutoResponder()));
