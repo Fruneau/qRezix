@@ -177,11 +177,6 @@ icone.res: icone.rc
 mocables: $(SRCMOC)
 uicables: $(UICIMPLS) $(UICDECLS)
 
-Makefile: qrezix.pro  E:\Qt\mkspecs\win32-msvc.net\qmake.conf 
-	$(QMAKE) -o Makefile qrezix.pro
-qmake: 
-	@$(QMAKE) -o Makefile qrezix.pro
-
 dist:
 	$(ZIP) qrezix.zip $(SOURCES) $(HEADERS) $(DIST) $(FORMS) C:/Documents and Settings/Florent Bruneau/Bureau/qrezix/qrezix/qrezix.pro  
 
