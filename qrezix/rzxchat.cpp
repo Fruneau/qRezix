@@ -299,6 +299,7 @@ bool RzxTextEdit::nickAutocompletion()
 			return false;
 		}
 	}
+	return false;
 }
 
 void RzxChat::messageReceived(){
