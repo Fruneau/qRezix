@@ -51,7 +51,7 @@ SOURCES	+= main.cpp \
 	rzxutilslauncher.cpp \
 	rzxconnectionlister.cpp \
 	md5.cpp \
-	rzxtrayicon.cpp
+	rzxtraywindow.cpp
 
 FORMS	= qrezixui.ui \
 	rzxchatui.ui \
