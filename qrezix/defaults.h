@@ -14,10 +14,10 @@
  ***************************************************************************/
 
 #ifdef WIN32			// sous linux, la version est definie dans le makefile
-#define VERSION "2.x"
+#define VERSION "3.x"
 #endif
 
-#define DEFAULT_COMMENT "qRezix v1.2 running..."
+#define DEFAULT_COMMENT "qRezix v1.3 : la nouvelle version de Rezix !! (mais si tu lis ca, je suis un boulet)"
 #define DEFAULT_SERVER "xnetserver.eleves.polytechnique.fr"
 #define DEFAULT_PORT 5053
 #define DEFAULT_CHATPORT 5050
