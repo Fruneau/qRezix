@@ -35,6 +35,7 @@
 #include "rzxcomputer.h"
 #include "rzxconfig.h"
 #include "rzxserverlistener.h"
+#include "rzxhostaddress.h"
 #include "rzxpluginloader.h"
 #include "rzxhostaddress.h"
 #include "rzxmessagebox.h"
@@ -326,7 +327,7 @@ void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 		case RzxPlugIn::DATA_NAME: value = new QVariant(RzxConfig::propLastName()); break;
 		case RzxPlugIn::DATA_FIRSTNAME: value = new QVariant(RzxConfig::propName()); break;
 		case RzxPlugIn::DATA_SURNAME: value = new QVariant(RzxConfig::propSurname()); break;
-		case RzxPlugIn::DATA_IP: value = new QVariant(RzxConfig::localHost()->getIP().toString()); break;
+		case RzxPlugIn::DATA_IP: value = new QVariant(RzxServerListener::object()->getIP().toString()); break;
 		case RzxPlugIn::DATA_WORKSPACE: value = new QVariant(RzxConfig::FTPPath()); break;
 		case RzxPlugIn::DATA_DISPFTP: value = new QVariant(RzxConfig::localHost()->getServerFlags() & RzxComputer::FLAG_FTP); break;
 		case RzxPlugIn::DATA_DISPHTTP: value = new QVariant(RzxConfig::localHost()->getServerFlags() & RzxComputer::FLAG_HTTP); break;
