@@ -155,7 +155,7 @@ void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos,
 		else
 			popup.insertItem(*RzxConfig::themedIcon("favorite"), tr("Add to favorites"),this,SLOT(addToFavorites()));
 		popup.insertSeparator();
-		popup.insertItem(tr("Cancel"), &popup, SLOT(hide()));
+		popup.insertItem(*RzxConfig::themedIcon("cancel"), tr("Cancel"), &popup, SLOT(hide()));
 		RzxPlugInLoader::global()->menuItem(popup);
 		popup.popup(pos);
 	}
@@ -637,7 +637,7 @@ void RzxRezal::login(const QString& ordi){
 	RzxChat * chatWithLogin=chats.find(newComputer -> getIP().toString());
 	// informe de la reconnexion si c'est pas juste un refresh
 	if( !object && chatWithLogin )
-	chatWithLogin->info(tr("RECONNECTED"));
+	chatWithLogin->info(tr("reconnected"));
 
 	connect(newComputer, SIGNAL(isUpdated()), item, SLOT(update()));
 	connect(this, SIGNAL(favoriteChanged()), item, SLOT(update()));
@@ -663,7 +663,7 @@ void RzxRezal::logout(const RzxHostAddress& ip){
         
 RzxChat * chatWithLogin=chats.find(ip.toString());
 	if(chatWithLogin)
-		chatWithLogin->info(tr("DISCONNECTED"));
+		chatWithLogin->info(tr("disconnected"));
 }
 
 ///Retourne la liste des IP des gens connectés

@@ -52,6 +52,7 @@ public slots: // Public slots
 	void initDlg();
 	void aboutQt();
 	static void serverUpdate();
+	void changeTheme();
 
 
 protected: // Protected methods

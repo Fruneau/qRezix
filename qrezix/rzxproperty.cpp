@@ -58,9 +58,21 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	btnAboutQt->hide();
 #endif
 	initDlg();
+	changeTheme();
 }
 
 RzxProperty::~RzxProperty() {}
+
+void RzxProperty::changeTheme()
+{
+	QIconSet apply, ok, cancel;
+	apply.setPixmap(*RzxConfig::themedIcon("apply"), QIconSet::Automatic);
+	ok.setPixmap(*RzxConfig::themedIcon("ok"), QIconSet::Automatic);
+	cancel.setPixmap(*RzxConfig::themedIcon("cancel"), QIconSet::Automatic);
+	btnAnnuler->setIconSet(cancel);
+	btnOK->setIconSet(ok);
+	btnMiseAJour->setIconSet(apply);
+}
 
 void RzxProperty::initLangCombo(){
 	RzxConfig * config = RzxConfig::globalConfig();
@@ -389,6 +401,7 @@ void RzxProperty::miseAJour() {
 	{
 		RzxConfig::setIconTheme( QObject::parent(), cmbIconTheme -> currentText() );
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_THEME, NULL);
+		changeTheme();
 	}
 		
 }
