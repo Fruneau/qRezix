@@ -32,7 +32,6 @@
 #include "rzxconnectionlister.h"
 #include "rzxclientlistener.h"
 
-
 #define USER_HASH_TABLE_LENGTH 1663
 
 
@@ -538,6 +537,8 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 			creePopUpMenu(currentItem(), qp,0);
 			return;
 		}
+		search_patern = QString();
+		emit set_search(tr("%1").arg(search_patern));
 		QListView::keyPressEvent(e); //on laisse Qt gérer
 		return;
 	}
@@ -549,7 +550,10 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 		if(search_patern.length())
 			search_patern=search_patern.left(search_patern.length()-1);
 		else
+		{
+			emit set_search(tr("%1").arg(search_patern));
 			return;
+		}
 	else
 		search_patern += c.lower();
 	search_timeout.start();
@@ -558,7 +562,6 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 
 	RzxItem **item;
 	QString lower, higher;
-	
 	if(!search_items.find_nearest(search_patern,lower,higher))
 	{
 		bool lmatch, hmatch;
@@ -584,6 +587,7 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 		if(hmatch && (!lmatch))
 			lower = higher;
 	}
+	emit set_search(tr("%1").arg(search_patern));
 
 	search_items.find(lower,item);
 

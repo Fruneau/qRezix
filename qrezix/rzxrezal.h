@@ -128,6 +128,7 @@ public slots: // Public slots
 
 signals: // Signals
 	void status(const QString& msg, bool fatal);
+	void set_search(const QString& msg);
 	void favoriteRemoved(RzxComputer*);
 	void favoriteAdded(RzxComputer*);
 	void newFavorite(RzxComputer*);
