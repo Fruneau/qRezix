@@ -111,7 +111,6 @@ void RzxChat::init()
 }
 
 RzxChat::~RzxChat(){
-	emit closed(peer);
 	QString temp = textHistorique;
 
 	QString filename = RzxConfig::historique(peer.toRezix(), hostname);
@@ -590,6 +589,7 @@ void RzxChat::closeEvent(QCloseEvent * e)
 	hist = prop = NULL;
 	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_CHAT, NULL);
 	e -> accept();
+	emit closed(peer);
 }
 
 bool RzxChat::event(QEvent *e)

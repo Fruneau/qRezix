@@ -298,11 +298,9 @@ void RzxConnectionLister::closeChat( const QString& login )
 /** No descriptions */
 void RzxConnectionLister::chatDelete( const RzxHostAddress& peerAddress )
 {
-	// Auto-Delete = true, le chat est supprimé automatiquement. Qt rules !!!
-	chats.remove( peerAddress.toString() );
-	RzxComputer *computer = iplist.find( peerAddress.toString());
-	if(computer)
-		chatsByLogin.remove( computer->getName());
+	RzxChat *chat = chats.take( peerAddress.toString() );
+	chatsByLogin.remove(chat->getHostName());
+	delete chat;
 }
 
 ///Fermeture des chats en cours
