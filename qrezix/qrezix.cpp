@@ -379,6 +379,8 @@ void QRezix::menuFormatChange()
 				btnAutoResponder->setIconSet(empty);
 				btnMAJcolonnes->setIconSet(empty);
 				btnPreferences->setIconSet(empty);
+				tbRezalContainer->setItemIconSet(0,empty);
+				tbRezalContainer->setItemIconSet(1,empty);
 			}
 			break;
 		
