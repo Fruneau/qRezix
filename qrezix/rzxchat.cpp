@@ -315,6 +315,7 @@ void RzxChat::activateFormat(bool on) {
 	btnItalic->setEnabled(on);
 	if(!on) {
 #ifdef WIN32
+//parce que Terminal n'existe pas sous Win !
 		edMsg -> setFamily("Arial");
 		edMsg -> setPointSize(11);
 		edMsg -> setBold(false);
@@ -325,7 +326,7 @@ void RzxChat::activateFormat(bool on) {
 	else
 		edMsg -> setTextFormat(Qt::RichText);
 }
-#endif
+#else
 		edMsg -> setFamily("Terminal");
 		edMsg -> setPointSize(11);
 		edMsg -> setBold(false);
@@ -336,6 +337,8 @@ void RzxChat::activateFormat(bool on) {
 	else
 		edMsg -> setTextFormat(Qt::RichText);
 }
+#endif
+
 /** No descriptions */
 void RzxChat::btnSendClicked(){
 	QString msg = edMsg -> text();
