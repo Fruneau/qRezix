@@ -89,7 +89,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	{
 		m_properties->initDlg();
 		m_properties -> exec();
-		if(!m_properties->infoCompleted()) { exit(0); return; }
+		if(!m_properties->infoCompleted()) { QApplication::exit(0); return; }
 	}
 
 	//RzxConfig::loadTranslators();
