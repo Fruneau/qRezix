@@ -501,11 +501,11 @@ Erreur DNS
     <name>TrayIcon</name>
     <message>
         <source>&amp;I&apos;m back !</source>
-        <translation>Je suis &amp;revenu !</translation>
+        <translation type="obsolete">Je suis &amp;revenu !</translation>
     </message>
     <message>
         <source>I&apos;m &amp;away !</source>
-        <translation>Je m&apos;en &amp;vais !</translation>
+        <translation type="obsolete">Je m&apos;en &amp;vais !</translation>
     </message>
 </context>
 <context>
@@ -861,6 +861,10 @@ Erreur DNS
     <message>
         <source>UI Language :</source>
         <translation>Langue:</translation>
+    </message>
+    <message>
+        <source>Warn me when properties are being checked</source>
+        <translation>Prévenir quand les propriétés sont envoyées</translation>
     </message>
 </context>
 </TS>

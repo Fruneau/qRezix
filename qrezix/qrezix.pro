@@ -29,6 +29,7 @@ SOURCES		= main.cpp \
 INTERFACES	= qrezixui.ui \
 		  rzxchatui.ui \
 		  rzxpropertyui.ui
+TRANSLATIONS	= translations/qrezix.ts translations/qrezix_fr.ts
 LIBS		+=IMM32.LIB
 DEFINES         +=QT_DLL
 RC_FILE          =icone.rc

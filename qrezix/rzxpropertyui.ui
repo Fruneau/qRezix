@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>560</width>
-            <height>513</height>
+            <height>515</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -1294,7 +1294,7 @@
                         <property name="title">
                             <string>Misc.</string>
                         </property>
-                        <vbox>
+                        <grid>
                             <property name="name">
                                 <cstring>unnamed</cstring>
                             </property>
@@ -1304,23 +1304,7 @@
                             <property name="spacing">
                                 <number>6</number>
                             </property>
-                            <widget class="QCheckBox">
-                                <property name="name">
-                                    <cstring>cbSystray</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Use Systray icon</string>
-                                </property>
-                            </widget>
-                            <widget class="QLabel">
-                                <property name="name">
-                                    <cstring>lblWorkDir_2</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Command to play a sound :</string>
-                                </property>
-                            </widget>
-                            <widget class="QLineEdit">
+                            <widget class="QLineEdit" row="2" column="0" rowspan="1" colspan="2">
                                 <property name="name">
                                     <cstring>txtBeepCmd</cstring>
                                 </property>
@@ -1328,7 +1312,7 @@
                                     <string>play</string>
                                 </property>
                             </widget>
-                            <widget class="QLabel">
+                            <widget class="QLabel" row="3" column="0" rowspan="1" colspan="2">
                                 <property name="name">
                                     <cstring>langLabel</cstring>
                                 </property>
@@ -1336,12 +1320,36 @@
                                     <string>UI Language :</string>
                                 </property>
                             </widget>
-                            <widget class="QComboBox">
+                            <widget class="QComboBox" row="4" column="0" rowspan="1" colspan="2">
                                 <property name="name">
                                     <cstring>languageBox</cstring>
                                 </property>
                             </widget>
-                        </vbox>
+                            <widget class="QCheckBox" row="0" column="0">
+                                <property name="name">
+                                    <cstring>cbSystray</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Use Systray icon</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="0" column="1">
+                                <property name="name">
+                                    <cstring>cbPropertiesWarning</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Warn me when properties are being checked</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>lblWorkDir_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Command to play a sound :</string>
+                                </property>
+                            </widget>
+                        </grid>
                     </widget>
                 </grid>
             </widget>
