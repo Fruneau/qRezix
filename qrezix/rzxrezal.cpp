@@ -219,7 +219,6 @@ void RzxRezal::afficheColonnes(){
 			}
 		}
 	}
-	setUpdatesEnabled ( TRUE);
 	adapteColonnes();
 }
 
@@ -280,7 +279,7 @@ void RzxRezal::init()
 /** Tri les items */
 void RzxRezal::forceSort()
 {
-	afficheColonnes();
+	//afficheColonnes();
 	sort();
 }
 
