@@ -38,6 +38,9 @@
 #include "q.xpm"
 
 
+RzxServerListener * RzxRezal::server = NULL;
+RzxClientListener * RzxRezal::client = NULL;
+QDict<RzxChat> RzxRezal::chats = QDict<RzxChat>();
 
 const char * RzxRezal::colNames[RzxRezal::numColonnes] =
 		{ QT_TR_NOOP("Icon"), QT_TR_NOOP("Computer name"), QT_TR_NOOP("Comment"),
@@ -47,7 +50,8 @@ const char * RzxRezal::colNames[RzxRezal::numColonnes] =
 			QT_TR_NOOP("Gateway"), QT_TR_NOOP("Promo") };
 
 
-RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name), iplist(USER_HASH_TABLE_LENGTH){
+RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name), iplist(USER_HASH_TABLE_LENGTH)
+{
 	selected = NULL;
 	iplist.setAutoDelete(true);
 
@@ -278,7 +282,8 @@ void RzxRezal::recvIcon(QImage* icon, const RzxHostAddress& ip){
 }
 
 /** No descriptions */
-void RzxRezal::login(const QString& ordi){
+void RzxRezal::login(const QString& ordi)
+{
 	RzxComputer * newComputer = new RzxComputer;
 	connect(newComputer, SIGNAL(needIcon(const RzxHostAddress&)), this, SIGNAL(needIcon(const RzxHostAddress&)));
 	if (newComputer -> parse(ordi)) {
@@ -292,7 +297,8 @@ void RzxRezal::login(const QString& ordi){
 	RzxItem * item;
 	bool alreadyHere = object != NULL;
 	// non ==> nouvel item
-	if (!alreadyHere) {
+	if (!alreadyHere) 
+	{
 		item = new RzxItem(newComputer, this, dispNotFavorites);
 	}
 	else {

@@ -945,7 +945,7 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     </message>
     <message>
         <source>Computer comment:</source>
-        <translation>Commentaire:</translation>
+        <translation type="obsolete">Commentaire:</translation>
     </message>
     <message>
         <source>Browse...</source>
@@ -1389,6 +1389,10 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     </message>
     <message>
         <source>Plug-in pr&amp;operties ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comment:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
