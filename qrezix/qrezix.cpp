@@ -100,6 +100,9 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	
 	clearWFlags(WStyle_SysMenu|WStyle_Minimize);
 	alreadyOpened=false;
+
+	connect(rezal, SIGNAL(set_search(const QString&)), leSearch, SLOT(setText(const QString &)));
+	connect(rezalFavorites, SIGNAL(set_search(const QString&)), leSearch, SLOT(setText(const QString &)));
 	
 	RzxConnectionLister *lister = RzxConnectionLister::global();
 	connect(lister, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
