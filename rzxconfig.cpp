@@ -472,6 +472,9 @@ QString RzxConfig::autoResponderMsg(){ return globalConfig() -> readEntry("txtAu
  * 1 pour 64x64 */
 int RzxConfig::computerIconSize(){ return globalConfig() -> readEntry("iconsize", 1); }
 
+///Indique s'il faut highlighté le computer sélectionné
+bool RzxConfig::computerIconHighlight() { return globalConfig() -> readEntry("iconhighlight", true); }
+
 void RzxConfig::setIconTheme(QObject * parent, const QString& name) {
 	globalConfig() -> writeEntry("theme", name);
 	globalConfig() -> progIcons.clear();
