@@ -374,7 +374,7 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress&, const QString& msg
 	if(withFrame)
 	{
 		// creation de la boite de dialogue (non modale, elle se detruit automatiquement grace a WDestructiveClose)
-		propertiesDialog = new QDialog(parent?parent:QRezix::global(), "ClientProp", false, WDestructiveClose | WStyle_Customize | WStyle_Tool | WStyle_Title);
+		propertiesDialog = new QDialog(parent?parent:QRezix::global(), "ClientProp", false, WDestructiveClose | WStyle_Customize | WStyle_Tool | WStyle_Title | WStyle_SysMenu);
 		propertiesDialog->resize(300, 300);
 
 		QPixmap iconeProg((const char **)q);
@@ -424,6 +424,8 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress&, const QString& msg
 			propCount++;
 		}
 	}
+
+	propertiesDialog->raise();
 	if(withFrame)
 		propertiesDialog->show();
  
@@ -459,7 +461,7 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool
 	QWidget *histoDialog;
 	if(withFrame)
 	{
-		histoDialog = new QDialog(parent?parent:QRezix::global(), "Histo", false, WDestructiveClose | WStyle_Customize | Qt::WStyle_Tool | WStyle_Title);
+		histoDialog = new QDialog(parent?parent:QRezix::global(), "Histo", false, WDestructiveClose | WStyle_Customize | Qt::WStyle_Tool | WStyle_Title | WStyle_SysMenu);
 		QPixmap iconeProg((const char **)q);
 		iconeProg.setMask(iconeProg.createHeuristicMask() );  
 		histoDialog->setIcon(iconeProg);
@@ -494,6 +496,7 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool
 	histoDialog->resize(300, 300);
 	histoView -> setText(text);
 	
+	histoDialog->raise();
 	if(withFrame)
 		histoDialog->show();
 	return histoDialog;

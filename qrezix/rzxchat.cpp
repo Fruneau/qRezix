@@ -132,7 +132,7 @@ RzxChat::~RzxChat(){
 * RzxPopup
 ****************************************************/
 RzxPopup::RzxPopup(QWidget *parent, const char *name)
-	:QFrame(parent, name, WDestructiveClose | WStyle_Customize | WType_TopLevel | WStyle_SysMenu)
+	:QFrame(parent, name, WDestructiveClose | WStyle_Customize | WType_TopLevel)
 { }
 
 RzxPopup::~RzxPopup()
@@ -601,8 +601,10 @@ bool RzxChat::event(QEvent *e)
 	}*/
 	if(e->type() == QEvent::WindowActivate)
 	{
+#ifndef WIN32
 		if(hist) hist->raise();
 		if(prop) prop->raise();
+#endif
 		RzxPlugInLoader::global()->chatChanged(edMsg);
 	}
 #ifdef WIN32
