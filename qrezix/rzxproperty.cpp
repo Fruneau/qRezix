@@ -58,6 +58,7 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	hostname->setValidator( new DnsValidator() );
 #ifndef WIN32
 	btnAboutQt->hide();
+#else
 	lblWorkDir_2->hide();
 	txtBeepCmd->hide();
 #endif
