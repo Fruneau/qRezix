@@ -2,13 +2,12 @@ Source: qrezix
 Section: net
 Priority: optional
 Build-Depends: libqt3c102-mt,kdelibs4-dev,qt3-dev-tools
-Maintainer: Pico <pico@melix.net>
+Maintainer: br <br@frankiz.polytechnique.fr>
 Standards-Version: 3.2.1
 
 Package: qrezix
 Architecture: any
 Depends: ${shlibs:Depends},qrezix-theme,qrezix-translations
-Recommends: net-tools
 Description: QRezix Paquet CVS
  
 Package: qrezix-theme-noia-warm
@@ -35,6 +34,8 @@ Package: qrezix-translations-fr
 Architecture: all
 Provides: qrezix-translations
 Description: Fichiers de traduction Français pour QRezix
+Replaces: qrezix-translations
+Conflicts: qrezix-translations
 
 Package: qrezix-translations-us
 Architecture: all
