@@ -202,7 +202,7 @@ void RzxRezal::samba()
 void RzxRezal::afficheColonnes(){
 	int colonnesAffichees=RzxConfig::colonnes();
 	int i;
-
+	setUpdatesEnabled ( FALSE);
 	for(i =0; i<columns(); i++){
 		setColumnWidthMode(i,Manual);
 		setColumnWidth(i,0);
@@ -219,10 +219,12 @@ void RzxRezal::afficheColonnes(){
 			}
 		}
 	}
+	setUpdatesEnabled ( TRUE);
 	adapteColonnes();
 }
 
 void RzxRezal::adapteColonnes(){
+	setUpdatesEnabled ( FALSE);
 	int colonnesAffichees=RzxConfig::colonnes();
 	int somme=0;
 	int i;
@@ -235,10 +237,11 @@ void RzxRezal::adapteColonnes(){
   
 	if(((colonnesAffichees >> colrem) & 1)) {
 		if(width()>(somme+110))
-			setColumnWidth(colrem, width()-somme-10);
+			setColumnWidth(colrem, width()-somme-11);
 		else
 			setColumnWidth(colrem,100);
 	}
+	setUpdatesEnabled (TRUE);
 	triggerUpdate(); 
 }
 
