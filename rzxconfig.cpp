@@ -132,14 +132,12 @@ RzxConfig::RzxConfig()
 	
 #ifdef WIN32
 	QString dir = settings->readEntry("/qRezix/InstDir");
-	if(!dir)
-		m_libDir = m_systemDir = m_userDir = QDir::currentDirPath();	
-	else
-	{
+	m_userDir = QDir::currentDirPath();
+	if(dir)
 		m_systemDir.setPath(dir);
-		m_userDir.setPath(dir);
-		m_libDir.setPath(dir);
-	}
+	else
+		m_systemDir = m_userDir;
+	m_libDir = m_systemDir;
 #else
 #ifdef Q_OS_MACX
 	m_systemDir.setPath(QREZIX_DATA_DIR);
