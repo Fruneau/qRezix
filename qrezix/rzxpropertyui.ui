@@ -1200,7 +1200,7 @@
                                             <cstring>cbSearch</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>Show Search Tab</string>
+                                            <string>Show Search Tools</string>
                                         </property>
                                     </widget>
                                 </grid>
