@@ -1,4 +1,5 @@
-[v1.3.666] 2004-08-22 <br2002@frankiz.polytechnique.fr>
+[v1.3.666] 2004-08-24 <br2002@frankiz.polytechnique.fr>
+    * La trayicon change lorsque l'on passe en away [Pico]
     * Affichage des propriétés et de l'historique dépendamment de la fenêtre de chat [Fruneau]
     * Ajout d'un message d'un ping-pong pour le DCC en tapant "/ping" [Fruneau]
     * Ajout d'une classe propre pour la gestion de la connexion DCC [Fruneau]
