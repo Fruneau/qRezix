@@ -96,15 +96,15 @@
     <name>RzxChangePassUI</name>
     <message>
         <source>Change your pass</source>
-        <translation>Change ton pass</translation>
+        <translation>Changez votre mot de passe</translation>
     </message>
     <message>
         <source>Old pass:</source>
-        <translation>Ancien pass :</translation>
+        <translation>Ancien mdp :</translation>
     </message>
     <message>
         <source>New pass:</source>
-        <translation>Nouveau pass :</translation>
+        <translation>Nouveau mdp :</translation>
     </message>
     <message>
         <source>Reenter you new pass:</source>
@@ -421,7 +421,8 @@ Vérifiez que votre correspondant a bien ouvert le port de chat dans son firewal
 in which its configuration is saved
 </source>
         <translation>Septembre ne peut pas créer le répertoire %1,
-dans lequel il enregistre sa configuration</translation>
+dans lequel il enregistre sa configuration
+</translation>
     </message>
     <message>
         <source>You will not be able to save your configuration</source>
@@ -707,7 +708,7 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     <message>
         <source>In order to use qRezix, you have to complete all the following informations :
 </source>
-        <translation>Pour pouvoir utiliser qRezix, vous devez avoir complèté les champs suivants :
+        <translation>Pour pouvoir utiliser qRezix, vous devez avoir renseignés les champs suivants :
 </translation>
     </message>
 </context>
@@ -781,7 +782,7 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>Are you sure you want to &lt;b&gt;Quit qRezix &lt;/b&gt;?</source>
-        <translation>Es-tu sûr de vouloir &lt;b&gt;Quitter qRezix &lt;/b&gt;?</translation>
+        <translation>Etes-vous sûr de vouloir &lt;b&gt;Quitter qRezix &lt;/b&gt;?</translation>
     </message>
     <message>
         <source>&amp;Always do like that</source>
