@@ -9,6 +9,14 @@
         <source>&amp;Away</source>
         <translation type="obsolete">&amp;Loin</translation>
     </message>
+    <message>
+        <source>&amp;I&apos;m back !</source>
+        <translation>Je suis &amp;revenu !</translation>
+    </message>
+    <message>
+        <source>I&apos;m &amp;away !</source>
+        <translation>Je m&apos;en &amp;vais !</translation>
+    </message>
 </context>
 <context>
     <name>QRezix</name>
@@ -69,6 +77,14 @@
     <message>
         <source>Send as &amp;HTML</source>
         <translation>Envoyer en &amp;HTML</translation>
+    </message>
+    <message>
+        <source>Alt+S</source>
+        <translation>Alt+E</translation>
+    </message>
+    <message>
+        <source>Alt+H</source>
+        <translation>Alt+H</translation>
     </message>
 </context>
 <context>
@@ -249,6 +265,18 @@ dans lequel il enregistre sa configuration</translation>
         <source>Selected file is not valid</source>
         <translation>Le fichier choisi est invalide</translation>
     </message>
+    <message>
+        <source>lftp</source>
+        <translation>lftp</translation>
+    </message>
+    <message>
+        <source>English</source>
+        <translation>Français</translation>
+    </message>
+    <message>
+        <source>Sound file selection</source>
+        <translation>Sélection du fichier de son</translation>
+    </message>
 </context>
 <context>
     <name>RzxRezal</name>
@@ -274,7 +302,7 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>Hotline</source>
-        <translation>HotLine</translation>
+        <translation type="obsolete">HotLine</translation>
     </message>
     <message>
         <source>Web</source>
@@ -467,6 +495,17 @@ Erreur DNS
     <message>
         <source>Socket error, cannot write</source>
         <translation>Erreur de socket, écriture impossible</translation>
+    </message>
+</context>
+<context>
+    <name>TrayIcon</name>
+    <message>
+        <source>&amp;I&apos;m back !</source>
+        <translation>Je suis &amp;revenu !</translation>
+    </message>
+    <message>
+        <source>I&apos;m &amp;away !</source>
+        <translation>Je m&apos;en &amp;vais !</translation>
     </message>
 </context>
 <context>
@@ -685,7 +724,7 @@ Erreur DNS
     </message>
     <message>
         <source>Hotline</source>
-        <translation>HotLine</translation>
+        <translation type="obsolete">HotLine</translation>
     </message>
     <message>
         <source>FTP</source>
@@ -801,7 +840,7 @@ Erreur DNS
     </message>
     <message>
         <source>Automatic columns resize (buggy)</source>
-        <translation>Redimension automatique des colonnes (buggé)</translation>
+        <translation type="obsolete">Redimension automatique des colonnes (buggé)</translation>
     </message>
     <message>
         <source>Use Systray icon</source>

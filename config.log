@@ -876,9 +876,9 @@ configure:18465: checking for crt_externs.h
 configure:18472: result: no
 configure:18485: checking for _NSGetEnviron
 configure:18542: gcc -o conftest -ansi -W -Wall -pedantic -Wshadow -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -O2     conftest.c  >&5
-/home/steak/tmp/ccWQGWQy.o(.text+0xe): In function `main':
+/home/steak/tmp/ccwnnZxx.o(.text+0xe): In function `main':
 : undefined reference to `_NSGetEnviron'
-/home/steak/tmp/ccWQGWQy.o(.data+0x0): undefined reference to `_NSGetEnviron'
+/home/steak/tmp/ccwnnZxx.o(.data+0x0): undefined reference to `_NSGetEnviron'
 collect2: ld returned 1 exit status
 configure:18548: $? = 1
 configure: failed program was:
