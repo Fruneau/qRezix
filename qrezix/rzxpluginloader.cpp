@@ -410,12 +410,30 @@ void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
 			break;
 
 		case RzxPlugIn::ACTION_CLOSE_CHAT:
+			QRezix::global()->rezal->closeChat(param);
+			break;
+			
 		case RzxPlugIn::ACTION_FTP:
+			QRezix::global()->rezal->ftp(param);
+			break;
+			
 		case RzxPlugIn::ACTION_HTTP:
+			QRezix::global()->rezal->http(param);
+			break;
+			
 		case RzxPlugIn::ACTION_NEWS:
+			QRezix::global()->rezal->news(param);
+			break;
+			
 		case RzxPlugIn::ACTION_SMB:
+			QRezix::global()->rezal->samba(param);
+			break;
+			
 		case RzxPlugIn::ACTION_MINIMIZE:
+			break;
+		
 		case RzxPlugIn::ACTION_QUIT:
+			QRezix::global()->closeByTray();
 			break;
 	}
 }
