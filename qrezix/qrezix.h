@@ -55,9 +55,11 @@ protected:
 public slots: // Public slots
 	void status(const QString& msg, bool fatal);
 	void toggleAutoResponder();
+	void toggleButtonResponder();
 	void activateAutoResponder( bool state );
 	void chatSent();
 	void languageChanged();
+	
 protected slots: // Protected slots
 	void delayedInit();
 	/*affiche la boite de dialogue permettant de modifier les preferences*/
@@ -65,6 +67,8 @@ protected slots: // Protected slots
 	void socketClosed();
 	void activateFavorites();
 	void toggleVisible();
+    void languageChange();
+
 };
 
 #endif

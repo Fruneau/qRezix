@@ -1,11 +1,12 @@
 !define MUI_PRODUCT "qRezix"
-!define MUI_VERSION "v2.x"
+!define MUI_VERSION "v3.x"
 !define MUI_NAME "${MUI_PRODUCT} ${MUI_VERSION}"
 
 !include "MUI.nsh"
 
-; Pour pouvoir copier qt-mt230nc.dll dans l'installeur
+; Pour pouvoir copier qt-mt331.dll dans l'installeur
 !define QTDIR "C:\Qt"
+!define SOURCESYSDIR "C:\windows\system32"
 
 
 ;--------------------------------
@@ -14,7 +15,7 @@
   ;General
   OutFile "Installer_qRezix.exe"
 
-  ; A laisser, pour réutiliser la conf & cie de l'ancienne version.
+  ; A laisser, pour réutiliser la conf & cie de l'ancienne version. (celle d'avant l'ancienne version en fait)
   InstallDir "$PROGRAMFILES\ReziX"
   
   ShowInstDetails show
@@ -39,7 +40,7 @@
   !define MUI_UNCONFIRMPAGE
   
   ;Modern UI System
-  !insertmacro MUI_SYSTEM
+;  !insertmacro MUI_SYSTEM ;parce que ne veut pas se compiler
 
 
 ;--------------------------------
@@ -63,7 +64,7 @@ FunctionEnd
   SetOutPath "$INSTDIR\themes"
   CreateDirectory "${THEME}"
   SetOutPath "$INSTDIR\themes\${THEME}"
-  File "..\themes\${THEME}\*"
+  File "..\icons\themes\${THEME}\*.png"
 !macroend
 
 
@@ -98,30 +99,42 @@ SectionEnd
 
 Section "!Base" SecBase
   SectionIn 1 RO   ; Section toujours sélectionnée
-  
+
   SetOutPath "$SYSDIR"
-  IfFileExists "qt-mt230nc.dll" dll_ok
-  File "${QTDIR}\bin\qt-mt230nc.dll"
+  ifFileExists "msvcr71.dll" msvcr_ok
+  File "${SOURCESYSDIR}\msvcr71.dll"
+  ifErrors "" +3
+    Push "Impossible d'installer $SYSDIR\msvcr71.dll.$\Relancez l'installation en tant qu'Administrateur."
+    Call ShowAbort
+
+msvcr_ok:
+  IfFileExists "qt-mt331.dll" dll_ok
+  File "${QTDIR}\bin\qt-mt331.dll"
   IfErrors "" +3
-    Push "Impossible d'installer $SYSDIR\qt-mt230nc.dll.$\nRelancez l'installation en tant qu'Administrateur."
+    Push "Impossible d'installer $SYSDIR\qt-mt331.dll.$\nRelancez l'installation en tant qu'Administrateur."
     Call ShowAbort
 
 dll_ok:  
 
   SetOutPath "$INSTDIR"
-  File "..\qRezix\Release\qRezix.exe"
+  File "..\qRezix\qRezix.exe"
   IfErrors "" +3
     Push "Impossible de remplacer $INSTDIR\qRezix.exe.$\nQuittez ${MUI_PRODUCT} avant de lancer la désinstallation."  
     Call ShowAbort
     
   File /oname=ReadMe.txt "..\README"
   
-  File /oname=qrezix.qm "..\qRezix\translations\qrezix.qm"
-  File /oname=qrezix_fr.qm "..\qRezix\translations\qrezix_fr.qm"
+;  File /oname=qrezix.qm "..\qRezix\translations\qrezix.qm"
+;  File /oname=qrezix_fr.qm "..\qRezix\translations\qrezix_fr.qm"
 
   CreateDirectory "themes"
   CreateDirectory "icones"
   CreateDirectory "log"
+  CreateDirectory "translations"
+
+  SetOutPath "$INSTDIR\translations"
+  File "..\qrezix\translations\*.qm"
+  SetOutPath "$INSTDIR"
   
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -155,7 +168,7 @@ Section "Thème d'icônes 'classic'" SecThemeClassic
 SectionEnd
 
 !insertmacro SECTION_THEME "krystal"
-!insertmacro SECTION_THEME "Noia_Warm_KDE"
+!insertmacro SECTION_THEME "NoiaWarmKDE"
 !insertmacro SECTION_THEME "mS"
 
 
@@ -167,13 +180,13 @@ SectionEnd
 
 ;Display the Finish header
 ;Insert this macro after the sections if you are not using a finish page
-!insertmacro MUI_SECTIONS_FINISHHEADER
+;!insertmacro MUI_SECTIONS_FINISHHEADER
 
 
 ;--------------------------------
 ;Descriptions
 
-!insertmacro MUI_FUNCTIONS_DESCRIPTION_BEGIN
+!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SecBase} $(DESC_SecBase)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecStartMenu} $(DESC_SecStartMenu)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecLaunchStartup} $(DESC_SecLaunchStartup)
@@ -182,7 +195,7 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeKrystal} "Un thème d'icônes sympa"
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeNoia_Warm_KDE} "Un autre thème d'icônes sympa"
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThememS} "L'invasion des pingouins !"
-!insertmacro MUI_FUNCTIONS_DESCRIPTION_END
+!insertmacro MUI_FUNCTION_DESCRIPTION_END
  
 
 ;--------------------------------
@@ -199,9 +212,7 @@ Section "Uninstall"
 
   Delete "$INSTDIR\Uninstall.exe"  
   Delete "$INSTDIR\ReadMe.txt"
-  Delete "$INSTDIR\qrezix.qm"
-  Delete "$INSTDIR\qrezix_fr.qm"
-
+  Delete "$INSTDIR\translations\*.qm"
 
   RMDir "$INSTDIR"
 
@@ -209,7 +220,7 @@ Section "Uninstall"
   Delete "$SMSTARTUP\${MUI_PRODUCT}.lnk"
   Delete "$DESKTOP\${MUI_PRODUCT}.lnk"
 
-  MessageBox MB_YESNO "Supprimer tout le contenu du répertoire $INSTDIR ?$\nCeci effacera la configuration, les favoris, les historiques, ..." IDNO normal_clean
+  MessageBox MB_YESNO "Supprimer tout le contenu du répertoire $INSTDIR ?$\nCeci effacera vos préférences, vos historiques de communication et vos favoris... Il est fortement recommander de CONSERVER CE REPERTOIRE pour pouvoir se reconnecter au xNet ultérieurement" IDNO normal_clean
   
   Delete "$INSTDIR\*.*"
   RMDir /r "$INSTDIR"
@@ -217,6 +228,6 @@ Section "Uninstall"
 normal_clean:  
   
   ;Display the Finish header
-  !insertmacro MUI_UNFINISHHEADER
+ ; !insertmacro MUI_UNFINISHHEADER
 
 SectionEnd

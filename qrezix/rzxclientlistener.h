@@ -86,6 +86,7 @@ signals: // Signals
 	void propAnswer(const RzxHostAddress& host, const QString& msg);
 	void chat(const RzxHostAddress& peer, const QString& msg);
 	void chatSent();
+	void propertiesSent(const RzxHostAddress& host);
 };
 
 #endif

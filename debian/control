@@ -7,18 +7,9 @@ Standards-Version: 3.2.1
 
 Package: qrezix
 Architecture: any
-Depends: ${shlibs:Depends},qrezix-theme
-Description: QRezix (Qt seul)
- Paquet compile pour Qt seul
+Depends: ${shlibs:Depends},qrezix-theme,qrezix-translations
+Description: QRezix Paquet CVS
  
-Package: qrezix-kde
-Architecture: any
-Depends: ${shlibs:Depends},qrezix-theme
-Provides: qrezix
-Conflicts: qrezix
-Description: QRezix (avec support KDE)
- Paquet compile pour KDE
-
 Package: qrezix-theme-noia-warm
 Architecture: all
 Provides: qrezix-theme
@@ -39,7 +30,13 @@ Architecture: all
 Provides: qrezix-theme
 Description: Thèmes d'icone pour QRezix par Lathuile: Open M$$!
 
-Package: qrezix-translations
+Package: qrezix-translations-fr
 Architecture: all
-Description: Fichiers de traduction pour QRézix
+Provides: qrezix-translations
+Description: Fichiers de traduction Français pour QRezix
+
+Package: qrezix-translations-us
+Architecture: all
+Provides: qrezix-translations
+Description: Fichiers de traduction Anglais pour QRezix
 

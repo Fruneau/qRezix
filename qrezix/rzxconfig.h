@@ -44,7 +44,19 @@ class RzxProperty;
 class RzxConfig : public QObject  {
 	Q_OBJECT
 	friend class RzxProperty;
+	friend class RzxProtocole;
 
+	class FontProperty {
+	public:
+		bool bold;
+		bool italic;
+		QValueList<int> sizes;
+		
+		FontProperty(bool b, bool i, QValueList<int> pS);
+		
+		~FontProperty();
+	};
+	
 	static RzxConfig * Config;
 	RzxConfig();
 	QDict<QPixmap> allIcons;
@@ -53,6 +65,9 @@ class RzxConfig : public QObject  {
 	QDir m_systemDir;
 	QDir m_userDir;
 	QDir m_themeDir;
+	QStringList fontFamilies;
+	QDict<FontProperty> * fontProperties;
+
 	
 public:
 	static QDict<QTranslator> translations;
@@ -64,10 +79,16 @@ public:
 	void parse();
 	void write();
 	void writeFavorites();
+	QStringList getFontList();
+	QValueList<int> getSizes(const QString&);
+	bool isItalicSupported(const QString&);
+	bool isBoldSupported(const QString&);
 	
 	static int favoritesMode();
 	static void setFavoritesMode(int);
 	static int useSystray();
+	static int warnCheckingProperties();
+	static int printTime();
 	static int beep();
 	static QString beepCmd();
 	static QString beepSound();
@@ -100,6 +121,7 @@ public:
 	static QString propWebPage();
 	static QString propTel();
 	static QString propSport();
+	static int numSport();
 	static QString propPromo();
 
 	static int pass();
@@ -146,6 +168,10 @@ public:
 	
 	static QString buildLocalhost();
 
+signals:
+	void languageChanged();
+	void updateResponder();
+	
 protected: // Protected attributes
 	void loadLocalHost();
 	

@@ -182,6 +182,7 @@ void RzxClientListener::sendProperties(const RzxHostAddress &peer)
 
 	QString msg = strList.join("|");
 	sendPropAnswer(peer, msg);
+	emit propertiesSent(peer);
 }
 /** No descriptions */
 void RzxClientListener::sendPropAnswer(const RzxHostAddress& host, const QString& msg){

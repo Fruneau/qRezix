@@ -133,12 +133,12 @@ void RzxProperty::initDlg() {
 		if ( !RzxConfig::iconTheme().compare( cmbIconTheme->text( i ) ) )
 			cmbIconTheme->setCurrentItem( i );
 
-	int servers = RzxConfig::localHost() ->getServers();
-	CbSamba->setChecked( servers & RzxComputer::SERVER_SAMBA );
-	CbFTP->setChecked( servers & RzxComputer::SERVER_FTP );
+	int servers = RzxConfig::localHost() ->getServerFlags();
+	CbSamba->setChecked( servers & RzxComputer::FLAG_SAMBA );
+	CbFTP->setChecked( servers & RzxComputer::FLAG_FTP );
 	//CbHotline->setChecked( servers & RzxComputer::SERVER_HOTLINE );
-	CbHTTP->setChecked( servers & RzxComputer::SERVER_HTTP );
-	CbNews->setChecked( servers & RzxComputer::SERVER_NEWS );
+	CbHTTP->setChecked( servers & RzxComputer::FLAG_HTTP );
+	CbNews->setChecked( servers & RzxComputer::FLAG_NEWS );
 
 	//QRezix * rezix = getRezix();
 	int colonnes = RzxConfig::colonnes();
@@ -158,33 +158,41 @@ void RzxProperty::initDlg() {
 	clientHttp ->clear();
 	clientNews ->clear();
 
+
 #ifdef WIN32
+	// attention a rzxrezal.cpp en cas de modif
 
-	clientFtp ->insertItem( tr("default") );
-	clientFtp ->insertItem( tr("LeechFTP") );
-	clientFtp ->insertItem( tr("SmartFTP") );
+	clientFtp->insertItem("standard");
+	clientFtp->insertItem("LeechFTP");
+	clientFtp->insertItem("SmartFTP");
 
- 	clientHttp ->insertItem( tr("default") );
- 	clientHttp ->insertItem( tr("iExplore"), 1 );
- 	clientHttp ->insertItem( tr("Opera"), 2 );
+	clientHttp->insertItem("standard");
+	clientHttp->insertItem("iExplore", 1);
+	clientHttp->insertItem("Opera", 2);
 
-	clientNews ->insertItem( tr("default") );
+	clientNews->insertItem("standard");
 #else
+	// commandes a executer sous nux
 
-	clientFtp->insertItem( tr("gftp") );
-	clientFtp->insertItem( tr("lftp") );
-	//A RAJOUTER ICI pour les ftps ss nux - BITEBITE (ca c'est pour le grep)
+	clientFtp->insertItem("gftp", 0);
+	clientFtp->insertItem("lftp", 1);
 
-	clientHttp->insertItem( tr("galeon"), 0 );
-	clientHttp->insertItem( tr("konqueror"), 1 );
-	clientHttp->insertItem( tr("lynx"), 2 );
-	clientHttp->insertItem( tr("mozilla"), 3 );
-	clientHttp->insertItem( tr("netscape"), 4 );
-	clientHttp->insertItem( tr("opera"), 5 );
+	clientHttp->insertItem("galeon", 0);
+	clientHttp->insertItem("konqueror", 1);
+	clientHttp->insertItem("lynx", 2);
+	clientHttp->insertItem("mozilla", 3);
+	clientHttp->insertItem("firefox", 4);
+	clientHttp->insertItem("netscape", 5);
+	clientHttp->insertItem("opera", 6);
 
-	clientNews->insertItem( tr("knode"), 0 );
+	clientNews->insertItem("knode", 0);
 #endif
 
+	clientFtp->setCurrentText(RzxConfig::globalConfig()->ftpCmd());
+	clientHttp->setCurrentText(RzxConfig::globalConfig()->httpCmd());
+	clientNews->setCurrentText(RzxConfig::globalConfig()->newsCmd());
+
+/*
 	clientFtp->setCurrentItem( 0 );
 	for ( i = 0; i < clientFtp->count(); i++ )
 		if ( !RzxConfig::globalConfig() ->ftpCmd().compare( clientFtp->text( i ) ) )
@@ -199,20 +207,21 @@ void RzxProperty::initDlg() {
 	for ( i = 0; i < clientNews->count(); i++ )
 		if ( !RzxConfig::globalConfig() ->newsCmd().compare( clientNews->text( i ) ) )
 			clientNews->setCurrentItem( i );
+*/
 
 	txtWorkDir->setText( RzxConfig::globalConfig() ->FTPPath() );
 	writeColDisplay();
 
 	//adjustAuto->setChecked( RzxConfig::globalConfig() ->readEntry( "autoCol", 1 ) );
 	cbSystray->setChecked( RzxConfig::globalConfig() ->useSystray() );
-
+	cbPropertiesWarning->setChecked(RzxConfig::globalConfig() -> warnCheckingProperties() );
+	cbPrintTime->setChecked(RzxConfig::globalConfig() -> printTime());
+	
 	QPixmap localhostIcon = *RzxConfig::localhostIcon();
 	pxmIcon -> setPixmap( localhostIcon );
 
-	cmbSport->setCurrentItem( 0 );
-	for ( i = 0; i < cmbSport->count(); i++ )
-		if ( !RzxConfig::globalConfig() ->propSport().compare( cmbSport->text( i ) ) )
-			cmbSport->setCurrentItem( i );
+	cmbSport->setCurrentItem( RzxConfig::globalConfig() -> numSport() );
+	
 	languageBox->setCurrentItem( 0 );
 	for ( i = 0; i < languageBox->count(); i++ ){
 		if (tr("English")==languageBox->text(i)){
@@ -240,7 +249,7 @@ void RzxProperty::updateLocalHost()
 		servers |= RzxComputer::SERVER_HTTP;
 	if ( CbNews->isChecked() )
 		servers |= RzxComputer::SERVER_NEWS;
-	RzxConfig::localHost() -> setServers(servers);
+	RzxConfig::localHost() -> setServerFlags(servers);
 }
 
 
@@ -264,7 +273,7 @@ void RzxProperty::miseAJour() {
 	cfgObject -> writeEntry( "comment", RzxConfig::localHost() -> getRemarque() );
 	cfgObject -> writeEntry( "promo", RzxConfig::localHost() -> getPromo() );
 	cfgObject -> writeEntry( "repondeur", RzxConfig::localHost() -> getRepondeur() );
-	cfgObject -> writeEntry( "servers", RzxConfig::localHost() -> getServers() );
+	cfgObject -> writeEntry( "servers", RzxConfig::localHost() -> getServerFlags() );
 
 	cfgObject -> writeEntry( "doubleClic", cmdDoubleClic->currentItem() );
 	cfgObject -> writeEntry( "iconsize", cmbIconSize -> currentItem() );
@@ -277,15 +286,16 @@ void RzxProperty::miseAJour() {
 	cfgObject -> writeEntry( "reconnection", reconnection->value() * 1000 );
 	cfgObject -> writeEntry( "ping_timeout", ping_timeout->value() * 1000 );
 
-	cfgObject -> httpCmd( clientHttp -> text( clientHttp -> currentItem() ) );
-	cfgObject -> ftpCmd( clientFtp -> text( clientFtp -> currentItem() ) );
-	cfgObject -> newsCmd( clientNews -> text( clientNews -> currentItem() ) );
+	cfgObject -> httpCmd( clientHttp -> currentText() );
+	cfgObject -> ftpCmd( clientFtp -> currentText() );
+	cfgObject -> newsCmd( clientNews -> currentText() );
 
 	writeColDisplay();
 	cfgObject -> writeEntry( "autoCol",1);
 	cfgObject -> writeEntry( "useSystray", cbSystray->isChecked() ? 1 : 0 );
 	cfgObject -> writeEntry( "FTPPath", txtWorkDir->text() );
 	cfgObject -> writeEntry( "txtSport", cmbSport->currentText() );
+	cfgObject -> writeEntry( "numSport", cmbSport->currentItem());
 	cfgObject -> writeEntry( "language", languageBox->currentText() );
 	if (ui -> rezal) {
 		ui -> rezal -> afficheColonnes();
@@ -312,13 +322,14 @@ void RzxProperty::miseAJour() {
 
 	if (ui -> tray)
 		ui -> tray -> setVisible(cbSystray->isChecked());
+	
+	RzxConfig::globalConfig() -> writeEntry("warnCheckingProperties", (cbPropertiesWarning->isChecked() ? 1: 0));
+	RzxConfig::globalConfig() -> writeEntry("printTime", cbPrintTime->isChecked() ? 1 : 0);
 		
 	if ( iconSizeChanged && ui -> rezal)
 		ui -> rezal -> redrawAllIcons();
 	if ( themeChanged )
 		RzxConfig::setIconTheme( QObject::parent(), cmbIconTheme -> currentText() );
-	if(tr("English")!=languageBox->currentText())
-		RzxConfig::setLanguage(languageBox->currentText());
 		
 }
 
@@ -330,6 +341,8 @@ void RzxProperty::annuler() {
 
 void RzxProperty::oK() {
 	miseAJour();
+	if(tr("English")!=languageBox->currentText())
+		RzxConfig::setLanguage(languageBox->currentText());
 	close();
 }
 

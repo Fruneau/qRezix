@@ -21,6 +21,7 @@
 #include <qfile.h>
 
 #include "qrezix.h"
+#include "rzxquit.h"
 #include "rzxconfig.h"
 #include "rzxrezal.h"
 #include "rzxproperty.h"
@@ -42,10 +43,6 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	if(RzxConfig::favoritesMode())
 		btnFavorites -> toggle();
 
-	setCaption(caption() + " v" + VERSION);
-#ifdef WIN32
-	setCaption(caption() + " [Qt]");
-#endif
 	clearWFlags(WStyle_SysMenu|WStyle_Minimize);
 	alreadyOpened=false;
 	connect(rezal, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
@@ -85,7 +82,26 @@ void QRezix::status(const QString& msg, bool fatal){
 }
 
 void QRezix::closeEvent(QCloseEvent * e){
-  QSize s = size();       // store size
+	//pour éviter de fermer rezix par mégarde, on affiche un boite de dialogue laissant le choix
+	//de fermer qrezix, de minimiser la fenêtre principale --> trayicon, ou d'annuler l'action
+	if(isShown() && !isMinimized())
+	{
+		RzxQuit quitDialog(this);
+		int i = quitDialog.exec();
+		if(i!=RzxQuit::selectQuit)
+		{
+			if(i==RzxQuit::selectMinimize)
+				showMinimized();
+#ifdef WIN32 //c'est très très très très très très moche, mais g pas trouvé d'autre manière de le faire
+			 //c'est pas ma fautre à moi si windows se comporte comme de la merde
+				QEvent e(QEvent::WindowDeactivate); 
+				event(&e);
+#endif
+			return;
+		}
+	}
+
+	QSize s = size();       // store size
 	QString height="";
 	height.sprintf("%4d",s.height());
 	QString width = "";
@@ -109,11 +125,20 @@ void QRezix::closeEvent(QCloseEvent * e){
 }
 
 bool QRezix::event(QEvent * e){
+#ifdef WIN32
+	if(e->type()==QEvent::WindowDeactivate)
+	{
+		if(isMinimized() && RzxConfig::globalConfig()->useSystray())
+			hide();
+		return true;
+	}
+#else //WIN32
 	if(e->type()==QEvent::ShowMinimized || e->type()==QEvent::Hide){
 		if(RzxConfig::globalConfig()->useSystray()) hide();
 		return true;
 	}
-	else if( e->type() == QEvent::Resize && alreadyOpened )
+#endif //WIN32
+	else if( e->type() == QEvent::Resize && alreadyOpened && !isMinimized())
 		statusMax = isMaximized();
 
 	return QWidget::event(e);
@@ -146,15 +171,16 @@ void QRezix::toggleAutoResponder(){
 	activateAutoResponder( btnAutoResponder -> isOn() );
 }
 
+void QRezix::toggleButtonResponder() {
+	activateAutoResponder( ! btnAutoResponder -> isOn() );
+}
 
 void QRezix::activateAutoResponder( bool state ){
 	if( btnAutoResponder -> isOn() != state ) btnAutoResponder -> toggle();
 
 	if (state == (RzxConfig::autoResponder() != 0)) return;
 	RzxConfig::setAutoResponder( state );
-	RzxServerListener * server = RzxServerListener::object();
-	RzxComputer * localhostObject = RzxConfig::localHost();
-	server -> sendRefresh(localhostObject);
+	RzxProperty::serverUpdate();
 }
 
 void QRezix::activateFavorites(){
@@ -166,15 +192,29 @@ void QRezix::toggleVisible(){
 	if(isVisible())
 		hide();
 	else{
-		showNormal(); 
-		if(statusMax) showMaximized();
-			else showNormal();
-	show();
+		bool saveStatusMax = statusMax;
+		showNormal();	//pour forcer l'affichage de la fenêtre ==> modifie statusMax
+		if(saveStatusMax)
+		{
+			showMaximized();
+			statusMax = saveStatusMax;
+		}
+		show();
 		setActiveWindow();raise();
 		alreadyOpened=true;
 		rezal->adapteColonnes();
 	}
 }
+
+void QRezix::languageChange()
+{
+	QRezixUI::languageChange();
+	setCaption(caption() + " v" + VERSION);
+#ifdef WIN32
+	setCaption(caption() + " [Qt]");
+#endif
+}
+
 
 void QRezix::chatSent() {
 	// Desactive le répondeur lorsqu'on envoie un chat

@@ -17,12 +17,16 @@
 #include <qapplication.h>
 #include <qdir.h>
 #include <qfileinfo.h>
+#include <qprocess.h>
+#include <qstringlist.h>
 #include "rzxcomputer.h"
 #include "rzxserverlistener.h"
 #include "rzxprotocole.h"
 #include "rzxconfig.h"
 #include "defaults.h"
 #include "rzxchat.h"
+#include "rzxproperty.h"
+#include "rzxmessagebox.h"
 
 const char *RzxComputer::promalText[4] = { "?", QT_TR_NOOP("Orange") , QT_TR_NOOP("Rouje"), QT_TR_NOOP("Jone") };
 
@@ -38,6 +42,9 @@ void RzxComputer::initLocalHost( void )
 	autoSetOs();
 
 	ip = RzxHostAddress::fromRezix(0);
+	delayScan = new QTimer();
+	connect(delayScan, SIGNAL(timeout()), this, SLOT(scanServers()));
+	options.ServerFlags = options.Server = 0;
 }
 
 
@@ -100,7 +107,9 @@ void RzxComputer::autoSetOs() //0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5
 
 QString RzxComputer::serialize(bool stamp) {
 	QString ret;
-	unsigned long opts = *((unsigned long*) &options);
+	options_t test = options;
+	test.Server &= test.ServerFlags;
+	unsigned long opts = *((unsigned long*) &test);
 	unsigned long vers = *((unsigned long*) &version);
 	
 	ret = name + " " +
@@ -126,6 +135,8 @@ void RzxComputer::setIcon(const QPixmap& image){
 }
 void RzxComputer::setServers(int servers) 
 { options.Server = servers; }
+void RzxComputer::setServerFlags(int serverFlags) 
+{ options.ServerFlags = serverFlags; }
 void RzxComputer::setPromo(int promo)
 { options.Promo = promo; }
 void RzxComputer::setRemarque(const QString& text)
@@ -160,6 +171,9 @@ QPixmap RzxComputer::getIcon() const
 { return icon; }
 int RzxComputer::getServers() const
 { return options.Server; }
+int RzxComputer::getServerFlags() const
+{ return options.ServerFlags; }
+
 
 
 
@@ -189,4 +203,70 @@ void RzxComputer::removePreviousIcons(){
 			}
 		}
 	}
+}
+
+
+
+//Scan des servers ouverts
+void RzxComputer::scanServers()
+{
+	int servers = 0;
+#ifdef WIN32
+  //Bon, c pas beau, mais si j'essaye de travailler sur le meme socket pour tous les test
+	//j'arrive toujours à de faux résultats... c ptet un bug de windows (pour changer)
+	QSocketDevice detectFTP, detectHTTP, detectNEWS, detectSMB;
+
+	//scan du ftp
+	if(!detectFTP.bind(ip, 21))
+		servers |= RzxComputer::SERVER_FTP;
+
+	//scan du http
+	if(!detectHTTP.bind(ip, 80))
+		servers |= RzxComputer::SERVER_HTTP;
+
+	//scan du nntp
+	if(!detectNEWS.bind(ip, 119))
+		servers |= RzxComputer::SERVER_NEWS;
+
+	//scan du samba
+	if(!detectSMB.bind(ip, 139))
+		servers |= RzxComputer::SERVER_SAMBA;
+#else
+  QProcess *netstat;
+  QStringList res;
+  
+  netstat = new QProcess();
+  netstat->addArgument("netstat");
+  netstat->addArgument("-ltn");
+
+  //On exéctue netstat pour obtenir les infos sur les différents ports utilisés
+  if(netstat->start())
+  {
+    while(netstat->isRunning());
+    while(netstat->canReadLineStdout())
+    {
+      QString *q;
+      q = new QString(netstat->readLineStdout());
+      res += *q;
+    }
+    delete netstat;
+
+    //lecture des différents port pour voir s'il sont listen
+    if(!(res.grep(":21 ")).isEmpty()) servers |= RzxComputer::SERVER_FTP;
+    if(!(res.grep(":80 ")).isEmpty()) servers |= RzxComputer::SERVER_HTTP;
+    if(!(res.grep(":119 ")).isEmpty()) servers |= RzxComputer::SERVER_NEWS;
+    if(!(res.grep(":139 ")).isEmpty()) servers |= RzxComputer::SERVER_SAMBA;
+  }
+  //au cas où netstat fail ou qu'il ne soit pas installé
+  else
+		servers = RzxComputer::SERVER_FTP | RzxComputer::SERVER_HTTP | RzxComputer::SERVER_NEWS | RzxComputer::SERVER_SAMBA;
+#endif
+
+	if(servers != getServers())
+	{
+		setServers(servers);
+		RzxProperty::serverUpdate();
+	}
+	delayScan->start(30000); //bon, le choix de 30s, c vraiment aléatoire
+							//1 ou 2 minutes, ç'aurait pas été mal, mais bon
 }

@@ -98,6 +98,11 @@ void TrayIcon::mouseReleaseEvent( QMouseEvent *e ) {
 		if ( pop ) {
 			// Those lines are necessary to make keyboard focus
 			// and menu closing work on Windows.
+			pop->removeItem(2);
+			if(RzxConfig::globalConfig()->autoResponder())
+				pop->insertItem(tr("&I'm back !"), parent(), SLOT(toggleButtonResponder()), 0, 2);
+			else
+				pop->insertItem(tr("I'm &away !"), parent(), SLOT(toggleButtonResponder()), 0, 2);
 			pop->setActiveWindow();
 			pop->grabMouse();
 			pop->exec( e->globalPos() );

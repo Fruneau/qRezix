@@ -1,3 +1,16 @@
+[v1.3.666] 2004-06-27 <br2002@frankiz@polytechnique.fr>
+    * Ajout de la détection automatique des ftps sur le port 21 [Fruneau]
+    * Ajout d'une boîte de dialogue à la fermeture du client [Fruneau]
+    * Utilisation d'un QTextEdit dérivé au lieu du MultiEdit obsolete,
+Shift+enter pr changer de ligne [Steak]
+    * Sauvegarde du pass quand il est reçu du serveur [Steak]
+    * Bugfixes pour Windows [Fruneau@br2k3]
+    * Makefile pour Windows [Fruneau]
+    * Ajout repondeur dans menu TrayIcon [Steak]
+    * Ajout des warnings à l'envoi des propriétés [Steak]
+    * Plus d'étoile avec le /me, chgt de couleur en plus [Falco]
+    * Problème du titre de la fenetre réglé [Fruneau]
+    * Ajout d'une historique accessible à l'édition par shift up/down, comme sur IRC [Steak]
 
 [v1.3] 2004-05-01 <br2002@frankiz.polytechnique.fr>
     * bug des sons fixés pour Linux   [Steak]
@@ -13,6 +26,7 @@ ListView/RzxRezal [Steak]
     * Gestion de lftp en plus de gftp avec ouverture de console [Steak, ZyGot]
     * Icones thématisées rajoutées pour le bouton du son + ajout dans le make
 install [Steak, Kikx]
+    * Bugfixs pour le multilinguisme (sport, chargt des qm) [Steak]
 
 [v1.2] JiBee Mais je sais pas ce qu'il a fait, il l'a pas écrit :)
 	[Steak]

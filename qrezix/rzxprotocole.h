@@ -84,10 +84,6 @@ public slots:
 signals: // Signals
 	/** ping() est emit quand on passe une commande PING a @ref parse */
  	void ping();
-	/** pass() est ecrit quand on passe une commande PASS a @ref parse
-	*@param val valeur du passcode qui devra etre utilise pour les authentifications
-	*futures aupres du serveur */
-	void pass(unsigned long val);
 	/** login() est emit quand on passe une commande JOIN ou REFRESH a @ref parse
 	*C'est au slot de verifier si oui ou non newComputer a deja ete reference
 	*@param newComputer donnees concernant l'ordinateur */

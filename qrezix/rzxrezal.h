@@ -92,7 +92,6 @@ public slots: // Public slots
 	bool isSocketClosed() const;
 	void sysmsg(const QString& msg);
 	void fatal(const QString& msg);
-	void passReceived(int val);
 
 	void removeFromFavorites();
 	void addToFavorites();
@@ -102,6 +101,7 @@ public slots: // Public slots
 	RzxChat * chatCreate(const RzxHostAddress& peer);
 	RzxChat * chatCreate();
 	void chatDelete(const RzxHostAddress& peerAddress);
+	void warnProperties(const RzxHostAddress& peer);
 	
 	void serverConnected();
 	void serverDisconnected();

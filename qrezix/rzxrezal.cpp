@@ -77,8 +77,7 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 
 	connect(server, SIGNAL(sysmsg(const QString&)), this, SLOT(sysmsg(const QString&)));
 	connect(server, SIGNAL(fatal(const QString&)), this, SLOT(fatal(const QString&)));
-	connect(server, SIGNAL(pass(int)), this, SLOT(passReceived(int)));
-
+	
 	connect(server, SIGNAL(login(const QString&)), this, SLOT(login(const QString&)));
 	connect(server, SIGNAL(logout(const RzxHostAddress&)), this, SLOT(logout(const RzxHostAddress&)));
 	connect(server, SIGNAL(rcvIcon(QImage*,const RzxHostAddress&)), this, SLOT(recvIcon(QImage*,const RzxHostAddress&)));
@@ -107,7 +106,8 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	// RECEPTION DES PROPRIETES D'UN ORDINATEUR
 	connect(client, SIGNAL(propAnswer(const RzxHostAddress&, const QString&)), this, SLOT(showProperties(const RzxHostAddress&, const QString&)));
 	connect(client, SIGNAL(propQuery(const RzxHostAddress&)), RzxClientListener::object(), SLOT(sendProperties(const RzxHostAddress&)));
-
+	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), this, SLOT(warnProperties(const RzxHostAddress&)));
+	
 	// FERMETURE DU SOCKET
 	connect(server, SIGNAL(disconnected()), this, SIGNAL(socketClosed()));
 
@@ -287,6 +287,7 @@ void RzxRezal::addToFavorites(){
 	RzxConfig::globalConfig()->writeFavorites();
 }
 
+// lance le client ftp
 void RzxRezal::ftp(){
 	RzxItem::ListViewItem* item=(RzxItem::ListViewItem*) currentItem();
 //	int serveurs=item->servers;
@@ -383,13 +384,18 @@ void RzxRezal::ftp(){
 		WinExec(cmd.latin1(), 1);
 	}
 #else
-	QString cmd = "cd "+tempPath+"; "+RzxConfig::globalConfig()->ftpCmd()+" "+tempip+" &";
-	if(RzxConfig::globalConfig()->ftpCmd() != "gftp")
-	#ifdef WITH_KDE
-		cmd="konsole -e "+cmd;
-	#else
-		cmd="xterm -e "+cmd;
-	#endif
+	QString cmd = "cd "+tempPath+"; "+RzxConfig::globalConfig()->ftpCmd()+" "+tempip;
+	if(RzxConfig::globalConfig()->ftpCmd() == "lftp")
+		// on lance le client dans un terminal
+		#ifdef WITH_KDE
+			cmd = "konsole -e \"" + cmd + "\" &";
+		#else
+			cmd = "xterm -e \"" + cmd + "\" &";
+		#endif
+	else
+		// client graphique
+		cmd = cmd + " &";
+
 	system(cmd.latin1());
 #endif
 }
@@ -419,57 +425,59 @@ void RzxRezal::samba(){
 	RegCloseKey(hKey);
 }*/
 
+// lance le client http
 void RzxRezal::http(){
 	RzxItem::ListViewItem* item=(RzxItem::ListViewItem*) currentItem();
 	QString tempip = "http://" + (item -> ip).toString();
+	QString cmd=RzxConfig::globalConfig()->httpCmd();
 
 #ifdef WIN32
-    if( RzxConfig::globalConfig()->httpCmd().compare("standard") == 0)
-    {
-        ShellExecute( NULL, NULL, tempip, NULL, NULL, SW_SHOW );
-    }
-    else
-    {
-    	int serveurs=item->servers;
-    	QString cmd;
-    	HKEY hKey;
-    	RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("Software"), 0, KEY_ALL_ACCESS, &hKey);
-		if(!RzxConfig::globalConfig()->httpCmd().compare("opera") &&
-		    !RegOpenKeyEx(hKey, TEXT("Opera Software"), 0, KEY_ALL_ACCESS, &hKey)){
-		
+	if( cmd == "standard" )
+		ShellExecute( NULL, NULL, (LPCSTR)(tempip.unicode()), NULL, NULL, SW_SHOW );
+	else
+	{
+		int serveurs = item->servers;
+		QString cmd;
+		HKEY hKey;
+		RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("Software"), 0, KEY_ALL_ACCESS, &hKey);
+
+		if ( cmd == "Opera" && !RegOpenKeyEx(hKey, TEXT("Opera Software"), 0, KEY_ALL_ACCESS, &hKey) ) {
 			unsigned char buffer[MAX_PATH];
 			unsigned long KeyType = 0;
 			unsigned long KeySize = sizeof(TCHAR) * MAX_PATH;
-			RegQueryValueEx(hKey, "Last CommandLine", 0, &KeyType, buffer, &KeySize);
+			RegQueryValueEx(hKey, TEXT("Last CommandLine"), 0, &KeyType, buffer, &KeySize);
 			RegCloseKey(hKey);
 			QString temp=(char *)buffer;
 			cmd = temp + tempip;
-	    }
-	    else
+		}
+		else
 			cmd = "explorer " + tempip;
 
-	    WinExec(cmd.latin1(),1);
-    }
+		WinExec(cmd.latin1(),1);
+	}
 #else
-	QString cmd=RzxConfig::globalConfig()->httpCmd()+" " +tempip +" &";
+	cmd = cmd + " " + tempip + " &";
 	system(cmd.latin1());
 #endif
 }
 
+// lance le client news
 void RzxRezal::news(){
 	RzxItem::ListViewItem* item=(RzxItem::ListViewItem*) currentItem();
 	QString tempip = "news://" + (item -> ip).toString();
+	QString cmd = RzxConfig::globalConfig()->newsCmd();
+
 #ifdef WIN32
 	int serveurs=item->servers;
-	if(!RzxConfig::globalConfig()->newsCmd().compare("standard")){
-		QString cmd = "explorer " + tempip;
-		WinExec(cmd.latin1(),1);
-	}
+	if( cmd == "standard" )
+		cmd = "explorer " + tempip;
+	else
+		cmd = cmd + " " + tempip;
+
+	WinExec(cmd.latin1(),1);
 #else
-	if(!RzxConfig::globalConfig()->newsCmd().compare("knode")){
-		QString cmd = "knode " + tempip;
-		system(cmd.latin1());
-	}
+	cmd = cmd + " " + tempip + " &";
+	system(cmd.latin1());
 #endif
 }
 
@@ -659,6 +667,28 @@ void RzxRezal::chatDelete(const RzxHostAddress& peerAddress){
   	chats.remove(peerAddress.toString());
 }
 
+void RzxRezal::warnProperties(const RzxHostAddress& peer) {
+	if(RzxConfig::globalConfig()->warnCheckingProperties()==0)
+		return;
+	
+	RzxChat * object = chats.find(peer.toString());
+	RzxComputer * computer = iplist.find(peer.toString());
+	if (!computer)
+		return;
+        QTime cur = QTime::currentTime();
+        QString heure;
+        heure.sprintf("<i>%2i:%.2i:%.2i",
+                                cur.hour(),
+                                cur.minute(),
+                                cur.second());
+				
+	if (!object) {
+		sysmsg("("+heure+") " +tr("Properties sent to ")+computer->getName()+" ("+peer.toString()+")");
+		return;
+	}
+	object->append("gray", computer->getName(), tr("has checked your properties"));
+}
+
 /** No descriptions */
 void RzxRezal::sysmsg(const QString& msg){
 	// Boîte de dialogue non modale, pour que les comms continuent.
@@ -668,10 +698,6 @@ void RzxRezal::sysmsg(const QString& msg){
 void RzxRezal::fatal(const QString& msg){
 	// Boîte de dialogue modale
 	RzxMessageBox::critical( (QWidget *) parent(), tr("Error")+" - "+tr("XNet Server message"), msg, true );
-}
-
-void RzxRezal::passReceived(int val) {
-	fatal("Pass Received");
 }
 
 /** CRASSOU AU POSSIBLE
@@ -752,10 +778,18 @@ void RzxRezal::resizeEvent(QResizeEvent * e) {
 void RzxRezal::keyPressEvent(QKeyEvent *e) {
 	//QListView::keyPressEvent(e);
 	QString s=e->text();
+
+#ifndef WIN32
 	if(s.isNull() == TRUE)
 		return;
 	QChar c=s.at(0);
 	if(!c.isLetter()) {
+#else
+	QChar c;
+	if(s.isNull() != TRUE)
+		c = s.at(0);
+	if(s.isNull() == TRUE || !c.isLetter()) {
+#endif
 		if(e->key()==Qt::Key_Right) {
 			QRect r(itemRect( currentItem())); //r != 0 car the currentItem IS visible
 			QPoint qp=r.center();
@@ -804,6 +838,7 @@ void RzxRezal::redrawAllIcons(){
 }
 
 void RzxRezal::languageChanged(){
+	qDebug("RzxRezal::languageChanged()");
 	for (int i = 0; i < numColonnes; i++) {
 		setColumnText(i, tr(colNames[i]));
 	}
