@@ -41,6 +41,7 @@
 #include "rzxutilslauncher.h"
 #include "rzxconnectionlister.h"
 #include "rzxclientlistener.h"
+#include "rzxtraywindow.h"
 #include "rzxcomputer.h"
 #include "trayicon.h"
 
@@ -96,9 +97,9 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	connect(lister, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
 	connect(lister, SIGNAL(countChange(const QString&)), lblCount, SLOT(setText(const QString&)));
 	connect(lister, SIGNAL(countChange(const QString&)), this, SIGNAL(setToolTip(const QString&)));
-	connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(warnForFavorite(RzxComputer*)));
-
-
+	
+	/* Gestion des favoris */
+	connect(rezalFavorites, SIGNAL(newFavorite(RzxComputer*)), this, SLOT(warnForFavorite(RzxComputer*)));
 
 	m_properties = new RzxProperty(this);
 	if(!RzxConfig::globalConfig()->find() || !m_properties->infoCompleted())
@@ -386,7 +387,7 @@ void QRezix::warnForFavorite(RzxComputer *computer)
 	//ne garde que les favoris avec en plus comme condition que ce ne soit pas les gens présents à la connexion
 	//evite de notifier la présence de favoris si en fait c'est nous qui arrivons.
 	if(!RzxConfig::globalConfig()->favorites->find( computer->getName()) 
-		|| RzxConnectionLister::global()->isInitialized())
+		|| !RzxConnectionLister::global()->isInitialized())
 		return;
 		
 	//Bah, beep à la connexion
@@ -409,6 +410,8 @@ void QRezix::warnForFavorite(RzxComputer *computer)
 	}
 	
 	//Affichage de la fenêtre de notification de connexion
+	if(RzxConfig::showConnection())
+		new RzxTrayWindow(computer);
 }
 
 /// Changement du thème d'icone

@@ -336,29 +336,33 @@ void RzxRezal::adapteColonnes(){
 void RzxRezal::bufferedLogin(RzxComputer *computer) {
 	if(!dispNotFavorites && !RzxConfig::globalConfig()->favorites->find( computer->getName())) return;
 	
-	setUpdatesEnabled(!dispNotFavorites);
 	RzxItem *item = itemByIp.find(computer->getIP().toString());
 	if(!item)
 	{
+		setUpdatesEnabled(!dispNotFavorites);
 		item = new RzxItem(computer, this, dispNotFavorites);
 		itemByIp.insert(computer->getIP().toString(), item);
+		item -> setVisible(!dispNotFavorites);
+		if(!dispNotFavorites)
+			emit newFavorite(computer);
 	}
-	
+	else if(!dispNotFavorites)
+		emit changeFavorite(computer);
+
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 
 	item -> update();
-	item -> setVisible(!dispNotFavorites);
 	setUpdatesEnabled(TRUE);
 }
 
 void RzxRezal::logBufLogins() { //en fait vu que le QPtrList faisait des segfaults, je trace toute la listview, c pas très long
-	setUpdatesEnabled (FALSE);
 	QListViewItem *item;
 	QListViewItemIterator it(this);
 	while(item=(it++).current())
-		item->setVisible(!filterOn || !item->text(ColNom).find(filter, 0, false));
-	setUpdatesEnabled (TRUE);
-	triggerUpdate();
+	{
+		if(!item->isVisible())
+			item->setVisible(!filterOn || !item->text(ColNom).find(filter, 0, false));
+	}
 }
 
 /** Déconnexion d'un personne */
@@ -367,6 +371,9 @@ void RzxRezal::logout(const QString& ip)
 	RzxItem *item = itemByIp.take(ip);
 	if(!item) return;
 
+	if(!dispNotFavorites)
+		emit lostFavorite(item->getComputer());
+		
 	if((selected == item))
 		selected = NULL;
 	item->deleteLater();
