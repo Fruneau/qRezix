@@ -17,10 +17,7 @@
 #define RZXPROPERTY_H
 
 #include <qpixmap.h>
-#include "rzxhostaddress.h"
 #include "rzxpropertyui.h"
-#include "qrezix.h"
-#include "dnsvalidator.h"
 
 #define NB_COL 10
 
@@ -29,6 +26,7 @@
   */
 
 class QDns;
+class QRezix;
 
 class RzxProperty : public frmPref {
 	Q_OBJECT

@@ -37,6 +37,8 @@
 #include "rzxpluginloader.h"
 #include "rzxutilslauncher.h"
 #include "rzxconnectionlister.h"
+#include "rzxclientlistener.h"
+#include "trayicon.h"
 
 #include "defaults.h"
 

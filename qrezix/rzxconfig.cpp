@@ -27,6 +27,7 @@
 #include <qmessagebox.h>
 #include <qpixmap.h>
 #include <qbitmap.h>
+#include <qimage.h>
 #include <qfontdatabase.h>
 #include <qapplication.h>
 #include <qstringlist.h>

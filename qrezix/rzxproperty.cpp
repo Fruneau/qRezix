@@ -8,18 +8,15 @@ email                : benoit.casoetto@m4x.org
 #include <qtoolbutton.h>
 #include <qobjectlist.h>
 #include <qlineedit.h>
+#include <qspinbox.h>
 #include <qcombobox.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qimage.h>
 #include <qdir.h>
-
 #include <qapplication.h>
 #include <qmessagebox.h>
 #include <qbitmap.h>
-
-#include "dnsvalidator.h"
-#include "rzxproperty.h"
 
 #ifdef WITH_KDE
 #include <kfiledialog.h>
@@ -27,13 +24,17 @@ email                : benoit.casoetto@m4x.org
 #include <qfiledialog.h>
 #endif
 
+#include "rzxproperty.h"
+
+#include "dnsvalidator.h"
+#include "rzxhostaddress.h"
 #include "rzxconfig.h"
 #include "rzxcomputer.h"
 #include "rzxserverlistener.h"
 #include "rzxpluginloader.h"
-#include <qspinbox.h>
 #include "rzxrezal.h"
 #include "qrezix.h"
+#include "trayicon.h"
 #include "q.xpm"
 
 RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {

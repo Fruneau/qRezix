@@ -24,11 +24,6 @@
 #include <qpopupmenu.h>
 #include <qsocket.h>
 
-#include "rzxserverlistener.h"
-#include "rzxclientlistener.h"
-#include "rzxcomputer.h"
-#include "rzxchat.h"
-
 #define USER_HASH_TABLE_LENGTH 1663
 
 /**
@@ -36,7 +31,12 @@
   */
 
 class RzxItem;
+class RzxChat;
 class RzxConnectionLister;
+class RzxClientListener;
+class RzxServerListener;
+class RzxComputer;
+class RzxHostAddress;
 
 //pour réimplanter le clavier et la touche droite, ne mérite pas un .h/.cpp pour lui tt seul
 class RzxPopupMenu : public QPopupMenu {
@@ -71,7 +71,6 @@ public:
 
 protected: // Protected attributes
 	bool dispNotFavorites;
-	RzxServerListener * server;
 	RzxClientListener * client;
 	
 	// Definit necessaire pour le menu contextuel

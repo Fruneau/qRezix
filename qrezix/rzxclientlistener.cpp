@@ -127,6 +127,7 @@ void RzxChatSocket::setParent(RzxChat *parent)
 void RzxChatSocket::connectToHost()
 {
 	QSocket::connectToHost(host.toString(), RzxConfig::chatPort());
+	timeOut.start(10*1000); //descend le timeout de connexion à 10s
 }
 
 ///Installation d'un socket

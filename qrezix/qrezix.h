@@ -22,12 +22,13 @@
 #include <config.h>
 #endif
 
-#include "qrezixui.h"
-#include "trayicon.h"
 #include <qdict.h>
 #include <qtranslator.h>
 #include <qpopupmenu.h>
 
+#include "qrezixui.h"
+
+class TrayIcon;
 class RzxProperty;
 
 //class RzxChat;

@@ -20,15 +20,8 @@
 
 #include <qobject.h>
 #include <qdict.h>
-#if (QT_VERSION >= 0x030000)
 #include <qptrvector.h>
 #include <qmemarray.h>
-#else
-#include <qvector.h>
-#include <qarray.h>
-template<class T> class QPtrVector : public QVector<T> {};
-template<class T> class QMemArray : public QArray<T> {};
-#endif
 #include <qpixmap.h>
 #include <qdir.h>
 #include <qtranslator.h>
