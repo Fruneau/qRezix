@@ -1,4 +1,6 @@
-[v1.6.2] 2005-03 <br2003@frankiz.polytechnique.fr>
+[v1.6.2] 2005-02 <br2003@frankiz.polytechnique.fr>
+    * Correction des composantes alpha des icônes [Ey]
+    * Choix entre deux types de répondeur [Fruneau]
     * Désactivation des plug-ins [Fruneau]
     * Fix de nombreux bugs et memory leaks [Fruneau]
     * Ajout des ebuild pour gentoo [Ey, Fruneau]
@@ -11,7 +13,7 @@
     * Ajout de tooltips sur les RzxItem [Fruneau]
     * Ajout de la couleur dans les boites d'édition [Steak]
     * Buffering de l'affichage des nouveaux connectés [Steak]
-    * Son pour prévenir de la connection d'un favori [Steak]
+    * Son pour prévenir de la connexion d'un favori [Steak]
 
 [v1.5] 2004-09-17 <br2002@frankiz.polytechnique.fr>
     * Ajout d'un outils de recherche [Fruneau]
