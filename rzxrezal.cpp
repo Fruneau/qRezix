@@ -186,133 +186,8 @@ void RzxRezal::proprietes(){
 void RzxRezal::historique(){
 	RzxItem * item=(RzxItem*) currentItem();
 	QString hostname = iplist.find(item -> ip.toString()) -> getName();
-	showHistorique( item -> ip.toRezix(), hostname);
-}
-
-void RzxRezal::showHistorique( unsigned long ip, QString hostname, bool withFrame, QWidget *parent, QPoint *pos ){
-	// chargement de l'historique
-	QString filename = RzxConfig::historique(ip, hostname);
-	if (filename.isNull()) {
+	if(!RzxChatSocket::showHistorique( item -> ip.toRezix(), hostname))
 		emit status(tr("No history file for user %1").arg(hostname), false);
-		return;
-	}
- 
-	QString text;
-	QFile file(filename);
-	if(!file.exists()){
-		emit status(tr("No history file for user %1").arg(hostname), false);
-		return;
-	} 
-	file.open(IO_ReadOnly); 
-	QTextStream stream(&file);
-	while(!stream.eof()) {
-		text += stream.readLine();
-	}
-	file.close();
- 
-	// construction de la boite de dialogue
-	QWidget *histoDialog;
-	if(withFrame)
-	{
-		histoDialog = new QDialog(parent?parent:this->parentWidget(), "Histo", false, WDestructiveClose | Qt::WStyle_Tool);
-		QPixmap iconeProg((const char **)q);
-		iconeProg.setMask(iconeProg.createHeuristicMask() );  
-		histoDialog->setIcon(iconeProg);
-
-	#ifdef WIN32
-		histoDialog->setCaption( tr( "History" ) +"[Qt]");
-	#else
-		histoDialog->setCaption( tr( "History" ) );
-	#endif
-	}
-	else
-	{
-		histoDialog = new QFrame(parent?parent:this->parentWidget(), "Histo", WDestructiveClose | Qt::WType_Popup);
-		((QFrame*)histoDialog) -> setFrameShape(QFrame::PopupPanel);
-		((QFrame*)histoDialog) -> setFrameShadow(QFrame::Raised);
-		if(pos) histoDialog->move(*pos);
-	}
-	QGridLayout * qHistoLayout = new QGridLayout(histoDialog);
-	qHistoLayout->setSpacing(0);
-	qHistoLayout->setMargin(withFrame?6:0);
-
-
-	// creation de la liste des proprietes et ajout au layout
-	QTextView* histoView = new QTextView(histoDialog, "HistoView");
-	qHistoLayout->addWidget((QWidget*)histoView, 0, 0);
-	
-	histoDialog->resize(300, 300);
-	histoView -> setText(text);
-	histoDialog->show();
-}
-
-// affichage des proprietes d'un ordinateur
-void RzxRezal::showProperties(const RzxHostAddress&, const QString& msg, bool withFrame, QWidget *parent, QPoint *pos )
-{
-	QWidget *propertiesDialog;
-
-	if(withFrame)
-	{
-		// creation de la boite de dialogue (non modale, elle se detruit automatiquement grace a WDestructiveClose)
-		propertiesDialog = new QDialog(parent?parent:this->parentWidget(), "ClientProp", false, WDestructiveClose | Qt::WStyle_Tool);
-		propertiesDialog->resize(300, 300);
-
-		QPixmap iconeProg((const char **)q);
-		iconeProg.setMask(iconeProg.createHeuristicMask() );
-		propertiesDialog->setIcon(iconeProg);
-
-	#ifdef WIN32
-		propertiesDialog->setCaption( tr( "Computer properties" ) +" [Qt]");
-	#else
-		propertiesDialog->setCaption( tr( "Computer properties" ) );
-	#endif
-	}
-	else
-	{
-		propertiesDialog = new QFrame(parent?parent:this->parentWidget(), "ClientProp", WDestructiveClose | Qt::WType_Popup);
-		((QFrame*)propertiesDialog) -> setFrameShape(QFrame::PopupPanel);
-		((QFrame*)propertiesDialog) -> setFrameShadow(QFrame::Raised);
-		if(pos) propertiesDialog->move(*pos);
-	}
-
-	// Layout, pour le resize libre
-	QGridLayout * qPropertiesLayout = new QGridLayout(propertiesDialog);
-	qPropertiesLayout->setSpacing(0);
-	qPropertiesLayout->setMargin(withFrame?6:0);
- 
-	// creation de la liste des proprietes et ajout au layout
-	QListView* PropList = new QListView(propertiesDialog, "PropView");
-	qPropertiesLayout->addWidget((QWidget*)PropList, 0, 0);
- 
-	PropList->resize(300, 300);
-	PropList->addColumn(tr("Property"), -1);
-	PropList->addColumn(tr("Value"), -1);
-	QScrollView::ScrollBarMode mode = QScrollView::AlwaysOff;
-	PropList -> setHScrollBarMode(mode);
- 
-	QStringList props = QStringList::split('|', msg, true);
-	// ajout des proprietes de la liste, sans tri.
-	PropList->setSorting(-1,FALSE);
-	QListViewItem* vi = NULL;
-	int propCount = 0;
-	for (QStringList::Iterator itItem = props.begin(); itItem != props.end(); itItem++)
-	{
-		QStringList::Iterator itLabel = itItem++;
-		if((*itLabel).length()==0) break;
-		if(*itItem) { // si la chaine est vide, on prend pas.
-			vi = new QListViewItem(PropList, vi, (*itLabel), (*itItem));
-			propCount++;
-		}
-	}
-	propertiesDialog->show();
- 
-	// Fit de la fenetre, on ne le fait pas si il n'y a pas d'accents, sinon ca plante
-	if (propCount > 0)
-	{
-		int width=PropList->columnWidth(0)+PropList->columnWidth(1)+4+12;
-		int height=(PropList->childCount()+1)*(*PropList->firstChild()).height()+8+12;
-		propertiesDialog->resize(width,height);
-	}
 }
 
 void RzxRezal::removeFromFavorites(){
@@ -739,10 +614,10 @@ RzxChat * RzxRezal::chatCreate(const RzxHostAddress& peer) {
 		object->edMsg->setFocus();
 
 		connect(object, SIGNAL(closed(const RzxHostAddress&)), this, SLOT(chatDelete(const RzxHostAddress&)));
-		connect(object, SIGNAL(showHistorique(unsigned long, QString, bool, QWidget*, QPoint*)),
-			this, SLOT(showHistorique(unsigned long, QString, bool, QWidget*, QPoint*)));
-		connect(object, SIGNAL(showProperties(const RzxHostAddress&, const QString&, bool, QWidget*, QPoint*)),
-			this, SLOT(showProperties(const RzxHostAddress&, const QString&, bool, QWidget*, QPoint* )));
+//		connect(object, SIGNAL(showHistorique(unsigned long, QString, bool, QWidget*, QPoint*)),
+//			this, SLOT(showHistorique(unsigned long, QString, bool, QWidget*, QPoint*)));
+//		connect(object, SIGNAL(showProperties(const RzxHostAddress&, const QString&, bool, QWidget*, QPoint*)),
+//			this, SLOT(showProperties(const RzxHostAddress&, const QString&, bool, QWidget*, QPoint* )));
 		connect(RzxConfig::globalConfig(), SIGNAL(themeChanged()), object, SLOT(changeTheme()));
 		connect(RzxConfig::globalConfig(), SIGNAL(iconFormatChange()), object, SLOT(changeIconFormat()));
 		chats.insert(peer.toString(), object);

@@ -92,10 +92,14 @@ class RzxChatSocket : public QSocket
 		int parse(const QString& msg);
 		void send(const QString& msg);
 		void sendDccChat(const QString& msg);
+		
+	public:
+		static QWidget *showProperties(const RzxHostAddress& peer, const QString& msg, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
+		static QWidget *showHistorique( unsigned long ip, QString hostname, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
+
 
 	signals: // Signals
 		void propQuery();
-		void propAnswer(const RzxHostAddress& host, const QString& msg);
 		
 		void chat(QSocket *sock, const QString& msg);
 		void chat(const QString& msg);
@@ -134,7 +138,6 @@ class RzxClientListener : public QObject  {
 		void socketRead(int socket);
 		
 	signals:
-		void propAnswer(const RzxHostAddress& host, const QString& msg);
 		void propertiesSent(const RzxHostAddress& host);
 		void chat(QSocket *sock, const QString& msg);
 		void chatSent();

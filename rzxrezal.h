@@ -85,8 +85,6 @@ public slots: // Public slots
 	void http(const QString& login = 0);
 	void news(const QString& login = 0);
 
-	void showHistorique( unsigned long ip, QString hostname, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
-
 	void afficheColonnes();
 	void adapteColonnes();
 	virtual void recvIcon(QImage*Icon, const RzxHostAddress&);
@@ -102,7 +100,6 @@ public slots: // Public slots
 	void addToFavorites();
 	
 	void chat(QSocket* socket, const QString& msg);
-	void showProperties(const RzxHostAddress& peer, const QString& msg, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
 	RzxChat * chatCreate(const RzxHostAddress& peer);
 	RzxChat * chatCreate(const QString& login = 0);
 	void chatDelete(const RzxHostAddress& peerAddress);

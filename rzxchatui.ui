@@ -415,6 +415,9 @@
                     <property name="text">
                         <string></string>
                     </property>
+                    <property name="toggleButton">
+                        <bool>true</bool>
+                    </property>
                     <property name="usesTextLabel">
                         <bool>true</bool>
                     </property>
@@ -431,6 +434,9 @@
                     </property>
                     <property name="text">
                         <string>...</string>
+                    </property>
+                    <property name="toggleButton">
+                        <bool>true</bool>
                     </property>
                     <property name="usesTextLabel">
                         <bool>true</bool>
