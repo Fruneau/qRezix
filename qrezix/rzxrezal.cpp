@@ -46,8 +46,8 @@ const char * RzxRezal::colNames[RzxRezal::numColonnes] =
 
 RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name), itemByIp(USER_HASH_TABLE_LENGTH)
 {
+	timer = false;
 	selected = NULL;
-	timer = NULL;
 	
 	int i;
 	for (i = 0; i < numColonnes; i++) {
@@ -68,7 +68,6 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	//connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(login(RzxComputer*)));
 	connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(bufferedLogin(RzxComputer *)));
 	connect(lister, SIGNAL(connectionEtablished()), this, SLOT(init()));
-	connect(lister, SIGNAL(loginEnd()), this, SLOT(forceSort()));
 	connect(lister, SIGNAL(logout(const QString& )), this, SLOT(logout(const QString& )));
 
 	// On est obligé d'utiliser ce signal pour savoir dans quelle colonne le
@@ -86,11 +85,12 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	connect(this, SIGNAL(onItem(QListViewItem*)), this, SLOT(buildToolTip(QListViewItem*)));
 	filter = QString::null;
 	filterOn = false;
-	setUpdatesEnabled ( FALSE);
+	setUpdatesEnabled (TRUE);
 }
 
 RzxRezal::~RzxRezal(){
-	delete timer;
+	if(!timer)
+		delete timer;
 }
 
 void RzxRezal::showNotFavorites(bool val)
@@ -288,6 +288,7 @@ void RzxRezal::samba()
 
 
 void RzxRezal::afficheColonnes(){
+	setUpdatesEnabled ( FALSE);
 	int colonnesAffichees=RzxConfig::colonnes();
 	int i;
 	for(i =0; i<columns(); i++){
@@ -312,6 +313,7 @@ void RzxRezal::afficheColonnes(){
 }
 
 void RzxRezal::adapteColonnes(){
+	setUpdatesEnabled ( FALSE);
 	int colonnesAffichees=RzxConfig::colonnes();
 	int somme=0;
 	int i;
@@ -327,12 +329,14 @@ void RzxRezal::adapteColonnes(){
 		else
 			setColumnWidth(ColRemarque, 100);
 	}
+	setUpdatesEnabled (TRUE);
 	triggerUpdate(); 
 }
 
 void RzxRezal::bufferedLogin(RzxComputer *computer) {
 	if(!dispNotFavorites && !RzxConfig::globalConfig()->favorites->find( computer->getName())) return;
 	
+	setUpdatesEnabled(!dispNotFavorites);
 	RzxItem *item = itemByIp.find(computer->getIP().toString());
 	if(!item)
 	{
@@ -343,7 +347,18 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 
 	item -> update();
-	item -> setVisible(true);
+	item -> setVisible(!dispNotFavorites);
+	setUpdatesEnabled(TRUE);
+}
+
+void RzxRezal::logBufLogins() { //en fait vu que le QPtrList faisait des segfaults, je trace toute la listview, c pas très long
+	setUpdatesEnabled (FALSE);
+	QListViewItem *item;
+	QListViewItemIterator it(this);
+	while(item=(it++).current())
+		item->setVisible(!filterOn || !item->text(ColNom).find(filter, 0, false));
+	setUpdatesEnabled (TRUE);
+	triggerUpdate();
 }
 
 /** Déconnexion d'un personne */
@@ -381,21 +396,15 @@ void RzxRezal::clear()
 void RzxRezal::init()
 {
 	itemByIp.clear();
-	if(timer)
-		delete timer;
-	timer = new QTimer(this, "timer");
-	connect( timer, SIGNAL(timeout()), this, SLOT(triggerUpdate()));
-	timer -> start(1000); //ttes les 4 secondes
+	if(!timer)
+	{
+		timer = new QTimer(this, "timer");
+		connect( timer, SIGNAL(timeout()), this, SLOT(logBufLogins()));
+	}
+	if(!timer->isActive())
+		timer -> start(1000); //ttes les 4 secondes
 	selected = NULL;
 }
-
-/** Tri les items */
-void RzxRezal::forceSort()
-{
-	//afficheColonnes();
-	sort();
-}
-
 
 /*************************
 * GESTION DU CHAT
