@@ -1,3 +1,9 @@
+qrezix (1.5.1) unstable; urgency=low
+
+  * Changement du système de paquets (1 dummy package et un qrezix-bin) 
+
+ -- pico <pico@pico.eleves.polytechnique.fr>  Mon,  6 Sep 2004 15:47:05 +0200
+
 qrezix (1.5.0) unstable; urgency=low
 
   * Nouvelle version de qrezix 

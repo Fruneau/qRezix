@@ -6,9 +6,16 @@ Maintainer: br <br@frankiz.polytechnique.fr>
 Standards-Version: 3.2.1
 
 Package: qrezix
+Architecture: all
+Depends: qrezix-bin,qrezix-theme-noia-warm,qrezix-theme-classic,qrezix-theme-krystal,qrezix-theme-ms,qrezix-translations-fr,qrezix-translations-us,qrezix-plugin-xplo,qrezix-plugin-smiley
+Description: Qrezix (meta-package)
+ Permet d'intaller l'ensemble des composants qrezix.
+
+Package: qrezix-bin
 Architecture: any
-Depends: ${shlibs:Depends},qrezix-theme,qrezix-translations
-Description: QRezix Paquet CVS
+Depends: ${shlibs:Depends},qrezix-theme
+Recommands: qrezix-translations,qrezix-plugin-xplo,qrezix-plugin-smiley
+Description: QRezix programme principal
  
 Package: qrezix-theme-noia-warm
 Architecture: all
@@ -35,7 +42,6 @@ Architecture: all
 Provides: qrezix-translations
 Description: Fichiers de traduction Français pour QRezix
 Replaces: qrezix-translations
-Conflicts: qrezix-translations
 
 Package: qrezix-translations-us
 Architecture: all
