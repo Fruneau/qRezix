@@ -21,7 +21,8 @@ III - Chat
 IV  - Clients-serveurs
 V   - Changer l'icône dans le systray
 VI  - FAQ
-VII - License
+VII - Bug Report
+VIII- License
 --------------------------------------------------------------------------------
 
 
@@ -113,7 +114,7 @@ Une fois dans le formulaire, faites une description la plus précise des circonst
 
 --------------------------------------------------------------------------------
 
-VII - License
+VIII - License
 
 qRezix est distribué sous license GNU GPL.
 Vous avez le droit de le redistribuer et/ou de le modifier selon les termes de la version 2.1 ou supérieure de cette license.
