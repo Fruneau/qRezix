@@ -138,7 +138,7 @@ void RzxPlugIn::setSettings(QSettings *m_settings)
  */
 QString RzxPlugIn::readEntry(const QString& keyname, const QString& def)
 {
-	if(!settings) return def;
+//	if(!settings) return def;
 	return settings->readEntry("/qRezix/" + name + "/" + keyname, def);
 }
 
@@ -150,7 +150,7 @@ QString RzxPlugIn::readEntry(const QString& keyname, const QString& def)
  */
 int RzxPlugIn::readNumEntry(const QString& keyname, int def)
 {
-	if(!settings) return def;
+//	if(!settings) return def;
 	return settings->readNumEntry("/qRezix/" + name + "/" + keyname, def);
 }
 
@@ -162,7 +162,7 @@ int RzxPlugIn::readNumEntry(const QString& keyname, int def)
  */
 bool RzxPlugIn::readBoolEntry(const QString& keyname, bool def)
 {
-	if(!settings) return def;
+//	if(!settings) return def;
 	return settings->readBoolEntry("/qRezix/" + name + "/" + keyname, def);
 }
 
@@ -173,7 +173,7 @@ bool RzxPlugIn::readBoolEntry(const QString& keyname, bool def)
  */
 QStringList RzxPlugIn::readListEntry(const QString& keyname)
 {
-	if(!settings) return QStringList();
+//	if(!settings) return QStringList();
 	return settings->readListEntry("/qRezix/" + name + "/" + keyname);
 }
 
@@ -186,7 +186,7 @@ QStringList RzxPlugIn::readListEntry(const QString& keyname)
  */
 void RzxPlugIn::writeEntry(const QString& keyname, const QString& value)
 {
-	if(!settings) return;
+//	if(!settings) return;
 	settings->writeEntry("/qRezix/" + name + "/" + keyname, value);
 }
 
@@ -198,7 +198,7 @@ void RzxPlugIn::writeEntry(const QString& keyname, const QString& value)
  */
 void RzxPlugIn::writeEntry(const QString& keyname, int value)
 {
-	if(!settings) return;
+//	if(!settings) return;
 	settings->writeEntry("/qRezix/" + name + "/" + keyname, value);
 }
 
@@ -210,7 +210,7 @@ void RzxPlugIn::writeEntry(const QString& keyname, int value)
  */
 void RzxPlugIn::writeEntry(const QString& keyname, bool value)
 {
-	if(!settings) return;
+//	if(!settings) return;
 	settings->writeEntry("/qRezix/" + name + "/" + keyname, value);
 }
 
@@ -222,7 +222,7 @@ void RzxPlugIn::writeEntry(const QString& keyname, bool value)
  */
 void RzxPlugIn::writeEntry(const QString& keyname, const QStringList& value)
 {
-	if(!settings) return;
+//	if(!settings) return;
 	settings->writeEntry("/qRezix/" + name + "/" + keyname, value);
 }
 
