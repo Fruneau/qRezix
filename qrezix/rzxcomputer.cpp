@@ -17,6 +17,8 @@
 #include <qapplication.h>
 #include <qdir.h>
 #include <qfileinfo.h>
+#include <qprocess.h>
+#include <qstringlist.h>
 #include "rzxcomputer.h"
 #include "rzxserverlistener.h"
 #include "rzxprotocole.h"
@@ -40,7 +42,6 @@ void RzxComputer::initLocalHost( void )
 	autoSetOs();
 
 	ip = RzxHostAddress::fromRezix(0);
-	detect = new QSocketDevice();
 	delayScan = new QTimer();
 	connect(delayScan, SIGNAL(timeout()), this, SLOT(scanServers()));
 	options.ServerFlags = options.Server = 0;
@@ -205,33 +206,67 @@ void RzxComputer::removePreviousIcons(){
 }
 
 
+
 //Scan des servers ouverts
 void RzxComputer::scanServers()
 {
-	QSocketDevice detectFTP, detectHTTP, detectNEWS, detectSMB;
-	if(!detect) return;
 	int servers = 0;
+#ifdef WIN32
+  //Bon, c pas beau, mais si j'essaye de travailler sur le meme socket pour tous les test
+	//j'arrive toujours à de faux résultats... c ptet un bug de windows (pour changer)
+	QSocketDevice detectFTP, detectHTTP, detectNEWS, detectSMB;
 
 	//scan du ftp
-	if(!detectFTP.bind(ip, 21)) servers |= RzxComputer::SERVER_FTP;
-//	else servers &= ~RzxComputer::SERVER_FTP;
+	if(!detectFTP.bind(ip, 21))
+		servers |= RzxComputer::SERVER_FTP;
 
 	//scan du http
-	if(!detectHTTP.bind(ip, 80)) servers |= RzxComputer::SERVER_HTTP;
-//	else servers &= ~RzxComputer::SERVER_HTTP;
+	if(!detectHTTP.bind(ip, 80))
+		servers |= RzxComputer::SERVER_HTTP;
 
 	//scan du nntp
-	if(!detectNEWS.bind(ip, 119)) servers |= RzxComputer::SERVER_NEWS;
-//	else servers &= ~RzxComputer::SERVER_NEWS;
+	if(!detectNEWS.bind(ip, 119))
+		servers |= RzxComputer::SERVER_NEWS;
 
 	//scan du samba
-	if(!detectSMB.bind(ip, 139)) servers |= RzxComputer::SERVER_SAMBA;
-//	else servers &= ~RzxComputer::SERVER_SAMBA;
+	if(!detectSMB.bind(ip, 139))
+		servers |= RzxComputer::SERVER_SAMBA;
+#else
+  QProcess *netstat;
+  QStringList res;
+  
+  netstat = new QProcess();
+  netstat->addArgument("netstat");
+  netstat->addArgument("-ltn");
+
+  //On exéctue netstat pour obtenir les infos sur les différents ports utilisés
+  if(netstat->start())
+  {
+    while(netstat->isRunning());
+    while(netstat->canReadLineStdout())
+    {
+      QString *q;
+      q = new QString(netstat->readLineStdout());
+      res += *q;
+    }
+    delete netstat;
+
+    //lecture des différents port pour voir s'il sont listen
+    if(!(res.grep(":21 ")).isEmpty()) servers |= RzxComputer::SERVER_FTP;
+    if(!(res.grep(":80 ")).isEmpty()) servers |= RzxComputer::SERVER_HTTP;
+    if(!(res.grep(":119 ")).isEmpty()) servers |= RzxComputer::SERVER_NEWS;
+    if(!(res.grep(":139 ")).isEmpty()) servers |= RzxComputer::SERVER_SAMBA;
+  }
+  //au cas où netstat fail ou qu'il ne soit pas installé
+  else
+		servers = RzxComputer::SERVER_FTP | RzxComputer::SERVER_HTTP | RzxComputer::SERVER_NEWS | RzxComputer::SERVER_SAMBA;
+#endif
 
 	if(servers != getServers())
 	{
 		setServers(servers);
 		RzxProperty::serverUpdate();
 	}
-	delayScan->start(30000);
+	delayScan->start(30000); //bon, le choix de 30s, c vraiment aléatoire
+							//1 ou 2 minutes, ç'aurait pas été mal, mais bon
 }

@@ -142,7 +142,6 @@ protected:
 	unsigned long stamp;
 	QString remarque;
 	QPixmap icon;
-	QSocketDevice *detect;
 	QTimer *delayScan;
 	
 };
