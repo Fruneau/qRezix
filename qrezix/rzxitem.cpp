@@ -287,7 +287,9 @@ void RzxItem::paintCell(QPainter * p, const QColorGroup& cg, int column, int wid
 	{
 		QFont font = p->font();
 		font.setBold(isSelected() && column == RzxRezal::ColNom);
+#ifndef WIN32 //Parce que le texte en italique passe mal sous windows
 		font.setItalic(repondeur);
+#endif
 		p->setFont(font);
 		p -> setBackgroundMode(OpaqueMode);
 		p -> drawText(0, 0, width, height, align, *txt);
