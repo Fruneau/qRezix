@@ -36,7 +36,7 @@ dnl Perform program name transformation
 AC_ARG_PROGRAM
 
 dnl Automake doc recommends to do this only here. (Janos)
-AM_INIT_AUTOMAKE(qrezix, "1.6") dnl searches for some needed programs
+AM_INIT_AUTOMAKE(qrezix, "1.6.2") dnl searches for some needed programs
 
 KDE_SET_PREFIX
 
@@ -63,7 +63,7 @@ AC_PATH_QT(3, 0, 1)
 if test "x$enable_kde" = "xno" || test "x$enable_kde" = "x"; then
 	cp -f klocale.h.qtonly qrezix/klocale.h
 	qrezix_dir="/usr/share/qrezix"
-	plugin_dir="/usr/lib/qrezix"
+        plugin_dir="/usr/lib/qrezix"
 fi
 
 if test "x$enable_kde" = "xyes"; then
@@ -72,7 +72,7 @@ if test "x$enable_kde" = "xyes"; then
 	
 	rm -f qrezix/klocale.h
 	qrezix_dir="/usr/share/apps/qrezix"
-	plugin_dir="/usr/lib/qrezix"
+        plugin_dir="/usr/lib/qrezix"
 fi
 
 AC_DEFINE_UNQUOTED(QREZIX_DATA_DIR, "$qrezix_dir", [ Chemin vers le repertoire d'installation des icones qrezix])

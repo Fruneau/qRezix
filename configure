@@ -1913,7 +1913,7 @@ fi
 
 # Define the identity of the package.
 PACKAGE=qrezix
-VERSION="1.6"
+VERSION="1.6.2"
 
 cat >>confdefs.h <<_ACEOF
 #define PACKAGE "$PACKAGE"
@@ -23893,7 +23893,7 @@ test -z "$KDE_MT_LIBS" || LIB_QT="$LIB_QT $KDE_MT_LIBS"
 if test "x$enable_kde" = "xno" || test "x$enable_kde" = "x"; then
 	cp -f klocale.h.qtonly qrezix/klocale.h
 	qrezix_dir="/usr/share/qrezix"
-	plugin_dir="/usr/lib/qrezix"
+        plugin_dir="/usr/lib/qrezix"
 fi
 
 if test "x$enable_kde" = "xyes"; then
@@ -25411,7 +25411,7 @@ fi
 
 	rm -f qrezix/klocale.h
 	qrezix_dir="/usr/share/apps/qrezix"
-	plugin_dir="/usr/lib/qrezix"
+        plugin_dir="/usr/lib/qrezix"
 fi
 
 
@@ -26917,6 +26917,11 @@ cat >>$CONFIG_STATUS <<\_ACEOF
 
 { (exit 0); exit 0; }
 _ACEOF
+if test "x$with_fast_perl" = "xyes"; then    
+  perl -i.bak $ac_aux_dir/conf.change.pl $CONFIG_STATUS    \
+    || mv $CONFIG_STATUS.bak $CONFIG_STATUS    
+  rm -f $CONFIG_STATUS.bak
+fi    
 chmod +x $CONFIG_STATUS
 ac_clean_files=$ac_clean_files_save
 
