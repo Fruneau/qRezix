@@ -15,10 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <qapplication.h>
-//#include <qdir.h>
-//#include <qtextedit.h>
-//#include <qtextstream.h>
-//#include <qobjectlist.h>
+#include <qobjectlist.h>
 
 #include "rzxrezal.h"
 #include "rzxitem.h"
@@ -65,7 +62,6 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	
 	connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(login(RzxComputer*)));
 	connect(lister, SIGNAL(connectionEtablished()), this, SLOT(init()));
-	connect(lister, SIGNAL(logout(const QString&)), this, SLOT(logout(const QString& )));
 
 	// On est obligé d'utiliser ce signal pour savoir dans quelle colonne le
 	// double-clic suivant a lieu
@@ -245,13 +241,32 @@ void RzxRezal::adapteColonnes(){
 /** No descriptions */
 void RzxRezal::login(RzxComputer *computer)
 {
-	RzxItem *item = new RzxItem(computer, this, dispNotFavorites);
-	
-	RzxItem *old = itemByIp.take(computer->getIP().toString());
-	if(old && old == selected)
+	RzxItem *item = NULL;
+	bool newItem = false;
+	if(computer->children())
 	{
-		setSelected(item, true);
-		selected = item;
+		QObjectList list = *(computer->children());
+		for(item = (RzxItem*)list.first() ; item ; item = (RzxItem*)list.next())
+		{
+			if(item->inherits("RzxItem") && item->listView() == this)
+				break;
+		}
+	}
+	if(!item)
+	{
+		newItem = true;
+		item = new RzxItem(computer, this, dispNotFavorites);
+	}
+	connect(computer, SIGNAL(destroyed(QObject *)), this, SLOT(logout(QObject * )));
+	
+	if(newItem)
+	{
+		RzxItem *old = itemByIp.take(computer->getIP().toString());
+		if(old && old == selected)
+		{
+			setSelected(item, true);
+			selected = item;
+		}
 	}
 
 	// informe de la reconnexion si c'est pas juste un refresh
@@ -259,15 +274,16 @@ void RzxRezal::login(RzxComputer *computer)
 	connect(this, SIGNAL(favoriteChanged()), item, SLOT(update()));
 	item -> update();
 
-	sort(); // Retrie la liste pour les éventuelles modifs
+	if(!newItem) sort(); // Retrie la liste pour les éventuelles modifs
   
 	afficheColonnes();
 }
 
 /** Déconnexion d'un personne */
-void RzxRezal::logout(const QString& ip)
+void RzxRezal::logout(QObject *computer)
 {
-	if((selected == itemByIp.take(ip)))
+	RzxItem *item = itemByIp.take(((RzxComputer*)computer)->getIP().toString());
+	if((selected == item))
 		selected = NULL;
 }
 

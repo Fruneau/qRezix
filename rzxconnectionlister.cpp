@@ -85,7 +85,20 @@ void RzxConnectionLister::login( const QString& ordi )
 
 	// Recherche si cet ordinateur était déjà présent
 	QString tempIP = newComputer -> getIP().toString();
-	iplist.remove( tempIP );
+	RzxComputer *computer = iplist.take( tempIP );
+	if(computer && computer->children())
+	{
+		QObjectList list = *(computer->children());
+		for(QObject *item = list.first() ; item ; item = list.next())
+		{
+			if(item->inherits("RzxItem"))
+			{
+				computer->removeChild(item);
+				newComputer->insertChild(item);
+			}
+		}
+		computer->deleteLater();
+	}
 
 	emit login( newComputer);
 
