@@ -482,6 +482,11 @@ void RzxConfig::setPass(const QString& passcode)
 	globalConfig() -> writeEntry("pass", passcode);
 	globalConfig() -> flush();
 }
+void RzxConfig::setOldPass(const QString& oldPass)
+{
+	globalConfig() -> writeEntry(RzxServerListener::object()->getServerIP().toString() + "/oldpass", oldPass);
+	globalConfig() -> flush();
+}
 
 QString RzxConfig::propLastName(){ return globalConfig() -> readEntry("txtFirstname", "");}
 QString RzxConfig::propName(){ return globalConfig() -> readEntry("txtName", "");}
@@ -509,10 +514,13 @@ QString RzxConfig::pass()
 {
 	QString i = globalConfig() -> readEntry(RzxServerListener::object()->getServerIP().toString() + "/pass", QString::null);
 	if(!i) //Pour la compatibilité avec les anciennes formes de stockage sous nux
-	{
 		i = globalConfig() -> readEntry("pass", QString::null);
-//		globalConfig()->setPass(i);
-	}
+	return i;
+}
+QString RzxConfig::oldPass()
+{
+	QString i = globalConfig() -> readEntry(RzxServerListener::object()->getServerIP().toString() + "/oldpass", QString::null);
+	if(!i.length()) i = QString::null;
 	return i;
 }
 

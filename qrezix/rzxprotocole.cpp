@@ -70,15 +70,8 @@ RzxProtocole::~RzxProtocole(){
 pas les messages ICON du fait des donnees binaires qui arrivent. Elle est
 reimplementer dans RzxServerListener */
 void RzxProtocole::parse(const QString& msg){
-	// on supprime l'en-tete du message
-/*	QString msgClean = msg, msgParams;
-	msgClean.stripWhiteSpace();
-	int offset = msgClean.find(" ");
-	if (offset >= 0)
-		msgParams = msgClean.right(msgClean.length() - offset);
-	msgParams = msgParams.stripWhiteSpace();*/
-		
 	bool ok=true; unsigned long val;
+	static bool testOldPass = false;
 	
 	QRegExp cmd;
 	for (int i = 0; ServerFormat[i]; i++)
@@ -104,8 +97,15 @@ void RzxProtocole::parse(const QString& msg){
 				break;
 
 			case SERVER_WRONGPASS:
+				if(RzxConfig::oldPass() && !testOldPass)
+				{
+					sendAuth(RzxConfig::oldPass(), RzxConfig::localHost());
+					testOldPass = true;
+				}
+				else
 				{
 					RzxWrongPassUI wp;
+					RzxConfig::globalConfig()->setOldPass();
 					QIconSet icon(*RzxConfig::themedIcon("ok"));
 					wp.btnOK->setIconSet(icon);
 					wp.exec();
@@ -127,14 +127,13 @@ void RzxProtocole::parse(const QString& msg){
 				break;
 				
 			case SERVER_PASS:
-				RzxConfig::globalConfig()->setPass(cmd.cap(1));
-				RzxConfig::globalConfig()->flush();
-				
+				RzxConfig::globalConfig()->setOldPass(cmd.cap(1));
 				changePass(cmd.cap(1));
 				break;
 			
 			case SERVER_CHANGEPASSOK:
 				emit sysmsg(tr("Your pass has been successfully changed by the server. Keep it well because it can be useful."));
+				if(RzxConfig::oldPass()) RzxConfig::globalConfig()->setOldPass();
 				RzxConfig::globalConfig()->setPass(m_newPass);
 				RzxConfig::globalConfig()->flush();
 				break;

@@ -97,6 +97,7 @@ public:
 	void closeSettings();
 
 	void setPass(const QString& passcode);
+	void setOldPass(const QString& oldPass = QString::null);
 	
 	static int useSystray();
 	static int useSearch();
@@ -145,6 +146,7 @@ public:
 	static QString propPromo();
 
 	static QString pass();
+	static QString oldPass();
 	static int colonnes();	
 	static int computerIconSize();
 	static bool computerIconHighlight();
