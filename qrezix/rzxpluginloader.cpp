@@ -378,6 +378,9 @@ void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 		case RzxPlugIn::DATA_ICONFAVORITE: value = new QVariant(*RzxConfig::themedIcon("favorite")); break;
 		case RzxPlugIn::DATA_ICONNOTFAVORITE: value = new QVariant(*RzxConfig::themedIcon("not_favorite")); break;
 		case RzxPlugIn::DATA_CONNECTEDLIST: value = new QVariant(QRezix::global()->rezal->getIpList()); break;
+		case RzxPlugIn::DATA_ICONOK: value = new QVariant(*RzxConfig::themedIcon("ok")); break;
+		case RzxPlugIn::DATA_ICONAPPLY: value = new QVariant(*RzxConfig::themedIcon("apply")); break;
+		case RzxPlugIn::DATA_ICONCANCEL: value = new QVariant(*RzxConfig::themedIcon("cancel")); break;
 		default: return;
 	}
 	
