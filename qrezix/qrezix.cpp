@@ -291,7 +291,11 @@ void QRezix::activateAutoResponder( bool state )
 
 void QRezix::toggleVisible(){
 	if(isVisible())
+	{
+		bool dispProp = (m_properties && m_properties->isVisible());
 		hide();
+		if(dispProp) m_properties->show();
+	}
 	else{
 		bool saveStatusMax = statusMax;
 		showNormal();	//pour forcer l'affichage de la fenêtre ==> modifie statusMax

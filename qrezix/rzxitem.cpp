@@ -151,8 +151,11 @@ void RzxItem::drawComputerIcon(){
 	if (!icon.isNull() && !RzxConfig::computerIconSize() && (!isSelected() || !RzxConfig::computerIconHighlight()))
 	{
 		QImage img = icon.convertToImage();
-		img = img.smoothScale(32, 32);
-		tempIcon.convertFromImage(img);
+		if(!img.isNull())
+		{
+			img = img.smoothScale(32, 32);
+			tempIcon.convertFromImage(img);
+		}
 	}
 	setPixmap(0, tempIcon);
 }
