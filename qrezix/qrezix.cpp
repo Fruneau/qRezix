@@ -145,6 +145,7 @@ void QRezix::closeByTray()
 /** Lance la sauvegarde des données principales lors de la fermeture de rezix. Cette méthode est censée permettre l'enregistrement des données lors de la fermeture de l'environnement graphique... */
 void QRezix::saveSettings()
 {
+	byTray = true;
 	QSize s = size();       // store size
 	QString height="";
 	height.sprintf("%4d",s.height());
