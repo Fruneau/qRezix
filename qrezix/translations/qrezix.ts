@@ -71,6 +71,18 @@
         <source>Everybody</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Plug-ins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Away</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation type="unfinished">Préférences</translation>
+    </message>
 </context>
 <context>
     <name>RzxChat</name>
@@ -144,6 +156,22 @@
     <message>
         <source>Ping received</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Computer properties</source>
+        <translation type="unfinished">Propriétés de l&apos;ordinateur</translation>
+    </message>
+    <message>
+        <source>Property</source>
+        <translation type="unfinished">Propriété</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation type="unfinished">Valeur</translation>
+    </message>
+    <message>
+        <source>History</source>
+        <translation type="unfinished">Historique</translation>
     </message>
 </context>
 <context>
@@ -219,6 +247,14 @@
     <message>
         <source>...</source>
         <translation type="unfinished">...</translation>
+    </message>
+    <message>
+        <source>Plug-ins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -655,15 +691,15 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>Computer properties</source>
-        <translation>Propriétés de l&apos;ordinateur</translation>
+        <translation type="obsolete">Propriétés de l&apos;ordinateur</translation>
     </message>
     <message>
         <source>Property</source>
-        <translation>Propriété</translation>
+        <translation type="obsolete">Propriété</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation>Valeur</translation>
+        <translation type="obsolete">Valeur</translation>
     </message>
     <message>
         <source>Cannot create peer to peer socket !
@@ -675,7 +711,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>RECONNECTED</source>
-        <translation>RECONNECTÉ</translation>
+        <translation type="obsolete">RECONNECTÉ</translation>
     </message>
     <message>
         <source>%1 clients connected</source>
@@ -683,7 +719,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>DISCONNECTED</source>
-        <translation>DÉCONNECTÉ</translation>
+        <translation type="obsolete">DÉCONNECTÉ</translation>
     </message>
     <message>
         <source>%1 is now marked as away</source>
@@ -718,12 +754,20 @@ Les discussions et les propriétés sont désactivées</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Properties sent to </source>
+        <source>Cancel</source>
+        <translation type="unfinished">Annuler</translation>
+    </message>
+    <message>
+        <source>reconnected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
+        <source>disconnected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Properties sent to %2 (%3) at %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1265,6 +1309,10 @@ Please, reenter your password. You can&apos;t get connected to the xnetserver un
     </message>
     <message>
         <source>About Qt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
