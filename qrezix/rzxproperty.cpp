@@ -66,6 +66,11 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	lblWorkDir_2->hide();
 	txtBeepCmd->hide();
 #endif
+
+#ifdef Q_OS_MACX
+	cbSystray->hide();
+#endif
+
 	initDlg();
 	changeTheme();
 }

@@ -266,6 +266,9 @@ void RzxComputer::scanServers()
 	if(!detectSMB.bind(ip, 139))
 		servers |= RzxComputer::SERVER_SAMBA;
 #else
+#ifdef Q_OS_MACX
+	servers = RzxComputer::SERVER_FTP | RzxComputer::SERVER_HTTP | RzxComputer::SERVER_NEWS | RzxComputer::SERVER_SAMBA;
+#else
   QProcess *netstat;
   QStringList res;
   
@@ -294,7 +297,8 @@ void RzxComputer::scanServers()
   //au cas où netstat fail ou qu'il ne soit pas installé
   else
 		servers = RzxComputer::SERVER_FTP | RzxComputer::SERVER_HTTP | RzxComputer::SERVER_NEWS | RzxComputer::SERVER_SAMBA;
-#endif
+#endif //MACX
+#endif //WIN32
 	int oldServers = getServers();
 	
 	if(servers != getServers())

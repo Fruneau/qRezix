@@ -216,14 +216,23 @@ void RzxServerListener::serverReceive() {
 			for (int scanline = 0; scanline < ICON_HEIGHT; scanline++) {
 				unsigned char * line = image.scanLine(scanline);
 				for (int pixel = 0; pixel < ICON_WIDTH; pixel++) {
+#ifdef Q_OS_MACX
+					*(line++) = 255;
+#endif
 					*line = *src;
 					*(++line) = *(++src);
 					*(++line) = *(++src);
+#ifndef Q_OS_MACX
 					*(++line) = 255;
+#endif
 					++line; src++;
 				}
 			}
+#ifndef Q_OS_MACX
 			swapImg = image.swapRGB();
+#else
+			swapImg = image;
+#endif
 			emit rcvIcon(&swapImg, iconHost);
 			iconMode = false;
 		}
