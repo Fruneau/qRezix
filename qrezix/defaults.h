@@ -31,7 +31,7 @@
 
 #define RZX_VERSION QString("%1.%2").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION)
 
-#ifdef WIN32			// sous linux, la version est definie dans le makefile
+#ifndef HAVE_CONFIG_H			// sous linux, la version est definie dans config.h
 #define VERSION QString("%1.%2.%3").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION).arg(RZX_FUNNYVERSION)
 #endif
 
