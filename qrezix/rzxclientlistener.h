@@ -135,6 +135,7 @@ class RzxClientListener : public QObject  {
 
 	protected slots: // Protected slots
 		void socketRead(int socket);
+		void info(const QString&);
 		
 	signals:
 		void propertiesSent(const RzxHostAddress& host);
