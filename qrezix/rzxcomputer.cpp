@@ -256,6 +256,30 @@ QString RzxComputer::getResal(bool shortname) const
 		if(adr >= 97 && adr <= 100) resal -= 2;
 		if(adr >= 101 && adr <= 104) resal--;
 	}
+
+	//Pour prendre en compte les nouveaux caserts...
+	//En espérant tout de même qu'un jour ils porteronts des vrais nom :(
+	if(resal >= 224 && resal <= 229)
+	{
+		int greaterMask = (resal<<1) + (adr>>7);
+		switch(greaterMask)
+		{
+			case (224<<1)+0: return "B71";
+			case (224<<1)+1: return "B70";
+			case (225<<1)+0: return "B73";
+			case (225<<1)+1: return "B74";
+			case (226<<1)+0: return "B75";
+			case (226<<1)+1: return "B80";
+			case (227<<1)+0: return "B76";
+			case (227<<1)+1: return "B77";
+			case (228<<1)+0: return "B78";
+			case (228<<1)+1: return "B72";
+			case (229<<1)+0: return "B79";
+		}
+	}
+
+	//Pour le wifi
+	if(resal == 230) return "Wifi";
 	
 	//Distribution (stribution) des bâtiments en fonction du sous-réseau
 	if(resal == 203 || resal == 204) return "BEM";
