@@ -25,6 +25,7 @@
 #include "rzxconfig.h"
 #include "rzxrezal.h"
 #include "rzxproperty.h"
+#include "rzxpluginloader.h"
 
 #include "defaults.h"
 
@@ -32,6 +33,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	: QRezixUI(parent, name), m_properties(0), tray(0)
 	
 {
+	RzxPlugInLoader::global();
 	connect((QObject *) btnPreferences, SIGNAL(clicked()), this, SLOT(boitePreferences()));
 	connect((QObject *) btnMAJcolonnes, SIGNAL(clicked()), rezal, SLOT(adapteColonnes()));
 	connect((QObject *) btnAutoResponder, SIGNAL(clicked()), this, SLOT(toggleAutoResponder()));
@@ -49,13 +51,16 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	connect(rezal, SIGNAL(countChange(const QString&)), lblCount, SLOT(setText(const QString&)));
 	connect(rezal, SIGNAL(countChange(const QString&)), this, SIGNAL(setToolTip(const QString&)));
 	
-	if(!QFile(RzxConfig::globalConfig()->find()).exists()) {
+	if(!RzxConfig::globalConfig()->find())
+	{
 		m_properties = new RzxProperty(this);
 		m_properties -> exec();
-	} 
+	}
 	//RzxConfig::loadTranslators();
 	rezal -> initConnection();
+	RzxPlugInLoader::global()->init();
 }
+
 void QRezix::languageChanged(){
 	qDebug("Language changed");
 	languageChange();
@@ -109,9 +114,13 @@ void QRezix::closeEvent(QCloseEvent * e){
 	QString windowSize;
 	if( statusMax ) windowSize = "100000000";
 	else windowSize="0"+height+width;
+	qDebug("Fermeture des plugins");
+	delete RzxPlugInLoader::global();
+	qDebug("Fermeture de l'enregistrement des configurations");
 	RzxConfig::globalConfig()->writeWindowSize(windowSize);
-	
-	RzxConfig::globalConfig() -> write();
+	RzxConfig::globalConfig() -> closeSettings();
+	qDebug("Fermeture du rezal");
+
 	if (!rezal -> isSocketClosed()){
 		lblStatus -> setText(tr("Closing socket..."));
 		rezal -> setEnabled(false);

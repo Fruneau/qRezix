@@ -59,7 +59,8 @@ public:
 		SERVER_PART = 5,
 		SERVER_UPGRADE = 6,
 		SERVER_FATAL = 7,
-		SERVER_ICON = 8
+		SERVER_ICON = 8,
+		SERVER_WRONGPASS = 9
 	};
 
 	static QStringList split(char sep, const QString& command, unsigned int count);
@@ -73,6 +74,10 @@ public:
 	void sendRefresh(RzxComputer * thisComputer);
 	/** Envoie le message de deconnection */
 	void sendPart();
+	/** Envoie la liste des fichiers indexés */
+	void sendFileList(int n, const QString& files);
+	/** Envoie de la demande de suppression de la liste des fichiers indexés **/
+	void sendDeleteList();
 	
 public slots:
 	/** Demande un envoi d'icone

@@ -28,6 +28,8 @@ email                : benoit.casoetto@m4x.org
 
 #include "rzxconfig.h"
 #include "rzxcomputer.h"
+#include "rzxserverlistener.h"
+#include "rzxpluginloader.h"
 #include <qspinbox.h>
 #include "rzxrezal.h"
 #include "q.xpm"
@@ -139,8 +141,6 @@ void RzxProperty::initDlg() {
 	//CbHotline->setChecked( servers & RzxComputer::SERVER_HOTLINE );
 	CbHTTP->setChecked( servers & RzxComputer::FLAG_HTTP );
 	CbNews->setChecked( servers & RzxComputer::FLAG_NEWS );
-	CbIndexFtp->setChecked(RzxConfig::indexFtp());
-	CbIndexFtp->setEnabled(RzxConfig::localHost()->getServers() & RzxComputer::SERVER_FTP);
 
 
 	//QRezix * rezix = getRezix();
@@ -231,12 +231,16 @@ void RzxProperty::initDlg() {
 			languageBox->setCurrentItem( i );
 		}
 	}
+
+	RzxPlugInLoader::global()->makePropListView(lvPlugInList, btnPlugInProp);
 }
 
 
 void RzxProperty::updateLocalHost()
 {
+	bool refresh = (RzxConfig::localHost() -> getName().lower() != hostname->text().lower());
 	RzxConfig::localHost() -> setName(hostname->text());
+	if(refresh) RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_DNSNAME, NULL);
 	RzxConfig::localHost() -> setRemarque(remarque -> text());
 	RzxConfig::localHost() -> setPromo(cmbPromo->currentItem() + 1);
 	RzxConfig::localHost() -> setRepondeur(chkAutoResponder -> isChecked());
@@ -300,10 +304,6 @@ void RzxProperty::miseAJour() {
 	cfgObject -> writeEntry( "txtSport", cmbSport->currentText() );
 	cfgObject -> writeEntry( "numSport", cmbSport->currentItem());
 	cfgObject -> writeEntry( "language", languageBox->currentText() );
-	cfgObject -> writeEntry( "indexftp", CbIndexFtp->isChecked() ? 1 : 0 );
-	
-	if(CbIndexFtp->isChecked()) RzxConfig::localHost()->runScanFtp();
-	else RzxConfig::localHost()->stopScanFtp();
 	
 	if (ui -> rezal) {
 		ui -> rezal -> afficheColonnes();

@@ -67,7 +67,7 @@ protected slots: // Protected slots
 	void socketClosed();
 	void activateFavorites();
 	void toggleVisible();
-    void languageChange();
+	void languageChange();
 
 };
 

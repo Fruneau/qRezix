@@ -32,6 +32,7 @@ template<class T> class QMemArray : public QArray<T> {};
 #include <qpixmap.h>
 #include <qdir.h>
 #include <qtranslator.h>
+#include <qsettings.h>
 
 class RzxComputer;
 class QPixmap;
@@ -67,6 +68,7 @@ class RzxConfig : public QObject  {
 	QDir m_themeDir;
 	QStringList fontFamilies;
 	QDict<FontProperty> * fontProperties;
+	QSettings *settings;
 
 	
 public:
@@ -83,6 +85,7 @@ public:
 	QValueList<int> getSizes(const QString&);
 	bool isItalicSupported(const QString&);
 	bool isBoldSupported(const QString&);
+	void closeSettings();
 	
 	static int favoritesMode();
 	static void setFavoritesMode(int);
@@ -142,7 +145,7 @@ public:
 	static QString readWindowSize();
 	static void writeWindowSize(QString ws);
 
-	static QString find();
+	static bool find();
 	static QString findData(const QString& name, const QString& relative = QString::null);
 	/** Returns the dir where all system-wide data are saved */
 	static QDir computerIconsDir();

@@ -104,7 +104,7 @@ RzxConfig::RzxConfig()
 	favorites=new QDict<QString>(USER_HASH_TABLE_LENGTH,false);
 	favorites->setAutoDelete(true);
 	computer = 0;
-	
+	settings = new QSettings();
 	
 #ifdef WIN32
 	m_systemDir = m_userDir = QDir::currentDirPath();	
@@ -128,17 +128,16 @@ RzxConfig::RzxConfig()
 		m_systemDir = m_userDir;
 	}
 #endif
+	settings->insertSearchPath(QSettings::Unix,m_userDir.canonicalPath());
 	qDebug("System path set to "+m_systemDir.path());
 	qDebug("Personnal path set to "+m_userDir.path());
 	loadTranslators();
 	allIcons.setAutoDelete(true);
 	progIcons.setAutoDelete(true);
-	parse();
 	readFavorites();
-	if(fileEntries["language"]){
-		qDebug("Language is set to"+*fileEntries["language"]);
-		setLanguage(*fileEntries["language"]);
-	}	
+	QString lg = readEntry("language", "English");
+	qDebug("Language is set to"+ lg);
+	setLanguage(lg);
 	qDebug("Trying to open "+ findData("action.png",  themePath + "/" + iconTheme()));	
 	
 	QMimeSourceFactory::defaultFactory()->setImage( "action", findData("action.png", themePath+"/"+iconTheme()) );	//TODO trouver le répertoire du thême cournat
@@ -207,9 +206,16 @@ RzxConfig::FontProperty::~FontProperty() {
 * REPERTOIRES DES DONNEES																	  *
 *****************************************************************************/
 /** OS SPECIFIC */
-QString RzxConfig::find() {
-	return globalConfig() -> m_userDir.absFilePath(CONF_REZIX);
+bool RzxConfig::find()
+{
+	if(!globalConfig() -> readEntry("firstload", 1))
+	{
+		globalConfig() -> writeEntry("firstload", 0);
+		return false;
+	}
+	return true;
 }
+
 QDir RzxConfig::userDir() { return globalConfig() -> m_userDir; }
 QDir RzxConfig::systemDir() { return globalConfig() -> m_systemDir; }
 
@@ -249,7 +255,7 @@ QString RzxConfig::findData(const QString& name, const QString& relative) {
 ******************************************************************************/
 
 /** Parse un fichier de configuration (tres simple: seulement entree=valeur) */
-void RzxConfig::parse(){
+/*void RzxConfig::parse(){
 	QString fileName = find();
 	
 	QFile file(fileName);
@@ -276,17 +282,18 @@ void RzxConfig::parse(){
 		line = stream.readLine();
 	}
 	
-}
+}*/
 
 QString RzxConfig::readEntry(const QString& name, const QString& def) {
-	QString * ret = fileEntries.find(name);
+	return settings->readEntry("/qRezix/general/" + name, def);
+/*	QString * ret = fileEntries.find(name);
 	if (!ret) {
 		fileEntries.insert(name, new QString(def));
 		return def;
 	}
 	else {
 		return *ret;
-	}
+	}*/
 }
 
 int RzxConfig::readEntry(const QString& name, int def) {
@@ -298,11 +305,12 @@ int RzxConfig::readEntry(const QString& name, int def) {
 }
 
 void RzxConfig::writeEntry(const QString& name, const QString& val) {
-	QString * curVal = fileEntries.find(name);
+	settings->writeEntry("/qRezix/general/" + name, val);
+/*	QString * curVal = fileEntries.find(name);
 	if (curVal)
 		*curVal = val;
 	else
-		fileEntries.insert(name, new QString(val));
+		fileEntries.insert(name, new QString(val));*/
 	// A MODIFIER !
 	if (name == "localhost")
 		loadLocalHost();
@@ -539,13 +547,12 @@ void RzxConfig::loadLocalHost() {
 	computer->setPromo( promo );
 	computer->setRepondeur( repondeur );
 	computer->setServerFlags( servers );
-	computer->initScanFtp();
 	computer->scanServers();
 }
 
 
 void RzxConfig::write() {
-	QString fileName = find();
+	/*QString fileName = find();
 		
 	QFile file(fileName);
 	if (!file.open(IO_WriteOnly | IO_Truncate | IO_Translate)) {
@@ -559,7 +566,14 @@ void RzxConfig::write() {
 	for (; strConfig.current(); ++strConfig) {
 		stream << strConfig.currentKey() << "=" << *(strConfig.current()) << endl;
 	}
-	file.close();
+	file.close();*/
+	delete settings;
+	settings = new QSettings();
+}
+void RzxConfig::closeSettings()
+{
+	delete settings;
+	settings = NULL;
 }
 
 QColor RzxConfig::repondeurHighlight() {
