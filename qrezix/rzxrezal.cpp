@@ -32,6 +32,7 @@
 #include "rzxitem.h"
 #include "rzxclientlistener.h"
 #include "rzxmessagebox.h"
+#include "rzxpluginloader.h"
 #include "q.xpm"
 
 
@@ -151,6 +152,7 @@ void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos,
 			popup.insertItem(tr("Remove from favorites"),this,SLOT(removeFromFavorites()));
 		else
 			popup.insertItem(tr("Add to favorites"),this,SLOT(addToFavorites()));
+		RzxPlugInLoader::global()->menuItem(popup);
 		popup.popup(pos);
 	}
 }

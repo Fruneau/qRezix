@@ -27,6 +27,7 @@
 #include "rzxchat.h"
 #include "rzxproperty.h"
 #include "rzxmessagebox.h"
+#include "rzxpluginloader.h"
 
 const char *RzxComputer::promalText[4] = { "?", QT_TR_NOOP("Orange") , QT_TR_NOOP("Rouje"), QT_TR_NOOP("Jone") };
 
@@ -49,7 +50,12 @@ void RzxComputer::initLocalHost( void )
 
 RzxComputer::RzxComputer()
 {
-	indexFtp = NULL;
+	delayScan = NULL;
+}
+
+RzxComputer::~RzxComputer()
+{
+	if(delayScan) delete delayScan;
 }
 
 
@@ -131,7 +137,6 @@ QString RzxComputer::serialize(bool stamp) {
 
 void RzxComputer::setName(const QString& newName) 
 {
-	if(newName.lower() != name.lower() && indexFtp) indexFtp->changeDns(newName);
 	name = newName;
 }
 void RzxComputer::setRepondeur(bool i){
@@ -213,31 +218,6 @@ void RzxComputer::removePreviousIcons(){
 	}
 }
 
-//Prépare le scan des ftp
-void RzxComputer::initScanFtp()
-{
-	if(!indexFtp)
-		indexFtp = new RzxFileSharing(ip.toString(), name);
-}
-
-
-//Démarrage d'un scan du ftp
-void RzxComputer::runScanFtp()
-{
-	if(!RzxConfig::indexFtp()) return;
-	if(!getServers() & RzxComputer::SERVER_FTP) return;
-	if(!indexFtp) return;
-	indexFtp->launch();
-}
-
-//Arrêt du scan du ftp
-void RzxComputer::stopScanFtp()
-{
-	if(indexFtp)  indexFtp->stop();
-}
-
-
-
 //Scan des servers ouverts
 void RzxComputer::scanServers()
 {
@@ -292,14 +272,23 @@ void RzxComputer::scanServers()
   else
 		servers = RzxComputer::SERVER_FTP | RzxComputer::SERVER_HTTP | RzxComputer::SERVER_NEWS | RzxComputer::SERVER_SAMBA;
 #endif
-
-	if(!servers & RzxComputer::SERVER_FTP) stopScanFtp();
-	else runScanFtp();
+	int oldServers = getServers();
+	
 	if(servers != getServers())
 	{
 		setServers(servers);
 		RzxProperty::serverUpdate();
 	}
+
+	if((servers & RzxComputer::SERVER_FTP) ^ (oldServers & RzxComputer::SERVER_FTP))
+		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_SERVERFTP, NULL);
+	if((servers & RzxComputer::SERVER_HTTP) ^ (oldServers & RzxComputer::SERVER_HTTP))
+		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_SERVERHTTP, NULL);
+	if((servers & RzxComputer::SERVER_NEWS) ^ (oldServers & RzxComputer::SERVER_NEWS))
+		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_SERVERNEWS, NULL);
+	if((servers & RzxComputer::SERVER_SAMBA) ^ (oldServers & RzxComputer::SERVER_SAMBA))
+		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_SERVERSMB, NULL);
+
 	delayScan->start(30000); //bon, le choix de 30s, c vraiment aléatoire
 							//1 ou 2 minutes, ç'aurait pas été mal, mais bon
 }

@@ -34,7 +34,9 @@ email                : sylvain.joyeux@m4x.org
 #include <qapplication.h>
 #endif
 
+#include <qlibrary.h>
 #include "trayicon.h"
+#include "rzxpluginloader.h"
 
 #ifdef WITH_KDE
 static const char *description =
@@ -81,6 +83,7 @@ int main(int argc, char *argv[])
 		menu.insertItem(a.tr("&I'm back !"), rezix, SLOT(toggleAutoResponder()), 0, 2);
 	else
 		menu.insertItem(a.tr("I'm &away !"), rezix, SLOT(toggleAutoResponder()), 0, 2);
+	RzxPlugInLoader::global()->menuTray(menu);
 	TrayIcon tray(iconeProg, "Rezix", &menu, rezix );
 	rezix -> tray = &tray;
 	
