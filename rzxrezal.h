@@ -18,6 +18,7 @@
 #ifndef RZXREZAL_H
 #define RZXREZAL_H
 
+#include <qstringlist.h>
 #include <qlistview.h>
 #include <qdict.h>
 #include <qpopupmenu.h>
@@ -91,6 +92,7 @@ public slots: // Public slots
 	virtual void recvIcon(QImage*Icon, const RzxHostAddress&);
 	virtual void login(const QString& ordi);
 	virtual void logout(const RzxHostAddress& ip);
+	QStringList getIpList();
 	void redrawAllIcons();
 	bool isSocketClosed() const;
 	void sysmsg(const QString& msg);
