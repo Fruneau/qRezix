@@ -16,6 +16,7 @@
  ***************************************************************************/
 #include <qapplication.h>
 #include <qobjectlist.h>
+#include <qtooltip.h>
 
 #include "rzxrezal.h"
 
@@ -77,6 +78,7 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	connect(this,SIGNAL(rightButtonPressed(QListViewItem *,const QPoint &,int )),this,SLOT(creePopUpMenu(QListViewItem *,const QPoint &,int )));
 	connect(this, SIGNAL(spacePressed(QListViewItem *)), this, SLOT(chatCreate()));
 	connect(this, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(redrawSelectedIcon(QListViewItem*)));
+	connect(this, SIGNAL(onItem(QListViewItem*)), this, SLOT(buildToolTip(QListViewItem*)));
 	filter = QString::null;
 	filterOn = false;
 }
@@ -471,6 +473,34 @@ void RzxRezal::redrawSelectedIcon(QListViewItem *sel)
 	if(selected) selected->update();
 	selected = (RzxItem*)sel;
 	if(selected) selected->update();
+}
+
+///Mise à jour du tooltip de la fenêtre
+/** Le tooltip permet d'avoir des informations sur la personne, ça peut être pratique pour avoir en particulier une vue réduite mais en conservant l'accès faciles aux données ftp, http, promo... */
+void RzxRezal::buildToolTip(QListViewItem *i)
+{
+	QToolTip::remove(this->viewport());
+	if(!i) return;
+	
+	RzxItem *item = (RzxItem*)i;
+	RzxComputer *computer = item->getComputer();
+	QString tooltip = "<b>"+ i->text(ColNom) + "</b><br><br>";
+ 	tooltip += "<b><i>" + tr("Informations :") + "</b></i><br><ul>";
+	
+	int servers = computer->getServers();
+	if(servers & RzxComputer::SERVER_FTP)
+		tooltip += "<li>" + tr("ftp server :") + tr("<b>on</b>") + "</li>";
+	if(servers & RzxComputer::SERVER_HTTP)
+		tooltip += "<li>" + tr("web server :") + tr("<b>on</b>") + "</li>";
+	if(servers & RzxComputer::SERVER_NEWS)
+		tooltip += "<li>" + tr("news server :") + tr("<b>on</b>") + "</li>";
+	if(servers & RzxComputer::SERVER_SAMBA)
+		tooltip += "<li>" + tr("samba server :") + tr("<b>on</b>") + "</li>";
+	tooltip += "<li>" + computer->getClient() + "</li>";
+	tooltip += "<li> ip : <i>" + computer->getIP().toString() + "</i></li>";
+	tooltip +="</ul>";
+	
+	QToolTip::add(this->viewport(), itemRect(i), tooltip);
 }
 
 void RzxRezal::languageChanged(){
