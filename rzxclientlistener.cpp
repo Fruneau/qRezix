@@ -381,7 +381,7 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress&, const QString& msg
 	}
 	else
 	{
-		propertiesDialog = new QFrame(parent?parent:QRezix::global(), "ClientProp", WDestructiveClose | WStyle_Customize | WType_TopLevel | WStyle_StaysOnTop);
+		propertiesDialog = new RzxPopup(parent?parent:QRezix::global(), "ClientProp");
 		((QFrame*)propertiesDialog) -> setFrameShape(QFrame::PopupPanel);
 		((QFrame*)propertiesDialog) -> setFrameShadow(QFrame::Raised);
 		if(pos) propertiesDialog->move(*pos);
@@ -463,7 +463,7 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool
 	}
 	else
 	{
-		histoDialog = new QFrame(parent?parent:QRezix::global(), "Histo", WDestructiveClose | WStyle_Customize | WType_TopLevel | WStyle_StaysOnTop);
+		histoDialog = new RzxPopup(parent?parent:QRezix::global(), "Histo");
 		((QFrame*)histoDialog) -> setFrameShape(QFrame::PopupPanel);
 		((QFrame*)histoDialog) -> setFrameShadow(QFrame::Raised);
 		if(pos) 

@@ -85,12 +85,10 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	connect(rezal, SIGNAL(countChange(const QString&)), this, SIGNAL(setToolTip(const QString&)));
 
 
-	bool firstlaunch = !RzxConfig::globalConfig()->find();
 	m_properties = new RzxProperty(this);
 	if(!RzxConfig::globalConfig()->find() || !m_properties->infoCompleted())
 	{
-		if(!firstlaunch) 
-			m_properties->initDlg();
+		m_properties->initDlg();
 		m_properties -> exec();
 	}
 
