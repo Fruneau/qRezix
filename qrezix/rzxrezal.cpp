@@ -439,8 +439,6 @@ void RzxRezal::afficheColonnes(){
 			}
 		}
 	}
-	
-	if(RzxConfig::globalConfig()->autoColonne())
 		adapteColonnes();
 }
 
@@ -761,7 +759,7 @@ void RzxRezal::closeSocket(){
 
 void RzxRezal::resizeEvent(QResizeEvent * e) {
 	QListView::resizeEvent(e);
-	if (RzxConfig::autoColonne()) adapteColonnes();
+	adapteColonnes();
 }
 
 void RzxRezal::keyPressEvent(QKeyEvent *e) {
