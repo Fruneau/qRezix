@@ -115,6 +115,60 @@
         <source>qRezix</source>
         <translation>qRezix</translation>
     </message>
+    <message>
+        <source>&lt;h3&gt;Status bar&lt;/h3&gt;
+&lt;p&gt;Shows the status of your connection with the xnetserver&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Bar d&apos;état&lt;/h3&gt;
+&lt;p&gt;Indique le statut de votre connexion avec le xnetserver&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Status bar&lt;/h3&gt;
+&lt;p&gt;Shows the number of clients connected&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Barre d&apos;état&lt;/h3&gt;
+&lt;p&gt;Permet de connaître le nombre de personnes connectées au serveur&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Main view&lt;/h3&gt;
+&lt;p&gt;You can choose if you want to see Everybody or only your favorites.&lt;br&gt;
+Each item have a menu (right click)&lt;/p&gt;
+&lt;p&gt;To switch you can use &lt;b&gt;Shift+Tab&lt;/b&gt;&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;qRezix&lt;/h3&gt;
+&lt;p&gt;Permet de savoir qui est connecté de façon exhaustive. Vous avez le choix entre l&apos;affichage de tout le monde ou seulement de vos favoris&lt;/p&gt;
+&lt;p&gt;Pour chaque personne vous avez la possibilité de voire différentes informations, et un clique-droit sur la ligne correspondante permet d&apos;avoir accès à différentes actions.&lt;/p&gt;
+&lt;p&gt;Pour passer des Favoris à Tout le monde (et vice-versa), vous pouvez utiliser &lt;b&gt;Maj+Tab&lt;/b&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Search&lt;/h3&gt;
+&lt;p&gt;Type the beginning of the pseudonyme you are looking for and enable the search mode...&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Recherche&lt;/h3&gt;
+&lt;p&gt;Taper le début du pseudo que vous cherchez pour le trouver.&lt;/p&gt;
+&lt;p&gt;N&apos;oubliez pas d&apos;activer le mode recherche...&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Plug-ins&lt;/h3&gt;
+&lt;p&gt;Shows a menu which helps you to use the extra-features provided by qRezix&apos;s plug-ins&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Recherche&lt;/h3&gt;
+&lt;p&gt;Taper le début du pseudo que vous cherchez pour le trouver.&lt;/p&gt;
+&lt;p&gt;N&apos;oubliez pas d&apos;activer le mode recherche...&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Away&lt;/h3&gt;
+&lt;p&gt;If you press this button, other people will be informed that you are away, and your chat will be handle by a responder&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Loin&lt;/h3&gt;
+&lt;p&gt;En cliquant sur ce bouton vous être marqué &apos;Loin&apos; pour tout le monde. Vos communications tombent dès lors sur répondeur&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Adjust columns&lt;/h3&gt;
+&lt;p&gt;Sometimes useful...&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Ajuster les colonnes&lt;/h3&gt;
+&lt;p&gt;Utile... de temps en temps&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Preferences&lt;/h3&gt;
+&lt;p&gt;Set your preferences. A lot of things can be modified through this dialog&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Préférences&lt;/h3&gt;
+&lt;p&gt;Permet d&apos;ajuster une multitudes de petits réglages qui permettent d&apos;avoir un qRezix totalement personnalisé&lt;/p&gt;</translation>
+    </message>
 </context>
 <context>
     <name>RzxChangePassUI</name>
