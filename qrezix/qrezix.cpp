@@ -62,16 +62,15 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	new RzxUtilsLauncher(rezal);
 	
 	rezal->showNotFavorites(true);
-	rezalSearch->showNotFavorites(true);
 	rezalFavorites->showNotFavorites(false);
-	rezalSearch->loginFromLister(false);
+	
 	connect(btnPreferences, SIGNAL(clicked()), this, SLOT(boitePreferences()));
 	connect(btnMAJcolonnes, SIGNAL(clicked()), rezal, SLOT(afficheColonnes()));
 	connect(btnMAJcolonnes, SIGNAL(clicked()), rezalFavorites, SLOT(afficheColonnes()));
-	connect(btnMAJcolonnes, SIGNAL(clicked()), rezalSearch, SLOT(afficheColonnes()));
 	connect(btnAutoResponder, SIGNAL(toggled(bool)), this, SLOT(activateAutoResponder(bool)));
 	connect(btnPlugins, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
-	connect(btnSearch, SIGNAL(clicked()), this, SLOT(launchSearch()));
+	connect(btnSearch, SIGNAL(toggled(bool)), rezal, SLOT(activeFilter(bool)));
+	connect(btnSearch, SIGNAL(toggled(bool)), rezalFavorites, SLOT(activeFilter(bool)));
 	connect(leSearch, SIGNAL(returnPressed()), this, SLOT(launchSearch()));
 	connect(&menuPlugins, SIGNAL(aboutToHide()), btnPlugins, SLOT(toggle()));
  
@@ -81,13 +80,9 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	activateAutoResponder( RzxConfig::autoResponder() != 0 );
 
 	connect(rezal, SIGNAL(favoriteRemoved(RzxComputer*)), rezalFavorites, SLOT(logout(RzxComputer*)));
-	connect(rezalSearch, SIGNAL(favoriteRemoved(RzxComputer*)), rezalFavorites, SLOT(logout(RzxComputer*)));
 	connect(rezalFavorites, SIGNAL(favoriteRemoved(RzxComputer*)), rezalFavorites, SLOT(logout(RzxComputer*)));
 	connect(rezal, SIGNAL(favoriteAdded(RzxComputer*)), rezalFavorites, SLOT(login(RzxComputer*)));
-	connect(rezalSearch, SIGNAL(favoriteAdded(RzxComputer*)), rezalFavorites, SLOT(login(RzxComputer*)));
 	
-	connect(rezal, SIGNAL(itemFound(RzxComputer*)), rezalSearch, SLOT(login(RzxComputer*)));
-
 	clearWFlags(WStyle_SysMenu|WStyle_Minimize);
 	alreadyOpened=false;
 	
@@ -112,10 +107,8 @@ QRezix::QRezix(QWidget *parent, const char *name)
 
 	connect(RzxConfig::globalConfig(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
 	menuFormatChange();
-	
 
 	tbRezalContainer -> setCurrentIndex(RzxConfig::defaultTab());
-	tbRezalContainer -> setItemEnabled (2, RzxConfig::globalConfig()->useSearch());
 	leSearch -> setShown(RzxConfig::globalConfig()->useSearch());
 	btnSearch -> setShown(RzxConfig::globalConfig()->useSearch());
 
@@ -137,7 +130,6 @@ void QRezix::languageChanged(){
 	qDebug("Language changed");
 	languageChange();
 	rezal->languageChanged();
-	rezalSearch->languageChanged();
 	rezalFavorites->languageChanged();
 }
 
@@ -191,7 +183,6 @@ void QRezix::saveSettings()
 	if (!RzxConnectionLister::global() -> isSocketClosed()){
 		lblStatus -> setText(tr("Closing socket..."));
 		rezal-> setEnabled(false);
-		rezalSearch-> setEnabled(false);
 		rezalFavorites->setEnabled(false);
 		connect(RzxConnectionLister::global(), SIGNAL(socketClosed()), this, SLOT(socketClosed()));
 		RzxConnectionLister::global() -> closeSocket();
@@ -305,9 +296,10 @@ void QRezix::activateAutoResponder( bool state )
 ///Lancement d'une recherche sur le pseudo dans la liste des personnes connectées
 void QRezix::launchSearch()
 {
-	rezalSearch->clear();
-	if(rezal->search(leSearch->text()))
-		tbRezalContainer->setCurrentIndex(2);
+	rezal->setFilter(leSearch->text());
+	rezalFavorites->setFilter(leSearch->text());
+	if(!leSearch->text().length()) btnSearch->setOn(false);
+	else btnSearch->setOn(true);
 }
 
 void QRezix::changeTrayIcon(){
@@ -349,7 +341,6 @@ void QRezix::toggleVisible(){
 		raise();
 		alreadyOpened=true;
 		rezal->afficheColonnes();
-		rezalSearch->afficheColonnes();
 		rezalFavorites->afficheColonnes();
 	}
 }

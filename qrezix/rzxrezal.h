@@ -60,7 +60,7 @@ public:
 	
 	void showNotFavorites(bool val);
 	void loginFromLister(bool val);
-	int search(const QString &text);
+	void setFilter(const QString &text);
 
 	// Numero des colonnes
 	enum NumColonne
@@ -74,6 +74,11 @@ public:
 protected: // Protected attributes
 	bool dispNotFavorites;
 	RzxClientListener * client;
+	
+	// Pour les filtres
+	bool filterOn;
+	QString filter;
+
 	
 	// Definit necessaire pour le menu contextuel
 	RzxPopupMenu popup;
@@ -98,6 +103,7 @@ public slots: // Public slots
 	void clear();
 	void init();
 	void redrawAllIcons();
+	void activeFilter(bool on);
 
 	void removeFromFavorites();
 	void addToFavorites();
@@ -110,7 +116,6 @@ signals: // Signals
 	void status(const QString& msg, bool fatal);
 	void favoriteRemoved(RzxComputer*);
 	void favoriteAdded(RzxComputer*);
-	void itemFound(RzxComputer*);
 
 protected slots: // Protected slots
 	void onListDblClicked(QListViewItem * sender);
