@@ -59,6 +59,8 @@ RzxPlugInLoader::RzxPlugInLoader() : QObject(0, 0)
 	//et $HOME/.rezix/plugins
 	if (RzxConfig::globalConfig()->userDir() != RzxConfig::globalConfig()->systemDir())
 		loadPlugIn(RzxConfig::globalConfig()->userDir());
+	if (RzxConfig::globalConfig()->libDir() != RzxConfig::globalConfig()->systemDir())
+		loadPlugIn(RzxConfig::globalConfig()->libDir());
 #endif
 }
 
