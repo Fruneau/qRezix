@@ -383,10 +383,13 @@ void QRezix::chatSent() {
 /** Permet d'alerter lors de l'arrivée d'un favoris, que ce soit par l'émission d'un son, ou par l'affichage l'affichage d'un message indiquant la présence de ce favoris */
 void QRezix::warnForFavorite(RzxComputer *computer)
 {
+	//ne garde que les favoris avec en plus comme condition que ce ne soit pas les gens présents à la connexion
+	//evite de notifier la présence de favoris si en fait c'est nous qui arrivons.
 	if(!RzxConfig::globalConfig()->favorites->find( computer->getName()) 
 		|| RzxConnectionLister::global()->isInitialized())
 		return;
 		
+	//Bah, beep à la connexion
 	if(RzxConfig::beepConnection()) {
 #ifdef WIN32
 		QString file = RzxConfig::connectionSound();
@@ -404,6 +407,8 @@ void QRezix::warnForFavorite(RzxComputer *computer)
 		}
 #endif
 	}
+	
+	//Affichage de la fenêtre de notification de connexion
 }
 
 /// Changement du thème d'icone
