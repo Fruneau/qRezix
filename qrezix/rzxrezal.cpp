@@ -77,8 +77,7 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 
 	connect(server, SIGNAL(sysmsg(const QString&)), this, SLOT(sysmsg(const QString&)));
 	connect(server, SIGNAL(fatal(const QString&)), this, SLOT(fatal(const QString&)));
-	connect(server, SIGNAL(pass(int)), this, SLOT(passReceived(int)));
-
+	
 	connect(server, SIGNAL(login(const QString&)), this, SLOT(login(const QString&)));
 	connect(server, SIGNAL(logout(const RzxHostAddress&)), this, SLOT(logout(const RzxHostAddress&)));
 	connect(server, SIGNAL(rcvIcon(QImage*,const RzxHostAddress&)), this, SLOT(recvIcon(QImage*,const RzxHostAddress&)));
@@ -668,10 +667,6 @@ void RzxRezal::sysmsg(const QString& msg){
 void RzxRezal::fatal(const QString& msg){
 	// Boîte de dialogue modale
 	RzxMessageBox::critical( (QWidget *) parent(), tr("Error")+" - "+tr("XNet Server message"), msg, true );
-}
-
-void RzxRezal::passReceived(int val) {
-	RzxConfig::globalConfig()->writeEntry("pass", val);
 }
 
 /** CRASSOU AU POSSIBLE

@@ -19,6 +19,7 @@
 
 #include "rzxprotocole.h"
 #include "rzxcomputer.h"
+#include "rzxconfig.h"
 
 const char * RzxProtocole::ServerFormat[] = {
 	"^JOIN [0-9A-Fa-f]+ .* [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ .*",
@@ -91,9 +92,12 @@ void RzxProtocole::parse(const QString& msg){
 				
 			case SERVER_PASS:
 				emit sysmsg(msgParams);
-				val = msgParams.toULong(&ok, 16);
-				if (ok)
-					emit pass(val);
+				val = msgParams.toInt(&ok, 16);
+				if (ok) {
+					emit sysmsg("on emit le pass");
+					RzxConfig::globalConfig()->writeEntry("pass", val);
+					RzxConfig::globalConfig()->write();
+				}
 				break;
 				
 			case SERVER_PART:
@@ -145,7 +149,7 @@ QStringList RzxProtocole::split(char sep, const QString& command, unsigned int c
 */
 
 void RzxProtocole::sendAuth(int passcode, RzxComputer * thisComputer) {
-	QString msg = "VERSION 3.0\r\n";
+	QString msg = "VERSION 3.9\r\n";
 	msg = msg + "PASS " + QString::number(passcode, 16) + "\r\n";
 	msg = msg + "JOIN " + thisComputer -> serialize() + "\r\n";
 	

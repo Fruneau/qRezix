@@ -92,7 +92,6 @@ public slots: // Public slots
 	bool isSocketClosed() const;
 	void sysmsg(const QString& msg);
 	void fatal(const QString& msg);
-	void passReceived(int val);
 
 	void removeFromFavorites();
 	void addToFavorites();
