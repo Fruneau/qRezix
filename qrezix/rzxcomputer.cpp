@@ -259,7 +259,7 @@ QString RzxComputer::getResal(bool shortname) const
 	
 	//Distribution (stribution) des bâtiments en fonction du sous-réseau
 	if(resal == 203 || resal == 204) return "BEM";
-	if(resal >= 205 && resal <= 208) return (shortname?"Foch":"Foch ") + QString::number(resal - 205);
+	if(resal >= 205 && resal <= 208) return (shortname?"Foch.":"Foch ") + QString::number(resal - 205);
 	if(resal >= 209 && resal <= 212) return (shortname?"Fay.":"Fayolle ") + QString::number(resal - 209);
 	if(resal == 214) return "PEM";
 	if(resal >= 215 && resal <= 218) return (shortname?"Jof.":"Joffre ") + QString::number(resal - 215);
