@@ -216,7 +216,7 @@ void RzxProtocole::changePass(const QString& oldPass)
 	changepass = new RzxChangePassUI();
 	
 	//Application du masque pour être sur du formatage du password
-	changepass->leNewPass->setValidator(new QRegExpValidator(QRegExp("[^ ]{6,}"), this));
+	changepass->leNewPass->setValidator(new QRegExpValidator(QRegExp("[^ ]{6,63}"), this));
 	connect(changepass->leNewPass, SIGNAL(textChanged(const QString&)), this, SLOT(analyseNewPass()));
 	changepass->btnOK->setEnabled(false);
 	
