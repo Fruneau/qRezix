@@ -11,7 +11,7 @@
 
 ;Définition de versions
   !define MUI_PRODUCT "qRezix"
-  !define MUI_VERSION "v1.3 bêta"
+  !define MUI_VERSION "v1.5.0"
   !define MUI_NAME "${MUI_PRODUCT} ${MUI_VERSION}"
 
 ;Inclusion de fichiers
@@ -145,6 +145,26 @@ FunctionEnd
   File "..\icons\themes\${THEME}\*.png"
 !macroend
 
+!macro INSTALL_XPLO_THEME THEME
+  SetOutPath "$INSTDIR\plugins\themes"
+  CreateDirectory "${THEME}"
+  SetOutPath "$INSTDIR\plugins\themes\${THEME}"
+  File "..\..\xplo\xploplugin2\src\themes\${THEME}\*.png"
+!macroend
+
+!macro INSTALL_SMILEY_THEME THEME
+  SetOutPath "$INSTDIR\plugins\themes"
+  CreateDirectory "${THEME}"
+  SetOutPath "$INSTDIR\plugins\themes\${THEME}"
+  File "..\..\Smiley\qrezix-plugin-smiley\themes\${THEME}\*.png"
+!macroend
+
+!macro INSTALL_SMILEY_IMAGES THEME
+  SetOutPath "$INSTDIR\plugins\smiley"
+  CreateDirectory "${THEME}"
+  SetOutPath "$INSTDIR\plugins\smileys\${THEME}"
+  File "..\..\Smiley\qrezix-plugin-smiley\smileys\${THEME}\*.png"
+!macroend
   
 ;--------------------------------
 ;Languages
@@ -165,6 +185,7 @@ FunctionEnd
   LangString DESC_SecThememS ${LANG_FRENCH} "L'invasion des pingouins !"
   LangString DESC_SecTransFrench ${LANG_FRENCH} `Traduction française de qRezix`
   LangString DESC_SecPiXplo ${LANG_FRENCH} "Plug-in de l'Xplo... pour la recherche de fichiers"
+  LangString DESC_SecPiSmiley ${LANG_FRENCH} "Plug-in pour le chat qui ajoute converti les smileys en image"
 
 
 ;--------------------------------
@@ -222,7 +243,7 @@ Section "Fichiers de base de qRezix" SecBase
   !insertmacro MUI_STARTMENU_WRITE_END
 
   ;Enregistrement du chemin de stockage
-  WriteRegExpandStr HKLM "Software\qRezix\installpath" "$INSTDIR"
+  WriteRegExpandStr HKLM "Software\qRezix" "InstDir" "$INSTDIR"
   
   ;Create uninstaller
   WriteRegExpandStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "UninstallString" '"$INSTDIR\Uninstall.exe"'
@@ -334,7 +355,32 @@ Section "Plug-in de l'Xplo" SecPiXplo
   SectionIn 1
 
   SetOutPath "$INSTDIR\plugins"
-  File "..\qrezix\plugins\rzxpixplo.dll"
+  File "..\..\xplo\xploplugin2\bin\rzxpixplo.dll"
+  CreateDirectory "themes"
+  !insertmacro INSTALL_XPLO_THEME "classic"
+  !insertmacro INSTALL_XPLO_THEME "krystal"
+  SetOutPath "$INSTDIR"
+SectionEnd
+
+Section "Smiley, pour que le chat soit plus beau" SecPiSmiley
+  SetDetailsPrint textonly
+  DetailPrint "Plug-ins | Xplo"
+  SetDetailsPrint listonly
+
+  SectionIn 1
+
+  SetOutPath "$INSTDIR\plugins"
+  File "..\..\Smiley\qrezix-plugin-smiley\bin\rzxpismiley.dll"
+  CreateDirectory "themes"
+  CreateDirectory "smileys"
+  !insertmacro INSTALL_SMILEY_THEME "classic"
+  !insertmacro INSTALL_SMILEY_THEME "krystal"
+  !insertmacro INSTALL_SMILEY_THEME "NoiaWarmKDE"
+
+  !insertmacro INSTALL_SMILEY_IMAGES "basic"
+  !insertmacro INSTALL_SMILEY_IMAGES "basic2"
+  !insertmacro INSTALL_SMILEY_IMAGES "msnlike"
+
   SetOutPath "$INSTDIR"
 SectionEnd
 
@@ -364,6 +410,7 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SecTransFrench} $(DESC_SecTransFrench)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecPlugIns} "Plug-ins pour qRezix"
   !insertmacro MUI_DESCRIPTION_TEXT ${SecPiXplo} $(DESC_SecPiXplo)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecPiSmiley} $(DESC_SecPiSmiley)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 

@@ -36,16 +36,21 @@
 
 #ifdef WIN32
 #include <windows.h>
+#define RZXCHAT_IMPL_H
+#define RZXCLIENTLISTENER_H
+class RzxChat;
+class RzxClientListener;
+class RzxChatSocket;
 #endif
 
+#include "rzxhostaddress.h"
 #include "rzxconfig.h"
 #include "rzxcomputer.h"
 #include "qrezix.h"
 #include "rzxrezal.h"
 #include "rzxitem.h"
-#include "defaults.h"
 #include "rzxserverlistener.h"
-#include "rzxhostaddress.h"
+#include "defaults.h"
 
 
 #define CONF_REZIX "rezix.conf"
