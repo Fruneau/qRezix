@@ -3,6 +3,7 @@ bin_PROGRAMS = qrezix
 
 ## INCLUDES were found outside kdevelop specific part
 
+
 qrezix_SOURCES = rzxwrongpassui.ui rzxchatui.ui qrezixui.ui rzxquitui.ui rzxpropertyui.ui rzxpluginloader.cpp rzxplugin.cpp rzxquit.cpp dnsValidator.cpp trayicon.cpp rzxchat.cpp rzxproperty.cpp rzxserverlistener.cpp rzxrezal.cpp rzxprotocole.cpp rzxitem.cpp rzxhostaddress.cpp rzxconfig.cpp rzxcomputer.cpp rzxclientlistener.cpp qrezix.cpp main.cpp rzxmessagebox.cpp rzxmessagebox.h defaults.h dnsvalidator.h klocale.h qrezix.h resource.h rzxchat.h rzxclientlistener.h rzxcomputer.h rzxconfig.h rzxhostaddress.h rzxitem.h rzxmessagebox.h rzxproperty.h rzxprotocole.h rzxrezal.h rzxserverlistener.h trayicon.h rzxquit.h rzxplugin.h rzxpluginloader.h
 
 qrezix_LDADD   =  $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
