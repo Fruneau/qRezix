@@ -1,3 +1,11 @@
+[v1.5] 2004-09-17 <br2002@frankiz.polytechnique.fr>
+    * Mise à jour des Makefile [Pico]
+    * Bugfix pour les systèmes 64bits [Fruneau]
+    * Réorganisation de la fenêtre des propriétés [Fruneau]
+    * Changement du mot de passe [Fruneau]
+    * Restructuration du code pour une plus grande portabilité [Fruneau]
+    * Ajout d'un 'highlight' de l'item sélectionné lors de l'affichage en 32x32 (idée de Kikx) [Fruneau]
+
 [v1.3.666] 2004-08-24 <br2002@frankiz.polytechnique.fr>
     * La trayicon change lorsque l'on passe en away [Pico]
     * Affichage des propriétés et de l'historique dépendamment de la fenêtre de chat [Fruneau]
@@ -13,8 +21,7 @@
     * Ajout du choix de client ftp, http, news personnalisé [NC]
     * Ajout de la détection automatique des serveurs ftp, http, news et samba [Fruneau]
     * Ajout d'une boîte de dialogue à la fermeture du client [Fruneau]
-    * Utilisation d'un QTextEdit dérivé au lieu du MultiEdit obsolete,
-Shift+enter pr changer de ligne [Steak]
+    * Utilisation d'un QTextEdit dérivé au lieu du MultiEdit obsolete, Shift+enter pr changer de ligne [Steak]
     * Sauvegarde du pass quand il est reçu du serveur [Steak]
     * Bugfixes pour Windows [Fruneau@br2k3]
     * Makefile pour Windows [Fruneau]
@@ -28,20 +35,16 @@ Shift+enter pr changer de ligne [Steak]
     * bug des sons fixés pour Linux   [Steak]
       (choix du son et de la commande)
     * Ajustement automatique des colonnes [Steak]
-    * Reimplémentation complète des actions du clavier dans le
-ListView/RzxRezal [Steak]
+    * Reimplémentation complète des actions du clavier dans le ListView/RzxRezal [Steak]
     * Nouveau comportement dans la fenetre de chat pour Enter/Return [Steak]
     * Suppression de la colonne HotLine [Steak]
-    * Utilisation des constantes RzxRezal.col... au lieu des
-      numéros des colonnes [Steak]
+    * Utilisation des constantes RzxRezal.col... au lieu des numéros des colonnes [Steak]
     * Bouton dans la fenetre de chat pour couper/remettre le son [Steak]
     * Gestion de lftp en plus de gftp avec ouverture de console [Steak, ZyGot]
-    * Icones thématisées rajoutées pour le bouton du son + ajout dans le make
-install [Steak, Kikx]
+    * Icones thématisées rajoutées pour le bouton du son + ajout dans le make install [Steak, Kikx]
     * Bugfixs pour le multilinguisme (sport, chargt des qm) [Steak]
 
-[v1.2] JiBee Mais je sais pas ce qu'il a fait, il l'a pas écrit :)
-	[Steak]
+[v1.2] JiBee Mais je sais pas ce qu'il a fait, il l'a pas écrit :) [Steak]
     * par contre y'a des restes dans le code, pr les courageux
 
 [v1.1] 2002-04-06 <br2000@frankiz.polytechnique.fr>
