@@ -68,14 +68,12 @@ macx {
   themes.path = ./qrezix.app/Contents/Resources/themes
   icone.files = ./application.icns
   icone.path = ./qrezix.app/Contents/Resources
-
-  movecommand.files =
-  movecommand.path =
-  movecommand.commands = mv -f qrezix.app ../macosx/root/Applications/qrezix.app
+  qrezix.files = ./qrezix.app
+  qrezix.path = ../macosx/root/Applications/qrezix.app
 
   INSTALLS += translations \
            themes \
            icone \
-           movecommand
+           qrezix
 
 }
