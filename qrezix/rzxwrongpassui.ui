@@ -39,6 +39,19 @@
                     <property name="name">
                         <cstring>ledPassword</cstring>
                     </property>
+                    <property name="paletteBackgroundColor">
+                        <color>
+                            <red>255</red>
+                            <green>255</green>
+                            <blue>255</blue>
+                        </color>
+                    </property>
+                    <property name="frameShape">
+                        <enum>LineEditPanel</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Sunken</enum>
+                    </property>
                     <property name="echoMode">
                         <enum>Password</enum>
                     </property>

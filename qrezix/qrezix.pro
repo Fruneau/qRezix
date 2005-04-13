@@ -69,7 +69,7 @@ macx {
   icone.files = ./application.icns
   icone.path = ./qrezix.app/Contents/Resources
   qrezix.files = ./qrezix.app
-  qrezix.path = ../macosx/root/Applications/qrezix.app
+  qrezix.path = ../macosx/root/Applications
 
   INSTALLS += translations \
            themes \

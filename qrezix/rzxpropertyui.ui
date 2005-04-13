@@ -105,6 +105,13 @@
                                         <property name="name">
                                             <cstring>txtFirstname</cstring>
                                         </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
+                                        </property>
                                         <property name="frameShape">
                                             <enum>LineEditPanel</enum>
                                         </property>
@@ -116,10 +123,24 @@
                                         <property name="name">
                                             <cstring>txtSurname</cstring>
                                         </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
+                                        </property>
                                     </widget>
                                     <widget class="QLineEdit" row="0" column="1">
                                         <property name="name">
                                             <cstring>txtName</cstring>
+                                        </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="0" column="0">
@@ -316,83 +337,6 @@
                                         <string>Room:</string>
                                     </property>
                                 </widget>
-                                <widget class="QLineEdit">
-                                    <property name="name">
-                                        <cstring>txtMail</cstring>
-                                    </property>
-                                    <property name="geometry">
-                                        <rect>
-                                            <x>115</x>
-                                            <y>27</y>
-                                            <width>128</width>
-                                            <height>26</height>
-                                        </rect>
-                                    </property>
-                                    <property name="sizePolicy">
-                                        <sizepolicy>
-                                            <hsizetype>7</hsizetype>
-                                            <vsizetype>0</vsizetype>
-                                            <horstretch>0</horstretch>
-                                            <verstretch>0</verstretch>
-                                        </sizepolicy>
-                                    </property>
-                                    <property name="text">
-                                        <string></string>
-                                    </property>
-                                    <property name="cursorPosition">
-                                        <number>0</number>
-                                    </property>
-                                </widget>
-                                <widget class="QLineEdit">
-                                    <property name="name">
-                                        <cstring>txtWeb</cstring>
-                                    </property>
-                                    <property name="geometry">
-                                        <rect>
-                                            <x>115</x>
-                                            <y>59</y>
-                                            <width>128</width>
-                                            <height>26</height>
-                                        </rect>
-                                    </property>
-                                </widget>
-                                <widget class="QLineEdit">
-                                    <property name="name">
-                                        <cstring>txtPhone</cstring>
-                                    </property>
-                                    <property name="geometry">
-                                        <rect>
-                                            <x>115</x>
-                                            <y>91</y>
-                                            <width>128</width>
-                                            <height>26</height>
-                                        </rect>
-                                    </property>
-                                    <property name="sizePolicy">
-                                        <sizepolicy>
-                                            <hsizetype>7</hsizetype>
-                                            <vsizetype>0</vsizetype>
-                                            <horstretch>0</horstretch>
-                                            <verstretch>0</verstretch>
-                                        </sizepolicy>
-                                    </property>
-                                    <property name="cursorPosition">
-                                        <number>0</number>
-                                    </property>
-                                </widget>
-                                <widget class="QLineEdit">
-                                    <property name="name">
-                                        <cstring>txtCasert</cstring>
-                                    </property>
-                                    <property name="geometry">
-                                        <rect>
-                                            <x>115</x>
-                                            <y>123</y>
-                                            <width>128</width>
-                                            <height>26</height>
-                                        </rect>
-                                    </property>
-                                </widget>
                                 <widget class="QLabel">
                                     <property name="name">
                                         <cstring>lblWeb</cstring>
@@ -423,6 +367,111 @@
                                     </property>
                                     <property name="text">
                                         <string>e-mail:</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLineEdit">
+                                    <property name="name">
+                                        <cstring>txtMail</cstring>
+                                    </property>
+                                    <property name="geometry">
+                                        <rect>
+                                            <x>115</x>
+                                            <y>27</y>
+                                            <width>128</width>
+                                            <height>26</height>
+                                        </rect>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>7</hsizetype>
+                                            <vsizetype>0</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="paletteBackgroundColor">
+                                        <color>
+                                            <red>255</red>
+                                            <green>255</green>
+                                            <blue>255</blue>
+                                        </color>
+                                    </property>
+                                    <property name="text">
+                                        <string></string>
+                                    </property>
+                                    <property name="cursorPosition">
+                                        <number>0</number>
+                                    </property>
+                                </widget>
+                                <widget class="QLineEdit">
+                                    <property name="name">
+                                        <cstring>txtWeb</cstring>
+                                    </property>
+                                    <property name="geometry">
+                                        <rect>
+                                            <x>115</x>
+                                            <y>59</y>
+                                            <width>128</width>
+                                            <height>26</height>
+                                        </rect>
+                                    </property>
+                                    <property name="paletteBackgroundColor">
+                                        <color>
+                                            <red>255</red>
+                                            <green>255</green>
+                                            <blue>255</blue>
+                                        </color>
+                                    </property>
+                                </widget>
+                                <widget class="QLineEdit">
+                                    <property name="name">
+                                        <cstring>txtPhone</cstring>
+                                    </property>
+                                    <property name="geometry">
+                                        <rect>
+                                            <x>115</x>
+                                            <y>91</y>
+                                            <width>128</width>
+                                            <height>26</height>
+                                        </rect>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>7</hsizetype>
+                                            <vsizetype>0</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="paletteBackgroundColor">
+                                        <color>
+                                            <red>255</red>
+                                            <green>255</green>
+                                            <blue>255</blue>
+                                        </color>
+                                    </property>
+                                    <property name="cursorPosition">
+                                        <number>0</number>
+                                    </property>
+                                </widget>
+                                <widget class="QLineEdit">
+                                    <property name="name">
+                                        <cstring>txtCasert</cstring>
+                                    </property>
+                                    <property name="geometry">
+                                        <rect>
+                                            <x>115</x>
+                                            <y>123</y>
+                                            <width>128</width>
+                                            <height>26</height>
+                                        </rect>
+                                    </property>
+                                    <property name="paletteBackgroundColor">
+                                        <color>
+                                            <red>255</red>
+                                            <green>255</green>
+                                            <blue>255</blue>
+                                        </color>
                                     </property>
                                 </widget>
                             </widget>
@@ -596,6 +645,13 @@
                                                 <verstretch>0</verstretch>
                                             </sizepolicy>
                                         </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
+                                        </property>
                                         <property name="text">
                                             <string>Browse...</string>
                                         </property>
@@ -625,6 +681,13 @@
                                         <property name="name">
                                             <cstring>btnChangePass</cstring>
                                         </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
+                                        </property>
                                         <property name="text">
                                             <string>Change my password ...</string>
                                         </property>
@@ -643,6 +706,13 @@
                                                 <horstretch>0</horstretch>
                                                 <verstretch>0</verstretch>
                                             </sizepolicy>
+                                        </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
                                         </property>
                                         <property name="cursorPosition">
                                             <number>0</number>
@@ -676,6 +746,13 @@
                                         <property name="name">
                                             <cstring>txtAutoResponderMsg</cstring>
                                         </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
+                                        </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>&lt;h3&gt;Responder&lt;/h3&gt;&lt;p&gt;When you are away, people who want to chat with you will receive this message&lt;/p&gt;</string>
                                         </property>
@@ -691,6 +768,13 @@
                                     <widget class="QLineEdit" row="4" column="1" rowspan="1" colspan="2">
                                         <property name="name">
                                             <cstring>remarque</cstring>
+                                        </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>&lt;h3&gt;Comment&lt;/h3&gt;&lt;p&gt;Tell here what you want...&lt;/p&gt;</string>
@@ -1430,6 +1514,13 @@
                                 <property name="name">
                                     <cstring>txtWorkDir</cstring>
                                 </property>
+                                <property name="paletteBackgroundColor">
+                                    <color>
+                                        <red>255</red>
+                                        <green>255</green>
+                                        <blue>255</blue>
+                                    </color>
+                                </property>
                                 <property name="whatsThis" stdset="0">
                                     <string>&lt;h3&gt;Working directory&lt;/h3&gt;&lt;p&gt;Define the default directory where you want your clients store the files you download&lt;/p&gt;</string>
                                 </property>
@@ -1437,6 +1528,13 @@
                             <widget class="QToolButton">
                                 <property name="name">
                                     <cstring>btnBrowseWorkDir</cstring>
+                                </property>
+                                <property name="paletteBackgroundColor">
+                                    <color>
+                                        <red>255</red>
+                                        <green>255</green>
+                                        <blue>255</blue>
+                                    </color>
                                 </property>
                                 <property name="text">
                                     <string>Browse...</string>
@@ -1503,6 +1601,13 @@
                                                 <verstretch>0</verstretch>
                                             </sizepolicy>
                                         </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
+                                        </property>
                                         <property name="text">
                                             <string>xnetserver.eleves.polytechnique.fr</string>
                                         </property>
@@ -1533,6 +1638,13 @@
                                         <property name="name">
                                             <cstring>chat_port</cstring>
                                         </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
+                                        </property>
                                         <property name="maxValue">
                                             <number>32768</number>
                                         </property>
@@ -1562,6 +1674,13 @@
                                     <widget class="QSpinBox" row="0" column="1">
                                         <property name="name">
                                             <cstring>server_port</cstring>
+                                        </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
                                         </property>
                                         <property name="maxValue">
                                             <number>32768</number>
@@ -1633,6 +1752,13 @@
                                 <property name="name">
                                     <cstring>reconnection</cstring>
                                 </property>
+                                <property name="paletteBackgroundColor">
+                                    <color>
+                                        <red>255</red>
+                                        <green>255</green>
+                                        <blue>255</blue>
+                                    </color>
+                                </property>
                                 <property name="maxValue">
                                     <number>32768</number>
                                 </property>
@@ -1646,6 +1772,13 @@
                             <widget class="QSpinBox" row="0" column="1">
                                 <property name="name">
                                     <cstring>ping_timeout</cstring>
+                                </property>
+                                <property name="paletteBackgroundColor">
+                                    <color>
+                                        <red>255</red>
+                                        <green>255</green>
+                                        <blue>255</blue>
+                                    </color>
                                 </property>
                                 <property name="maxValue">
                                     <number>32768</number>
@@ -1776,6 +1909,13 @@
                                 <property name="name">
                                     <cstring>clientFtp</cstring>
                                 </property>
+                                <property name="paletteBackgroundColor">
+                                    <color>
+                                        <red>255</red>
+                                        <green>255</green>
+                                        <blue>255</blue>
+                                    </color>
+                                </property>
                                 <property name="editable">
                                     <bool>true</bool>
                                 </property>
@@ -1783,6 +1923,13 @@
                             <widget class="QComboBox" row="5" column="0">
                                 <property name="name">
                                     <cstring>clientNews</cstring>
+                                </property>
+                                <property name="paletteBackgroundColor">
+                                    <color>
+                                        <red>255</red>
+                                        <green>255</green>
+                                        <blue>255</blue>
+                                    </color>
                                 </property>
                                 <property name="editable">
                                     <bool>true</bool>
@@ -1799,6 +1946,13 @@
                             <widget class="QComboBox" row="3" column="0">
                                 <property name="name">
                                     <cstring>clientHttp</cstring>
+                                </property>
+                                <property name="paletteBackgroundColor">
+                                    <color>
+                                        <red>255</red>
+                                        <green>255</green>
+                                        <blue>255</blue>
+                                    </color>
                                 </property>
                                 <property name="editable">
                                     <bool>true</bool>
@@ -2014,6 +2168,13 @@
                                         <property name="name">
                                             <cstring>txtBeep</cstring>
                                         </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
+                                        </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Select the sound to play when you receive a new message&lt;/p&gt;</string>
                                         </property>
@@ -2021,6 +2182,13 @@
                                     <widget class="QToolButton">
                                         <property name="name">
                                             <cstring>btnBeepBrowse</cstring>
+                                        </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
                                         </property>
                                         <property name="text">
                                             <string>...</string>
@@ -2031,6 +2199,13 @@
                             <widget class="QLineEdit" row="0" column="1">
                                 <property name="name">
                                     <cstring>txtBeepCmd</cstring>
+                                </property>
+                                <property name="paletteBackgroundColor">
+                                    <color>
+                                        <red>255</red>
+                                        <green>255</green>
+                                        <blue>255</blue>
+                                    </color>
                                 </property>
                                 <property name="text">
                                     <string>play</string>
@@ -2087,6 +2262,13 @@
                                         <property name="name">
                                             <cstring>txtBeepFavorites</cstring>
                                         </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
+                                        </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Select the sound to play when a favorite get connected&lt;/p&gt;</string>
                                         </property>
@@ -2094,6 +2276,13 @@
                                     <widget class="QToolButton">
                                         <property name="name">
                                             <cstring>btnBeepBrowse_3</cstring>
+                                        </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
                                         </property>
                                         <property name="text">
                                             <string>...</string>
@@ -2202,6 +2391,13 @@
                                         <verstretch>0</verstretch>
                                     </sizepolicy>
                                 </property>
+                                <property name="paletteBackgroundColor">
+                                    <color>
+                                        <red>255</red>
+                                        <green>255</green>
+                                        <blue>255</blue>
+                                    </color>
+                                </property>
                                 <property name="whatsThis" stdset="0">
                                     <string>&lt;h3&gt;Plug-ins&lt;/h3&gt;&lt;p&gt;Shows the detected plug-ins&lt;/p&gt;</string>
                                 </property>
@@ -2217,6 +2413,13 @@
                                     <widget class="QToolButton">
                                         <property name="name">
                                             <cstring>btnPlugInReload</cstring>
+                                        </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
                                         </property>
                                         <property name="text">
                                             <string>&amp;Reload plug-in</string>
@@ -2248,6 +2451,13 @@
                                     <widget class="QToolButton">
                                         <property name="name">
                                             <cstring>btnPlugInProp</cstring>
+                                        </property>
+                                        <property name="paletteBackgroundColor">
+                                            <color>
+                                                <red>255</red>
+                                                <green>255</green>
+                                                <blue>255</blue>
+                                            </color>
                                         </property>
                                         <property name="text">
                                             <string>Plug-in pr&amp;operties ...</string>
