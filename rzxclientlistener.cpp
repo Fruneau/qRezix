@@ -430,6 +430,7 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	qPropertiesLayout->addWidget((QWidget*)PropList, 0, 0);
 	qPropertiesLayout->addWidget((QWidget*)clientLabel, 300, 0);
  
+	PropList->setPaletteBackgroundColor(QColor(255,255,255));
 	PropList->resize(300, 300);
 	PropList->addColumn(tr("Property"), -1);
 	PropList->addColumn(tr("Value"), -1);
