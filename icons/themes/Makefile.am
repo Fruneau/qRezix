@@ -1,1 +1,1 @@
-SUBDIRS=classic krystal ms NoiaWarmKDE MacOSX
+SUBDIRS=classic krystal ms NoiaWarmKDE MacOSX Kids
