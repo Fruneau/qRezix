@@ -1,3 +1,15 @@
+qrezix (1.6.2-1) unstable; urgency=low
+
+  * Version finale 
+
+ -- Guillaume Porcher <pico@fangorn.eleves.polytechnique.fr>  Thu,  7 Apr 2005 23:53:01 +0200
+
+qrezix (1.6.2-rc2) unstable; urgency=low
+
+  * Version de test avant la version finale
+
+ -- pico <pico@pico.eleves.polytechnique.fr>  Wed, 16 Mar 2005 19:48:11 +0100
+
 qrezix (1.6.2) unstable; urgency=low
 
   * Nouvelle version 

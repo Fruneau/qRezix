@@ -7,7 +7,7 @@ Standards-Version: 3.2.1
 
 Package: qrezix
 Architecture: all
-Depends: qrezix-bin,qrezix-theme-noia-warm,qrezix-theme-classic,qrezix-theme-krystal,qrezix-theme-ms,qrezix-translations-fr,qrezix-translations-us,qrezix-plugin-xplo,qrezix-plugin-smiley
+Depends: qrezix-bin,qrezix-theme-noia-warm,qrezix-theme-classic,qrezix-theme-krystal,qrezix-theme-ms,qrezix-theme-macosx,qrezix-theme-kids,qrezix-translations-fr,qrezix-translations-us,qrezix-plugin-xplo,qrezix-plugin-smiley
 Description: Qrezix (meta-package)
  Permet d'intaller l'ensemble des composants qrezix.
 
@@ -37,7 +37,12 @@ Architecture: all
 Provides: qrezix-theme
 Description: Thèmes d'icone pour QRezix par Lathuile: Open M$$!
 
-Package: qrezix-theme-MacOSX
+Package: qrezix-theme-macosx
+Architecture: all
+Provides: qrezix-theme
+Description: Thèmes d'icone pour QRezix par Fruneau
+
+Package: qrezix-theme-kids
 Architecture: all
 Provides: qrezix-theme
 Description: Thèmes d'icone pour QRezix par Fruneau
