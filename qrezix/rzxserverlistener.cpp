@@ -76,6 +76,8 @@ void RzxServerListener::setupConnection() {
 }
 
 void RzxServerListener::setupReconnection(const QString& msg) {
+	if(reconnection.isActive()) return;
+
 	emit disconnected();
 
 	unsigned int time = RzxConfig::reconnection();
@@ -115,7 +117,7 @@ void RzxServerListener::waitReconnection()
 		notify(message + "... " + tr("will try to reconnect in %1 seconds").arg(timeToConnection/1000));
 }
 
-/** Erreur ï¿½la conenction au serveur. On rï¿½ssaie en SERVER_RECONNECTION ms */
+/** Erreur à la conenction au serveur. On rï¿½ssaie en SERVER_RECONNECTION ms */
 void RzxServerListener::serverError(int error) {
 	pingTimer.stop();
 	
@@ -125,24 +127,12 @@ void RzxServerListener::serverError(int error) {
 		break;
 		
 	case QSocket::ErrHostNotFound:
-//		notify(tr("Host not found. Manual search..."));
+		setupReconnection(tr("Cannot find server %1").arg(RzxConfig::serverName()));
 
-		/* J'ai supprimé cette partie parce que la recherche 'manuelle' est bloquante et de toute façon d'une utilité douteuse...
-		En fait après des tests, il semble que ça ne serve à rien
-		quoi qu'en pense le BR2000
-		*/
-		
-		/* Recherche à la main du serveur. Pas gégène, mais ça marche. */
-		/*if( !alternateGetHostByName() )*/
-		{
-			setupReconnection(tr("Cannot find server %1").arg(RzxConfig::serverName()));
-	
-
-			if(hasBeenConnected)
-				RzxMessageBox::information( NULL, "qRezix",
-					tr("Cannot find server %1:\n\nDNS request failed").arg(RzxConfig::serverName()));
-			hasBeenConnected = false;
-		}
+		if(hasBeenConnected)
+			RzxMessageBox::information( NULL, "qRezix",
+				tr("Cannot find server %1:\n\nDNS request failed").arg(RzxConfig::serverName()));
+		hasBeenConnected = false;
 		break;
 
 	case QSocket::ErrSocketRead:
@@ -159,7 +149,7 @@ void RzxServerListener::serverClose() {
 	setupReconnection(tr("Connection closed"));
 }
 
-/** Appelï¿½quand il n'y a pas eu de ping depuis plus de RzxConfig::pingTimeout() ms */
+/** Appelée quand il n'y a pas eu de ping depuis plus de RzxConfig::pingTimeout() ms */
 void RzxServerListener::serverTimeout(){
 	setupReconnection(tr("Connection lost"));
 }
@@ -179,36 +169,6 @@ void RzxServerListener::connectToXnetserver()
 	socket.connectToHost(serverHostname, serverPort);	
 	notify(tr("Looking for server %1").arg(serverHostname));
 }
-
-/** no comment. */
-/*#ifdef WIN32
-#include <winsock2.h>
-#else //!WIN32
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <sys/socket.h>
-#endif //WIN32*/
-
-/** #### oui, c'est synchrone, donc bloquant. ####
-    Et en plus c'est assez crade. */
-/*bool RzxServerListener::alternateGetHostByName( void )
-{
-	const char * hostname = RzxConfig::serverName().latin1();
-	struct hostent * p = gethostbyname( hostname );
-	if( p )
-	{
-		struct in_addr sin_addr;
-		sin_addr.s_addr = *(unsigned long *) p->h_addr;
-		QString addr( inet_ntoa( sin_addr ) );
-
-		notify(tr("Looking for server %1").arg(addr));
-		socket.connectToHost(addr, RzxConfig::serverPort());	
-		return true;
-    }
-
-	return false;
-}*/
 
 void RzxServerListener::serverFound() {
 	notify(tr("Server found, trying to connect"));
@@ -236,7 +196,6 @@ void RzxServerListener::beginAuth(){
 void RzxServerListener::serverReceive() {
 	QString temp;
 	QImage image(64, 64, 32), swapImg;
-//	QPixmap pix;
 	
 	while(socket.canReadLine() || iconMode) {
 		if (iconMode && socket.bytesAvailable() < ICON_SIZE)

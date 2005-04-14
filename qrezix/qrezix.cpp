@@ -166,7 +166,7 @@ void QRezix::status(const QString& msg, bool fatal){
 	lblStatus -> setText(msg);
 	statusFlag = !fatal;
 
-	changeTheme();
+//	changeTheme();
 	if(statusFlag)
 		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("on"));
 	else
