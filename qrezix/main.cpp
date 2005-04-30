@@ -23,6 +23,11 @@ email                : sylvain.joyeux@m4x.org
 #include <qdir.h>
 #include <qstring.h>
 
+#ifdef Q_OS_MACX
+#include <qmacstyle_mac.h>
+#endif
+#include <qwindowsstyle.h>
+
 #include "qrezix.h"
 
 #include "defaults.h"
@@ -122,6 +127,10 @@ int main(int argc, char *argv[])
 	qDebug(QString("qRezix ") + VERSION + RZX_TAG_VERSION + "\n");
 	QApplication a(argc,argv);
 
+#ifdef Q_OS_MACX
+	a.setStyle(new QMacStyle());
+#endif
+
 	QPixmap iconeProg((const char **)q);
 	iconeProg.setMask(iconeProg.createHeuristicMask() );
 
@@ -140,7 +149,6 @@ int main(int argc, char *argv[])
 		QObject::connect(RzxConfig::globalConfig(), SIGNAL(languageChanged()), rezix, SLOT(languageChanged()));
 		
 		rezix -> setIcon(iconeProg);
-		rezix -> languageChanged();
 		rezix -> tray = new TrayIcon(iconeProg, "Rezix", rezix );
 	
 		QObject::connect(rezix->tray,SIGNAL(clicked(const QPoint&)),rezix,SLOT(toggleVisible()));

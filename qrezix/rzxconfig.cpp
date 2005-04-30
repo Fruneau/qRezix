@@ -197,11 +197,28 @@ RzxConfig::RzxConfig()
 	setLanguage(lg);
 	qDebug("Language is set to "+ lg);
 	
+	qDebug("Loading theme");
 	allIcons.setAutoDelete(true);
 	progIcons.setAutoDelete(true);
-	qDebug("Trying to open "+ findData("action.png",  themePath + "/" + iconTheme()));	
-	QMimeSourceFactory::defaultFactory()->setImage( "action", findData("action.png", themePath+"/"+iconTheme()) );	//TODO trouver le répertoire du thême cournat
-	
+	QString theme = findData("action.png",  themePath + "/" + iconTheme());
+	if(!theme)
+	{
+		qDebug("User's default theme not found, trying with " + iconTheme(false));
+		theme = findData("action.png",  themePath + "/" + iconTheme(false));
+		if(theme != QString::null)
+			setIconTheme(NULL, iconTheme(false)); //NULL pour qu'on ne tente pas de changer les icônes dans un qRezix non encore chargé
+	}
+	if(!theme)
+	{
+		qDebug("No icons theme available");
+		QMessageBox::critical(NULL, tr("No icons theme"), tr("qRezix was unable to find a usable icons theme.\nPlease, check you installation"), false);
+	}
+	else
+	{
+		qDebug("Trying to open theme from " + theme);
+		QMimeSourceFactory::defaultFactory()->setImage( "action", theme );	//TODO trouver le répertoire du thême cournat
+	}
+
 	//Chargement des données QVB sur les fontes du système
 	QFontDatabase fdb;
 	fontProperties = new QDict<FontProperty>(907); //nombre premier plus grand que le nombre de polices supposé
@@ -393,7 +410,10 @@ QPixmap * RzxConfig::icon(const QString& name, QDict<QPixmap>& cache, const QStr
 	
 	QString fileName = config -> findData(name + ".png", subdir);
 	if (fileName.isNull())
+	{
+		qDebug("Icon "+name+" not found");
 		return ret;
+	}
 	ret -> load(fileName);
 	return ret;
 }
@@ -486,6 +506,9 @@ int RzxConfig::useSystray(){ return globalConfig() -> readEntry("useSystray", 1)
 int RzxConfig::useSystray(){ return globalConfig() -> readEntry("useSystray", 0); }
 #endif
 
+/** Renvoie la taille de la tray icon */
+int RzxConfig::traySize() { return globalConfig()->readEntry("traysize", 22); }
+
 int RzxConfig::useSearch(){ return globalConfig() -> readEntry("useSearch", 1); }
 int RzxConfig::defaultTab(){ return globalConfig() -> readEntry("defaultTab", 1); }
 /* Renvoie si une boite d'info doit etre ouverte quand qqun checke nos propriétés ou pas */
@@ -550,7 +573,10 @@ int RzxConfig::numSport(){ return globalConfig() -> readEntry("numSport", 0);}
 QString RzxConfig::propMail(){ return globalConfig() -> readEntry("txtMail", "");}
 QString RzxConfig::propWebPage(){ return globalConfig() -> readEntry("txtWeb", "");}
 QString RzxConfig::propCasert(){ return globalConfig() -> readEntry("txtCasert", "");}
-QString	RzxConfig::iconTheme(){ return globalConfig() -> readEntry("theme", DEFAULT_THEME);}
+QString	RzxConfig::iconTheme(bool def){
+	if(def) return globalConfig() -> readEntry("theme", DEFAULT_THEME);
+	return DEFAULT_THEME_HELP;
+}
 QString	RzxConfig::FTPPath(){ return globalConfig() -> readEntry("FTPPath", "");}
 
 int RzxConfig::menuTextPosition() { return globalConfig() ->readEntry("menuTextPos", 2); }
@@ -614,9 +640,12 @@ bool RzxConfig::computerIconHighlight() { return globalConfig() -> readEntry("ic
 
 void RzxConfig::setIconTheme(QObject * parent, const QString& name) {
 	globalConfig() -> writeEntry("theme", name);
-	globalConfig() -> progIcons.clear();
-	((QRezix *) parent) -> changeTheme();
-	emit globalConfig()->themeChanged();
+	if(parent)
+	{
+		globalConfig() -> progIcons.clear();
+		((QRezix *) parent) -> changeTheme();
+		emit globalConfig()->themeChanged();
+	}
 }
 
 /** Renvoie le RzxComputer identifiant localhost */

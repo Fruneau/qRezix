@@ -20,7 +20,8 @@
 #define DEFAULT_RECONNECTION 60000
 #define DEFAULT_TIMEOUT 120000
 #define DEFAULT_MAIL "Inscris toi sur polytechnique.org"
-#define DEFAULT_THEME "classic"
+#define DEFAULT_THEME "krystal"
+#define DEFAULT_THEME_HELP "classic"
 
 // Version envoyee au serveur
 #define RZX_CLIENT_ID (0x06)

@@ -113,7 +113,7 @@ char* MD5File(char* szFilename)
 
 		if ((file = fopen (szFilename, "rb")) != NULL)
 		{
-			while (nLen = fread (chBuffer, 1, 1024, file))
+			while ((nLen = fread (chBuffer, 1, 1024, file)))
 				alg.Update(chBuffer, nLen);
 
 			alg.Finalize();
