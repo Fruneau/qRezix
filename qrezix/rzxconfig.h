@@ -103,6 +103,7 @@ public:
 	void setOldPass(const QString& oldPass = QString::null);
 	
 	static int useSystray();
+	static int traySize();
 	static int useSearch();
 	static int defaultTab();
 	static int warnCheckingProperties();
@@ -119,7 +120,7 @@ public:
 	static int chatPort();
 	static int serverPort();
 	static QString serverName();
-	static QString iconTheme();
+	static QString iconTheme(bool def = true);
 	static QString FTPPath();
 	static int quitMode();
 	static bool showQuit();

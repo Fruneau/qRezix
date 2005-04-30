@@ -88,14 +88,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Search</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+S</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>qRezix</source>
         <translation type="unfinished"></translation>
     </message>
@@ -565,17 +557,25 @@ dans lequel il enregistre sa configuration</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>qRezix cannot create %1, which is the folder
-in which its configuration is saved
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>qRezix can&apos;t find  %s/%s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unable to open ignoreList file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>qRezix cannot create %1, which is the folder in which its configuration is saved
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No icons theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>qRezix was unable to find a usable icons theme.
+Please, check you installation</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -826,6 +826,26 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>Your comment is not valid...&lt;br&gt;It can&apos;t contain linebreaks or other &apos;special&apos; character</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Infos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Misc.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plug-ins</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1123,6 +1143,10 @@ Les discussions et les propriétés sont désactivées</translation>
         <source>none</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
@@ -1267,7 +1291,7 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
     </message>
     <message>
         <source>&amp;Infos</source>
-        <translation>&amp;Infos</translation>
+        <translation type="obsolete">&amp;Infos</translation>
     </message>
     <message>
         <source>ReziX infos</source>
@@ -1427,7 +1451,7 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
     </message>
     <message>
         <source>&amp;Network</source>
-        <translation>&amp;Réseau</translation>
+        <translation type="obsolete">&amp;Réseau</translation>
     </message>
     <message>
         <source>Browse</source>
@@ -1511,7 +1535,7 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
     </message>
     <message>
         <source>&amp;Layout</source>
-        <translation>&amp;Affichage</translation>
+        <translation type="obsolete">&amp;Affichage</translation>
     </message>
     <message>
         <source>Columns layout</source>
@@ -1579,7 +1603,7 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
     </message>
     <message>
         <source>Misc.</source>
-        <translation type="obsolete">Divers</translation>
+        <translation type="unfinished">Divers</translation>
     </message>
     <message>
         <source>Command to play a sound :</source>
@@ -1619,10 +1643,6 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
     </message>
     <message>
         <source>Print hh:mm:ss in chat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Plug-ins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1700,10 +1720,6 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
     <message>
         <source>Icon selection</source>
         <translation type="unfinished">Sélection de l&apos;icône</translation>
-    </message>
-    <message>
-        <source>&amp;Misc.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Translation</source>
@@ -1957,6 +1973,26 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
     </message>
     <message>
         <source>&lt;h3&gt;Plug-in properties&lt;/h3&gt;&lt;p&gt;Displays the properties window of the selected plug-in&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h2&gt;New Item&lt;/h2&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Infos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size of tray icon :</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

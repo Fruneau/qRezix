@@ -127,7 +127,6 @@ QRezix::QRezix(QWidget *parent, const char *name)
 
 	connect(rezal, SIGNAL(selectionChanged(QListViewItem*)), RzxPlugInLoader::global(), SLOT(itemChanged(QListViewItem*)));
 	connect(RzxConfig::globalConfig(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
-	menuFormatChange();
 
 	tbRezalContainer -> setCurrentIndex(RzxConfig::defaultTab());
 	leSearch -> setShown(RzxConfig::globalConfig()->useSearch());
@@ -136,8 +135,8 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	//Raccourcis claviers particuliers
 	accel = new QAccel(this, "RezixAccel");
 	accel->connectItem(accel->insertItem(Key_Tab+SHIFT), this, SLOT(switchTab()));
-	changeTheme();
-	wellInit = TRUE; 
+	menuFormatChange();
+	wellInit = TRUE;
 }
 
 void QRezix::launchPlugins()
@@ -166,7 +165,6 @@ void QRezix::status(const QString& msg, bool fatal){
 	lblStatus -> setText(msg);
 	statusFlag = !fatal;
 
-//	changeTheme();
 	if(statusFlag)
 		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("on"));
 	else
@@ -476,6 +474,7 @@ void QRezix::newFavorite()
 /** Cette méthode met à jour les icônes de l'interface principale (menu), mais aussi celles des listes de connectés */
 void QRezix::changeTheme()
 {
+	qDebug("Theme changed");
 	rezal -> redrawAllIcons();
 	rezalFavorites -> redrawAllIcons();
 	QIconSet pi, away, columns, prefs,favorite,not_favorite, search;

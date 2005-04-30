@@ -13,10 +13,12 @@ email                : benoit.casoetto@m4x.org
 #include <qcombobox.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
+#include <qlistbox.h>
 #include <qimage.h>
 #include <qdir.h>
 #include <qapplication.h>
 #include <qmessagebox.h>
+#include <qwidgetstack.h>
 #include <qbitmap.h>
 #include <qvalidator.h>
 
@@ -53,6 +55,7 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	connect( btnBeepBrowse_3, SIGNAL( clicked()), this, SLOT(chooseBeepConnection())) ;
 	connect(btnAboutQt, SIGNAL(clicked()), this, SLOT(aboutQt()));
 	connect(cmbMenuIcons, SIGNAL(activated(int)), this,SLOT(lockCmbMenuText(int)));
+	connect( lbMenu, SIGNAL(highlighted(int)), this, SLOT(changePage(int )));
 
 	btnBeepBrowse -> setEnabled(false);
 	btnBeepBrowse_3 -> setEnabled(false);
@@ -78,7 +81,13 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	cbSystray->hide();
 #endif
 
+#ifndef Q_OS_UNIX
+	sbTraySize->hide();
+	lblTraySize->hide();
+#endif
+
 	initDlg();
+	changePage(0);
 	changeTheme();
 }
 
@@ -93,6 +102,22 @@ void RzxProperty::changeTheme()
 	btnAnnuler->setIconSet(cancel);
 	btnOK->setIconSet(ok);
 	btnMiseAJour->setIconSet(apply);
+
+	lbMenu->clear();
+	if(RzxConfig::themedIcon("systray")->isNull())
+		lbMenu->insertItem(QPixmap(( const char ** ) q ), tr("Infos"));
+	else
+		lbMenu->insertItem(*RzxConfig::themedIcon("systray"), tr("Infos"));
+	lbMenu->insertItem(*RzxConfig::themedIcon("layout"), tr("Layout"));
+	lbMenu->insertItem(*RzxConfig::themedIcon("network"), tr("Network"));
+	lbMenu->insertItem(*RzxConfig::themedIcon("pref"), tr("Misc."));
+	lbMenu->insertItem(*RzxConfig::themedIcon("plugin"), tr("Plug-ins"));
+}
+
+void RzxProperty::changePage(int i)
+{
+	lblTitle->setText("<h2>"+lbMenu->text(i)+"</h2>");
+	prefStack->raiseWidget(i);
 }
 
 void RzxProperty::initLangCombo(){
@@ -222,6 +247,7 @@ void RzxProperty::initDlg() {
 
 	cbHighlight->setChecked(RzxConfig::computerIconHighlight());
 	cbRefuseAway->setChecked(RzxConfig::refuseWhenAway());
+	sbTraySize->setValue(RzxConfig::traySize());
 	
 	clientFtp ->clear();
 	clientHttp ->clear();
@@ -441,6 +467,14 @@ bool RzxProperty::miseAJour() {
 	
 	cfgObject -> writeEntry( "refuseAway", cbRefuseAway->isChecked());
 	RzxConfig::setAutoResponder(RzxConfig::autoResponder());
+
+#ifdef Q_OS_UNIX
+	if(sbTraySize->value() != RzxConfig::traySize())
+	{
+		cfgObject->writeEntry("traysize", sbTraySize->value());
+		QRezix::global()->changeTrayIcon();
+	}
+#endif
 
 	if(RzxConfig::menuTextPosition() != cmbMenuText->currentItem() || RzxConfig::menuIconSize() != cmbMenuIcons->currentItem())
 	{
