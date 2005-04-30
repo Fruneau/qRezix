@@ -741,7 +741,7 @@ void RzxChat::showEvent ( QShowEvent * e){
 }
 #endif
 
-void RzxChat::moveEvent(QMoveEvent *e)
+void RzxChat::moveEvent(QMoveEvent *)
 {
 	if(hist)
 		hist->move(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));

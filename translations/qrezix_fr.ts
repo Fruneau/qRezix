@@ -101,11 +101,11 @@
     </message>
     <message>
         <source>&amp;Search</source>
-        <translation>&amp;Rechercher</translation>
+        <translation type="obsolete">&amp;Rechercher</translation>
     </message>
     <message>
         <source>Alt+S</source>
-        <translation>Alt+R</translation>
+        <translation type="obsolete">Alt+R</translation>
     </message>
     <message>
         <source>QRezix</source>
@@ -654,7 +654,7 @@ dans lequel il enregistre sa configuration</translation>
         <source>qRezix cannot create %1, which is the folder
 in which its configuration is saved
 </source>
-        <translation>qRezix ne peut pas créer le répertoire %1,
+        <translation type="obsolete">qRezix ne peut pas créer le répertoire %1,
 dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
@@ -664,6 +664,22 @@ dans lequel il enregistre sa configuration</translation>
     <message>
         <source>Unable to open ignoreList file %1</source>
         <translation>Impossible d&apos;ouvrir le fichier de l&apos;ignore-list %1</translation>
+    </message>
+    <message>
+        <source>qRezix cannot create %1, which is the folder in which its configuration is saved
+</source>
+        <translation>qRezix ne peut pas créer le répertoire %1 nécessaire pour stocker les données de configuration
+</translation>
+    </message>
+    <message>
+        <source>No icons theme</source>
+        <translation>Pas de thème d&apos;icônes</translation>
+    </message>
+    <message>
+        <source>qRezix was unable to find a usable icons theme.
+Please, check you installation</source>
+        <translation>qRezix n&apos;a pas pu trouver de thème d&apos;icône exploitable.
+Assurez-vous qu&apos;au moins un thème d&apos;icônes a été installé.</translation>
     </message>
 </context>
 <context>
@@ -939,6 +955,26 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     <message>
         <source>Your comment is not valid...&lt;br&gt;It can&apos;t contain linebreaks or other &apos;special&apos; character</source>
         <translation>Votre commentaire n&apos;est pas valide...&lt;br&gt;Il ne doit pas contenir de sauts de ligne ou d&apos;autres caractères spéciaux</translation>
+    </message>
+    <message>
+        <source>Infos</source>
+        <translation>Infos</translation>
+    </message>
+    <message>
+        <source>Layout</source>
+        <translation>Affichage</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation>Réseau</translation>
+    </message>
+    <message>
+        <source>Misc.</source>
+        <translation>Divers</translation>
+    </message>
+    <message>
+        <source>Plug-ins</source>
+        <translation>Plug-ins</translation>
     </message>
 </context>
 <context>
@@ -1280,6 +1316,10 @@ Propriétés envoyées à %2 (%3)</translation>
         <source>none</source>
         <translation>aucune</translation>
     </message>
+    <message>
+        <source>%1</source>
+        <translation>%1</translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
@@ -1436,7 +1476,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&amp;Infos</source>
-        <translation>&amp;Infos</translation>
+        <translation type="obsolete">&amp;Infos</translation>
     </message>
     <message>
         <source>ReziX infos</source>
@@ -1596,7 +1636,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&amp;Network</source>
-        <translation>&amp;Réseau</translation>
+        <translation type="obsolete">&amp;Réseau</translation>
     </message>
     <message>
         <source>Browse</source>
@@ -1680,7 +1720,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&amp;Layout</source>
-        <translation>&amp;Affichage</translation>
+        <translation type="obsolete">&amp;Affichage</translation>
     </message>
     <message>
         <source>Columns layout</source>
@@ -1748,7 +1788,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Misc.</source>
-        <translation type="obsolete">Divers</translation>
+        <translation>Divers</translation>
     </message>
     <message>
         <source>Command to play a sound :</source>
@@ -1796,7 +1836,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&amp;Plug-ins</source>
-        <translation>&amp;Plug-ins</translation>
+        <translation type="obsolete">&amp;Plug-ins</translation>
     </message>
     <message>
         <source>Plug-ins</source>
@@ -1880,7 +1920,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&amp;Misc.</source>
-        <translation>&amp;Divers</translation>
+        <translation type="obsolete">&amp;Divers</translation>
     </message>
     <message>
         <source>Sound</source>
@@ -2145,6 +2185,26 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <message>
         <source>&lt;h3&gt;Plug-in properties&lt;/h3&gt;&lt;p&gt;Displays the properties window of the selected plug-in&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Propriétés du plug-in...&lt;/h3&gt;&lt;p&gt;Affiche les propriétés du plug-in sélectionné.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h2&gt;New Item&lt;/h2&gt;</source>
+        <translation>&lt;h2&gt;Nouvel élément&lt;/h2&gt;</translation>
+    </message>
+    <message>
+        <source>Infos</source>
+        <translation>Infos</translation>
+    </message>
+    <message>
+        <source>Layout</source>
+        <translation>Affichage</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation>Réseau</translation>
+    </message>
+    <message>
+        <source>Size of tray icon :</source>
+        <translation>Taille de la trayicon</translation>
     </message>
 </context>
 </TS>

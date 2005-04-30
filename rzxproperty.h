@@ -70,6 +70,7 @@ protected slots: // Protected slots
 	void chooseBeep();
 	void chooseBeepConnection();
 	void lockCmbMenuText(int index);
+	void changePage(int i);
 };
 
 #endif
