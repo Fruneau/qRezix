@@ -163,13 +163,6 @@
                     <verstretch>0</verstretch>
                 </sizepolicy>
             </property>
-            <property name="paletteBackgroundColor">
-                <color>
-                    <red>255</red>
-                    <green>255</green>
-                    <blue>255</blue>
-                </color>
-            </property>
             <property name="acceptDrops">
                 <bool>false</bool>
             </property>
