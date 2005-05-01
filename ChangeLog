@@ -1,3 +1,9 @@
+[v1.6.3] 2005-05 <br2003@frankiz.polytechnique.fr>
+    * Fenêtre de préférence listbox/windowsstack [Fruneau]
+    * Correction du bug qui bouffe 100% proc en cas de déconnexion [Fruneau]
+    * Choix de la taille de la trayicon sous linux [Fruneau]
+    * Meilleur intégration sur MacOS X [gZeus]
+
 [v1.6.2] 2005-02 <br2003@frankiz.polytechnique.fr>
     * Autocompletion sur le nick (touche TAB) [Fruneau]
     * Aide contextuelle dans la fenêtre princpale [Fruneau]
