@@ -85,6 +85,7 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	sbTraySize->hide();
 	lblTraySize->hide();
 #endif
+	btnPlugInReload->hide();
 
 	initDlg();
 	changePage(0);
