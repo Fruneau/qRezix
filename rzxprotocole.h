@@ -49,7 +49,7 @@ public:
 	~RzxProtocole();
 	
 	enum Icons {
-		ICON_SIZE=12288,
+		ICON_SIZE= 64*64*4,
 		ICON_WIDTH=64,
 		ICON_HEIGHT=64
 	};

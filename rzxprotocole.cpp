@@ -199,7 +199,7 @@ QStringList RzxProtocole::split(char sep, const QString& command, unsigned int c
 */
 
 void RzxProtocole::sendAuth(const QString& passcode, RzxComputer * thisComputer) {
-	QString msg = "VERSION 3.9\r\n";
+	QString msg = "VERSION 4.0\r\n";
 	msg = msg + "PASS " + passcode + "\r\n";
 /*      //avec hash:
 	QString pass_added=passcode+MD5_ADD;
@@ -287,7 +287,7 @@ void RzxProtocole::validChangePass()
 		m_oldPass = MD5String(m_oldPass.latin1());
 		m_newPass = MD5String(m_newPass.latin1());
 		qDebug(m_oldPass + " " + m_newPass);
-		emit send("CHANGEPASS " + m_oldPass + " " + m_newPass + "\r\n");
+		emit send("CHANGEPASS " + m_newPass + "\r\n");
 
 		changepass->deleteLater();
 		changepass = NULL;
