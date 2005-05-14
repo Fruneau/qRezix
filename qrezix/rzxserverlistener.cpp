@@ -196,6 +196,7 @@ void RzxServerListener::beginAuth(){
 void RzxServerListener::serverReceive() {
 	QString temp;
 	QImage image(64, 64, 32), swapImg;
+	image.setAlphaBuffer(true);
 	
 	while(socket.canReadLine() || iconMode) {
 		if (iconMode && socket.bytesAvailable() < ICON_SIZE)
@@ -208,26 +209,17 @@ void RzxServerListener::serverReceive() {
 			// on convertit l'image recue pour la rendre affichable
 			unsigned char * src = (unsigned char *) iconBuffer;	
 			for (int scanline = 0; scanline < ICON_HEIGHT; scanline++) {
-				unsigned char * line = image.scanLine(scanline);
+				QRgb* line = (QRgb*)image.scanLine(scanline);
 				for (int pixel = 0; pixel < ICON_WIDTH; pixel++) {
-#ifdef Q_OS_MACX
-					*(line++) = 255;
-#endif
-					*line = *src;
-					*(++line) = *(++src);
-					*(++line) = *(++src);
-#ifndef Q_OS_MACX
-					*(++line) = 255;
-#endif
-					++line; src++;
+					char r,v,b,a;
+					r = *(src++);
+					v = *(src++);
+					b = *(src++);
+					a = *(src++);
+					*(line++) = qRgba(r, v, b, a);
 				}
 			}
-#ifndef Q_OS_MACX
-			swapImg = image.swapRGB();
-#else
-			swapImg = image;
-#endif
-			emit rcvIcon(&swapImg, iconHost);
+			emit rcvIcon(&image, iconHost);
 			iconMode = false;
 		}
 		
@@ -290,19 +282,19 @@ void RzxServerListener::sendIcon(const QImage& image) {
 	else
 		return;
 
-  unsigned char buffer[ICON_SIZE];
-  unsigned char * dest;
-  QRgb *src;
-  memset(buffer, 255, ICON_SIZE);
-  for (int scanline = 0; scanline < ICON_HEIGHT; scanline++) {
-  	dest = buffer + ICON_WIDTH * scanline * 3;
-  	src = (QRgb*) workImage.scanLine(scanline);
-  	for (int pix = 0; pix < ICON_WIDTH; pix++) {
-	  	dest[pix * 3] = qRed(src[pix]);
-  		dest[pix * 3 + 1] = qGreen(src[pix]);
-  		dest[pix * 3 + 2] = qBlue(src[pix]);
-  	}
-  }			
+	unsigned char buffer[ICON_SIZE];
+	unsigned char * dest;
+	QRgb *src;
+	for (int scanline = 0; scanline < ICON_HEIGHT; scanline++) {
+		dest = buffer + ICON_WIDTH * scanline * 4;
+		src = (QRgb*) workImage.scanLine(scanline);
+		for (int pix = 0; pix < ICON_WIDTH; pix++) {
+			*(dest++) = qRed(src[pix]);
+			*(dest++) = qGreen(src[pix]);
+			*(dest++) = qBlue(src[pix]);
+			*(dest++) = qAlpha(src[pix]);
+		}
+	}
 	sendProtocolMsg("UPLOAD\r\n");
 	socket.writeBlock((char *)buffer, ICON_SIZE);
 }
