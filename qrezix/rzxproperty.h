@@ -63,6 +63,8 @@ private:
 	bool updateLocalHost();
 	QPixmap localhostIcon;
 	QString browse(const QString& name, const QString& title, const QString& glob);
+	virtual void languageChange();
+
 
 protected slots: // Protected slots
 	void launchDirSelectDialog();
