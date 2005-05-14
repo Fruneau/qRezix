@@ -88,8 +88,8 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	btnPlugInReload->hide();
 
 	initDlg();
-	changePage(0);
 	changeTheme();
+	changePage(0);
 }
 
 RzxProperty::~RzxProperty() {}
@@ -120,6 +120,13 @@ void RzxProperty::changePage(int i)
 	lblTitle->setText("<h2>"+lbMenu->text(i)+"</h2>");
 	prefStack->raiseWidget(i);
 }
+
+void RzxProperty::languageChange()
+{
+	frmPref::languageChange();
+	lblTitle->setText("<h2>"+lbMenu->text(prefStack->id(prefStack->visibleWidget()))+"</h2>");
+}
+
 
 void RzxProperty::initLangCombo(){
 	RzxConfig * config = RzxConfig::globalConfig();
