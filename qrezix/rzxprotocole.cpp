@@ -249,17 +249,7 @@ void RzxProtocole::changePass(const QString& oldPass)
 	cancel.setPixmap(*RzxConfig::themedIcon("cancel"), QIconSet::Automatic);
 	changepass->btnOK->setIconSet(ok);
 	changepass->btnCancel->setIconSet(cancel);
-	
-	//Si on nous donne un ancien pass, alors on force le changement
-	//donc, on met le pass dans la fenêtre qui va bein, et on la désactive
-	//et en même temps on désactive le bouton annuler
-	if(oldPass)
-	{
-		changepass->leOldPass->setText(oldPass);
-		changepass->leOldPass->setEnabled(false);
-		changepass->btnCancel->setEnabled(false);
-	}
-	
+
 	//Connexion des boutons comme il va bien
 	connect(changepass->btnOK, SIGNAL(clicked()), this, SLOT(validChangePass()));
 	connect(changepass->btnCancel, SIGNAL(clicked()), this, SLOT(cancelChangePass()));
@@ -277,16 +267,12 @@ void RzxProtocole::validChangePass()
 	//et on ferme la fenêtre
 	if(changepass->leNewPass->text() == changepass->leReenterNewPass->text())
 	{
-		m_oldPass = changepass->leOldPass->text();
 		m_newPass = changepass->leNewPass->text();
 /*		qDebug(m_oldPass + " ==> " + m_newPass);
 		emit send("CHANGEPASS " + m_oldPass + " " + m_newPass + "\r\n");*/
        //avec hash:
-		m_oldPass = m_oldPass+MD5_ADD;
 		m_newPass = m_newPass+MD5_ADD;
-		m_oldPass = MD5String(m_oldPass.latin1());
 		m_newPass = MD5String(m_newPass.latin1());
-		qDebug(m_oldPass + " " + m_newPass);
 		emit send("CHANGEPASS " + m_newPass + "\r\n");
 
 		changepass->deleteLater();
