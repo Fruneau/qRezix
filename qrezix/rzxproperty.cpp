@@ -67,9 +67,24 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 	connect( chkBeepFavorites, SIGNAL(toggled(bool)), txtBeepFavorites, SLOT(setEnabled(bool)));
 	connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
 	
-	hostname->setValidator( new QRegExpValidator(QRegExp("[a-zA-Z0-9](-?[a-zA-Z0-9])*"), remarque, "dnsnameValidator") );
+	//Pour que le pseudo soit rfc-complient
+	hostname->setValidator( new QRegExpValidator(QRegExp("[a-zA-Z0-9](-?[a-zA-Z0-9])*"), hostname, "dnsnameValidator") );
+	//Les pseudos trop longs c'est vraiment imbitable
 	hostname->setMaxLength(24);
+
+	//La remarque doit tenir en une seule ligne...
 	remarque->setValidator( new QRegExpValidator(QRegExp("[^\n\r]+"), remarque, "RemarqueValidator") );
+	
+	//Pour éviter que les gens mettent un | dans leurs propriétés
+	QRegExpValidator *propValidator = new QRegExpValidator(QRegExp("[^|]*"), this, "NameValidator");
+	txtName->setValidator(propValidator);
+	txtSurname->setValidator(propValidator);
+	txtFirstname->setValidator(propValidator);
+	txtMail->setValidator(propValidator);
+	txtWeb->setValidator(propValidator);
+	txtPhone->setValidator(propValidator);
+	txtCasert->setValidator(propValidator);
+
 #ifndef WIN32
 	btnAboutQt->hide();
 #else
@@ -94,6 +109,8 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 
 RzxProperty::~RzxProperty() {}
 
+/// Change le thème d'icône de la fenêtre de préférence
+/** Le changement de thème correspond à la reconstruction de la listbox de menu (pour que les icônes soient conformes au thème choisi), et au changement des icônes OK, Annuler, Appliquer */
 void RzxProperty::changeTheme()
 {
 	QIconSet apply, ok, cancel;
@@ -104,15 +121,30 @@ void RzxProperty::changeTheme()
 	btnOK->setIconSet(ok);
 	btnMiseAJour->setIconSet(apply);
 
+	#define newItem(icon, name)  { pixmap = icon; \
+		if(!pixmap.isNull()) \
+		{ \
+			QImage image = pixmap.convertToImage(); \
+			image = image.smoothScale(32,32); \
+			pixmap.convertFromImage(image); }\
+		lbMenu->insertItem(pixmap, name); }
+
+	QPixmap pixmap; //Pour le newItem
 	lbMenu->clear();
 	if(RzxConfig::themedIcon("systray")->isNull())
-		lbMenu->insertItem(QPixmap(( const char ** ) q ), tr("Infos"));
+	{
+		newItem(QPixmap(( const char ** ) q ), tr("Infos"));
+	}
 	else
-		lbMenu->insertItem(*RzxConfig::themedIcon("systray"), tr("Infos"));
-	lbMenu->insertItem(*RzxConfig::themedIcon("layout"), tr("Layout"));
-	lbMenu->insertItem(*RzxConfig::themedIcon("network"), tr("Network"));
-	lbMenu->insertItem(*RzxConfig::themedIcon("pref"), tr("Misc."));
-	lbMenu->insertItem(*RzxConfig::themedIcon("plugin"), tr("Plug-ins"));
+	{
+		newItem(*RzxConfig::themedIcon("systray"), tr("Infos"));
+	}
+	newItem(*RzxConfig::themedIcon("layout"), tr("Layout"));
+	newItem(*RzxConfig::themedIcon("network"), tr("Network"));
+	newItem(*RzxConfig::themedIcon("pref"), tr("Misc."));
+	newItem(*RzxConfig::themedIcon("plugin"), tr("Plug-ins"));
+
+	#undef newItem
 }
 
 void RzxProperty::changePage(int i)
