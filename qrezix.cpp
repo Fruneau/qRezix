@@ -19,6 +19,7 @@
 #include <qtoolbutton.h>
 #include <qlineedit.h>
 #include <qtoolbox.h>
+#include <qmenubar.h>
 #include <qpopupmenu.h>
 #include <qrect.h>
 #include <qpoint.h>
@@ -68,6 +69,13 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	RzxPlugInLoader::global();
 	///Préparation du lanceur des clients http...
 	new RzxUtilsLauncher(rezal);
+
+#ifdef Q_OS_MACX
+	QMenuBar *menu = new QMenuBar(this);
+	QPopupMenu *popup = new QPopupMenu(this);
+	popup->insertItem("Preferences", this, SLOT(boitePreferences()));
+	menu->insertItem("Tools", popup);
+#endif
 	
 	rezal->showNotFavorites(true);
 	rezalFavorites->showNotFavorites(false);
