@@ -6,7 +6,8 @@ email                : benoit.casoetto@m4x.org
 ***************************************************************************/
 #include <qpushbutton.h>
 #include <qtoolbutton.h>
-#include <qtoolbox.h> 
+#include <qtoolbox.h>
+#include <qgroupbox.h>
 #include <qobjectlist.h>
 #include <qlineedit.h>
 #include <qspinbox.h>
@@ -93,7 +94,7 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 #endif
 
 #ifdef Q_OS_MACX
-	cbSystray->hide();
+	groupSystray->hide();
 #endif
 
 #ifndef Q_OS_UNIX

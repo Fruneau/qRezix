@@ -2268,7 +2268,7 @@
                     </widget>
                     <widget class="QLayoutWidget" row="1" column="1">
                         <property name="name">
-                            <cstring>layout26</cstring>
+                            <cstring>layout25</cstring>
                         </property>
                         <vbox>
                             <property name="name">
@@ -2276,7 +2276,7 @@
                             </property>
                             <widget class="QGroupBox">
                                 <property name="name">
-                                    <cstring>groupBox28</cstring>
+                                    <cstring>groupSystray</cstring>
                                 </property>
                                 <property name="title">
                                     <string>Systray</string>
@@ -2382,6 +2382,23 @@
                                     </widget>
                                 </grid>
                             </widget>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer15_2</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Vertical</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>20</width>
+                                        <height>16</height>
+                                    </size>
+                                </property>
+                            </spacer>
                         </vbox>
                     </widget>
                 </grid>
