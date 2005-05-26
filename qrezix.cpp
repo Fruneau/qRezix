@@ -144,6 +144,10 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	accel = new QAccel(this, "RezixAccel");
 	accel->connectItem(accel->insertItem(Key_Tab+SHIFT), this, SLOT(switchTab()));
 	menuFormatChange();
+#ifdef Q_OS_MACX
+	rezal->afficheColonnes();
+	rezalFavorites->afficheColonnes();
+#endif
 	wellInit = TRUE;
 }
 
