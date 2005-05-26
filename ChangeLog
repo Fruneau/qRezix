@@ -1,3 +1,8 @@
+[v1.6.4] 2005-05 <br2003@frankiz.polytechnique.fr>
+    * Passage au protocole xNet 4.0 [Fruneau]
+    * Intégration du menu préférences [Fruneau]
+    * Bugfixes
+
 [v1.6.3] 2005-05 <br2003@frankiz.polytechnique.fr>
     * Fenêtre de préférence listbox/windowsstack [Fruneau]
     * Correction du bug qui bouffe 100% proc en cas de déconnexion [Fruneau]
