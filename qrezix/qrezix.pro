@@ -62,18 +62,23 @@ TRANSLATIONS	= ./translations/qrezix.ts ./translations/qrezix_fr.ts
 RC_FILE         = icone.rc
 
 macx {
+  TARGET = qRezix
+
   translations.files = ./translations/*
-  translations.path = ./qrezix.app/Contents/Resources/translations
+  translations.path = ./qRezix.app/Contents/Resources/translations
   themes.files = ../icons/themes/*
-  themes.path = ./qrezix.app/Contents/Resources/themes
+  themes.path = ./qRezix.app/Contents/Resources/themes
   icone.files = ./application.icns
-  icone.path = ./qrezix.app/Contents/Resources
-  qrezix.files = ./qrezix.app
+  icone.path = ./qRezix.app/Contents/Resources
+  info.files = ./Info.plist
+  info.path = ./qRezix.app/Contents
+  qrezix.files = ./qRezix.app
   qrezix.path = ../macosx/root/Applications
 
   INSTALLS += translations \
            themes \
            icone \
+	   info \
            qrezix
 
 }
