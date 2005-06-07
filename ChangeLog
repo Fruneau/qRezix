@@ -1,4 +1,5 @@
 [v1.6.4] 2005-05 <br2003@frankiz.polytechnique.fr>
+    * Cache des propriétés [Fruneau]
     * Passage au protocole xNet 4.0 [Fruneau]
     * Intégration du menu préférences [Fruneau]
     * Bugfixes
