@@ -693,7 +693,7 @@ void RzxRezal::buildToolTip(QListViewItem *i) const
 		{
 			QString date = RzxConfig::getCacheDate(address);
 			tooltip += "<b><i>" + tr("Properties checked on ")  + date + " :</i></b><ul>";
-			QStringList list = QStringList::split("|", msg);
+			QStringList list = QStringList::split("|", msg, true);
 			for(uint i = 0 ; i < list.size() - 1 ; i+=2)
 				tooltip += "<li>" + list[i] + " : " + list[i+1] + "</li>";
 			tooltip += "</ul>";
