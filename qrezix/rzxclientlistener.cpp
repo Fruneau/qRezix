@@ -443,15 +443,10 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	QListViewItem* vi = NULL;
 	int propCount = 0;
 	
-	for(QStringList::Iterator itItem = props.begin(); itItem != props.end(); itItem++)
+	for(uint i = 0 ; i < props.size() - 1 ; i+=2)
 	{
-		QStringList::Iterator itLabel = itItem++;
-		if(itItem == props.end()) break;
-		if((*itLabel).length() && (*itItem).length())
-		{
-			vi = new QListViewItem(PropList, vi, (*itLabel), (*itItem));
-			propCount++;
-		}
+		vi = new QListViewItem(PropList, vi, props[i], props[i+1]);
+		propCount++;
 	}
 	if(!propCount)
 	{
