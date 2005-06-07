@@ -31,6 +31,7 @@
 class RzxComputer;
 class QPixmap;
 class RzxProperty;
+class RzxHostAddress;
 
 /**
   *@author Sylvain Joyeux
@@ -79,7 +80,8 @@ public:
 		Client = 128,
 		IP = 256,
 		Resal = 512,
-		Features = 1024
+		Features = 1024,
+		Properties = 2048
 	};
 	
 	QSettings *settings;
@@ -126,6 +128,9 @@ public:
 	static bool showQuit();
 	void readFavorites();
 	void readIgnoreList();
+	static void addCache(const RzxHostAddress&, const QString&);
+	static QString cache(const RzxHostAddress&);
+	static QString getCacheDate(const RzxHostAddress&);
 
 	static QString sambaCmd();
 	static QString ftpCmd();
