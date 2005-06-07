@@ -140,7 +140,7 @@ protected slots: // Protected slots
 	void onListClicked(QListViewItem *, const QPoint &, int);
 	void historique();
 	void redrawSelectedIcon(QListViewItem *sel = NULL);
-	void buildToolTip(QListViewItem* i);
+	void buildToolTip(QListViewItem* i) const;
 	void logBufLogins();
 
 protected:
