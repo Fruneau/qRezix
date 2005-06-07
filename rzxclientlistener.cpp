@@ -467,6 +467,7 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	int width=PropList->columnWidth(0)+PropList->columnWidth(1)+4+12;
 	int height=(PropList->childCount()+1)*(*PropList->firstChild()).height()+8+12+20; //+20 pour le client xnet
 	propertiesDialog->resize(width,height);
+	RzxConfig::addCache(peer,msg);
 	return propertiesDialog;
 }
 
@@ -511,7 +512,6 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool
 		if(pos) 
 		{
 			QPoint ul = *pos;
-			//if(ul + 300 > 
 			histoDialog->move(ul);
 		}
 	}

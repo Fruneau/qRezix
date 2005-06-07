@@ -617,7 +617,7 @@ void RzxRezal::redrawSelectedIcon(QListViewItem *sel)
 
 ///Mise à jour du tooltip de la fenêtre
 /** Le tooltip permet d'avoir des informations sur la personne, ça peut être pratique pour avoir en particulier une vue réduite mais en conservant l'accès faciles aux données ftp, http, promo... */
-void RzxRezal::buildToolTip(QListViewItem *i)
+void RzxRezal::buildToolTip(QListViewItem *i) const
 {
 	QToolTip::remove(this->viewport());
 	int tooltipFlags = RzxConfig::tooltip();
@@ -680,7 +680,25 @@ void RzxRezal::buildToolTip(QListViewItem *i)
 	if(tooltipFlags & (int)RzxConfig::Resal)
 		tooltip += "<li>" + tr("place : ") + computer->getResal(false) + "</li>";
 	tooltip +="</ul>";
-	
+
+	if(tooltipFlags & (int)RzxConfig::Properties)
+	{
+		RzxHostAddress address = computer->getIP();
+		QString msg = RzxConfig::cache(address);
+		if(!msg)
+		{
+			tooltip += "<i>" + tr("No properties in cache") + "</i>";
+		}
+		else
+		{
+			QString date = RzxConfig::getCacheDate(address);
+			tooltip += "<b><i>" + tr("Properties checked on ")  + date + " :</i></b><ul>";
+			QStringList list = QStringList::split("|", msg);
+			for(uint i = 0 ; i < list.size() - 1 ; i+=2)
+				tooltip += "<li>" + list[i] + " : " + list[i+1] + "</li>";
+			tooltip += "</ul>";
+		}
+	}
 	QToolTip::add(this->viewport(), itemRect(i), tooltip);
 }
 

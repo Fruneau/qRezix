@@ -951,3 +951,23 @@ void RzxConfig::writeIgnoreList()
 	}
 	writeEntry("ignoreList", ignoreListList);
 }
+
+
+/******************************************************************************
+* GESTION DE LA CACHE DES PROPRIÉTÉS
+******************************************************************************/
+void RzxConfig::addCache(const RzxHostAddress& address, const QString& msg)
+{
+	globalConfig() -> writeEntry("cacheprop-" + address.toString(), msg);
+	globalConfig() ->writeEntry("cachedate-" + address.toString(),  QDate::currentDate().toString("dd MMM yyyy"));
+}
+
+QString RzxConfig::cache(const RzxHostAddress& address)
+{
+	return globalConfig()->readEntry("cacheprop-" + address.toString(), QString::null);
+}
+
+QString RzxConfig::getCacheDate(const RzxHostAddress& address)
+{
+	return globalConfig()->readEntry("cachedate-" + address.toString(), QString::null);
+}
