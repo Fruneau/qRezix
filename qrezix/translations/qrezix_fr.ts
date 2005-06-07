@@ -177,7 +177,7 @@ Each item have a menu (right click)&lt;/p&gt;
     </message>
     <message>
         <source>Old pass:</source>
-        <translation>Ancien mdp :</translation>
+        <translation type="obsolete">Ancien mdp :</translation>
     </message>
     <message>
         <source>New pass:</source>
@@ -1320,6 +1320,14 @@ Propriétés envoyées à %2 (%3)</translation>
         <source>%1</source>
         <translation>%1</translation>
     </message>
+    <message>
+        <source>No properties in cache</source>
+        <translation>Pas de propriétés en cache</translation>
+    </message>
+    <message>
+        <source>Properties checked on </source>
+        <translation>Propriétés obtenues le </translation>
+    </message>
 </context>
 <context>
     <name>RzxServerListener</name>
@@ -1788,7 +1796,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Misc.</source>
-        <translation>Divers</translation>
+        <translation type="obsolete">Divers</translation>
     </message>
     <message>
         <source>Command to play a sound :</source>
@@ -2192,19 +2200,23 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Infos</source>
-        <translation>Infos</translation>
+        <translation type="obsolete">Infos</translation>
     </message>
     <message>
         <source>Layout</source>
-        <translation>Affichage</translation>
+        <translation type="obsolete">Affichage</translation>
     </message>
     <message>
         <source>Network</source>
-        <translation>Réseau</translation>
+        <translation type="obsolete">Réseau</translation>
     </message>
     <message>
         <source>Size of tray icon :</source>
         <translation>Taille de la trayicon</translation>
+    </message>
+    <message>
+        <source>Properties</source>
+        <translation>Propriétés</translation>
     </message>
 </context>
 </TS>

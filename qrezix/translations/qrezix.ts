@@ -141,10 +141,6 @@ Each item have a menu (right click)&lt;/p&gt;
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Old pass:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>New pass:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -842,7 +838,7 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>Misc.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Divers</translation>
     </message>
     <message>
         <source>Plug-ins</source>
@@ -1145,6 +1141,14 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No properties in cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Properties checked on </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1603,7 +1607,7 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
     </message>
     <message>
         <source>Misc.</source>
-        <translation type="unfinished">Divers</translation>
+        <translation type="obsolete">Divers</translation>
     </message>
     <message>
         <source>Command to play a sound :</source>
@@ -1980,20 +1984,12 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Infos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Layout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Size of tray icon :</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Properties</source>
+        <translation type="unfinished">Propriétés</translation>
     </message>
 </context>
 </TS>
