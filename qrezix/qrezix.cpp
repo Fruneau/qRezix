@@ -17,6 +17,7 @@
 #include <qmessagebox.h>
 #include <qlabel.h>
 #include <qtoolbutton.h>
+#include <qpushbutton.h> //pour la version mac
 #include <qlineedit.h>
 #include <qtoolbox.h>
 #include <qmenubar.h>
@@ -423,6 +424,11 @@ void QRezix::languageChange()
 	//à mon avis ça leur prendrait 5 minutes chez trolltech pour corriger le pb
 	tbRezalContainer->setItemLabel(0, tr("Favorites"));
 	tbRezalContainer->setItemLabel(1, tr("Everybody"));
+	
+	//Parce que sous Mac, les boutons sont gérés avec des QPushButton
+#ifdef Q_OS_MACX
+    menuFormatChange();
+#endif
 }
 
 void QRezix::chatSent() {
@@ -551,6 +557,9 @@ void QRezix::menuFormatChange()
 		case 1: //petites icônes
 		case 2: //grandes icones
 			{
+				#ifdef Q_OS_MACX
+				if(!btnPlugins->iconSet() || btnPlugins->iconSet()->isNull()) changeTheme();
+				#else
 				bool big = (icons == 2);
 				if(btnPlugins->iconSet().isNull()) changeTheme(); //pour recharcher les icônes s'il y a besoin
 				btnPlugins->setUsesBigPixmap(big);
@@ -559,11 +568,30 @@ void QRezix::menuFormatChange()
 				btnPreferences->setUsesBigPixmap(big);
 				btnSearch->setUsesBigPixmap(big);
 				lblStatusIcon->setShown(TRUE);
+				#endif
 			}
 			break;
 	}
 	
 	//Mise à jour de la position du texte
+	#ifdef Q_OS_MACX
+	if(texts)
+	{
+	   btnPlugins->setText(tr("Plug-ins"));
+	   btnAutoResponder->setText(tr("Away"));
+	   btnMAJcolonnes->setText(tr("Adjust columns"));
+	   btnPreferences->setText(tr("Preferences"));
+       btnSearch->setText(tr("Search"));
+    }
+    else
+    {
+	   btnPlugins->setText("");
+	   btnAutoResponder->setText("");
+	   btnMAJcolonnes->setText("");
+	   btnPreferences->setText("");
+       btnSearch->setText("");
+    }        
+	#else
 	btnPlugins->setUsesTextLabel(texts);
 	btnAutoResponder->setUsesTextLabel(texts);
 	btnMAJcolonnes->setUsesTextLabel(texts);
@@ -585,6 +613,7 @@ void QRezix::menuFormatChange()
 		lblStatus->setShown(FALSE);
 		spacerStatus->changeSize(1,1,QSizePolicy::Expanding,QSizePolicy::Minimum);
 	}
+	#endif
 }
 
 /// Affichage du menu plug-ins lors d'un clic sur le bouton
