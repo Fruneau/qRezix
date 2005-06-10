@@ -26,7 +26,11 @@
 #include <qtranslator.h>
 #include <qpopupmenu.h>
 
+#ifdef Q_OS_MACX
+#include "qrezixui_mac.h"
+#else
 #include "qrezixui.h"
+#endif
 
 class QAccel;
 class TrayIcon;
