@@ -51,12 +51,19 @@ SOURCES	+= main.cpp \
 	md5.cpp \
 	rzxtraywindow.cpp
 
-FORMS	= qrezixui.ui \
-	rzxchatui.ui \
+
+FORMS = rzxchatui.ui \
 	rzxpropertyui.ui \
 	rzxquitui.ui \
 	rzxwrongpassui.ui \
 	rzxchangepassui.ui
+
+macx {
+    FORMS += qrezixui_mac.ui
+}
+!macx {
+    FORMS += qrezixui.ui
+}
 
 TRANSLATIONS	= ./translations/qrezix.ts ./translations/qrezix_fr.ts
 RC_FILE         = icone.rc
@@ -78,7 +85,7 @@ macx {
   INSTALLS += translations \
            themes \
            icone \
-	   info \
+	       info \
            qrezix
 
 }
