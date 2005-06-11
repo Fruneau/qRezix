@@ -28,7 +28,12 @@
 
 #include "rzxhostaddress.h"
 #include "rzxclientlistener.h"
+
+#ifdef Q_OS_MACX
+#include "rzxchatui_mac.h"
+#else
 #include "rzxchatui.h"
+#endif
 
 /**
   *@author Sylvain Joyeux
@@ -172,6 +177,9 @@ protected slots:
 	void colorClicked(int index);
 	void updateTitle();
 	RzxChatSocket *getValidSocket();
+#ifdef Q_OS_MACX
+    virtual void languageChange();
+#endif
 
 protected: // Protected methods
 	void append(const QString& color, const QString& host, const QString& msg);

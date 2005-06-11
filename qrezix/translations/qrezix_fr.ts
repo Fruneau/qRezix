@@ -34,7 +34,23 @@
     </message>
     <message>
         <source>Search</source>
-        <translation type="obsolete">Rercherche</translation>
+        <translation>Rercherche</translation>
+    </message>
+    <message>
+        <source>Plug-ins</source>
+        <translation>Plug-ins</translation>
+    </message>
+    <message>
+        <source>Away</source>
+        <translation>Loin</translation>
+    </message>
+    <message>
+        <source>Adjust columns</source>
+        <translation>Ajuster les colonnes</translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation>Préférences</translation>
     </message>
 </context>
 <context>
@@ -255,6 +271,22 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     <message>
         <source>unread</source>
         <translation>non-lu(s)</translation>
+    </message>
+    <message>
+        <source>Plug-ins</source>
+        <translation>Plug-ins</translation>
+    </message>
+    <message>
+        <source>History</source>
+        <translation>Historique</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Envoyer</translation>
+    </message>
+    <message>
+        <source>Properties</source>
+        <translation>Propriétés</translation>
     </message>
 </context>
 <context>
@@ -2217,6 +2249,14 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <message>
         <source>Properties</source>
         <translation>Propriétés</translation>
+    </message>
+    <message>
+        <source>Draw icons in menus</source>
+        <translation>Dessiner les icônes des menus</translation>
+    </message>
+    <message>
+        <source>Add menu texts</source>
+        <translation>Ajouter la description des menus</translation>
     </message>
 </context>
 </TS>

@@ -24,6 +24,26 @@
         <source>Favorites</source>
         <translation type="unfinished">Favoris</translation>
     </message>
+    <message>
+        <source>Plug-ins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Away</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust columns</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation type="unfinished">Préférences</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QRezixUI</name>
@@ -195,6 +215,22 @@ It must be at least&lt;b&gt; 6 characters long&lt;/b&gt;.</source>
     <message>
         <source>unread</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plug-ins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>History</source>
+        <translation type="unfinished">Historique</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Properties</source>
+        <translation type="unfinished">Propriétés</translation>
     </message>
 </context>
 <context>
@@ -1990,6 +2026,14 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
     <message>
         <source>Properties</source>
         <translation type="unfinished">Propriétés</translation>
+    </message>
+    <message>
+        <source>Draw icons in menus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add menu texts</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
