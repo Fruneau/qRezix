@@ -95,6 +95,13 @@ RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
 
 #ifdef Q_OS_MACX
 	groupSystray->hide();
+	cmbMenuIcons->hide();
+	lblMenuIconSize->hide();
+	cmbMenuText->hide();
+	lblMenuText->hide();	
+#else
+    cbMenuText->hide();
+    cbMenuIcon->hide();
 #endif
 
 #ifndef Q_OS_UNIX
@@ -237,10 +244,16 @@ void RzxProperty::initDlg() {
 	cmdDoubleClic->setCurrentItem( RzxConfig::doubleClicRole() );
 	cmbIconTheme -> setCurrentItem( 0 );
 
+#ifdef Q_OS_MACX
+    cbMenuText->setChecked(RzxConfig::menuTextPosition());
+    cbMenuIcon->setChecked(RzxConfig::menuIconSize());
+#else
 	cmbMenuText->setCurrentItem(RzxConfig::menuTextPosition());
-	cmbDefaultTab -> setCurrentItem(RzxConfig::defaultTab());
 	cmbMenuIcons->setCurrentItem(RzxConfig::menuIconSize());
 	lockCmbMenuText(RzxConfig::menuIconSize());
+#endif
+
+	cmbDefaultTab -> setCurrentItem(RzxConfig::defaultTab());
 	
 	int i;	// oui, moins beau, mais c parceque VC++ 6 est pas compatible avec
 			// la dernière norme C++ ANSI
@@ -334,23 +347,6 @@ void RzxProperty::initDlg() {
 	clientFtp->setCurrentText(RzxConfig::globalConfig()->ftpCmd());
 	clientHttp->setCurrentText(RzxConfig::globalConfig()->httpCmd());
 	clientNews->setCurrentText(RzxConfig::globalConfig()->newsCmd());
-
-/*
-	clientFtp->setCurrentItem( 0 );
-	for ( i = 0; i < clientFtp->count(); i++ )
-		if ( !RzxConfig::globalConfig() ->ftpCmd().compare( clientFtp->text( i ) ) )
-			clientFtp->setCurrentItem( i );
-
-	clientHttp->setCurrentItem( 0 );
-	for ( i = 0; i < clientHttp->count(); i++ )
-		if ( !RzxConfig::globalConfig() ->httpCmd().compare( clientHttp->text( i ) ) )
-			clientHttp->setCurrentItem( i );
-
-	clientNews->setCurrentItem( 0 );
-	for ( i = 0; i < clientNews->count(); i++ )
-		if ( !RzxConfig::globalConfig() ->newsCmd().compare( clientNews->text( i ) ) )
-			clientNews->setCurrentItem( i );
-*/
 
 	txtWorkDir->setText( RzxConfig::globalConfig() ->FTPPath() );
 	writeColDisplay();
@@ -518,10 +514,17 @@ bool RzxProperty::miseAJour() {
 	}
 #endif
 
+#ifdef Q_OS_MACX
+    if(RzxConfig::menuTextPosition() != (cbMenuText->isChecked()?1:0) || RzxConfig::menuIconSize() != (cbMenuIcon->isChecked()?1:0))
+    {
+        cfgObject->writeEntry("menuTextPos", cbMenuText->isChecked()?1:0);
+        cfgObject->writeEntry("menuIconSize", cbMenuIcon->isChecked()?1:0);
+#else
 	if(RzxConfig::menuTextPosition() != cmbMenuText->currentItem() || RzxConfig::menuIconSize() != cmbMenuIcons->currentItem())
 	{
 		cfgObject->writeEntry("menuTextPos", cmbMenuText->currentItem());
 		cfgObject->writeEntry("menuIconSize", cmbMenuIcons->currentItem());
+#endif
 		emit cfgObject->iconFormatChange();
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_ICONSIZE, NULL);
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_ICONTEXT, NULL);

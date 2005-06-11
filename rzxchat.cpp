@@ -854,16 +854,36 @@ void RzxChat::changeIconFormat()
 		case 1: //petites icônes
 		case 2: //grandes icones
 			{
+#ifdef Q_OS_MACX
+                if(!btnPlugins->iconSet() || btnPlugins->iconSet()->isNull()) changeTheme();
+#else
 				if(btnPlugins->iconSet().isNull()) changeTheme(); //pour recharcher les icônes s'il y a besoin
 				btnPlugins->setUsesBigPixmap(false);
 				btnHistorique->setUsesBigPixmap(false);
 				btnSend->setUsesBigPixmap(false);
 				btnProperties->setUsesBigPixmap(false);
+#endif
 			}
 			break;
 	}
 	
 	//Mise à jour de la position du texte
+#ifdef Q_OS_MACX
+    if(texts)
+    {
+        btnPlugins->setText(tr("Plug-ins"));
+        btnHistorique->setText(tr("History"));
+        btnSend->setText(tr("Send"));
+        btnProperties->setText(tr("Properties"));
+    }
+    else
+    {
+        btnPlugins->setText("");
+        btnHistorique->setText("");
+        btnSend->setText("");
+        btnProperties->setText("");
+    }
+#else
 	btnPlugins->setUsesTextLabel(texts);
 	btnHistorique->setUsesTextLabel(texts);
 	btnSend->setUsesTextLabel(texts);
@@ -875,7 +895,16 @@ void RzxChat::changeIconFormat()
 		btnSend->setTextPosition(QToolButton::BesideIcon);
 		btnProperties->setTextPosition(QToolButton::BesideIcon);
 	}
+#endif
 }
+
+#ifdef Q_OS_MACX
+void RzxChat::languageChange()
+{
+    RzxChatUI::languageChange();
+    changeIconFormat();
+}
+#endif
 
 /// Affichage du menu plug-ins lors d'un clic sur le bouton
 /** Les actions sont gérées directement par le plug-in s'il a bien été programmé */

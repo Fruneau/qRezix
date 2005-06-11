@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>778</width>
-            <height>562</height>
+            <height>597</height>
         </rect>
     </property>
     <property name="caption">
@@ -247,7 +247,7 @@
                                             <string>Browse...</string>
                                         </property>
                                         <property name="autoRaise">
-                                            <bool>true</bool>
+                                            <bool>false</bool>
                                         </property>
                                     </widget>
                                 </grid>
@@ -279,7 +279,7 @@
                                             <string>Change my password ...</string>
                                         </property>
                                         <property name="autoRaise">
-                                            <bool>true</bool>
+                                            <bool>false</bool>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>&lt;h3&gt;Change my password&lt;/h3&gt;&lt;p&gt;Your connection with the server is secured with a password... This password is defined the first time you get connected to the server, but it can be change&lt;/p&gt;</string>
@@ -1152,7 +1152,7 @@
                     </widget>
                     <widget class="QLayoutWidget" row="1" column="0">
                         <property name="name">
-                            <cstring>layout27</cstring>
+                            <cstring>layout31</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -1160,7 +1160,7 @@
                             </property>
                             <widget class="QLayoutWidget">
                                 <property name="name">
-                                    <cstring>layout20</cstring>
+                                    <cstring>layout30</cstring>
                                 </property>
                                 <vbox>
                                     <property name="name">
@@ -1258,6 +1258,22 @@
                                                         </property>
                                                     </widget>
                                                 </hbox>
+                                            </widget>
+                                            <widget class="QCheckBox" row="2" column="0">
+                                                <property name="name">
+                                                    <cstring>cbMenuIcon</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>Draw icons in menus</string>
+                                                </property>
+                                            </widget>
+                                            <widget class="QCheckBox" row="3" column="0">
+                                                <property name="name">
+                                                    <cstring>cbMenuText</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>Add menu texts</string>
+                                                </property>
                                             </widget>
                                         </grid>
                                     </widget>
@@ -1974,7 +1990,7 @@
                                     <string>Browse...</string>
                                 </property>
                                 <property name="autoRaise">
-                                    <bool>true</bool>
+                                    <bool>false</bool>
                                 </property>
                             </widget>
                         </hbox>
@@ -2051,7 +2067,7 @@
                                             <string>...</string>
                                         </property>
                                         <property name="autoRaise">
-                                            <bool>true</bool>
+                                            <bool>false</bool>
                                         </property>
                                     </widget>
                                 </hbox>
@@ -2141,7 +2157,7 @@
                                             <string>...</string>
                                         </property>
                                         <property name="autoRaise">
-                                            <bool>true</bool>
+                                            <bool>false</bool>
                                         </property>
                                     </widget>
                                 </hbox>
@@ -2532,7 +2548,7 @@
                                             <string>Alt+R</string>
                                         </property>
                                         <property name="autoRaise">
-                                            <bool>true</bool>
+                                            <bool>false</bool>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>&lt;h3&gt;Reload plug-in&lt;/h3&gt;&lt;p&gt;Click here to reload the selected plug-in&lt;/p&gt;</string>
@@ -2573,7 +2589,7 @@
                                             <string>Alt+O</string>
                                         </property>
                                         <property name="autoRaise">
-                                            <bool>true</bool>
+                                            <bool>false</bool>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>&lt;h3&gt;Plug-in properties&lt;/h3&gt;&lt;p&gt;Displays the properties window of the selected plug-in&lt;/p&gt;</string>
@@ -2674,6 +2690,13 @@
                     <width>130</width>
                     <height>32767</height>
                 </size>
+            </property>
+            <property name="paletteBackgroundColor">
+                <color>
+                    <red>255</red>
+                    <green>255</green>
+                    <blue>255</blue>
+                </color>
             </property>
             <property name="lineWidth">
                 <number>1</number>
