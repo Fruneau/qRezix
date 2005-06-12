@@ -87,7 +87,7 @@ void RzxProtocole::parse(const QString& msg){
 				emit login(cmd.cap(1));
 				
 				//Si le pass donné par le serveur est encore valide, alors, on demande le changement de pass
-				if(testOldPass && RzxConfig::oldPass())
+				if(testOldPass && !RzxConfig::oldPass().isNull())
 				{
 					testOldPass = false;
 					changePass(RzxConfig::oldPass());
@@ -104,7 +104,7 @@ void RzxProtocole::parse(const QString& msg){
 				break;
 
 			case SERVER_WRONGPASS:
-				if(RzxConfig::oldPass() && !testOldPass)
+				if(!RzxConfig::oldPass().isNull() && !testOldPass)
 				{
 					sendAuth(RzxConfig::oldPass(), RzxConfig::localHost());
 					testOldPass = true;
@@ -140,7 +140,7 @@ void RzxProtocole::parse(const QString& msg){
 			
 			case SERVER_CHANGEPASSOK:
 				emit sysmsg(tr("Your pass has been successfully changed by the server. Keep it well because it can be useful."));
-				if(RzxConfig::oldPass()) RzxConfig::globalConfig()->setOldPass();
+				if(!RzxConfig::oldPass().isNull()) RzxConfig::globalConfig()->setOldPass();
 				RzxConfig::globalConfig()->setPass(m_newPass);
 				RzxConfig::globalConfig()->flush();
 				break;
@@ -233,10 +233,10 @@ void RzxProtocole::getIcon(const RzxHostAddress& ip) {
 */
 void RzxProtocole::changePass(const QString& oldPass)
 {
-	if(!oldPass)
+	if(oldPass.isNull())
 		changepass = new RzxChangePassUI(NULL, "ChangePass");
 	else
-		changepass = new RzxChangePassUI(NULL, "ChangePass", false, WStyle_Customize | WStyle_StaysOnTop);
+		changepass = new RzxChangePassUI(NULL, "ChangePass", false, Qt::WStyle_Customize | Qt::WStyle_StaysOnTop);
 	
 	//Application du masque pour être sur du formatage du password
 	changepass->leNewPass->setValidator(new QRegExpValidator(QRegExp(".{6,63}"), this));

@@ -29,7 +29,8 @@
 /**
   *@author Sylvain Joyeux
   */
-  
+
+class QPoint;
 class RzxChat;
 class QSocketNotifier;
 

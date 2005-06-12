@@ -22,6 +22,7 @@
 #include <q3memarray.h>
 #include <qpixmap.h>
 #include <q3listview.h>
+#include <Q3MemArray>
 #include "rzxhostaddress.h"
 
 /**
@@ -63,7 +64,7 @@ class RzxItem : public QObject, public Q3ListViewItem
 		Q3MemArray<int> colWidth;
 		Q3PtrVector<QString> texts;
 		Q3PtrVector<QStringList> textSplit;
-		Q3PtrVector< QArray<int> > textLengths;
+		Q3PtrVector< Q3MemArray<int> > textLengths;
 		Q3PtrVector<QPixmap> pixmaps;
 	
 		void updatePixmap(int column, int width);

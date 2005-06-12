@@ -21,7 +21,7 @@ int RzxMessageBox::information( QWidget *parent, const QString& caption,
 	const QString& text, bool modal ){
 	QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Information,
 		0, 0, 0, parent, "qt_msgbox_information",
-		modal, QMessageBox::WDestructiveClose );
+		modal, Qt::WDestructiveClose );
 	mb->show();
 	return 0;
 }
@@ -31,7 +31,7 @@ int RzxMessageBox::warning( QWidget *parent, const QString& caption,
 	const QString& text, bool modal ){
 	QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Warning,
 		0, 0, 0, parent, "qt_msgbox_warning",
-		modal, QMessageBox::WDestructiveClose );
+		modal, Qt::WDestructiveClose );
 	mb->show();
 	return 0;
 }
@@ -41,7 +41,7 @@ int RzxMessageBox::critical( QWidget *parent, const QString& caption,
 	const QString& text, bool modal ){
 	QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Critical,
 		0, 0, 0, parent, "qt_msgbox_critical",
-		modal, QMessageBox::WDestructiveClose );
+		modal, Qt::WDestructiveClose );
 	mb->show();
 	return 0;
 }

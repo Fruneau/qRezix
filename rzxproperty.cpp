@@ -25,6 +25,7 @@ email                : benoit.casoetto@m4x.org
 //Added by qt3to4:
 #include <QPixmap>
 #include <QTranslator>
+#include <QObject>
 
 #ifdef WITH_KDE
 #include <kfiledialog.h>
@@ -216,13 +217,11 @@ void RzxProperty::initThemeCombo() {
 void RzxProperty::initDlg() {
 	RzxConfig * config = RzxConfig::globalConfig();
 
-	QObjectList * l = queryList( "QLineEdit", "txt*" );
-	QObjectListIt it( *l );             // iteration sur l'ensemble des objets QLineEdit
-	QObject * obj;
-	while ((obj = it())) {
-		static_cast<QLineEdit *> (obj) -> setText( config -> readEntry( obj -> name(), "" ) );
+	QObjectList l = queryList( "QLineEdit", "txt*" );
+	for(QList<QObject *>::iterator it = l.begin() ; it != l.end() ; it++) {
+		// iteration sur l'ensemble des objets QLineEdit
+		static_cast<QLineEdit *> (*it) -> setText( config -> readEntry( (*it) -> name(), "" ) );
 	}
-	delete l;
 	
 	btnChangePass->setEnabled(!RzxServerListener::object()->isSocketClosed());
 	
@@ -443,13 +442,10 @@ bool RzxProperty::miseAJour() {
 	RzxConfig * cfgObject = RzxConfig::globalConfig();
 	QRezix * ui = getRezix();
 	
-	QObjectList * l = queryList( "QLineEdit", "txt*" );
-	QObjectListIt it( *l );             // iteration sur l'ensemble des objets QCheckBox
-	QObject * obj;
-	while ( (obj = it()) ) { // Appliquer l'algorithme qui suit tous ces objets
-		cfgObject->writeEntry( obj->name(), static_cast<QLineEdit *>(obj) -> text() );
-	}
-	delete l;
+	QObjectList l = queryList( "QLineEdit", "txt*" );
+	for(QList<QObject *>::iterator it = l.begin() ; it != l.end() ; it++)
+		// iteration sur l'ensemble des objets QCheckBox
+		cfgObject->writeEntry( (*it)->name(), static_cast<QLineEdit *>(*it) -> text() );
 	
 	bool iconSizeChanged = (cfgObject -> computerIconSize() != cmbIconSize -> currentItem() || cfgObject->computerIconHighlight() != cbHighlight->isChecked());
 	bool themeChanged = RzxConfig::iconTheme().compare( cmbIconTheme -> currentText() );
@@ -549,8 +545,7 @@ bool RzxProperty::miseAJour() {
 	cfgObject -> writeEntry( "tooltip", tooltip);
 
 //	cfgObject -> write(); //flush du fichier de conf
-
-	QPixmap * localhostIcon = pxmIcon -> pixmap();
+	const QPixmap * localhostIcon = pxmIcon -> pixmap();
 	if ( RzxConfig::localhostIcon() -> serialNumber() != localhostIcon -> serialNumber() && !( localhostIcon -> isNull() ) )
 	{
 		localHostUpdated = true;
@@ -704,8 +699,7 @@ void RzxProperty::chooseIcon() {
 	if ( !icon.load( file ) ) {
 		RzxMessageBox::warning( this,
 		                      tr("Error !"),
-		                      tr("Selected file is not valid"),
-		                      tr("OK") );
+		                      tr("Selected file is not valid"));
 		return ;
 	}
 
@@ -728,7 +722,7 @@ void RzxProperty::chooseBeepConnection() {
 
 void RzxProperty::launchDirSelectDialog() {
 	QString temp;
-	if ( RzxConfig::globalConfig() ->FTPPath() )
+	if ( !RzxConfig::globalConfig()->FTPPath().isNull() )
 #ifdef WITH_KDE
 
 		temp = KFileDialog::getExistingDirectory ( RzxConfig::globalConfig() ->FTPPath()
@@ -745,7 +739,7 @@ void RzxProperty::launchDirSelectDialog() {
 					0, 0, tr("Choose default ftp folder"), true );
 #endif
 
-	if ( temp )
+	if ( !temp.isNull() )
 		txtWorkDir->setText( temp );
 }
 

@@ -35,6 +35,7 @@
 //Added by qt3to4:
 #include <Q3ValueList>
 #include <QTranslator>
+#include <Q3MimeSourceFactory>
 
 #ifndef WIN32
 #include <unistd.h>
@@ -111,7 +112,7 @@ void RzxConfig::loadTranslatorsInDir(const QDir &rep) {
 		}
 		qApp->removeTranslator(cur);
 	}
-	if(!trNames) trNames = " <none>";
+	if(trNames.isNull()) trNames = " <none>";
 	qDebug(QString("Translations available in %1 :%2").arg(sourceDir.absPath()).arg(trNames));
 }
 		
@@ -204,14 +205,14 @@ RzxConfig::RzxConfig()
 	allIcons.setAutoDelete(true);
 	progIcons.setAutoDelete(true);
 	QString theme = findData("action.png",  themePath + "/" + iconTheme());
-	if(!theme)
+	if(theme.isNull())
 	{
 		qDebug("User's default theme not found, trying with " + iconTheme(false));
 		theme = findData("action.png",  themePath + "/" + iconTheme(false));
-		if(theme != QString::null)
+		if(!theme.isNull())
 			setIconTheme(NULL, iconTheme(false)); //NULL pour qu'on ne tente pas de changer les icônes dans un qRezix non encore chargé
 	}
-	if(!theme)
+	if(theme.isNull())
 	{
 		qDebug("No icons theme available");
 		QMessageBox::critical(NULL, tr("No icons theme"), tr("qRezix was unable to find a usable icons theme.\nPlease, check you installation"), false);
@@ -219,7 +220,7 @@ RzxConfig::RzxConfig()
 	else
 	{
 		qDebug("Trying to open theme from " + theme);
-		Q3MimeSourceFactory::defaultFactory()->setImage( "action", theme );	//TODO trouver le répertoire du thême cournat
+		Q3MimeSourceFactory::defaultFactory()->setImage( "action", QImage(theme) );	//TODO trouver le répertoire du thême cournat
 	}
 
 	//Chargement des données QVB sur les fontes du système
@@ -598,14 +599,14 @@ void RzxConfig::writeIgnoredPluginsList(const QStringList& list) { globalConfig(
 QString RzxConfig::pass()
 {
 	QString i = globalConfig() -> readEntry(RzxServerListener::object()->getServerIP().toString() + "/pass", QString::null);
-	if(!i) //Pour la compatibilité avec les anciennes formes de stockage sous nux
+	if(i.isNull()) //Pour la compatibilité avec les anciennes formes de stockage sous nux
 		i = globalConfig() -> readEntry("pass", QString::null);
 	return i;
 }
 QString RzxConfig::oldPass()
 {
 	QString i = globalConfig() -> readEntry(RzxServerListener::object()->getServerIP().toString() + "/oldpass", QString::null);
-	if(!i.length()) i = QString::null;
+	if(i.isEmpty()) i = QString::null;
 	return i;
 }
 
@@ -763,8 +764,8 @@ QColor RzxConfig::errorTextColor(){
 
 
 /** No descriptions */
-QArray<QPixmap *> RzxConfig::yesnoIcons(){
-	QArray<QPixmap *> ret(10);
+Q3MemArray<QPixmap *> RzxConfig::yesnoIcons(){
+	Q3MemArray<QPixmap *> ret(10);
 	ret[0] = themedIcon("no_samba");
 	ret[1] = themedIcon("no_ftp");
 	ret[2] = themedIcon("no_hotline");
@@ -778,15 +779,15 @@ QArray<QPixmap *> RzxConfig::yesnoIcons(){
 	return ret;
 }
 
-QArray<QPixmap *> RzxConfig::gatewayIcons(){
-	QArray<QPixmap *> ret(2);
+Q3MemArray<QPixmap *> RzxConfig::gatewayIcons(){
+	Q3MemArray<QPixmap *> ret(2);
 	ret[0] = themedIcon("diff_gateway");
 	ret[1] = themedIcon("same_gateway");
 	return ret;
 }
 
-QArray<QPixmap *> RzxConfig::promoIcons(){
-	QArray<QPixmap *> ret(3);
+Q3MemArray<QPixmap *> RzxConfig::promoIcons(){
+	Q3MemArray<QPixmap *> ret(3);
 	ret[0] = themedIcon("orange");
 	ret[1] = themedIcon("rouje");
 	ret[2] = themedIcon("jone");
@@ -794,12 +795,12 @@ QArray<QPixmap *> RzxConfig::promoIcons(){
 }
 
 /** No descriptions */
-QArray<QPixmap *> RzxConfig::osIcons(bool large){
+Q3MemArray<QPixmap *> RzxConfig::osIcons(bool large){
 	QString suffix;
 	if (large)
 		suffix = "_large";
 	
-	QArray<QPixmap *> ret(6);
+	Q3MemArray<QPixmap *> ret(6);
 	for (int idx = 0; idx < 6; idx++)
 		ret[idx] = themedIcon("os_" + QString::number(idx) + suffix);
 	
@@ -855,7 +856,7 @@ void RzxConfig::readFavorites()
 		QString favoritesFile = m_userDir.absFilePath(name);
 	
 		QFile file(favoritesFile);
-		if (!file.open(QIODevice::ReadOnly | QIODevice::Translate)) {
+		if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 			RzxMessageBox::critical(0, tr("qRezix error"), 
 				tr("Unable to open favorites file %1").arg(favoritesFile));
 			return;
@@ -912,7 +913,7 @@ void RzxConfig::readIgnoreList()
 		QString ignoreListFile = m_userDir.absFilePath(name);
 	
 		QFile file(ignoreListFile);
-		if (!file.open(QIODevice::ReadOnly | QIODevice::Translate)) {
+		if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 			RzxMessageBox::critical(0, tr("qRezix error"), 
 				tr("Unable to open ignoreList file %1").arg(ignoreListFile));
 			return;

@@ -58,13 +58,13 @@ RzxTrayWindow::RzxTrayWindow(RzxComputer* computer, bool connected, unsigned int
 	QLabel *name = new QLabel(this, "TrayWindowName");
 	QLabel *description = new QLabel(this, "TrayWindowDesc");
 
-	layout->addWidget(icone, 0, AlignVCenter | AlignLeft);
-	textLayout->addWidget(name, 0, AlignTop | AlignLeft);
-	textLayout->addWidget(description, 0, AlignVCenter | AlignLeft);
+	layout->addWidget(icone, 0, Qt::AlignVCenter | Qt::AlignLeft);
+	textLayout->addWidget(name, 0, Qt::AlignTop | Qt::AlignLeft);
+	textLayout->addWidget(description, 0, Qt::AlignVCenter | Qt::AlignLeft);
 	layout->addLayout(textLayout, 1);
 	
 	icone->setPixmap(computer->getIcon());
-	name->setTextFormat(RichText);
+	name->setTextFormat(Qt::RichText);
 	name->setText("<h2>" + computer->getName() + "</h2>");
 	if(connected)
 		description->setText(computer->getRepondeur() ? tr("is now away") : tr("is now here"));

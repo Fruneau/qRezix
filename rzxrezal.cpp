@@ -452,7 +452,7 @@ void RzxRezal::init()
 RzxChat * RzxRezal::chatCreate(const QString& login)
 {
 	QString m_login = login;
-	if(!login)
+	if(login.isNull())
 		m_login = currentItem()->text(ColNom);
 	return lister->chatCreate(m_login);
 }
@@ -573,7 +573,7 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 		hmatch = higher.left(search_patern.length())==search_patern;
 		if((!lmatch) && (!hmatch))
 		{
-			unsigned int i;
+			int i;
 			for(i=0, lmatch = true, hmatch=true;  lmatch && hmatch && (i<search_patern.length()); i++)
 			     lmatch = lower.at(i)==search_patern.at(i),
 			     hmatch = higher.at(i)==search_patern.at(i);
@@ -689,7 +689,7 @@ void RzxRezal::buildToolTip(Q3ListViewItem *i) const
 	{
 		RzxHostAddress address = computer->getIP();
 		QString msg = RzxConfig::cache(address);
-		if(!msg)
+		if(msg.isNull())
 		{
 			tooltip += "<i>" + tr("No properties in cache") + "</i>";
 		}
@@ -698,7 +698,7 @@ void RzxRezal::buildToolTip(Q3ListViewItem *i) const
 			QString date = RzxConfig::getCacheDate(address);
 			tooltip += "<b><i>" + tr("Properties checked on ")  + date + " :</i></b><ul>";
 			QStringList list = QStringList::split("|", msg, true);
-			for(uint i = 0 ; i < list.size() - 1 ; i+=2)
+			for(int i = 0 ; i < list.size() - 1 ; i+=2)
 				tooltip += "<li>" + list[i] + " : " + list[i+1] + "</li>";
 			tooltip += "</ul>";
 		}
