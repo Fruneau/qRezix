@@ -18,10 +18,10 @@
 #ifndef RZXITEM_H
 #define RZXITEM_H
 
-#include <qptrvector.h>
-#include <qmemarray.h>
+#include <q3ptrvector.h>
+#include <q3memarray.h>
 #include <qpixmap.h>
-#include <qlistview.h>
+#include <q3listview.h>
 #include "rzxhostaddress.h"
 
 /**
@@ -30,7 +30,7 @@
 
 class RzxComputer;
   
-class RzxItem : public QObject, public QListViewItem
+class RzxItem : public QObject, public Q3ListViewItem
 {
 	Q_OBJECT
 	friend class RzxRezal;
@@ -38,7 +38,7 @@ class RzxItem : public QObject, public QListViewItem
 	RzxComputer *getComputer();
 	
 	public:
-		RzxItem(RzxComputer *parent, QListView * view, bool show);
+		RzxItem(RzxComputer *parent, Q3ListView * view, bool show);
 		~RzxItem();
 		
 		// C caca, mais on se fait pas chier
@@ -60,11 +60,11 @@ class RzxItem : public QObject, public QListViewItem
 		// idem, on sauvegarde les valeurs originales
 		// des pixmaps et du texte
 		void resizeDataVectors(int size);
-		QMemArray<int> colWidth;
-		QPtrVector<QString> texts;
-		QPtrVector<QStringList> textSplit;
-		QPtrVector< QArray<int> > textLengths;
-		QPtrVector<QPixmap> pixmaps;
+		Q3MemArray<int> colWidth;
+		Q3PtrVector<QString> texts;
+		Q3PtrVector<QStringList> textSplit;
+		Q3PtrVector< QArray<int> > textLengths;
+		Q3PtrVector<QPixmap> pixmaps;
 	
 		void updatePixmap(int column, int width);
 		void updateText(int column, int width, const QFontMetrics& fm);

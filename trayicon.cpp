@@ -26,10 +26,15 @@
 #include <qbitmap.h>
 #include <qtooltip.h>
 #include <qpainter.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qwidget.h>
 #include <qcursor.h>
 #include <qlibrary.h>
+//Added by qt3to4:
+#include <QPaintEvent>
+#include <QCloseEvent>
+#include <QEvent>
+#include <QMouseEvent>
 
 #include "rzxconfig.h"
 #include "rzxpluginloader.h"
@@ -216,15 +221,15 @@ void TrayIcon::mousePressEvent( QMouseEvent *e )
 // This is for X11, menus appear on mouse press
 // I'm not sure whether Mac should be here or below.. Somebody check?
 	switch ( e->button() ) {
-		case RightButton:
+		case Qt::RightButton:
 			if ( pop.count() ) {
 				buildMenu();
 				pop.popup( e->globalPos() );
 				e->accept();
 			}
 			break;
-		case LeftButton:
-		case MidButton:
+		case Qt::LeftButton:
+		case Qt::MidButton:
 			emit clicked( e->globalPos());
 			break;
 		default:
@@ -249,7 +254,7 @@ void TrayIcon::mouseReleaseEvent( QMouseEvent *e )
 #ifdef Q_WS_WIN
 // This is for Windows, where menus appear on mouse release
 	switch ( e->button() ) {
-		case RightButton:
+		case Qt::RightButton:
 			if ( pop.count() ) {
 				buildMenu();
 				// Necessary to make keyboard focus
@@ -260,8 +265,8 @@ void TrayIcon::mouseReleaseEvent( QMouseEvent *e )
 				e->accept();
 			}
 			break;
-		case LeftButton:
-		case MidButton:
+		case Qt::LeftButton:
+		case Qt::MidButton:
 			emit clicked( e->globalPos());
 			break;
 		default:
@@ -283,7 +288,7 @@ void TrayIcon::mouseReleaseEvent( QMouseEvent *e )
 */
 void TrayIcon::mouseDoubleClickEvent( QMouseEvent *e )
 {
-	if ( e->button() == LeftButton )
+	if ( e->button() == Qt::LeftButton )
 		emit doubleClicked( e->globalPos() );
 	e->accept();
 }
@@ -397,7 +402,7 @@ public:
     bool trayMessageW( DWORD msg )
     {
 		resolveLibs();
-		if ( ! (ptrShell_NotifyIcon && qWinVersion() & Qt::WV_NT_based) )
+		if ( ! (ptrShell_NotifyIcon && qWinVersion() & QSysInfo::WV_NT_based) )
 			return trayMessageA( msg );
 
 		NOTIFYICONDATAW tnd;
@@ -449,16 +454,16 @@ public:
 				QPoint gpos = QCursor::pos();
 				switch (m->lParam) {
 					case WM_MOUSEMOVE: e = new QMouseEvent( QEvent::MouseMove, mapFromGlobal( gpos ), gpos, 0, 0 );	break;
-					case WM_LBUTTONDOWN: e = new QMouseEvent( QEvent::MouseButtonPress, mapFromGlobal( gpos ), gpos, LeftButton, LeftButton ); break;
-					case WM_LBUTTONUP: e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, LeftButton, LeftButton ); break;
-					case WM_LBUTTONDBLCLK: e = new QMouseEvent( QEvent::MouseButtonDblClick, mapFromGlobal( gpos ), gpos, LeftButton, LeftButton );	break;
-					case WM_RBUTTONDOWN: e = new QMouseEvent( QEvent::MouseButtonPress, mapFromGlobal( gpos ), gpos, RightButton, RightButton ); break;
-					case WM_RBUTTONUP: e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, RightButton, RightButton ); break;
-					case WM_RBUTTONDBLCLK: e = new QMouseEvent( QEvent::MouseButtonDblClick, mapFromGlobal( gpos ), gpos, RightButton, RightButton ); break;
-					case WM_MBUTTONDOWN: e = new QMouseEvent( QEvent::MouseButtonPress, mapFromGlobal( gpos ), gpos, MidButton, MidButton ); break;
-					case WM_MBUTTONUP: e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, MidButton, MidButton ); break;
-					case WM_MBUTTONDBLCLK: e = new QMouseEvent( QEvent::MouseButtonDblClick, mapFromGlobal( gpos ), gpos, MidButton, MidButton ); break;
-					case WM_CONTEXTMENU: e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, RightButton, RightButton ); break;
+					case WM_LBUTTONDOWN: e = new QMouseEvent( QEvent::MouseButtonPress, mapFromGlobal( gpos ), gpos, Qt::LeftButton, Qt::LeftButton ); break;
+					case WM_LBUTTONUP: e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, Qt::LeftButton, Qt::LeftButton ); break;
+					case WM_LBUTTONDBLCLK: e = new QMouseEvent( QEvent::MouseButtonDblClick, mapFromGlobal( gpos ), gpos, Qt::LeftButton, Qt::LeftButton );	break;
+					case WM_RBUTTONDOWN: e = new QMouseEvent( QEvent::MouseButtonPress, mapFromGlobal( gpos ), gpos, Qt::RightButton, Qt::RightButton ); break;
+					case WM_RBUTTONUP: e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, Qt::RightButton, Qt::RightButton ); break;
+					case WM_RBUTTONDBLCLK: e = new QMouseEvent( QEvent::MouseButtonDblClick, mapFromGlobal( gpos ), gpos, Qt::RightButton, Qt::RightButton ); break;
+					case WM_MBUTTONDOWN: e = new QMouseEvent( QEvent::MouseButtonPress, mapFromGlobal( gpos ), gpos, Qt::MidButton, Qt::MidButton ); break;
+					case WM_MBUTTONUP: e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, Qt::MidButton, Qt::MidButton ); break;
+					case WM_MBUTTONDBLCLK: e = new QMouseEvent( QEvent::MouseButtonDblClick, mapFromGlobal( gpos ), gpos, Qt::MidButton, Qt::MidButton ); break;
+					case WM_CONTEXTMENU: e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, Qt::RightButton, Qt::RightButton ); break;
 				}
 				if ( e ) {
 					bool res = QApplication::sendEvent( iconObject, e );
@@ -682,13 +687,13 @@ private:
 };
 
 TrayIcon::TrayIconPrivate::TrayIconPrivate(TrayIcon *object, int _size)
-	: QWidget(0, "psidock", WRepaintNoErase)
+	: QWidget(0, "psidock", Qt::WNoAutoErase)
 {
 	iconObject = object;
 	size = _size;
 
-	setFocusPolicy(NoFocus);
-	setBackgroundMode(X11ParentRelative);
+	setFocusPolicy(Qt::NoFocus);
+	setBackgroundMode(Qt::X11ParentRelative);
 
 	setMinimumSize(size, size);
 	setMaximumSize(size, size);

@@ -7,26 +7,29 @@ email                : benoit.casoetto@m4x.org
 #include <qpushbutton.h>
 #include <qtoolbutton.h>
 #include <qtoolbox.h>
-#include <qgroupbox.h>
-#include <qobjectlist.h>
+#include <q3groupbox.h>
+#include <qobject.h>
 #include <qlineedit.h>
 #include <qspinbox.h>
 #include <qcombobox.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qimage.h>
 #include <qdir.h>
 #include <qapplication.h>
 #include <qmessagebox.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
 #include <qbitmap.h>
 #include <qvalidator.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QTranslator>
 
 #ifdef WITH_KDE
 #include <kfiledialog.h>
 #else
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #endif
 
 #include "rzxproperty.h"
@@ -121,10 +124,10 @@ RzxProperty::~RzxProperty() {}
 /** Le changement de thème correspond à la reconstruction de la listbox de menu (pour que les icônes soient conformes au thème choisi), et au changement des icônes OK, Annuler, Appliquer */
 void RzxProperty::changeTheme()
 {
-	QIconSet apply, ok, cancel;
-	apply.setPixmap(*RzxConfig::themedIcon("apply"), QIconSet::Automatic);
-	ok.setPixmap(*RzxConfig::themedIcon("ok"), QIconSet::Automatic);
-	cancel.setPixmap(*RzxConfig::themedIcon("cancel"), QIconSet::Automatic);
+	QIcon apply, ok, cancel;
+	apply.setPixmap(*RzxConfig::themedIcon("apply"), QIcon::Automatic);
+	ok.setPixmap(*RzxConfig::themedIcon("ok"), QIcon::Automatic);
+	cancel.setPixmap(*RzxConfig::themedIcon("cancel"), QIcon::Automatic);
 	btnAnnuler->setIconSet(cancel);
 	btnOK->setIconSet(ok);
 	btnMiseAJour->setIconSet(apply);
@@ -170,7 +173,7 @@ void RzxProperty::languageChange()
 
 void RzxProperty::initLangCombo(){
 	RzxConfig * config = RzxConfig::globalConfig();
-	QDictIterator<QTranslator> it(config->translations);
+	Q3DictIterator<QTranslator> it(config->translations);
 	languageBox->clear();
 	languageBox->insertItem("English");
 	for(it.toFirst() ; it.current(); ++it){
@@ -688,7 +691,7 @@ QString RzxProperty::browse(const QString& name, const QString& title, const QSt
 	QString file = KFileDialog::getOpenFileName( QString::null, filter, this, title );
 #else
 	QString filter = name + " (" + glob + ")";
-	QString file = QFileDialog::getOpenFileName( QString::null, filter, this, "ChooseIcon", title);
+	QString file = Q3FileDialog::getOpenFileName( QString::null, filter, this, "ChooseIcon", title);
 #endif
 	return file;
 }
@@ -735,10 +738,10 @@ void RzxProperty::launchDirSelectDialog() {
 					 0, tr("Choose default ftp folder") );
 #else
 
-		temp = QFileDialog::getExistingDirectory ( RzxConfig::globalConfig() ->FTPPath().latin1(), 
+		temp = Q3FileDialog::getExistingDirectory ( RzxConfig::globalConfig() ->FTPPath().latin1(), 
 					0, 0, tr("Choose default ftp folder"), true );
 	else
-		temp = QFileDialog::getExistingDirectory ( ".", 
+		temp = Q3FileDialog::getExistingDirectory ( ".", 
 					0, 0, tr("Choose default ftp folder"), true );
 #endif
 

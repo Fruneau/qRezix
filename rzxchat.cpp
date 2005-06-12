@@ -14,29 +14,38 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qtextedit.h>
-#include <qtextview.h>
+#include <q3textedit.h>
+#include <q3textview.h>
 #include <qpushbutton.h>
 #include <qtoolbutton.h>
-#include <qaccel.h>
+#include <q3accel.h>
 #include <qdatetime.h>
 #include <qtimer.h>
 #include <qwidget.h>
-#include <qwidgetlist.h>
+#include <qwidget.h>
 #include <qapplication.h>
 #include <qfile.h>
 #include <qdir.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
-#include <qsocket.h>
-#include <qiconset.h>
+#include <q3socket.h>
+#include <qicon.h>
 #include <qpoint.h>
 #include <qsound.h>
 #include <qcolor.h>
 #include <qcolordialog.h>
 #include <qregexp.h>
 #ifndef WIN32
-#include <qprocess.h>
+#include <q3process.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QCloseEvent>
+#include <QMoveEvent>
+#include <QKeyEvent>
+#include <QEvent>
+#include <Q3Frame>
+#include <Q3ValueList>
+#include <QShowEvent>
 #endif
 
 #include "rzxchat.h"
@@ -49,7 +58,7 @@ const QColor RzxChat::preDefinedColors[16] = {Qt::black,Qt::red,Qt::darkRed,Qt::
 
 //On crée la fenêtre soit avec un socket d'une connection déjà établie
 RzxChat::RzxChat(RzxChatSocket* sock)
-	:RzxChatUI(0, "RzxChat", WStyle_ContextHelp)
+	:RzxChatUI(0, "RzxChat", Qt::WStyle_ContextHelp)
 {
 	setSocket(sock);
 	init();
@@ -57,7 +66,7 @@ RzxChat::RzxChat(RzxChatSocket* sock)
 
 //Soit sans socket, celui-ci sera initialisé de par la suite
 RzxChat::RzxChat(const RzxHostAddress& peerAddress)
-	:RzxChatUI(0, "RzxChat", WStyle_ContextHelp)
+	:RzxChatUI(0, "RzxChat", Qt::WStyle_ContextHelp)
 {
 	peer = peerAddress;
 	socket = NULL;
@@ -69,13 +78,13 @@ void RzxChat::init()
 	hist = prop = NULL;
 	
 	//
-	accel = new QAccel(btnSend);
-	accel -> insertItem(CTRL + Key_Return, 100);
+	accel = new Q3Accel(btnSend);
+	accel -> insertItem(Qt::CTRL + Qt::Key_Return, 100);
 	accel -> connectItem(100, btnSend, SIGNAL(clicked()));
-	accel -> insertItem(CTRL + Key_Enter, 101);
+	accel -> insertItem(Qt::CTRL + Qt::Key_Enter, 101);
 	accel -> connectItem(101, btnSend, SIGNAL(clicked()));
-	btnSound -> setAccel(Key_F1);
-	accel -> insertItem(Key_Escape, 102);
+	btnSound -> setAccel(Qt::Key_F1);
+	accel -> insertItem(Qt::Key_Escape, 102);
 	accel -> connectItem(102, btnClose, SIGNAL(clicked()));
 
 	//on ajoute l'icone du son
@@ -157,7 +166,7 @@ RzxChat::~RzxChat(){
 	if (filename.isNull()) return;
 	
 	QFile file(filename);		
-	file.open(IO_ReadWrite |IO_Append);
+	file.open(QIODevice::ReadWrite |QIODevice::Append);
 	file.writeBlock(temp, temp.length());
 	file.close();
 	
@@ -179,7 +188,7 @@ RzxChat::~RzxChat(){
 * RzxPopup
 ****************************************************/
 RzxPopup::RzxPopup(QWidget *parent, const char *name)
-	:QFrame(parent, name, WDestructiveClose | WStyle_Customize | WType_TopLevel)
+	:Q3Frame(parent, name, Qt::WDestructiveClose | Qt::WStyle_Customize | Qt::WType_TopLevel)
 { }
 
 RzxPopup::~RzxPopup()
@@ -204,7 +213,7 @@ RzxChat::ListText::~ListText() {
 }
 
 RzxTextEdit::RzxTextEdit(QWidget *parent, const char*name)
-		: QTextEdit(parent, name) {
+		: Q3TextEdit(parent, name) {
 	setTextFormat(Qt::RichText);
 }
 
@@ -224,7 +233,7 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 			break;
 		}
 		eMapped =new QKeyEvent(QEvent::KeyRelease, Qt::Key_Enter, e->ascii(), e->state());
-		QTextEdit::keyPressEvent(eMapped);
+		Q3TextEdit::keyPressEvent(eMapped);
 		break;
 
 	//Autocompletion
@@ -232,7 +241,7 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 		//Pour que quand on appuie sur tab ça fasse la complétion du nick
 		if(!nickAutocompletion())
 		{
-			QTextEdit::keyPressEvent(eMapped);
+			Q3TextEdit::keyPressEvent(eMapped);
 			emit textWritten();
 		}
 		break;
@@ -255,7 +264,7 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 	
 	//Texte normal
 	default:
-		QTextEdit::keyPressEvent(eMapped);
+		Q3TextEdit::keyPressEvent(eMapped);
 		emit textWritten();
 	}
 }
@@ -329,7 +338,7 @@ RzxChatSocket *RzxChat::getSocket()
 
 void RzxChat::setSocket(RzxChatSocket* sock)
 {
-	if(socket != NULL && socket->state() == QSocket::Connected && sock->socket() != socket->socket())
+	if(socket != NULL && socket->state() == Q3Socket::Connected && sock->socket() != socket->socket())
 	{
 		qDebug("Un nouveau socket différent a été proposé à " + hostname);
 		socket->close();
@@ -427,7 +436,7 @@ void RzxChat::receive(const QString& msg)
 #else
 		QString cmd = RzxConfig::beepCmd(), file = RzxConfig::beepSound();
 		if (!cmd.isEmpty() && !file.isEmpty()) {
-			QProcess process;
+			Q3Process process;
 			process.addArgument(cmd);
 			process.addArgument(file);
 			process.start();
@@ -535,11 +544,11 @@ void RzxChat::fontChanged(int index) {
 	QString family = cbFontSelect->text(index);
 	btnBold->setEnabled(RzxConfig::globalConfig()->isBoldSupported(family));
 	btnItalic->setEnabled(RzxConfig::globalConfig()->isItalicSupported(family));
-	QValueList<int> pSize = RzxConfig::globalConfig()->getSizes(family);
+	Q3ValueList<int> pSize = RzxConfig::globalConfig()->getSizes(family);
 
 	QString size = cbSize -> currentText();
 	cbSize->clear();
-	for (QValueList<int>::Iterator points = pSize.begin(); points != pSize.end(); ++points )
+	for (Q3ValueList<int>::Iterator points = pSize.begin(); points != pSize.end(); ++points )
 	{
 		QString newItem = QString::number(*points);
 		cbSize->insertItem(newItem);
@@ -696,7 +705,7 @@ void RzxChat::btnHistoriqueClicked(bool on){
 	if (filename.isNull()) return;
 	
 	QFile file(filename);		
-	file.open(IO_ReadWrite |IO_Append);
+	file.open(QIODevice::ReadWrite |QIODevice::Append);
 	file.writeBlock(temp, temp.length());
 	file.close();
 	QPoint *pos = new QPoint(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
@@ -803,20 +812,20 @@ bool RzxChat::event(QEvent *e)
 ///Changement du thème d'icône
 void RzxChat::changeTheme()
 {
-	QIconSet sound, pi, hist, send, prop, close;
+	QIcon sound, pi, hist, send, prop, close;
 	int icons = RzxConfig::menuIconSize();
 	int texts = RzxConfig::menuTextPosition();
 	
 	if(icons || !texts)
 	{
-		pi.setPixmap(*RzxConfig::themedIcon("plugin"), QIconSet::Automatic);
-		hist.setPixmap(*RzxConfig::themedIcon("historique"), QIconSet::Automatic);
-		send.setPixmap(*RzxConfig::themedIcon("send"), QIconSet::Automatic);
-		prop.setPixmap(*RzxConfig::themedIcon("prop"), QIconSet::Automatic);
+		pi.setPixmap(*RzxConfig::themedIcon("plugin"), QIcon::Automatic);
+		hist.setPixmap(*RzxConfig::themedIcon("historique"), QIcon::Automatic);
+		send.setPixmap(*RzxConfig::themedIcon("send"), QIcon::Automatic);
+		prop.setPixmap(*RzxConfig::themedIcon("prop"), QIcon::Automatic);
 	}
-	sound.setPixmap(*RzxConfig::soundIcon(false), QIconSet::Automatic, QIconSet::Normal, QIconSet::Off);
-	sound.setPixmap(*RzxConfig::soundIcon(true), QIconSet::Automatic, QIconSet::Normal, QIconSet::On);
-	close.setPixmap(*RzxConfig::themedIcon("cancel"), QIconSet::Automatic);
+	sound.setPixmap(*RzxConfig::soundIcon(false), QIcon::Automatic, QIcon::Normal, QIcon::Off);
+	sound.setPixmap(*RzxConfig::soundIcon(true), QIcon::Automatic, QIcon::Normal, QIcon::On);
+	close.setPixmap(*RzxConfig::themedIcon("cancel"), QIcon::Automatic);
 	btnSound->setIconSet(sound);
 	btnPlugins->setIconSet(pi);
 	btnHistorique->setIconSet(hist);
@@ -843,7 +852,7 @@ void RzxChat::changeIconFormat()
 	{
 		case 0: //pas d'icône
 			{
-				QIconSet empty;
+				QIcon empty;
 				btnPlugins->setIconSet(empty);
 				btnHistorique->setIconSet(empty);
 				btnSend->setIconSet(empty);

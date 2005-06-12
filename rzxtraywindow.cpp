@@ -20,6 +20,10 @@
 #include <qpixmap.h>
 #include <qlayout.h>
 #include <qcolor.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3Frame>
+#include <QHBoxLayout>
 
 #include "rzxtraywindow.h"
 
@@ -31,7 +35,7 @@
 ///Construction de la fenêtre de notification d'état de connexion de computer
 /** La fenêtre est construite pour disparaître automatiquement au bout de time secondes */
 RzxTrayWindow::RzxTrayWindow(RzxComputer* computer, bool connected, unsigned int time)
-	:QFrame(NULL, "TrayWindow", WStyle_Customize | WStyle_StaysOnTop | WDestructiveClose)
+	:Q3Frame(NULL, "TrayWindow", Qt::WStyle_Customize | Qt::WStyle_StaysOnTop | Qt::WDestructiveClose)
 {
 	setMinimumWidth(150);
 	setMinimumHeight(70);

@@ -16,12 +16,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qframe.h>
+#include <q3frame.h>
 #include <qtimer.h>
 
 class RzxComputer;
 
-class RzxTrayWindow: public QFrame
+class RzxTrayWindow: public Q3Frame
 {
 	Q_OBJECT
 	

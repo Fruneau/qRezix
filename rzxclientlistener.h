@@ -19,8 +19,8 @@
 #define RZXCLIENTLISTENER_H
 
 #include <qobject.h>
-#include <qsocketdevice.h>
-#include <qsocket.h>
+#include <q3socketdevice.h>
+#include <q3socket.h>
 #include <qtimer.h>
 #include <qdatetime.h>
 #include <qstring.h>
@@ -33,7 +33,7 @@
 class RzxChat;
 class QSocketNotifier;
 
-class RzxChatSocket : public QSocket
+class RzxChatSocket : public Q3Socket
 {
 	Q_OBJECT
 	friend class RzxChat;
@@ -114,7 +114,7 @@ class RzxChatSocket : public QSocket
 class RzxClientListener : public QObject  {
 	Q_OBJECT
 
-	QSocketDevice listenSocket;
+	Q3SocketDevice listenSocket;
 	bool valid;
 	QSocketNotifier * notify;
 	static RzxClientListener * globalObject;

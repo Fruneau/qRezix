@@ -19,7 +19,7 @@
 #define RZXCONNECTIONLISTER_H
 
 #include <qobject.h>
-#include <qdict.h>
+#include <q3dict.h>
 #include <qstring.h>
 #include <qtimer.h>
 #include <qstringlist.h>
@@ -30,7 +30,7 @@ class RzxChat;
 class RzxServerListener;
 class RzxClientListener;
 class RzxHostAddress;
-class QSocket;
+class Q3Socket;
 
 class RzxConnectionLister : public QObject
 {
@@ -42,12 +42,12 @@ class RzxConnectionLister : public QObject
 	bool initialized;
 	
 	public:
-		QDict<RzxComputer> iplist;
-		QDict<RzxComputer> computerByLogin;
+		Q3Dict<RzxComputer> iplist;
+		Q3Dict<RzxComputer> computerByLogin;
 		RzxServerListener * server;
 		RzxClientListener * client;
-		QDict<RzxChat> chats;
-		QDict<RzxChat> chatsByLogin;
+		Q3Dict<RzxChat> chats;
+		Q3Dict<RzxChat> chatsByLogin;
 
 		RzxConnectionLister(QObject *parent = NULL, const char *name = NULL);
 		~RzxConnectionLister();

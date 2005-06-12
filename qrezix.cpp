@@ -21,21 +21,24 @@
 #include <qlineedit.h>
 #include <qtoolbox.h>
 #include <qmenubar.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qrect.h>
 #include <qpoint.h>
 #include <qstring.h>
 #include <qfile.h>
-#include <qiconset.h>
+#include <qicon.h>
 #include <qpixmap.h>
 #include <qbitmap.h>
 #include <qapplication.h>
 #include <qlayout.h>
-#include <qaccel.h>
-#include <qprocess.h>
+#include <q3accel.h>
+#include <q3process.h>
 #include <qsound.h>
 
 #include "qrezix.h"
+//Added by qt3to4:
+#include <QCloseEvent>
+#include <QEvent>
 #include "rzxquit.h"
 #include "rzxconfig.h"
 #include "rzxrezal.h"
@@ -56,7 +59,7 @@
 QRezix *QRezix::object = 0;
 
 QRezix::QRezix(QWidget *parent, const char *name)
- : QRezixUI(parent, name, WStyle_ContextHelp), m_properties(0), accel(0), tray(0)
+ : QRezixUI(parent, name, Qt::WStyle_ContextHelp), m_properties(0), accel(0), tray(0)
 {
 	object = this;
 	byTray = false;
@@ -73,7 +76,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 
 #ifdef Q_OS_MACX
 	QMenuBar *menu = new QMenuBar(this);
-	QPopupMenu *popup = new QPopupMenu(this);
+	Q3PopupMenu *popup = new Q3PopupMenu(this);
 	popup->insertItem("Preferences", this, SLOT(boitePreferences()));
 	menu->insertItem("Tools", popup);
 #endif
@@ -107,7 +110,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	connect(rezalFavorites, SIGNAL(favoriteRemoved(RzxComputer*)), rezalFavorites, SLOT(logout(RzxComputer*)));
 	connect(rezal, SIGNAL(favoriteAdded(RzxComputer*)), rezalFavorites, SLOT(bufferedLogin(RzxComputer*)));
 	
-	clearWFlags(WStyle_SysMenu|WStyle_Minimize);
+//	clearWFlags(Qt::WStyle_SysMenu|Qt::WStyle_Minimize);
 	alreadyOpened=false;
 
 	connect(rezal, SIGNAL(set_search(const QString&)), leSearch, SLOT(setText(const QString &)));
@@ -134,7 +137,7 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	qDebug("=== qRezix Running ===");
 	lister->initConnection();
 
-	connect(rezal, SIGNAL(selectionChanged(QListViewItem*)), RzxPlugInLoader::global(), SLOT(itemChanged(QListViewItem*)));
+	connect(rezal, SIGNAL(selectionChanged(Q3ListViewItem*)), RzxPlugInLoader::global(), SLOT(itemChanged(Q3ListViewItem*)));
 	connect(RzxConfig::globalConfig(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
 
 	tbRezalContainer -> setCurrentIndex(RzxConfig::defaultTab());
@@ -142,8 +145,8 @@ QRezix::QRezix(QWidget *parent, const char *name)
 	btnSearch -> setShown(RzxConfig::globalConfig()->useSearch());
 	
 	//Raccourcis claviers particuliers
-	accel = new QAccel(this, "RezixAccel");
-	accel->connectItem(accel->insertItem(Key_Tab+SHIFT), this, SLOT(switchTab()));
+	accel = new Q3Accel(this, "RezixAccel");
+	accel->connectItem(accel->insertItem(Qt::Key_Tab+Qt::SHIFT), this, SLOT(switchTab()));
 	menuFormatChange();
 #ifdef Q_OS_MACX
 	rezal->afficheColonnes();
@@ -285,19 +288,19 @@ void QRezix::closeEvent(QCloseEvent * e){
 }
 
 bool QRezix::event(QEvent * e){
-#ifdef WIN32
+//#ifdef WIN32
 	if(e->type()==QEvent::WindowDeactivate)
 	{
 		if(isMinimized() && RzxConfig::globalConfig()->useSystray())
 			hide();
 		return true;
 	}
-#else //WIN32
+/*#else //WIN32
 	if(e->type()==QEvent::ShowMinimized || e->type()==QEvent::Hide){
 		if(RzxConfig::globalConfig()->useSystray()) hide();
 		return true;
 	}
-#endif //WIN32
+#endif //WIN32*/
 	else if( e->type() == QEvent::Resize && alreadyOpened && !isMinimized())
 		statusMax = isMaximized();
 
@@ -459,7 +462,7 @@ void QRezix::warnForFavorite(RzxComputer *computer)
 #else
 		QString cmd = RzxConfig::beepCmd(), file = RzxConfig::connectionSound();
 		if (!cmd.isEmpty() && !file.isEmpty()) {
-			QProcess process;
+			Q3Process process;
 			process.addArgument(cmd);
 			process.addArgument(file);
 			process.start();
@@ -495,19 +498,19 @@ void QRezix::changeTheme()
 	qDebug("Theme changed");
 	rezal -> redrawAllIcons();
 	rezalFavorites -> redrawAllIcons();
-	QIconSet pi, away, columns, prefs,favorite,not_favorite, search;
+	QIcon pi, away, columns, prefs,favorite,not_favorite, search;
 	int icons = RzxConfig::menuIconSize();
 	int texts = RzxConfig::menuTextPosition();
 	if(icons || !texts)
 	{
-		pi.setPixmap(*RzxConfig::themedIcon("plugin"), QIconSet::Automatic);
-		away.setPixmap(*RzxConfig::themedIcon("away"), QIconSet::Automatic, QIconSet::Normal, QIconSet::Off);
-		away.setPixmap(*RzxConfig::themedIcon("here"), QIconSet::Automatic, QIconSet::Normal, QIconSet::On);
-		columns.setPixmap(*RzxConfig::themedIcon("column"), QIconSet::Automatic);
-		prefs.setPixmap(*RzxConfig::themedIcon("pref"), QIconSet::Automatic);
-		favorite.setPixmap(*RzxConfig::themedIcon("favorite"), QIconSet::Automatic);
-		not_favorite.setPixmap(*RzxConfig::themedIcon("not_favorite"), QIconSet::Automatic);
-		search.setPixmap(*RzxConfig::themedIcon("search"), QIconSet::Automatic);
+		pi.setPixmap(*RzxConfig::themedIcon("plugin"), QIcon::Automatic);
+		away.setPixmap(*RzxConfig::themedIcon("away"), QIcon::Automatic, QIcon::Normal, QIcon::Off);
+		away.setPixmap(*RzxConfig::themedIcon("here"), QIcon::Automatic, QIcon::Normal, QIcon::On);
+		columns.setPixmap(*RzxConfig::themedIcon("column"), QIcon::Automatic);
+		prefs.setPixmap(*RzxConfig::themedIcon("pref"), QIcon::Automatic);
+		favorite.setPixmap(*RzxConfig::themedIcon("favorite"), QIcon::Automatic);
+		not_favorite.setPixmap(*RzxConfig::themedIcon("not_favorite"), QIcon::Automatic);
+		search.setPixmap(*RzxConfig::themedIcon("search"), QIcon::Automatic);
 	}
 	btnPlugins->setIconSet(pi);
 	btnAutoResponder->setIconSet(away);
@@ -541,7 +544,7 @@ void QRezix::menuFormatChange()
 	{
 		case 0: //pas d'icône
 			{
-				QIconSet empty;
+				QIcon empty;
 				QPixmap emptyIcon;
 				btnPlugins->setIconSet(empty);
 				btnAutoResponder->setIconSet(empty);

@@ -25,7 +25,7 @@
   *@author Benoit Casoetto
   */
 
-class QDns;
+class Q3Dns;
 class QRezix;
 
 class RzxProperty : public frmPref {

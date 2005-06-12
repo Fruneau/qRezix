@@ -14,11 +14,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qsocket.h>
+#include <q3socket.h>
 #include <qimage.h>
 #include <qpixmap.h>
 #include <qbitmap.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 
 #include "rzxconnectionlister.h"
 
@@ -186,7 +186,7 @@ void RzxConnectionLister::logout( const RzxHostAddress& ip )
 /** Permet pour les plug-ins d'obtenir facilement la liste les ip connectées */
 QStringList RzxConnectionLister::getIpList(unsigned int features)
 {
-	QDictIterator<RzxComputer> it(iplist);
+	Q3DictIterator<RzxComputer> it(iplist);
 	QStringList ips;
 	for( ; it.current() ; ++it)
 	{
@@ -317,7 +317,7 @@ void RzxConnectionLister::chatDelete( const RzxHostAddress& peerAddress )
 /** Cette méthode à pour but de fermer tous les chats en cours pour libérer en particulier le port 5050. Normalement l'appel de cette méthode à la fermeture de qRezix doit corriger le problème de réouverture de l'écoute qui intervient à certains moments lors du démarrage de qRezix */
 void RzxConnectionLister::closeChats()
 {
-	QDictIterator<RzxChat> it( chats );
+	Q3DictIterator<RzxChat> it( chats );
 	for ( ; it.current() ; ++it )
 	{
 		it.current() ->close();

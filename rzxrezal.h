@@ -19,12 +19,15 @@
 #define RZXREZAL_H
 
 #include <qstringlist.h>
-#include <qlistview.h>
-#include <qdict.h>
-#include <qpopupmenu.h>
-#include <qsocket.h>
+#include <q3listview.h>
+#include <q3dict.h>
+#include <q3popupmenu.h>
+#include <q3socket.h>
 #include <qtimer.h>
 #include <qdatetime.h>
+//Added by qt3to4:
+#include <QKeyEvent>
+#include <QResizeEvent>
 #include "rzxdict.h"
 
 #define USER_HASH_TABLE_LENGTH 1663
@@ -42,7 +45,7 @@ class RzxComputer;
 class RzxHostAddress;
 
 //pour réimplanter le clavier et la touche droite, ne mérite pas un .h/.cpp pour lui tt seul
-class RzxPopupMenu : public QPopupMenu {
+class RzxPopupMenu : public Q3PopupMenu {
 	Q_OBJECT
 	public:
 		RzxPopupMenu( QWidget * parent = 0, const char * name = 0 );
@@ -51,14 +54,14 @@ class RzxPopupMenu : public QPopupMenu {
 		void keyPressEvent(QKeyEvent *e);
 };
 
-class RzxRezal : public QListView  {
+class RzxRezal : public Q3ListView  {
 	Q_OBJECT
 
 	RzxConnectionLister *lister;
-	QDict<RzxItem> itemByIp;
+	Q3Dict<RzxItem> itemByIp;
 
 public: 
-	RzxRezal(QWidget * parent, const char * name);
+	RzxRezal(QWidget * parent, const char * name = 0);
 	~RzxRezal();
 	
 	void showNotFavorites(bool val);
@@ -91,12 +94,12 @@ protected: // Protected attributes
 
 	RzxDict<QString,RzxItem*> search_items;	// Arbre binaire de recherche équilibré
 						// contenant les associations nom->Item
-	QDict<QString> search_items0;	// dictionnaire avec référencement des noms/IP
+	Q3Dict<QString> search_items0;	// dictionnaire avec référencement des noms/IP
 	
 	NumColonne lastColumnClicked;  // Pour savoir sur quelle icone on double-clique
 	
 public slots: // Public slots
-	void creePopUpMenu(QListViewItem *inutile1,const QPoint & pos,int inutile);
+	void creePopUpMenu(Q3ListViewItem *inutile1,const QPoint & pos,int inutile);
 	void proprietes();
 	void proprietes( const RzxHostAddress & );
 	void samba();
@@ -136,11 +139,11 @@ signals: // Signals
 	void lostFavorite(RzxComputer*);
 
 protected slots: // Protected slots
-	void onListDblClicked(QListViewItem * sender);
-	void onListClicked(QListViewItem *, const QPoint &, int);
+	void onListDblClicked(Q3ListViewItem * sender);
+	void onListClicked(Q3ListViewItem *, const QPoint &, int);
 	void historique();
-	void redrawSelectedIcon(QListViewItem *sel = NULL);
-	void buildToolTip(QListViewItem* i) const;
+	void redrawSelectedIcon(Q3ListViewItem *sel = NULL);
+	void buildToolTip(Q3ListViewItem* i) const;
 	void logBufLogins();
 
 protected:

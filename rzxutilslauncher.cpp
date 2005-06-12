@@ -138,7 +138,7 @@ void RzxUtilsLauncher::ftp(const QString& login)
 		unsigned long KeyType = 0;
 		
   
-		if ( QApplication::winVersion() & Qt::WV_NT_based ){
+		if ( QApplication::winVersion() & QSysInfo::WV_NT_based ){
 			unsigned long size;
 			RegQueryInfoKey(hKey,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,&size,NULL,NULL);
 			size+=ip.length() * sizeof(unsigned char);

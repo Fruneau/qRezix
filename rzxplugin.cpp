@@ -17,10 +17,12 @@
 
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qobject.h>
 #include <qsettings.h>
 #include <qvariant.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #include "rzxplugin.h"
 

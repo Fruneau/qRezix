@@ -19,7 +19,7 @@
 
 #include <qobject.h>
 #include <qpixmap.h>
-#include <qsocketdevice.h>
+#include <q3socketdevice.h>
 #include "rzxhostaddress.h"
 
 /**

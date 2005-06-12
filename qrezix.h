@@ -22,9 +22,12 @@
 #include <config.h>
 #endif
 
-#include <qdict.h>
+#include <q3dict.h>
 #include <qtranslator.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
+//Added by qt3to4:
+#include <QEvent>
+#include <QCloseEvent>
 
 #ifdef Q_OS_MACX
 #include "qrezixui_mac.h"
@@ -32,7 +35,7 @@
 #include "qrezixui.h"
 #endif
 
-class QAccel;
+class Q3Accel;
 class TrayIcon;
 class RzxProperty;
 class RzxComputer;
@@ -45,8 +48,8 @@ class QRezix : public QRezixUI
 	Q_OBJECT
 	
 	RzxProperty * m_properties;
-	QAccel *accel;
-	QPopupMenu menuPlugins;
+	Q3Accel *accel;
+	Q3PopupMenu menuPlugins;
 	static QRezix *object;
 	bool statusFlag;
 	bool favoriteWarn;
