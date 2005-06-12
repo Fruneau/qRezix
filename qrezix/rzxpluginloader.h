@@ -30,7 +30,7 @@
 #include "rzxplugin.h"
 
 
-class Q3TextEdit;
+class QTextEdit;
 class QToolButton;
 class QString;
 
@@ -87,7 +87,7 @@ class RzxPlugInLoader : public QObject
 		void validPropListView();
 
 	public slots:
-		void chatChanged(Q3TextEdit *chat);
+		void chatChanged(QTextEdit *chat);
 		void chatSending();
 		void chatReceived(QString *chat);
 		void chatEmitted(QString *chat);

@@ -31,6 +31,8 @@
 #include <QKeyEvent>
 #include <QEvent>
 #include <QCloseEvent>
+#include <QTextEdit>
+#include <QWidget>
 
 #include "rzxhostaddress.h"
 #include "rzxclientlistener.h"
@@ -48,7 +50,6 @@
 class Q3Dns;
 class QTimer;
 class Q3Accel;
-class Q3TextEdit;
 class RzxChatSocket;
 class RzxChatUI;
 
@@ -79,7 +80,7 @@ inline void RzxPopup::forceVisible(bool pos)
 
 //Rajout de Stéphane Lescuyer 2004/05/27
 //pour customiser la boite d'edition
-class RzxTextEdit : public Q3TextEdit {
+class RzxTextEdit : public QTextEdit {
 	Q_OBJECT
 	
 	friend class RzxChat;
@@ -104,7 +105,7 @@ signals:
 #include "rzxchatui.h"
 #endif
 
-class RzxChat : public RzxChatUI {
+class RzxChat : public QWidget, public Ui::RzxChatUI {
 	Q_OBJECT
 	
 	friend class RzxRezal;
@@ -123,7 +124,7 @@ class RzxChat : public RzxChatUI {
 public: 
 	RzxChat(const RzxHostAddress& peerAddress);
 	RzxChat(RzxChatSocket* sock);
-	~RzxChat();
+	virtual ~RzxChat();
 	RzxChatSocket *getSocket();
 	void setSocket(RzxChatSocket* sock);
 	void sendChat(const QString& msg);
