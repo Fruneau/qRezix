@@ -19,7 +19,7 @@ email                : sylvain.joyeux@m4x.org
 #include <qtextcodec.h>
 #include <qpixmap.h>
 #include <qbitmap.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qdir.h>
 #include <qstring.h>
 

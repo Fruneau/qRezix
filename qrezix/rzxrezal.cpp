@@ -15,11 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 #include <qapplication.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 #include <qtooltip.h>
 #include <qtimer.h>
 #include <qpixmap.h>
 #include <qimage.h>
+//Added by qt3to4:
+#include <QKeyEvent>
+#include <QResizeEvent>
+#include <Q3PopupMenu>
 
 #include "rzxrezal.h"
 
@@ -44,7 +48,7 @@ const char * RzxRezal::colNames[RzxRezal::numColonnes] =
 			QT_TR_NOOP("Place"), QT_TR_NOOP("IP"), QT_TR_NOOP("Client") };
 
 
-RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name), itemByIp(USER_HASH_TABLE_LENGTH)
+RzxRezal::RzxRezal(QWidget * parent, const char * name) : Q3ListView(parent, name), itemByIp(USER_HASH_TABLE_LENGTH)
 {
 	search_patern = QString();
 	search_timeout.start();
@@ -60,7 +64,7 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 	setColumnAlignment(ColNom, Qt::AlignCenter);
 	setColumnAlignment(ColRemarque, Qt::AlignVCenter);
 
-	setHScrollBarMode(QScrollView::Auto);
+	setHScrollBarMode(Q3ScrollView::Auto);
 
 	setAllColumnsShowFocus(true);
  
@@ -74,17 +78,17 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : QListView(parent, name
 
 	// On est obligé d'utiliser ce signal pour savoir dans quelle colonne le
 	// double-clic suivant a lieu
-	connect(this, SIGNAL(pressed(QListViewItem *, const QPoint &, int)),
-		this, SLOT(onListClicked(QListViewItem *, const QPoint &, int)));
-	connect(this, SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(onListDblClicked(QListViewItem *)));
+	connect(this, SIGNAL(pressed(Q3ListViewItem *, const QPoint &, int)),
+		this, SLOT(onListClicked(Q3ListViewItem *, const QPoint &, int)));
+	connect(this, SIGNAL(doubleClicked(Q3ListViewItem *)), this, SLOT(onListDblClicked(Q3ListViewItem *)));
 
 	lastColumnClicked = ColIcone;
   
 	// GESTION DU MENU CONTEXTUEL
-	connect(this,SIGNAL(rightButtonPressed(QListViewItem *,const QPoint &,int )),this,SLOT(creePopUpMenu(QListViewItem *,const QPoint &,int )));
-	connect(this, SIGNAL(spacePressed(QListViewItem *)), this, SLOT(onListDblClicked(QListViewItem *)));
-	connect(this, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(redrawSelectedIcon(QListViewItem*)));
-	connect(this, SIGNAL(onItem(QListViewItem*)), this, SLOT(buildToolTip(QListViewItem*)));
+	connect(this,SIGNAL(rightButtonPressed(Q3ListViewItem *,const QPoint &,int )),this,SLOT(creePopUpMenu(Q3ListViewItem *,const QPoint &,int )));
+	connect(this, SIGNAL(spacePressed(Q3ListViewItem *)), this, SLOT(onListDblClicked(Q3ListViewItem *)));
+	connect(this, SIGNAL(selectionChanged(Q3ListViewItem*)), this, SLOT(redrawSelectedIcon(Q3ListViewItem*)));
+	connect(this, SIGNAL(onItem(Q3ListViewItem*)), this, SLOT(buildToolTip(Q3ListViewItem*)));
 	filter = QString::null;
 	filterOn = false;
 	setUpdatesEnabled (TRUE);
@@ -108,18 +112,18 @@ void RzxRezal::loginFromLister(bool val)
 		disconnect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(bufferedLogin(RzxComputer*)));
 }
 
-RzxPopupMenu::RzxPopupMenu(QWidget * parent, const char * name) : QPopupMenu(parent, name) {
+RzxPopupMenu::RzxPopupMenu(QWidget * parent, const char * name) : Q3PopupMenu(parent, name) {
 }
 
 void RzxPopupMenu::keyPressEvent(QKeyEvent *e) {
 	if(e->key()!=Qt::Key_Left) {
-		QPopupMenu::keyPressEvent(e);
+		Q3PopupMenu::keyPressEvent(e);
 		return;
 	}
 	close();
 } 
 
-void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos, int){
+void RzxRezal::creePopUpMenu(Q3ListViewItem *ordinateurSelect,const QPoint & pos, int){
 	if(ordinateurSelect)
 	{ 
 		RzxItem* item=(RzxItem*) ordinateurSelect;
@@ -306,7 +310,7 @@ void RzxRezal::afficheColonnes(){
 					
 				case ColNom: case ColResal: case ColIP: case ColClient:
 					adjustColumn (i);
-					setColumnWidthMode(i,QListView::Maximum);
+					setColumnWidthMode(i,Q3ListView::Maximum);
 					break;
 					
 				case ColRemarque: break;
@@ -382,8 +386,8 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 }
 
 void RzxRezal::logBufLogins() { //en fait vu que le QPtrList faisait des segfaults, je trace toute la listview, c pas très long
-	QListViewItem *item;
-	QListViewItemIterator it(this);
+	Q3ListViewItem *item;
+	Q3ListViewItemIterator it(this);
 	while((item=(it++).current())!=NULL)
 	{
 		if(!item->isVisible())
@@ -424,7 +428,7 @@ void RzxRezal::clear()
 		item = next;
 	}
 	init();
-	QListView::clear();
+	Q3ListView::clear();
 }
 
 /** Réinitialisation de la liste des personnes connectées */
@@ -456,7 +460,7 @@ RzxChat * RzxRezal::chatCreate(const QString& login)
 
 /** CRASSOU AU POSSIBLE
 * TODO: gerer ca autrement */
-void RzxRezal::onListDblClicked(QListViewItem * sender){
+void RzxRezal::onListDblClicked(Q3ListViewItem * sender){
 	RzxItem * item = static_cast<RzxItem*> (sender);
 	if(item->ignored) //ignored user, donc on ne va pas communiquer avec lui, faut savoir ce qu'on veut hein
 		return;
@@ -502,12 +506,12 @@ void RzxRezal::onListDblClicked(QListViewItem * sender){
 }
 
 /** Memorise la colonne cliquee */
-void RzxRezal::onListClicked( QListViewItem *, const QPoint &, int c ){
+void RzxRezal::onListClicked( Q3ListViewItem *, const QPoint &, int c ){
 	lastColumnClicked = (NumColonne) c;
 }
 
 void RzxRezal::resizeEvent(QResizeEvent * e) {
-	QListView::resizeEvent(e);
+	Q3ListView::resizeEvent(e);
 	adapteColonnes();
 }
 
@@ -539,7 +543,7 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 		}
 		search_patern = QString();
 		emit set_search(tr("%1").arg(search_patern));
-		QListView::keyPressEvent(e); //on laisse Qt gérer
+		Q3ListView::keyPressEvent(e); //on laisse Qt gérer
 		return;
 	}
 
@@ -601,14 +605,14 @@ void RzxRezal::redrawAllIcons(){
 //	if (!RzxConfig::computerIconSize())
 		setColumnWidth(0, 64);
  
-	for (QListViewItemIterator it(this); it.current(); ++it) {
+	for (Q3ListViewItemIterator it(this); it.current(); ++it) {
 		RzxItem * item = static_cast<RzxItem *> (it.current());
 		item -> update();
 	}
 }
 
 ///Mise à jour de la taille de l'icône sélectionnée
-void RzxRezal::redrawSelectedIcon(QListViewItem *sel)
+void RzxRezal::redrawSelectedIcon(Q3ListViewItem *sel)
 {
 	if(selected) selected->update();
 	selected = (RzxItem*)sel;
@@ -617,7 +621,7 @@ void RzxRezal::redrawSelectedIcon(QListViewItem *sel)
 
 ///Mise à jour du tooltip de la fenêtre
 /** Le tooltip permet d'avoir des informations sur la personne, ça peut être pratique pour avoir en particulier une vue réduite mais en conservant l'accès faciles aux données ftp, http, promo... */
-void RzxRezal::buildToolTip(QListViewItem *i) const
+void RzxRezal::buildToolTip(Q3ListViewItem *i) const
 {
 	QToolTip::remove(this->viewport());
 	int tooltipFlags = RzxConfig::tooltip();

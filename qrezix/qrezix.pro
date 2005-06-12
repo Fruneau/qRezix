@@ -1,11 +1,11 @@
 TEMPLATE	= app
 LANGUAGE	= C++
-
+QT += qt3support
 CONFIG	+= qt warn_on release
 
 win32:LIBS	+= IMM32.LIB
 
-DEFINES	+= QT_DLL
+DEFINES	+= QT_DLL QT3_SUPPORT
 
 HEADERS	+= qrezix.h \
 	rzxchat.h \
@@ -91,3 +91,18 @@ macx {
            qrezix
 
 }
+#The following line was inserted by qt3to4
+QT += network  
+#The following line was inserted by qt3to4
+CONFIG += uic3
+
+#The following line was inserted by qt3to4
+QT +=  
+#The following line was inserted by qt3to4
+CONFIG += uic3
+
+#The following line was inserted by qt3to4
+QT +=  
+#The following line was inserted by qt3to4
+CONFIG += uic3
+

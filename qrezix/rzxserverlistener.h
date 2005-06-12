@@ -19,8 +19,10 @@
 #define RZXSERVERLISTENER_H
 
 #include <qtimer.h>
-#include <qsocket.h>
+#include <q3socket.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #include "rzxprotocole.h"
 
@@ -83,7 +85,7 @@ signals: // Signals
 	void disconnected();
 
 protected: // Protected attributes
-	QSocket socket;
+	Q3Socket socket;
 	bool premiereConnexion;
 
 	/** Buffer de lecture/ecriture dans le socket */
@@ -104,7 +106,7 @@ protected: // Protected attributes
 	bool hasBeenConnected;
 	
 private:
-	inline void notify(const QString& text) { emit status(text, socket.state()!=QSocket::Connected); }
+	inline void notify(const QString& text) { emit status(text, socket.state()!=Q3Socket::Connected); }
 };
 
 #endif

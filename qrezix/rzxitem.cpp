@@ -19,6 +19,8 @@
 #include <qbrush.h>
 #include <qpainter.h>
 #include <qfont.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #include "rzxitem.h"
 
@@ -27,8 +29,8 @@
 #include "rzxrezal.h"
 #include "rzxconfig.h"
 
-RzxItem::RzxItem(RzxComputer *parent, QListView * view, bool show)
-	 : QObject(parent), QListViewItem(view)
+RzxItem::RzxItem(RzxComputer *parent, Q3ListView * view, bool show)
+	 : QObject(parent), Q3ListViewItem(view)
 {
 	pixmaps.setAutoDelete(true);
 	texts.setAutoDelete(true);
@@ -151,7 +153,7 @@ QString RzxItem::key(int column, bool ascending) const{
 			return prefix + text(1).lower();
 		
 		default:
-			return QListViewItem::key(column, ascending);
+			return Q3ListViewItem::key(column, ascending);
 	};
 }
 /** No descriptions */
@@ -252,7 +254,7 @@ void RzxItem::updateText(int column, int width, const QFontMetrics& fm) {
 void RzxItem::paintCell(QPainter * p, const QColorGroup& cg, int column, int width, int align){
 	// ATTENTION: on considere que TOUTES les images sont centrees (on ne prend pas en compte align)
 	if (!width) return;
-	int height = QListViewItem::height();
+	int height = Q3ListViewItem::height();
 	
 	QColor backgroundColor;
 	QColor textColor;
@@ -318,7 +320,7 @@ void RzxItem::paintCell(QPainter * p, const QColorGroup& cg, int column, int wid
 }
 
 void RzxItem::setText(int column, const QString& text) {
-	QListViewItem::setText(column, text);
+	Q3ListViewItem::setText(column, text);
 	if ((int) textSplit.size() <= column) resizeDataVectors(column + 1);
 	colWidth[column] = 0;
 	
@@ -332,7 +334,7 @@ void RzxItem::setText(int column, const QString& text) {
 }
 
 void RzxItem::setPixmap(int column, const QPixmap& pix) {
-	QListViewItem::setPixmap(column, pix);
+	Q3ListViewItem::setPixmap(column, pix);
 	if ((int) pixmaps.size() <= column) resizeDataVectors(column + 1);
 	colWidth[column] = 0;
 	

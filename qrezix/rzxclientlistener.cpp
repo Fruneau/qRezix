@@ -17,9 +17,9 @@
 
 #include <qsocketnotifier.h>
 #include <qregexp.h>
-#include <qsocket.h>
+#include <q3socket.h>
 #include <qwidget.h>
-#include <qframe.h>
+#include <q3frame.h>
 #include <qimage.h>
 #include <qbitmap.h>
 #include <qlabel.h>
@@ -27,11 +27,14 @@
 #include <qlayout.h>
 #include <qapplication.h>
 #include <qdir.h>
-#include <qtextview.h>
-#include <qtextedit.h>
+#include <q3textview.h>
+#include <q3textedit.h>
 #include <qtextstream.h>
-#include <qlistview.h>
-#include <qframe.h>
+#include <q3listview.h>
+#include <q3frame.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QGridLayout>
 
 #include "rzxclientlistener.h"
 
@@ -56,7 +59,7 @@ QString RzxChatSocket::DCCFormat[] = {
 
 ///Construction d'un socket brute
 RzxChatSocket::RzxChatSocket()
-	:QSocket(), host()
+	:Q3Socket(), host()
 {
 	alone = false;
 	chatWindow = NULL;
@@ -70,7 +73,7 @@ RzxChatSocket::RzxChatSocket()
 
 ///Construction d'un socket de chat lié à une fenêtre
 RzxChatSocket::RzxChatSocket(const RzxHostAddress& s_host, RzxChat *parent)
-	:QSocket(), host(s_host)
+	:Q3Socket(), host(s_host)
 {
 	chatWindow = parent;
 	alone = false;
@@ -84,7 +87,7 @@ RzxChatSocket::RzxChatSocket(const RzxHostAddress& s_host, RzxChat *parent)
 
 ///Construction d'un socket de chat sans liaison
 RzxChatSocket::RzxChatSocket(const RzxHostAddress& s_host, bool s_alone)
-	:QSocket(), host(s_host)
+	:Q3Socket(), host(s_host)
 {
 	chatWindow = NULL;
 	alone = s_alone;
@@ -106,7 +109,7 @@ RzxChatSocket::~RzxChatSocket()
 ///Fermeture du socket
 void RzxChatSocket::close()
 {
-	QSocket::close();
+	Q3Socket::close();
 	if(chatWindow)
 		chatWindow->setSocket(NULL);
 	chatWindow = NULL;
@@ -122,14 +125,14 @@ void RzxChatSocket::setParent(RzxChat *parent)
 ///Connexion à l'hôte
 void RzxChatSocket::connectToHost()
 {
-	QSocket::connectToHost(host.toString(), RzxConfig::chatPort());
+	Q3Socket::connectToHost(host.toString(), RzxConfig::chatPort());
 	timeOut.start(10*1000); //descend le timeout de connexion à 10s
 }
 
 ///Installation d'un socket
 void RzxChatSocket::setSocket(int socket)
 {
-	QSocket::setSocket(socket);
+	Q3Socket::setSocket(socket);
 	host = peerAddress();
 }
 
@@ -142,7 +145,7 @@ int RzxChatSocket::parse(const QString& msg)
 	int fin = msg.find("\r\n");     //recherche de la fin du message
 	if(fin == -1) return -1;
 	
-	while(DCCFormat[i])
+	while(!DCCFormat[i].isNull())
 	{
 		cmd.setPattern(DCCFormat[i]);
 		if(cmd.search(msg, 0) >= 0) 
@@ -341,7 +344,7 @@ void RzxChatSocket::chatConnexionEtablished()
 	qDebug("Socket ouvert vers " + host.toString() + "... envoi du message");
 	if(alone)
 		sendPropQuery();
-	else if(tmpChat)
+	else if(!tmpChat.isNull())
 	{
 		send(tmpChat);
 		tmpChat = QString::null;
@@ -398,7 +401,7 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	if(withFrame)
 	{
 		// creation de la boite de dialogue (non modale, elle se detruit automatiquement grace a WDestructiveClose)
-		propertiesDialog = new QDialog(parent?parent:QRezix::global(), "ClientProp", false, WDestructiveClose | WStyle_Customize | WStyle_Tool | WStyle_Title | WStyle_SysMenu);
+		propertiesDialog = new QDialog(parent?parent:QRezix::global(), "ClientProp", false, Qt::WDestructiveClose | Qt::WStyle_Customize | Qt::WStyle_Tool | Qt::WStyle_Title | Qt::WStyle_SysMenu);
 		propertiesDialog->resize(300, 320);
 
 		QPixmap iconeProg((const char **)q);
@@ -414,8 +417,8 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	else
 	{
 		propertiesDialog = new RzxPopup(parent?parent:QRezix::global(), "ClientProp");
-		((QFrame*)propertiesDialog) -> setFrameShape(QFrame::PopupPanel);
-		((QFrame*)propertiesDialog) -> setFrameShadow(QFrame::Raised);
+		((Q3Frame*)propertiesDialog) -> setFrameShape(Q3Frame::PopupPanel);
+		((Q3Frame*)propertiesDialog) -> setFrameShadow(Q3Frame::Raised);
 		if(pos) propertiesDialog->move(*pos);
 	}
 
@@ -425,7 +428,7 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	qPropertiesLayout->setMargin(withFrame?6:0);
  
 	// creation de la liste des proprietes et ajout au layout
-	QListView* PropList = new QListView(propertiesDialog, "PropView");
+	Q3ListView* PropList = new Q3ListView(propertiesDialog, "PropView");
 	QLabel *clientLabel = new QLabel(tr("xNet client : %1").arg(computer->getClient()), propertiesDialog, "ClientLabel");
 	qPropertiesLayout->addWidget((QWidget*)PropList, 0, 0);
 	qPropertiesLayout->addWidget((QWidget*)clientLabel, 300, 0);
@@ -434,18 +437,18 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	PropList->resize(300, 300);
 	PropList->addColumn(tr("Property"), -1);
 	PropList->addColumn(tr("Value"), -1);
-	QScrollView::ScrollBarMode mode = QScrollView::AlwaysOff;
+	Q3ScrollView::ScrollBarMode mode = Q3ScrollView::AlwaysOff;
 	PropList -> setHScrollBarMode(mode);
  
 	QStringList props = QStringList::split('|', msg, true);
 	// ajout des proprietes de la liste, sans tri.
 	PropList->setSorting(-1,FALSE);
-	QListViewItem* vi = NULL;
+	Q3ListViewItem* vi = NULL;
 	int propCount = 0;
 	
-	for(uint i = 0 ; i < props.size() - 1 ; i+=2)
+	for(int i = 0 ; i < props.size() - 1 ; i+=2)
 	{
-		vi = new QListViewItem(PropList, vi, props[i], props[i+1]);
+		vi = new Q3ListViewItem(PropList, vi, props[i], props[i+1]);
 		propCount++;
 	}
 	if(!propCount)
@@ -477,9 +480,9 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool
 	if(!file.exists())
 		return NULL;
 	
-	file.open(IO_ReadOnly); 
+	file.open(QIODevice::ReadOnly); 
 	QTextStream stream(&file);
-	while(!stream.eof()) {
+	while(!stream.atEnd()) {
 		text += stream.readLine();
 	}
 	file.close();
@@ -488,7 +491,7 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool
 	QWidget *histoDialog;
 	if(withFrame)
 	{
-		histoDialog = new QDialog(parent?parent:QRezix::global(), "Histo", false, WDestructiveClose | WStyle_Customize | Qt::WStyle_Tool | WStyle_Title | WStyle_SysMenu);
+		histoDialog = new QDialog(parent?parent:QRezix::global(), "Histo", false, Qt::WDestructiveClose | Qt::WStyle_Customize | Qt::WStyle_Tool | Qt::WStyle_Title | Qt::WStyle_SysMenu);
 		QPixmap iconeProg((const char **)q);
 		iconeProg.setMask(iconeProg.createHeuristicMask() );  
 		histoDialog->setIcon(iconeProg);
@@ -502,8 +505,8 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool
 	else
 	{
 		histoDialog = new RzxPopup(parent?parent:QRezix::global(), "Histo");
-		((QFrame*)histoDialog) -> setFrameShape(QFrame::PopupPanel);
-		((QFrame*)histoDialog) -> setFrameShadow(QFrame::Raised);
+		((Q3Frame*)histoDialog) -> setFrameShape(Q3Frame::PopupPanel);
+		((Q3Frame*)histoDialog) -> setFrameShadow(Q3Frame::Raised);
 		if(pos) 
 		{
 			QPoint ul = *pos;
@@ -516,7 +519,7 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool
 
 
 	// creation de la liste des proprietes et ajout au layout
-	QTextView* histoView = new QTextView(histoDialog, "HistoView");
+	Q3TextView* histoView = new Q3TextView(histoDialog, "HistoView");
 	qHistoLayout->addWidget((QWidget*)histoView, 0, 0);
 	
 	histoDialog->resize(300, 300);
@@ -544,7 +547,7 @@ bool RzxClientListener::isValid( void ) const { return valid; }
 
 
 RzxClientListener::RzxClientListener()
-	: QObject(0, "Client"), listenSocket(QSocketDevice::Stream)
+	: QObject(0, "Client"), listenSocket(Q3SocketDevice::Stream)
 {
 	valid = false;
 	notify = NULL;

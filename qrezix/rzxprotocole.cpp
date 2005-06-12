@@ -18,7 +18,7 @@
 #include <qregexp.h>
 #include <qlineedit.h>
 #include <qpushbutton.h>
-#include <qiconset.h>
+#include <qicon.h>
 #include <qvalidator.h>
 #include <qpixmap.h>
 #include <qimage.h>
@@ -113,7 +113,7 @@ void RzxProtocole::parse(const QString& msg){
 				{
 					RzxWrongPassUI wp;
 					RzxConfig::globalConfig()->setOldPass();
-					QIconSet icon(*RzxConfig::themedIcon("ok"));
+					QIcon icon(*RzxConfig::themedIcon("ok"));
 					wp.btnOK->setIconSet(icon);
 					wp.exec();
 					QString pwd = wp.ledPassword->text();
@@ -244,9 +244,9 @@ void RzxProtocole::changePass(const QString& oldPass)
 	changepass->btnOK->setEnabled(false);
 	
 	//Rajout des icônes aux boutons
-	QIconSet ok, cancel;
-	ok.setPixmap(*RzxConfig::themedIcon("ok"), QIconSet::Automatic);
-	cancel.setPixmap(*RzxConfig::themedIcon("cancel"), QIconSet::Automatic);
+	QIcon ok, cancel;
+	ok.setPixmap(*RzxConfig::themedIcon("ok"), QIcon::Automatic);
+	cancel.setPixmap(*RzxConfig::themedIcon("cancel"), QIcon::Automatic);
 	changepass->btnOK->setIconSet(ok);
 	changepass->btnCancel->setIconSet(cancel);
 

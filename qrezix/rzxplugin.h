@@ -20,10 +20,12 @@
 
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qobject.h>
 #include <qsettings.h>
 #include <qvariant.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 /**
 @file rzxplugin.h
@@ -206,13 +208,13 @@ class RzxPlugIn : public QObject		//NE PAS MODIFIER
 		QPixmap *icon;
 
 		///Contribution du plug-in au menu de la tray-icon
-		QPopupMenu *tray;
+		Q3PopupMenu *tray;
 		///Contribution du plug-in au menu contextuel des éléments du rezal
-		QPopupMenu *item;
+		Q3PopupMenu *item;
 		///Contribution du plug-in au menu plug-in de la fenêtre principale
-		QPopupMenu *action;
+		Q3PopupMenu *action;
 		///Contribution du plug-in au menu plug-in de la fenêtre de chat
-		QPopupMenu *chat;
+		Q3PopupMenu *chat;
 		
 		/*Les fonctions qui suivents fournissent au plug-in
 		le matériel pour enregistrer et lire des données de
@@ -265,13 +267,13 @@ class RzxPlugIn : public QObject		//NE PAS MODIFIER
 		/* Partie abstraite devant être réimplémentée dans chaque
 		classe fille qui définira un plug-in */
 		///Envoi de la contribution au menu de la trayicon
-		virtual QPopupMenu *getTrayMenu() = 0;
+		virtual Q3PopupMenu *getTrayMenu() = 0;
 		///Envoi de la contribution au menu contextuel des éléments du rezal
-		virtual QPopupMenu *getItemMenu() = 0;
+		virtual Q3PopupMenu *getItemMenu() = 0;
 		///Envoi de la contribution au menu de la fenêtre principale
-		virtual QPopupMenu *getActionMenu() = 0;
+		virtual Q3PopupMenu *getActionMenu() = 0;
 		///Envoi de la contribution au menu de la fenêtre de chat
-		virtual QPopupMenu *getChatMenu() = 0;
+		virtual Q3PopupMenu *getChatMenu() = 0;
 
 		///Initialisation du programme principale du plug-in
 		/** Cette méthode abstraite doit implémentée le lancement de l'exécution du plug-in.

@@ -17,9 +17,11 @@
 #include <qapplication.h>
 #include <qdir.h>
 #include <qfileinfo.h>
-#include <qprocess.h>
+#include <q3process.h>
 #include <qstringlist.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #include "rzxcomputer.h"
 
@@ -114,7 +116,7 @@ bool RzxComputer::parse(const QString& params){
 void RzxComputer::autoSetOs() //0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X
 {
 #ifdef WIN32
-	if (QApplication::winVersion() & Qt::WV_NT_based)
+	if (QApplication::winVersion() & QSysInfo::WV_NT_based)
 		options.SysEx = 2;
 	else
 		options.SysEx = 1;
@@ -310,7 +312,7 @@ void RzxComputer::scanServers()
 #ifdef WIN32
   //Bon, c pas beau, mais si j'essaye de travailler sur le meme socket pour tous les test
 	//j'arrive toujours à de faux résultats... c ptet un bug de windows (pour changer)
-	QSocketDevice detectFTP, detectHTTP, detectNEWS, detectSMB;
+	Q3SocketDevice detectFTP, detectHTTP, detectNEWS, detectSMB;
 
 	//scan du ftp
 	if(!detectFTP.bind(ip, 21))
@@ -328,10 +330,10 @@ void RzxComputer::scanServers()
 	if(!detectSMB.bind(ip, 139))
 		servers |= RzxComputer::SERVER_SAMBA;
 #else
-	QProcess *netstat;
+	Q3Process *netstat;
 	QStringList res;
   
-	netstat = new QProcess();
+	netstat = new Q3Process();
 	netstat->addArgument("netstat");
   
 	#ifdef Q_OS_MACX

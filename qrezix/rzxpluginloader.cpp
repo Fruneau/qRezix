@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qptrlist.h>
-#include <qlistview.h>
+#include <q3ptrlist.h>
+#include <q3listview.h>
 #include <qlibrary.h>
 #include <qtoolbutton.h>
 #include <qobject.h>
@@ -27,7 +27,7 @@
 #include <qvariant.h>
 #include <qpixmap.h>
 #include <qimage.h>
-#include <qiconset.h>
+#include <qicon.h>
 
 #include "rzxpluginloader.h"
 
@@ -260,14 +260,14 @@ void RzxPlugInLoader::setSettings()
 //ou pour celui qui aparaît lors du clic droit sur un item du rezal
 
 /// ajout des plug-ins au menu de la trayicon
-void RzxPlugInLoader::menuTray(QPopupMenu& menu)
+void RzxPlugInLoader::menuTray(Q3PopupMenu& menu)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
 	int i = 0;
 	for(it = plugins.first() ; it ; it = plugins.next(), i++)
 	{
-		QPopupMenu *piMenu = it->getTrayMenu();
+		Q3PopupMenu *piMenu = it->getTrayMenu();
 		if(piMenu && piMenu->count() && state[i])
 		{
 			QPixmap *icon = it->getIcon();
@@ -277,7 +277,7 @@ void RzxPlugInLoader::menuTray(QPopupMenu& menu)
 				img = img.smoothScale(16, 16);
 				QPixmap tmp;
 				tmp.convertFromImage(img);
-				QIconSet icons(tmp);
+				QIcon icons(tmp);
 				menu.insertItem(icons, it->getName(), piMenu, 0, 0);
 			}
 			else
@@ -288,7 +288,7 @@ void RzxPlugInLoader::menuTray(QPopupMenu& menu)
 }
 
 /// ajout des plug-ins au menu des items du rezal
-void RzxPlugInLoader::menuItem(QPopupMenu& menu)
+void RzxPlugInLoader::menuItem(Q3PopupMenu& menu)
 {
 	if(!initialized) return;
 	int i=0;
@@ -297,7 +297,7 @@ void RzxPlugInLoader::menuItem(QPopupMenu& menu)
 	RzxPlugIn *it;
 	for(it = plugins.first() ; it ; it = plugins.next(), k++)
 	{
-		QPopupMenu *piMenu = it->getItemMenu();
+		Q3PopupMenu *piMenu = it->getItemMenu();
 		if(piMenu && piMenu->count() && state[k])
 		{
 			if(!i) menu.insertSeparator();
@@ -308,7 +308,7 @@ void RzxPlugInLoader::menuItem(QPopupMenu& menu)
 				img = img.smoothScale(16, 16);
 				QPixmap tmp;
 				tmp.convertFromImage(img);
-				QIconSet icons(tmp);
+				QIcon icons(tmp);
 				menu.insertItem(icons, it->getName(), piMenu);
 			}
 			else
@@ -319,14 +319,14 @@ void RzxPlugInLoader::menuItem(QPopupMenu& menu)
 }
 
 /// Génération du menu plug-ins de la fenêtre principale
-void RzxPlugInLoader::menuAction(QPopupMenu& menu)
+void RzxPlugInLoader::menuAction(Q3PopupMenu& menu)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
 	int i = 0;
 	for(it = plugins.first() ; it ; it = plugins.next(), i++)
 	{
-		QPopupMenu *piMenu = it->getActionMenu();
+		Q3PopupMenu *piMenu = it->getActionMenu();
 		if(piMenu && piMenu->count() && state[i])
 		{
 			QPixmap *icon = it->getIcon();
@@ -336,7 +336,7 @@ void RzxPlugInLoader::menuAction(QPopupMenu& menu)
 				img = img.smoothScale(16, 16);
 				QPixmap tmp;
 				tmp.convertFromImage(img);
-				QIconSet icons(tmp);
+				QIcon icons(tmp);
 				menu.insertItem(icons, it->getName(), piMenu);
 			}
 			else
@@ -346,14 +346,14 @@ void RzxPlugInLoader::menuAction(QPopupMenu& menu)
 }
 
 ///Mise à jour du menu plug-in de la fenêtre de chat
-void RzxPlugInLoader::menuChat(QPopupMenu& menu)
+void RzxPlugInLoader::menuChat(Q3PopupMenu& menu)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
 	int i = 0;
 	for(it = plugins.first() ; it ; it = plugins.next(), i++)
 	{
-		QPopupMenu *piMenu = it->getChatMenu();
+		Q3PopupMenu *piMenu = it->getChatMenu();
 		if(piMenu && piMenu->count() && state[i])
 		{
 			QPixmap *icon = it->getIcon();
@@ -363,7 +363,7 @@ void RzxPlugInLoader::menuChat(QPopupMenu& menu)
 				img = img.smoothScale(16, 16);
 				QPixmap tmp;
 				tmp.convertFromImage(img);
-				QIconSet icons(tmp);
+				QIcon icons(tmp);
 				menu.insertItem(icons, it->getName(), piMenu);
 			}
 			else
@@ -378,7 +378,7 @@ void RzxPlugInLoader::menuChat(QPopupMenu& menu)
 //pour faire des réglages propres aux plug-in.
 
 /// Préparation de la liste des plug-ins
-void RzxPlugInLoader::makePropListView(QListView *lv, QToolButton *btnProp, QToolButton *btnReload)
+void RzxPlugInLoader::makePropListView(Q3ListView *lv, QToolButton *btnProp, QToolButton *btnReload)
 {
 	if(!initialized) return;
 	if(!lvItems.isEmpty()) return;
@@ -394,7 +394,7 @@ void RzxPlugInLoader::makePropListView(QListView *lv, QToolButton *btnProp, QToo
 	//les deux étant fournis par le plug-in
 	for(it = plugins.first() ; it ; it = plugins.next(), i++)
 	{
-		QCheckListItem *lvi = new QCheckListItem(lv, it->getName(), QCheckListItem::CheckBox);
+		Q3CheckListItem *lvi = new Q3CheckListItem(lv, it->getName(), Q3CheckListItem::CheckBox);
 		lvi->setText(1, it->getDescription());
 		lvi->setText(2, it->getInternalVersion());
 		lvi->setOn(state[i]);
@@ -423,12 +423,12 @@ void RzxPlugInLoader::validPropListView()
 {
 	RzxPlugIn *it;
 	QStringList ignored;
-	QCheckListItem *lvi;
+	Q3CheckListItem *lvi;
 	int i = 0;
 
 	for(it = plugins.first() ; it ; it = plugins.next(), i++)
 	{
-		lvi = (QCheckListItem*)lvItems.at(i);
+		lvi = (Q3CheckListItem*)lvItems.at(i);
 		if(lvi && lvi->isOn() && !state[i])
 			init(lvi->text(0));
 		else if(lvi && !lvi->isOn() && state[i])
@@ -445,7 +445,7 @@ void RzxPlugInLoader::validPropListView()
 void RzxPlugInLoader::changePlugIn()
 {
 	if(!initialized) return;
-	QListViewItem *lvi = pluginListView->selectedItem();
+	Q3ListViewItem *lvi = pluginListView->selectedItem();
 	selectedPlugIn = lvItems.findRef(lvi);
 	if(selectedPlugIn == -1 || !state[selectedPlugIn])
 	{
@@ -610,7 +610,7 @@ void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
 
 /// Envoi des certifications de changement d'état du plug-in
 /** On a changé de fenêtre de chat, on l'indique à tout les plug-ins */
-void RzxPlugInLoader::chatChanged(QTextEdit *chat)
+void RzxPlugInLoader::chatChanged(Q3TextEdit *chat)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
@@ -650,7 +650,7 @@ void RzxPlugInLoader::chatEmitted(QString *chat)
 }
 
 ///On indique qu'un nouvel item vient d'être sélectionné
-void RzxPlugInLoader::itemChanged(QListViewItem *item)
+void RzxPlugInLoader::itemChanged(Q3ListViewItem *item)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
@@ -660,7 +660,7 @@ void RzxPlugInLoader::itemChanged(QListViewItem *item)
 }
 
 ///On indique que l'item sélectionné chez les favoris à changé
-void RzxPlugInLoader::favoriteChanged(QListViewItem *item)
+void RzxPlugInLoader::favoriteChanged(Q3ListViewItem *item)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;

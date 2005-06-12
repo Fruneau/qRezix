@@ -32,6 +32,9 @@
 #include <qfontdatabase.h>
 #include <qapplication.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QTranslator>
 
 #ifndef WIN32
 #include <unistd.h>
@@ -73,7 +76,7 @@ class RzxChatSocket;
 RzxConfig * RzxConfig::Config = 0;
 const QString RzxConfig::logPath("log");
 const QString RzxConfig::themePath("themes");
-QDict<QTranslator> RzxConfig::translations;
+Q3Dict<QTranslator> RzxConfig::translations;
 QTranslator* RzxConfig::currentTranslator=NULL;
 
 void RzxConfig::loadTranslators(){
@@ -131,9 +134,9 @@ RzxConfig::RzxConfig()
 	qDebug("=== Loading config ===");
 	if(!Config) Config=this;
 	fileEntries.setAutoDelete(true);
-	favorites=new QDict<QString>(USER_HASH_TABLE_LENGTH,false);
+	favorites=new Q3Dict<QString>(USER_HASH_TABLE_LENGTH,false);
 	favorites->setAutoDelete(true);
-	ignoreList=new QDict<QString>(USER_HASH_TABLE_LENGTH,false);
+	ignoreList=new Q3Dict<QString>(USER_HASH_TABLE_LENGTH,false);
 	ignoreList->setAutoDelete(true);
 	computer = 0;
 	settings = new QSettings();
@@ -216,18 +219,18 @@ RzxConfig::RzxConfig()
 	else
 	{
 		qDebug("Trying to open theme from " + theme);
-		QMimeSourceFactory::defaultFactory()->setImage( "action", theme );	//TODO trouver le répertoire du thême cournat
+		Q3MimeSourceFactory::defaultFactory()->setImage( "action", theme );	//TODO trouver le répertoire du thême cournat
 	}
 
 	//Chargement des données QVB sur les fontes du système
 	QFontDatabase fdb;
-	fontProperties = new QDict<FontProperty>(907); //nombre premier plus grand que le nombre de polices supposé
+	fontProperties = new Q3Dict<FontProperty>(907); //nombre premier plus grand que le nombre de polices supposé
 	fontFamilies = fdb.families();
 	for ( QStringList::Iterator f = fontFamilies.begin(); f != fontFamilies.end();) {
 		QString family = *f;
 		QStringList styles = fdb.styles( family );
 		if(styles.contains("Normal")!=0) {
-			QValueList<int> size = fdb.smoothSizes(family, "Normal");
+			Q3ValueList<int> size = fdb.smoothSizes(family, "Normal");
 			bool b = styles.contains("Bold")!=0;
 			bool i = styles.contains("Italic")!=0 || styles.contains("Oblique")!=0;
 			FontProperty * fp = new FontProperty( b, i, size);
@@ -288,7 +291,7 @@ RzxConfig * RzxConfig::globalConfig() {
 }
 
 
-RzxConfig::FontProperty::FontProperty(bool b, bool i, const QValueList<int> &pS)
+RzxConfig::FontProperty::FontProperty(bool b, bool i, const Q3ValueList<int> &pS)
 			: bold(b), italic(i), sizes(pS) {
 }
 
@@ -399,7 +402,7 @@ QPixmap * RzxConfig::themedIcon(const QString& name) {
 	return icon(name, config -> progIcons, themePath + "/" + iconTheme());
 }
 
-QPixmap * RzxConfig::icon(const QString& name, QDict<QPixmap>& cache, const QString& subdir) {
+QPixmap * RzxConfig::icon(const QString& name, Q3Dict<QPixmap>& cache, const QString& subdir) {
 	RzxConfig * config = globalConfig();
 	QString qualifiedName = subdir.isNull() ? name : (subdir + "_" + name);
 	QPixmap * ret = cache.find(qualifiedName);
@@ -437,7 +440,7 @@ void RzxConfig::saveIcon(const QString& name, const QPixmap& image){
 QStringList RzxConfig::getFontList() {	return fontFamilies; }
 
 /** Renvoie la liste des tailles acceptées par cette police */
-QValueList<int> RzxConfig::getSizes(const QString& family) {
+Q3ValueList<int> RzxConfig::getSizes(const QString& family) {
 	FontProperty * fp = fontProperties->find(family);
 	if(!fp)
 		qDebug("Problème, chargement de la police "+family+" impossible");
@@ -852,7 +855,7 @@ void RzxConfig::readFavorites()
 		QString favoritesFile = m_userDir.absFilePath(name);
 	
 		QFile file(favoritesFile);
-		if (!file.open(IO_ReadOnly | IO_Translate)) {
+		if (!file.open(QIODevice::ReadOnly | QIODevice::Translate)) {
 			RzxMessageBox::critical(0, tr("qRezix error"), 
 				tr("Unable to open favorites file %1").arg(favoritesFile));
 			return;
@@ -888,7 +891,7 @@ void RzxConfig::readFavorites()
 void RzxConfig::writeFavorites()
 {
 	QStringList favoriteList;
-	QDictIterator<QString> strConfig2(*favorites);
+	Q3DictIterator<QString> strConfig2(*favorites);
 	for (; strConfig2.current(); ++strConfig2) {
 		favoriteList << strConfig2.currentKey();
 	}
@@ -909,7 +912,7 @@ void RzxConfig::readIgnoreList()
 		QString ignoreListFile = m_userDir.absFilePath(name);
 	
 		QFile file(ignoreListFile);
-		if (!file.open(IO_ReadOnly | IO_Translate)) {
+		if (!file.open(QIODevice::ReadOnly | QIODevice::Translate)) {
 			RzxMessageBox::critical(0, tr("qRezix error"), 
 				tr("Unable to open ignoreList file %1").arg(ignoreListFile));
 			return;
@@ -945,7 +948,7 @@ void RzxConfig::readIgnoreList()
 void RzxConfig::writeIgnoreList()
 {
 	QStringList ignoreListList;
-	QDictIterator<QString> strConfig2(*ignoreList);
+	Q3DictIterator<QString> strConfig2(*ignoreList);
 	for (; strConfig2.current(); ++strConfig2) {
 		ignoreListList << strConfig2.currentKey();
 	}

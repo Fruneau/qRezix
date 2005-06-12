@@ -122,11 +122,11 @@ void RzxServerListener::serverError(int error) {
 	pingTimer.stop();
 	
 	switch(error) {
-	case QSocket::ErrConnectionRefused:
+	case Q3Socket::ErrConnectionRefused:
 		setupReconnection(tr("Connexion refused"));
 		break;
 		
-	case QSocket::ErrHostNotFound:
+	case Q3Socket::ErrHostNotFound:
 		setupReconnection(tr("Cannot find server %1").arg(RzxConfig::serverName()));
 
 		if(hasBeenConnected)
@@ -135,7 +135,7 @@ void RzxServerListener::serverError(int error) {
 		hasBeenConnected = false;
 		break;
 
-	case QSocket::ErrSocketRead:
+	case Q3Socket::ErrSocketRead:
 		setupReconnection(tr("Socket error"));
 		break;
 
@@ -314,7 +314,7 @@ void RzxServerListener::serverResetTimer(){
 
 /** No descriptions */
 bool RzxServerListener::isSocketClosed() const{
-	return (socket.state() != QSocket::Connection);// || (socket.state() == QSocket::Closing);
+	return (socket.state() != Q3Socket::Connection);// || (socket.state() == QSocket::Closing);
 }
 
 /** No descriptions */

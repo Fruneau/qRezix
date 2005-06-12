@@ -18,19 +18,19 @@
 #ifndef RZXPLUGINLOADER_H
 #define RZXPLUGINLOADER_H
 
-#include <qpopupmenu.h>
-#include <qptrlist.h>
-#include <qvaluelist.h>
-#include <qdict.h>
+#include <q3popupmenu.h>
+#include <q3ptrlist.h>
+#include <q3valuelist.h>
+#include <q3dict.h>
 #include <qlibrary.h>
 #include <qobject.h>
 #include <qdir.h>
-#include <qlistview.h>
+#include <q3listview.h>
 
 #include "rzxplugin.h"
 
 
-class QTextEdit;
+class Q3TextEdit;
 class QToolButton;
 class QString;
 
@@ -38,7 +38,7 @@ class QString;
 @author Florent Bruneau
 */
 
-class QTextEdit;
+class Q3TextEdit;
 
 typedef RzxPlugIn *(*loadPlugInProc)(void);
 
@@ -48,18 +48,18 @@ class RzxPlugInLoader : public QObject
 {
 	Q_OBJECT
 
-	QDict<QLibrary> fileByName;
-	QDict<RzxPlugIn> pluginByName;
-	QPtrList<RzxPlugIn> plugins;
-	QPtrList<QListViewItem> lvItems;
-	QValueList<bool> state;
+	Q3Dict<QLibrary> fileByName;
+	Q3Dict<RzxPlugIn> pluginByName;
+	Q3PtrList<RzxPlugIn> plugins;
+	Q3PtrList<Q3ListViewItem> lvItems;
+	Q3ValueList<bool> state;
 	int selectedPlugIn;
 	QString selectedPlugInName;
 	bool initialized;
 	
 	unsigned int pluginFlags;
 
-	QListView *pluginListView;
+	Q3ListView *pluginListView;
 	QToolButton *pluginGetProp;
 
 	static RzxPlugInLoader *object;
@@ -75,24 +75,24 @@ class RzxPlugInLoader : public QObject
 		void stop();
 		void stop(const QString&);
 		
-		void menuTray(QPopupMenu& menu);
-		void menuItem(QPopupMenu& menu);
-		void menuAction(QPopupMenu& menu);
-		void menuChat(QPopupMenu& menu);
+		void menuTray(Q3PopupMenu& menu);
+		void menuItem(Q3PopupMenu& menu);
+		void menuAction(Q3PopupMenu& menu);
+		void menuChat(Q3PopupMenu& menu);
 		
 		void setSettings();
 		inline int getFeatures() { return pluginFlags; };
 		
-		void makePropListView(QListView *lv, QToolButton *btnProp, QToolButton *btnReload);
+		void makePropListView(Q3ListView *lv, QToolButton *btnProp, QToolButton *btnReload);
 		void validPropListView();
 
 	public slots:
-		void chatChanged(QTextEdit *chat);
+		void chatChanged(Q3TextEdit *chat);
 		void chatSending();
 		void chatReceived(QString *chat);
 		void chatEmitted(QString *chat);
-		void itemChanged(QListViewItem *item);
-		void favoriteChanged(QListViewItem *item);
+		void itemChanged(Q3ListViewItem *item);
+		void favoriteChanged(Q3ListViewItem *item);
 		void sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin);
 		void action(RzxPlugIn::Action action, const QString& args);
 

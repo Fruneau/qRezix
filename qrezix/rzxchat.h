@@ -18,38 +18,44 @@
 #ifndef RZXCHAT_IMPL_H
 #define RZXCHAT_IMPL_H
 
-#include <qtextedit.h>
-#include <qsocket.h>
+#include <q3textedit.h>
+#include <q3socket.h>
 #include <qtimer.h>
-#include <qpopupmenu.h>
-#include <qframe.h>
+#include <q3popupmenu.h>
+#include <q3frame.h>
 #include <qcolor.h>
 #include <qcolordialog.h>
+//Added by qt3to4:
+#include <QShowEvent>
+#include <QMoveEvent>
+#include <QKeyEvent>
+#include <QEvent>
+#include <QCloseEvent>
 
 #include "rzxhostaddress.h"
 #include "rzxclientlistener.h"
 
-#ifdef Q_OS_MACX
+/*#ifdef Q_OS_MACX
 #include "rzxchatui_mac.h"
 #else
 #include "rzxchatui.h"
 #endif
-
+*/
 /**
   *@author Sylvain Joyeux
   */
 
-class QDns;
+class Q3Dns;
 class QTimer;
-class QAccel;
-class QTextEdit;
+class Q3Accel;
+class Q3TextEdit;
 class RzxChatSocket;
 
 ///Classe pour les fenêtre propriété et historique du chat
 /** Affiche une frame qui permet de contenir les données des propriétés et de l'historique.<br>
   * Cette classe permet simplement une abstraction de la chose, sans pour autant apporter quoi que ce soit de vraiment nouveau
   */
-class RzxPopup : public QFrame
+class RzxPopup : public Q3Frame
 {
 	Q_OBJECT
 	
@@ -72,7 +78,7 @@ inline void RzxPopup::forceVisible(bool pos)
 
 //Rajout de Stéphane Lescuyer 2004/05/27
 //pour customiser la boite d'edition
-class RzxTextEdit : public QTextEdit {
+class RzxTextEdit : public Q3TextEdit {
 	Q_OBJECT
 	
 	friend class RzxChat;
@@ -90,6 +96,12 @@ signals:
 	void arrowPressed(bool down);
 	void textWritten();
 };
+
+#ifdef Q_OS_MACX
+#include "rzxchatui_mac.h"
+#else
+#include "rzxchatui.h"
+#endif
 
 class RzxChat : public RzxChatUI {
 	Q_OBJECT
@@ -120,8 +132,8 @@ public:
 private:
 	void init();
 	void addColor(QColor color);
-	QAccel * accel;
-	QPopupMenu menuPlugins;
+	Q3Accel * accel;
+	Q3PopupMenu menuPlugins;
 	QWidget *hist;
 	QWidget *prop;
 	
