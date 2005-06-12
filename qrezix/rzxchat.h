@@ -50,6 +50,7 @@ class QTimer;
 class Q3Accel;
 class Q3TextEdit;
 class RzxChatSocket;
+class RzxChatUI;
 
 ///Classe pour les fenêtre propriété et historique du chat
 /** Affiche une frame qui permet de contenir les données des propriétés et de l'historique.<br>

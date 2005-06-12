@@ -85,7 +85,7 @@ void RzxConnectionLister::login( const QString& newOrdi )
 {
 	QString ordi = newOrdi;
 	
-	if(ordi)
+	if(!ordi.isNull())
 	{
 		displayWaiter << newOrdi;
 		if(!delayDisplay.isActive())
@@ -114,13 +114,13 @@ void RzxConnectionLister::login( const QString& newOrdi )
 		computerByLogin.remove(computer->getName());
 		
 		//transfert des fenêtres fille vers le nouveau computer
-		if(computer->children())
+		if(!computer->children().isEmpty())
 		{
-			QObjectList list = *(computer->children());
-			for(QObject *item = list.first() ; item ; item = list.next())
+			QObjectList list = computer->children();
+			for(QList<QObject *>::iterator item = list.begin() ; item != list.end() ; item++)
 			{
-				computer->removeChild(item);
-				newComputer->insertChild(item);
+				computer->removeChild(*item);
+				newComputer->insertChild(*item);
 			}
 		}
 		disconnect(computer, 0, 0, 0);

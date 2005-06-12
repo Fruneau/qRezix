@@ -78,7 +78,7 @@ void RzxItem::update(){
 	setText(RzxRezal::ColResal, computer->getResal());
 	
 	RzxComputer::options_t options = computer -> getOptions();
-	QArray<QPixmap *> yesno = RzxConfig::yesnoIcons();
+	Q3MemArray<QPixmap *> yesno = RzxConfig::yesnoIcons();
 	int imgIdx, base = RzxRezal::ColSamba, codeIdx, mask = 1;
 	//TRES SALE mais dsl sinon faut changer le serveur .. prout@steak
 	/*AVANT*//*for (codeIdx = 0; codeIdx < 5; codeIdx++) {
@@ -96,12 +96,12 @@ void RzxItem::update(){
 		mask=mask<<1;
 	}
 	
-	QArray<QPixmap *> os = RzxConfig::osIcons();
+	Q3MemArray<QPixmap *> os = RzxConfig::osIcons();
 	setPixmap(RzxRezal::ColOS, *os[(int) options.SysEx]);
 	
 	RzxHostAddress ip = RzxServerListener::object() -> getIP();
 	gateway = ip.sameGateway(computer -> getIP());
-	QArray<QPixmap *> l_gateway = RzxConfig::gatewayIcons();
+	Q3MemArray<QPixmap *> l_gateway = RzxConfig::gatewayIcons();
 	// gateway[0] contient l'icone qu'il faut afficher si les deux passerelles sont !=
 	// gateway[1] contient celle lorsqu'elles sont identiques.
 	if(!l_gateway[gateway?1:0]) qDebug(QString("No gateway pixmap for %1").arg(gateway));
@@ -113,7 +113,7 @@ void RzxItem::update(){
 	if (sysex < 3) sysex += 6;
 
 	int promo=options.Promo;
-	QArray<QPixmap *> promos = RzxConfig::promoIcons();
+	Q3MemArray<QPixmap *> promos = RzxConfig::promoIcons();
 	if(promo==RzxComputer::PROMAL_ORANGE || promo==RzxComputer::PROMAL_UNK)
 		setPixmap(RzxRezal::ColPromo,*promos[0]);
 	else if(promo==RzxComputer::PROMAL_ROUJE)
@@ -210,12 +210,12 @@ void RzxItem::updateText(int column, int width, const QFontMetrics& fm) {
 	if (width < strWidth) {
 		*text = "";
 		const QStringList * split = textSplit[column];
-		QArray<int> * lengths = textLengths[column];
+		Q3MemArray<int> * lengths = textLengths[column];
 		if (!split) {
 			textSplit.insert(column, new QStringList(QStringList::split(' ', str, true)));
 			split = textSplit[column];
 			
-			textLengths.insert(column, new QArray<int>(split -> count()));
+			textLengths.insert(column, new Q3MemArray<int>(split -> count()));
 			lengths = textLengths[column];
 			
 			int wordIdx = 0;
@@ -307,7 +307,7 @@ void RzxItem::paintCell(QPainter * p, const QColorGroup& cg, int column, int wid
 		font.setItalic(repondeur || ignored);
 #endif
 		p->setFont(font);
-		p -> setBackgroundMode(OpaqueMode);
+		p -> setBackgroundMode(Qt::OpaqueMode);
 		p -> drawText(0, 0, width, height, align, *txt);
 		return;
 	}

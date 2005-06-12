@@ -31,6 +31,7 @@ class RzxServerListener;
 class RzxClientListener;
 class RzxHostAddress;
 class Q3Socket;
+class QImage;
 
 class RzxConnectionLister : public QObject
 {
