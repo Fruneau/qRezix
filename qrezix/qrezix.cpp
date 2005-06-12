@@ -34,6 +34,7 @@
 #include <q3accel.h>
 #include <q3process.h>
 #include <qsound.h>
+#include <QWidget>
 
 #include "qrezix.h"
 //Added by qt3to4:
@@ -58,9 +59,10 @@
 
 QRezix *QRezix::object = 0;
 
-QRezix::QRezix(QWidget *parent, const char *name)
- : QRezixUI(parent, name, Qt::WStyle_ContextHelp), m_properties(0), accel(0), tray(0)
+QRezix::QRezix(QWidget *parent)
+ : QWidget(parent/*, Qt::WindowContextHelpButtonHint*/), m_properties(0), accel(0), tray(0)
 {
+	setupUi(this);
 	object = this;
 	byTray = false;
 	statusFlag = false;
@@ -416,7 +418,7 @@ void QRezix::toggleVisible(){
 
 void QRezix::languageChange()
 {
-	QRezixUI::languageChange();
+	QWidget::languageChange();
 	setCaption(caption() + " v" + RZX_VERSION);
 #ifdef WIN32
 	setCaption(caption() + " [Qt]");

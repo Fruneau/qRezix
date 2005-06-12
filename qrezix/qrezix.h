@@ -43,7 +43,7 @@ class RzxComputer;
 //class RzxChat;
 
 /** QReziX is the base class of the project */
-class QRezix : public QRezixUI
+class QRezix : public QWidget, public Ui::qRezixUI
 {
 	Q_OBJECT
 	
@@ -56,7 +56,7 @@ class QRezix : public QRezixUI
 	
 	
 public:
-    QRezix(QWidget* parent=0, const char *name=0);
+    QRezix(QWidget* parent=0);
     ~QRezix();
 	bool statusMax;
 	bool alreadyOpened;
