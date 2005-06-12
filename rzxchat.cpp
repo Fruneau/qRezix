@@ -58,16 +58,18 @@ const QColor RzxChat::preDefinedColors[16] = {Qt::black,Qt::red,Qt::darkRed,Qt::
 
 //On crée la fenêtre soit avec un socket d'une connection déjà établie
 RzxChat::RzxChat(RzxChatSocket* sock)
-	:RzxChatUI(0, "RzxChat", Qt::WStyle_ContextHelp)
+	:QWidget(NULL, Qt::WindowContextHelpButtonHint), RzxChatUI()
 {
+	setupUi(this);
 	setSocket(sock);
 	init();
 }
 
 //Soit sans socket, celui-ci sera initialisé de par la suite
 RzxChat::RzxChat(const RzxHostAddress& peerAddress)
-	:RzxChatUI(0, "RzxChat", Qt::WStyle_ContextHelp)
+	:QWidget(NULL, Qt::WindowContextHelpButtonHint), RzxChatUI()
 {
+	setupUi(this);
 	peer = peerAddress;
 	socket = NULL;
 	init();
@@ -213,7 +215,7 @@ RzxChat::ListText::~ListText() {
 }
 
 RzxTextEdit::RzxTextEdit(QWidget *parent, const char*name)
-		: Q3TextEdit(parent, name) {
+		: QTextEdit(parent, name) {
 	setTextFormat(Qt::RichText);
 }
 
@@ -233,7 +235,7 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 			break;
 		}
 		eMapped =new QKeyEvent(QEvent::KeyRelease, Qt::Key_Enter, e->ascii(), e->state());
-		Q3TextEdit::keyPressEvent(eMapped);
+		QTextEdit::keyPressEvent(eMapped);
 		break;
 
 	//Autocompletion
@@ -241,13 +243,13 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 		//Pour que quand on appuie sur tab ça fasse la complétion du nick
 		if(!nickAutocompletion())
 		{
-			Q3TextEdit::keyPressEvent(eMapped);
+			QTextEdit::keyPressEvent(eMapped);
 			emit textWritten();
 		}
 		break;
 	
 	//Parcours de l'historique
-	case Qt::Key_Down: 
+/*	case Qt::Key_Down: 
 		down=true;
 	case Qt::Key_Up:
 		//Pour pouvoir éviter d'avoir à appuyer sur Shift ou Ctrl si on est à l'extrémité de la boite
@@ -261,10 +263,10 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 			break;
 		}
 		eMapped =new QKeyEvent(QEvent::KeyRelease, e->key(), e->ascii(), e->state());
-	
+*/	
 	//Texte normal
 	default:
-		Q3TextEdit::keyPressEvent(eMapped);
+		QTextEdit::keyPressEvent(eMapped);
 		emit textWritten();
 	}
 }
@@ -276,11 +278,11 @@ bool RzxTextEdit::nickAutocompletion()
 	int para, index;
 	
 	//Si y'a une sélection, on zappe
-	if(hasSelectedText())
+//	if(hasSelectedText())
 		return false;
 	
 	//On récupère la position du curseur et la paragraphe concerné
-	getCursorPosition(&para, &index);
+/*	getCursorPosition(&para, &index);
 	if(!index) return false;
 	QRegExp mask("[^-A-Za-z0-9]([-A-Za-z0-9]+)$");
 	QString textPara = text(para);
@@ -308,7 +310,7 @@ bool RzxTextEdit::nickAutocompletion()
 			return false;
 		}
 	}
-	return false;
+	return false;*/
 }
 
 void RzxChat::messageReceived(){
@@ -416,7 +418,8 @@ void RzxChat::append(const QString& color, const QString& host, const QString& m
 	else
 		txtHistory -> setText(txtHistory -> text() + tmp);
 	textHistorique = textHistorique + tmpD + tmp;
-	txtHistory -> ensureVisible(0, txtHistory -> contentsHeight());
+	txtHistory->textCursor().movePosition(QTextCursor::End);
+	txtHistory->ensureCursorVisible();
 	edMsg->setFocus();
 }
 
@@ -806,7 +809,7 @@ bool RzxChat::event(QEvent *e)
 		timer->stop();
 #endif
 
-	return RzxChatUI::event(e);
+	return QWidget::event(e);
 }
 
 ///Changement du thème d'icône
@@ -910,7 +913,7 @@ void RzxChat::changeIconFormat()
 #ifdef Q_OS_MACX
 void RzxChat::languageChange()
 {
-    RzxChatUI::languageChange();
+    QWidget::languageChange();
     changeIconFormat();
 }
 #endif

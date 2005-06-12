@@ -28,6 +28,7 @@
 #include <qpixmap.h>
 #include <qimage.h>
 #include <qicon.h>
+#include <QTextEdit>
 
 #include "rzxpluginloader.h"
 
@@ -610,7 +611,7 @@ void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
 
 /// Envoi des certifications de changement d'état du plug-in
 /** On a changé de fenêtre de chat, on l'indique à tout les plug-ins */
-void RzxPlugInLoader::chatChanged(Q3TextEdit *chat)
+void RzxPlugInLoader::chatChanged(QTextEdit *chat)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
