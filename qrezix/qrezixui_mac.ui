@@ -31,114 +31,110 @@
    <property name="spacing" >
     <number>6</number>
    </property>
-   <item row="2" column="0" >
-    <layout class="QHBoxLayout" >
-     <property name="margin" >
+   <item row="1" column="0" >
+    <widget class="QToolBox" name="tbRezalContainer" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>5</hsizetype>
+       <vsizetype>5</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="acceptDrops" >
+      <bool>false</bool>
+     </property>
+     <property name="whatsThis" >
+      <string>&lt;h3>Main view&lt;/h3>
+&lt;p>You can choose if you want to see Everybody or only your favorites.&lt;br>
+Each item have a menu (right click)&lt;/p>
+&lt;p>To switch you can use &lt;b>Shift+Tab&lt;/b>&lt;/p></string>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="lineWidth" >
+      <number>1</number>
+     </property>
+     <property name="currentIndex" >
       <number>0</number>
      </property>
-     <property name="spacing" >
-      <number>2</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="lblStatusIcon" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>1</hsizetype>
-         <vsizetype>5</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+     <widget class="QWidget" name="tabFavorites" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>780</width>
+        <height>549</height>
+       </rect>
+      </property>
+      <attribute name="label" >
+       <string>Favorites</string>
+      </attribute>
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>8</number>
        </property>
-       <property name="text" >
-        <string/>
+       <property name="spacing" >
+        <number>6</number>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="lblStatus" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>3</hsizetype>
-         <vsizetype>1</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="whatsThis" >
-        <string>&lt;h3>Status bar&lt;/h3>
-&lt;p>Shows the status of your connection with the xnetserver&lt;/p></string>
-       </property>
-       <property name="frameShape" >
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Sunken</enum>
-       </property>
-       <property name="lineWidth" >
-        <number>1</number>
-       </property>
-       <property name="midLineWidth" >
+       <item row="0" column="0" >
+        <widget class="RzxRezal" name="rezalFavorites" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>5</hsizetype>
+           <vsizetype>5</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize" >
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabEverybody" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>780</width>
+        <height>549</height>
+       </rect>
+      </property>
+      <attribute name="label" >
+       <string>Everybody</string>
+      </attribute>
+      <layout class="QGridLayout" >
+       <property name="margin" >
         <number>0</number>
        </property>
-       <property name="text" >
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Preferred</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>1</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="lblCount" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>1</hsizetype>
-         <vsizetype>1</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>32767</width>
-         <height>32767</height>
-        </size>
-       </property>
-       <property name="whatsThis" >
-        <string>&lt;h3>Status bar&lt;/h3>
-&lt;p>Shows the number of clients connected&lt;/p></string>
-       </property>
-       <property name="frameShape" >
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Sunken</enum>
-       </property>
-       <property name="lineWidth" >
-        <number>1</number>
-       </property>
-       <property name="midLineWidth" >
+       <property name="spacing" >
         <number>0</number>
        </property>
-       <property name="text" >
-        <string/>
-       </property>
-      </widget>
-     </item>
-    </layout>
+       <item row="0" column="0" >
+        <widget class="RzxRezal" name="rezal" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>5</hsizetype>
+           <vsizetype>5</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
    <item row="0" column="0" >
     <layout class="QHBoxLayout" >
@@ -267,110 +263,114 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="0" >
-    <widget class="QToolBox" name="tbRezalContainer" >
-     <property name="sizePolicy" >
-      <sizepolicy>
-       <hsizetype>5</hsizetype>
-       <vsizetype>5</vsizetype>
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="acceptDrops" >
-      <bool>false</bool>
-     </property>
-     <property name="whatsThis" >
-      <string>&lt;h3>Main view&lt;/h3>
-&lt;p>You can choose if you want to see Everybody or only your favorites.&lt;br>
-Each item have a menu (right click)&lt;/p>
-&lt;p>To switch you can use &lt;b>Shift+Tab&lt;/b>&lt;/p></string>
-     </property>
-     <property name="frameShape" >
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
-     </property>
-     <property name="lineWidth" >
-      <number>1</number>
-     </property>
-     <property name="currentIndex" >
+   <item row="2" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tabFavorites" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>780</width>
-        <height>549</height>
-       </rect>
-      </property>
-      <attribute name="label" >
-       <string>Favorites</string>
-      </attribute>
-      <layout class="QGridLayout" >
-       <property name="margin" >
-        <number>8</number>
+     <property name="spacing" >
+      <number>2</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="lblStatusIcon" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>1</hsizetype>
+         <vsizetype>5</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="spacing" >
-        <number>6</number>
+       <property name="text" >
+        <string/>
        </property>
-       <item row="0" column="0" >
-        <widget class="RzxRezal" name="rezalFavorites" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>5</hsizetype>
-           <vsizetype>5</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize" >
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tabEverybody" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>780</width>
-        <height>549</height>
-       </rect>
-      </property>
-      <attribute name="label" >
-       <string>Everybody</string>
-      </attribute>
-      <layout class="QGridLayout" >
-       <property name="margin" >
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblStatus" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>3</hsizetype>
+         <vsizetype>1</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Status bar&lt;/h3>
+&lt;p>Shows the status of your connection with the xnetserver&lt;/p></string>
+       </property>
+       <property name="frameShape" >
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="lineWidth" >
+        <number>1</number>
+       </property>
+       <property name="midLineWidth" >
         <number>0</number>
        </property>
-       <property name="spacing" >
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Preferred</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>1</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblCount" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>1</hsizetype>
+         <vsizetype>1</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>32767</width>
+         <height>32767</height>
+        </size>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Status bar&lt;/h3>
+&lt;p>Shows the number of clients connected&lt;/p></string>
+       </property>
+       <property name="frameShape" >
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="lineWidth" >
+        <number>1</number>
+       </property>
+       <property name="midLineWidth" >
         <number>0</number>
        </property>
-       <item row="0" column="0" >
-        <widget class="RzxRezal" name="rezal" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>5</hsizetype>
-           <vsizetype>5</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </widget>
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

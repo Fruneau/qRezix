@@ -47,7 +47,8 @@ email                : benoit.casoetto@m4x.org
 #include "defaults.h"
 #include "q.xpm"
 
-RzxProperty::RzxProperty( QRezix*parent ) : frmPref( parent ) {
+RzxProperty::RzxProperty( QRezix*parent ) : QDialog(parent) {
+	setupUi(this);
 	QPixmap iconeProg( ( const char ** ) q );
 	iconeProg.setMask( iconeProg.createHeuristicMask() );
 	setIcon( iconeProg );
@@ -162,13 +163,13 @@ void RzxProperty::changeTheme()
 void RzxProperty::changePage(int i)
 {
 	lblTitle->setText("<h2>"+lbMenu->text(i)+"</h2>");
-	prefStack->raiseWidget(i);
+	prefStack->setCurrentIndex(i);
 }
 
 void RzxProperty::languageChange()
 {
-	frmPref::languageChange();
-	lblTitle->setText("<h2>"+lbMenu->text(prefStack->id(prefStack->visibleWidget()))+"</h2>");
+	QDialog::languageChange();
+	lblTitle->setText("<h2>"+lbMenu->text(prefStack->currentIndex())+"</h2>");
 }
 
 
