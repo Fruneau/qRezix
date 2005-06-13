@@ -17,6 +17,7 @@
 #define RZXPROPERTY_H
 
 #include <qpixmap.h>
+#include <QDialog>
 #include "rzxpropertyui.h"
 
 #define NB_COL 10
@@ -28,7 +29,7 @@
 class Q3Dns;
 class QRezix;
 
-class RzxProperty : public frmPref {
+class RzxProperty : public QDialog, public Ui::frmPref {
 	Q_OBJECT
 	
 public: 
