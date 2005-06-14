@@ -18,12 +18,13 @@
 #ifndef RZXCLIENTLISTENER_H
 #define RZXCLIENTLISTENER_H
 
-#include <qobject.h>
-#include <q3socketdevice.h>
-#include <q3socket.h>
-#include <qtimer.h>
-#include <qdatetime.h>
-#include <qstring.h>
+#include <QObject>
+#include <QTcpServer>
+#include <QTcpSocket>
+#include <QTimer>
+#include <QDateTime>
+#include <QString>
+
 #include "rzxhostaddress.h"
 
 /**
@@ -32,9 +33,9 @@
 
 class QPoint;
 class RzxChat;
-class QSocketNotifier;
+class QRezix;
 
-class RzxChatSocket : public Q3Socket
+class RzxChatSocket : public QTcpSocket
 {
 	Q_OBJECT
 	friend class RzxChat;
@@ -83,7 +84,7 @@ class RzxChatSocket : public Q3Socket
 	protected slots:
 		void chatConnexionEtablished();
 		void chatConnexionClosed();
-		void chatConnexionError(int Error);
+		void chatConnexionError(SocketError);
 		void chatConnexionTimeout();
 		int readSocket();
 
@@ -94,7 +95,7 @@ class RzxChatSocket : public Q3Socket
 		
 	public:
 		static QWidget *showProperties(const RzxHostAddress& peer, const QString& msg, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
-		static QWidget *showHistorique( unsigned long ip, QString hostname, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
+		static QWidget *showHistorique( unsigned long ip, const QString &hostname, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
 
 
 	signals: // Signals
@@ -112,30 +113,27 @@ class RzxChatSocket : public Q3Socket
 };
 
 
-class RzxClientListener : public QObject  {
+class RzxClientListener : public QTcpServer  {
 	Q_OBJECT
 
-	Q3SocketDevice listenSocket;
-	bool valid;
-	QSocketNotifier * notify;
-	static RzxClientListener * globalObject;
+	static RzxClientListener * object;
 	
 	public:
 		RzxClientListener();
-		~RzxClientListener();
+		~RzxClientListener() { }
 	
-		static RzxClientListener * object();
-	
-		bool listenOnPort(Q_UINT32 port);
-		bool isValid( void ) const;
-		void close();
+		static RzxClientListener *global() {
+			if(!object) new RzxClientListener;
+			return object;
+		}
+		bool listen(quint16 port) { return QTcpServer::listen(QHostAddress::Any, port); }
 		void attach(RzxChatSocket* socket);
 		
 	public slots:
 		void checkProperty(const RzxHostAddress& host);
 
 	protected slots: // Protected slots
-		void socketRead(int socket);
+		void socketRead();
 		void info(const QString&);
 		
 	signals:

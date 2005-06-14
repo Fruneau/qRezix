@@ -15,26 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qsocketnotifier.h>
-#include <qregexp.h>
-#include <q3socket.h>
-#include <qwidget.h>
-#include <q3frame.h>
-#include <qimage.h>
-#include <qbitmap.h>
-#include <qlabel.h>
-#include <qmessagebox.h>
-#include <qlayout.h>
-#include <qapplication.h>
-#include <qdir.h>
-#include <q3textview.h>
-#include <q3textedit.h>
-#include <qtextstream.h>
-#include <q3listview.h>
-#include <q3frame.h>
-//Added by qt3to4:
+#include <QSocketNotifier>
+#include <QRegExp>
+#include <QTcpSocket>
+#include <QWidget>
+#include <QFrame>
+#include <QImage>
+#include <QBitmap>
+#include <QLabel>
+#include <QMessageBox>
+#include <QLayout>
+#include <QApplication>
+#include <QDir>
+#include <QTextEdit>
+#include <QListView>
+#include <QStringListModel>
+#include <QTextStream>
 #include <QPixmap>
 #include <QGridLayout>
+#include <QTextCursor>
 
 #include "rzxclientlistener.h"
 
@@ -59,46 +58,46 @@ QString RzxChatSocket::DCCFormat[] = {
 
 ///Construction d'un socket brute
 RzxChatSocket::RzxChatSocket()
-	:Q3Socket(), host()
+	:QTcpSocket(), host()
 {
 	alone = false;
 	chatWindow = NULL;
-	connect(this, SIGNAL(connectionClosed()), this, SLOT(chatConnexionClosed()));
+	connect(this, SIGNAL(disconnected()), this, SLOT(chatConnexionClosed()));
 	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
-	connect(this, SIGNAL(error(int)), this, SLOT(chatConnexionError(int)));
+	connect(this, SIGNAL(error(SocketError)), this, SLOT(chatConnexionError(SocketError)));
 	connect(this, SIGNAL(connected()), this, SLOT(chatConnexionEtablished()));
 	connect(&timeOut, SIGNAL(timeout()), this, SLOT(chatConnexionTimeout()));
-	RzxClientListener::object()->attach(this);
+	RzxClientListener::global()->attach(this);
 }
 
 ///Construction d'un socket de chat lié à une fenêtre
 RzxChatSocket::RzxChatSocket(const RzxHostAddress& s_host, RzxChat *parent)
-	:Q3Socket(), host(s_host)
+	:QTcpSocket(), host(s_host)
 {
 	chatWindow = parent;
 	alone = false;
-	connect(this, SIGNAL(connectionClosed()), this, SLOT(chatConnexionClosed()));
+	connect(this, SIGNAL(disconnected()), this, SLOT(chatConnexionClosed()));
 	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
-	connect(this, SIGNAL(error(int)), this, SLOT(chatConnexionError(int)));
+	connect(this, SIGNAL(error(SocketError)), this, SLOT(chatConnexionError(SocketError)));
 	connect(this, SIGNAL(connected()), this, SLOT(chatConnexionEtablished()));
 	connect(&timeOut, SIGNAL(timeout()), this, SLOT(chatConnexionTimeout()));
-	RzxClientListener::object()->attach(this);
+	RzxClientListener::global()->attach(this);
 }
 
 ///Construction d'un socket de chat sans liaison
 RzxChatSocket::RzxChatSocket(const RzxHostAddress& s_host, bool s_alone)
-	:Q3Socket(), host(s_host)
+	:QTcpSocket(), host(s_host)
 {
 	chatWindow = NULL;
 	alone = s_alone;
-	connect(this, SIGNAL(connectionClosed()), this, SLOT(chatConnexionClosed()));
+	connect(this, SIGNAL(disconnected()), this, SLOT(chatConnexionClosed()));
 	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
-	connect(this, SIGNAL(error(int)), this, SLOT(chatConnexionError(int)));
+	connect(this, SIGNAL(error(SocketError)), this, SLOT(chatConnexionError(SocketError)));
 	connect(this, SIGNAL(connected()), this, SLOT(chatConnexionEtablished()));
 	connect(&timeOut, SIGNAL(timeout()), this, SLOT(chatConnexionTimeout()));
 	if(alone)
 		connectToHost();
-	RzxClientListener::object()->attach(this);
+	RzxClientListener::global()->attach(this);
 }
 
 ///Destruction d'un socket de chat
@@ -109,7 +108,7 @@ RzxChatSocket::~RzxChatSocket()
 ///Fermeture du socket
 void RzxChatSocket::close()
 {
-	Q3Socket::close();
+	QTcpSocket::close();
 	if(chatWindow)
 		chatWindow->setSocket(NULL);
 	chatWindow = NULL;
@@ -125,14 +124,14 @@ void RzxChatSocket::setParent(RzxChat *parent)
 ///Connexion à l'hôte
 void RzxChatSocket::connectToHost()
 {
-	Q3Socket::connectToHost(host.toString(), RzxConfig::chatPort());
+	QTcpSocket::connectToHost(host.toString(), RzxConfig::chatPort());
 	timeOut.start(10*1000); //descend le timeout de connexion à 10s
 }
 
 ///Installation d'un socket
 void RzxChatSocket::setSocket(int socket)
 {
-	Q3Socket::setSocket(socket);
+	QTcpSocket::setSocket(socket);
 	host = peerAddress();
 }
 
@@ -361,21 +360,22 @@ void RzxChatSocket::chatConnexionClosed()
 }
 
 /** Gestion des erreurs lors de la connexion et de la communication chaque erreur donne lieu a une mise en garde de l'utilisateur*/
-void RzxChatSocket::chatConnexionError(int Error)
+void RzxChatSocket::chatConnexionError(SocketError error)
 {
-	switch(Error)
+	switch(error)
 	{
-		case ErrConnectionRefused:
+		case ConnectionRefusedError:
 			emit info(tr("can't be contact, check his firewall... CONNECTION ERROR"));
 			qDebug("Connexion has been refused by the client");
 			close();
 			break;
-		case ErrHostNotFound:
+		case HostNotFoundError:
 			emit info(tr("can't be found... CONNECTION ERROR"));
 			qDebug("Can't find client");
 			close();
 			break;
-		case ErrSocketRead:
+//		case SocketRead:
+		default:
 			emit info(tr("has sent datas which can't be read... CONNECTION ERROR"));
 			qDebug("Error while reading datas");
 			break;
@@ -386,7 +386,7 @@ void RzxChatSocket::chatConnexionError(int Error)
 //Cas où la connexion n'a pas pu être établie dans les délais
 void RzxChatSocket::chatConnexionTimeout()
 {
-	chatConnexionError(ErrConnectionRefused);
+	chatConnexionError(SocketTimeoutError);
 }
 
 // affichage des proprietes d'un ordinateur
@@ -401,24 +401,26 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	if(withFrame)
 	{
 		// creation de la boite de dialogue (non modale, elle se detruit automatiquement grace a WDestructiveClose)
-		propertiesDialog = new QDialog(parent?parent:QRezix::global(), "ClientProp", false, Qt::WDestructiveClose | Qt::WStyle_Customize | Qt::WStyle_Tool | Qt::WStyle_Title | Qt::WStyle_SysMenu);
+#ifdef Q_OS_MACX
+		if(parent)
+			propertiesDialog = new QDialog(parent, Qt::Drawer);
+		else
+#endif
+		propertiesDialog = new QDialog(parent?parent:QRezix::global(), Qt::Tool | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+		propertiesDialog->setAttribute(Qt::WA_DeleteOnClose);
 		propertiesDialog->resize(300, 320);
 
 		QPixmap iconeProg((const char **)q);
 		iconeProg.setMask(iconeProg.createHeuristicMask() );
 		propertiesDialog->setIcon(iconeProg);
 
-	#ifdef WIN32
-		propertiesDialog->setCaption( tr( "%1's properties" ).arg(computer->getName()) +" [Qt]");
-	#else
 		propertiesDialog->setCaption( tr( "%1's properties" ).arg(computer->getName()) );
-	#endif
 	}
 	else
 	{
 		propertiesDialog = new RzxPopup(parent?parent:QRezix::global(), "ClientProp");
-		((Q3Frame*)propertiesDialog) -> setFrameShape(Q3Frame::PopupPanel);
-		((Q3Frame*)propertiesDialog) -> setFrameShadow(Q3Frame::Raised);
+		((QFrame*)propertiesDialog)->setFrameShape(QFrame::PopupPanel);
+		((QFrame*)propertiesDialog)->setFrameShadow(QFrame::Raised);
 		if(pos) propertiesDialog->move(*pos);
 	}
 
@@ -428,29 +430,29 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	qPropertiesLayout->setMargin(withFrame?6:0);
  
 	// creation de la liste des proprietes et ajout au layout
-	Q3ListView* PropList = new Q3ListView(propertiesDialog, "PropView");
-	QLabel *clientLabel = new QLabel(tr("xNet client : %1").arg(computer->getClient()), propertiesDialog, "ClientLabel");
+	QListView* PropList = new QListView(propertiesDialog);
+	QLabel *clientLabel = new QLabel(tr("xNet client : %1").arg(computer->getClient()), propertiesDialog);
 	qPropertiesLayout->addWidget((QWidget*)PropList, 0, 0);
 	qPropertiesLayout->addWidget((QWidget*)clientLabel, 300, 0);
  
 	PropList->setPaletteBackgroundColor(QColor(255,255,255));
 	PropList->resize(300, 300);
-	PropList->addColumn(tr("Property"), -1);
+	PropList->setModelColumn(2);
+/*	PropList->addColumn(tr("Property"), -1);
 	PropList->addColumn(tr("Value"), -1);
-	Q3ScrollView::ScrollBarMode mode = Q3ScrollView::AlwaysOff;
-	PropList -> setHScrollBarMode(mode);
+*/	PropList -> setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
  
 	QStringList props = QStringList::split('|', msg, true);
 	// ajout des proprietes de la liste, sans tri.
-	PropList->setSorting(-1,FALSE);
-	Q3ListViewItem* vi = NULL;
+//	PropList->setSorting(-1,FALSE);
 	int propCount = 0;
-	
+	new QStringListModel(props, PropList);
+	/*
 	for(int i = 0 ; i < props.size() - 1 ; i+=2)
 	{
-		vi = new Q3ListViewItem(PropList, vi, props[i], props[i+1]);
+		vi = new QStringListModel(PropList);
 		propCount++;
-	}
+	}*/
 	if(!propCount)
 	{
 		propertiesDialog->deleteLater();
@@ -462,14 +464,14 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 		propertiesDialog->show();
  
 	// Fit de la fenetre, on ne le fait pas si il n'y a pas d'accents, sinon ca plante
-	int width=PropList->columnWidth(0)+PropList->columnWidth(1)+4+12;
-	int height=(PropList->childCount()+1)*(*PropList->firstChild()).height()+8+12+20; //+20 pour le client xnet
-	propertiesDialog->resize(width,height);
+//	int width=PropList->columnWidth(0)+PropList->columnWidth(1)+4+12;
+//	int height=(PropList->childCount()+1)*(*PropList->firstChild()).height()+8+12+20; //+20 pour le client xnet
+//	propertiesDialog->resize(width,height);
 	RzxConfig::addCache(peer,msg);
 	return propertiesDialog;
 }
 
-QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool withFrame, QWidget *parent, QPoint *pos ){
+QWidget *RzxChatSocket::showHistorique( unsigned long ip, const QString& hostname, bool withFrame, QWidget *parent, QPoint *pos ){
 	// chargement de l'historique
 	QString filename = RzxConfig::historique(ip, hostname);
 	if (filename.isNull())
@@ -491,22 +493,19 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool
 	QWidget *histoDialog;
 	if(withFrame)
 	{
-		histoDialog = new QDialog(parent?parent:QRezix::global(), "Histo", false, Qt::WDestructiveClose | Qt::WStyle_Customize | Qt::WStyle_Tool | Qt::WStyle_Title | Qt::WStyle_SysMenu);
+		histoDialog = new QDialog(parent?parent:QRezix::global(), Qt::Tool | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+		histoDialog->setAttribute(Qt::WA_DeleteOnClose);
 		QPixmap iconeProg((const char **)q);
 		iconeProg.setMask(iconeProg.createHeuristicMask() );  
 		histoDialog->setIcon(iconeProg);
 
-	#ifdef WIN32
-		histoDialog->setCaption( tr( "History - %1" ).arg(hostname) +" - [Qt]");
-	#else
 		histoDialog->setCaption( tr( "History - %1" ).arg(hostname) );
-	#endif
 	}
 	else
 	{
 		histoDialog = new RzxPopup(parent?parent:QRezix::global(), "Histo");
-		((Q3Frame*)histoDialog) -> setFrameShape(Q3Frame::PopupPanel);
-		((Q3Frame*)histoDialog) -> setFrameShadow(Q3Frame::Raised);
+		((QFrame*)histoDialog)->setFrameShape(QFrame::PopupPanel);
+		((QFrame*)histoDialog)->setFrameShadow(QFrame::Raised);
 		if(pos) 
 		{
 			QPoint ul = *pos;
@@ -519,13 +518,15 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool
 
 
 	// creation de la liste des proprietes et ajout au layout
-	Q3TextView* histoView = new Q3TextView(histoDialog, "HistoView");
+	QTextEdit* histoView = new QTextEdit(histoDialog);
+	histoView->setReadOnly(true);
 	qHistoLayout->addWidget((QWidget*)histoView, 0, 0);
 	
 	histoDialog->resize(300, 300);
 	histoView -> setPaletteBackgroundColor(QColor(255,255,255));
-	histoView -> setText(text);
-	histoView -> scrollToBottom();
+	histoView -> setHtml(text);
+        histoView->textCursor().movePosition(QTextCursor::End);
+        histoView->ensureCursorVisible();
 	
 	histoDialog->raise();
 	if(withFrame)
@@ -534,63 +535,12 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, QString hostname, bool
 }
 
 
-RzxClientListener * RzxClientListener::globalObject = 0;
-RzxClientListener* RzxClientListener::object() {
-	if (!globalObject)
-		globalObject = new RzxClientListener;
-		
-	return globalObject;
-}
-
-
-bool RzxClientListener::isValid( void ) const { return valid; }
-
+RzxClientListener * RzxClientListener::object = 0;
 
 RzxClientListener::RzxClientListener()
-	: QObject(0, "Client"), listenSocket(Q3SocketDevice::Stream)
 {
-	valid = false;
-	notify = NULL;
-}
-
-///Ouverture de l'écoute du port 5050
-/** Ouverture du port tcp 5050 (par défaut) pour une écoute*/
-bool RzxClientListener::listenOnPort(Q_UINT32 port) {
-	valid = false;
-	if( !listenSocket.isValid() ){
-		qDebug("tcp socket not valid");
-		return false;
-	}
-
-	if( !listenSocket.bind(QHostAddress(), port) ){
-		qDebug("Could not bind to socket");
-		return false;
-	}
-		
-	listenSocket.setBlocking(false);
-	listenSocket.setAddressReusable(false);
-	if( !listenSocket.listen(50) ) //bon 50 pourquoi pas...
-	{
-		qDebug("Could not listen on listenSocket");
-		return false;
-	}
-
-	valid = true;
-	
-	notify = new QSocketNotifier(listenSocket.socket(), QSocketNotifier::Read, this);
-	notify -> setEnabled(true);
-	connect(notify, SIGNAL(activated(int)), SLOT(socketRead(int)));
-	return true;
-}
-
-RzxClientListener::~RzxClientListener(){
-	if(notify)
-		delete notify;
-}
-
-void RzxClientListener::close()
-{
-	listenSocket.close();
+	if(!object) object = this;
+	connect(this, SIGNAL(newConnection()), this, SLOT(socketRead()));
 }
 
 ///Connexion d'un RzxChatSocket au reste du programme
@@ -606,25 +556,29 @@ void RzxClientListener::attach(RzxChatSocket *sock)
  *		-# On analyse les données envoyées jusqu'à obtenir un message 'compréhensible'
  *		-# On dispatch alors ce message sur les différentes possibilités (pour l'instant chat ou prop)
  */
-void RzxClientListener::socketRead(int socket){
+void RzxClientListener::socketRead() {
+	//Récupération de la connexion
+	// On vérifie au passage que la connexion est valide
 	QHostAddress host;
-	RzxChatSocket *sock;
-	
-	// On sait jamais
-	if( socket != listenSocket.socket() ) {
-		qDebug("assertion socket!=listenSocket.socket() failed!");
+	QTcpSocket *rawSocket = nextPendingConnection();
+	if(rawSocket == NULL) {
+		qDebug("There is no socket to be connected");
 		return;
 	}
-
-	sock = new RzxChatSocket();
-	sock->setSocket(listenSocket.accept());
-	host = sock->peerAddress();
-	if(!RzxConfig::globalConfig()->ignoreList->find(host.toString())) 
-		qDebug("Accept connexion to client " + host.toString());
-	else {
-		qDebug("Message from client "+ host.toString()+ " has been ignored");
-		delete sock;
+	host = rawSocket->peerAddress();
+        if(!RzxConfig::globalConfig()->ignoreList->find(host.toString())) 
+                qDebug("Accept connexion to client " + host.toString());
+        else {
+                qDebug("Message from client "+ host.toString()+ " has been ignored");
+		rawSocket->abort();
+		delete rawSocket;
+		return;
 	}
+						
+	//Construction du chat d'accueil
+	RzxChatSocket *sock;
+	sock = new RzxChatSocket();
+	sock->setSocket(rawSocket->socketDescriptor());
 }
 
 ///Demande des propriétés de manière indépendante

@@ -48,7 +48,7 @@ RzxConnectionLister::RzxConnectionLister( QObject *parent, const char *name)
 	computerByLogin.setAutoDelete(false);
 
 	server = RzxServerListener::object();
-	client = RzxClientListener::object();
+	client = RzxClientListener::global();
 
 	connect( server, SIGNAL( login( const QString& ) ), this, SLOT( login( const QString& ) ) );
 	connect( server, SIGNAL( logout( const RzxHostAddress& ) ), this, SLOT( logout( const RzxHostAddress& ) ) );
@@ -199,7 +199,7 @@ QStringList RzxConnectionLister::getIpList(unsigned int features)
 
 void RzxConnectionLister::initConnection() {
 	server -> setupConnection();
-	if( ! client -> listenOnPort(RzxConfig::chatPort()) )
+	if( ! client -> listen(RzxConfig::chatPort()) )
 		RzxMessageBox::warning( (QWidget *) parent(), "qRezix",
 		tr("Cannot create peer to peer socket !\n\nChat and properties browsing are disabled") );
 }

@@ -91,7 +91,7 @@ QRezix::QRezix(QWidget *parent)
 	connect(btnPlugins, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
 	connect(&menuPlugins, SIGNAL(aboutToHide()), btnPlugins, SLOT(toggle()));
  
-	connect(RzxClientListener::object(), SIGNAL(chatSent()), this, SLOT(chatSent()));
+	connect(RzxClientListener::global(), SIGNAL(chatSent()), this, SLOT(chatSent()));
 
 	connect(leSearch, SIGNAL(returnPressed()), this, SLOT(launchSearch()));
 	connect(btnSearch, SIGNAL(toggled(bool)), rezal, SLOT(activeFilter(bool)));
@@ -222,7 +222,7 @@ void QRezix::saveSettings()
 	qDebug("Fermeture des fenêtres de chat");
 	RzxConnectionLister::global() ->closeChats();
 	qDebug("Fermeture de l'écoute réseau");
-	RzxClientListener::object()->close();
+	RzxClientListener::global()->close();
 	qDebug("Fermeture de la connexion avec le serveur");
 	if (!RzxConnectionLister::global() -> isSocketClosed()){
 		lblStatus -> setText(tr("Closing socket..."));
