@@ -42,12 +42,14 @@
 
 #ifdef HAVE_CONFIG_H
 #include "../config.h"
-#endif
-
+#else
 #ifdef Q_OS_MACX
 #define QREZIX_DATA_DIR "./qrezix.app/Contents/Resources/"
+#else
+#define QREZIX_DATA_DIR "/usr/share/qrezix"
+#define QREZIX_LIB_DIR "/usr/lib/qrezix"
 #endif
-
+#endif
 #endif
 
 #ifdef WIN32

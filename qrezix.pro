@@ -96,13 +96,3 @@ QT += network
 #The following line was inserted by qt3to4
 CONFIG += uic3
 
-#The following line was inserted by qt3to4
-QT +=  
-#The following line was inserted by qt3to4
-CONFIG += uic3
-
-#The following line was inserted by qt3to4
-QT +=  
-#The following line was inserted by qt3to4
-CONFIG += uic3
-
