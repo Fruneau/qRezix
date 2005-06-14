@@ -22,12 +22,8 @@
 #include <config.h>
 #endif
 
-#include <q3dict.h>
-#include <qtranslator.h>
-#include <q3popupmenu.h>
-//Added by qt3to4:
-#include <QEvent>
-#include <QCloseEvent>
+#include <QWidget>
+#include <QMenu>
 
 #ifdef Q_OS_MACX
 #include "ui_qrezixui_mac.h"
@@ -35,10 +31,12 @@
 #include "ui_qrezixui.h"
 #endif
 
-class Q3Accel;
 class TrayIcon;
 class RzxProperty;
 class RzxComputer;
+class QEvent;
+class QCloseEvent;
+class QShortcut;
 
 //class RzxChat;
 
@@ -48,8 +46,8 @@ class QRezix : public QWidget, public Ui::qRezixUI
 	Q_OBJECT
 	
 	RzxProperty * m_properties;
-	Q3Accel *accel;
-	Q3PopupMenu menuPlugins;
+	QShortcut *accel;
+	QMenu menuPlugins;
 	static QRezix *object;
 	bool statusFlag;
 	bool favoriteWarn;
@@ -70,8 +68,8 @@ signals:
 	void setToolTip(const QString &);
 
 protected:
-	void closeEvent(QCloseEvent * e);
-	bool event(QEvent * e);
+	virtual void closeEvent(QCloseEvent * e);
+	virtual bool event(QEvent * e);
 
 public slots: // Public slots
 	void status(const QString& msg, bool fatal);
@@ -94,7 +92,7 @@ protected slots: // Protected slots
 	/*affiche la boite de dialogue permettant de modifier les preferences*/
 	void socketClosed();
 	void toggleVisible();
-	void languageChange();
+	virtual void languageChange();
 	void pluginsMenu(bool show = false);
 	void switchTab();
 	void warnForFavorite(RzxComputer *computer);
