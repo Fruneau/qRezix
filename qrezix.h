@@ -30,9 +30,9 @@
 #include <QCloseEvent>
 
 #ifdef Q_OS_MACX
-#include "qrezixui_mac.h"
+#include "ui_qrezixui_mac.h"
 #else
-#include "qrezixui.h"
+#include "ui_qrezixui.h"
 #endif
 
 class Q3Accel;

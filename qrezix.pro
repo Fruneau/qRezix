@@ -93,6 +93,4 @@ macx {
 }
 #The following line was inserted by qt3to4
 QT += network  
-#The following line was inserted by qt3to4
-CONFIG += uic3
 

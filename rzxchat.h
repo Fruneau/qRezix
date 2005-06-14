@@ -100,9 +100,9 @@ signals:
 };
 
 #ifdef Q_OS_MACX
-#include "rzxchatui_mac.h"
+#include "ui_rzxchatui_mac.h"
 #else
-#include "rzxchatui.h"
+#include "ui_rzxchatui.h"
 #endif
 
 class RzxChat : public QWidget, public Ui::RzxChatUI {

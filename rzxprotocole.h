@@ -22,7 +22,7 @@
 #include <qstring.h>
 
 #include "rzxhostaddress.h"
-#include "rzxchangepassui.h"
+#include "ui_rzxchangepassui.h"
 
 /**
 	*Gere le protocole Xnet. Attention, les messages SERVER_ICON sont definis mais
@@ -41,7 +41,8 @@ class RzxProtocole : public QObject{
 	
 	QString m_oldPass;
 	QString m_newPass;
-	RzxChangePassUI *changepass;
+	Ui::RzxChangePassUI changepassui;
+	QDialog *changepass;
 	
 public: 
 	RzxProtocole();

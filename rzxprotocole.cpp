@@ -22,11 +22,12 @@
 #include <qvalidator.h>
 #include <qpixmap.h>
 #include <qimage.h>
+#include <QDialog>
 
 #include "rzxprotocole.h"
 #include "rzxcomputer.h"
 #include "rzxconfig.h"
-#include "rzxwrongpassui.h"
+#include "ui_rzxwrongpassui.h"
 #include "md5.h"
 #define MD5_ADD "Vive le BR"
 const char * RzxProtocole::ServerFormat[] = {
@@ -111,11 +112,13 @@ void RzxProtocole::parse(const QString& msg){
 				}
 				else
 				{
-					RzxWrongPassUI wp;
+					Ui::RzxWrongPassUI wp;
+					QDialog wpDialog;
+					wp.setupUi(&wpDialog);
 					RzxConfig::globalConfig()->setOldPass();
 					QIcon icon(*RzxConfig::themedIcon("ok"));
 					wp.btnOK->setIconSet(icon);
-					wp.exec();
+					wpDialog.exec();
 					QString pwd = wp.ledPassword->text();
 					if(pwd.length())
 					{
@@ -234,25 +237,26 @@ void RzxProtocole::getIcon(const RzxHostAddress& ip) {
 void RzxProtocole::changePass(const QString& oldPass)
 {
 	if(oldPass.isNull())
-		changepass = new RzxChangePassUI(NULL, "ChangePass");
+		changepass = new QDialog();
 	else
-		changepass = new RzxChangePassUI(NULL, "ChangePass", false, Qt::WStyle_Customize | Qt::WStyle_StaysOnTop);
+		changepass = new QDialog(NULL, Qt::WStyle_Customize | Qt::WStyle_StaysOnTop);
+	changepassui.setupUi(changepass);
 	
 	//Application du masque pour être sur du formatage du password
-	changepass->leNewPass->setValidator(new QRegExpValidator(QRegExp(".{6,63}"), this));
-	connect(changepass->leNewPass, SIGNAL(textChanged(const QString&)), this, SLOT(analyseNewPass()));
-	changepass->btnOK->setEnabled(false);
+	changepassui.leNewPass->setValidator(new QRegExpValidator(QRegExp(".{6,63}"), this));
+	connect(changepassui.leNewPass, SIGNAL(textChanged(const QString&)), this, SLOT(analyseNewPass()));
+	changepassui.btnOK->setEnabled(false);
 	
 	//Rajout des icônes aux boutons
 	QIcon ok, cancel;
 	ok.setPixmap(*RzxConfig::themedIcon("ok"), QIcon::Automatic);
 	cancel.setPixmap(*RzxConfig::themedIcon("cancel"), QIcon::Automatic);
-	changepass->btnOK->setIconSet(ok);
-	changepass->btnCancel->setIconSet(cancel);
+	changepassui.btnOK->setIconSet(ok);
+	changepassui.btnCancel->setIconSet(cancel);
 
 	//Connexion des boutons comme il va bien
-	connect(changepass->btnOK, SIGNAL(clicked()), this, SLOT(validChangePass()));
-	connect(changepass->btnCancel, SIGNAL(clicked()), this, SLOT(cancelChangePass()));
+	connect(changepassui.btnOK, SIGNAL(clicked()), this, SLOT(validChangePass()));
+	connect(changepassui.btnCancel, SIGNAL(clicked()), this, SLOT(cancelChangePass()));
 	
 	//Affichage de la fenêtre
 	changepass->raise();
@@ -265,9 +269,9 @@ void RzxProtocole::validChangePass()
 	
 	//Si le nouveau texte et sa confirmation coincident, on envoie la requête au serveur
 	//et on ferme la fenêtre
-	if(changepass->leNewPass->text() == changepass->leReenterNewPass->text())
+	if(changepassui.leNewPass->text() == changepassui.leReenterNewPass->text())
 	{
-		m_newPass = changepass->leNewPass->text();
+		m_newPass = changepassui.leNewPass->text();
 /*		qDebug(m_oldPass + " ==> " + m_newPass);
 		emit send("CHANGEPASS " + m_oldPass + " " + m_newPass + "\r\n");*/
        //avec hash:
@@ -289,6 +293,6 @@ void RzxProtocole::cancelChangePass()
 
 void RzxProtocole::analyseNewPass()
 {
-	changepass->btnOK->setEnabled(changepass->leNewPass->hasAcceptableInput());
+	changepassui.btnOK->setEnabled(changepassui.leNewPass->hasAcceptableInput());
 }
 

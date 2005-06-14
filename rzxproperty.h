@@ -18,7 +18,7 @@
 
 #include <qpixmap.h>
 #include <QDialog>
-#include "rzxpropertyui.h"
+#include "ui_rzxpropertyui.h"
 
 #define NB_COL 10
 
