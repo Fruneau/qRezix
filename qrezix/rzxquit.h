@@ -18,11 +18,12 @@
 #ifndef RZXQUIT_H
 #define RZXQUIT_H
 
-#include "rzxquitui.h"
+#include <QDialog>
+#include "ui_rzxquitui.h"
 
 class RzxConfig;
 
-class RzxQuit : public RzxQuitUI
+class RzxQuit : public QDialog, private Ui::RzxQuitUI
 {
 	Q_OBJECT
 	friend class RzxConfig;
@@ -37,7 +38,7 @@ class RzxQuit : public RzxQuitUI
 			selectAbort = 0x04
 		};
 
-		 RzxQuit(QWidget* parent=0, const char *name=0);
+		 RzxQuit(QWidget* parent=0);
 	    ~RzxQuit();
 
 	protected slots:

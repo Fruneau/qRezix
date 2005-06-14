@@ -24,9 +24,10 @@
 #include "rzxconfig.h"
 
 //connexion des boutons à leurs action respectives
-RzxQuit::RzxQuit(QWidget* parent, const char *name)
-	: RzxQuitUI(parent, name)
+RzxQuit::RzxQuit(QWidget* parent)
+	: QDialog(parent)
 {
+	setupUi(this);
 	connect((QObject *)radioQuit, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
 	connect((QObject *)radioMinimize, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
 	connect((QObject *)radioDoNothing, SIGNAL(clicked()), this, SLOT(quitOptionChange()));

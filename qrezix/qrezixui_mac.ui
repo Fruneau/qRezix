@@ -106,8 +106,8 @@ Each item have a menu (right click)&lt;/p>
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>780</width>
-        <height>549</height>
+        <width>96</width>
+        <height>26</height>
        </rect>
       </property>
       <attribute name="label" >
