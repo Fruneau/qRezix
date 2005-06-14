@@ -23,14 +23,12 @@
 
 #include <qobject.h>
 #include <qimage.h>
-#include <q3popupmenu.h>
+#include <QMenu>
 #include <qpoint.h>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QMouseEvent>
 #include <QEvent>
-
-class Q3PopupMenu;
 
 class TrayIcon : public QObject
 {
@@ -77,7 +75,7 @@ protected:
 	virtual void mouseDoubleClickEvent( QMouseEvent *e );
 
 private:
-	Q3PopupMenu pop;
+	QMenu pop;
 	QPixmap pm;
 	QString tip;
 	bool v_isWMDock;

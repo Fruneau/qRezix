@@ -68,7 +68,7 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : Q3ListView(parent, nam
 
 	setAllColumnsShowFocus(true);
  
-	client = RzxClientListener::object();
+	client = RzxClientListener::global();
 	lister = RzxConnectionLister::global();
 	
 	//connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(login(RzxComputer*)));
