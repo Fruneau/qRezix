@@ -14,32 +14,29 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qmessagebox.h>
-#include <qlabel.h>
-#include <qtoolbutton.h>
-#include <qpushbutton.h> //pour la version mac
-#include <qlineedit.h>
-#include <qtoolbox.h>
-#include <qmenubar.h>
-#include <q3popupmenu.h>
-#include <qrect.h>
-#include <qpoint.h>
-#include <qstring.h>
-#include <qfile.h>
-#include <qicon.h>
-#include <qpixmap.h>
-#include <qbitmap.h>
-#include <qapplication.h>
-#include <qlayout.h>
-#include <q3accel.h>
-#include <q3process.h>
-#include <qsound.h>
-#include <QWidget>
-
-#include "qrezix.h"
-//Added by qt3to4:
+#include <QLabel>
+#include <QToolButton>
+#include <QPushButton> //pour la version mac
+#include <QLineEdit>
+#include <QToolBox>
+#include <QMenuBar>
+#include <QMenu>
+#include <QRect>
+#include <QPoint>
+#include <QString>
+#include <QFile>
+#include <QIcon>
+#include <QPixmap>
+#include <QBitmap>
+#include <QApplication>
+#include <QProcess>
+#include <QSound>
 #include <QCloseEvent>
 #include <QEvent>
+#include <QShortcut>
+
+#include "qrezix.h"
+
 #include "rzxquit.h"
 #include "rzxconfig.h"
 #include "rzxrezal.h"
@@ -60,7 +57,8 @@
 QRezix *QRezix::object = 0;
 
 QRezix::QRezix(QWidget *parent)
- : QWidget(parent/*, Qt::WindowContextHelpButtonHint*/), m_properties(0), accel(0), tray(0)
+ : QWidget(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint),
+	m_properties(0), accel(0), tray(0)
 {
 	setupUi(this);
 	object = this;
@@ -76,11 +74,11 @@ QRezix::QRezix(QWidget *parent)
 	///Préparation du lanceur des clients http...
 	new RzxUtilsLauncher(rezal);
 
+
 #ifdef Q_OS_MACX
-	QMenuBar *menu = new QMenuBar(this);
-	Q3PopupMenu *popup = new Q3PopupMenu(this);
-	popup->insertItem("Preferences", this, SLOT(boitePreferences()));
-	menu->insertItem("Tools", popup);
+	QMenuBar *menu = new QMenuBar();
+	QMenu *popup = menu->addMenu("Tools");
+	popup->addAction("Preferences", this, SLOT(boitePreferences()));
 #endif
 	
 	rezal->showNotFavorites(true);
@@ -147,9 +145,9 @@ QRezix::QRezix(QWidget *parent)
 	btnSearch -> setShown(RzxConfig::globalConfig()->useSearch());
 	
 	//Raccourcis claviers particuliers
-	accel = new Q3Accel(this, "RezixAccel");
-	accel->connectItem(accel->insertItem(Qt::Key_Tab+Qt::SHIFT), this, SLOT(switchTab()));
+	accel = new QShortcut(Qt::Key_Tab + Qt::SHIFT, this, SLOT(switchTab()));
 	menuFormatChange();
+
 #ifdef Q_OS_MACX
 	rezal->afficheColonnes();
 	rezalFavorites->afficheColonnes();
@@ -339,19 +337,19 @@ void QRezix::socketClosed(){
 
 void QRezix::toggleAutoResponder()
 {
-	activateAutoResponder( !btnAutoResponder->isOn());
+	activateAutoResponder( !btnAutoResponder->isChecked());
 }
 
 void QRezix::toggleButtonResponder()
 {
-	activateAutoResponder( !btnAutoResponder -> isOn() );
+	activateAutoResponder( !btnAutoResponder -> isChecked() );
 }
 
 void QRezix::activateAutoResponder( bool state )
 {
-	if(!state == btnAutoResponder->isOn())
+	if(!state == btnAutoResponder->isChecked())
 	{
-		btnAutoResponder->setOn(state);
+		btnAutoResponder->setChecked(state);
 		return;
 	}
 	if (state == (RzxConfig::autoResponder() != 0)) return;
@@ -364,13 +362,13 @@ void QRezix::activateAutoResponder( bool state )
 ///Lancement d'une recherche sur le pseudo dans la liste des personnes connectées
 void QRezix::launchSearch()
 {
-	if(btnSearch->isOn())
+	if(btnSearch->isChecked())
 	{
-		btnSearch->setOn(false);
+		btnSearch->setChecked(false);
 		return;
 	}
-	if(!leSearch->text().length()) btnSearch->setOn(false);
-	else btnSearch->setOn(true);
+	if(!leSearch->text().length()) btnSearch->setChecked(false);
+	else btnSearch->setChecked(true);
 }
 
 void QRezix::changeTrayIcon(){
@@ -419,20 +417,17 @@ void QRezix::toggleVisible(){
 void QRezix::languageChange()
 {
 	QWidget::languageChange();
-	setCaption(caption() + " v" + RZX_VERSION);
-#ifdef WIN32
-	setCaption(caption() + " [Qt]");
-#endif
+	setWindowTitle(windowTitle() + " v" + RZX_VERSION);
 
 	//Parce que Qt oublie de traduire les deux noms
 	//Alors faut le faire à la main, mais franchement, c du foutage de gueule
 	//à mon avis ça leur prendrait 5 minutes chez trolltech pour corriger le pb
-	tbRezalContainer->setItemLabel(0, tr("Favorites"));
-	tbRezalContainer->setItemLabel(1, tr("Everybody"));
+	tbRezalContainer->setItemText(0, tr("Favorites"));
+	tbRezalContainer->setItemText(1, tr("Everybody"));
 	
 	//Parce que sous Mac, les boutons sont gérés avec des QPushButton
 #ifdef Q_OS_MACX
-    menuFormatChange();
+	menuFormatChange();
 #endif
 }
 
@@ -455,19 +450,18 @@ void QRezix::warnForFavorite(RzxComputer *computer)
 		
 	//Bah, beep à la connexion
 	if(RzxConfig::beepConnection() && computer->getRepondeur()) {
-#ifdef WIN32
+
+#if defined(WIN32) || defined(Q_OS_MACX)
 		QString file = RzxConfig::connectionSound();
 		if( !file.isEmpty() && QFile( file ).exists() )
 			QSound::play( file );
-        else
-            QApplication::beep();
+        	else
+			QApplication::beep();
 #else
 		QString cmd = RzxConfig::beepCmd(), file = RzxConfig::connectionSound();
 		if (!cmd.isEmpty() && !file.isEmpty()) {
-			Q3Process process;
-			process.addArgument(cmd);
-			process.addArgument(file);
-			process.start();
+			QProcess process;
+			process.start(cmd, QStringList(file));
 		}
 #endif
 	}
@@ -505,22 +499,22 @@ void QRezix::changeTheme()
 	int texts = RzxConfig::menuTextPosition();
 	if(icons || !texts)
 	{
-		pi.setPixmap(*RzxConfig::themedIcon("plugin"), QIcon::Automatic);
-		away.setPixmap(*RzxConfig::themedIcon("away"), QIcon::Automatic, QIcon::Normal, QIcon::Off);
-		away.setPixmap(*RzxConfig::themedIcon("here"), QIcon::Automatic, QIcon::Normal, QIcon::On);
-		columns.setPixmap(*RzxConfig::themedIcon("column"), QIcon::Automatic);
-		prefs.setPixmap(*RzxConfig::themedIcon("pref"), QIcon::Automatic);
-		favorite.setPixmap(*RzxConfig::themedIcon("favorite"), QIcon::Automatic);
-		not_favorite.setPixmap(*RzxConfig::themedIcon("not_favorite"), QIcon::Automatic);
-		search.setPixmap(*RzxConfig::themedIcon("search"), QIcon::Automatic);
+		pi.addPixmap(*RzxConfig::themedIcon("plugin"));
+		away.addPixmap(*RzxConfig::themedIcon("away"), QIcon::Normal, QIcon::Off);
+		away.addPixmap(*RzxConfig::themedIcon("here"), QIcon::Normal, QIcon::On);
+		columns.addPixmap(*RzxConfig::themedIcon("column"));
+		prefs.addPixmap(*RzxConfig::themedIcon("pref"));
+		favorite.addPixmap(*RzxConfig::themedIcon("favorite"));
+		not_favorite.addPixmap(*RzxConfig::themedIcon("not_favorite"));
+		search.addPixmap(*RzxConfig::themedIcon("search"));
 	}
-	btnPlugins->setIconSet(pi);
-	btnAutoResponder->setIconSet(away);
-	btnMAJcolonnes->setIconSet(columns);
-	btnPreferences->setIconSet(prefs);
-	btnSearch->setIconSet(search);
-	tbRezalContainer->setItemIconSet(1,not_favorite);
-	tbRezalContainer->setItemIconSet(0,favorite);
+	btnPlugins->setIcon(pi);
+	btnAutoResponder->setIcon(away);
+	btnMAJcolonnes->setIcon(columns);
+	btnPreferences->setIcon(prefs);
+	btnSearch->setIcon(search);
+	tbRezalContainer->setItemIcon(1,not_favorite);
+	tbRezalContainer->setItemIcon(0,favorite);
 	if(statusFlag)
 		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("on"));
 	else
@@ -540,6 +534,19 @@ void QRezix::menuFormatChange()
 
 	//Si on a pas d'icône, on met le texte sur le côté... pour éviter un bug d'affichage
 	if(!icons) texts = 1;
+#ifndef Q_OS_MACX
+	Qt::ToolButtonStyle style;
+	if(icons && !texts) style = Qt::ToolButtonIconOnly;
+	if(!icons && texts) style = Qt::ToolButtonTextOnly;
+	if(icons && text == 1) style = Qt::ToolButtonTextBesideIcon;
+	if(icons && text == 2) style = Qt::ToolButtonTextUnderIcon;
+	btnPlugins->setToolButtonStyle(style);
+	btnAutoResponder->setToolButtonStyle(style);
+	btnMAJcolonnes->setToolButtonStyle(style);
+	btnPreferences->setToolButtonStyle(style);
+	btnSearch->setToolButtonStyle(style);
+#endif
+	
 	
 	//Mise à jour de la taille des icônes
 	switch(icons)
@@ -548,77 +555,59 @@ void QRezix::menuFormatChange()
 			{
 				QIcon empty;
 				QPixmap emptyIcon;
+#ifdef Q_OS_MACX
 				btnPlugins->setIconSet(empty);
 				btnAutoResponder->setIconSet(empty);
 				btnMAJcolonnes->setIconSet(empty);
 				btnPreferences->setIconSet(empty);
 				btnSearch->setIconSet(empty);
+#endif
 				tbRezalContainer->setItemIconSet(0,empty);
 				tbRezalContainer->setItemIconSet(1,empty);
 				lblStatusIcon->setHidden(TRUE);
 			}
 			break;
-		
 		case 1: //petites icônes
 		case 2: //grandes icones
 			{
-				#ifdef Q_OS_MACX
-				if(!btnPlugins->iconSet() || btnPlugins->iconSet()->isNull()) changeTheme();
-				#else
-				bool big = (icons == 2);
-				if(btnPlugins->iconSet().isNull()) changeTheme(); //pour recharcher les icônes s'il y a besoin
-				btnPlugins->setUsesBigPixmap(big);
-				btnAutoResponder->setUsesBigPixmap(big);
-				btnMAJcolonnes->setUsesBigPixmap(big);
-				btnPreferences->setUsesBigPixmap(big);
-				btnSearch->setUsesBigPixmap(big);
+				if(btnPlugins->icon().isNull()) changeTheme();
+				int dim = (icons == 2)?32:16;
+				QSize size = QSize(dim,dim);
+				btnPlugins->setIconSize(size);
+				btnAutoResponder->setIconSize(size);
+				btnMAJcolonnes->setIconSize(size);
+				btnPreferences->setIconSize(size);
+				btnSearch->setIconSize(size);
 				lblStatusIcon->setShown(TRUE);
-				#endif
 			}
 			break;
 	}
 	
 	//Mise à jour de la position du texte
-	#ifdef Q_OS_MACX
+#ifdef Q_OS_MACX
 	if(texts)
 	{
-	   btnPlugins->setText(tr("Plug-ins"));
-	   btnAutoResponder->setText(tr("Away"));
-	   btnMAJcolonnes->setText(tr("Adjust columns"));
-	   btnPreferences->setText(tr("Preferences"));
-       btnSearch->setText(tr("Search"));
-    }
-    else
-    {
-	   btnPlugins->setText("");
-	   btnAutoResponder->setText("");
-	   btnMAJcolonnes->setText("");
-	   btnPreferences->setText("");
-       btnSearch->setText("");
-    }        
-	#else
-	btnPlugins->setUsesTextLabel(texts);
-	btnAutoResponder->setUsesTextLabel(texts);
-	btnMAJcolonnes->setUsesTextLabel(texts);
-	btnPreferences->setUsesTextLabel(texts);
-	btnSearch->setUsesTextLabel(texts);
+		btnPlugins->setText(tr("Plug-ins"));
+		btnAutoResponder->setText(tr("Away"));
+		btnMAJcolonnes->setText(tr("Adjust columns"));
+		btnPreferences->setText(tr("Preferences"));
+		btnSearch->setText(tr("Search"));
+    	}
+    	else
+    	{
+		btnPlugins->setText("");
+		btnAutoResponder->setText("");
+		btnMAJcolonnes->setText("");
+		btnPreferences->setText("");
+		btnSearch->setText("");
+	}        
+#endif
 	if(texts)
-	{
-		QToolButton::TextPosition pos = (texts == 1)? QToolButton::BesideIcon : QToolButton::BelowIcon;
-		btnPlugins->setTextPosition(pos);
-		btnAutoResponder->setTextPosition(pos);
-		btnMAJcolonnes->setTextPosition(pos);
-		btnPreferences->setTextPosition(pos);
-		btnSearch->setTextPosition(pos);
 		lblStatus->setShown(TRUE);
 //		spacerStatus->changeSize(1,1,QSizePolicy::Minimum,QSizePolicy::Minimum);
-	}
 	else
-	{
 		lblStatus->setShown(FALSE);
 //		spacerStatus->changeSize(1,1,QSizePolicy::Expanding,QSizePolicy::Minimum);
-	}
-	#endif
 }
 
 /// Affichage du menu plug-ins lors d'un clic sur le bouton
@@ -631,6 +620,6 @@ void QRezix::pluginsMenu(bool show)
 	menuPlugins.clear();
 	RzxPlugInLoader::global()->menuAction(menuPlugins);
 	if(!menuPlugins.count())
-		menuPlugins.insertItem("<none>");
+		menuPlugins.addAction("<none>");
 	menuPlugins.popup(btnPlugins->mapToGlobal(btnPlugins->rect().topRight()));
 }

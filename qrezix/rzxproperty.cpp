@@ -94,19 +94,19 @@ RzxProperty::RzxProperty( QRezix*parent ) : QDialog(parent) {
 #ifndef WIN32
 	btnAboutQt->hide();
 #else
+#ifndef Q_OS_MACX
 	lblWorkDir_2->hide();
 	txtBeepCmd->hide();
+#endif
 #endif
 
 #ifdef Q_OS_MACX
 	groupSystray->hide();
-	cmbMenuIcons->hide();
 	lblMenuIconSize->hide();
 	cmbMenuText->hide();
 	lblMenuText->hide();	
 #else
-    cbMenuText->hide();
-    cbMenuIcon->hide();
+	cbMenuText->hide();
 #endif
 
 #ifndef Q_OS_UNIX
@@ -247,14 +247,14 @@ void RzxProperty::initDlg() {
 	cmdDoubleClic->setCurrentItem( RzxConfig::doubleClicRole() );
 	cmbIconTheme -> setCurrentItem( 0 );
 
+	cmbMenuIcons->setCurrentItem(RzxConfig::menuIconSize());
 #ifdef Q_OS_MACX
-    cbMenuText->setChecked(RzxConfig::menuTextPosition());
-    cbMenuIcon->setChecked(RzxConfig::menuIconSize());
+	cbMenuText->setChecked(RzxConfig::menuTextPosition());
 #else
 	cmbMenuText->setCurrentItem(RzxConfig::menuTextPosition());
-	cmbMenuIcons->setCurrentItem(RzxConfig::menuIconSize());
 	lockCmbMenuText(RzxConfig::menuIconSize());
 #endif
+	
 
 	cmbDefaultTab -> setCurrentItem(RzxConfig::defaultTab());
 	
@@ -515,16 +515,16 @@ bool RzxProperty::miseAJour() {
 #endif
 
 #ifdef Q_OS_MACX
-    if(RzxConfig::menuTextPosition() != (cbMenuText->isChecked()?1:0) || RzxConfig::menuIconSize() != (cbMenuIcon->isChecked()?1:0))
-    {
-        cfgObject->writeEntry("menuTextPos", cbMenuText->isChecked()?1:0);
-        cfgObject->writeEntry("menuIconSize", cbMenuIcon->isChecked()?1:0);
+	if(RzxConfig::menuTextPosition() != (cbMenuText->isChecked()?1:0) || RzxConfig::menuIconSize() != cmbMenuIcons->currentItem())
+	{
+		cfgObject->writeEntry("menuTextPos", cbMenuText->isChecked()?1:0);
 #else
 	if(RzxConfig::menuTextPosition() != cmbMenuText->currentItem() || RzxConfig::menuIconSize() != cmbMenuIcons->currentItem())
 	{
 		cfgObject->writeEntry("menuTextPos", cmbMenuText->currentItem());
-		cfgObject->writeEntry("menuIconSize", cmbMenuIcons->currentItem());
 #endif
+		cfgObject->writeEntry("menuIconSize", cmbMenuIcons->currentItem());
+
 		emit cfgObject->iconFormatChange();
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_ICONSIZE, NULL);
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_ICONTEXT, NULL);

@@ -75,10 +75,10 @@ class RzxPlugInLoader : public QObject
 		void stop();
 		void stop(const QString&);
 		
-		void menuTray(Q3PopupMenu& menu);
-		void menuItem(Q3PopupMenu& menu);
-		void menuAction(Q3PopupMenu& menu);
-		void menuChat(Q3PopupMenu& menu);
+		void menuTray(QMenu& menu);
+		void menuItem(QMenu& menu);
+		void menuAction(QMenu& menu);
+		void menuChat(QMenu& menu);
 		
 		void setSettings();
 		inline int getFeatures() { return pluginFlags; };

@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <q3popupmenu.h>
+#include <QMenu>
 #include <qstring.h>
 #include <qstringlist.h>
 #include <q3ptrlist.h>
@@ -261,14 +261,14 @@ void RzxPlugInLoader::setSettings()
 //ou pour celui qui aparaît lors du clic droit sur un item du rezal
 
 /// ajout des plug-ins au menu de la trayicon
-void RzxPlugInLoader::menuTray(Q3PopupMenu& menu)
+void RzxPlugInLoader::menuTray(QMenu& menu)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
 	int i = 0;
 	for(it = plugins.first() ; it ; it = plugins.next(), i++)
 	{
-		Q3PopupMenu *piMenu = it->getTrayMenu();
+		QMenu *piMenu = it->getTrayMenu();
 		if(piMenu && piMenu->count() && state[i])
 		{
 			QPixmap *icon = it->getIcon();
@@ -289,7 +289,7 @@ void RzxPlugInLoader::menuTray(Q3PopupMenu& menu)
 }
 
 /// ajout des plug-ins au menu des items du rezal
-void RzxPlugInLoader::menuItem(Q3PopupMenu& menu)
+void RzxPlugInLoader::menuItem(QMenu& menu)
 {
 	if(!initialized) return;
 	int i=0;
@@ -298,7 +298,7 @@ void RzxPlugInLoader::menuItem(Q3PopupMenu& menu)
 	RzxPlugIn *it;
 	for(it = plugins.first() ; it ; it = plugins.next(), k++)
 	{
-		Q3PopupMenu *piMenu = it->getItemMenu();
+		QMenu *piMenu = it->getItemMenu();
 		if(piMenu && piMenu->count() && state[k])
 		{
 			if(!i) menu.insertSeparator();
@@ -320,14 +320,14 @@ void RzxPlugInLoader::menuItem(Q3PopupMenu& menu)
 }
 
 /// Génération du menu plug-ins de la fenêtre principale
-void RzxPlugInLoader::menuAction(Q3PopupMenu& menu)
+void RzxPlugInLoader::menuAction(QMenu& menu)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
 	int i = 0;
 	for(it = plugins.first() ; it ; it = plugins.next(), i++)
 	{
-		Q3PopupMenu *piMenu = it->getActionMenu();
+		QMenu *piMenu = it->getActionMenu();
 		if(piMenu && piMenu->count() && state[i])
 		{
 			QPixmap *icon = it->getIcon();
@@ -347,14 +347,14 @@ void RzxPlugInLoader::menuAction(Q3PopupMenu& menu)
 }
 
 ///Mise à jour du menu plug-in de la fenêtre de chat
-void RzxPlugInLoader::menuChat(Q3PopupMenu& menu)
+void RzxPlugInLoader::menuChat(QMenu& menu)
 {
 	if(!initialized) return;
 	RzxPlugIn *it;
 	int i = 0;
 	for(it = plugins.first() ; it ; it = plugins.next(), i++)
 	{
-		Q3PopupMenu *piMenu = it->getChatMenu();
+		QMenu *piMenu = it->getChatMenu();
 		if(piMenu && piMenu->count() && state[i])
 		{
 			QPixmap *icon = it->getIcon();

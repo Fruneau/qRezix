@@ -15,10 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qradiobutton.h>
-#include <qcheckbox.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
+#include <QRadioButton>
+#include <QCheckBox>
+#include <QPushButton>
+#include <QLabel>
 
 #include "rzxquit.h"
 #include "rzxconfig.h"
@@ -31,7 +31,6 @@ RzxQuit::RzxQuit(QWidget* parent)
 	connect((QObject *)radioQuit, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
 	connect((QObject *)radioMinimize, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
 	connect((QObject *)radioDoNothing, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
-	connect((QObject *)btnApply, SIGNAL(clicked()), this, SLOT(done()));
 	quitOptionChange();
 }
 
@@ -60,7 +59,7 @@ void RzxQuit::quitOptionChange(void)
 }
 
 //Sortie de la fenêtre entre retournant le code d'action
-void RzxQuit::done()
+void RzxQuit::on_btnApply_clicked()
 {
 	RzxConfig::writeQuitMode(selection);
 	RzxConfig::writeShowQuit(!cbSave->isChecked());

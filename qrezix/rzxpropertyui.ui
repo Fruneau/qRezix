@@ -715,18 +715,48 @@
               <property name="spacing" >
                <number>0</number>
               </property>
-              <item row="3" column="0" >
-               <widget class="QCheckBox" name="cbMenuText" >
-                <property name="text" >
-                 <string>Add menu texts</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0" >
-               <widget class="QCheckBox" name="cbMenuIcon" >
-                <property name="text" >
-                 <string>Draw icons in menus</string>
-                </property>
+              <item row="0" column="0" >
+               <widget class="QWidget" name="widget_4" >
+                <layout class="QHBoxLayout" >
+                 <property name="margin" >
+                  <number>2</number>
+                 </property>
+                 <property name="spacing" >
+                  <number>6</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="lblMenuIconSize" >
+                   <property name="text" >
+                    <string>Icon size:</string>
+                   </property>
+                   <property name="buddy" >
+                    <cstring>cmbMenuIcons</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="cmbMenuIcons" >
+                   <property name="currentIndex" >
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <property name="text" >
+                     <string>No icon</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text" >
+                     <string>Small icons</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text" >
+                     <string>Big icons</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </item>
               <item row="1" column="0" >
@@ -773,48 +803,11 @@
                 </layout>
                </widget>
               </item>
-              <item row="0" column="0" >
-               <widget class="QWidget" name="widget_4" >
-                <layout class="QHBoxLayout" >
-                 <property name="margin" >
-                  <number>2</number>
-                 </property>
-                 <property name="spacing" >
-                  <number>6</number>
-                 </property>
-                 <item>
-                  <widget class="QLabel" name="lblMenuIconSize" >
-                   <property name="text" >
-                    <string>Icon size:</string>
-                   </property>
-                   <property name="buddy" >
-                    <cstring>cmbMenuIcons</cstring>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QComboBox" name="cmbMenuIcons" >
-                   <property name="currentIndex" >
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <property name="text" >
-                     <string>No icon</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text" >
-                     <string>Small icons</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text" >
-                     <string>Big icons</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                </layout>
+              <item row="2" column="0" >
+               <widget class="QCheckBox" name="cbMenuText" >
+                <property name="text" >
+                 <string>Add menu texts</string>
+                </property>
                </widget>
               </item>
              </layout>
@@ -1304,6 +1297,26 @@
         </layout>
        </item>
       </layout>
+      <widget class="QWidget" name="" >
+       <property name="geometry" >
+        <rect>
+         <x>9</x>
+         <y>209</y>
+         <width>606</width>
+         <height>274</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QWidget" name="" >
+       <property name="geometry" >
+        <rect>
+         <x>10</x>
+         <y>210</y>
+         <width>299</width>
+         <height>272</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="pageNetwork" >
       <layout class="QGridLayout" >
@@ -2250,35 +2263,58 @@
      </widget>
     </widget>
    </item>
-   <item rowspan="2" row="0" column="0" >
-    <widget class="Q3ListBox" name="lbMenu" >
-     <property name="sizePolicy" >
-      <sizepolicy>
-       <hsizetype>0</hsizetype>
-       <vsizetype>7</vsizetype>
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="0" column="1" >
+    <layout class="QVBoxLayout" >
+     <property name="margin" >
+      <number>2</number>
      </property>
-     <property name="minimumSize" >
-      <size>
-       <width>130</width>
-       <height>0</height>
-      </size>
+     <property name="spacing" >
+      <number>6</number>
      </property>
-     <property name="maximumSize" >
-      <size>
-       <width>130</width>
-       <height>32767</height>
-      </size>
-     </property>
-     <property name="lineWidth" >
-      <number>1</number>
-     </property>
-     <property name="hScrollBarMode" >
-      <enum>Q3ScrollView::AlwaysOff</enum>
-     </property>
-    </widget>
+     <item>
+      <widget class="QLabel" name="lblTitle" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize" >
+        <size>
+         <width>0</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>32767</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string>&lt;h2>New Item&lt;/h2></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line4" >
+       <property name="frameShape" >
+        <enum>QFrame::HLine</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth" >
+        <number>2</number>
+       </property>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="2" column="0" colspan="2" >
     <layout class="QHBoxLayout" >
@@ -2340,58 +2376,35 @@
      </item>
     </layout>
    </item>
-   <item row="0" column="1" >
-    <layout class="QVBoxLayout" >
-     <property name="margin" >
-      <number>2</number>
+   <item rowspan="2" row="0" column="0" >
+    <widget class="Q3ListBox" name="lbMenu" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>0</hsizetype>
+       <vsizetype>7</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <property name="spacing" >
-      <number>6</number>
+     <property name="minimumSize" >
+      <size>
+       <width>130</width>
+       <height>0</height>
+      </size>
      </property>
-     <item>
-      <widget class="QLabel" name="lblTitle" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>5</hsizetype>
-         <vsizetype>0</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>0</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>32767</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="text" >
-        <string>&lt;h2>New Item&lt;/h2></string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="Line" name="line4" >
-       <property name="frameShape" >
-        <enum>QFrame::HLine</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="lineWidth" >
-        <number>2</number>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-    </layout>
+     <property name="maximumSize" >
+      <size>
+       <width>130</width>
+       <height>32767</height>
+      </size>
+     </property>
+     <property name="lineWidth" >
+      <number>1</number>
+     </property>
+     <property name="hScrollBarMode" >
+      <enum>Q3ScrollView::AlwaysOff</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -2472,7 +2485,6 @@
   <tabstop>cmdDoubleClic</tabstop>
   <tabstop>cmbMenuIcons</tabstop>
   <tabstop>cmbMenuText</tabstop>
-  <tabstop>cbMenuIcon</tabstop>
   <tabstop>cbMenuText</tabstop>
   <tabstop>cmbDefaultTab</tabstop>
   <tabstop>server_name</tabstop>

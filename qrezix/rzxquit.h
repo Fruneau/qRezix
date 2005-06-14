@@ -42,8 +42,8 @@ class RzxQuit : public QDialog, private Ui::RzxQuitUI
 	    ~RzxQuit();
 
 	protected slots:
-		void quitOptionChange(void);
-		void done();
+		void quitOptionChange();
+		void on_btnApply_clicked();
 };
 
 
