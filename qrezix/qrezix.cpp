@@ -611,12 +611,12 @@ void QRezix::menuFormatChange()
 		btnPreferences->setTextPosition(pos);
 		btnSearch->setTextPosition(pos);
 		lblStatus->setShown(TRUE);
-		spacerStatus->changeSize(1,1,QSizePolicy::Minimum,QSizePolicy::Minimum);
+//		spacerStatus->changeSize(1,1,QSizePolicy::Minimum,QSizePolicy::Minimum);
 	}
 	else
 	{
 		lblStatus->setShown(FALSE);
-		spacerStatus->changeSize(1,1,QSizePolicy::Expanding,QSizePolicy::Minimum);
+//		spacerStatus->changeSize(1,1,QSizePolicy::Expanding,QSizePolicy::Minimum);
 	}
 	#endif
 }

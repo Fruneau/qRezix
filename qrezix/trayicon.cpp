@@ -748,15 +748,15 @@ void TrayIcon::TrayIconPrivate::enterEvent(QEvent *e)
 	//if ( !qApp->focusWidget() ) {
 		XEvent ev;
 		memset(&ev, 0, sizeof(ev));
-		ev.xfocus.display = qt_xdisplay();
+//		ev.xfocus.display = qt_xdisplay();
 		ev.xfocus.type = FocusIn;
 		ev.xfocus.window = winId();
 		ev.xfocus.mode = NotifyNormal;
 		ev.xfocus.detail = NotifyAncestor;
-		Time time = qt_x_time;
-		qt_x_time = 1;
+//		Time time = ;//qt_x_time;
+//		qt_x_time = 1;
 		qApp->x11ProcessEvent( &ev );
-		qt_x_time = time;
+//		qt_x_time = time;
 	//}
 //#endif
 	QWidget::enterEvent(e);
@@ -851,7 +851,7 @@ public:
 	{
 		QPixmap pm;
 		QImage i = _pm.convertToImage();
-		i = i.scale(i.width() * 2, i.height() * 2);
+		i = i.scaled(i.width() * 2, i.height() * 2);
 		pm.convertFromImage(i);
 
 		TrayIconPrivate::setPixmap(pm);

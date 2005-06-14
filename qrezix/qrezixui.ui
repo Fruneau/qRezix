@@ -1,578 +1,437 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>QRezixUI</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>qRezixUI</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>618</width>
-            <height>641</height>
-        </rect>
-    </property>
-    <property name="minimumSize">
-        <size>
-            <width>200</width>
-            <height>0</height>
-        </size>
-    </property>
-    <property name="caption">
-        <string>qRezix</string>
-    </property>
-    <property name="layoutMargin" stdset="0">
-    </property>
-    <property name="layoutSpacing" stdset="0">
-    </property>
-    <property name="whatsThis" stdset="0">
-        <string></string>
-    </property>
-    <grid>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <property name="margin">
-            <number>6</number>
-        </property>
-        <property name="spacing">
-            <number>3</number>
-        </property>
-        <widget class="QLayoutWidget" row="2" column="0">
-            <property name="name">
-                <cstring>layout3</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>lblStatusIcon</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>1</hsizetype>
-                            <vsizetype>5</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>lblStatus</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>3</hsizetype>
-                            <vsizetype>1</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="frameShape">
-                        <enum>StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                        <enum>Sunken</enum>
-                    </property>
-                    <property name="lineWidth">
-                        <number>1</number>
-                    </property>
-                    <property name="midLineWidth">
-                        <number>0</number>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>&lt;h3&gt;Status bar&lt;/h3&gt;
-&lt;p&gt;Shows the status of your connection with the xnetserver&lt;/p&gt;</string>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacerStatus</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Preferred</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>1</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>lblCount</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>1</hsizetype>
-                            <vsizetype>1</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="maximumSize">
-                        <size>
-                            <width>32767</width>
-                            <height>32767</height>
-                        </size>
-                    </property>
-                    <property name="frameShape">
-                        <enum>StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                        <enum>Sunken</enum>
-                    </property>
-                    <property name="lineWidth">
-                        <number>1</number>
-                    </property>
-                    <property name="midLineWidth">
-                        <number>0</number>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>&lt;h3&gt;Status bar&lt;/h3&gt;
-&lt;p&gt;Shows the number of clients connected&lt;/p&gt;</string>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="QToolBox" row="1" column="0">
-            <property name="name">
-                <cstring>tbRezalContainer</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="acceptDrops">
-                <bool>false</bool>
-            </property>
-            <property name="frameShape">
-                <enum>NoFrame</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Raised</enum>
-            </property>
-            <property name="lineWidth">
-                <number>1</number>
-            </property>
-            <property name="currentIndex">
-                <number>0</number>
-            </property>
-            <property name="whatsThis" stdset="0">
-                <string>&lt;h3&gt;Main view&lt;/h3&gt;
-&lt;p&gt;You can choose if you want to see Everybody or only your favorites.&lt;br&gt;
-Each item have a menu (right click)&lt;/p&gt;
-&lt;p&gt;To switch you can use &lt;b&gt;Shift+Tab&lt;/b&gt;&lt;/p&gt;</string>
-            </property>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>tabFavorites</cstring>
-                </property>
-                <property name="backgroundMode">
-                    <enum>PaletteBackground</enum>
-                </property>
-                <attribute name="label">
-                    <string>Favorites</string>
-                </attribute>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <property name="margin">
-                        <number>0</number>
-                    </property>
-                    <property name="spacing">
-                        <number>0</number>
-                    </property>
-                    <widget class="RzxRezal" row="0" column="0">
-                        <property name="name">
-                            <cstring>rezalFavorites</cstring>
-                        </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>2</hsizetype>
-                                <vsizetype>2</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
-                        </property>
-                        <property name="minimumSize">
-                            <size>
-                                <width>0</width>
-                                <height>0</height>
-                            </size>
-                        </property>
-                        <property name="paletteBackgroundColor">
-                            <color>
-                                <red>255</red>
-                                <green>255</green>
-                                <blue>255</blue>
-                            </color>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>tabEverybody</cstring>
-                </property>
-                <property name="backgroundMode">
-                    <enum>PaletteBackground</enum>
-                </property>
-                <attribute name="label">
-                    <string>Everybody</string>
-                </attribute>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <property name="margin">
-                        <number>0</number>
-                    </property>
-                    <property name="spacing">
-                        <number>0</number>
-                    </property>
-                    <widget class="RzxRezal" row="0" column="0">
-                        <property name="name">
-                            <cstring>rezal</cstring>
-                        </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>2</hsizetype>
-                                <vsizetype>2</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
-                        </property>
-                        <property name="paletteBackgroundColor">
-                            <color>
-                                <red>255</red>
-                                <green>255</green>
-                                <blue>255</blue>
-                            </color>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
-        </widget>
-        <widget class="QLayoutWidget" row="0" column="0">
-            <property name="name">
-                <cstring>layout24</cstring>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLineEdit" row="0" column="2">
-                    <property name="name">
-                        <cstring>leSearch</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>4</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="paletteBackgroundColor">
-                        <color>
-                            <red>255</red>
-                            <green>255</green>
-                            <blue>255</blue>
-                        </color>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>&lt;h3&gt;Search&lt;/h3&gt;
-&lt;p&gt;Type the beginning of the pseudonyme you are looking for and enable the search mode...&lt;/p&gt;</string>
-                    </property>
-                </widget>
-                <widget class="Line" row="0" column="1">
-                    <property name="name">
-                        <cstring>line2</cstring>
-                    </property>
-                    <property name="frameShape">
-                        <enum>VLine</enum>
-                    </property>
-                    <property name="frameShadow">
-                        <enum>Sunken</enum>
-                    </property>
-                    <property name="margin">
-                        <number>0</number>
-                    </property>
-                    <property name="midLineWidth">
-                        <number>0</number>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                </widget>
-                <spacer row="0" column="4">
-                    <property name="name">
-                        <cstring>Spacer1</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>65</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QToolButton" row="0" column="0">
-                    <property name="name">
-                        <cstring>btnPlugins</cstring>
-                    </property>
-                    <property name="backgroundMode">
-                        <enum>PaletteBackground</enum>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+U</string>
-                    </property>
-                    <property name="toggleButton">
-                        <bool>true</bool>
-                    </property>
-                    <property name="usesBigPixmap">
-                        <bool>false</bool>
-                    </property>
-                    <property name="usesTextLabel">
-                        <bool>true</bool>
-                    </property>
-                    <property name="textLabel">
-                        <string>Pl&amp;ug-ins</string>
-                    </property>
-                    <property name="autoRaise">
-                        <bool>true</bool>
-                    </property>
-                    <property name="textPosition">
-                        <enum>BesideIcon</enum>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Plug-ins</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>&lt;h3&gt;Plug-ins&lt;/h3&gt;
-&lt;p&gt;Shows a menu which helps you to use the extra-features provided by qRezix's plug-ins&lt;/p&gt;</string>
-                    </property>
-                </widget>
-                <widget class="QLayoutWidget" row="0" column="5">
-                    <property name="name">
-                        <cstring>layout22</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <property name="margin">
-                            <number>0</number>
-                        </property>
-                        <property name="spacing">
-                            <number>0</number>
-                        </property>
-                        <widget class="QToolButton">
-                            <property name="name">
-                                <cstring>btnAutoResponder</cstring>
-                            </property>
-                            <property name="backgroundMode">
-                                <enum>PaletteBackground</enum>
-                            </property>
-                            <property name="text">
-                                <string></string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+A</string>
-                            </property>
-                            <property name="toggleButton">
-                                <bool>true</bool>
-                            </property>
-                            <property name="usesBigPixmap">
-                                <bool>false</bool>
-                            </property>
-                            <property name="usesTextLabel">
-                                <bool>true</bool>
-                            </property>
-                            <property name="textLabel">
-                                <string>&amp;Away</string>
-                            </property>
-                            <property name="autoRaise">
-                                <bool>true</bool>
-                            </property>
-                            <property name="textPosition">
-                                <enum>BesideIcon</enum>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Away</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>&lt;h3&gt;Away&lt;/h3&gt;
-&lt;p&gt;If you press this button, other people will be informed that you are away, and your chat will be handle by a responder&lt;/p&gt;</string>
-                            </property>
-                        </widget>
-                        <widget class="QToolButton">
-                            <property name="name">
-                                <cstring>btnMAJcolonnes</cstring>
-                            </property>
-                            <property name="backgroundMode">
-                                <enum>PaletteBackground</enum>
-                            </property>
-                            <property name="text">
-                                <string></string>
-                            </property>
-                            <property name="accel">
-                                <string></string>
-                            </property>
-                            <property name="usesBigPixmap">
-                                <bool>false</bool>
-                            </property>
-                            <property name="usesTextLabel">
-                                <bool>true</bool>
-                            </property>
-                            <property name="textLabel">
-                                <string>Adjust columns</string>
-                            </property>
-                            <property name="autoRaise">
-                                <bool>true</bool>
-                            </property>
-                            <property name="textPosition">
-                                <enum>BesideIcon</enum>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>&lt;h3&gt;Adjust columns&lt;/h3&gt;
-&lt;p&gt;Sometimes useful...&lt;/p&gt;</string>
-                            </property>
-                        </widget>
-                        <widget class="QToolButton">
-                            <property name="name">
-                                <cstring>btnPreferences</cstring>
-                            </property>
-                            <property name="backgroundMode">
-                                <enum>PaletteBackground</enum>
-                            </property>
-                            <property name="text">
-                                <string></string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+P</string>
-                            </property>
-                            <property name="usesBigPixmap">
-                                <bool>false</bool>
-                            </property>
-                            <property name="usesTextLabel">
-                                <bool>true</bool>
-                            </property>
-                            <property name="textLabel">
-                                <string>&amp;Preferences</string>
-                            </property>
-                            <property name="autoRaise">
-                                <bool>true</bool>
-                            </property>
-                            <property name="textPosition">
-                                <enum>BesideIcon</enum>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Preferences</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>&lt;h3&gt;Preferences&lt;/h3&gt;
-&lt;p&gt;Set your preferences. A lot of things can be modified through this dialog&lt;/p&gt;</string>
-                            </property>
-                        </widget>
-                    </hbox>
-                </widget>
-                <widget class="QToolButton" row="0" column="3">
-                    <property name="name">
-                        <cstring>btnSearch</cstring>
-                    </property>
-                    <property name="backgroundMode">
-                        <enum>PaletteBackground</enum>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                    <property name="toggleButton">
-                        <bool>true</bool>
-                    </property>
-                    <property name="usesTextLabel">
-                        <bool>true</bool>
-                    </property>
-                    <property name="textLabel">
-                        <string>Search</string>
-                    </property>
-                    <property name="autoRaise">
-                        <bool>true</bool>
-                    </property>
-                    <property name="textPosition">
-                        <enum>BesideIcon</enum>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Search</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>&lt;h3&gt;Search&lt;/h3&gt;
-&lt;p&gt;Type the beginning of the pseudonyme you are looking for and enable the search mode...&lt;/p&gt;</string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-    </grid>
-</widget>
-<customwidgets>
-    <customwidget>
-        <class>RzxRezal</class>
-        <header location="local">rzxrezal.h</header>
-        <sizehint>
-            <width>-1</width>
-            <height>-1</height>
-        </sizehint>
-        <container>0</container>
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>qRezixUI</class>
+ <widget class="QWidget" name="qRezixUI" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>618</width>
+    <height>641</height>
+   </rect>
+  </property>
+  <property name="minimumSize" >
+   <size>
+    <width>16</width>
+    <height>16</height>
+   </size>
+  </property>
+  <property name="windowTitle" >
+   <string>qRezix</string>
+  </property>
+  <property name="whatsThis" >
+   <string/>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>6</number>
+   </property>
+   <property name="spacing" >
+    <number>3</number>
+   </property>
+   <item row="2" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="lblStatusIcon" >
+       <property name="sizePolicy" >
         <sizepolicy>
-            <hordata>1</hordata>
-            <verdata>7</verdata>
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
+         <hsizetype>1</hsizetype>
+         <vsizetype>5</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
         </sizepolicy>
-        <pixmap>image0</pixmap>
-    </customwidget>
-</customwidgets>
-<images>
-    <image name="image0">
-        <data format="PNG" length="258">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000000c949444154789cad55c91183300c8c341440136e862ed3842b60dc04bd405e62b0b23aec645f0c927675d9a6d6dacbc3716e17fa5fb89217b78c90211f4b806748b53f8a61ed3442eac52e964160958afc8f73bbc4ffab1519d2c8761323752fd01b9cd860c619d2682be8bdaf5db61952e4af6d6e8fb3a408f080448419a433d6486d85052fdba812d6ca7aeab3c266c6a8546b6fb540e14a9018eda87c47bded32f64e50e14ada9e219f1e9e0511a5e70bf2cbb5a9d1659ceddf30b1908f0aa019d03f1fd3e745ff01fb6c8d997acea23a0000000049454e44ae426082</data>
-    </image>
-</images>
-<layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>rzxrezal.h</includehint>
-    <includehint>rzxrezal.h</includehint>
-</includehints>
-</UI>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblStatus" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>3</hsizetype>
+         <vsizetype>1</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Status bar&lt;/h3>
+&lt;p>Shows the status of your connection with the xnetserver&lt;/p></string>
+       </property>
+       <property name="frameShape" >
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="lineWidth" >
+        <number>1</number>
+       </property>
+       <property name="midLineWidth" >
+        <number>0</number>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Preferred</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>1</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblCount" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>1</hsizetype>
+         <vsizetype>1</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>32767</width>
+         <height>32767</height>
+        </size>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Status bar&lt;/h3>
+&lt;p>Shows the number of clients connected&lt;/p></string>
+       </property>
+       <property name="frameShape" >
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="lineWidth" >
+        <number>1</number>
+       </property>
+       <property name="midLineWidth" >
+        <number>0</number>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QToolBox" name="tbRezalContainer" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>5</hsizetype>
+       <vsizetype>5</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="acceptDrops" >
+      <bool>false</bool>
+     </property>
+     <property name="whatsThis" >
+      <string>&lt;h3>Main view&lt;/h3>
+&lt;p>You can choose if you want to see Everybody or only your favorites.&lt;br>
+Each item have a menu (right click)&lt;/p>
+&lt;p>To switch you can use &lt;b>Shift+Tab&lt;/b>&lt;/p></string>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="lineWidth" >
+      <number>1</number>
+     </property>
+     <property name="currentIndex" >
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tabFavorites" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>604</width>
+        <height>505</height>
+       </rect>
+      </property>
+      <attribute name="label" >
+       <string>Favorites</string>
+      </attribute>
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>0</number>
+       </property>
+       <item row="0" column="0" >
+        <widget class="RzxRezal" name="rezalFavorites" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>2</hsizetype>
+           <vsizetype>2</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize" >
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabEverybody" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>604</width>
+        <height>505</height>
+       </rect>
+      </property>
+      <attribute name="label" >
+       <string>Everybody</string>
+      </attribute>
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>0</number>
+       </property>
+       <item row="0" column="0" >
+        <widget class="RzxRezal" name="rezal" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>2</hsizetype>
+           <vsizetype>2</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="0" column="0" >
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item row="0" column="2" >
+      <widget class="QLineEdit" name="leSearch" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>4</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Search&lt;/h3>
+&lt;p>Type the beginning of the pseudonyme you are looking for and enable the search mode...&lt;/p></string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" >
+      <widget class="Line" name="line2" >
+       <property name="frameShape" >
+        <enum>QFrame::VLine</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="midLineWidth" >
+        <number>0</number>
+       </property>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4" >
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>50</width>
+         <height>28</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="0" >
+      <widget class="QToolButton" name="btnPlugins" >
+       <property name="toolTip" >
+        <string>Plug-ins</string>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Plug-ins&lt;/h3>
+&lt;p>Shows a menu which helps you to use the extra-features provided by qRezix's plug-ins&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>Pl&amp;ug-ins</string>
+       </property>
+       <property name="shortcut" >
+        <string>Alt+U</string>
+       </property>
+       <property name="checkable" >
+        <bool>true</bool>
+       </property>
+       <property name="autoRaise" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="5" >
+      <layout class="QHBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QToolButton" name="btnAutoResponder" >
+         <property name="toolTip" >
+          <string>Away</string>
+         </property>
+         <property name="whatsThis" >
+          <string>&lt;h3>Away&lt;/h3>
+&lt;p>If you press this button, other people will be informed that you are away, and your chat will be handle by a responder&lt;/p></string>
+         </property>
+         <property name="text" >
+          <string>&amp;Away</string>
+         </property>
+         <property name="shortcut" >
+          <string>Alt+A</string>
+         </property>
+         <property name="checkable" >
+          <bool>true</bool>
+         </property>
+         <property name="autoRaise" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="btnMAJcolonnes" >
+         <property name="whatsThis" >
+          <string>&lt;h3>Adjust columns&lt;/h3>
+&lt;p>Sometimes useful...&lt;/p></string>
+         </property>
+         <property name="text" >
+          <string>Adjust columns</string>
+         </property>
+         <property name="shortcut" >
+          <string/>
+         </property>
+         <property name="autoRaise" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="btnPreferences" >
+         <property name="toolTip" >
+          <string>Preferences</string>
+         </property>
+         <property name="whatsThis" >
+          <string>&lt;h3>Preferences&lt;/h3>
+&lt;p>Set your preferences. A lot of things can be modified through this dialog&lt;/p></string>
+         </property>
+         <property name="text" >
+          <string>&amp;Preferences</string>
+         </property>
+         <property name="shortcut" >
+          <string>Alt+P</string>
+         </property>
+         <property name="autoRaise" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="3" >
+      <widget class="QToolButton" name="btnSearch" >
+       <property name="toolTip" >
+        <string>Search</string>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Search&lt;/h3>
+&lt;p>Type the beginning of the pseudonyme you are looking for and enable the search mode...&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>Search</string>
+       </property>
+       <property name="shortcut" >
+        <string/>
+       </property>
+       <property name="checkable" >
+        <bool>true</bool>
+       </property>
+       <property name="autoRaise" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction></pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>RzxRezal</class>
+   <extends></extends>
+   <header>rzxrezal.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
