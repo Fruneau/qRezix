@@ -77,8 +77,6 @@ RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 
 void RzxChat::init()
 {
-	hist = prop = NULL;
-	
 	//
 	accel = new Q3Accel(btnSend);
 	accel -> insertItem(Qt::CTRL + Qt::Key_Return, 100);
@@ -189,15 +187,15 @@ RzxChat::~RzxChat(){
 /****************************************************
 * RzxPopup
 ****************************************************/
-RzxPopup::RzxPopup(QWidget *parent, const char *name)
-	:Q3Frame(parent, name, Qt::WDestructiveClose | Qt::WStyle_Customize | Qt::WType_TopLevel)
-{ }
-
-RzxPopup::~RzxPopup()
+RzxPopup::RzxPopup(QWidget *parent)
+#ifdef Q_OS_MACX
+	:QFrame(parent, Qt::Drawer)
+#else
+	:QFrame(parent, Qt::WType_TopLevel)
+#endif
 {
-	emit aboutToQuit();
+	setAttribute(Qt::WA_DeleteOnClose);
 }
-
 
 /***************************************************
 * RzxChat::ListText
@@ -340,7 +338,7 @@ RzxChatSocket *RzxChat::getSocket()
 
 void RzxChat::setSocket(RzxChatSocket* sock)
 {
-	if(socket != NULL && socket->state() == Q3Socket::Connected && sock->socket() != socket->socket())
+	if(socket != NULL && socket->isConnected() && *sock != *socket)
 	{
 		qDebug("Un nouveau socket différent a été proposé à " + hostname);
 		socket->close();
@@ -374,10 +372,7 @@ void RzxChat::updateTitle()
 	
 	if(peerTyping && isActiveWindow()) title += " - " + tr("Is typing a message");
 	if(unread) title += " - " + QString::number(unread) + " " + tr("unread");
-	#ifdef WIN32
-		title += " [Qt]";
-	#endif
-	setCaption(title);
+	setWindowTitle(title);
 }
 
 void RzxChat::append(const QString& color, const QString& host, const QString& msg) {
@@ -693,9 +688,8 @@ void RzxChat::btnSendClicked()
 void RzxChat::btnHistoriqueClicked(bool on){
 	if(!on)
 	{
-		if(hist)
+		if(!hist.isNull())
 			hist->close();
-		hist = NULL;
 		return;
 	}
 
@@ -712,7 +706,7 @@ void RzxChat::btnHistoriqueClicked(bool on){
 	file.writeBlock(temp, temp.length());
 	file.close();
 	QPoint *pos = new QPoint(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
-	hist = RzxChatSocket::showHistorique( peer.toRezix(), hostname, false, this, pos);
+	hist = (RzxPopup*)RzxChatSocket::showHistorique( peer.toRezix(), hostname, false, this, pos);
 	delete pos;
 	hist->show();
 }
@@ -721,9 +715,8 @@ void RzxChat::btnPropertiesClicked(bool on)
 {
 	if(!on)
 	{
-		if(prop)
+		if(!prop.isNull())
 			prop->close();
-		prop = NULL;
 		return;
 	}
 	
@@ -737,9 +730,9 @@ void RzxChat::btnPropertiesClicked(bool on)
 void RzxChat::receiveProperties(const QString& msg)
 {
 	QPoint *pos = new QPoint(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
-	prop = socket->showProperties(peer, msg, false, this, pos);
+	prop = (RzxPopup*)socket->showProperties(peer, msg, false, this, pos);
 	delete pos;
-	if(!prop)
+	if(prop.isNull())
 	{
 		btnProperties->setOn(false);
 		return;
@@ -755,9 +748,9 @@ void RzxChat::showEvent ( QShowEvent * e){
 
 void RzxChat::moveEvent(QMoveEvent *)
 {
-	if(hist)
+	if(!hist.isNull())
 		hist->move(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
-	if(prop)
+	if(!prop.isNull())
 		prop->move(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
 }
 
@@ -774,11 +767,10 @@ void RzxChat::sendChat(const QString& msg)
 /** No descriptions */
 void RzxChat::closeEvent(QCloseEvent * e)
 {
-	if(hist)
+	if(!hist.isNull())
 		hist->close();
-	if(prop)
+	if(!prop.isNull())
 		prop->close();
-	hist = prop = NULL;
 	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_CHAT, NULL);
 	e -> accept();
 	emit closed(peer);
@@ -799,8 +791,8 @@ bool RzxChat::event(QEvent *e)
 			updateTitle();
 		}
 #ifndef WIN32
-		if(hist) hist->raise();
-		if(prop) prop->raise();
+		if(!hist.isNull()) hist->raise();
+		if(!prop.isNull()) prop->raise();
 #endif
 		RzxPlugInLoader::global()->chatChanged(edMsg);
 	}

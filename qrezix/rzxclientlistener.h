@@ -69,9 +69,14 @@ class RzxChatSocket : public QTcpSocket
 		
 		void setParent(RzxChat *parent);
 		void connectToHost();
-		void setSocket(int socket);
+		virtual void setSocketDescriptor(int socket);
 		void close();
-
+		virtual bool operator==(const RzxChatSocket *socket) const { return socket && socketDescriptor() == socket->socketDescriptor(); }
+		virtual bool operator==(const RzxChatSocket &socket) const { return socketDescriptor() == socket.socketDescriptor(); }
+		virtual bool operator!=(const RzxChatSocket *socket) const { return !socket || socketDescriptor() != socket->socketDescriptor(); }
+		virtual bool operator!=(const RzxChatSocket &socket) const { return socketDescriptor() != socket.socketDescriptor(); }
+		virtual bool isConnected() const { return state() == QAbstractSocket::ConnectedState; }
+		
 	public slots:
 		void sendPropQuery();
 		void sendChat(const QString& msg);
