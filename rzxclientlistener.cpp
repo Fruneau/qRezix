@@ -28,8 +28,8 @@
 #include <QApplication>
 #include <QDir>
 #include <QTextEdit>
-#include <QListView>
-#include <QStringListModel>
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
 #include <QTextStream>
 #include <QPixmap>
 #include <QGridLayout>
@@ -129,9 +129,9 @@ void RzxChatSocket::connectToHost()
 }
 
 ///Installation d'un socket
-void RzxChatSocket::setSocket(int socket)
+void RzxChatSocket::setSocketDescriptor(int socket)
 {
-	QTcpSocket::setSocket(socket);
+	QTcpSocket::setSocketDescriptor(socket);
 	host = peerAddress();
 }
 
@@ -354,7 +354,7 @@ void RzxChatSocket::chatConnexionEtablished()
 /**La connexion a été fermée (sans doute par fermeture de la fenêtre de chat) on l'indique à l'utilisateur */
 void RzxChatSocket::chatConnexionClosed()
 {
-	emit info(tr("ends the chat"));
+	if(!alone) emit info(tr("ends the chat"));
 	qDebug("Connection with " + host.toString() + " closed by peer");
 	close();
 }
@@ -374,10 +374,12 @@ void RzxChatSocket::chatConnexionError(SocketError error)
 			qDebug("Can't find client");
 			close();
 			break;
+		case QAbstractSocket::RemoteHostClosedError:
+			break;
 //		case SocketRead:
 		default:
 			emit info(tr("has sent datas which can't be read... CONNECTION ERROR"));
-			qDebug("Error while reading datas");
+			qDebug("Error while reading datas " + QString::number(error));
 			break;
 	}
 	if(timeOut.isActive()) timeOut.stop();
@@ -414,11 +416,11 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 		iconeProg.setMask(iconeProg.createHeuristicMask() );
 		propertiesDialog->setIcon(iconeProg);
 
-		propertiesDialog->setCaption( tr( "%1's properties" ).arg(computer->getName()) );
+		propertiesDialog->setWindowTitle( tr( "%1's properties" ).arg(computer->getName()) );
 	}
 	else
 	{
-		propertiesDialog = new RzxPopup(parent?parent:QRezix::global(), "ClientProp");
+		propertiesDialog = new RzxPopup(parent?parent:QRezix::global());
 		((QFrame*)propertiesDialog)->setFrameShape(QFrame::PopupPanel);
 		((QFrame*)propertiesDialog)->setFrameShadow(QFrame::Raised);
 		if(pos) propertiesDialog->move(*pos);
@@ -430,29 +432,34 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	qPropertiesLayout->setMargin(withFrame?6:0);
  
 	// creation de la liste des proprietes et ajout au layout
-	QListView* PropList = new QListView(propertiesDialog);
-	QLabel *clientLabel = new QLabel(tr("xNet client : %1").arg(computer->getClient()), propertiesDialog);
-	qPropertiesLayout->addWidget((QWidget*)PropList, 0, 0);
-	qPropertiesLayout->addWidget((QWidget*)clientLabel, 300, 0);
+	QTreeWidget* propList = new QTreeWidget();
+	QLabel *clientLabel = new QLabel(tr("xNet client : %1").arg(computer->getClient()));
+	qPropertiesLayout->addWidget(propList, 0, 0);
+	qPropertiesLayout->addWidget(clientLabel, 300, 0);
  
-	PropList->setPaletteBackgroundColor(QColor(255,255,255));
-	PropList->resize(300, 300);
-	PropList->setModelColumn(2);
-/*	PropList->addColumn(tr("Property"), -1);
-	PropList->addColumn(tr("Value"), -1);
-*/	PropList -> setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
- 
+	propList->setPaletteBackgroundColor(QColor(255,255,255));
+	propList->resize(300, 300);
+	propList->setColumnCount(2);
+	propList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	propList->setSortingEnabled(false);
+	
+	// Création des en-têtes de colonnes
+	QTreeWidgetItem *item = new QTreeWidgetItem();
+	item->setText(0, tr("Property"));
+	item->setText(1, tr("Value"));
+	propList->setHeaderItem(item);
+
+	// Remplissage
 	QStringList props = QStringList::split('|', msg, true);
-	// ajout des proprietes de la liste, sans tri.
-//	PropList->setSorting(-1,FALSE);
 	int propCount = 0;
-	new QStringListModel(props, PropList);
-	/*
+	item = NULL;
 	for(int i = 0 ; i < props.size() - 1 ; i+=2)
 	{
-		vi = new QStringListModel(PropList);
+		item = new QTreeWidgetItem(propList, item);
+		item->setText(0, props[i]);
+		item->setText(1, props[i+1]);
 		propCount++;
-	}*/
+	}
 	if(!propCount)
 	{
 		propertiesDialog->deleteLater();
@@ -465,8 +472,8 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
  
 	// Fit de la fenetre, on ne le fait pas si il n'y a pas d'accents, sinon ca plante
 //	int width=PropList->columnWidth(0)+PropList->columnWidth(1)+4+12;
-//	int height=(PropList->childCount()+1)*(*PropList->firstChild()).height()+8+12+20; //+20 pour le client xnet
-//	propertiesDialog->resize(width,height);
+	int height=(propCount+3)*20; //+20 pour le client xnet, et puis headers e un peu de marge
+	propertiesDialog->resize(200,height);
 	RzxConfig::addCache(peer,msg);
 	return propertiesDialog;
 }
@@ -499,11 +506,11 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, const QString& hostnam
 		iconeProg.setMask(iconeProg.createHeuristicMask() );  
 		histoDialog->setIcon(iconeProg);
 
-		histoDialog->setCaption( tr( "History - %1" ).arg(hostname) );
+		histoDialog->setWindowTitle( tr( "History - %1" ).arg(hostname) );
 	}
 	else
 	{
-		histoDialog = new RzxPopup(parent?parent:QRezix::global(), "Histo");
+		histoDialog = new RzxPopup(parent?parent:QRezix::global());
 		((QFrame*)histoDialog)->setFrameShape(QFrame::PopupPanel);
 		((QFrame*)histoDialog)->setFrameShadow(QFrame::Raised);
 		if(pos) 
@@ -591,5 +598,5 @@ void RzxClientListener::checkProperty(const RzxHostAddress& host)
 ///Permet l'affichage des messages d'erreur des socket conçus uniquement pour le check de propriétés
 void RzxClientListener::info(const QString& msg)
 {
-	RzxMessageBox::information(NULL, tr("Connection error"), tr("An error occured while checking properties :\n") + msg);
+	RzxMessageBox::information(QRezix::global(), tr("Connection error"), tr("An error occured while checking properties :\n") + msg);
 }

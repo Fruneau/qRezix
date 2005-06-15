@@ -33,6 +33,7 @@
 #include <QCloseEvent>
 #include <QTextEdit>
 #include <QWidget>
+#include <QPointer>
 
 #include "rzxhostaddress.h"
 #include "rzxclientlistener.h"
@@ -57,18 +58,15 @@ class RzxChatUI;
 /** Affiche une frame qui permet de contenir les données des propriétés et de l'historique.<br>
   * Cette classe permet simplement une abstraction de la chose, sans pour autant apporter quoi que ce soit de vraiment nouveau
   */
-class RzxPopup : public Q3Frame
+class RzxPopup : public QFrame
 {
 	Q_OBJECT
 	
 	public:
-		RzxPopup(QWidget *parent, const char *name);
-		~RzxPopup();
+		RzxPopup(QWidget *parent = 0);
+		~RzxPopup() { }
 		
 		void forceVisible(bool pos);
-
-	signals:
-		void aboutToQuit();
 };
 
 inline void RzxPopup::forceVisible(bool pos)
@@ -136,8 +134,8 @@ private:
 	void addColor(QColor color);
 	Q3Accel * accel;
 	Q3PopupMenu menuPlugins;
-	QWidget *hist;
-	QWidget *prop;
+	QPointer<RzxPopup> hist;
+	QPointer<RzxPopup> prop;
 	
 protected:
 	RzxHostAddress peer;
