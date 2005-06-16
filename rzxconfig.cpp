@@ -33,22 +33,21 @@
 #include <qapplication.h>
 #include <qstringlist.h>
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 #include <QTranslator>
-#include <Q3MimeSourceFactory>
 
 #ifndef WIN32
 #include <unistd.h>
+#endif
 
 #ifdef HAVE_CONFIG_H
 #include "../config.h"
 #else
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 #define QREZIX_DATA_DIR "./qrezix.app/Contents/Resources/"
 #else
 #define QREZIX_DATA_DIR "/usr/share/qrezix"
 #define QREZIX_LIB_DIR "/usr/lib/qrezix"
-#endif
 #endif
 #endif
 
@@ -72,20 +71,20 @@ class RzxChatSocket;
 #include "rzxpluginloader.h"
 #include "defaults.h"
 
+//Obsolete, seulement pour la compatibilité avec qRezix < 1.5
 #define CONF_FAVORITES "favorites.conf"
 #define CONF_IGNORELIST "ignorelist.conf"
 
 
-RzxConfig * RzxConfig::Config = 0;
+RzxConfig *RzxConfig::Config = 0;
 const QString RzxConfig::logPath("log");
 const QString RzxConfig::themePath("themes");
-Q3Dict<QTranslator> RzxConfig::translations;
-QTranslator* RzxConfig::currentTranslator=NULL;
+QHash<QString,QTranslator*> RzxConfig::translations;
+QTranslator *RzxConfig::currentTranslator=NULL;
 
 void RzxConfig::loadTranslators(){
 	if(currentTranslator) qApp->removeTranslator(currentTranslator);
 	currentTranslator=NULL;
-	translations.setAutoDelete(true);
 	translations.clear();
 	loadTranslatorsInDir(m_userDir);
 	loadTranslatorsInDir(m_systemDir);
@@ -102,28 +101,26 @@ void RzxConfig::loadTranslatorsInDir(const QDir &rep) {
 	sourceDir.setNameFilter("*.qm");
 	QStringList trans=sourceDir.entryList(QDir::Files|QDir::Readable);
 	QString trNames = QString::null;
-	QTranslator* cur=0;
 	for(QStringList::Iterator it=trans.begin(); it!=trans.end(); ++it){
-		cur=new QTranslator(0);
+		QTranslator *cur = new QTranslator;
 		cur->load(*it, sourceDir.path());
-		qApp->installTranslator(cur);
-		if(!translations[tr("English")])
+		QString lang = cur->translate("RzxConfig", "English");
+		if(!translations[lang])
 		{
-			translations.insert(tr("English"), cur);
-			trNames += " " + tr("English");
+			translations.insert(lang, cur);
+			trNames += " " + lang;
 		}
-		qApp->removeTranslator(cur);
 	}
 	if(trNames.isNull()) trNames = " <none>";
 	qDebug(QString("Translations available in %1 :%2").arg(sourceDir.absPath()).arg(trNames));
 }
 		
 void RzxConfig::setLanguage(QString language){
-	if(language!=tr("English")){
+	if(language != tr("English")){
 		if(currentTranslator) qApp->removeTranslator(currentTranslator);
 		currentTranslator=NULL;
-		if(language!="English"){
-			currentTranslator=translations[language];
+		if(language != "English"){
+			currentTranslator = translations[language];
 			qApp->installTranslator(currentTranslator);
 		}
 		emit Config->languageChanged();
@@ -133,15 +130,10 @@ void RzxConfig::setLanguage(QString language){
 /**
 */
 RzxConfig::RzxConfig()
-	: QObject(0, "Config"), allIcons(USER_HASH_TABLE_LENGTH){
+	: QObject(), computer(NULL) {
 	qDebug("=== Loading config ===");
+	
 	if(!Config) Config=this;
-	fileEntries.setAutoDelete(true);
-	favorites=new Q3Dict<QString>(USER_HASH_TABLE_LENGTH,false);
-	favorites->setAutoDelete(true);
-	ignoreList=new Q3Dict<QString>(USER_HASH_TABLE_LENGTH,false);
-	ignoreList->setAutoDelete(true);
-	computer = 0;
 	settings = new QSettings();
 
 #ifdef WIN32
@@ -153,7 +145,7 @@ RzxConfig::RzxConfig()
 		m_systemDir = m_userDir;
 	m_libDir = m_systemDir;
 #else
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 	m_systemDir.setPath(QREZIX_DATA_DIR);
 	m_userDir.setPath(QREZIX_DATA_DIR);
 	m_libDir.setPath(QREZIX_DATA_DIR);
@@ -182,7 +174,7 @@ RzxConfig::RzxConfig()
 		qWarning(tr("%s doesn't exist"), QString(QREZIX_LIB_DIR).latin1());
 		m_libDir = m_systemDir;
 	}
-#endif //MACX
+#endif //MC
 #endif //WIN32
 	qDebug("Personnal path set to "+m_userDir.path());
 	qDebug("System path set to "+m_systemDir.path());
@@ -204,8 +196,6 @@ RzxConfig::RzxConfig()
 	qDebug("Language is set to "+ lg);
 	
 	qDebug("Loading theme");
-	allIcons.setAutoDelete(true);
-	progIcons.setAutoDelete(true);
 	QString theme = findData("action.png",  themePath + "/" + iconTheme());
 	if(theme.isNull())
 	{
@@ -222,22 +212,20 @@ RzxConfig::RzxConfig()
 	else
 	{
 		qDebug("Trying to open theme from " + theme);
-		Q3MimeSourceFactory::defaultFactory()->setImage( "action", QImage(theme) );	//TODO trouver le répertoire du thême cournat
 	}
 
 	//Chargement des données QVB sur les fontes du système
 	QFontDatabase fdb;
-	fontProperties = new Q3Dict<FontProperty>(907); //nombre premier plus grand que le nombre de polices supposé
 	fontFamilies = fdb.families();
 	for ( QStringList::Iterator f = fontFamilies.begin(); f != fontFamilies.end();) {
 		QString family = *f;
 		QStringList styles = fdb.styles( family );
 		if(styles.contains("Normal")!=0) {
-			Q3ValueList<int> size = fdb.smoothSizes(family, "Normal");
+			QList<int> size = fdb.smoothSizes(family, "Normal");
 			bool b = styles.contains("Bold")!=0;
 			bool i = styles.contains("Italic")!=0 || styles.contains("Oblique")!=0;
-			FontProperty * fp = new FontProperty( b, i, size);
-			fontProperties -> insert(family, fp);
+			FontProperty fp( b, i, size);
+			fontProperties.insert(family, fp);
 			++f;
 		}
 		else {
@@ -253,28 +241,7 @@ RzxConfig::RzxConfig()
 RzxConfig::~RzxConfig(){
 	if(settings)
 		delete settings;
-	if(fontProperties)
-	{
-		fontProperties->setAutoDelete(true);
-		fontProperties->clear();
-		delete fontProperties;
-	}
-	if(favorites)
-	{
-		favorites->setAutoDelete(true);
-		favorites->clear();
-		delete favorites;
-	}
-	if(ignoreList)
-	{
-		ignoreList->setAutoDelete(true);
-		ignoreList->clear();
-		delete ignoreList;
-	}
-	translations.setAutoDelete(true);
-	allIcons.setAutoDelete(true);
-	progIcons.setAutoDelete(true);
-	fileEntries.setAutoDelete(true);
+	fontProperties.clear();
 	translations.clear();
 	allIcons.clear();
 	progIcons.clear();
@@ -294,7 +261,7 @@ RzxConfig * RzxConfig::globalConfig() {
 }
 
 
-RzxConfig::FontProperty::FontProperty(bool b, bool i, const Q3ValueList<int> &pS)
+RzxConfig::FontProperty::FontProperty(bool b, bool i, const QList<int> &pS)
 			: bold(b), italic(i), sizes(pS) {
 }
 
@@ -395,24 +362,21 @@ void RzxConfig::flush()
 	RzxPlugInLoader::global()->setSettings();
 }
 
-QPixmap * RzxConfig::icon(const QString& name) {
+const QPixmap &RzxConfig::icon(const QString& name) {
 	RzxConfig * config = globalConfig();
 	return icon(name, config -> allIcons);
 }
 
-QPixmap * RzxConfig::themedIcon(const QString& name) {
+const QPixmap &RzxConfig::themedIcon(const QString& name) {
 	RzxConfig * config = globalConfig();
 	return icon(name, config -> progIcons, themePath + "/" + iconTheme());
 }
 
-QPixmap * RzxConfig::icon(const QString& name, Q3Dict<QPixmap>& cache, const QString& subdir) {
-	RzxConfig * config = globalConfig();
+const QPixmap &RzxConfig::icon(const QString& name, QHash<QString,QPixmap>& cache, const QString& subdir) {
+	RzxConfig *config = globalConfig();
 	QString qualifiedName = subdir.isNull() ? name : (subdir + "_" + name);
-	QPixmap * ret = cache.find(qualifiedName);
-	if (ret) return ret;
-	
-	ret = new QPixmap();
-	cache.insert(qualifiedName, ret);
+	QPixmap &ret = cache[qualifiedName];
+	if(!ret.isNull()) return ret;
 	
 	QString fileName = config -> findData(name + ".png", subdir);
 	if (fileName.isNull())
@@ -420,19 +384,16 @@ QPixmap * RzxConfig::icon(const QString& name, Q3Dict<QPixmap>& cache, const QSt
 		qDebug("Icon "+name+" not found");
 		return ret;
 	}
-	ret -> load(fileName);
-	return ret;
+	ret.load(fileName);
+	cache.insert(qualifiedName, ret);
+	return cache[qualifiedName];
 }
 
 void RzxConfig::saveIcon(const QString& name, const QPixmap& image){
-	RzxConfig * cfgObject = globalConfig();
-	QPixmap * ret = cfgObject -> allIcons.find(name);
-	if (ret)	cfgObject -> allIcons.remove(name);
-		
-	ret = new QPixmap;
-	*ret = image;
-	ret -> save(cfgObject -> m_userDir.absFilePath(name + ".png"), "PNG");
-	cfgObject -> allIcons.insert(name, ret);
+	RzxConfig *cfgObject = globalConfig();
+	cfgObject->allIcons.remove(name);	
+	image.save(cfgObject -> m_userDir.absFilePath(name + ".png"), "PNG");
+	cfgObject->allIcons.insert(name, QPixmap(image));
 }
 
 /******************************************************************************
@@ -443,25 +404,19 @@ void RzxConfig::saveIcon(const QString& name, const QPixmap& image){
 QStringList RzxConfig::getFontList() {	return fontFamilies; }
 
 /** Renvoie la liste des tailles acceptées par cette police */
-Q3ValueList<int> RzxConfig::getSizes(const QString& family) {
-	FontProperty * fp = fontProperties->find(family);
-	if(!fp)
-		qDebug("Problème, chargement de la police "+family+" impossible");
-	return fp->sizes;
+const QList<int> RzxConfig::getSizes(const QString& family) const {
+	const FontProperty &fp = fontProperties[family];
+	return fp.sizes;
 }
 
-bool RzxConfig::isItalicSupported(const QString& family) {
-	FontProperty * fp = fontProperties->find(family);
-	if(!fp)
-		qDebug("Problème, chargement de la police "+family+" impossible");
-	return fp->italic;
+bool RzxConfig::isItalicSupported(const QString& family) const {
+	const FontProperty &fp = fontProperties[family];
+	return fp.italic;
 }
 
-bool RzxConfig::isBoldSupported(const QString& family) {
-	FontProperty * fp = fontProperties->find(family);
-	if(!fp)
-		qDebug("Problème, chargement de la police "+family+" impossible");
-	return fp->bold;
+bool RzxConfig::isBoldSupported(const QString& family) const {
+	const FontProperty &fp = fontProperties[family];
+	return fp.bold;
 }
 
 /** Renvoie une chaine correspondant ï¿½la taille de la fenï¿½re principale*/
@@ -506,7 +461,7 @@ int RzxConfig::doubleClicRole(){ return globalConfig() -> readEntry("doubleClic"
 int RzxConfig::tooltip(){ return globalConfig()->readEntry("tooltip", 0); }
 
 /** Renvoie si on utilise le systray ou non */
-#ifndef Q_OS_MACX
+#ifndef Q_OS_MAC
 int RzxConfig::useSystray(){ return globalConfig() -> readEntry("useSystray", 1); }
 #else
 int RzxConfig::useSystray(){ return globalConfig() -> readEntry("useSystray", 0); }
@@ -541,7 +496,7 @@ QString RzxConfig::ftpCmd(){ return globalConfig() -> readEntry("ftp_cmd", "stan
 QString RzxConfig::httpCmd(){ return globalConfig() -> readEntry("http_cmd", "standard"); }
 QString RzxConfig::newsCmd(){ return globalConfig() -> readEntry("newsCmd", "standard"); }
 #else
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 QString RzxConfig::sambaCmd(){ return globalConfig() -> readEntry("samba_cmd", "open"); }
 QString RzxConfig::ftpCmd(){ return globalConfig() -> readEntry("ftp_cmd", "Default"); }
 QString RzxConfig::httpCmd(){ return globalConfig() -> readEntry("http_cmd", "Default"); }
@@ -551,7 +506,7 @@ QString RzxConfig::sambaCmd(){ return globalConfig() -> readEntry("samba_cmd", "
 QString RzxConfig::ftpCmd(){ return globalConfig() -> readEntry("ftp_cmd", "gftp"); }
 QString RzxConfig::httpCmd(){ return globalConfig() -> readEntry("http_cmd", "konqueror"); }
 QString RzxConfig::newsCmd(){ return globalConfig() -> readEntry("newsCmd", "knode"); }
-#endif //MACX
+#endif //MAC
 #endif //WIN32
 
 void RzxConfig::sambaCmd(QString newstr){ globalConfig() -> writeEntry("samba_cmd",newstr);}
@@ -766,57 +721,57 @@ QColor RzxConfig::errorTextColor(){
 
 
 /** No descriptions */
-Q3MemArray<QPixmap *> RzxConfig::yesnoIcons(){
-	Q3MemArray<QPixmap *> ret(10);
-	ret[0] = themedIcon("no_samba");
-	ret[1] = themedIcon("no_ftp");
-	ret[2] = themedIcon("no_hotline");
-	ret[3] = themedIcon("no_http");
-	ret[4] = themedIcon("no_news");
-	ret[5] = themedIcon("samba");
-	ret[6] = themedIcon("ftp");
-	ret[7] = themedIcon("hotline");
-	ret[8] = themedIcon("http");
-	ret[9] = themedIcon("news");
+const QVector<QPixmap*> RzxConfig::yesnoIcons(){
+	QVector<QPixmap*> ret(10);
+	ret[0] = (QPixmap*)&themedIcon("no_samba");
+	ret[1] = (QPixmap*)&themedIcon("no_ftp");
+	ret[2] = (QPixmap*)&themedIcon("no_hotline");
+	ret[3] = (QPixmap*)&themedIcon("no_http");
+	ret[4] = (QPixmap*)&themedIcon("no_news");
+	ret[5] = (QPixmap*)&themedIcon("samba");
+	ret[6] = (QPixmap*)&themedIcon("ftp");
+	ret[7] = (QPixmap*)&themedIcon("hotline");
+	ret[8] = (QPixmap*)&themedIcon("http");
+	ret[9] = (QPixmap*)&themedIcon("news");
 	return ret;
 }
 
-Q3MemArray<QPixmap *> RzxConfig::gatewayIcons(){
-	Q3MemArray<QPixmap *> ret(2);
-	ret[0] = themedIcon("diff_gateway");
-	ret[1] = themedIcon("same_gateway");
+const QVector<QPixmap*> RzxConfig::gatewayIcons(){
+	QVector<QPixmap*> ret(2);
+	ret[0] = (QPixmap*)&themedIcon("diff_gateway");
+	ret[1] = (QPixmap*)&themedIcon("same_gateway");
 	return ret;
 }
 
-Q3MemArray<QPixmap *> RzxConfig::promoIcons(){
-	Q3MemArray<QPixmap *> ret(3);
-	ret[0] = themedIcon("orange");
-	ret[1] = themedIcon("rouje");
-	ret[2] = themedIcon("jone");
+const QVector<QPixmap*> RzxConfig::promoIcons(){
+	QVector<QPixmap*> ret(3);
+	ret[0] = (QPixmap*)&themedIcon("orange");
+	ret[1] = (QPixmap*)&themedIcon("rouje");
+	ret[2] = (QPixmap*)&themedIcon("jone");
 	return ret;
 }
 
 /** No descriptions */
-Q3MemArray<QPixmap *> RzxConfig::osIcons(bool large){
+const QVector<QPixmap*> RzxConfig::osIcons(bool large){
 	QString suffix;
 	if (large)
 		suffix = "_large";
 	
-	Q3MemArray<QPixmap *> ret(6);
+	QVector<QPixmap*> ret(6);
 	for (int idx = 0; idx < 6; idx++)
-		ret[idx] = themedIcon("os_" + QString::number(idx) + suffix);
+		ret[idx] = (QPixmap*)&themedIcon("os_" + QString::number(idx) + suffix);
 	
 	return ret;
 }
 
 /* Retourne l'icone du bouton son de la fenetre de chat */
-QPixmap * RzxConfig::soundIcon(bool sound) {
+const QPixmap &RzxConfig::soundIcon(bool sound) {
 	QString q= !sound ? "haut_parleur1" : "haut_parleur2";
 	return themedIcon(q);
 }
 
 /** No descriptions */
-QPixmap * RzxConfig::localhostIcon(){
+const QPixmap &RzxConfig::localhostIcon(){
 	return icon("localhost");
 }
 
@@ -866,11 +821,11 @@ void RzxConfig::readFavorites()
 	
 		QTextStream stream(&file);
 
-		favorites->clear();
+		favorites.clear();
 		QString line;
 		line = stream.readLine();
 		while(!line.isNull()) {
-			favorites->insert(line, new QString("1"));
+			addToFavorites(line);
 			line = stream.readLine();
 		}
 		file.close();
@@ -886,19 +841,25 @@ void RzxConfig::readFavorites()
 		QStringList favoriteList = readEntry("favorites");
 		QStringList::iterator it;
 		for(it = favoriteList.begin() ; it != favoriteList.end() ; it++)
-			favorites->insert(*it, new QString("1"));
+			addToFavorites(*it);
 	}
 }
 
+bool RzxConfig::isFavorite(const QString& nom) const {
+	return favorites.contains(nom);
+}
+
+void RzxConfig::addToFavorites(const QString& nom) {
+	favorites.insert(nom);
+}
+
+void RzxConfig::delFromFavorites(const QString& nom) {
+	favorites.remove(nom);
+}
 
 void RzxConfig::writeFavorites()
 {
-	QStringList favoriteList;
-	Q3DictIterator<QString> strConfig2(*favorites);
-	for (; strConfig2.current(); ++strConfig2) {
-		favoriteList << strConfig2.currentKey();
-	}
-	writeEntry("favorites", favoriteList);
+	writeEntry("favorites", favorites.values());
 }
 
 /******************************************************************************
@@ -923,11 +884,11 @@ void RzxConfig::readIgnoreList()
 	
 		QTextStream stream(&file);
 
-		ignoreList->clear();
+		ignoreList.clear();
 		QString line;
 		line = stream.readLine();
 		while(!line.isNull()) {
-			ignoreList->insert(line, new QString("1"));
+			addToBanlist(line);
 			line = stream.readLine();
 		}
 		file.close();
@@ -943,19 +904,25 @@ void RzxConfig::readIgnoreList()
 		QStringList ignoreListList =  readEntry("ignoreList");
 		QStringList::iterator it;
 		for(it = ignoreListList.begin() ; it != ignoreListList.end() ; it++)
-			ignoreList->insert(*it, new QString("1"));
+			addToBanlist(*it);
 	}
 }
 
+bool RzxConfig::isBan(const QString& ip) const {
+	return ignoreList.contains(ip);
+}
+
+void RzxConfig::addToBanlist(const QString& ip) {
+	ignoreList.insert(ip);
+}
+
+void RzxConfig::delFromBanlist(const QString& ip) {
+	ignoreList.remove(ip);
+}
 
 void RzxConfig::writeIgnoreList()
 {
-	QStringList ignoreListList;
-	Q3DictIterator<QString> strConfig2(*ignoreList);
-	for (; strConfig2.current(); ++strConfig2) {
-		ignoreListList << strConfig2.currentKey();
-	}
-	writeEntry("ignoreList", ignoreListList);
+	writeEntry("ignoreList", ignoreList.values());
 }
 
 

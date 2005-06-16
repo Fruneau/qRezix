@@ -22,6 +22,7 @@
 #include <qregexp.h>
 //Added by qt3to4:
 #include <QPixmap>
+#include <QVector>
 
 #include "rzxcomputer.h"
 
@@ -74,7 +75,7 @@ bool RzxComputer::parse(const QString& params){
 	if (params.isEmpty()) return true;
 		
 	QStringList args = RzxProtocole::split(' ', params, RzxProtocole::ServerCounts[RzxProtocole::SERVER_JOIN]);
-	if (args.count() != RzxProtocole::ServerCounts[RzxProtocole::SERVER_JOIN])
+	if (args.count() != (int)RzxProtocole::ServerCounts[RzxProtocole::SERVER_JOIN])
 		return true;
 
 	QString temp; bool ok; QStringList::Iterator it;
@@ -121,7 +122,7 @@ void RzxComputer::autoSetOs() //0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5
 	else
 		options.SysEx = 1;
 #else
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 	options.SysEx = 5;
 #else
 	options.SysEx = 3;
@@ -336,7 +337,7 @@ void RzxComputer::scanServers()
 	netstat = new Q3Process();
 	netstat->addArgument("netstat");
   
-	#ifdef Q_OS_MACX
+	#ifdef Q_OS_MAC
 		netstat->addArgument("-anf");
 		netstat->addArgument("inet");
 	#else
@@ -351,7 +352,7 @@ void RzxComputer::scanServers()
 			res += netstat->readLineStdout();
 		delete netstat;
 
-		#ifdef Q_OS_MACX
+		#ifdef Q_OS_MAC
 			res = res.grep("LISTEN");
 			if(!(res.grep(QRegExp("\\.21\\s")).isEmpty())) servers |= RzxComputer::SERVER_FTP;
 			if(!(res.grep(QRegExp("\\.80\\s")).isEmpty())) servers |= RzxComputer::SERVER_HTTP;

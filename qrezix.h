@@ -25,7 +25,7 @@
 #include <QWidget>
 #include <QMenu>
 
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 #include "ui_qrezixui_mac.h"
 #else
 #include "ui_qrezixui.h"

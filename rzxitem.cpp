@@ -43,9 +43,9 @@ RzxItem::RzxItem(RzxComputer *parent, Q3ListView * view, bool show)
 	Q_ASSERT(computer != NULL);
 	ip = computer->getIP();
 	repondeur =  computer->getRepondeur();
-	ignored = RzxConfig::globalConfig()->ignoreList->find(computer->getIP().toString());
+	ignored = RzxConfig::globalConfig()->isBan(computer->getIP().toString());
 	promo =  computer->getPromo();
-	setVisible(show || RzxConfig::globalConfig()->favorites->find( computer->getIP().toString()));
+	setVisible(show || RzxConfig::globalConfig()->isFavorite(computer->getIP().toString()));
 	//setEnabled(!ignored);
 }
 

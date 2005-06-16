@@ -116,7 +116,7 @@ void RzxProtocole::parse(const QString& msg){
 					QDialog wpDialog;
 					wp.setupUi(&wpDialog);
 					RzxConfig::globalConfig()->setOldPass();
-					QIcon icon(*RzxConfig::themedIcon("ok"));
+					QIcon icon(RzxConfig::themedIcon("ok"));
 					wp.btnOK->setIconSet(icon);
 					wpDialog.exec();
 					QString pwd = wp.ledPassword->text();
@@ -171,7 +171,7 @@ void RzxProtocole::parse(const QString& msg){
 }
 
 /** Extracts the parameters of the command specified */
-QStringList RzxProtocole::split(char sep, const QString& command, unsigned int count){
+QStringList RzxProtocole::split(char sep, const QString& command, int count){
 	QStringList ret; QString temp;
 	
 	int begin = 0, end = 0;
@@ -249,8 +249,8 @@ void RzxProtocole::changePass(const QString& oldPass)
 	
 	//Rajout des icônes aux boutons
 	QIcon ok, cancel;
-	ok.setPixmap(*RzxConfig::themedIcon("ok"), QIcon::Automatic);
-	cancel.setPixmap(*RzxConfig::themedIcon("cancel"), QIcon::Automatic);
+	ok.addPixmap(RzxConfig::themedIcon("ok"));
+	cancel.addPixmap(RzxConfig::themedIcon("cancel"));
 	changepassui.btnOK->setIconSet(ok);
 	changepassui.btnCancel->setIconSet(cancel);
 

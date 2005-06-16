@@ -33,12 +33,13 @@
 #include <QCloseEvent>
 #include <QTextEdit>
 #include <QWidget>
+#include <QSplitter>
 #include <QPointer>
 
 #include "rzxhostaddress.h"
 #include "rzxclientlistener.h"
 
-/*#ifdef Q_OS_MACX
+/*#ifdef Q_OS_MAC
 #include "rzxchatui_mac.h"
 #else
 #include "rzxchatui.h"
@@ -97,7 +98,7 @@ signals:
 	void textWritten();
 };
 
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 #include "ui_rzxchatui_mac.h"
 #else
 #include "ui_rzxchatui.h"
@@ -118,6 +119,10 @@ class RzxChat : public QWidget, public Ui::RzxChatUI {
 		ListText(QString t, ListText * pN);
 		~ListText();
 	};
+
+	QTextEdit *txtHistory;
+	QWidget *editor;
+	QSplitter *splitter;
 
 public: 
 	RzxChat(const RzxHostAddress& peerAddress);
@@ -189,7 +194,7 @@ protected slots:
 	void colorClicked(int index);
 	void updateTitle();
 	RzxChatSocket *getValidSocket();
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
     virtual void languageChange();
 #endif
 

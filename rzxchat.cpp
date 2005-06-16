@@ -60,7 +60,6 @@ const QColor RzxChat::preDefinedColors[16] = {Qt::black,Qt::red,Qt::darkRed,Qt::
 RzxChat::RzxChat(RzxChatSocket* sock)
 	:QWidget(NULL, Qt::WindowContextHelpButtonHint), RzxChatUI()
 {
-	setupUi(this);
 	setSocket(sock);
 	init();
 }
@@ -69,7 +68,6 @@ RzxChat::RzxChat(RzxChatSocket* sock)
 RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 	:QWidget(NULL, Qt::WindowContextHelpButtonHint), RzxChatUI()
 {
-	setupUi(this);
 	peer = peerAddress;
 	socket = NULL;
 	init();
@@ -77,6 +75,17 @@ RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 
 void RzxChat::init()
 {
+	QGridLayout *glayout = new QGridLayout(this);
+	setLayout(glayout);
+	splitter = new QSplitter(Qt::Vertical);
+	txtHistory = new QTextEdit();
+	editor = new QWidget();
+	setupUi(editor);
+	splitter->addWidget(txtHistory);
+	splitter->addWidget(editor);
+	glayout->addWidget(splitter);
+	splitter->setSizes(QList<int>() << 120 <<  100);
+	setBaseSize(width(), 230);
 	//
 	accel = new Q3Accel(btnSend);
 	accel -> insertItem(Qt::CTRL + Qt::Key_Return, 100);
@@ -188,7 +197,7 @@ RzxChat::~RzxChat(){
 * RzxPopup
 ****************************************************/
 RzxPopup::RzxPopup(QWidget *parent)
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 	:QFrame(parent, Qt::Drawer)
 #else
 	:QFrame(parent, Qt::WType_TopLevel)
@@ -813,14 +822,14 @@ void RzxChat::changeTheme()
 	
 	if(icons || !texts)
 	{
-		pi.setPixmap(*RzxConfig::themedIcon("plugin"), QIcon::Automatic);
-		hist.setPixmap(*RzxConfig::themedIcon("historique"), QIcon::Automatic);
-		send.setPixmap(*RzxConfig::themedIcon("send"), QIcon::Automatic);
-		prop.setPixmap(*RzxConfig::themedIcon("prop"), QIcon::Automatic);
+		pi.addPixmap(RzxConfig::themedIcon("plugin"));
+		hist.addPixmap(RzxConfig::themedIcon("historique"));
+		send.addPixmap(RzxConfig::themedIcon("send"));
+		prop.addPixmap(RzxConfig::themedIcon("prop"));
 	}
-	sound.setPixmap(*RzxConfig::soundIcon(false), QIcon::Automatic, QIcon::Normal, QIcon::Off);
-	sound.setPixmap(*RzxConfig::soundIcon(true), QIcon::Automatic, QIcon::Normal, QIcon::On);
-	close.setPixmap(*RzxConfig::themedIcon("cancel"), QIcon::Automatic);
+	sound.addPixmap(RzxConfig::soundIcon(false), QIcon::Normal, QIcon::Off);
+	sound.addPixmap(RzxConfig::soundIcon(true), QIcon::Normal, QIcon::On);
+	close.addPixmap(RzxConfig::themedIcon("cancel"));
 	btnSound->setIconSet(sound);
 	btnPlugins->setIconSet(pi);
 	btnHistorique->setIconSet(hist);
@@ -858,7 +867,7 @@ void RzxChat::changeIconFormat()
 		case 1: //petites icônes
 		case 2: //grandes icones
 			{
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
                 if(!btnPlugins->iconSet() || btnPlugins->iconSet()->isNull()) changeTheme();
 #else
 				if(btnPlugins->iconSet().isNull()) changeTheme(); //pour recharcher les icônes s'il y a besoin
@@ -872,7 +881,7 @@ void RzxChat::changeIconFormat()
 	}
 	
 	//Mise à jour de la position du texte
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
     if(texts)
     {
         btnPlugins->setText(tr("Plug-ins"));
@@ -902,7 +911,7 @@ void RzxChat::changeIconFormat()
 #endif
 }
 
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 void RzxChat::languageChange()
 {
     QWidget::languageChange();

@@ -23,7 +23,7 @@ email                : sylvain.joyeux@m4x.org
 #include <qdir.h>
 #include <qstring.h>
 
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 #include <qmacstyle_mac.h>
 #endif
 #include <qwindowsstyle.h>
@@ -35,10 +35,14 @@ email                : sylvain.joyeux@m4x.org
 #include "trayicon.h"
 #include "rzxpluginloader.h"
 
+#ifdef Q_OS_MAC
 #include "q.xpm"
+#else
+#include "q_mac.xpm"
+#endif
 
 #ifdef Q_OS_UNIX
-#ifndef Q_OS_MACX
+#ifndef Q_OS_MAC
 
 /* for signal handling */
 #include <signal.h>
@@ -127,7 +131,7 @@ int main(int argc, char *argv[])
 	qDebug(QString("qRezix ") + VERSION + RZX_TAG_VERSION + "\n");
 	QApplication a(argc,argv);
 
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 	a.setStyle(new QMacStyle());
 #endif
 
@@ -135,7 +139,7 @@ int main(int argc, char *argv[])
 	iconeProg.setMask(iconeProg.createHeuristicMask() );
 
 #ifdef Q_OS_UNIX
-#ifndef Q_OS_MACX
+#ifndef Q_OS_MAC
 	default_segv_handler = signal( SIGSEGV, fatalHandler );
 	default_pipe_handler = signal( SIGPIPE, SIG_IGN );
 	default_term_handler = signal( SIGTERM, sigTermHandler );
@@ -159,7 +163,7 @@ int main(int argc, char *argv[])
 		a.setMainWidget(rezix);
 		
 		QString windowSize=RzxConfig::readWindowSize();
-		#ifndef Q_OS_MACX
+		#ifndef Q_OS_MAC
 		if(windowSize.left(1)=="1")
 			rezix->statusMax=true;
 		else
