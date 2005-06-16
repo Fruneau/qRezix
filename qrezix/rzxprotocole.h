@@ -73,7 +73,7 @@ public:
 		SERVER_UPLOAD = 12
 	};
 
-	static QStringList split(char sep, const QString& command, unsigned int count);
+	static QStringList split(char sep, const QString& command, int count);
 	virtual void parse(const QString& msg);
 
 	/** Realise une sequence d'authentification aupres du serveur

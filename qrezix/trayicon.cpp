@@ -127,7 +127,7 @@ void TrayIcon::buildMenu()
 	if(pop.count()) pop.clear();
 	
 	QPixmap pixmap;
-	#define newItem(name, trad, receiver, slot)  { pixmap = *RzxConfig::themedIcon(name); \
+	#define newItem(name, trad, receiver, slot)  { pixmap = RzxConfig::themedIcon(name); \
 		if(!pixmap.isNull()) \
 		{ \
 			QImage image = pixmap.convertToImage(); \
@@ -554,7 +554,7 @@ void TrayIcon::sysUpdateToolTip()
 }
 
 #else
-#if defined(Q_OS_MACX)
+#ifdef Q_OS_MAC
 
 void TrayIcon::sysInstall()
 {
@@ -947,7 +947,7 @@ void TrayIcon::sysUpdateToolTip()
 
 QPoint TrayIcon::getPos()
 {
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 	return QPoint(0,0);
 #else
 	return d->mapToGlobal(d->pos());

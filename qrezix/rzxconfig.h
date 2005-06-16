@@ -18,17 +18,17 @@
 #ifndef RZXCONFIG_H
 #define RZXCONFIG_H
 
-#include <qobject.h>
-#include <q3dict.h>
-#include <q3ptrvector.h>
-#include <q3memarray.h>
-#include <qpixmap.h>
-#include <qdir.h>
-#include <qtranslator.h>
-#include <qsettings.h>
-#include <qpoint.h>
-//Added by qt3to4:
-#include <Q3ValueList>
+#include <QObject>
+#include <QHash>
+#include <QSet>
+#include <QVector>
+#include <QVector>
+#include <QPixmap>
+#include <QDir>
+#include <QTranslator>
+#include <QSettings>
+#include <QPoint>
+#include <QList>
 
 class RzxComputer;
 class QPixmap;
@@ -50,24 +50,24 @@ class RzxConfig : public QObject  {
 	public:
 		bool bold;
 		bool italic;
-		Q3ValueList<int> sizes;
+		QList<int> sizes;
 		
-		FontProperty(bool b, bool i, const Q3ValueList<int> &pS);
-		
+		FontProperty() { sizes = QList<int>(); }
+		FontProperty(bool b, bool i, const QList<int> &pS);
 		~FontProperty();
 	};
 	
 	static RzxConfig * Config;
 	RzxConfig();
-	Q3Dict<QPixmap> allIcons;
-	Q3Dict<QPixmap> progIcons;
-	Q3Dict<QString> fileEntries;
+	QHash<QString,QPixmap> allIcons;
+	QHash<QString,QPixmap> progIcons;
+	QHash<QString,QString> fileEntries;
 	QDir m_systemDir;
 	QDir m_userDir;
 	QDir m_themeDir;
 	QDir m_libDir;
 	QStringList fontFamilies;
-	Q3Dict<FontProperty> * fontProperties;
+	QHash<QString,FontProperty> fontProperties;
 
 public:
 	enum ToolTip
@@ -87,19 +87,35 @@ public:
 	};
 	
 	QSettings *settings;
-	static Q3Dict<QTranslator> translations;
+	static QHash<QString,QTranslator*> translations;
 	void loadTranslators();
 	static void setLanguage(QString language);
-	Q3Dict<QString> * favorites;
-	Q3Dict<QString> * ignoreList;
 	static RzxConfig * globalConfig();
 	~RzxConfig();
+
+// Favoris et BanList
+private :
+        QSet<QString> favorites;
+	QSet<QString> ignoreList;
+
+public:
+	bool isFavorite(const QString&) const;
+	void addToFavorites(const QString&);
+	void delFromFavorites(const QString&);
 	void writeFavorites();
+	
+	bool isBan(const QString&) const;
+	void addToBanlist(const QString&);
+	void delFromBanlist(const QString&);
 	void writeIgnoreList();
+
+// Polices de caractères
 	QStringList getFontList();
-	Q3ValueList<int> getSizes(const QString&);
-	bool isItalicSupported(const QString&);
-	bool isBoldSupported(const QString&);
+	const QList<int> getSizes(const QString&) const;
+	bool isItalicSupported(const QString&) const;
+	bool isBoldSupported(const QString&) const;
+
+
 	void flush();
 	void closeSettings();
 
@@ -202,20 +218,20 @@ public:
 	
 	static QColor errorTextColor();
 	static QColor errorBackgroundColor();
-	static Q3MemArray<QPixmap *> yesnoIcons();
-	static Q3MemArray<QPixmap *> gatewayIcons();
-	static Q3MemArray<QPixmap *> promoIcons();
-	static QPixmap * soundIcon(bool sound=true);
+	static const QVector<QPixmap*> yesnoIcons();
+	static const QVector<QPixmap*> gatewayIcons();
+	static const QVector<QPixmap*> promoIcons();
+	static const QPixmap& soundIcon(bool sound=true);
 	
-	static Q3MemArray<QPixmap *> osIcons(bool large= false);
-	static QPixmap * localhostIcon();
+	static const QVector<QPixmap*> osIcons(bool large= false);
+	static const QPixmap& localhostIcon();
 	static void saveIcon(const QString& name, const QPixmap& image);
 	
 	static QString historique(unsigned long ip, const QString& hostname);
 	
 	static QString buildLocalhost();
 
-	static QPixmap * themedIcon(const QString& name);
+	static const QPixmap& themedIcon(const QString& name);
 
 signals:
 	void languageChanged();
@@ -226,8 +242,8 @@ signals:
 protected: // Protected attributes
 	void loadLocalHost();
 	
-	static QPixmap * icon(const QString& name);
-	static QPixmap * icon(const QString& name, Q3Dict<QPixmap>& cache, const QString& subdir = QString::null);
+	static const QPixmap &icon(const QString& name);
+	static const QPixmap &icon(const QString& name, QHash<QString,QPixmap>& cache, const QString& subdir = QString::null);
 	QString readEntry(const QString& name, const QString& def);
 	int readEntry(const QString& name, int def);
 	QStringList readEntry(const QString& name);

@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>701</width>
-    <height>401</height>
+    <width>806</width>
+    <height>114</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -25,29 +25,38 @@
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
-    <number>10</number>
+    <number>8</number>
    </property>
    <property name="spacing" >
     <number>6</number>
    </property>
    <item row="1" column="0" >
-    <widget class="Line" name="line2" >
+    <widget class="RzxTextEdit" name="edMsg" >
      <property name="sizePolicy" >
       <sizepolicy>
        <hsizetype>7</hsizetype>
-       <vsizetype>0</vsizetype>
+       <vsizetype>7</vsizetype>
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="frameShape" >
-      <enum>QFrame::HLine</enum>
+     <property name="minimumSize" >
+      <size>
+       <width>0</width>
+       <height>25</height>
+      </size>
      </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Sunken</enum>
+     <property name="maximumSize" >
+      <size>
+       <width>32767</width>
+       <height>32767</height>
+      </size>
      </property>
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
+     <property name="focusPolicy" >
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="whatsThis" >
+      <string>&lt;h3>Input&lt;/h3>&lt;p>This is the place where you can type your messages.&lt;/p>&lt;p>&lt;b>Shortcuts :&lt;/b>&lt;br>&lt;b>Enter : &lt;/b>Send your message&lt;br>&lt;b>Ctrl+[UP|DOWN] : &lt;/b>Navigate through the messages you have already typed&lt;br>&lt;b>Ctrl+Enter : &lt;/b> Add a line-break&lt;/p></string>
      </property>
     </widget>
    </item>
@@ -57,10 +66,187 @@
       <number>0</number>
      </property>
      <property name="spacing" >
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QPushButton" name="btnSend" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Send&lt;/h3>&lt;p>Send the message you have typed...&lt;br>It's a lot easier to use &lt;b>Enter&lt;/b>&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>Send</string>
+       </property>
+       <property name="shortcut" >
+        <string/>
+       </property>
+       <property name="flat" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="cbSendHTML" >
+       <property name="whatsThis" >
+        <string>&lt;h3>Send as HTML&lt;/h3>&lt;p>When this case is checked, you can format your text&lt;/p>&lt;p>&lt;b>Warning : &lt;/b>some clients don't support HTML...&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>Send as &amp;HTML</string>
+       </property>
+       <property name="shortcut" >
+        <string>⌥H</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>52</width>
+         <height>30</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnSound" >
+       <property name="whatsThis" >
+        <string>&lt;h3>Sound&lt;/h3>&lt;p>Enables/disables the sound which is played when a new message arrives&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="checkable" >
+        <bool>true</bool>
+       </property>
+       <property name="flat" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>52</width>
+         <height>30</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnProperties" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Properties&lt;/h3>&lt;p>Ask for the properties of the person you are talking to.&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>Properties</string>
+       </property>
+       <property name="checkable" >
+        <bool>true</bool>
+       </property>
+       <property name="flat" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnHistorique" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>History&lt;/h3>&lt;p>If you want to read all your old chats with this person&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>History</string>
+       </property>
+       <property name="checkable" >
+        <bool>true</bool>
+       </property>
+       <property name="flat" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>51</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnClose" >
+       <property name="whatsThis" >
+        <string>&lt;h3>Close&lt;/h3>&lt;p>Ends the chat et close the window&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>Close</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
       <number>6</number>
      </property>
      <item>
       <widget class="QPushButton" name="btnPlugins" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="whatsThis" >
         <string>&lt;h3>Plug-ins&lt;/h3>
 &lt;p>Shows a menu which helps you to use the extra-features provided by qRezix's plug-ins&lt;/p></string>
@@ -125,7 +311,7 @@
       <widget class="QComboBox" name="cbFontSelect" >
        <property name="sizePolicy" >
         <sizepolicy>
-         <hsizetype>4</hsizetype>
+         <hsizetype>7</hsizetype>
          <vsizetype>0</vsizetype>
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
@@ -146,7 +332,7 @@
       <widget class="QComboBox" name="cbColorSelect" >
        <property name="sizePolicy" >
         <sizepolicy>
-         <hsizetype>1</hsizetype>
+         <hsizetype>7</hsizetype>
          <vsizetype>0</vsizetype>
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
@@ -178,7 +364,7 @@
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>0</hsizetype>
-         <vsizetype>0</vsizetype>
+         <vsizetype>7</vsizetype>
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -320,189 +506,6 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0" >
-    <widget class="RzxTextEdit" name="edMsg" >
-     <property name="minimumSize" >
-      <size>
-       <width>0</width>
-       <height>84</height>
-      </size>
-     </property>
-     <property name="maximumSize" >
-      <size>
-       <width>32767</width>
-       <height>100</height>
-      </size>
-     </property>
-     <property name="focusPolicy" >
-      <enum>Qt::TabFocus</enum>
-     </property>
-     <property name="whatsThis" >
-      <string>&lt;h3>Input&lt;/h3>&lt;p>This is the place where you can type your messages.&lt;/p>&lt;p>&lt;b>Shortcuts :&lt;/b>&lt;br>&lt;b>Enter : &lt;/b>Send your message&lt;br>&lt;b>Ctrl+[UP|DOWN] : &lt;/b>Navigate through the messages you have already typed&lt;br>&lt;b>Ctrl+Enter : &lt;/b> Add a line-break&lt;/p></string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" >
-    <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <property name="spacing" >
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QPushButton" name="btnSend" >
-       <property name="whatsThis" >
-        <string>&lt;h3>Send&lt;/h3>&lt;p>Send the message you have typed...&lt;br>It's a lot easier to use &lt;b>Enter&lt;/b>&lt;/p></string>
-       </property>
-       <property name="text" >
-        <string>Send</string>
-       </property>
-       <property name="shortcut" >
-        <string/>
-       </property>
-       <property name="flat" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="cbSendHTML" >
-       <property name="whatsThis" >
-        <string>&lt;h3>Send as HTML&lt;/h3>&lt;p>When this case is checked, you can format your text&lt;/p>&lt;p>&lt;b>Warning : &lt;/b>some clients don't support HTML...&lt;/p></string>
-       </property>
-       <property name="text" >
-        <string>Send as &amp;HTML</string>
-       </property>
-       <property name="shortcut" >
-        <string>⌥H</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Minimum</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>52</width>
-         <height>30</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnSound" >
-       <property name="whatsThis" >
-        <string>&lt;h3>Sound&lt;/h3>&lt;p>Enables/disables the sound which is played when a new message arrives&lt;/p></string>
-       </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="checkable" >
-        <bool>true</bool>
-       </property>
-       <property name="flat" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Minimum</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>52</width>
-         <height>30</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnProperties" >
-       <property name="whatsThis" >
-        <string>&lt;h3>Properties&lt;/h3>&lt;p>Ask for the properties of the person you are talking to.&lt;/p></string>
-       </property>
-       <property name="text" >
-        <string>Properties</string>
-       </property>
-       <property name="checkable" >
-        <bool>true</bool>
-       </property>
-       <property name="flat" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnHistorique" >
-       <property name="whatsThis" >
-        <string>&lt;h3>History&lt;/h3>&lt;p>If you want to read all your old chats with this person&lt;/p></string>
-       </property>
-       <property name="text" >
-        <string>History</string>
-       </property>
-       <property name="checkable" >
-        <bool>true</bool>
-       </property>
-       <property name="flat" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Minimum</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>51</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnClose" >
-       <property name="whatsThis" >
-        <string>&lt;h3>Close&lt;/h3>&lt;p>Ends the chat et close the window&lt;/p></string>
-       </property>
-       <property name="text" >
-        <string>Close</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="0" column="0" >
-    <widget class="QTextEdit" name="txtHistory" >
-     <property name="autoFormatting" >
-      <set>QTextEdit::AutoNone</set>
-     </property>
-     <property name="tabChangesFocus" >
-      <bool>true</bool>
-     </property>
-     <property name="undoRedoEnabled" >
-      <bool>false</bool>
-     </property>
-     <property name="readOnly" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <layoutdefault spacing="3" margin="2" />
@@ -529,11 +532,9 @@
   <tabstop>btnProperties</tabstop>
   <tabstop>btnHistorique</tabstop>
   <tabstop>btnSound</tabstop>
-  <tabstop>txtHistory</tabstop>
   <tabstop>btnClose</tabstop>
   <tabstop>btnPlugins</tabstop>
  </tabstops>
- <includes/>
  <resources/>
  <connections/>
 </ui>

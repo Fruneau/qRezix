@@ -224,7 +224,7 @@ void RzxUtilsLauncher::ftp(const QString& login)
 #else
 	QString cmd = "cd " + tempPath + "; ";
 
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 	if(RzxConfig::globalConfig()->ftpCmd() == "Default")
 		cmd = cmd + "open \"" + tempip + "\" &";
 	else
@@ -243,7 +243,7 @@ void RzxUtilsLauncher::ftp(const QString& login)
 	else
 	//client graphique
 		cmd = cmd + " &";
-#endif //MACX
+#endif //MAC
 
 	system(cmd.latin1());
 #endif //WIN32
@@ -261,11 +261,11 @@ void RzxUtilsLauncher::samba(const QString& login){
 	QString cmd = "explorer \\\\" + (item -> ip).toString();
 	RzxWinExec(cmd, 1);
 #else
-	#ifdef Q_OS_MACX
+	#ifdef Q_OS_MAC
 	QString cmd = "cd "+tempPath+"; open smb://" + (item ->ip).toString() + "/" +" &";
 	#else
 	QString cmd = "cd "+tempPath+"; konqueror smb://" + (item ->ip).toString() + "/" +" &";
-	#endif //MACX
+	#endif //MAC
 	system(cmd.latin1());
 #endif
 }
@@ -329,7 +329,7 @@ void RzxUtilsLauncher::http(const QString& login)
 		RzxWinExec(cmd, 1);
 	}
 #else
-	#ifdef Q_OS_MACX
+	#ifdef Q_OS_MAC
 		if(cmd == "Default")
 			cmd = "open";
 	#endif
@@ -355,7 +355,7 @@ void RzxUtilsLauncher::news(const QString& login)
 
 	RzxWinExec(cmd,1);
 #else
-	#ifdef Q_OS_MACX
+	#ifdef Q_OS_MAC
 		if(cmd == "Default")
 			cmd = "open";
 	#endif

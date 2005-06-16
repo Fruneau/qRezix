@@ -403,11 +403,6 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	if(withFrame)
 	{
 		// creation de la boite de dialogue (non modale, elle se detruit automatiquement grace a WDestructiveClose)
-#ifdef Q_OS_MACX
-		if(parent)
-			propertiesDialog = new QDialog(parent, Qt::Drawer);
-		else
-#endif
 		propertiesDialog = new QDialog(parent?parent:QRezix::global(), Qt::Tool | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
 		propertiesDialog->setAttribute(Qt::WA_DeleteOnClose);
 		propertiesDialog->resize(300, 320);
@@ -573,7 +568,7 @@ void RzxClientListener::socketRead() {
 		return;
 	}
 	host = rawSocket->peerAddress();
-        if(!RzxConfig::globalConfig()->ignoreList->find(host.toString())) 
+        if(!RzxConfig::globalConfig()->isBan(host.toString())) 
                 qDebug("Accept connexion to client " + host.toString());
         else {
                 qDebug("Message from client "+ host.toString()+ " has been ignored");

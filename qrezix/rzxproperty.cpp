@@ -94,13 +94,13 @@ RzxProperty::RzxProperty( QRezix*parent ) : QDialog(parent) {
 #ifndef WIN32
 	btnAboutQt->hide();
 #else
-#ifndef Q_OS_MACX
+#ifndef Q_OS_MAC
 	lblWorkDir_2->hide();
 	txtBeepCmd->hide();
 #endif
 #endif
 
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 	groupSystray->hide();
 	lblMenuIconSize->hide();
 	cmbMenuText->hide();
@@ -127,9 +127,9 @@ RzxProperty::~RzxProperty() {}
 void RzxProperty::changeTheme()
 {
 	QIcon apply, ok, cancel;
-	apply.setPixmap(*RzxConfig::themedIcon("apply"), QIcon::Automatic);
-	ok.setPixmap(*RzxConfig::themedIcon("ok"), QIcon::Automatic);
-	cancel.setPixmap(*RzxConfig::themedIcon("cancel"), QIcon::Automatic);
+	apply.addPixmap(RzxConfig::themedIcon("apply"));
+	ok.addPixmap(RzxConfig::themedIcon("ok"));
+	cancel.addPixmap(RzxConfig::themedIcon("cancel"));
 	btnAnnuler->setIconSet(cancel);
 	btnOK->setIconSet(ok);
 	btnMiseAJour->setIconSet(apply);
@@ -144,18 +144,18 @@ void RzxProperty::changeTheme()
 
 	QPixmap pixmap; //Pour le newItem
 	lbMenu->clear();
-	if(RzxConfig::themedIcon("systray")->isNull())
+	if(RzxConfig::themedIcon("systray").isNull())
 	{
 		newItem(QPixmap(( const char ** ) q ), tr("Infos"));
 	}
 	else
 	{
-		newItem(*RzxConfig::themedIcon("systray"), tr("Infos"));
+		newItem(RzxConfig::themedIcon("systray"), tr("Infos"));
 	}
-	newItem(*RzxConfig::themedIcon("layout"), tr("Layout"));
-	newItem(*RzxConfig::themedIcon("network"), tr("Network"));
-	newItem(*RzxConfig::themedIcon("pref"), tr("Misc."));
-	newItem(*RzxConfig::themedIcon("plugin"), tr("Plug-ins"));
+	newItem(RzxConfig::themedIcon("layout"), tr("Layout"));
+	newItem(RzxConfig::themedIcon("network"), tr("Network"));
+	newItem(RzxConfig::themedIcon("pref"), tr("Misc."));
+	newItem(RzxConfig::themedIcon("plugin"), tr("Plug-ins"));
 
 	#undef newItem
 }
@@ -174,12 +174,14 @@ void RzxProperty::languageChange()
 
 
 void RzxProperty::initLangCombo(){
-	RzxConfig * config = RzxConfig::globalConfig();
-	Q3DictIterator<QTranslator> it(config->translations);
+	RzxConfig *config = RzxConfig::globalConfig();
+	QHashIterator<QString,QTranslator*> it(config->translations);
 	languageBox->clear();
 	languageBox->insertItem("English");
-	for(it.toFirst() ; it.current(); ++it){
-		languageBox->insertItem(it.currentKey());
+	while(it.hasNext())
+	{
+		it.next();
+		languageBox->insertItem(it.key());
 	}
 }	
 
@@ -248,7 +250,7 @@ void RzxProperty::initDlg() {
 	cmbIconTheme -> setCurrentItem( 0 );
 
 	cmbMenuIcons->setCurrentItem(RzxConfig::menuIconSize());
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 	cbMenuText->setChecked(RzxConfig::menuTextPosition());
 #else
 	cmbMenuText->setCurrentItem(RzxConfig::menuTextPosition());
@@ -325,7 +327,7 @@ void RzxProperty::initDlg() {
 
 	clientNews->insertItem("standard");
 #else
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 	// commandes à exécuter sous macos X
 	clientFtp->insertItem("Default");
 	clientHttp->insertItem("Default");
@@ -344,7 +346,7 @@ void RzxProperty::initDlg() {
 	clientHttp->insertItem("opera", 6);
 
 	clientNews->insertItem("knode", 0);
-#endif //MACX
+#endif //MAC
 #endif //WIN32
 
 	clientFtp->setCurrentText(RzxConfig::globalConfig()->ftpCmd());
@@ -359,8 +361,7 @@ void RzxProperty::initDlg() {
 	cbPropertiesWarning->setChecked(RzxConfig::globalConfig() -> warnCheckingProperties() );
 	cbPrintTime->setChecked(RzxConfig::globalConfig() -> printTime());
 	
-	QPixmap localhostIcon = *RzxConfig::localhostIcon();
-	pxmIcon -> setPixmap( localhostIcon );
+	pxmIcon->setPixmap(RzxConfig::localhostIcon());
 
 	cmbSport->setCurrentItem( RzxConfig::globalConfig() -> numSport() );
 	
@@ -514,7 +515,7 @@ bool RzxProperty::miseAJour() {
 	}
 #endif
 
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 	if(RzxConfig::menuTextPosition() != (cbMenuText->isChecked()?1:0) || RzxConfig::menuIconSize() != cmbMenuIcons->currentItem())
 	{
 		cfgObject->writeEntry("menuTextPos", cbMenuText->isChecked()?1:0);
@@ -543,11 +544,11 @@ bool RzxProperty::miseAJour() {
 	if(cbTooltipResal->isChecked()) tooltip += RzxConfig::Resal;
 	if(cbTooltipFeatures->isChecked()) tooltip += RzxConfig::Features;
 	if(cbTooltipProperties->isChecked()) tooltip += RzxConfig::Properties;
-	cfgObject -> writeEntry( "tooltip", tooltip);
+	cfgObject->writeEntry( "tooltip", tooltip);
 
 //	cfgObject -> write(); //flush du fichier de conf
-	const QPixmap * localhostIcon = pxmIcon -> pixmap();
-	if ( RzxConfig::localhostIcon() -> serialNumber() != localhostIcon -> serialNumber() && !( localhostIcon -> isNull() ) )
+	const QPixmap *localhostIcon = pxmIcon->pixmap();
+	if(RzxConfig::localhostIcon().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
 	{
 		localHostUpdated = true;
 		RzxConfig::saveIcon( "localhost", *localhostIcon );

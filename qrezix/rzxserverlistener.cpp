@@ -259,11 +259,7 @@ void RzxServerListener::parse(const QString& msg) {
 	cmd.setPattern(RzxProtocole::ServerFormat[RzxProtocole::SERVER_UPLOAD]);
 	if(cmd.search(msg, 0) >= 0)
 	{
-		QPixmap *icon = RzxConfig::localhostIcon();
-		if(icon)
-		{
-			sendIcon( icon->convertToImage());
-		}
+		sendIcon(RzxConfig::localhostIcon().convertToImage());
 		return;
 	}
 	

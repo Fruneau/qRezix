@@ -132,7 +132,7 @@ void RzxRezal::creePopUpMenu(Q3ListViewItem *ordinateurSelect,const QPoint & pos
 		popup.clear();
 		
 		QPixmap pixmap;
-		#define newItem(name, trad, receiver, slot)  { pixmap = *RzxConfig::themedIcon(name); \
+		#define newItem(name, trad, receiver, slot)  { pixmap = RzxConfig::themedIcon(name); \
 			if(!pixmap.isNull()) \
 			{ \
 				QImage image = pixmap.convertToImage(); \
@@ -160,7 +160,7 @@ void RzxRezal::creePopUpMenu(Q3ListViewItem *ordinateurSelect,const QPoint & pos
 			newItem("historique", tr("History"), this, SLOT(historique()));
 			newItem("prop", tr("Properties"), this, SLOT(proprietes()));
 			popup.insertSeparator();
-			if(RzxConfig::globalConfig()->favorites->find(ordinateurSelect->text(1)))
+			if(RzxConfig::globalConfig()->isFavorite(ordinateurSelect->text(1)))
 			{
 				newItem("not_favorite", tr("Remove from favorites"), this, SLOT(removeFromFavorites()));
 			}
@@ -231,7 +231,7 @@ void RzxRezal::removeFromFavorites()
 {
 	RzxItem *item = (RzxItem*)currentItem();
 	QString temp= item->text(ColNom);
-	RzxConfig::globalConfig()->favorites->remove(temp);
+	RzxConfig::globalConfig()->delFromFavorites(temp);
 	RzxConfig::globalConfig()->writeFavorites();
 	emit favoriteRemoved(item->getComputer());
 }
@@ -240,7 +240,7 @@ void RzxRezal::addToFavorites()
 {
 	RzxItem *item = (RzxItem*)currentItem();
 	QString temp= item->text(ColNom);
-	RzxConfig::globalConfig()->favorites->insert(temp,new QString("1"));
+	RzxConfig::globalConfig()->addToFavorites(temp);
 	RzxConfig::globalConfig()->writeFavorites();
 	emit favoriteAdded(item->getComputer());
 }
@@ -251,7 +251,7 @@ void RzxRezal::removeFromIgnoreList()
 	item -> ignored = false;
 	RzxComputer * c = item->getComputer();
 	QString ip = c->getIP().toString();
-	RzxConfig::globalConfig()->ignoreList->remove(ip);
+	RzxConfig::globalConfig()->delFromBanlist(ip);
 	RzxConfig::globalConfig()->writeIgnoreList();
 }
 
@@ -262,7 +262,7 @@ void RzxRezal::addToIgnoreList()
 	QString temp= item->text(ColNom);
 	RzxComputer * c = item->getComputer();
 	QString ip = c->getIP().toString();
-	RzxConfig::globalConfig()->ignoreList->insert(ip,new QString("1"));
+	RzxConfig::globalConfig()->addToBanlist(ip);
 	RzxConfig::globalConfig()->writeIgnoreList();
 }
 
@@ -349,7 +349,7 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 	RzxItem *item = itemByIp.find(computer->getIP().toString());
 	if(!item)
 	{
-		if(!dispNotFavorites && !RzxConfig::globalConfig()->favorites->find( computer->getName()))
+		if(!dispNotFavorites && !RzxConfig::globalConfig()->isFavorite( computer->getName()))
 			return;
 		setUpdatesEnabled(!dispNotFavorites);
 		item = new RzxItem(computer, this, dispNotFavorites);
@@ -362,9 +362,9 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 	{
 		if(!dispNotFavorites)
 		{
-			if(!RzxConfig::globalConfig()->favorites->find( computer->getName()))
+			if(!RzxConfig::globalConfig()->isFavorite(computer->getName()))
 			{
-				RzxConfig::globalConfig()->favorites->insert(computer->getName(),new QString("1"));
+				RzxConfig::globalConfig()->addToFavorites(computer->getName());
 				RzxConfig::globalConfig()->writeFavorites();
 			}
 			emit changeFavorite(computer);

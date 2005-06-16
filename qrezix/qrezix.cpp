@@ -52,7 +52,11 @@
 #include "defaults.h"
 
 #include "t.xpm"
+#ifdef Q_OS_MAC
+#include "q_mac.xpm"
+#else
 #include "q.xpm"
+#endif
 
 QRezix *QRezix::object = 0;
 
@@ -75,7 +79,7 @@ QRezix::QRezix(QWidget *parent)
 	new RzxUtilsLauncher(rezal);
 
 
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 	QMenuBar *menu = new QMenuBar();
 	QMenu *popup = menu->addMenu("Tools");
 	popup->addAction("Preferences", this, SLOT(boitePreferences()));
@@ -148,7 +152,7 @@ QRezix::QRezix(QWidget *parent)
 	accel = new QShortcut(Qt::Key_Tab + Qt::SHIFT, this, SLOT(switchTab()));
 	menuFormatChange();
 
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 	rezal->afficheColonnes();
 	rezalFavorites->afficheColonnes();
 #endif
@@ -182,9 +186,9 @@ void QRezix::status(const QString& msg, bool fatal){
 	statusFlag = !fatal;
 
 	if(statusFlag)
-		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("on"));
+		lblStatusIcon->setPixmap(RzxConfig::themedIcon("on"));
 	else
-		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("off"));
+		lblStatusIcon->setPixmap(RzxConfig::themedIcon("off"));
 		
 	qDebug("Connection status : " + QString(fatal?"disconnected ":"connected ") + "(" + msg + ")");
 }
@@ -207,11 +211,11 @@ void QRezix::saveSettings()
 	QString height = QString("%1").arg(s.height(), 4, 10).replace(' ', '0');
 	QString width =  QString("%1").arg(s.width(), 4, 10).replace(' ', '0');
 	QString windowSize;
-	#ifndef Q_OS_MACX
+#ifndef Q_OS_MAC
 	if( statusMax )
 		windowSize = "100000000";
 	else
-	#endif
+#endif
 		windowSize="0"+height+width;
 	qDebug("Fermeture des plugins");
 	delete RzxPlugInLoader::global();
@@ -376,14 +380,14 @@ void QRezix::changeTrayIcon(){
 	QPixmap trayIcon;
 	if(!RzxConfig::autoResponder())
 	{
-		trayIcon = *(RzxConfig::themedIcon("systray"));
+		trayIcon = RzxConfig::themedIcon("systray");
 		if(trayIcon.isNull())
 			trayIcon = QPixmap::QPixmap(q);
 
 	}
 	else
 	{
-		trayIcon = *(RzxConfig::themedIcon("systrayAway"));
+		trayIcon = RzxConfig::themedIcon("systrayAway");
 		if(trayIcon.isNull())
 			trayIcon = QPixmap::QPixmap(t);
 	}
@@ -426,7 +430,7 @@ void QRezix::languageChange()
 	tbRezalContainer->setItemText(1, tr("Everybody"));
 	
 	//Parce que sous Mac, les boutons sont gérés avec des QPushButton
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 	menuFormatChange();
 #endif
 }
@@ -451,7 +455,7 @@ void QRezix::warnForFavorite(RzxComputer *computer)
 	//Bah, beep à la connexion
 	if(RzxConfig::beepConnection() && computer->getRepondeur()) {
 
-#if defined(WIN32) || defined(Q_OS_MACX)
+#if defined (WIN32) || defined (Q_OS_MAC)
 		QString file = RzxConfig::connectionSound();
 		if( !file.isEmpty() && QFile( file ).exists() )
 			QSound::play( file );
@@ -499,14 +503,14 @@ void QRezix::changeTheme()
 	int texts = RzxConfig::menuTextPosition();
 	if(icons || !texts)
 	{
-		pi.addPixmap(*RzxConfig::themedIcon("plugin"));
-		away.addPixmap(*RzxConfig::themedIcon("away"), QIcon::Normal, QIcon::Off);
-		away.addPixmap(*RzxConfig::themedIcon("here"), QIcon::Normal, QIcon::On);
-		columns.addPixmap(*RzxConfig::themedIcon("column"));
-		prefs.addPixmap(*RzxConfig::themedIcon("pref"));
-		favorite.addPixmap(*RzxConfig::themedIcon("favorite"));
-		not_favorite.addPixmap(*RzxConfig::themedIcon("not_favorite"));
-		search.addPixmap(*RzxConfig::themedIcon("search"));
+		pi.addPixmap(RzxConfig::themedIcon("plugin"));
+		away.addPixmap(RzxConfig::themedIcon("away"), QIcon::Normal, QIcon::Off);
+		away.addPixmap(RzxConfig::themedIcon("here"), QIcon::Normal, QIcon::On);
+		columns.addPixmap(RzxConfig::themedIcon("column"));
+		prefs.addPixmap(RzxConfig::themedIcon("pref"));
+		favorite.addPixmap(RzxConfig::themedIcon("favorite"));
+		not_favorite.addPixmap(RzxConfig::themedIcon("not_favorite"));
+		search.addPixmap(RzxConfig::themedIcon("search"));
 	}
 	btnPlugins->setIcon(pi);
 	btnAutoResponder->setIcon(away);
@@ -516,9 +520,9 @@ void QRezix::changeTheme()
 	tbRezalContainer->setItemIcon(1,not_favorite);
 	tbRezalContainer->setItemIcon(0,favorite);
 	if(statusFlag)
-		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("on"));
+		lblStatusIcon->setPixmap(RzxConfig::themedIcon("on"));
 	else
-		lblStatusIcon->setPixmap(*RzxConfig::themedIcon("off"));
+		lblStatusIcon->setPixmap(RzxConfig::themedIcon("off"));
 	if(wellInit) changeTrayIcon();
 }
 
@@ -534,7 +538,7 @@ void QRezix::menuFormatChange()
 
 	//Si on a pas d'icône, on met le texte sur le côté... pour éviter un bug d'affichage
 	if(!icons) texts = 1;
-#ifndef Q_OS_MACX
+#ifndef Q_OS_MAC
 	Qt::ToolButtonStyle style;
 	if(icons && !texts) style = Qt::ToolButtonIconOnly;
 	if(!icons && texts) style = Qt::ToolButtonTextOnly;
@@ -555,7 +559,7 @@ void QRezix::menuFormatChange()
 			{
 				QIcon empty;
 				QPixmap emptyIcon;
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 				btnPlugins->setIconSet(empty);
 				btnAutoResponder->setIconSet(empty);
 				btnMAJcolonnes->setIconSet(empty);
@@ -584,7 +588,7 @@ void QRezix::menuFormatChange()
 	}
 	
 	//Mise à jour de la position du texte
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MAC
 	if(texts)
 	{
 		btnPlugins->setText(tr("Plug-ins"));

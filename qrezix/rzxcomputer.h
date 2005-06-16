@@ -31,7 +31,7 @@ class RzxComputer : public QObject  {
 	Q_OBJECT
 	
 public: 
-#ifndef Q_OS_MACX
+#ifndef Q_OS_MAC
 	struct version_t
 	{
 		unsigned FunnyVersion	:14;
