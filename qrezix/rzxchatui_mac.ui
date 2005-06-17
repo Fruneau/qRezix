@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>806</width>
-    <height>114</height>
+    <width>814</width>
+    <height>107</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -52,6 +52,12 @@
        <height>32767</height>
       </size>
      </property>
+     <property name="baseSize" >
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
      <property name="focusPolicy" >
       <enum>Qt::StrongFocus</enum>
      </property>
@@ -59,6 +65,292 @@
       <string>&lt;h3>Input&lt;/h3>&lt;p>This is the place where you can type your messages.&lt;/p>&lt;p>&lt;b>Shortcuts :&lt;/b>&lt;br>&lt;b>Enter : &lt;/b>Send your message&lt;br>&lt;b>Ctrl+[UP|DOWN] : &lt;/b>Navigate through the messages you have already typed&lt;br>&lt;b>Ctrl+Enter : &lt;/b> Add a line-break&lt;/p></string>
      </property>
     </widget>
+   </item>
+   <item row="0" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QPushButton" name="btnPlugins" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Plug-ins&lt;/h3>
+&lt;p>Shows a menu which helps you to use the extra-features provided by qRezix's plug-ins&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>Plug-ins</string>
+       </property>
+       <property name="checkable" >
+        <bool>true</bool>
+       </property>
+       <property name="flat" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>50</width>
+         <height>32</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="Line" name="line2_2" >
+       <property name="frameShape" >
+        <enum>QFrame::VLine</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>50</width>
+         <height>32</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cbFontSelect" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>7</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize" >
+        <size>
+         <width>128</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Font&lt;/h3>&lt;p>When you decided to send your messages as HTML, you can choose here the font to use&lt;/p></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cbColorSelect" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>7</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Color&lt;/h3>&lt;p>When you decided to send your messages as HTML, you can choose here the color to use&lt;/p></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cbSize" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize" >
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>32767</width>
+         <height>32767</height>
+        </size>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Size&lt;/h3>&lt;p>When you decided to send your messages as HTML, you can choose here the size of the text &lt;/p></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>0</number>
+       </property>
+       <item row="0" column="0" >
+        <widget class="QToolButton" name="btnBold" >
+         <property name="minimumSize" >
+          <size>
+           <width>28</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font" >
+          <font>
+           <family></family>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <italic>false</italic>
+           <bold>true</bold>
+           <underline>false</underline>
+           <strikeout>false</strikeout>
+          </font>
+         </property>
+         <property name="whatsThis" >
+          <string>&lt;h3>Bold&lt;/h3>&lt;p>When you decided to send your messages as HTML, this button can enable/disable the bold style for the text&lt;/p></string>
+         </property>
+         <property name="text" >
+          <string>B</string>
+         </property>
+         <property name="shortcut" >
+          <string>⌘B</string>
+         </property>
+         <property name="checkable" >
+          <bool>true</bool>
+         </property>
+         <property name="toolButtonStyle" >
+          <enum>Qt::ToolButtonTextOnly</enum>
+         </property>
+         <property name="autoRaise" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" >
+        <widget class="QToolButton" name="btnUnderline" >
+         <property name="minimumSize" >
+          <size>
+           <width>28</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font" >
+          <font>
+           <family></family>
+           <pointsize>12</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+           <underline>true</underline>
+           <strikeout>false</strikeout>
+          </font>
+         </property>
+         <property name="whatsThis" >
+          <string>&lt;h3>Underlined&lt;/h3>&lt;p>When you decided to send your messages as HTML, this button can enable/disable the underlined style for the text&lt;/p></string>
+         </property>
+         <property name="text" >
+          <string>U</string>
+         </property>
+         <property name="shortcut" >
+          <string>⌘U</string>
+         </property>
+         <property name="checkable" >
+          <bool>true</bool>
+         </property>
+         <property name="toolButtonStyle" >
+          <enum>Qt::ToolButtonTextOnly</enum>
+         </property>
+         <property name="autoRaise" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="QToolButton" name="btnItalic" >
+         <property name="minimumSize" >
+          <size>
+           <width>28</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font" >
+          <font>
+           <family></family>
+           <pointsize>12</pointsize>
+           <weight>50</weight>
+           <italic>true</italic>
+           <bold>false</bold>
+           <underline>false</underline>
+           <strikeout>false</strikeout>
+          </font>
+         </property>
+         <property name="whatsThis" >
+          <string>&lt;h3>Italic&lt;/h3>&lt;p>When you decided to send your messages as HTML, this button can enable/disable the italic style for the text&lt;/p></string>
+         </property>
+         <property name="text" >
+          <string>I</string>
+         </property>
+         <property name="shortcut" >
+          <string>⌘I</string>
+         </property>
+         <property name="checkable" >
+          <bool>true</bool>
+         </property>
+         <property name="toolButtonStyle" >
+          <enum>Qt::ToolButtonTextOnly</enum>
+         </property>
+         <property name="autoRaise" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
    <item row="2" column="0" >
     <layout class="QHBoxLayout" >
@@ -115,7 +407,7 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>52</width>
+         <width>15</width>
          <height>30</height>
         </size>
        </property>
@@ -147,7 +439,7 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>52</width>
+         <width>15</width>
          <height>30</height>
         </size>
        </property>
@@ -211,7 +503,7 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>51</width>
+         <width>20</width>
          <height>20</height>
         </size>
        </property>
@@ -229,284 +521,47 @@
      </item>
     </layout>
    </item>
-   <item row="0" column="0" >
-    <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <property name="spacing" >
-      <number>6</number>
-     </property>
-     <item>
-      <widget class="QPushButton" name="btnPlugins" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>5</hsizetype>
-         <vsizetype>0</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="whatsThis" >
-        <string>&lt;h3>Plug-ins&lt;/h3>
-&lt;p>Shows a menu which helps you to use the extra-features provided by qRezix's plug-ins&lt;/p></string>
-       </property>
-       <property name="text" >
-        <string>Plug-ins</string>
-       </property>
-       <property name="checkable" >
-        <bool>true</bool>
-       </property>
-       <property name="flat" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>81</width>
-         <height>21</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="Line" name="line2_2" >
-       <property name="frameShape" >
-        <enum>QFrame::VLine</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Sunken</enum>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>60</width>
-         <height>21</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QComboBox" name="cbFontSelect" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>7</hsizetype>
-         <vsizetype>0</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>128</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="whatsThis" >
-        <string>&lt;h3>Font&lt;/h3>&lt;p>When you decided to send your messages as HTML, you can choose here the font to use&lt;/p></string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="cbColorSelect" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>7</hsizetype>
-         <vsizetype>0</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="whatsThis" >
-        <string>&lt;h3>Color&lt;/h3>&lt;p>When you decided to send your messages as HTML, you can choose here the color to use&lt;/p></string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>81</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QComboBox" name="cbSize" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>0</hsizetype>
-         <vsizetype>7</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>92</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>92</width>
-         <height>32767</height>
-        </size>
-       </property>
-       <property name="whatsThis" >
-        <string>&lt;h3>Size&lt;/h3>&lt;p>When you decided to send your messages as HTML, you can choose here the size of the text &lt;/p></string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
-       <property name="spacing" >
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QToolButton" name="btnBold" >
-         <property name="minimumSize" >
-          <size>
-           <width>28</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="font" >
-          <font>
-           <family></family>
-           <pointsize>12</pointsize>
-           <weight>50</weight>
-           <italic>false</italic>
-           <bold>false</bold>
-           <underline>false</underline>
-           <strikeout>false</strikeout>
-          </font>
-         </property>
-         <property name="whatsThis" >
-          <string>&lt;h3>Bold&lt;/h3>&lt;p>When you decided to send your messages as HTML, this button can enable/disable the bold style for the text&lt;/p></string>
-         </property>
-         <property name="text" >
-          <string>B</string>
-         </property>
-         <property name="shortcut" >
-          <string>⌘B</string>
-         </property>
-         <property name="checkable" >
-          <bool>true</bool>
-         </property>
-         <property name="autoRaise" >
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="btnItalic" >
-         <property name="minimumSize" >
-          <size>
-           <width>28</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="font" >
-          <font>
-           <family></family>
-           <pointsize>12</pointsize>
-           <weight>50</weight>
-           <italic>false</italic>
-           <bold>false</bold>
-           <underline>false</underline>
-           <strikeout>false</strikeout>
-          </font>
-         </property>
-         <property name="whatsThis" >
-          <string>&lt;h3>Italic&lt;/h3>&lt;p>When you decided to send your messages as HTML, this button can enable/disable the italic style for the text&lt;/p></string>
-         </property>
-         <property name="text" >
-          <string>I</string>
-         </property>
-         <property name="shortcut" >
-          <string>⌘I</string>
-         </property>
-         <property name="checkable" >
-          <bool>true</bool>
-         </property>
-         <property name="autoRaise" >
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="btnUnderline" >
-         <property name="minimumSize" >
-          <size>
-           <width>28</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="font" >
-          <font>
-           <family></family>
-           <pointsize>12</pointsize>
-           <weight>50</weight>
-           <italic>false</italic>
-           <bold>false</bold>
-           <underline>false</underline>
-           <strikeout>false</strikeout>
-          </font>
-         </property>
-         <property name="whatsThis" >
-          <string>&lt;h3>Underlined&lt;/h3>&lt;p>When you decided to send your messages as HTML, this button can enable/disable the underlined style for the text&lt;/p></string>
-         </property>
-         <property name="text" >
-          <string>U</string>
-         </property>
-         <property name="shortcut" >
-          <string>⌘U</string>
-         </property>
-         <property name="checkable" >
-          <bool>true</bool>
-         </property>
-         <property name="autoRaise" >
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </item>
   </layout>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>788</width>
+     <height>34</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>710</x>
+     <y>10</y>
+     <width>86</width>
+     <height>32</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>650</x>
+     <y>10</y>
+     <width>114</width>
+     <height>40</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>788</width>
+     <height>34</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="3" margin="2" />
  <pixmapfunction></pixmapfunction>
