@@ -18,22 +18,10 @@
 #ifndef RZXCHAT_IMPL_H
 #define RZXCHAT_IMPL_H
 
-#include <q3textedit.h>
-#include <q3socket.h>
-#include <qtimer.h>
-#include <q3popupmenu.h>
-#include <q3frame.h>
-#include <qcolor.h>
-#include <qcolordialog.h>
-//Added by qt3to4:
-#include <QShowEvent>
-#include <QMoveEvent>
-#include <QKeyEvent>
-#include <QEvent>
-#include <QCloseEvent>
+#include <QMenu.h>
+#include <QFrame.h>
 #include <QTextEdit>
 #include <QWidget>
-#include <QSplitter>
 #include <QPointer>
 
 #include "rzxhostaddress.h"
@@ -49,9 +37,13 @@
   *@author Sylvain Joyeux
   */
 
-class Q3Dns;
+class QCloseEvent;
+class QShowEvent;
+class QMoveEvent;
+class QKeyEvent;
+class QEvent;
 class QTimer;
-class Q3Accel;
+class QSplitter;
 class RzxChatSocket;
 class RzxChatUI;
 
@@ -85,7 +77,7 @@ class RzxTextEdit : public QTextEdit {
 	friend class RzxChat;
 	
 public:
-	RzxTextEdit(QWidget *parent=0, const char*name=0);
+	RzxTextEdit(QWidget *parent=0):QTextEdit(parent) { }
 	~RzxTextEdit();
 	
 protected:
@@ -120,6 +112,8 @@ class RzxChat : public QWidget, public Ui::RzxChatUI {
 		~ListText();
 	};
 
+	static const QColor preDefinedColors[16];
+	
 	QTextEdit *txtHistory;
 	QWidget *editor;
 	QSplitter *splitter;
@@ -132,13 +126,13 @@ public:
 	void setSocket(RzxChatSocket* sock);
 	void sendChat(const QString& msg);
 
-	static const QColor preDefinedColors[16];
-	
+protected:
+	RzxChatSocket *getValidSocket();
+
 private:
 	void init();
 	void addColor(QColor color);
-	Q3Accel * accel;
-	Q3PopupMenu menuPlugins;
+	QMenu menuPlugins;
 	QPointer<RzxPopup> hist;
 	QPointer<RzxPopup> prop;
 	
@@ -146,10 +140,10 @@ protected:
 	RzxHostAddress peer;
 	QString hostname;
 	QString textHistorique;
-	QTimer * timer;
-	ListText * history;
-	ListText * curLine;
-	QFont* defFont;
+	QTimer *timer;
+	ListText *history;
+	ListText *curLine;
+	QFont *defFont;
 	RzxChatSocket *socket;
 	QColor curColor;
 	bool typing, peerTyping;
@@ -162,7 +156,6 @@ signals: // Signals
 	void closed(const RzxHostAddress& peer);
 	void showHistorique(unsigned long ip, QString hostname, bool, QWidget*, QPoint*);
 	void showProperties(const RzxHostAddress&, const QString&, bool, QWidget*, QPoint*);
-	void colorChanged(const QColor&);
 
 public slots: // Public slots
 	void receive(const QString& msg);
@@ -178,22 +171,20 @@ public:
 	inline QString getHostName() const { return hostname; }
 
 protected slots:
-	void btnSendClicked();
-	void messageReceived();
 	void pong(int ms);
-	void btnHistoriqueClicked(bool on = false);
-	void btnPropertiesClicked(bool on = false);
-	void fontChanged(int index);
-	void sizeChanged(int index);
-	void activateFormat(bool on);
+	void on_btnHistorique_toggled(bool on = false);
+	void on_btnProperties_toggled(bool on = false);
+	void on_cbColorSelect_activated(int index);
+	void on_cbFontSelect_activated(int index);
+	void on_cbSize_activated(int index);
+	void on_cbSendHTML_toggled(bool on);
+	void on_btnSend_clicked();
 	void onReturnPressed();
 	void onArrowPressed(bool down);
 	void onTextChanged();
 	bool event(QEvent *e);
-	void pluginsMenu();
-	void colorClicked(int index);
+	void on_btnPlugins_clicked();
 	void updateTitle();
-	RzxChatSocket *getValidSocket();
 #ifdef Q_OS_MAC
     virtual void languageChange();
 #endif
@@ -213,6 +204,13 @@ inline RzxChatSocket *RzxChat::getValidSocket()
 {
 	if(!socket)
 		setSocket(new RzxChatSocket(peer, this));
+	return socket;
+}
+
+///Retourne du socket de chat
+/** N'assure pas le retour d'un socket valide. Retourne null si aucun socket n'existe pour ce chat */
+inline RzxChatSocket *RzxChat::getSocket()
+{
 	return socket;
 }
 
