@@ -135,14 +135,14 @@ class RzxClientListener : public QTcpServer  {
 		void attach(RzxChatSocket* socket);
 		
 	public slots:
-		void checkProperty(const RzxHostAddress& host);
+		void checkProperty(const RzxHostAddress&);
 
 	protected slots: // Protected slots
-		void socketRead();
+		virtual void incomingConnection(int);
 		void info(const QString&);
 		
 	signals:
-		void propertiesSent(const RzxHostAddress& host);
+		void propertiesSent(const RzxHostAddress&);
 		void chatSent();
 };
 

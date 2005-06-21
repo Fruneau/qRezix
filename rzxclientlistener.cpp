@@ -1,21 +1,20 @@
 /***************************************************************************
-                          rzxclientlistener.cpp  -  description
-                             -------------------
-    begin                : Sat Jan 26 2002
-    copyright            : (C) 2002 by Sylvain Joyeux
-    email                : sylvain.joyeux@m4x.org
+						  rzxclientlistener.cpp	 -	description
+							 -------------------
+	begin				 : Sat Jan 26 2002
+	copyright			 : (C) 2002 by Sylvain Joyeux
+	email				 : sylvain.joyeux@m4x.org
  ***************************************************************************/
 
 /***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
+ *																		   *
+ *	 This program is free software; you can redistribute it and/or modify  *
+ *	 it under the terms of the GNU General Public License as published by  *
+ *	 the Free Software Foundation; either version 2 of the License, or	   *
+ *	 (at your option) any later version.								   *
+ *																		   *
  ***************************************************************************/
 
-#include <QSocketNotifier>
 #include <QRegExp>
 #include <QTcpSocket>
 #include <QWidget>
@@ -141,7 +140,7 @@ int RzxChatSocket::parse(const QString& msg)
 {
 	int i = 0;
 	QRegExp cmd;
-	int fin = msg.find("\r\n");     //recherche de la fin du message
+	int fin = msg.find("\r\n");	 //recherche de la fin du message
 	if(fin == -1) return -1;
 	
 	while(!DCCFormat[i].isNull())
@@ -498,7 +497,7 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, const QString& hostnam
 		histoDialog = new QDialog(parent?parent:QRezix::global(), Qt::Tool | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
 		histoDialog->setAttribute(Qt::WA_DeleteOnClose);
 		QPixmap iconeProg((const char **)q);
-		iconeProg.setMask(iconeProg.createHeuristicMask() );  
+		iconeProg.setMask(iconeProg.createHeuristicMask() );	
 		histoDialog->setIcon(iconeProg);
 
 		histoDialog->setWindowTitle( tr( "History - %1" ).arg(hostname) );
@@ -527,8 +526,8 @@ QWidget *RzxChatSocket::showHistorique( unsigned long ip, const QString& hostnam
 	histoDialog->resize(300, 300);
 	histoView -> setPaletteBackgroundColor(QColor(255,255,255));
 	histoView -> setHtml(text);
-        histoView->textCursor().movePosition(QTextCursor::End);
-        histoView->ensureCursorVisible();
+		histoView->textCursor().movePosition(QTextCursor::End);
+		histoView->ensureCursorVisible();
 	
 	histoDialog->raise();
 	if(withFrame)
@@ -542,7 +541,6 @@ RzxClientListener * RzxClientListener::object = 0;
 RzxClientListener::RzxClientListener()
 {
 	if(!object) object = this;
-	connect(this, SIGNAL(newConnection()), this, SLOT(socketRead()));
 }
 
 ///Connexion d'un RzxChatSocket au reste du programme
@@ -558,29 +556,22 @@ void RzxClientListener::attach(RzxChatSocket *sock)
  *		-# On analyse les données envoyées jusqu'à obtenir un message 'compréhensible'
  *		-# On dispatch alors ce message sur les différentes possibilités (pour l'instant chat ou prop)
  */
-void RzxClientListener::socketRead() {
+void RzxClientListener::incomingConnection(int socketDescriptor) {
 	//Récupération de la connexion
+	RzxChatSocket *sock = new RzxChatSocket(socketDescriptor);
+	sock->setSocket(socketDescriptor);
+
 	// On vérifie au passage que la connexion est valide
 	QHostAddress host;
-	QTcpSocket *rawSocket = nextPendingConnection();
-	if(rawSocket == NULL) {
-		qDebug("There is no socket to be connected");
+	host = sock->peerAddress();
+	if(!RzxConfig::globalConfig()->isBan(host.toString())) 
+		qDebug("Accept connexion to client " + host.toString());
+	else {
+		qDebug("Message from client "+ host.toString()+ " has been ignored");
+		sock->abort();
+		delete sock;
 		return;
 	}
-	host = rawSocket->peerAddress();
-        if(!RzxConfig::globalConfig()->isBan(host.toString())) 
-                qDebug("Accept connexion to client " + host.toString());
-        else {
-                qDebug("Message from client "+ host.toString()+ " has been ignored");
-		rawSocket->abort();
-		delete rawSocket;
-		return;
-	}
-						
-	//Construction du chat d'accueil
-	RzxChatSocket *sock;
-	sock = new RzxChatSocket();
-	sock->setSocket(rawSocket->socketDescriptor());
 }
 
 ///Demande des propriétés de manière indépendante

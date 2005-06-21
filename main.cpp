@@ -35,7 +35,7 @@ email                : sylvain.joyeux@m4x.org
 #include "trayicon.h"
 #include "rzxpluginloader.h"
 
-#ifdef Q_OS_MAC
+#ifndef Q_OS_MAC
 #include "q.xpm"
 #else
 #include "q_mac.xpm"
