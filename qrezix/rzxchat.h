@@ -75,12 +75,14 @@ class RzxTextEdit : public QTextEdit {
 	Q_OBJECT
 	
 	friend class RzxChat;
+	RzxChat *chat;
 	
 public:
-	RzxTextEdit(QWidget *parent=0):QTextEdit(parent) { }
+	RzxTextEdit(QWidget *parent=0):QTextEdit(parent),chat(NULL) { }
 	~RzxTextEdit();
 	
 protected:
+    void setChat(RzxChat *m_chat) { chat = m_chat; }
 	void keyPressEvent(QKeyEvent *e);
 	bool nickAutocompletion();
 

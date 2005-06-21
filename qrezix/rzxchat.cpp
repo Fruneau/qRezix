@@ -1,5 +1,5 @@
 /***************************************************************************
-                          rzxchat.cpp  -  description
+                        rzxchat.cpp  -  description
                              -------------------
     begin                : Sat Jan 26 2002
     copyright            : (C) 2002 by Sylvain Joyeux
@@ -8,10 +8,10 @@
 
 /***************************************************************************
  *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *	 This program is free software; you can redistribute it and/or modify  *
+ *	 it under the terms of the GNU General Public License as published by  *
+ *	 the Free Software Foundation; either version 2 of the License, or     *
+ *	 (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
 #include <QPushButton>
@@ -82,9 +82,9 @@ RzxChat::ListText::~ListText() {
 * RzxChat
 ******************************/
 const QColor RzxChat::preDefinedColors[16] = {Qt::black, Qt::red, Qt::darkRed,
-        Qt::green, Qt::darkGreen, Qt::blue, Qt::darkBlue, Qt::cyan, Qt::darkCyan,
-        Qt::magenta, Qt::darkMagenta, Qt::yellow, Qt::darkYellow, Qt::gray,
-        Qt::darkGray, Qt::lightGray};
+		Qt::green, Qt::darkGreen, Qt::blue, Qt::darkBlue, Qt::cyan, Qt::darkCyan,
+		Qt::magenta, Qt::darkMagenta, Qt::yellow, Qt::darkYellow, Qt::gray,
+		Qt::darkGray, Qt::lightGray};
 
 /*************** Création/Destruction de la fenêtre *****************/
 //On crée la fenêtre soit avec un socket d'une connection déjà établie
@@ -108,7 +108,7 @@ RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 /** L'initialisation de la fenêtre à proprement dit ne gère pas la partie socket */
 void RzxChat::init()
 {
-    /**** Construction de l'UI ****/
+	/**** Construction de l'UI ****/
 	/* Splitter avec 2 partie dont une est l'ui */
 	//Partie 1 : L'afficheur de discussion
 	txtHistory = new QTextEdit();
@@ -117,11 +117,12 @@ void RzxChat::init()
 	//Partie 2 : L'éditeur qui est défini dans l'ui RzxChatUI
 	editor = new QWidget();
 	setupUi(editor);
+	edMsg->setChat(this);
 	//Construction du splitter
 	splitter = new QSplitter(Qt::Vertical);
 	splitter->addWidget(txtHistory);
 	splitter->addWidget(editor);
-	splitter->setSizes(QList<int>() << 120 <<  100);
+	splitter->setSizes(QList<int>() << 120 <<	100);
 	setBaseSize(width(), 230);
 	
 	//Pour que le splitter soit bien redimensionné avec la fenêtre
@@ -131,16 +132,16 @@ void RzxChat::init()
 
 	/* Définition des raccourcis claviers */
 	new QShortcut(Qt::CTRL + Qt::Key_Return, btnSend, SIGNAL(clicked()));
-    new QShortcut(Qt::CTRL + Qt::Key_Enter, btnSend, SIGNAL(clicked()));
-    new QShortcut(Qt::Key_Escape, btnClose, SIGNAL(clicked()));
-    new QShortcut(Qt::Key_F1, btnSound, SLOT(toggle()));
+	new QShortcut(Qt::CTRL + Qt::Key_Enter, btnSend, SIGNAL(clicked()));
+	new QShortcut(Qt::Key_Escape, btnClose, SIGNAL(clicked()));
+	new QShortcut(Qt::Key_F1, btnSound, SLOT(toggle()));
 
 	/* Construction du texte et des icônes des boutons */
 	changeTheme();
 	changeIconFormat();
 
 
-    /**** Préparation des données ****/
+	/**** Préparation des données ****/
 	//gestion touches haut et bas
 	curLine = history = 0;
 	curColor = Qt::black;
@@ -152,34 +153,34 @@ void RzxChat::init()
 	//chargement de la liste des couleurs
 	cbColorSelect->insertItem(tr ("Custom colours...")); //tjs 0
 	for(int i=0; i<16; ++i)
-    	addColor(preDefinedColors[i]);
+		addColor(preDefinedColors[i]);
 	cbColorSelect->setCurrentItem(1); //black par défaut
 
-    //gestion du formatiage du texte
+	//gestion du formatiage du texte
 	connect(btnBold, SIGNAL(toggled(bool)), edMsg, SLOT(setBold(bool)));
 	connect(btnItalic, SIGNAL(toggled(bool)), edMsg, SLOT(setFontItalic(bool)));
 	connect(btnUnderline, SIGNAL(toggled(bool)), edMsg, SLOT(setFontUnderline(bool)));
 	connect(cbColorSelect, SIGNAL(activated(int)), this, SLOT(on_cbColorSelect_activated(int)));
-    connect(cbFontSelect, SIGNAL(activated(int)), this, SLOT(on_cbFontSelect_activated(int)));
-    connect(cbSize, SIGNAL(activated(int)), this, SLOT(on_cbSize_activated(int)));
-    connect(cbSendHTML, SIGNAL(toggled(bool)), this, SLOT(on_cbSendHTML_toggled(bool)));
+	connect(cbFontSelect, SIGNAL(activated(int)), this, SLOT(on_cbFontSelect_activated(int)));
+	connect(cbSize, SIGNAL(activated(int)), this, SLOT(on_cbSize_activated(int)));
+	connect(cbSendHTML, SIGNAL(toggled(bool)), this, SLOT(on_cbSendHTML_toggled(bool)));
 
-    /** Connexions **/
+	/** Connexions **/
 #ifdef WIN32
-    timer = new QTimer( this );
-    connect( timer, SIGNAL(timeout()),this, SLOT(messageReceived()) );
+	timer = new QTimer( this );
+	connect( timer, SIGNAL(timeout()),this, SLOT(messageReceived()) );
 #endif
 	connect(edMsg, SIGNAL(enterPressed()), this, SLOT(onReturnPressed()));
 	connect(edMsg, SIGNAL(arrowPressed(bool)), this, SLOT(onArrowPressed(bool)));
 	connect(edMsg, SIGNAL(textWritten()), this, SLOT(onTextChanged()));
-    connect(btnHistorique, SIGNAL(toggled(bool)), this, SLOT(on_btnHistorique_toggled(bool)));
-    connect(btnProperties, SIGNAL(toggled(bool)), this, SLOT(on_btnProperties_toggled(bool)));
-    connect(btnPlugins, SIGNAL(toggled(int)), this, SLOT(on_btnPlugins_toggled(int)));
-    connect(btnSend, SIGNAL(clicked()), this, SLOT(on_btnSend_clicked()));
+	connect(btnHistorique, SIGNAL(toggled(bool)), this, SLOT(on_btnHistorique_toggled(bool)));
+	connect(btnProperties, SIGNAL(toggled(bool)), this, SLOT(on_btnProperties_toggled(bool)));
+	connect(btnPlugins, SIGNAL(toggled(int)), this, SLOT(on_btnPlugins_toggled(int)));
+	connect(btnSend, SIGNAL(clicked()), this, SLOT(on_btnSend_clicked()));
 	connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
 
-	on_cbSendHTML_toggled(false);	
 	on_cbFontSelect_activated(0);
+	on_cbSendHTML_toggled(false);	
 	edMsg->setPlainText("");
 	typing = peerTyping = false;
 	unread = 0;
@@ -211,8 +212,8 @@ RzxChat::~RzxChat(){
 
 /********************* Gestion de la connexion au réseau ***********************/
 // Inline définies dans rzxchat.h :
-//   - RzxChatSocket *RzxChatSocket::getSocket();
-//   - RzxChatSocket *RzxChatSocket::getValidSocket();
+//	 - RzxChatSocket *RzxChatSocket::getSocket();
+//	 - RzxChatSocket *RzxChatSocket::getValidSocket();
 
 ///Installation/Remplacement du socket de chat
 void RzxChat::setSocket(RzxChatSocket* sock)
@@ -337,7 +338,7 @@ void RzxChat::on_cbFontSelect_activated(int index) {
 	QListIterator<int> points(pSize);
 	while(points.hasNext())
 	{
-        QString newItem = QString::number(points.next());
+		QString newItem = QString::number(points.next());
 		cbSize->insertItem(newItem);
 		if(newItem == size)
 			cbSize->setCurrentText(size);
@@ -407,30 +408,33 @@ void RzxChat::onTextChanged()
 }
 
 ///Ajoute les en-têtes qui vont bien pour l'affichage
-void RzxChat::append(const QString& color, const QString& host, const QString& msg) {
+void RzxChat::append(const QString& color, const QString& host, const QString& argMsg) {
 	QDateTime date = QDateTime::currentDateTime();
 	QString tmp, tmpH, head="", tmpD;
 	tmpD = date.toString("ddd d MMMM yy");
-	head = date.toString("<i>hh:mm:ss&nbsp;");
+	head = date.toString("<i>hh:mm:ss") + "&nbsp;";
 	tmp.sprintf("<i>");
 	
+	//Nettoyage du html du message
+	QString msg(argMsg);
+	msg.remove(QRegExp("<head>.*</head>")).remove("<html>")
+		.remove(QRegExp("<body[^<>]*>")).remove("</html>").remove("</body>");
+
+	//Distinction du /me et d'un message normal
 	QRegExp action("^(\\s*<[^<>]+>)*/me(<[^<>]+>|\\s)(.*)");
 	if(!action.search(msg)) {
 		QString entete = action.cap(1);
 		QString entext = action.cap(2);
 		QString pieddp = action.cap(3);
-		entete.remove(QRegExp("<head>.*</head>")).remove("<html>").remove(QRegExp("<body[^<>]*>"));
-		entext.remove("</body>");
-		pieddp.remove("</body>");
-		if(host.length()<3) tmp = ("<font color=\"purple\">" + tmp + " * %1%2%3%4</i></font><br>")
+		if(host == ">&nbsp;") tmp = ("<font color=\"purple\">" + tmp + " * %1%2%3%4</i></font><br>")
 					.arg(entete).arg(RzxConfig::globalConfig()->localHost()->getName()).arg(entext).arg(pieddp);
 		else tmp = ("<font color=\"purple\">" + tmp + " * %1%2%3%4</i></font><br>")
-					.arg(entete).arg(host.mid(0, host.length()-2)).arg(entext).arg(pieddp);
+					.arg(entete).arg(host.mid(0, host.length()-7)).arg(entext).arg(pieddp);
 		tmpD = QString("<font color=\"purple\"><i>%1 - %2</i></font>").arg(tmpD, head);
 		tmpH = ("<font color=\"purple\">"+head+"</font>");
 		 
 	}
-	else{
+	else {
 		tmp = ("<font color=\"%1\">" + tmp + " %2</i> %3</font><br>")
 					.arg(color).arg(host).arg(msg);
 		tmpD = QString("<font color=\"%1\"><i>%2 - %3</i></font>").arg(color).arg(tmpD, head);
@@ -457,8 +461,8 @@ void RzxChat::receive(const QString& msg)
 		QString file = RzxConfig::beepSound();
 		if( !file.isEmpty() && QFile( file ).exists() )
 			QSound::play( file );
-        else
-            QApplication::beep();
+		else
+			QApplication::beep();
 #else
 		QString cmd = RzxConfig::beepCmd(), file = RzxConfig::beepSound();
 		if (!cmd.isEmpty() && !file.isEmpty()) {
@@ -486,7 +490,7 @@ void RzxChat::receive(const QString& msg)
 
 /** Affiche une info de status (deconnexion, reconnexion) */
 void RzxChat::info(const QString& msg){
-    append( "darkgreen", hostname + " ", msg );
+	append( "darkgreen", hostname + " ", msg );
 }
 
 /// Affiche un message de notification (envoie de prop, ping, pong...)
@@ -513,7 +517,7 @@ void RzxChat::on_btnSend_clicked()
 	
 	//traitement du message
 	QString htmlMsg = edMsg->toHtml();
-    QString rawMsg = edMsg->toPlainText();
+	QString rawMsg = edMsg->toPlainText();
 	if(rawMsg.isEmpty()) return;
 
 	history = new ListText(htmlMsg, history);
@@ -537,10 +541,10 @@ void RzxChat::on_btnSend_clicked()
 	//Après l'analyse du texte, on sélectionne ce qui va bien
 	QString msg;
 	if(format)
-        msg = htmlMsg;
-    else
-        msg = rawMsg;
-	   
+		msg = htmlMsg;
+	else
+		msg = rawMsg;
+		
 	QString dispMsg = msg;
 	RzxPlugInLoader::global()->chatEmitted(&dispMsg);
 	append("red", ">&nbsp;", dispMsg);
@@ -733,7 +737,7 @@ void RzxChat::changeIconFormat()
 		case 2: //grandes icones
 			{
 #ifdef Q_OS_MAC
-                if(!btnPlugins->iconSet() || btnPlugins->iconSet()->isNull()) changeTheme();
+				if(!btnPlugins->iconSet() || btnPlugins->iconSet()->isNull()) changeTheme();
 #else
 				if(btnPlugins->iconSet().isNull()) changeTheme(); //pour recharcher les icônes s'il y a besoin
 				btnPlugins->setUsesBigPixmap(false);
@@ -747,20 +751,20 @@ void RzxChat::changeIconFormat()
 	
 	//Mise à jour de la position du texte
 #ifdef Q_OS_MAC
-    if(texts)
-    {
-        btnPlugins->setText(tr("Plug-ins"));
-        btnHistorique->setText(tr("History"));
-        btnSend->setText(tr("Send"));
-        btnProperties->setText(tr("Properties"));
-    }
-    else
-    {
-        btnPlugins->setText("");
-        btnHistorique->setText("");
-        btnSend->setText("");
-        btnProperties->setText("");
-    }
+	if(texts)
+	{
+		btnPlugins->setText(tr("Plug-ins"));
+		btnHistorique->setText(tr("History"));
+		btnSend->setText(tr("Send"));
+		btnProperties->setText(tr("Properties"));
+	}
+	else
+	{
+		btnPlugins->setText("");
+		btnHistorique->setText("");
+		btnSend->setText("");
+		btnProperties->setText("");
+	}
 #else
 	btnPlugins->setUsesTextLabel(texts);
 	btnHistorique->setUsesTextLabel(texts);
@@ -779,8 +783,8 @@ void RzxChat::changeIconFormat()
 #ifdef Q_OS_MAC
 void RzxChat::languageChange()
 {
-    QWidget::languageChange();
-    changeIconFormat();
+	QWidget::languageChange();
+	changeIconFormat();
 }
 #endif
 
@@ -855,15 +859,15 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 /** La completion n'est réalisée que si aucune sélection n'est actuellement définie */
 bool RzxTextEdit::nickAutocompletion()
 {
-    QTextCursor cursor = textCursor();
-    
+	QTextCursor cursor = textCursor();
+	
 	//Si y'a une sélection, on zappe
 	if(cursor.hasSelection())
 		return false;
 	
 	//On récupère la position du curseur et la paragraphe concerné
-    int index = cursor.position();
-    index - cursor.block().position();
+	int index = cursor.position();
+	index - cursor.block().position();
 	if(!index) return false;
 	
 	QRegExp mask("[^-A-Za-z0-9]([-A-Za-z0-9]+)$");
@@ -871,7 +875,7 @@ bool RzxTextEdit::nickAutocompletion()
 	
 	//Juste pour se souvenir des pseudos possibles
 	QString localName = RzxConfig::globalConfig()->localHost()->getName();
-	QString remoteName = ((RzxChat*)parent())->getHostName();
+	QString remoteName = chat->getHostName();
 	
 	for(int i = 1 ; i <= index && (localName.length() > i || remoteName.length() > i) ; i++)
 	{
