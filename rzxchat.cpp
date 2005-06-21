@@ -466,7 +466,7 @@ void RzxChat::receive(const QString& msg)
 #else
 		QString cmd = RzxConfig::beepCmd(), file = RzxConfig::beepSound();
 		if (!cmd.isEmpty() && !file.isEmpty()) {
-			QProcess process();
+			QProcess process;
 			process.start(cmd, QStringList(file));
 		}
 #endif
