@@ -209,6 +209,13 @@
    <pixmap></pixmap>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>radioQuit</tabstop>
+  <tabstop>radioMinimize</tabstop>
+  <tabstop>radioDoNothing</tabstop>
+  <tabstop>cbSave</tabstop>
+  <tabstop>btnApply</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
