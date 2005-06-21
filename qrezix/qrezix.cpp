@@ -541,9 +541,9 @@ void QRezix::menuFormatChange()
 #ifndef Q_OS_MAC
 	Qt::ToolButtonStyle style;
 	if(icons && !texts) style = Qt::ToolButtonIconOnly;
-	if(!icons && texts) style = Qt::ToolButtonTextOnly;
-	if(icons && text == 1) style = Qt::ToolButtonTextBesideIcon;
-	if(icons && text == 2) style = Qt::ToolButtonTextUnderIcon;
+	else if(!icons && texts) style = Qt::ToolButtonTextOnly;
+	else if(icons && texts == 1) style = Qt::ToolButtonTextBesideIcon;
+	else if(icons && texts == 2) style = Qt::ToolButtonTextUnderIcon;
 	btnPlugins->setToolButtonStyle(style);
 	btnAutoResponder->setToolButtonStyle(style);
 	btnMAJcolonnes->setToolButtonStyle(style);

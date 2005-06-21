@@ -18,8 +18,8 @@
 #ifndef RZXCHAT_IMPL_H
 #define RZXCHAT_IMPL_H
 
-#include <QMenu.h>
-#include <QFrame.h>
+#include <QMenu>
+#include <QFrame>
 #include <QTextEdit>
 #include <QWidget>
 #include <QPointer>
