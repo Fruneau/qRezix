@@ -1,7 +1,7 @@
 TEMPLATE	= app
 LANGUAGE	= C++
 QT += qt3support
-CONFIG	+= qt warn_on release
+CONFIG	+= qt warn_on
 
 win32:LIBS	+= IMM32.LIB
 

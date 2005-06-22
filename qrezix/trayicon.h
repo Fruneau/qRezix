@@ -21,11 +21,10 @@
 #ifndef CS_TRAYICON_H
 #define CS_TRAYICON_H
 
-#include <qobject.h>
-#include <qimage.h>
+#include <QObject>
+#include <QImage>
 #include <QMenu>
-#include <qpoint.h>
-//Added by qt3to4:
+#include <QPoint>
 #include <QPixmap>
 #include <QMouseEvent>
 #include <QEvent>
@@ -38,8 +37,8 @@ class TrayIcon : public QObject
 	Q_PROPERTY( QPixmap icon READ icon WRITE setIcon )
 
 public:
-	TrayIcon( QObject *parent = 0, const char *name = 0 );
-    TrayIcon( const QPixmap &, const QString &, QObject *parent = 0, const char *name = 0 );
+	TrayIcon( QObject *parent = 0 );
+	TrayIcon( const QPixmap &, const QString &, QObject *parent = 0 );
 	~TrayIcon();
 
 	// use WindowMaker dock mode.  ignored on non-X11 platforms
