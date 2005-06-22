@@ -22,17 +22,16 @@
 	#include <math.h>
 #endif
 
-#include <qfile.h>
-#include <qdir.h>
-#include <qtextstream.h>
-#include <qmessagebox.h>
-#include <qpixmap.h>
-#include <qbitmap.h>
-#include <qimage.h>
-#include <qfontdatabase.h>
-#include <qapplication.h>
-#include <qstringlist.h>
-//Added by qt3to4:
+#include <QFile>
+#include <QDir>
+#include <QTextStream>
+#include <QMessageBox>
+#include <QPixmap>
+#include <QBitmap>
+#include <QImage>
+#include <QFontDatabase>
+#include <QApplication>
+#include <QStringList>
 #include <QList>
 #include <QTranslator>
 
@@ -380,10 +379,7 @@ const QPixmap &RzxConfig::icon(const QString& name, QHash<QString,QPixmap>& cach
 	
 	QString fileName = config -> findData(name + ".png", subdir);
 	if (fileName.isNull())
-	{
-		qDebug("Icon "+name+" not found");
 		return ret;
-	}
 	ret.load(fileName);
 	cache.insert(qualifiedName, ret);
 	return cache[qualifiedName];
