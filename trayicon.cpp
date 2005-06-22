@@ -18,19 +18,18 @@
  *
  */
 #include "trayicon.h"
-#include "trayicon.h"
 
-#include <qapplication.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qbitmap.h>
-#include <qtooltip.h>
-#include <qpainter.h>
-#include <q3popupmenu.h>
-#include <qwidget.h>
-#include <qcursor.h>
-#include <qlibrary.h>
-//Added by qt3to4:
+#include <QApplication>
+#include <QImage>
+#include <QPixmap>
+#include <QBitmap>
+#include <QToolTip>
+#include <QPainter>
+#include <QPaintDevice>
+#include <QMenu>
+#include <QWidget>
+#include <QCursor>
+#include <QLibrary>
 #include <QPaintEvent>
 #include <QCloseEvent>
 #include <QEvent>
@@ -51,8 +50,8 @@
 
   \sa show
 */
-TrayIcon::TrayIcon( QObject *parent, const char *name )
-: QObject(parent, name), pop(), d(0)
+TrayIcon::TrayIcon( QObject *parent)
+: QObject(parent), pop(), d(0)
 {
 	v_isWMDock = FALSE;
 	buildMenu();
@@ -66,8 +65,8 @@ TrayIcon::TrayIcon( QObject *parent, const char *name )
   \sa show
 */
 TrayIcon::TrayIcon( const QPixmap &icon, const QString &tooltip,
-		QObject *parent, const char *name )
-		 : QObject(parent, name), pm(icon), tip(tooltip), d(0)
+		QObject *parent)
+		 : QObject(parent), pm(icon), tip(tooltip), d(0)
 {
 	v_isWMDock = FALSE;
 	buildMenu();
@@ -127,13 +126,17 @@ void TrayIcon::buildMenu()
 	if(pop.count()) pop.clear();
 	
 	QPixmap pixmap;
-	#define newItem(name, trad, receiver, slot)  { pixmap = RzxConfig::themedIcon(name); \
+	#define newItem(name, trad, receiver, slot) \
+	{ \
+		pixmap = RzxConfig::themedIcon(name); \
 		if(!pixmap.isNull()) \
 		{ \
 			QImage image = pixmap.convertToImage(); \
 			image = image.smoothScale(16,16); \
-			pixmap.convertFromImage(image); }\
-		pop.insertItem(pixmap, trad, receiver, slot); }
+			pixmap.convertFromImage(image); \
+		}\
+		pop.addAction(pixmap, trad, receiver, slot); \
+	}
 	
 	RzxPlugInLoader::global()->menuTray(pop);
 	newItem("pref", tr("&Preference"), parent(), SLOT(boitePreferences()));
@@ -594,6 +597,7 @@ void TrayIcon::sysUpdateToolTip()
  *
  */
 
+#include<QX11Info>
 #include<X11/Xlib.h>
 #include<X11/Xutil.h>
 #include<X11/Xatom.h>
@@ -744,21 +748,17 @@ void TrayIcon::TrayIconPrivate::paintEvent(QPaintEvent *)
 void TrayIcon::TrayIconPrivate::enterEvent(QEvent *e)
 {
 	// Taken from KSystemTray..
-//#if QT_VERSION < 0x030200
-	//if ( !qApp->focusWidget() ) {
-		XEvent ev;
-		memset(&ev, 0, sizeof(ev));
-//		ev.xfocus.display = qt_xdisplay();
-		ev.xfocus.type = FocusIn;
-		ev.xfocus.window = winId();
-		ev.xfocus.mode = NotifyNormal;
-		ev.xfocus.detail = NotifyAncestor;
-//		Time time = ;//qt_x_time;
-//		qt_x_time = 1;
-		qApp->x11ProcessEvent( &ev );
-//		qt_x_time = time;
-	//}
-//#endif
+	XEvent ev;
+	memset(&ev, 0, sizeof(ev));
+	ev.xfocus.display = QPaintDevice::x11AppDisplay();
+	ev.xfocus.type = FocusIn;
+	ev.xfocus.window = winId();
+	ev.xfocus.mode = NotifyNormal;
+	ev.xfocus.detail = NotifyAncestor;
+	Time time = QX11Info::appTime();
+	QX11Info::setAppTime(1);
+	qApp->x11ProcessEvent( &ev );
+	QX11Info::setAppTime(time);
 	QWidget::enterEvent(e);
 }
 

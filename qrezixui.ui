@@ -26,11 +26,116 @@
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
-    <number>6</number>
+    <number>8</number>
    </property>
    <property name="spacing" >
-    <number>3</number>
+    <number>6</number>
    </property>
+   <item row="1" column="0" >
+    <widget class="QToolBox" name="tbRezalContainer" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>5</hsizetype>
+       <vsizetype>5</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="acceptDrops" >
+      <bool>false</bool>
+     </property>
+     <property name="whatsThis" >
+      <string>&lt;h3>Main view&lt;/h3>
+&lt;p>You can choose if you want to see Everybody or only your favorites.&lt;br>
+Each item have a menu (right click)&lt;/p>
+&lt;p>To switch you can use &lt;b>Shift+Tab&lt;/b>&lt;/p></string>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="lineWidth" >
+      <number>1</number>
+     </property>
+     <property name="currentIndex" >
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="tabFavorites" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>600</width>
+        <height>495</height>
+       </rect>
+      </property>
+      <attribute name="label" >
+       <string>Favorites</string>
+      </attribute>
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>8</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="0" column="0" >
+        <widget class="RzxRezal" name="rezalFavorites" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>7</hsizetype>
+           <vsizetype>7</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize" >
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabEverybody" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>600</width>
+        <height>495</height>
+       </rect>
+      </property>
+      <attribute name="label" >
+       <string>Everybody</string>
+      </attribute>
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>8</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="0" column="0" >
+        <widget class="RzxRezal" name="rezal" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>7</hsizetype>
+           <vsizetype>7</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
    <item row="2" column="0" >
     <layout class="QHBoxLayout" >
      <property name="margin" >
@@ -139,111 +244,6 @@
       </widget>
      </item>
     </layout>
-   </item>
-   <item row="1" column="0" >
-    <widget class="QToolBox" name="tbRezalContainer" >
-     <property name="sizePolicy" >
-      <sizepolicy>
-       <hsizetype>5</hsizetype>
-       <vsizetype>5</vsizetype>
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="acceptDrops" >
-      <bool>false</bool>
-     </property>
-     <property name="whatsThis" >
-      <string>&lt;h3>Main view&lt;/h3>
-&lt;p>You can choose if you want to see Everybody or only your favorites.&lt;br>
-Each item have a menu (right click)&lt;/p>
-&lt;p>To switch you can use &lt;b>Shift+Tab&lt;/b>&lt;/p></string>
-     </property>
-     <property name="frameShape" >
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
-     </property>
-     <property name="lineWidth" >
-      <number>1</number>
-     </property>
-     <property name="currentIndex" >
-      <number>0</number>
-     </property>
-     <widget class="QWidget" name="tabFavorites" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>604</width>
-        <height>505</height>
-       </rect>
-      </property>
-      <attribute name="label" >
-       <string>Favorites</string>
-      </attribute>
-      <layout class="QGridLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
-       <property name="spacing" >
-        <number>0</number>
-       </property>
-       <item row="0" column="0" >
-        <widget class="RzxRezal" name="rezalFavorites" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>2</hsizetype>
-           <vsizetype>2</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize" >
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tabEverybody" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>604</width>
-        <height>505</height>
-       </rect>
-      </property>
-      <attribute name="label" >
-       <string>Everybody</string>
-      </attribute>
-      <layout class="QGridLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
-       <property name="spacing" >
-        <number>0</number>
-       </property>
-       <item row="0" column="0" >
-        <widget class="RzxRezal" name="rezal" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>2</hsizetype>
-           <vsizetype>2</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </widget>
    </item>
    <item row="0" column="0" >
     <layout class="QGridLayout" >
