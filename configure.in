@@ -36,7 +36,7 @@ dnl Perform program name transformation
 AC_ARG_PROGRAM
 
 dnl Automake doc recommends to do this only here. (Janos)
-AM_INIT_AUTOMAKE(qrezix, "1.6.2") dnl searches for some needed programs
+AM_INIT_AUTOMAKE(qrezix, "1.6.3") dnl searches for some needed programs
 
 KDE_SET_PREFIX
 
@@ -58,8 +58,14 @@ dnl AC_PATH_KDE
 #MIN_CONFIG
 
 KDE_PROG_LIBTOOL
-AC_PATH_QT(3, 0, 1)
+AC_PATH_QT(3, 3, 0)
 
+case $host in
+        bsd)
+                AC_DEFINE_UNQUOTED([Q_OS_BSD],1,[disable signal handler if host is bsd])
+        ;;
+esac
+				
 if test "x$enable_kde" = "xno" || test "x$enable_kde" = "x"; then
 	cp -f klocale.h.qtonly qrezix/klocale.h
 	qrezix_dir="/usr/share/qrezix"
@@ -90,9 +96,24 @@ AC_CONFIG_FILES([ icons/themes/NoiaWarmKDE/Makefile ])
 AC_CONFIG_FILES([ icons/themes/classic/Makefile ])
 AC_CONFIG_FILES([ icons/themes/krystal/Makefile ])
 AC_CONFIG_FILES([ icons/themes/ms/Makefile ])
-AC_CONFIG_FILES([ icons/themes/Kids/Makefile ])
+AC_CONFIG_FILES([ macosx/root/Applications/qRezix.app/Contents/Resources/themes/Makefile ])
+AC_CONFIG_FILES([ macosx/root/Applications/qRezix.app/Contents/Resources/themes/Kids/Makefile ])
+AC_CONFIG_FILES([ macosx/root/Applications/qRezix.app/Contents/Resources/themes/MacOSX/Makefile ])
+AC_CONFIG_FILES([ macosx/root/Applications/qRezix.app/Contents/Resources/themes/NoiaWarmKDE/Makefile ])
+AC_CONFIG_FILES([ macosx/root/Applications/qRezix.app/Contents/Resources/themes/classic/Makefile ])
+AC_CONFIG_FILES([ macosx/root/Applications/qRezix.app/Contents/Resources/themes/krystal/Makefile ])
+AC_CONFIG_FILES([ macosx/root/Applications/qRezix.app/Contents/Resources/themes/ms/Makefile ])
+AC_CONFIG_FILES([ macosx/root/Applications/qRezix.app/Contents/Resources/translations/Makefile ])
 AC_CONFIG_FILES([ po/Makefile ])
 AC_CONFIG_FILES([ qrezix/Makefile ])
+AC_CONFIG_FILES([ qrezix/qRezix.app/Contents/Resources/themes/Makefile ])
+AC_CONFIG_FILES([ qrezix/qRezix.app/Contents/Resources/themes/Kids/Makefile ])
+AC_CONFIG_FILES([ qrezix/qRezix.app/Contents/Resources/themes/MacOSX/Makefile ])
+AC_CONFIG_FILES([ qrezix/qRezix.app/Contents/Resources/themes/NoiaWarmKDE/Makefile ])
+AC_CONFIG_FILES([ qrezix/qRezix.app/Contents/Resources/themes/classic/Makefile ])
+AC_CONFIG_FILES([ qrezix/qRezix.app/Contents/Resources/themes/krystal/Makefile ])
+AC_CONFIG_FILES([ qrezix/qRezix.app/Contents/Resources/themes/ms/Makefile ])
+AC_CONFIG_FILES([ qrezix/qRezix.app/Contents/Resources/translations/Makefile ])
 AC_CONFIG_FILES([ qrezix/translations/Makefile ])
 AC_OUTPUT
 if test "$all_tests" = "bad"; then

@@ -796,8 +796,8 @@ QArray<QPixmap *> RzxConfig::osIcons(bool large){
 	if (large)
 		suffix = "_large";
 	
-	QArray<QPixmap *> ret(6);
-	for (int idx = 0; idx < 6; idx++)
+	QArray<QPixmap *> ret(7);
+	for (int idx = 0; idx < 7; idx++)
 		ret[idx] = themedIcon("os_" + QString::number(idx) + suffix);
 	
 	return ret;

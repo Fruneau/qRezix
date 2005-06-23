@@ -1,8 +1,14 @@
 #MIN_CONFIG
 
 KDE_PROG_LIBTOOL
-AC_PATH_QT(3, 0, 1)
+AC_PATH_QT(3, 3, 0)
 
+case $host in
+        bsd)
+                AC_DEFINE_UNQUOTED([Q_OS_BSD],1,[disable signal handler if host is bsd])
+        ;;
+esac
+				
 if test "x$enable_kde" = "xno" || test "x$enable_kde" = "x"; then
 	cp -f klocale.h.qtonly qrezix/klocale.h
 	qrezix_dir="/usr/share/qrezix"

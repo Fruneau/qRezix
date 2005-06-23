@@ -108,7 +108,7 @@ void RzxItem::update(){
 	sysex = options.SysEx;
 	servers = options.Server;
 	repondeur = (options.Repondeur==RzxComputer::REP_ON || options.Repondeur==RzxComputer::REP_REFUSE);
-	if (sysex < 3) sysex += 6;
+	if (sysex < 3) sysex += 7;
 
 	int promo=options.Promo;
 	QArray<QPixmap *> promos = RzxConfig::promoIcons();
