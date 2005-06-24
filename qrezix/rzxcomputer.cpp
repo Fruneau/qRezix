@@ -329,7 +329,7 @@ void RzxComputer::scanServers()
 		servers |= RzxComputer::SERVER_NEWS;
 
 	//scan du samba
-	if(!detectSMB.bind(ip, 139))
+	if(!detectSMB.bind(ip, 445))
 		servers |= RzxComputer::SERVER_SAMBA;
 #else
 	QProcess *netstat;
@@ -338,7 +338,7 @@ void RzxComputer::scanServers()
 	netstat = new QProcess();
 	netstat->addArgument("netstat");
   
-	#ifdef Q_OS_MACX
+	#if defined(Q_OS_MACX) || defined(Q_OS_BSD)
 		netstat->addArgument("-anf");
 		netstat->addArgument("inet");
 	#else
@@ -353,18 +353,18 @@ void RzxComputer::scanServers()
 			res += netstat->readLineStdout();
 		delete netstat;
 
-		#ifdef Q_OS_MACX
+		#if defined(Q_OS_MACX) || defined(Q_OS_BSD)
 			res = res.grep("LISTEN");
 			if(!(res.grep(QRegExp("\\.21\\s")).isEmpty())) servers |= RzxComputer::SERVER_FTP;
 			if(!(res.grep(QRegExp("\\.80\\s")).isEmpty())) servers |= RzxComputer::SERVER_HTTP;
 			if(!(res.grep(QRegExp("\\.119\\s")).isEmpty())) servers |= RzxComputer::SERVER_NEWS;
-			if(!(res.grep(QRegExp("\\.139\\s")).isEmpty())) servers |= RzxComputer::SERVER_SAMBA;
+			if(!(res.grep(QRegExp("\\.445\\s")).isEmpty())) servers |= RzxComputer::SERVER_SAMBA;
 		#else
 			//lecture des différents port pour voir s'il sont listen
 			if(!(res.grep(":21 ")).isEmpty()) servers |= RzxComputer::SERVER_FTP;
 			if(!(res.grep(":80 ")).isEmpty()) servers |= RzxComputer::SERVER_HTTP;
 			if(!(res.grep(":119 ")).isEmpty()) servers |= RzxComputer::SERVER_NEWS;
-			if(!(res.grep(":139 ")).isEmpty()) servers |= RzxComputer::SERVER_SAMBA;
+			if(!(res.grep(":445 ")).isEmpty()) servers |= RzxComputer::SERVER_SAMBA;
 		#endif
 	}
 	//au cas où netstat fail ou qu'il ne soit pas installé

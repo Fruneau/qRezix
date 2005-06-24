@@ -32,6 +32,10 @@
 #include "rzxconnectionlister.h"
 #include "rzxclientlistener.h"
 
+#ifndef abs
+#define abs(x) (x<0?-x:x)
+#endif
+
 #define USER_HASH_TABLE_LENGTH 1663
 
 
