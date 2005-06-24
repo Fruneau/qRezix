@@ -131,15 +131,7 @@ void RzxRezal::creePopUpMenu(Q3ListViewItem *ordinateurSelect,const QPoint & pos
 		int serveurs=item->servers;
 		popup.clear();
 		
-		QPixmap pixmap;
-		#define newItem(name, trad, receiver, slot)  { pixmap = RzxConfig::themedIcon(name); \
-			if(!pixmap.isNull()) \
-			{ \
-				QImage image = pixmap.convertToImage(); \
-				image = image.smoothScale(16,16); \
-				pixmap.convertFromImage(image); }\
-			popup.insertItem(pixmap, trad, receiver, slot); }
-  
+		#define newItem(name, trad, receiver, slot) popup.insertItem(RzxConfig::themedIcon(name).scaled(16, 16), trad, receiver, slot)
 		if(item->ignored) {
 			if(serveurs & 1) newItem("samba", tr("Samba connect"), this, SLOT(samba()));
 			if((serveurs>>1) & 1) newItem("ftp", tr("FTP connect"), this, SLOT(ftp()));
@@ -523,14 +515,14 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 	QChar c;
 	if(e->key()!=Qt::Key_Backspace)
 	{
-	  if(s.isNull() == TRUE)
+	  if(s.isEmpty())
 		return;
 	  c=s.at(0);
 	}
 	if((e->key()!=Qt::Key_Backspace)&&(!c.isLetter())) {
 #else
 	QChar c;
-	if(s.isNull() != TRUE)
+	if(!s.isEmpty())
 		c = s.at(0);
 	if((e->key()!=Qt::Key_Backspace) && (s.isNull() == TRUE || !c.isLetter())) {
 #endif

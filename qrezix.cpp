@@ -34,6 +34,9 @@
 #include <QCloseEvent>
 #include <QEvent>
 #include <QShortcut>
+#include <QSizePolicy>
+#include <QToolBar>
+#include <QAction>
 
 #include "qrezix.h"
 
@@ -61,7 +64,7 @@
 QRezix *QRezix::object = 0;
 
 QRezix::QRezix(QWidget *parent)
- : QWidget(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint),
+ : QMainWindow(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint),
 	m_properties(0), accel(0), tray(0)
 {
 	setupUi(this);
@@ -69,7 +72,9 @@ QRezix::QRezix(QWidget *parent)
 	byTray = false;
 	statusFlag = false;
 	favoriteWarn = true;
-	wellInit = FALSE;
+	wellInit = false;
+	alreadyOpened=false;
+
 	
 	///Chargement de la config
 	RzxConfig::globalConfig();
@@ -77,31 +82,44 @@ QRezix::QRezix(QWidget *parent)
 	RzxPlugInLoader::global();
 	///Préparation du lanceur des clients http...
 	new RzxUtilsLauncher(rezal);
-
-
+	buildActions();
+	
 #ifdef Q_OS_MAC
 	QMenuBar *menu = new QMenuBar();
 	QMenu *popup = menu->addMenu("Tools");
+//	popup->addAction(prefAction); //Problème de traduction
 	popup->addAction("Preferences", this, SLOT(boitePreferences()));
 #endif
+
+	//Construction de la ligne d'édtion des recherche
+	leSearch = new QLineEdit();
+	leSearch->setMinimumSize(50, 22);
+	leSearch->setMaximumSize(150, 22);
+	connect(leSearch, SIGNAL(returnPressed()), this, SLOT(launchSearch()));
+	connect(leSearch, SIGNAL(textChanged(const QString&)), rezal, SLOT(setFilter(const QString&)));
+	connect(leSearch, SIGNAL(textChanged(const QString&)), rezalFavorites, SLOT(setFilter(const QString&)));
+	
+	//Construction des barres d'outils
+	QToolBar *bar = addToolBar("Main");
+	bar->addAction(pluginsAction);
+	bar->addSeparator();
+	bar->addWidget(leSearch);
+	bar->addAction(searchAction);
+	bar->setMovable(false);
+
+	QLabel *spacer = new QLabel(); //CRAAAAAAAAAAAAAAAAAAAADE
+	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	bar->addWidget(spacer);
+	bar->addAction(awayAction);
+	bar->addAction(columnsAction);
+	bar->addAction(prefAction);
+	bar->setMovable(false);
 	
 	rezal->showNotFavorites(true);
 	rezalFavorites->showNotFavorites(false);
 	
-	connect(btnPreferences, SIGNAL(clicked()), this, SLOT(boitePreferences()));
-	connect(btnMAJcolonnes, SIGNAL(clicked()), rezal, SLOT(afficheColonnes()));
-	connect(btnMAJcolonnes, SIGNAL(clicked()), rezalFavorites, SLOT(afficheColonnes()));
-	connect(btnAutoResponder, SIGNAL(toggled(bool)), this, SLOT(activateAutoResponder(bool)));
-	connect(btnPlugins, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
-	connect(&menuPlugins, SIGNAL(aboutToHide()), btnPlugins, SLOT(toggle()));
  
 	connect(RzxClientListener::global(), SIGNAL(chatSent()), this, SLOT(chatSent()));
-
-	connect(leSearch, SIGNAL(returnPressed()), this, SLOT(launchSearch()));
-	connect(btnSearch, SIGNAL(toggled(bool)), rezal, SLOT(activeFilter(bool)));
-	connect(btnSearch, SIGNAL(toggled(bool)), rezalFavorites, SLOT(activeFilter(bool)));
-	connect(leSearch, SIGNAL(textChanged(const QString&)), rezal, SLOT(setFilter(const QString&)));
-	connect(leSearch, SIGNAL(textChanged(const QString&)), rezalFavorites, SLOT(setFilter(const QString&)));
 	
 	// Préparation de l'insterface
 	activateAutoResponder( RzxConfig::autoResponder() != 0 );
@@ -114,9 +132,6 @@ QRezix::QRezix(QWidget *parent)
 	connect(rezalFavorites, SIGNAL(favoriteRemoved(RzxComputer*)), rezalFavorites, SLOT(logout(RzxComputer*)));
 	connect(rezal, SIGNAL(favoriteAdded(RzxComputer*)), rezalFavorites, SLOT(bufferedLogin(RzxComputer*)));
 	
-//	clearWFlags(Qt::WStyle_SysMenu|Qt::WStyle_Minimize);
-	alreadyOpened=false;
-
 	connect(rezal, SIGNAL(set_search(const QString&)), leSearch, SLOT(setText(const QString &)));
 	connect(rezalFavorites, SIGNAL(set_search(const QString&)), leSearch, SLOT(setText(const QString &)));
 	
@@ -144,9 +159,8 @@ QRezix::QRezix(QWidget *parent)
 	connect(rezal, SIGNAL(selectionChanged(Q3ListViewItem*)), RzxPlugInLoader::global(), SLOT(itemChanged(Q3ListViewItem*)));
 	connect(RzxConfig::globalConfig(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
 
-	tbRezalContainer -> setCurrentIndex(RzxConfig::defaultTab());
-	leSearch -> setShown(RzxConfig::globalConfig()->useSearch());
-	btnSearch -> setShown(RzxConfig::globalConfig()->useSearch());
+	tbRezalContainer->setCurrentIndex(RzxConfig::defaultTab());
+	showSearch(RzxConfig::globalConfig()->useSearch());
 	
 	//Raccourcis claviers particuliers
 	accel = new QShortcut(Qt::Key_Tab + Qt::SHIFT, this, SLOT(switchTab()));
@@ -157,6 +171,32 @@ QRezix::QRezix(QWidget *parent)
 	rezalFavorites->afficheColonnes();
 #endif
 	wellInit = TRUE;
+}
+
+///Construction des actions
+/** Les actions définissent les appels de base des menus/barre d'outils */
+void QRezix::buildActions()
+{
+	pluginsAction = new QAction(tr("Plug-ins"), this);
+	pluginsAction->setCheckable(true);
+	connect(pluginsAction, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
+	connect(&menuPlugins, SIGNAL(aboutToHide()), pluginsAction, SLOT(toggle()));
+
+	prefAction = new QAction(tr("Preferences"), this);
+	connect(prefAction, SIGNAL(triggered()), this, SLOT(boitePreferences()));
+	
+	columnsAction = new QAction(tr("Adjust columns"), this);
+	connect(columnsAction, SIGNAL(triggered()), rezal, SLOT(afficheColonnes()));
+	connect(columnsAction, SIGNAL(triggered()), rezalFavorites, SLOT(afficheColonnes()));
+	
+	searchAction = new QAction(tr("Search"), this);
+	searchAction->setCheckable(true);
+	connect(searchAction, SIGNAL(toggled(bool)), rezal, SLOT(activeFilter(bool)));
+	connect(searchAction, SIGNAL(toggled(bool)), rezalFavorites, SLOT(activeFilter(bool)));
+
+	awayAction = new QAction(tr("Away"), this);
+	awayAction->setCheckable(true);	
+	connect(awayAction, SIGNAL(toggled(bool)), this, SLOT(activateAutoResponder(bool)));
 }
 
 void QRezix::launchPlugins()
@@ -292,19 +332,12 @@ void QRezix::closeEvent(QCloseEvent * e){
 }
 
 bool QRezix::event(QEvent * e){
-//#ifdef WIN32
 	if(e->type()==QEvent::WindowDeactivate)
 	{
 		if(isMinimized() && RzxConfig::globalConfig()->useSystray())
 			hide();
 		return true;
 	}
-/*#else //WIN32
-	if(e->type()==QEvent::ShowMinimized || e->type()==QEvent::Hide){
-		if(RzxConfig::globalConfig()->useSystray()) hide();
-		return true;
-	}
-#endif //WIN32*/
 	else if( e->type() == QEvent::Resize && alreadyOpened && !isMinimized())
 		statusMax = isMaximized();
 
@@ -341,19 +374,19 @@ void QRezix::socketClosed(){
 
 void QRezix::toggleAutoResponder()
 {
-	activateAutoResponder( !btnAutoResponder->isChecked());
+	activateAutoResponder( !awayAction->isChecked());
 }
 
 void QRezix::toggleButtonResponder()
 {
-	activateAutoResponder( !btnAutoResponder -> isChecked() );
+	activateAutoResponder( !awayAction->isChecked());
 }
 
 void QRezix::activateAutoResponder( bool state )
 {
-	if(!state == btnAutoResponder->isChecked())
+	if(!state == awayAction->isChecked())
 	{
-		btnAutoResponder->setChecked(state);
+		awayAction->setChecked(state);
 		return;
 	}
 	if (state == (RzxConfig::autoResponder() != 0)) return;
@@ -366,13 +399,13 @@ void QRezix::activateAutoResponder( bool state )
 ///Lancement d'une recherche sur le pseudo dans la liste des personnes connectées
 void QRezix::launchSearch()
 {
-	if(btnSearch->isChecked())
+	if(searchAction->isChecked())
 	{
-		btnSearch->setChecked(false);
+		searchAction->setChecked(false);
 		return;
 	}
-	if(!leSearch->text().length()) btnSearch->setChecked(false);
-	else btnSearch->setChecked(true);
+	if(!leSearch->text().length()) searchAction->setChecked(false);
+	else searchAction->setChecked(true);
 }
 
 void QRezix::changeTrayIcon(){
@@ -391,6 +424,9 @@ void QRezix::changeTrayIcon(){
 		if(trayIcon.isNull())
 			trayIcon = QPixmap::QPixmap(t);
 	}
+#ifdef Q_WS_MAC
+	tray->buildMenu();
+#endif
 	if(tray) tray->setIcon(trayIcon);
 }
 
@@ -416,6 +452,13 @@ void QRezix::toggleVisible(){
 		rezal->afficheColonnes();
 		rezalFavorites->afficheColonnes();
 	}
+}
+
+///Montre/cache la parte de recherche
+void QRezix::showSearch(bool state)
+{
+	leSearch->setVisible(state);
+	searchAction->setVisible(state);
 }
 
 void QRezix::languageChange()
@@ -512,11 +555,12 @@ void QRezix::changeTheme()
 		not_favorite.addPixmap(RzxConfig::themedIcon("not_favorite"));
 		search.addPixmap(RzxConfig::themedIcon("search"));
 	}
-	btnPlugins->setIcon(pi);
-	btnAutoResponder->setIcon(away);
-	btnMAJcolonnes->setIcon(columns);
-	btnPreferences->setIcon(prefs);
-	btnSearch->setIcon(search);
+	pluginsAction->setIcon(pi);
+	awayAction->setIcon(away);
+	columnsAction->setIcon(columns);
+	prefAction->setIcon(prefs);
+	searchAction->setIcon(search);
+	lblCountIcon->setPixmap(RzxConfig::themedIcon("not_favorite").scaled(16,16));
 	tbRezalContainer->setItemIcon(1,not_favorite);
 	tbRezalContainer->setItemIcon(0,favorite);
 	if(statusFlag)
@@ -538,19 +582,12 @@ void QRezix::menuFormatChange()
 
 	//Si on a pas d'icône, on met le texte sur le côté... pour éviter un bug d'affichage
 	if(!icons) texts = 1;
-#ifndef Q_OS_MAC
 	Qt::ToolButtonStyle style;
 	if(icons && !texts) style = Qt::ToolButtonIconOnly;
 	else if(!icons && texts) style = Qt::ToolButtonTextOnly;
 	else if(icons && texts == 1) style = Qt::ToolButtonTextBesideIcon;
-	else if(icons && texts == 2) style = Qt::ToolButtonTextUnderIcon;
-	btnPlugins->setToolButtonStyle(style);
-	btnAutoResponder->setToolButtonStyle(style);
-	btnMAJcolonnes->setToolButtonStyle(style);
-	btnPreferences->setToolButtonStyle(style);
-	btnSearch->setToolButtonStyle(style);
-#endif
-	
+	else if(icons && texts == 2) style = Qt::ToolButtonTextUnderIcon;	
+	setToolButtonStyle(style);
 	
 	//Mise à jour de la taille des icônes
 	switch(icons)
@@ -559,59 +596,36 @@ void QRezix::menuFormatChange()
 			{
 				QIcon empty;
 				QPixmap emptyIcon;
-#ifdef Q_OS_MAC
-				btnPlugins->setIconSet(empty);
-				btnAutoResponder->setIconSet(empty);
-				btnMAJcolonnes->setIconSet(empty);
-				btnPreferences->setIconSet(empty);
-				btnSearch->setIconSet(empty);
-#endif
 				tbRezalContainer->setItemIconSet(0,empty);
 				tbRezalContainer->setItemIconSet(1,empty);
-				lblStatusIcon->setHidden(TRUE);
+				lblStatusIcon->hide();
+				lblCountIcon->hide();
 			}
 			break;
 		case 1: //petites icônes
 		case 2: //grandes icones
 			{
-				if(btnPlugins->icon().isNull()) changeTheme();
+				if(pluginsAction->icon().isNull()) changeTheme();
 				int dim = (icons == 2)?32:16;
 				QSize size = QSize(dim,dim);
-				btnPlugins->setIconSize(size);
-				btnAutoResponder->setIconSize(size);
-				btnMAJcolonnes->setIconSize(size);
-				btnPreferences->setIconSize(size);
-				btnSearch->setIconSize(size);
-				lblStatusIcon->setShown(TRUE);
+				setIconSize(size);
+				lblStatusIcon->show();
+				lblCountIcon->show();
 			}
 			break;
 	}
 	
 	//Mise à jour de la position du texte
-#ifdef Q_OS_MAC
 	if(texts)
 	{
-		btnPlugins->setText(tr("Plug-ins"));
-		btnAutoResponder->setText(tr("Away"));
-		btnMAJcolonnes->setText(tr("Adjust columns"));
-		btnPreferences->setText(tr("Preferences"));
-		btnSearch->setText(tr("Search"));
-    	}
-    	else
-    	{
-		btnPlugins->setText("");
-		btnAutoResponder->setText("");
-		btnMAJcolonnes->setText("");
-		btnPreferences->setText("");
-		btnSearch->setText("");
-	}        
-#endif
-	if(texts)
-		lblStatus->setShown(TRUE);
-//		spacerStatus->changeSize(1,1,QSizePolicy::Minimum,QSizePolicy::Minimum);
+		lblStatus->show();
+		lblCountIcon->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+	}
 	else
-		lblStatus->setShown(FALSE);
-//		spacerStatus->changeSize(1,1,QSizePolicy::Expanding,QSizePolicy::Minimum);
+	{
+		lblStatus->hide();
+		lblCountIcon->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+	}
 }
 
 /// Affichage du menu plug-ins lors d'un clic sur le bouton
@@ -625,5 +639,5 @@ void QRezix::pluginsMenu(bool show)
 	RzxPlugInLoader::global()->menuAction(menuPlugins);
 	if(!menuPlugins.count())
 		menuPlugins.addAction("<none>");
-	menuPlugins.popup(btnPlugins->mapToGlobal(btnPlugins->rect().topRight()));
+//	menuPlugins.popup();//btnPlugins->mapToGlobal(btnPlugins->rect().topRight()));
 }

@@ -23,13 +23,10 @@
 #endif
 
 #include <QWidget>
+#include <QMainWindow>
 #include <QMenu>
 
-#ifdef Q_OS_MAC
-#include "ui_qrezixui_mac.h"
-#else
 #include "ui_qrezixui.h"
-#endif
 
 class TrayIcon;
 class RzxProperty;
@@ -37,31 +34,42 @@ class RzxComputer;
 class QEvent;
 class QCloseEvent;
 class QShortcut;
+class QAction;
+class QLineEdit;
 
 //class RzxChat;
 
 /** QReziX is the base class of the project */
-class QRezix : public QWidget, public Ui::qRezixUI
+class QRezix : public QMainWindow, public Ui::qRezixUI
 {
 	Q_OBJECT
 	
 	RzxProperty * m_properties;
+	QLineEdit *leSearch;
 	QShortcut *accel;
 	QMenu menuPlugins;
 	static QRezix *object;
 	bool statusFlag;
 	bool favoriteWarn;
+	bool alreadyOpened;
+	bool byTray;
 	
+	QAction *pluginsAction;
+	QAction *prefAction;
+	QAction *columnsAction;
+	QAction *searchAction;
+	QAction *awayAction;
+	
+    void buildActions();
 	
 public:
+	static QRezix *global();
+
     QRezix(QWidget* parent=0);
     ~QRezix();
-	bool statusMax;
-	bool alreadyOpened;
 	TrayIcon * tray;
-	bool byTray;
+	bool statusMax;
 	bool wellInit;
-	static QRezix *global();
 
 	
 signals:
@@ -86,6 +94,7 @@ public slots: // Public slots
 	void changeTrayIcon();
 	void launchSearch();
 	void boitePreferences();
+	void showSearch(bool state);
 
 protected slots: // Protected slots
 	void delayedInit();

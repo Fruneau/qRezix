@@ -285,7 +285,6 @@ RzxChat *RzxConnectionLister::createChat(RzxComputer *computer)
 	
 	chat->setIcon( iconeProg );
 	chat->setHostname( computer->getName() );
-	chat->edMsg->setFocus();
 
 	connect( chat, SIGNAL( closed( const RzxHostAddress& ) ), this, SLOT( chatDelete( const RzxHostAddress& ) ) );
 	connect( RzxConfig::globalConfig(), SIGNAL( themeChanged() ), chat, SLOT( changeTheme() ) );
