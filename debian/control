@@ -1,9 +1,9 @@
 Source: qrezix
 Section: net
 Priority: optional
-Build-Depends: libqt3c102-mt,kdelibs4-dev,qt3-dev-tools
+Build-Depends: libqt3c102-mt,kdelibs4-dev,qt3-dev-tools,debhelper(>= 4.0.0)
 Maintainer: br <br@frankiz.polytechnique.fr>
-Standards-Version: 3.2.1
+Standards-Version: 3.6.0
 
 Package: qrezix
 Architecture: all

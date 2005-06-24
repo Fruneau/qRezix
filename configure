@@ -1913,7 +1913,7 @@ fi
 
 # Define the identity of the package.
 PACKAGE=qrezix
-VERSION="1.6.2"
+VERSION="1.6.3"
 
 cat >>confdefs.h <<_ACEOF
 #define PACKAGE "$PACKAGE"
@@ -23890,6 +23890,16 @@ test -z "$KDE_MT_LIBS" || LIB_QT="$LIB_QT $KDE_MT_LIBS"
 
 
 
+case $host in
+        bsd)
+
+cat >>confdefs.h <<_ACEOF
+#define Q_OS_BSD 1
+_ACEOF
+
+        ;;
+esac
+
 if test "x$enable_kde" = "xno" || test "x$enable_kde" = "x"; then
 	cp -f klocale.h.qtonly qrezix/klocale.h
 	qrezix_dir="/usr/share/qrezix"
@@ -24117,7 +24127,7 @@ for i in $kde_incdirs;
 do
   for j in $kde_check_header;
   do
-    echo "configure: 24120: $i/$j" >&5
+    echo "configure: 24130: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       kde_incdir=$i
@@ -24147,7 +24157,7 @@ for i in $kde_libdirs;
 do
   for j in $kde_check_lib;
   do
-    echo "configure: 24150: $i/$j" >&5
+    echo "configure: 24160: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       kde_libdir=$i
@@ -24165,7 +24175,7 @@ for i in $kde_libdirs;
 do
   for j in "kde3/plugins/designer/kdewidgets.la";
   do
-    echo "configure: 24168: $i/$j" >&5
+    echo "configure: 24178: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       kde_widgetdir=$i
@@ -25267,7 +25277,7 @@ for i in $kde_sharedirs;
 do
   for j in apps/ksgmltools2/customization/kde-chunk.xsl;
   do
-    echo "configure: 25270: $i/$j" >&5
+    echo "configure: 25280: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       KDE_XSL_STYLESHEET=$i

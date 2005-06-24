@@ -654,6 +654,7 @@ void RzxRezal::buildToolTip(Q3ListViewItem *i) const
 			case 3: tooltip += "Linux"; break;
 			case 4: tooltip += "MacOS"; break;
 			case 5: tooltip += "MacOS X"; break;
+			case 6: tooltip += "BSD"; break;
 			default: tooltip += tr("Unknown");
 		}
 		tooltip += "</li>";

@@ -753,8 +753,8 @@ const QVector<QPixmap*> RzxConfig::osIcons(bool large){
 	if (large)
 		suffix = "_large";
 	
-	QVector<QPixmap*> ret(6);
-	for (int idx = 0; idx < 6; idx++)
+	QVector<QPixmap*> ret(7);
+	for (int idx = 0; idx < 7; idx++)
 		ret[idx] = (QPixmap*)&themedIcon("os_" + QString::number(idx) + suffix);
 	
 	return ret;
