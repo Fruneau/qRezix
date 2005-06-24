@@ -16,7 +16,6 @@
  ***************************************************************************/
 #include <QLabel>
 #include <QToolButton>
-#include <QPushButton> //pour la version mac
 #include <QLineEdit>
 #include <QToolBox>
 #include <QMenuBar>
@@ -500,7 +499,7 @@ void QRezix::warnForFavorite(RzxComputer *computer)
 
 #if defined (WIN32) || defined (Q_OS_MAC)
 		QString file = RzxConfig::connectionSound();
-		if( !file.isEmpty() && QFile( file ).exists() )
+		if( !file.isEmpty() && QFile(file).exists() )
 			QSound::play( file );
         	else
 			QApplication::beep();

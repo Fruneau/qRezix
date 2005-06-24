@@ -14,32 +14,55 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qapplication.h>
-#include <qdir.h>
-#include <qfileinfo.h>
-#include <q3process.h>
-#include <qstringlist.h>
-#include <qregexp.h>
-//Added by qt3to4:
+#include <QApplication>
+#include <QDir>
+#include <QFileInfo>
+#include <QProcess>
+#include <QStringList.h>
+#include <QRegExp>
 #include <QPixmap>
 #include <QVector>
 
+#include "defaults.h"
 #include "rzxcomputer.h"
 
 #include "rzxserverlistener.h"
 #include "rzxprotocole.h"
 #include "rzxconfig.h"
-#include "defaults.h"
 #include "rzxchat.h"
 #include "rzxproperty.h"
 #include "rzxmessagebox.h"
 #include "rzxpluginloader.h"
 
-const char *RzxComputer::promalText[4] = { "?", QT_TR_NOOP("Orange") , QT_TR_NOOP("Rouje"), QT_TR_NOOP("Jone") };
+const char *RzxComputer::promalText[4] = { 
+    "?", 
+    QT_TR_NOOP("Orange") ,
+    QT_TR_NOOP("Rouje"), 
+    QT_TR_NOOP("Jone")
+};
 
 
-/** Creation de localhost */
-void RzxComputer::initLocalHost( void )
+///Construction d'un RzxComputer
+/** La construction n'initialise pas le RzxComputer en un objet utilisable.
+ * Selon le cas on utilise initLocalHost our parse pour initialiser l'objet.
+ */
+RzxComputer::RzxComputer():delayScan(NULL) { }
+
+///Destruction...
+RzxComputer::~RzxComputer()
+{
+	if(delayScan) delete delayScan;
+}
+
+
+/********************** Initialisation d'un RzxComputer *****************/
+///Création d'un Computer représentant localhost
+/** L'objet créé est un objet global qui regroupe les informations importantes
+ * concernant localhost. Cet objet n'est pas affiché dans le rzxrezal. La machine
+ * qui représente localhost sur le resal est en fait la copie de cet objet transmise
+ * par le réseau via le protocol xNet
+ */
+void RzxComputer::initLocalHost()
 {
 	version.Client = RZX_CLIENT_ID;
 	version.MajorVersion = RZX_MAJOR_VERSION;
@@ -58,19 +81,9 @@ void RzxComputer::initLocalHost( void )
 	flags = 0;
 }
 
-RzxComputer::RzxComputer()
-{
-	delayScan = NULL;
-}
-
-RzxComputer::~RzxComputer()
-{
-	if(delayScan) delete delayScan;
-}
-
-
-/** Recuperation des parametres d'ordinateur a partir d'un message Xnet
-Retourne true en cas d'echec, false sinon */
+///Création d'un Computer à partir des données obtenue via le protocole xNet
+/** Permet la représentation des hosts distants...
+ */
 bool RzxComputer::parse(const QString& params){
 	if (params.isEmpty()) return true;
 		
@@ -114,7 +127,9 @@ bool RzxComputer::parse(const QString& params){
 	return false;
 }
 
-void RzxComputer::autoSetOs() //0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X
+///Détermine le système d'exploitation du système local
+/** Les différents OS supportés sont Windows 9X (1) ou NT (2), Linux (3), MacOS (4), MacOSX(5), BSD(6) */
+void RzxComputer::autoSetOs()
 {
 #ifdef WIN32
 	if (QApplication::winVersion() & Qt::WV_NT_based)
@@ -133,14 +148,16 @@ void RzxComputer::autoSetOs() //0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5
 #endif
 }
 
-QString RzxComputer::serialize(bool stamp) {
+///Serialise le RzxComputer dans le format utilisé par le protocole xNet
+QString RzxComputer::serialize(bool stamp)
+{
 	QString ret;
 	options_t test = options;
 	test.Server &= ServerFlags;
 	//Pour préserver la compatibilité avec les versions antérieures qui ne respectent pas le protocole !!!
 	if(test.Repondeur == REP_REFUSE) test.Repondeur = REP_ON;
-	Q_UINT32 opts = *((Q_UINT32*) &test);
-	Q_UINT32 vers = *((Q_UINT32*) &version);
+	quint32 opts = *((Q_UINT32*) &test);
+	quint32 vers = *((Q_UINT32*) &version);
 	
 	ret = name + " " +
 		QString::number(opts, 16).right(8) + " " +				
@@ -154,57 +171,74 @@ QString RzxComputer::serialize(bool stamp) {
 	return ret;
 }
 
+/******************** Remplissage du RzxComputer *********************/
+///Défition du nom de machine
 void RzxComputer::setName(const QString& newName) 
-{
-	name = newName;
-}
-void RzxComputer::setRepondeur(bool i){
-	options.Repondeur = i ? (RzxConfig::refuseWhenAway() ? REP_REFUSE :REP_ON) : REP_ACCEPT;
-}
+{ name = newName; }
+///Définition de l'état du répondeur
+void RzxComputer::setRepondeur(bool i)
+{ options.Repondeur = i ? (RzxConfig::refuseWhenAway() ? REP_REFUSE :REP_ON) : REP_ACCEPT; }
+///Définition de l'icône
 void RzxComputer::setIcon(const QPixmap& image){
 	icon = image;
 	emit isUpdated();
 }
+///Définition de la liste des serveurs présents sur la machine
 void RzxComputer::setServers(int servers) 
 { options.Server = servers; }
+///Définition de la liste des serveurs envisageables sur la machine (localhost uniquement)
 void RzxComputer::setServerFlags(int serverFlags) 
 { ServerFlags = serverFlags; }
+///Définition de la promo
 void RzxComputer::setPromo(int promo)
 { options.Promo = promo; }
+///Définition du commentaire
 void RzxComputer::setRemarque(const QString& text)
 { remarque = text; }
 
 
-
+/************ Récupération des informations concernant le RzxComputer ***********/
+///Récupération du nom de la machine
+QString RzxComputer::getName() const 
+{ return name; }
+///Récupération du commentaire
+QString RzxComputer::getRemarque() const 
+{ return remarque; }
+///Récupération de l'état du répondeur
 int RzxComputer::getRepondeur() const 
 { return options.Repondeur; }
 
+///Récupération de la promo
 int RzxComputer::getPromo() const 
 { return(options.Promo); }
-
+///Récupération du texte décrivant la promo
 QString RzxComputer::getPromoText() const
 { return tr(promalText[options.Promo]); }
 
-QString RzxComputer::getFilename() const 
-{ return QString::number(stamp, 16) + ".png"; }
-QString RzxComputer::getName() const 
-{ return name; }
-RzxComputer::options_t RzxComputer::getOptions() const 
-{ return options; }
-RzxComputer::version_t RzxComputer::getVersion() const 
-{ return version; }
-RzxHostAddress RzxComputer::getIP() const 
-{ return ip; }
-unsigned long RzxComputer::getFlags() const
-{ return flags; }
-QString RzxComputer::getRemarque() const 
-{ return remarque; }
+///Récupération de l'icône
 QPixmap RzxComputer::getIcon() const 
 { return icon; }
+///Récupération du nom du fichier contenant l'icône
+QString RzxComputer::getFilename() const 
+{ return QString::number(stamp, 16) + ".png"; }
+
+///Récupération des options (OS, Servers, Promo, Répondeur)
+RzxComputer::options_t RzxComputer::getOptions() const 
+{ return options; }
+
+///Récupération de flags (euh ça sert à quoi ???)
+unsigned long RzxComputer::getFlags() const
+{ return flags; }
+///Récupération de la liste des servers présents sur la machine (ou demandés par l'utilisateur dans le cas de localhost)
 int RzxComputer::getServers() const
 { return options.Server; }
+///Récupération de la liste des serveurs présents (localhost)
 int RzxComputer::getServerFlags() const
 { return ServerFlags; }
+
+///Teste de la présence d'une possibilité
+/** Retourne true si la machine possède la capacité demandée,
+ * ou si elle ne supporte pas l'extension Capabilities du protocole xNet */
 bool RzxComputer::can(unsigned int cap)
 {
 	if(cap == CAP_ON) return options.Capabilities & CAP_ON;
@@ -213,6 +247,9 @@ bool RzxComputer::can(unsigned int cap)
 	else return (options.Capabilities & cap);
 }
 
+///Récupération de la version du client
+RzxComputer::version_t RzxComputer::getVersion() const 
+{ return version; }
 ///Retourne le client utilisé avec la version
 /**Permet d'obtenir le nom et le numéro de version du client xNet utilisé*/
 QString RzxComputer::getClient() const
@@ -234,6 +271,9 @@ QString RzxComputer::getClient() const
 	return client;
 }
 
+///Récupération de l'IP sous la forme d'un RzxHostAddress
+RzxHostAddress RzxComputer::getIP() const 
+{ return ip; }
 ///Permet de retrouver le 'nom' du sous-réseau sur lequel se trouve la machine
 /** Permet de donner un nom au sous-réseau de la machine. A terme cette fonction lira les données à partir d'un fichier qui contiendra les correspondances */
 QString RzxComputer::getResal(bool shortname) const
@@ -309,70 +349,73 @@ void RzxComputer::loadIcon(){
 	}
 }
 
-//Scan des servers ouverts
+
+/****************** Analyse de la machine ********************/
+///Scan des servers ouverts
+/** Rerchercher parmi les protocoles affichés par qRezix lesquels sont présents sur la machine */
 void RzxComputer::scanServers()
 {
 	int servers = 0;
 #ifdef WIN32
-  //Bon, c pas beau, mais si j'essaye de travailler sur le meme socket pour tous les test
+    //Bon, c pas beau, mais si j'essaye de travailler sur le meme socket pour tous les test
 	//j'arrive toujours à de faux résultats... c ptet un bug de windows (pour changer)
-	Q3SocketDevice detectFTP, detectHTTP, detectNEWS, detectSMB;
+	QTcpServer detecter;
 
 	//scan du ftp
-	if(!detectFTP.bind(ip, 21))
+	if(!detecter.listen(ip, 21))
 		servers |= RzxComputer::SERVER_FTP;
 
 	//scan du http
-	if(!detectHTTP.bind(ip, 80))
+	if(!detecter.listen(ip, 80))
 		servers |= RzxComputer::SERVER_HTTP;
 
 	//scan du nntp
-	if(!detectNEWS.bind(ip, 119))
+	if(!detecter.listen(ip, 119))
 		servers |= RzxComputer::SERVER_NEWS;
 
 	//scan du samba
-	if(!detectSMB.bind(ip, 139))
+	if(!detecter.listen(ip, 445))
 		servers |= RzxComputer::SERVER_SAMBA;
 #else
-	Q3Process *netstat;
+	QProcess netstat;
 	QStringList res;
-  
-	netstat = new Q3Process();
-	netstat->addArgument("netstat");
-  
-	#ifdef Q_OS_MAC
-		netstat->addArgument("-anf");
-		netstat->addArgument("inet");
+     
+	#if defined(Q_OS_MAC) || defined(Q_OS_BSD)
+        res << "-anf" << "inet";
 	#else
-		netstat->addArgument("-ltn");
+		res << "-ltn";
 	#endif
 
-	//On exéctue netstat pour obtenir les infos sur les différents ports utilisés
-	if(netstat->start())
+	//On exécute netstat pour obtenir les infos sur les différents ports utilisés
+	//Seul problème c'est que la syntaxe de netstat n'est pas figée :
+	// Sous linux : netstat -ltn | grep ':port '
+	// Sous BSD : netstat -anf inet | grep LISTEN | grep '.port ' 
+	netstat.start("netstat", res);
+	if(netstat.waitForFinished(1000))
 	{
-		while(netstat->isRunning());
-		while(netstat->canReadLineStdout())
-			res += netstat->readLineStdout();
-		delete netstat;
-
-		#ifdef Q_OS_MAC
+		res = QStringList::split('\n', netstat.readAllStandardOutput());
+    	#if defined(Q_OS_MAC) || defined(Q_OS_BSD)
 			res = res.grep("LISTEN");
 			if(!(res.grep(QRegExp("\\.21\\s")).isEmpty())) servers |= RzxComputer::SERVER_FTP;
 			if(!(res.grep(QRegExp("\\.80\\s")).isEmpty())) servers |= RzxComputer::SERVER_HTTP;
 			if(!(res.grep(QRegExp("\\.119\\s")).isEmpty())) servers |= RzxComputer::SERVER_NEWS;
-			if(!(res.grep(QRegExp("\\.139\\s")).isEmpty())) servers |= RzxComputer::SERVER_SAMBA;
+			if(!(res.grep(QRegExp("\\.445\\s")).isEmpty())) servers |= RzxComputer::SERVER_SAMBA;
 		#else
 			//lecture des différents port pour voir s'il sont listen
 			if(!(res.grep(":21 ")).isEmpty()) servers |= RzxComputer::SERVER_FTP;
 			if(!(res.grep(":80 ")).isEmpty()) servers |= RzxComputer::SERVER_HTTP;
 			if(!(res.grep(":119 ")).isEmpty()) servers |= RzxComputer::SERVER_NEWS;
-			if(!(res.grep(":139 ")).isEmpty()) servers |= RzxComputer::SERVER_SAMBA;
+			if(!(res.grep(":445 ")).isEmpty()) servers |= RzxComputer::SERVER_SAMBA;
 		#endif
 	}
+	
 	//au cas où netstat fail ou qu'il ne soit pas installé
 	else
+	{
+        qDebug("Netstat didn't succeed : " + netstat.errorString());
 		servers = RzxComputer::SERVER_FTP | RzxComputer::SERVER_HTTP | RzxComputer::SERVER_NEWS | RzxComputer::SERVER_SAMBA;
-		
+    }
+
 #endif //WIN32
 	int oldServers = getServers();
 	

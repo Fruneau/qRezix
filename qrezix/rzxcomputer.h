@@ -17,15 +17,14 @@
 #ifndef RZXCOMPUTER_H_2565
 #define RZXCOMPUTER_H_2565
 
-#include <qobject.h>
-#include <qpixmap.h>
-#include <q3socketdevice.h>
+#include <QObject>
+#include <QPixmap.h>
+
 #include "rzxhostaddress.h"
 
 /**
   *@author Sylvain Joyeux
   */
-
 
 class RzxComputer : public QObject  {
 	Q_OBJECT
@@ -42,8 +41,8 @@ public:
   struct options_t
 	{
 		unsigned Server			:6;
-		unsigned SysEx				:3;	//0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X
-		unsigned Promo				:2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje !)
+		unsigned SysEx				:3;	//0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X, 6=BSD
+		unsigned Promo				:2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje ! <== bah nan, à la jône !!!)
 		unsigned Repondeur		:2; //0=accepter, 1= repondeur, 2=refuser les messages, 3= unused
 		// total 13 bits / 32
 		unsigned Capabilities	:19;
@@ -61,11 +60,12 @@ public:
 		unsigned Capabilities	:19;
 		// total 13 bits / 32
 		unsigned Repondeur		:2; //0=accepter, 1= repondeur, 2=refuser les messages, 3= unused
-		unsigned Promo				:2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje !)
-		unsigned SysEx				:3;	//0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X
+		unsigned Promo				:2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje !) Chic à la jône (X03) !!!
+		unsigned SysEx				:3;	//0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X, 6=BSD
 		unsigned Server			:6;
 	};
 #endif
+
 	unsigned int ServerFlags;
 	
 	enum Server {
@@ -83,7 +83,6 @@ public:
 		FLAG_HTTP = 8,
 		FLAG_NEWS = 16
 	};
-
 	
 	enum SysEx {
 		SYSEX_UNKNOWN = 0,
