@@ -37,9 +37,8 @@ class QShortcut;
 class QAction;
 class QLineEdit;
 
-//class RzxChat;
 
-/** QReziX is the base class of the project */
+/** QRezix is the base class of the project */
 class QRezix : public QMainWindow, public Ui::qRezixUI
 {
 	Q_OBJECT

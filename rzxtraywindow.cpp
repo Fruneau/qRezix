@@ -16,13 +16,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlabel.h>
-#include <qpixmap.h>
-#include <qlayout.h>
-#include <qcolor.h>
-//Added by qt3to4:
+#include <QLabel>
+#include <QPixmap>
+#include <QColor>
 #include <QVBoxLayout>
-#include <Q3Frame>
 #include <QHBoxLayout>
 
 #include "rzxtraywindow.h"
@@ -35,12 +32,14 @@
 ///Construction de la fenêtre de notification d'état de connexion de computer
 /** La fenêtre est construite pour disparaître automatiquement au bout de time secondes */
 RzxTrayWindow::RzxTrayWindow(RzxComputer* computer, bool connected, unsigned int time)
-	:Q3Frame(NULL, "TrayWindow", Qt::WStyle_Customize | Qt::WStyle_StaysOnTop | Qt::WDestructiveClose)
+	:QFrame(NULL, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
 	setMinimumWidth(150);
 	setMinimumHeight(70);
 
 	setFrameStyle(Panel | Plain);
+	
 	if(!connected)
 		setPaletteBackgroundColor(QColor(0xff, 0x20, 0x20));
 	else if(computer->getRepondeur())
@@ -48,34 +47,42 @@ RzxTrayWindow::RzxTrayWindow(RzxComputer* computer, bool connected, unsigned int
 	else
 		setPaletteBackgroundColor(0xffffff);
 	
-	
-	//insertion de l'icône
-	// Layout, pour le resize libre
-	QHBoxLayout *layout = new QHBoxLayout(this, 3, 2, "HTrayWindowLayout");
-	QVBoxLayout *textLayout = new QVBoxLayout(this, 0, 0, "VTrayWindowLayout");
-
-	QLabel *icone = new QLabel(this, "TrayWindowIcon");
-	QLabel *name = new QLabel(this, "TrayWindowName");
-	QLabel *description = new QLabel(this, "TrayWindowDesc");
-
-	layout->addWidget(icone, 0, Qt::AlignVCenter | Qt::AlignLeft);
-	textLayout->addWidget(name, 0, Qt::AlignTop | Qt::AlignLeft);
-	textLayout->addWidget(description, 0, Qt::AlignVCenter | Qt::AlignLeft);
-	layout->addLayout(textLayout, 1);
-	
+    //Construction des items à insérer dans la fenêtre :
+    // - l'icône	
+	QLabel *icone = new QLabel();
 	icone->setPixmap(computer->getIcon());
+
+    // - le pseudo
+	QLabel *name = new QLabel();
 	name->setTextFormat(Qt::RichText);
 	name->setText("<h2>" + computer->getName() + "</h2>");
+
+    // - la description de l'état de connexion
+	QLabel *description = new QLabel();
 	if(connected)
 		description->setText(computer->getRepondeur() ? tr("is now away") : tr("is now here"));
 	else
 		description->setText(tr("is now disconnected"));
 
+	//Insertion des éléments dans les layout qui corresponend
+	// - disposition du texte verticalement
+	QVBoxLayout *textLayout = new QVBoxLayout();
+	textLayout->addWidget(name, 0, Qt::AlignTop | Qt::AlignLeft);
+	textLayout->addWidget(description, 0, Qt::AlignVCenter | Qt::AlignLeft);
+
+    // - insertion de l'icône à côté du texte
+	QHBoxLayout *layout = new QHBoxLayout();
+	layout->addWidget(icone, 0, Qt::AlignVCenter | Qt::AlignLeft);
+	layout->addLayout(textLayout, 1);
+	setLayout(layout);
+
+    //Affichage de la fenêtre
 	QPoint point(0,0);
 	move(point);
-	
+	setFocusPolicy(Qt::NoFocus);
 	show();
 	
+	//Timer pour déclencher la destruction de le fenêtre
 	connect(&timer, SIGNAL(timeout()), this, SLOT(close()));
 	timer.start(time * 1000);
 }
