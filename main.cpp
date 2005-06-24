@@ -41,9 +41,7 @@ email                : sylvain.joyeux@m4x.org
 #include "q_mac.xpm"
 #endif
 
-#ifdef Q_OS_UNIX
-#ifndef Q_OS_MAC
-
+#if defined(Q_OS_UNIX) && !defined(Q_OS_BSD) && !defined(Q_OS_MAC)
 /* for signal handling */
 #include <signal.h>
 #include <stdio.h>
@@ -101,7 +99,7 @@ void sigTermHandler( int signum )
 	qDebug( "Terminated" );
 }
 #endif
-#endif
+
 
 QtMsgHandler oldMsgHandler = NULL;
 FILE *logfile = NULL;
@@ -138,13 +136,11 @@ int main(int argc, char *argv[])
 	QPixmap iconeProg((const char **)q);
 	iconeProg.setMask(iconeProg.createHeuristicMask() );
 
-#ifdef Q_OS_UNIX
-#ifndef Q_OS_MAC
+#if defined(Q_OS_UNIX) && !defined(Q_OS_BSD) && !defined(Q_OS_MAC)
 	default_segv_handler = signal( SIGSEGV, fatalHandler );
 	default_pipe_handler = signal( SIGPIPE, SIG_IGN );
 	default_term_handler = signal( SIGTERM, sigTermHandler );
 	default_int_handler = signal( SIGINT, sigTermHandler );
-#endif
 #endif
 	
 	QRezix *rezix = new QRezix();

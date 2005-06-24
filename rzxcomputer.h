@@ -91,7 +91,8 @@ public:
 		SYSEX_WINNT = 2,
 		SYSEX_LINUX = 3,
 		SYSEX_MACOS = 4,
-		SYSEX_MACOSX = 5
+		SYSEX_MACOSX = 5,
+		SYSEX_BSD = 6
 	};
 
 	enum Promal {

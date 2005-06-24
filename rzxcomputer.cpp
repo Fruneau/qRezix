@@ -117,16 +117,19 @@ bool RzxComputer::parse(const QString& params){
 void RzxComputer::autoSetOs() //0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X
 {
 #ifdef WIN32
-	if (QApplication::winVersion() & QSysInfo::WV_NT_based)
-		options.SysEx = 2;
+	if (QApplication::winVersion() & Qt::WV_NT_based)
+		options.SysEx = SYSEX_WINNT;
 	else
-		options.SysEx = 1;
-#else
-#ifdef Q_OS_MAC
-	options.SysEx = 5;
-#else
-	options.SysEx = 3;
+		options.SysEx = SYSEX_WIN9X;
 #endif
+#ifdef Q_OS_UNIX
+	options.SysEx = SYSEX_LINUX;
+#endif
+#ifdef Q_OS_BSD
+        options.SysEx = SYSEX_BSD;
+#endif
+#ifdef Q_OS_MAC
+	options.SysEx = SYSEX_MACOSX;
 #endif
 }
 
