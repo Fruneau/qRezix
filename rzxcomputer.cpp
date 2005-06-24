@@ -18,7 +18,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QProcess>
-#include <QStringList.h>
+#include <QStringList>
 #include <QRegExp>
 #include <QPixmap>
 #include <QVector>
