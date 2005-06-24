@@ -15,13 +15,13 @@ email                : sylvain.joyeux@m4x.org
 *                                                                         *
 ***************************************************************************/
 
-#include <qapplication.h>
-#include <qtextcodec.h>
-#include <qpixmap.h>
-#include <qbitmap.h>
-#include <q3popupmenu.h>
-#include <qdir.h>
-#include <qstring.h>
+#include <QApplication>
+#include <QTextCodec>
+#include <QPixmap>
+#include <QBitmap>
+#include <QMenu>
+#include <QDir>
+#include <QString>
 
 #ifdef Q_OS_MAC
 #include <qmacstyle_mac.h>
@@ -156,7 +156,7 @@ int main(int argc, char *argv[])
 		
 		rezix->launchPlugins();
 		
-		a.setMainWidget(rezix);
+//		a.setMainWidget(rezix);
 		
 		QString windowSize=RzxConfig::readWindowSize();
 		#ifndef Q_OS_MAC

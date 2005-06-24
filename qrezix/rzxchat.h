@@ -27,12 +27,6 @@
 #include "rzxhostaddress.h"
 #include "rzxclientlistener.h"
 
-/*#ifdef Q_OS_MAC
-#include "rzxchatui_mac.h"
-#else
-#include "rzxchatui.h"
-#endif
-*/
 /**
   *@author Sylvain Joyeux
   */
@@ -92,13 +86,14 @@ signals:
 	void textWritten();
 };
 
+
 #ifdef Q_OS_MAC
-#include "ui_rzxchatui_mac.h"
+    #include "ui_rzxchatui_mac.h"
 #else
-#include "ui_rzxchatui.h"
+    #include "ui_rzxchatui.h"
 #endif
 
-class RzxChat : public QWidget, public Ui::RzxChatUI {
+class RzxChat : public QWidget, private Ui::RzxChatUI {
 	Q_OBJECT
 	
 	friend class RzxRezal;

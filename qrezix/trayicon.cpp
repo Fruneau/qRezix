@@ -38,6 +38,10 @@
 #include "rzxconfig.h"
 #include "rzxpluginloader.h"
 
+#ifdef Q_WS_MAC
+void qt_mac_set_dock_menu(QMenu *menu);
+#endif
+    
 
 /*!
   \class TrayIcon qtrayicon.h
@@ -126,17 +130,7 @@ void TrayIcon::buildMenu()
 	if(pop.count()) pop.clear();
 	
 	QPixmap pixmap;
-	#define newItem(name, trad, receiver, slot) \
-	{ \
-		pixmap = RzxConfig::themedIcon(name); \
-		if(!pixmap.isNull()) \
-		{ \
-			QImage image = pixmap.convertToImage(); \
-			image = image.smoothScale(16,16); \
-			pixmap.convertFromImage(image); \
-		}\
-		pop.addAction(pixmap, trad, receiver, slot); \
-	}
+	#define newItem(name, trad, receiver, slot) pop.addAction(RzxConfig::themedIcon(name).scaled(16,16), trad, receiver, slot);
 	
 	RzxPlugInLoader::global()->menuTray(pop);
 	newItem("pref", tr("&Preference"), parent(), SLOT(boitePreferences()));
@@ -149,6 +143,9 @@ void TrayIcon::buildMenu()
 		newItem("away", tr("I'm &away !"), parent(), SLOT(toggleAutoResponder()));
 	}
 	newItem("quit", tr("&Quit"), parent(), SLOT(closeByTray()));
+#ifdef Q_OS_MAC
+	qt_mac_set_dock_menu(&pop);
+#endif
 	
 	#undef newItem
 }

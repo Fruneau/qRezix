@@ -114,21 +114,28 @@ void RzxChat::init()
 	txtHistory = new QTextEdit();
 	txtHistory->setReadOnly(true);
 	txtHistory->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+	QWidget *historyContainer = new QWidget();
+	QGridLayout *glayout = new QGridLayout(historyContainer);
+	glayout->addWidget(txtHistory);
+	historyContainer->setLayout(glayout);
 	//Partie 2 : L'éditeur qui est défini dans l'ui RzxChatUI
 	editor = new QWidget();
 	setupUi(editor);
 	edMsg->setChat(this);
 	//Construction du splitter
 	splitter = new QSplitter(Qt::Vertical);
-	splitter->addWidget(txtHistory);
+	splitter->addWidget(historyContainer);
 	splitter->addWidget(editor);
 	splitter->setSizes(QList<int>() << 120 <<	100);
 	setBaseSize(width(), 230);
 	
 	//Pour que le splitter soit bien redimensionné avec la fenêtre
-	QGridLayout *glayout = new QGridLayout(this);
+	glayout = new QGridLayout(this);
 	setLayout(glayout);
+	glayout->setMargin(0);
+	glayout->setSpacing(0);
 	glayout->addWidget(splitter);
+    edMsg->setFocus();
 
 	/* Définition des raccourcis claviers */
 	new QShortcut(Qt::CTRL + Qt::Key_Return, btnSend, SIGNAL(clicked()));

@@ -55,16 +55,14 @@ SOURCES	+= main.cpp \
 FORMS = rzxpropertyui.ui \
 	rzxquitui.ui \
 	rzxwrongpassui.ui \
-	rzxchangepassui.ui
+	rzxchangepassui.ui \
+	qrezixui.ui
 
 macx {
-    FORMS += qrezixui_mac.ui \
-        rzxchatui_mac.ui
-    
+    FORMS += rzxchatui_mac.ui
 }
 !macx {
-    FORMS += qrezixui.ui \
-        rzxchatui.ui
+    FORMS += rzxchatui.ui
 }
 
 TRANSLATIONS	= ./translations/qrezix.ts ./translations/qrezix_fr.ts

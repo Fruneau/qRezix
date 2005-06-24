@@ -93,20 +93,14 @@ RzxProperty::RzxProperty( QRezix*parent ) : QDialog(parent) {
 
 #ifndef WIN32
 	btnAboutQt->hide();
-#else
-#ifndef Q_OS_MAC
+#endif
+#if defined(WIN32) || defined(Q_OS_MAC)
 	lblWorkDir_2->hide();
 	txtBeepCmd->hide();
-#endif
 #endif
 
 #ifdef Q_OS_MAC
 	groupSystray->hide();
-	lblMenuIconSize->hide();
-	cmbMenuText->hide();
-	lblMenuText->hide();	
-#else
-	cbMenuText->hide();
 #endif
 
 #ifndef Q_OS_UNIX
@@ -134,13 +128,7 @@ void RzxProperty::changeTheme()
 	btnOK->setIconSet(ok);
 	btnMiseAJour->setIconSet(apply);
 
-	#define newItem(icon, name)  { pixmap = icon; \
-		if(!pixmap.isNull()) \
-		{ \
-			QImage image = pixmap.convertToImage(); \
-			image = image.smoothScale(32,32); \
-			pixmap.convertFromImage(image); }\
-		lbMenu->insertItem(pixmap, name); }
+	#define newItem(icon, name) lbMenu->insertItem(icon.scaled(32, 32), name)
 
 	QPixmap pixmap; //Pour le newItem
 	lbMenu->clear();
@@ -250,19 +238,11 @@ void RzxProperty::initDlg() {
 	cmbIconTheme -> setCurrentItem( 0 );
 
 	cmbMenuIcons->setCurrentItem(RzxConfig::menuIconSize());
-#ifdef Q_OS_MAC
-	cbMenuText->setChecked(RzxConfig::menuTextPosition());
-#else
 	cmbMenuText->setCurrentItem(RzxConfig::menuTextPosition());
 	lockCmbMenuText(RzxConfig::menuIconSize());
-#endif
-	
 
 	cmbDefaultTab -> setCurrentItem(RzxConfig::defaultTab());
-	
-	int i;	// oui, moins beau, mais c parceque VC++ 6 est pas compatible avec
-			// la dernière norme C++ ANSI
-	for ( i = 0; i < cmbIconTheme -> count(); i++ )
+	for (int i = 0; i < cmbIconTheme -> count(); i++ )
 		if ( !RzxConfig::iconTheme().compare( cmbIconTheme->text( i ) ) )
 			cmbIconTheme->setCurrentItem( i );
 
@@ -287,14 +267,12 @@ void RzxProperty::initDlg() {
 	cbTooltipFeatures->setChecked(tooltip & RzxConfig::Features);
 	cbTooltipProperties->setChecked(tooltip & RzxConfig::Properties);
 
-	//QRezix * rezix = getRezix();
 	int colonnes = RzxConfig::colonnes();
 	cbcIcone ->setChecked( colonnes & (1<<RzxRezal::ColIcone) );
 	cbcNom ->setChecked( colonnes & (1<<RzxRezal::ColNom) );
 	cbcRemarque->setChecked( colonnes & (1<<RzxRezal::ColRemarque) );
 	cbcSamba ->setChecked( colonnes & (1<<RzxRezal::ColSamba) );
 	cbcFTP ->setChecked( colonnes & (1<<RzxRezal::ColFTP) );
-	//cbcHotline ->setChecked( colonnes & (1<<RzxRezal::ColHotline) );
 	cbcHTTP ->setChecked( colonnes & (1<<RzxRezal::ColHTTP) );
 	cbcNews ->setChecked( colonnes & (1<<RzxRezal::ColNews) );
 	cbcOS ->setChecked( colonnes & (1<<RzxRezal::ColOS) );
@@ -366,7 +344,7 @@ void RzxProperty::initDlg() {
 	cmbSport->setCurrentItem( RzxConfig::globalConfig() -> numSport() );
 	
 	languageBox->setCurrentItem( 0 );
-	for ( i = 0; i < languageBox->count(); i++ ){
+	for (int i = 0; i < languageBox->count(); i++ ){
 		if (tr("English")==languageBox->text(i)){
 			languageBox->setCurrentItem( i );
 		}
@@ -374,14 +352,6 @@ void RzxProperty::initDlg() {
 
 	RzxPlugInLoader::global()->makePropListView(lvPlugInList, btnPlugInProp, btnPlugInReload);
 }
-
-///Vérifie si le texte de la dns est valide
-/** Les boutons de validations ne seront validés que si la valeur entrée est conforme à ce que l'on attend */
-/*void RzxProperty::validDns()
-{
-	btnOK->setEnabled(hostname->hasAcceptableInput());
-	btnMiseAJour->setEnabled(hostname->hasAcceptableInput());
-}*/
 
 bool RzxProperty::updateLocalHost()
 {
@@ -515,15 +485,9 @@ bool RzxProperty::miseAJour() {
 	}
 #endif
 
-#ifdef Q_OS_MAC
-	if(RzxConfig::menuTextPosition() != (cbMenuText->isChecked()?1:0) || RzxConfig::menuIconSize() != cmbMenuIcons->currentItem())
-	{
-		cfgObject->writeEntry("menuTextPos", cbMenuText->isChecked()?1:0);
-#else
 	if(RzxConfig::menuTextPosition() != cmbMenuText->currentItem() || RzxConfig::menuIconSize() != cmbMenuIcons->currentItem())
 	{
 		cfgObject->writeEntry("menuTextPos", cmbMenuText->currentItem());
-#endif
 		cfgObject->writeEntry("menuIconSize", cmbMenuIcons->currentItem());
 
 		emit cfgObject->iconFormatChange();
@@ -546,7 +510,6 @@ bool RzxProperty::miseAJour() {
 	if(cbTooltipProperties->isChecked()) tooltip += RzxConfig::Properties;
 	cfgObject->writeEntry( "tooltip", tooltip);
 
-//	cfgObject -> write(); //flush du fichier de conf
 	const QPixmap *localhostIcon = pxmIcon->pixmap();
 	if(RzxConfig::localhostIcon().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
 	{
@@ -559,11 +522,9 @@ bool RzxProperty::miseAJour() {
 	if(ui->wellInit && localHostUpdated)
 		serverUpdate();
 
-	if (ui -> btnAutoResponder)	
-		ui -> btnAutoResponder -> setOn( RzxConfig::localHost() -> getRepondeur() );
-
-	if (ui -> tray)
-		ui -> tray -> setVisible(cbSystray->isChecked());
+	ui->activateAutoResponder(RzxConfig::localHost() -> getRepondeur());
+	if (ui->tray)
+		ui->tray->setVisible(cbSystray->isChecked());
 	
 		
 	RzxConfig::globalConfig() -> writeEntry("warnCheckingProperties", (cbPropertiesWarning->isChecked() ? 1: 0));
@@ -573,9 +534,7 @@ bool RzxProperty::miseAJour() {
 		ui -> rezal -> redrawAllIcons();
 	if ( iconSizeChanged && ui -> rezalFavorites)
 		ui -> rezalFavorites -> redrawAllIcons();
-	
-	ui -> leSearch -> setShown(cbSearch->isChecked());
-	ui -> btnSearch -> setShown(cbSearch->isChecked());
+	ui->showSearch(cbSearch->isChecked());
 	
 	if ( themeChanged )
 	{

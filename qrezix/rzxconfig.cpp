@@ -133,10 +133,10 @@ RzxConfig::RzxConfig()
 	qDebug("=== Loading config ===");
 	
 	if(!Config) Config=this;
-	settings = new QSettings();
+	settings = new QSettings("BR", "qRezix");
 
 #ifdef WIN32
-	QString dir = settings->readEntry("/qRezix/InstDir");
+	QString dir = settings->readEntry("InstDir");
 	m_userDir = QDir::currentDirPath();
 	if(dir)
 		m_systemDir.setPath(dir);
@@ -184,7 +184,6 @@ RzxConfig::RzxConfig()
 	srand(time(0));
 
 	//Ouverture du fichier de configuration
-	settings->insertSearchPath(QSettings::Unix,m_userDir.canonicalPath());
 	readFavorites();
 	readIgnoreList();
 
@@ -323,42 +322,39 @@ QString RzxConfig::findData(const QString& name, const QString& relative, bool i
 ******************************************************************************/
 QString RzxConfig::readEntry(const QString& name, const QString& def) {
 	if(!settings) return def;
-	return settings->readEntry("/qRezix/general/" + name, def);
+	return settings->value("general/" + name, def).toString();
 }
 
 int RzxConfig::readEntry(const QString& name, int def) {
 	if(!settings) return def;
-	return settings->readNumEntry("/qRezix/general/" + name, def);
+	return settings->value("general/" + name, def).toInt();
 }
 
 QStringList RzxConfig::readEntry(const QString& name) {
 	if(!settings) return QStringList();
-	return settings->readListEntry("/qRezix/general/" + name);
+	return settings->value("general/" + name).toStringList();
 }
 
 void RzxConfig::writeEntry(const QString& name, const QString& val) {
 	if(!settings) return;
-	settings->writeEntry("/qRezix/general/" + name, val);
+	settings->setValue("general/" + name, val);
 	if (name == "localhost")
 		loadLocalHost();
 }
 
 void RzxConfig::writeEntry(const QString& name, int val) {
 	if(!settings) return;
-	settings->writeEntry("/qRezix/general/" + name, val);
+	settings->setValue("general/" + name, val);
 }
 
 void RzxConfig::writeEntry(const QString& name, const QStringList& list) {
 	if(!settings) return;
-	settings->writeEntry("/qRezix/general/" + name, list);
+	settings->setValue("general/" + name, list);
 }
 
 void RzxConfig::flush()
 {
-	if(settings) delete settings;
-	settings = new QSettings();
-	settings->insertSearchPath(QSettings::Unix,m_userDir.canonicalPath());
-	RzxPlugInLoader::global()->setSettings();
+	if(settings) settings->sync();
 }
 
 const QPixmap &RzxConfig::icon(const QString& name) {
