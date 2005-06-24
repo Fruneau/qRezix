@@ -18,7 +18,7 @@
 #define RZXCOMPUTER_H_2565
 
 #include <QObject>
-#include <QPixmap.h>
+#include <QPixmap>
 
 #include "rzxhostaddress.h"
 
