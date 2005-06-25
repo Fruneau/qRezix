@@ -36,6 +36,10 @@
 #include "rzxconnectionlister.h"
 #include "rzxclientlistener.h"
 
+#ifndef abs
+#define abs(x) (x<0?-x:x)
+#endif
+
 #define USER_HASH_TABLE_LENGTH 1663
 
 
@@ -150,7 +154,8 @@ void RzxRezal::creePopUpMenu(Q3ListViewItem *ordinateurSelect,const QPoint & pos
 			if((serveurs>>4) & 1) newItem("news", tr("read News"), this, SLOT(news()));
 			popup.insertSeparator();
 			newItem("historique", tr("History"), this, SLOT(historique()));
-			newItem("prop", tr("Properties"), this, SLOT(proprietes()));
+			if(computer->can(RzxComputer::CAP_CHAT))
+				newItem("prop", tr("Properties"), this, SLOT(proprietes()));
 			popup.insertSeparator();
 			if(RzxConfig::globalConfig()->isFavorite(ordinateurSelect->text(1)))
 			{
