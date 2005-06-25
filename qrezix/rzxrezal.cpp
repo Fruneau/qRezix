@@ -158,7 +158,7 @@ void RzxRezal::creePopUpMenu(QListViewItem *ordinateurSelect,const QPoint & pos,
 			if((serveurs>>4) & 1) newItem("news", tr("read News"), this, SLOT(news()));
 			popup.insertSeparator();
 			newItem("historique", tr("History"), this, SLOT(historique()));
-			if(computer->can(RzxComputer::CAP_CHAT)
+			if(computer->can(RzxComputer::CAP_CHAT))
 				newItem("prop", tr("Properties"), this, SLOT(proprietes()));
 			popup.insertSeparator();
 			if(RzxConfig::globalConfig()->favorites->find(ordinateurSelect->text(1)))
