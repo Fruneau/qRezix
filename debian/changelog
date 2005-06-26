@@ -1,3 +1,10 @@
+qrezix (1.7) unstable; urgency=low
+
+  * Passage à Qt4
+  * Mise à jour des deps
+
+ -- pico <pico@cookie.chez-pico.net>  Sun, 26 Jun 2005 23:09:29 +0200
+
 qrezix (1.6.3) unstable; urgency=low
 
   * Nouvelle version du logiciel
