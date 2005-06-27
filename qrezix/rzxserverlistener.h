@@ -18,10 +18,8 @@
 #ifndef RZXSERVERLISTENER_H
 #define RZXSERVERLISTENER_H
 
-#include <qtimer.h>
-#include <q3socket.h>
-#include <qtimer.h>
-//Added by qt3to4:
+#include <QTimer>
+#include <QTcpSocket>
 #include <QPixmap>
 
 #include "rzxprotocole.h"
@@ -56,9 +54,6 @@ public:
 	void close();
 	RzxHostAddress getServerIP() const;
 	RzxHostAddress getIP() const;
-
-protected:
-	//bool alternateGetHostByName( void );
 	
 protected slots:
 	void serverClose();
@@ -85,7 +80,7 @@ signals: // Signals
 	void disconnected();
 
 protected: // Protected attributes
-	Q3Socket socket;
+	QTcpSocket socket;
 	bool premiereConnexion;
 
 	/** Buffer de lecture/ecriture dans le socket */
@@ -106,7 +101,23 @@ protected: // Protected attributes
 	bool hasBeenConnected;
 	
 private:
-	inline void notify(const QString& text) { emit status(text, socket.state()!=Q3Socket::Connected); }
+	void notify(const QString& text);
 };
+
+
+
+///Renvoie un objet global
+inline RzxServerListener * RzxServerListener::object() {
+	if (!globalObject)
+		globalObject = new RzxServerListener;
+	
+	return globalObject;
+}
+
+///Notifie de la modification du statut de la connexion
+inline void RzxServerListener::notify(const QString& text)
+{
+    emit status(text, socket.state() != QTcpSocket::ConnectedState);
+}
 
 #endif

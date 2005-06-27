@@ -14,12 +14,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qregexp.h>
-#include <qstringlist.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qmessagebox.h>
-#include <qregexp.h>
+#include <QRegExp>
+#include <QStringList>
+#include <QImage>
+#include <QPixmap>
+#include <QMessagebox>
 
 #include <stdlib.h>
 
@@ -30,16 +29,10 @@
 
 
 RzxServerListener * RzxServerListener::globalObject = 0;
-RzxServerListener * RzxServerListener::object() {
-	if (!globalObject)
-		globalObject = new RzxServerListener;
-	
-	return globalObject;
-}
 
+///Construction du Socket
 RzxServerListener::RzxServerListener()
-	: RzxProtocole("Serveur"),
-		socket(0, "ServerSocket") {
+	: RzxProtocole("Serveur"), socket() {
 	connect(&reconnection, SIGNAL(timeout()), this, SLOT(waitReconnection()));	
 	
 	connect(this, SIGNAL(ping()), this, SLOT(sendPong()));
@@ -48,7 +41,7 @@ RzxServerListener::RzxServerListener()
 	connect(&socket, SIGNAL(readyRead()), this, SLOT(serverResetTimer()));
 	connect(this, SIGNAL(send(const QString&)), this, SLOT(sendProtocolMsg(const QString&)));
 	
-	connect(&socket, SIGNAL(connectionClosed()), this, SLOT(serverClose()));
+	connect(&socket, SIGNAL(disconnected()), this, SLOT(serverClose()));
 	connect(&socket, SIGNAL(error(int)), this, SLOT(serverError(int)));
 	connect(&socket, SIGNAL(readyRead()), this, SLOT(serverReceive()));
 	
@@ -56,12 +49,12 @@ RzxServerListener::RzxServerListener()
 	connect(&socket, SIGNAL(connected()), this, SLOT(serverConnected()));
 	connect(&socket, SIGNAL(connected()), this, SLOT(beginAuth()));
 	
-	connect(&socket, SIGNAL(delayedCloseFinished()), this, SIGNAL(disconnected()));
-	connect(&socket, SIGNAL(connectionClosed()), this, SIGNAL(disconnected()));
+	connect(&socket, SIGNAL(closed()), this, SIGNAL(disconnected()));
+	connect(&socket, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
 	connect(&socket, SIGNAL(error(int)), this, SIGNAL(disconnected()));
 	connect(&socket, SIGNAL(connected()), this, SIGNAL(connected()));
 
-	connect (&pingTimer, SIGNAL(timeout()), this, SLOT(serverTimeout()));
+	connect(&pingTimer, SIGNAL(timeout()), this, SLOT(serverTimeout()));
 	
 	premiereConnexion = true;
 	hasBeenConnected = true;
@@ -120,29 +113,51 @@ void RzxServerListener::waitReconnection()
 /** Erreur à la conenction au serveur. On rï¿½ssaie en SERVER_RECONNECTION ms */
 void RzxServerListener::serverError(int error) {
 	pingTimer.stop();
+	QString reconnectionMsg;
 	
 	switch(error) {
-	case Q3Socket::ErrConnectionRefused:
-		setupReconnection(tr("Connexion refused"));
-		break;
+		case QTcpSocket::ConnectionRefusedError:
+			reconnectionMsg = tr("Connection refused");
+			break;
 		
-	case Q3Socket::ErrHostNotFound:
-		setupReconnection(tr("Cannot find server %1").arg(RzxConfig::serverName()));
+			case QTcpSocket::RemoteHostClosedError:
+				reconnectionMsg = tr("Connectiion reset by peer");
+				break;
 
-		if(hasBeenConnected)
-			RzxMessageBox::information( NULL, "qRezix",
-				tr("Cannot find server %1:\n\nDNS request failed").arg(RzxConfig::serverName()));
-		hasBeenConnected = false;
-		break;
+			case QTcpSocket::HostNotFoundError:
+				reconnectionMsg = tr("Cannot find server %1").arg(RzxConfig::serverName());
 
-	case Q3Socket::ErrSocketRead:
-		setupReconnection(tr("Socket error"));
-		break;
+				if(hasBeenConnected)
+					RzxMessageBox::information( NULL, "qRezix",
+						tr("Cannot find server %1:\n\nDNS request failed").arg(RzxConfig::serverName()));
+				hasBeenConnected = false;
+				break;
 
-	default:
-		setupReconnection(tr("Unknown QSocket error: %1").arg(error));
+			case QTcpSocket::SocketAccessError:
+				reconnectionMsg = tr("Socket access denied");
+				break;
+
+			case QTcpSocket::SocketResourceError:
+				reconnectionMsg = tr("Too many sockets");
+				break;
+
+			case QTcpSocket::SocketTimeoutError:
+				reconnectionMsg = tr("Operation timeout");
+				break;
+
+			case QTcpSocket::NetworkError:
+				reconnectionMsg = tr("Link down");
+				break;
+
+			case QTcpSocket::UnsupportedSocketOperationError:
+				reconnectionMsg = tr("Unspported operation");
+				break;
+
+			default:
+				reconnectionMsg = tr("Unknown QSocket error: %1").arg(error);
 	}
-
+	setupReconnection(reconnectionMsg);
+	qDebug("Server socket error : " + socket.errorString());
 }
 
 void RzxServerListener::serverClose() {
@@ -310,7 +325,7 @@ void RzxServerListener::serverResetTimer(){
 
 /** No descriptions */
 bool RzxServerListener::isSocketClosed() const{
-	return (socket.state() != Q3Socket::Connection);// || (socket.state() == QSocket::Closing);
+	return (socket.state() != QTcpSocket::ConnectedState);
 }
 
 /** No descriptions */
@@ -344,7 +359,7 @@ RzxHostAddress RzxServerListener::getServerIP() const
 
 /** No descriptions */
 RzxHostAddress RzxServerListener::getIP() const{
-	return RzxHostAddress(socket.address());
+	return RzxHostAddress(socket.localAddress());
 	//TODO récupérer cette adresse du serveur
 }
 
