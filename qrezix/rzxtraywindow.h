@@ -1,7 +1,8 @@
 /***************************************************************************
-                          rzxquit.h  -  description
+                               rzxtraywindow.h
+         Gestion des fenêtres popups de notification de la trayicon
                              -------------------
-    begin                : Thu Jun 24 2004
+    begin                : Tue Nov 16 2004
     copyright            : (C) 2004 by Florent Bruneau
     email                : fruneau@melix.org
  ***************************************************************************/
@@ -15,35 +16,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef RZXQUIT_H
-#define RZXQUIT_H
+#include <qframe.h>
+#include <qtimer.h>
 
-#include "rzxquitui.h"
+class RzxComputer;
 
-class RzxConfig;
-
-class RzxQuit : public RzxQuitUI
+class RzxTrayWindow: public QFrame
 {
 	Q_OBJECT
-	friend class RzxConfig;
-
-	int selection;
-
+	
+	QTimer timer;
+	
 	public:
-		enum QuitMode
-		{
-			selectQuit = 0x01,
-			selectMinimize = 0x02,
-			selectAbort = 0x04
-		};
-
-		 RzxQuit(QWidget* parent=0, const char *name=0);
-	    ~RzxQuit();
-
-	protected slots:
-		void quitOptionChange(void);
-		void done();
+		RzxTrayWindow(RzxComputer *computer, bool connected = true, unsigned int time = 5);
+		~RzxTrayWindow();
 };
-
-
-#endif //RZXQUIT_H

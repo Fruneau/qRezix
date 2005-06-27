@@ -1,0 +1,133 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>RzxWrongPassUI</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>RzxWrongPassUI</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>315</width>
+            <height>271</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Enter you Password</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>layout2</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>lblPassword</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Password:</string>
+                    </property>
+                </widget>
+                <widget class="QLineEdit">
+                    <property name="name">
+                        <cstring>ledPassword</cstring>
+                    </property>
+                    <property name="paletteBackgroundColor">
+                        <color>
+                            <red>255</red>
+                            <green>255</green>
+                            <blue>255</blue>
+                        </color>
+                    </property>
+                    <property name="frameShape">
+                        <enum>LineEditPanel</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Sunken</enum>
+                    </property>
+                    <property name="echoMode">
+                        <enum>Password</enum>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <spacer row="3" column="0">
+            <property name="name">
+                <cstring>spacer3</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>195</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QPushButton" row="3" column="1">
+            <property name="name">
+                <cstring>btnOK</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;OK</string>
+            </property>
+            <property name="accel">
+                <string>Alt+O, Return</string>
+            </property>
+            <property name="autoDefault">
+                <bool>false</bool>
+            </property>
+            <property name="default">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>lblInfo</cstring>
+            </property>
+            <property name="text">
+                <string>&lt;b&gt;Wrong Password&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+If you've never been connected to the xnetserver, it's possible that the name you choosed is already used by somebody else. &lt;br&gt;&lt;i&gt;Try to change your Computer Name.&lt;/i&gt;&lt;br&gt;&lt;br&gt;
+If you're sure that you entered the good Computer Name then reenter your password in order to login.</string>
+            </property>
+        </widget>
+        <spacer row="1" column="0">
+            <property name="name">
+                <cstring>spacer6</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>10</width>
+                    <height>11</height>
+                </size>
+            </property>
+        </spacer>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>btnOK</sender>
+        <signal>clicked()</signal>
+        <receiver>RzxWrongPassUI</receiver>
+        <slot>close()</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

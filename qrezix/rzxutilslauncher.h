@@ -1,9 +1,9 @@
 /***************************************************************************
-                          rzxquit.h  -  description
+                          rzxutilslauncher.h  -  description
                              -------------------
-    begin                : Thu Jun 24 2004
+    begin                : Fri Sep 10 2004
     copyright            : (C) 2004 by Florent Bruneau
-    email                : fruneau@melix.org
+    email                : fruneau@melix.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,35 +15,34 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef RZXQUIT_H
-#define RZXQUIT_H
+#ifndef RZXUTILSLAUNCHER_H
+#define RZXUTILSLAUNCHER_H
 
-#include "rzxquitui.h"
+#include <qstring.h>
 
-class RzxConfig;
+/**
+  *@author Florent Bruneau
+  */
+  
+class RzxRezal;
 
-class RzxQuit : public RzxQuitUI
+///Lanceur d'application externes
+/** Cette classe à pour but de lancer les applications externes liées à qRezix, comme le client ftp, le client http... */
+class RzxUtilsLauncher
 {
-	Q_OBJECT
-	friend class RzxConfig;
-
-	int selection;
+	static RzxUtilsLauncher *object;
+	RzxRezal *rezal;
 
 	public:
-		enum QuitMode
-		{
-			selectQuit = 0x01,
-			selectMinimize = 0x02,
-			selectAbort = 0x04
-		};
-
-		 RzxQuit(QWidget* parent=0, const char *name=0);
-	    ~RzxQuit();
-
-	protected slots:
-		void quitOptionChange(void);
-		void done();
+		RzxUtilsLauncher(RzxRezal *m_rezal);
+		~RzxUtilsLauncher();
+		
+		inline static RzxUtilsLauncher *global() { return object; };
+	
+		static void ftp(const QString& login);
+		static void http(const QString& login);
+		static void news(const QString& login);
+		static void samba(const QString& login);
 };
 
-
-#endif //RZXQUIT_H
+#endif
