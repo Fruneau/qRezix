@@ -18,7 +18,7 @@
 #include <QStringList>
 #include <QImage>
 #include <QPixmap>
-#include <QMessagebox>
+#include <QMessageBox>
 
 #include <stdlib.h>
 
