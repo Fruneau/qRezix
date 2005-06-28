@@ -149,7 +149,7 @@ public:
 	QString getFilename() const;
 	options_t getOptions() const;
 	version_t getVersion() const;
-	RzxHostAddress getIP() const;
+	const RzxHostAddress &getIP() const;
 	unsigned long getFlags() const;
 	
 	void loadIcon();
