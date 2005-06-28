@@ -272,7 +272,7 @@ QString RzxComputer::getClient() const
 }
 
 ///Récupération de l'IP sous la forme d'un RzxHostAddress
-RzxHostAddress RzxComputer::getIP() const 
+const RzxHostAddress &RzxComputer::getIP() const 
 { return ip; }
 ///Permet de retrouver le 'nom' du sous-réseau sur lequel se trouve la machine
 /** Permet de donner un nom au sous-réseau de la machine. A terme cette fonction lira les données à partir d'un fichier qui contiendra les correspondances */
@@ -408,7 +408,7 @@ void RzxComputer::scanServers()
 			if(!(res.grep(":445 ")).isEmpty()) servers |= RzxComputer::SERVER_SAMBA;
 		#endif
 	}
-	
+
 	//au cas où netstat fail ou qu'il ne soit pas installé
 	else
 	{
