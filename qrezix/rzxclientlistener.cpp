@@ -70,8 +70,8 @@ RzxChatSocket::RzxChatSocket()
 }
 
 ///Construction d'un socket de chat lié à une fenêtre
-RzxChatSocket::RzxChatSocket(const RzxHostAddress& s_host, RzxChat *parent)
-	:QTcpSocket(), host(s_host)
+RzxChatSocket::RzxChatSocket(const RzxHostAddress& shost, RzxChat *parent)
+	:QTcpSocket(), host(shost)
 {
 	chatWindow = parent;
 	alone = false;
@@ -84,11 +84,11 @@ RzxChatSocket::RzxChatSocket(const RzxHostAddress& s_host, RzxChat *parent)
 }
 
 ///Construction d'un socket de chat sans liaison
-RzxChatSocket::RzxChatSocket(const RzxHostAddress& s_host, bool s_alone)
-	:QTcpSocket(), host(s_host)
+RzxChatSocket::RzxChatSocket(const RzxHostAddress& shost, bool salone)
+	:QTcpSocket(), host(shost)
 {
 	chatWindow = NULL;
-	alone = s_alone;
+	alone = salone;
 	connect(this, SIGNAL(disconnected()), this, SLOT(chatConnexionClosed()));
 	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
 	connect(this, SIGNAL(error(SocketError)), this, SLOT(chatConnexionError(SocketError)));

@@ -138,7 +138,7 @@ RzxConfig::RzxConfig()
 #ifdef WIN32
 	QString dir = settings->readEntry("InstDir");
 	m_userDir = QDir::currentDirPath();
-	if(dir)
+	if(!dir.isEmpty())
 		m_systemDir.setPath(dir);
 	else
 		m_systemDir = m_userDir;

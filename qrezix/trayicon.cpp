@@ -443,7 +443,7 @@ public:
 		return TRUE;
     }
 
-    bool winEvent( MSG *m )
+    bool winEvent( MSG *m , long *result)
     {
 		switch(m->message) {
 			case WM_DRAWITEM:
@@ -475,7 +475,7 @@ public:
 			default:
 				if ( m->message == WM_TASKBARCREATED ) trayMessage( NIM_ADD );
 		}
-		return QWidget::winEvent( m );
+		return QWidget::winEvent( m , result);
     }
 };
 
@@ -496,20 +496,21 @@ static HBITMAP createIconMask( const QPixmap &qp )
 
 static HICON createIcon( const QPixmap &pm, HBITMAP &hbm )
 {
-    QPixmap maskpm( pm.size(), pm.depth(), QPixmap::NormalOptim );
-    QBitmap mask( pm.size(), FALSE, QPixmap::NormalOptim );
-    if ( pm.mask() ) {
+/* QPixmap maskpm( pm.size());
+    QBitmap mask( pm.size() );
+    if ( !pm.mask().isNull() ) {
         maskpm.fill( Qt::black );			// make masked area black
-        bitBlt( &mask, 0, 0, pm.mask() );
+        bitBlt(&mask, 0, 0, &pm.mask() );
     } else
         maskpm.fill( Qt::color1 );
 
     bitBlt( &maskpm, 0, 0, &pm);
+*/
     ICONINFO iconInfo;
     iconInfo.fIcon    = TRUE;
-    iconInfo.hbmMask  = createIconMask(mask);
+    iconInfo.hbmMask  = pm.toWinHBITMAP(QPixmap::PremultipliedAlpha);
     hbm = iconInfo.hbmMask;
-    iconInfo.hbmColor = maskpm.hbm();
+    iconInfo.hbmColor = pm.toWinHBITMAP(QPixmap::PremultipliedAlpha);
 
     return CreateIconIndirect( &iconInfo );
 }
