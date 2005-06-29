@@ -175,7 +175,7 @@ void RzxServerListener::connectToXnetserver()
 	reconnection.stop();
 	
 	QString serverHostname = RzxConfig::serverName();
-	unsigned long serverPort = RzxConfig::serverPort();
+	quint16 serverPort = RzxConfig::serverPort();
 	if (serverHostname.isEmpty() || !serverPort) {
 		notify(tr("Server name and port are not configured"));
 		return;
@@ -263,7 +263,7 @@ void RzxServerListener::parse(const QString& msg) {
 		else return;
 			
 		bool ok;	
-		iconHost = RzxHostAddress::fromRezix(msgParams.stripWhiteSpace().toULong(&ok, 16));
+		iconHost = RzxHostAddress::fromRezix(msgParams.stripWhiteSpace().toUInt(&ok, 16));
 		if (!ok)
 			return;
 		iconMode = true;
