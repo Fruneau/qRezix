@@ -63,8 +63,8 @@ class RzxChatSocket : public QTcpSocket
 	
 	public:
 		RzxChatSocket();
-		RzxChatSocket(const RzxHostAddress& s_host, RzxChat *parent = NULL);
-		RzxChatSocket(const RzxHostAddress& s_host, bool s_alone);
+		RzxChatSocket(const RzxHostAddress& shost, RzxChat *parent = NULL);
+		RzxChatSocket(const RzxHostAddress& shost, bool salone);
 		~RzxChatSocket();
 		
 		void setParent(RzxChat *parent);
