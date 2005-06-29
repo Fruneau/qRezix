@@ -100,7 +100,7 @@ class RzxChatSocket : public QTcpSocket
 		
 	public:
 		static QWidget *showProperties(const RzxHostAddress& peer, const QString& msg, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
-		static QWidget *showHistorique( unsigned long ip, const QString &hostname, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
+		static QWidget *showHistorique(const RzxHostAddress& ip, const QString &hostname, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
 
 
 	signals: // Signals

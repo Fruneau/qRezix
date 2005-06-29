@@ -28,10 +28,10 @@ class RzxHostAddress : public QHostAddress  {
 public: 
 	RzxHostAddress();
 	RzxHostAddress(const QHostAddress& host);
-	RzxHostAddress(unsigned long ip);
+	RzxHostAddress(quint32 ip);
 	~RzxHostAddress();
-	static RzxHostAddress fromRezix(unsigned long ip);
-	unsigned long toRezix() const;
+	static RzxHostAddress fromRezix(quint32 ip);
+	quint32 toRezix() const;
 
 	bool sameGateway(const RzxHostAddress& peer) const;
 };

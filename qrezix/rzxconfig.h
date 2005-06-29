@@ -227,7 +227,7 @@ public:
 	static const QPixmap& localhostIcon();
 	static void saveIcon(const QString& name, const QPixmap& image);
 	
-	static QString historique(unsigned long ip, const QString& hostname);
+	static QString historique(quint32 ip, const QString& hostname);
 	
 	static QString buildLocalhost();
 

@@ -19,7 +19,7 @@
 RzxHostAddress::RzxHostAddress(){
 }
 
-RzxHostAddress::RzxHostAddress(unsigned long ip)
+RzxHostAddress::RzxHostAddress(quint32 ip)
 	: QHostAddress(ip) {
 	
 }
@@ -32,9 +32,9 @@ RzxHostAddress::~RzxHostAddress(){
 }
 
 /** No descriptions */
-RzxHostAddress RzxHostAddress::fromRezix(unsigned long tempIP) {
+RzxHostAddress RzxHostAddress::fromRezix(quint32 tempIP) {
 	RzxHostAddress ret;
-	unsigned long ip;
+	quint32 ip;
 	ip = 0;
 	ip |= (tempIP >> 24) & 0xFF;
 	ip |= ((tempIP >> 16) & 0xFF) << 8;
@@ -45,16 +45,16 @@ RzxHostAddress RzxHostAddress::fromRezix(unsigned long tempIP) {
 }
 
 bool RzxHostAddress::sameGateway(const RzxHostAddress& peer) const {
-	int local4 = ip4Addr(), peer4	= peer.ip4Addr();
+	quint32 local4 = ip4Addr(), peer4 = peer.ip4Addr();
 	bool retval=((local4 & 0xFFFFFF00) == (peer4 & 0xFFFFFF00));
 	//qDebug(QString("Comparison between %2 and %3 returned %1").arg(retval).arg(local4).arg(peer4));
 	return retval;
 }
 
 /** No descriptions */
-unsigned long RzxHostAddress::toRezix() const{
-	unsigned long tempIP = ip4Addr();
-	unsigned long ip;
+quint32 RzxHostAddress::toRezix() const{
+	quint32 tempIP = ip4Addr();
+	quint32 ip;
 	ip = 0;
 	ip |= (tempIP >> 24) & 0xFF;
 	ip |= ((tempIP >> 16) & 0xFF) << 8;

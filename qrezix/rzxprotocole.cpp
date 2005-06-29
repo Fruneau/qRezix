@@ -71,7 +71,8 @@ RzxProtocole::~RzxProtocole(){
 pas les messages ICON du fait des donnees binaires qui arrivent. Elle est
 reimplementer dans RzxServerListener */
 void RzxProtocole::parse(const QString& msg){
-	bool ok=true; unsigned long val;
+	bool ok=true;
+	quint32 val;
 	static bool testOldPass = false;
 	
 	QRegExp cmd;
