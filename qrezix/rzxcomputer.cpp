@@ -91,33 +91,35 @@ bool RzxComputer::parse(const QString& params){
 	if (args.count() != (int)RzxProtocole::ServerCounts[RzxProtocole::SERVER_JOIN])
 		return true;
 
-	QString temp; bool ok; QStringList::Iterator it;
-	unsigned long tempNumb;
+	QString temp;
+	bool ok;
+	QStringList::Iterator it;
+	quint32 tempNumb;
 	
 	it = args.begin();	
 	temp = *it;	
-	ip = RzxHostAddress::fromRezix(temp.toULong(&ok, 16));
+	ip = RzxHostAddress::fromRezix(temp.toUInt(&ok, 16));
 	if (!ok) return true;
 	
 	name = *(++it);
 	if (name.isEmpty()) return true;
 
 	temp = *(++it);	
-	tempNumb = temp.toULong(&ok, 16);
+	tempNumb = temp.toUInt(&ok, 16);
 	if (!ok) return true;
-	*((unsigned long *) &options) = tempNumb;
+	*((quint32 *) &options) = tempNumb;
 	
 	temp = *(++it);
-	tempNumb = temp.toULong(&ok, 16);
+	tempNumb = temp.toUInt(&ok, 16);
 	if (!ok) return true;
-	*((unsigned long *) &version) = tempNumb;
+	*((quint32 *) &version) = tempNumb;
 	
 	temp = *(++it);
-	stamp = temp.toULong(&ok, 16);
+	stamp = temp.toUInt(&ok, 16);
 	if (!ok) return true;
 	
 	temp = *(++it);
-	flags = temp.toULong(&ok, 16);
+	flags = temp.toUInt(&ok, 16);
 	if (!ok) return true;
 	
 	// maintenant qu'on a le stamp et l'ip, on peut essayer de charger l'icone
