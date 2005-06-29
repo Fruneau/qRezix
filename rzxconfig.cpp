@@ -767,7 +767,7 @@ const QPixmap &RzxConfig::localhostIcon(){
 	return icon("localhost");
 }
 
-QString RzxConfig::historique(unsigned long ip, const QString& hostname) {
+QString RzxConfig::historique(quint32 ip, const QString& hostname) {
 	QString filename = QString::number(ip, 16);
 	
 	QDir logdir = globalConfig() -> logDir();

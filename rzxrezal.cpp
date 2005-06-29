@@ -220,7 +220,7 @@ void RzxRezal::proprietes(){
 void RzxRezal::historique(){
 	RzxItem * item=(RzxItem*) currentItem();
 	QString hostname = lister->iplist.find(item -> ip.toString()) -> getName();
-	if(!RzxChatSocket::showHistorique( item -> ip.toRezix(), hostname))
+	if(!RzxChatSocket::showHistorique(item->ip, hostname))
 		emit status(tr("No history file for user %1").arg(hostname), false);
 }
 

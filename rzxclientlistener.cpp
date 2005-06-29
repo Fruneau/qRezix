@@ -472,9 +472,9 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	return propertiesDialog;
 }
 
-QWidget *RzxChatSocket::showHistorique( unsigned long ip, const QString& hostname, bool withFrame, QWidget *parent, QPoint *pos ){
+QWidget *RzxChatSocket::showHistorique(const RzxHostAddress& ip, const QString& hostname, bool withFrame, QWidget *parent, QPoint *pos ){
 	// chargement de l'historique
-	QString filename = RzxConfig::historique(ip, hostname);
+	QString filename = RzxConfig::historique(ip.toRezix(), hostname);
 	if (filename.isNull())
 		return NULL;
  
