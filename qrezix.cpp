@@ -559,7 +559,7 @@ void QRezix::changeTheme()
 	columnsAction->setIcon(columns);
 	prefAction->setIcon(prefs);
 	searchAction->setIcon(search);
-	lblCountIcon->setPixmap(RzxConfig::themedIcon("not_favorite").scaled(16,16));
+	lblCountIcon->setPixmap(RzxConfig::themedIcon("not_favorite").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 	tbRezalContainer->setItemIcon(1,not_favorite);
 	tbRezalContainer->setItemIcon(0,favorite);
 	if(statusFlag)
@@ -581,7 +581,7 @@ void QRezix::menuFormatChange()
 
 	//Si on a pas d'icône, on met le texte sur le côté... pour éviter un bug d'affichage
 	if(!icons) texts = 1;
-	Qt::ToolButtonStyle style;
+	Qt::ToolButtonStyle style = Qt::ToolButtonIconOnly;
 	if(icons && !texts) style = Qt::ToolButtonIconOnly;
 	else if(!icons && texts) style = Qt::ToolButtonTextOnly;
 	else if(icons && texts == 1) style = Qt::ToolButtonTextBesideIcon;
