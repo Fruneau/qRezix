@@ -16,11 +16,9 @@
 #ifndef RZXMSGBOX_H
 #define RZXMSGBOX_H
 
-#include "qstring.h"
-//#include "qwidget.h"
+#include <QString>
 
 class QWidget;
-//class QString;
 
 namespace RzxMessageBox
 {

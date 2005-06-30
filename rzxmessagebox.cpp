@@ -13,35 +13,56 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qmessagebox.h>
+#include <QMessageBox>
+
 #include "rzxmessagebox.h"
 
-
+///Affiche une fenêtre d'information
+/** L'utilisateur défini le titre et le contenu du message. Il a également 
+ * le choix de la fenêtre mère... NULL si l'objet est indépendant.
+ *  Pour permettre le fonctionnement asynchrône du programme, il faut absolument 
+ * éviter les fenêtre modales.
+ */
 int RzxMessageBox::information( QWidget *parent, const QString& caption,
 	const QString& text, bool modal ){
-	QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Information,
-		0, 0, 0, parent, "qt_msgbox_information",
-		modal, Qt::WDestructiveClose );
+	QMessageBox *mb = new QMessageBox(caption, text, QMessageBox::Information,
+									  0, 0, 0, parent);
+	mb->setAttribute(Qt::WA_DeleteOnClose);
+	mb->setModal(modal);
 	mb->show();
 	return 0;
 }
 
 
+///Affiche une fenêtre d'avertissement
+/** L'utilisateur défini le titre et le contenu du message. Il a également 
+* le choix de la fenêtre mère... NULL si l'objet est indépendant.
+*  Pour permettre le fonctionnement asynchrône du programme, il faut absolument 
+* éviter les fenêtre modales.
+*/
 int RzxMessageBox::warning( QWidget *parent, const QString& caption,
 	const QString& text, bool modal ){
 	QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Warning,
-		0, 0, 0, parent, "qt_msgbox_warning",
-		modal, Qt::WDestructiveClose );
+									   0, 0, 0, parent);
+	mb->setAttribute(Qt::WA_DeleteOnClose);
+	mb->setModal(modal);
 	mb->show();
 	return 0;
 }
 
 
+///Affiche une fenêtre d'erreur
+/** L'utilisateur défini le titre et le contenu du message. Il a également 
+* le choix de la fenêtre mère... NULL si l'objet est indépendant.
+*  Pour permettre le fonctionnement asynchrône du programme, il faut absolument 
+* éviter les fenêtre modales.
+*/
 int RzxMessageBox::critical( QWidget *parent, const QString& caption,
 	const QString& text, bool modal ){
 	QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Critical,
-		0, 0, 0, parent, "qt_msgbox_critical",
-		modal, Qt::WDestructiveClose );
+									   0, 0, 0, parent);
+	mb->setAttribute(Qt::WA_DeleteOnClose);
+	mb->setModal(modal);
 	mb->show();
 	return 0;
 }
