@@ -128,7 +128,7 @@ void RzxProperty::changeTheme()
 	btnOK->setIconSet(ok);
 	btnMiseAJour->setIconSet(apply);
 
-	#define newItem(icon, name) lbMenu->insertItem(icon.scaled(32, 32), name)
+	#define newItem(icon, name) lbMenu->insertItem(icon.scaled(32, 32, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), name)
 
 	QPixmap pixmap; //Pour le newItem
 	lbMenu->clear();

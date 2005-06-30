@@ -135,7 +135,7 @@ void RzxRezal::creePopUpMenu(Q3ListViewItem *ordinateurSelect,const QPoint & pos
 		int serveurs=item->servers;
 		popup.clear();
 		
-		#define newItem(name, trad, receiver, slot) popup.insertItem(RzxConfig::themedIcon(name).scaled(16, 16), trad, receiver, slot)
+		#define newItem(name, trad, receiver, slot) popup.insertItem(RzxConfig::themedIcon(name).scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), trad, receiver, slot)
 		if(item->ignored) {
 			if(serveurs & 1) newItem("samba", tr("Samba connect"), this, SLOT(samba()));
 			if((serveurs>>1) & 1) newItem("ftp", tr("FTP connect"), this, SLOT(ftp()));

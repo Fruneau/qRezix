@@ -130,7 +130,7 @@ void TrayIcon::buildMenu()
 	if(pop.count()) pop.clear();
 	
 	QPixmap pixmap;
-	#define newItem(name, trad, receiver, slot) pop.addAction(RzxConfig::themedIcon(name).scaled(16,16), trad, receiver, slot);
+	#define newItem(name, trad, receiver, slot) pop.addAction(RzxConfig::themedIcon(name).scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), trad, receiver, slot);
 	
 	RzxPlugInLoader::global()->menuTray(pop);
 	newItem("pref", tr("&Preference"), parent(), SLOT(boitePreferences()));
@@ -728,11 +728,7 @@ void TrayIcon::TrayIconPrivate::initWM(WId icon)
 
 void TrayIcon::TrayIconPrivate::setPixmap(const QPixmap &pm)
 {
-	pix = pm;
-	QImage img = pm.convertToImage();
-	if(!img.isNull())
-		img = img.smoothScale(RzxConfig::traySize(), RzxConfig::traySize());
-	pix.convertFromImage(img);
+	pix = pm.scaled(RzxConfig::traySize(), RzxConfig::traySize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 	setIcon(pix);
 	repaint();
 }
@@ -845,14 +841,9 @@ public:
 		setPixmap(pm);
 	}
 
-	void setPixmap(const QPixmap &_pm)
+	void setPixmap(const QPixmap &pm)
 	{
-		QPixmap pm;
-		QImage i = _pm.convertToImage();
-		i = i.scaled(i.width() * 2, i.height() * 2);
-		pm.convertFromImage(i);
-
-		TrayIconPrivate::setPixmap(pm);
+		TrayIconPrivate::setPixmap(pm.scaled(pm.width() * 2, pm.height() * 2, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
 		// thanks to Robert Spier for this:
 		// for some reason the repaint() isn't being honored, or isn't for
