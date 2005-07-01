@@ -9,7 +9,7 @@
 	<key>CFBundleGetInfoString</key>
 	<string>qRezix 1.7.0-svn, Copyright (c) 2002-2005 Binet Réseau</string>
 	<key>CFBundleIconFile</key>
-	<string>application</string>
+	<string>qrezix.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.br.qrezix</string>
 	<key>CFBundleInfoDictionaryVersion</key>
