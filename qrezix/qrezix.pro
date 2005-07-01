@@ -1,12 +1,31 @@
+############################################
+###       Fichier projet de qRezix       ###
+############################################
+
+# Ce fichier permet de générer les Makefiles
+# > qmake qrezix.pro
+
+############################################
+### Partie 1 : Configuration de Qt       ###
+############################################
+# Type de projet
 TEMPLATE	= app
 LANGUAGE	= C++
-QT += qt3support
-CONFIG	+= qt warn_on
 
+# Modules Qt nécessaires
+QT += qt3support network
+
+# Configuration de la compilation
+CONFIG	+= qt warn_on
+DEFINES += QT_DLL
+
+# Options supplémentaires
 win32:LIBS	+= IMM32.LIB
 
-DEFINES	+= QT_DLL QT3_SUPPORT
-
+############################################
+### Partie 2 : Fichiers sources          ###
+############################################
+# Fichier headers -> moc
 HEADERS	+= qrezix.h \
 	rzxchat.h \
 	rzxclientlistener.h \
@@ -29,6 +48,7 @@ HEADERS	+= qrezix.h \
 	md5.h \
 	rzxtraywindow.h
 
+# Fichier sources -> c++
 SOURCES	+= main.cpp \
 	qrezix.cpp \
 	rzxchat.cpp \
@@ -51,44 +71,59 @@ SOURCES	+= main.cpp \
 	md5.cpp \
 	rzxtraywindow.cpp
 
-
+# Fichiers ui -> uic
 FORMS = rzxpropertyui.ui \
 	rzxquitui.ui \
 	rzxwrongpassui.ui \
 	rzxchangepassui.ui \
 	qrezixui.ui
-
 macx {
-    FORMS += rzxchatui_mac.ui
+	FORMS += rzxchatui_mac.ui
 }
 !macx {
-    FORMS += rzxchatui.ui
+	FORMS += rzxchatui.ui
 }
 
-TRANSLATIONS	= ./translations/qrezix.ts ./translations/qrezix_fr.ts
+# Ressources supplémentaire du projet
+TRANSLATIONS = ./translations/qrezix.ts \
+	./translations/qrezix_fr.ts
 RC_FILE         = icone.rc
 
+############################################
+### Partie 3 : Installation              ###
+############################################
+# Uniquement définie sur MacOS
+# Consiste à mettre les thèmes/traductions
+# dans le package du programme
 macx {
-  TARGET = qRezix
+	# Nom du programme
+	TARGET = qRezix
 
-  translations.files = ./translations/*
-  translations.path = ./qRezix.app/Contents/Resources/translations
-  themes.files = ../icons/themes/*
-  themes.path = ./qRezix.app/Contents/Resources/themes
-  icone.files = ./application.icns
-  icone.path = ./qRezix.app/Contents/Resources
-  info.files = ./Info.plist
-  info.path = ./qRezix.app/Contents
-  qrezix.files = ./qRezix.app
-  qrezix.path = ../macosx/root/Applications
+	# Définie les règles pour installer
+	#  regle.files = sources
+	#  regle.path  = destination
+	# Traduction :
+	translations.files = ./translations/*.qm
+	translations.path = ./qRezix.app/Contents/Resources/translations
+	# Thèmes
+	themes.files = ../icons/themes/*
+	themes.path = ./qRezix.app/Contents/Resources/themes
+	# Icône du programme
+	icone.files = ./*.icns
+	icone.path = ./qRezix.app/Contents/Resources
+	# Informations sur le programme
+	info.files = ./Info.plist
+	info.path = ./qRezix.app/Contents
 
-  INSTALLS += translations \
-           themes \
-           icone \
-	       info \
-           qrezix
+	# Déplace le paquet pour le mettre dans le répertoire
+	# où il sera utiliser pour compiler un installer qvb
+	qrezix.files = ./qRezix.app
+	qrezix.path = ../macosx/root/Applications
 
+	# Definition des modules à installer
+	INSTALLS += translations \
+		themes \
+		icone \
+		info \
+		qrezix
 }
-#The following line was inserted by qt3to4
-QT += network  
-
