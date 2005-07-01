@@ -109,10 +109,10 @@ macx {
 	themes.files = ../icons/themes/*
 	themes.path = ./qRezix.app/Contents/Resources/themes
 	# Icône du programme
-	icone.files = ./*.icns
+	icone.files = ./resources/*.icns
 	icone.path = ./qRezix.app/Contents/Resources
 	# Informations sur le programme
-	info.files = ./Info.plist
+	info.files = ./resources/Info.plist ./resources/PkgInfo
 	info.path = ./qRezix.app/Contents
 
 	# Déplace le paquet pour le mettre dans le répertoire
