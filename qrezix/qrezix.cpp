@@ -79,8 +79,6 @@ QRezix::QRezix(QWidget *parent)
 	RzxConfig::globalConfig();
 	///Chargement des plug-ins
 	RzxPlugInLoader::global();
-	///Préparation du lanceur des clients http...
-	new RzxUtilsLauncher(rezal);
 	buildActions();
 	
 #ifdef Q_OS_MAC

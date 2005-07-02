@@ -18,44 +18,61 @@
 #ifndef RZXCONNECTIONLISTER_H
 #define RZXCONNECTIONLISTER_H
 
-#include <qobject.h>
-#include <q3dict.h>
-#include <qstring.h>
-#include <qtimer.h>
-#include <qstringlist.h>
+#include <QObject>
+#include <QHash>
+#include <QString>
+#include <QTimer>
+#include <QStringList>
 
+#include "rzxhostaddress.h"
 
 class RzxComputer;
 class RzxChat;
 class RzxServerListener;
 class RzxClientListener;
-class RzxHostAddress;
-class Q3Socket;
 class QImage;
 
+///RzxConnection lister est la classe centrale de l'architecture du programme
+/** Elle est en effet le pivot entre l'architecture réseau et l'interface graphique.
+ * RzxRezal est son pendant graphique.
+ */
 class RzxConnectionLister : public QObject
 {
 	Q_OBJECT
-	
-	static RzxConnectionLister *object;
-	QTimer delayDisplay;
-	QStringList displayWaiter;
 	bool initialized;
 	
-	public:
-		Q3Dict<RzxComputer> iplist;
-		Q3Dict<RzxComputer> computerByLogin;
-		RzxServerListener * server;
-		RzxClientListener * client;
-		Q3Dict<RzxChat> chats;
-		Q3Dict<RzxChat> chatsByLogin;
+	static RzxConnectionLister *object;
 
-		RzxConnectionLister(QObject *parent = NULL, const char *name = NULL);
+	// Pour le traitement asynchrone (buffered)
+	QTimer delayDisplay;
+	QStringList displayWaiter;
+	
+	// Sockets actifs
+	RzxServerListener * server;
+	RzxClientListener * client;
+
+	// Index des machines connectées
+	QHash<RzxHostAddress, RzxComputer*> computerByIP;
+	QHash<QString, RzxComputer*> computerByLogin;
+	QHash<RzxHostAddress, RzxChat*> chatByIP;
+	QHash<QString, RzxChat*> chatByLogin;
+
+
+	public:
+		RzxConnectionLister(QObject *parent = NULL);
 		~RzxConnectionLister();
-		inline static RzxConnectionLister *global() { if(!object) new RzxConnectionLister(NULL, "Lister"); return object; }
+		bool isInitialized() const;
+		
+		static RzxConnectionLister *global();
+		
 		void initConnection();
 		void closeSocket();
-		inline bool isInitialized() { return initialized; }
+		
+		// Récupération des données des annuaires
+		RzxComputer *getComputerByName(const QString&) const;
+		RzxComputer *getComputerByIP(const RzxHostAddress&) const;
+		RzxChat *getChatByName(const QString&) const;
+		RzxChat *getChatByIP(const RzxHostAddress&) const;
 		
 	public slots:
 		void login(const QString& ordi = QString::null);
@@ -67,16 +84,16 @@ class RzxConnectionLister : public QObject
 		void sysmsg(const QString& msg);
 		void fatal(const QString& msg);
 		
-		void warnProperties(const RzxHostAddress& peer);
+		void warnProperties(const RzxHostAddress&);
 	
-		RzxChat *chatCreate( const RzxHostAddress& peer );
-		RzxChat *chatCreate( const QString& login);
+		RzxChat *chatCreate(const RzxHostAddress&);
+		RzxChat *chatCreate(const QString&);
 		void closeChat(const QString& login);
-		void chatDelete(const RzxHostAddress& peerAddress);
+		void chatDelete(const RzxHostAddress&);
 		void closeChats();
 		
 	protected slots:
-		void recvIcon(QImage*Icon, const RzxHostAddress&);
+		void recvIcon(QImage*, const RzxHostAddress&);
 		void serverDisconnected();
 		void serverConnected();
 		RzxChat *createChat( RzxComputer *computer);
@@ -92,5 +109,42 @@ class RzxConnectionLister : public QObject
 		void loginEnd();
 };
 
+///Indique si l'object est correctement initialisé
+inline bool RzxConnectionLister::isInitialized() const {
+	return initialized;
+}
+
+///Renvoie l'objet global
+/** L'objet est créé si nécessaire */
+inline RzxConnectionLister *RzxConnectionLister::global()
+{
+	if(!object)
+		new RzxConnectionLister(NULL);
+	return object;
+}
+
+///Renvoie l'ordinateur associé à name
+inline RzxComputer *RzxConnectionLister::getComputerByName(const QString& name) const
+{
+	return computerByLogin[name];
+}
+
+///Renvoie l'ordinateur associé à l'IP
+inline RzxComputer *RzxConnectionLister::getComputerByIP(const RzxHostAddress& ip) const
+{
+	return computerByIP[ip];
+}
+
+///Renvoie la fenêtre de chat associée à name
+inline RzxChat *RzxConnectionLister::getChatByName(const QString& name) const
+{
+	return chatByLogin[name];
+}
+
+///Renvoie la fenêtre de chat associée à l'IP
+inline RzxChat *RzxConnectionLister::getChatByIP(const RzxHostAddress& ip) const
+{
+	return chatByIP[ip];
+}
 
 #endif

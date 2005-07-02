@@ -15,41 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef WIN32
-#include <QApplication>
-
-#include <windows.h>
-#include <tchar.h>
-#include <malloc.h>
-#ifdef UNICODE
-	#define RzxShellExecute(a, b, str, c, d, e)  \
-		ShellExecute( a, b, (LPCWSTR)(str), c, d, e )
-#else
-	#define RzxShellExecute(a, b, str, c, d, e) \
-		ShellExecute( a, b, (LPCSTR)(str.latin1()), c, d, e )
-#endif
-#define RzxWinExec(str, a) \
-	WinExec((LPCSTR)(str.latin1()), a)
-#define RZXCHAT_IMPL_H
-#define RZXCLIENTLISTENER_H
-class RzxChat;
-class RzxClientListener;
-class RzxChatSocket;
-#endif
-#include <stdlib.h>
+#include <QProcess>
 
 #include "rzxutilslauncher.h"
 
+#include "rzxcomputer.h"
 #include "rzxconfig.h"
-#include "rzxrezal.h"
-#include "rzxitem.h"
 
+///Objet global pour un accès facile
 RzxUtilsLauncher *RzxUtilsLauncher::object = NULL;
 
-RzxUtilsLauncher::RzxUtilsLauncher(RzxRezal *m_rezal)
+///Construction : on référencie juste un rezazl
+/** Le RzxRezal fournit les outils de correspondance IP-Nom */
+RzxUtilsLauncher::RzxUtilsLauncher()
 {
-	object = this;
-	rezal = m_rezal;
+	lister = RzxConnectionLister::global();
 }
 
 RzxUtilsLauncher::~RzxUtilsLauncher()
@@ -58,303 +38,225 @@ RzxUtilsLauncher::~RzxUtilsLauncher()
 }
 
 // lance le client ftp
-void RzxUtilsLauncher::ftp(const QString& login)
+void RzxUtilsLauncher::ftp(const QString& s_login) const
 {
-	qDebug(login);
-	int offset = login.find("/");
-	QString path;
-	if(offset == -1) path = "";
-	else path = login.mid(offset+1);
+	QString login = s_login.section("/", 0,0);
+	QString path = s_login.section("/",1);
 	
-	QString m_login;
-	m_login = login.left(offset);
-	
-	RzxItem *item = (RzxItem*)object->rezal->findItem(m_login, RzxRezal::ColNom, RzxRezal::ExactMatch);
-	if(!item) return;
-	// int serveurs=item->servers;
+	RzxComputer *computer = lister->getComputerByName(login);
+	if(!computer) return;
+
 	QString tempPath = RzxConfig::globalConfig()->FTPPath();
-	QString tempip = (item->ip).toString();
+	QString tempip = computer->getIP().toString();
 	QString ip=tempip;
 	tempip="ftp://"+tempip+"/"+path;
-	qDebug(tempip);
 
+	QString cmd;
+	QStringList args;
 #ifdef WIN32
-	int iRegValue = 0;
-	TCHAR strRegValue[] = TEXT("0");
-	HKEY hKey;
-
 	QString sFtpClient=RzxConfig::globalConfig()->ftpCmd();
 
-	// leechftp :
-	if( (sFtpClient =="LeechFTP") &&
-		!RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("Software\\LeechFTP"), 0, KEY_ALL_ACCESS, &hKey) )
+	// LeechFTP
+	if(sFtpClient == "LeechFTP")
 	{
-		RegSetValueEx(hKey, TEXT("ProxyMode"), 0, REG_DWORD, LPBYTE(& iRegValue), 4);
-		RegSetValueEx(hKey, TEXT("LocalDir"),0,REG_SZ,
-			(unsigned char*)(QDir::convertSeparators(RzxConfig::globalConfig()->FTPPath()).latin1()),
-			RzxConfig::globalConfig()->FTPPath().length() * sizeof(unsigned char));
-		unsigned long KeySize = sizeof(TCHAR) * MAX_PATH;
-		char *buffer;
-		// Type de données à lire
-        unsigned long dwType = REG_MULTI_SZ; // type : Multi_String: tableau de string 
-											// délimités par '\0' et finissant par '\0\0'
-		// 1er Query pour avoir la taille du contenu de la clé
-		RegQueryValueEx(hKey,TEXT("AppDir"),NULL,&dwType,NULL,&KeySize);
-		// On créé notre buffer
-        buffer = new char[KeySize];
-		int i = 0;
-		QString temp;
-		// ouverture de la clé pour lire la valeur
-		RegQueryValueEx(hKey,TEXT("AppDir"),NULL,&dwType,(LPBYTE)buffer,&KeySize); 
-		// Copie du buffer caractère par caractère, sinon ça marche pas
-		while ((i<KeySize) && ((buffer[i] != '\0') || (buffer[i+1] != '\0')))
+		QSettings regReader(QSettings::UserScope, "LeechFTP");
+		if(regReader.contains("AppDir"))
 		{
-			if(buffer[i] != '\0') temp.append(buffer[i]);
-			i++;
+			//Réglage des paramètres du proxy
+			regReader.setValue("ProxyMode", 0);
+			regReader.setValue("LocalDir", tempPath);
+			
+			//Récupération du chemin d'accès
+			cmd=regReader.value("AppDir").toString()+"leechftp.exe";
+			args << tempip;
 		}
-		RegCloseKey(hKey);
-		QString cmd=temp+"leechftp.exe " + tempip;
-
-		RzxWinExec(cmd, 1);
-		qDebug(cmd);
-		return;
 	}
-	// smartftp :
-	else if( (sFtpClient == "SmartFTP") &&
-		!RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("Software\\SmartFTP"), 0, KEY_ALL_ACCESS, &hKey))
+	// SmartFTP
+	else if(sFtpClient == "SmartFTP")
 	{
-		RegCloseKey(hKey);
-		unsigned long KeySize = sizeof(TCHAR) * MAX_PATH;
-
-	// Règle les options de proxy, il me semble, je sais pas si c'est indispensable.
-		HKEY hKey2;
-		RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("Software\\SmartFTP\\ProxySettings"), 0, KEY_ALL_ACCESS, &hKey2);
-		unsigned char * pointer;
-		unsigned long KeyType = 0;
-		
-  
-		if ( QApplication::winVersion() & QSysInfo::WV_NT_based ){
-			unsigned long size;
-			RegQueryInfoKey(hKey,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,&size,NULL,NULL);
-			size+=ip.length() * sizeof(unsigned char);
-			unsigned char *buffer2;
-			buffer2 = (unsigned char *)malloc(size);
-			strcpy((char*)buffer2,ip.latin1());
-			pointer=buffer2;
-			buffer2[ip.length()]=';';
-			pointer+=ip.length()+1;
-			RegQueryValueEx(hKey2, TEXT("Proxy Exceptions"), 0, &KeyType, pointer, &size);
-			QString test((char*)pointer);
-   
-			if(!test.contains(ip+";")){
-				RegSetValueEx(hKey2,TEXT("Proxy Exceptions"),0,REG_SZ,(const unsigned char*)buffer2,KeySize+ip.length()+1);
+		QSettings regReader(QSettings::SystemScope, "SmartFTP");
+		if(regReader.contains("Install Directory"))
+		{
+			//Réglage des paramètres du proxy
+			regReader.beginGroup("ProxySettings");
+			if(QSysInfo::WindowsVersion & QSysInfo::WV_NT_based)
+			{
+				QString proxyExcpt = regReader.value("Proxy Exceptions").toString();
+				if(!proxyExcpt.contains(ip + ";"))
+					regReader.setValue("Proxy Exceptions", ip + ";" + proxyExcpt);
 			}
-			free(buffer2);
+			else
+				reader.setValue("Proxy Type", 0);
+			regReader.endGroup();
+
+			//Récupération du chemin d'accès
+			regReader.setValue("Network/Default Path", tempPath);
+			cmd = regReader.value("Install Directory").toString() + "smartftp.exe";
+			args << tempip;
 		}
-		else RegSetValueEx(hKey, TEXT("Proxy Type"), 0, REG_DWORD, LPBYTE(& iRegValue), 4);
-		RegCloseKey(hKey2);
-
-		RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("Software\\SmartFTP\\Network"), 0, KEY_ALL_ACCESS, &hKey2);
-		RegSetValueEx(hKey2,TEXT("Default Path"),0,REG_SZ,
-				(unsigned char*)(QDir::convertSeparators(RzxConfig::globalConfig()->FTPPath()).latin1()),
-				RzxConfig::globalConfig()->FTPPath().length() * sizeof(unsigned char));
-		RegCloseKey(hKey2);
-
-		RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("Software\\SmartFTP"), 0, KEY_ALL_ACCESS, &hKey);
-
-	// Recherche du repertoire de SmartFTP
-		char *buffer;
-		// Type de données à lire
-        unsigned long dwType = REG_MULTI_SZ; // type : Multi_String: tableau de string 
-											// délimités par '\0' et finissant par '\0\0'
-		// 1er Query pour avoir la taille du contenu de la clé
-		RegQueryValueEx(hKey,TEXT("Install Directory"),NULL,&dwType,NULL,&KeySize);
-		// On créé notre buffer
-        buffer = new char[KeySize];
-		int i = 0;
-		QString temp;
-		// ouverture de la clé pour lire la valeur
-		RegQueryValueEx(hKey,TEXT("Install Directory"),NULL,&dwType,(LPBYTE)buffer,&KeySize); 
-		// Copie du buffer caractère par caractère, sinon ça marche pas
-		while ((i<KeySize) && ((buffer[i] != '\0') || (buffer[i+1] != '\0')))
-		{
-			if(buffer[i] != '\0') temp.append(buffer[i]);
-			i++;
-		}
-		RegCloseKey(hKey);
-		QString cmd=temp+"smartftp.exe " + tempip;
-
-		RzxWinExec(cmd, 1);
-		qDebug(cmd);
-		return;
 	}
-
+	// Internet Explorer
 	else if (sFtpClient == "iExplore")
 	{
-		QString cmd="explorer " + tempip;
-		RzxWinExec(cmd, 1);
-		return;
+		cmd = "explorer";
+		args << tempip;
 	}
-
-	else if ((sFtpClient == "standard")||(sFtpClient == "LeechFTP")||(sFtpClient == "SmartFTP"))
-	{ // client FTP standard
-		#ifdef UNICODE
-			const char *lat = tempip.latin1(); 
-			ushort *unicode; 
-			unicode = new ushort[tempip.length() + 1]; 
-			unicode[tempip.length()] = 0; 
-			for(int i =0 ; i< tempip.length() ; i++) 
-			unicode[i] = (ushort)lat[i]; 
-			RzxShellExecute( NULL, NULL, unicode, NULL, NULL, SW_SHOW );
-		#else
-			RzxShellExecute( NULL, NULL, tempip, NULL, NULL, SW_SHOW );
-		#endif
-	}
-
+	else if( sFtpClient == "standard")
+		cmd = tempip;
 	else
 	{
-		QString cmd= sFtpClient+ " " + tempip;
-		RzxWinExec(cmd, 1);
+		cmd= sFtpClient;
+		args << tempip;
 	}
 #else
-	QString cmd = "cd " + tempPath + "; ";
-
 #ifdef Q_OS_MAC
 	if(RzxConfig::globalConfig()->ftpCmd() == "Default")
-		cmd = cmd + "open \"" + tempip + "\" &";
+	{
+		cmd = "open";
+		args << "\"" + tempip + "\"";
+	}
 	else
-		cmd = cmd + RzxConfig::globalConfig()->ftpCmd() + " " + tempip;
-		
+	{
+		cmd = RzxConfig::globalConfig()->ftpCmd();
+		args << tempip;
+	}
 #else
-
-	cmd = cmd + RzxConfig::globalConfig()->ftpCmd() + " " + tempip;
 	if(RzxConfig::globalConfig()->ftpCmd() == "lftp")
-	// on lance le client dans un terminal
-	#ifdef WITH_KDE
-		cmd = "konsole -e \"" + cmd + "\" &";
-	#else
-		cmd = "xterm -e \"" + cmd + "\" &";
-	#endif
+	{
+		// on lance le client dans un terminal
+#ifdef WITH_KDE
+		cmd = "konsole";
+		args << "-e" << "\"lftp " + tempip + "\"";
+#else
+		cmd = "xterm";
+		args << "-e" << "\"lftp " + tempip + "\"";
+#endif
+	}
 	else
-	//client graphique
-		cmd = cmd + " &";
+	{
+		cmd = RzxConfig::globalConfig()->ftpCmd();
+		args << tempip;
+	}
 #endif //MAC
-
-	system(cmd.latin1());
 #endif //WIN32
+	
+	QProcess process;
+	process.setWorkingDirectory(path);
+	process.start(cmd, args);
+	
 }
 
-void RzxUtilsLauncher::samba(const QString& login){
-	RzxItem *item = (RzxItem*)object->rezal->findItem(login, RzxRezal::ColNom, RzxRezal::ExactMatch);
-	if(!item) return;
+void RzxUtilsLauncher::samba(const QString& login) const
+{
+	RzxComputer *computer = lister->getComputerByName(login);
+	if(!computer) return;
+	
+	QString ip = computer->getIP().toString();
+	QString path = RzxConfig::globalConfig()->FTPPath();
 
-	QString tempip = (item -> ip).toString();
-	QString tempPath = RzxConfig::globalConfig()->FTPPath();
+	// Composition de la ligne de commande
+	QString cmd;
+	QStringList args;
 
 #ifdef WIN32
-	int serveurs=item->servers;
-	QString cmd = "explorer \\\\" + (item -> ip).toString();
-	RzxWinExec(cmd, 1);
+	cmd = "explorer";
+	args << "\\\\" + ip;
 #else
 	#ifdef Q_OS_MAC
-	QString cmd = "cd "+tempPath+"; open smb://" + (item ->ip).toString() + "/" +" &";
+	cmd = "open";
 	#else
-	QString cmd = "cd "+tempPath+"; konqueror smb://" + (item ->ip).toString() + "/" +" &";
+	cmd = "konqueror";
 	#endif //MAC
-	system(cmd.latin1());
+	args << "smb://" + ip + "/";
 #endif
+		
+	QProcess process;
+	process.setWorkingDirectory(path);
+	process.start(cmd, args);
 }
-
-/*void RzxRezal::fermetureLeechFTP(){
-	int iRegValue = 2;
-	HKEY hKey;
-
-	RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("Software\\LeechFTP"), 0, KEY_ALL_ACCESS, &hKey);
-	RegSetValueEx(hKey, TEXT("ProxyMode"), 0, REG_DWORD, LPBYTE(& iRegValue), 4);
-	RegCloseKey(hKey);
-}*/
 
 // lance le client http
-void RzxUtilsLauncher::http(const QString& login)
+void RzxUtilsLauncher::http(const QString& login) const
 {
-	RzxItem *item = (RzxItem*)object->rezal->findItem(login, RzxRezal::ColNom, RzxRezal::ExactMatch);
-	if(!item) return;
-	QString tempip = "http://" + (item -> ip).toString();
-	QString cmd=RzxConfig::globalConfig()->httpCmd();
+	RzxComputer *computer = lister->getComputerByName(login);
+	if(!computer) return;
+	
+	QString ip = computer->getIP().toString();
+	QString path = RzxConfig::globalConfig()->FTPPath();
+	QString tempip = "http://" + ip;
+	
+	// Composition de la ligne de commande
+	QString cmd = RzxConfig::globalConfig()->httpCmd();
+	QStringList args;
 
 #ifdef WIN32
-	if( cmd == "standard" )
+	if(cmd == "Firefox")
 	{
-		#ifdef UNICODE
-			const char *lat = tempip.latin1(); 
-			ushort *unicode; 
-			unicode = new ushort[tempip.length() + 1]; 
-			unicode[tempip.length()] = 0; 
-			for(int i =0 ; i< tempip.length() ; i++) 
-			unicode[i] = (ushort)lat[i]; 
-			RzxShellExecute( NULL, NULL, unicode, NULL, NULL, SW_SHOW );
-		#else
-			RzxShellExecute( NULL, NULL, tempip, NULL, NULL, SW_SHOW );
-		#endif
+		cmd = "firefox";
+		args << tempip;
 	}
+	else if(cmd == "Opera")
+	{
+		QSettings regReader(QSettings::UserScope, "Opera Software");
+		if(regReader.contains("Last CommandLine"))
+		{
+			cmd = regReader.value("Last CommandLine").toString();
+			args << tempip;
+		}
+	}
+	else if(cmd == "iExplore")
+	{
+		cmd = "explorer"
+		args << tempip;
+	}
+	else if(cmd == "standard")
+		cmd = tempip;
 	else
 	{
-		int serveurs = item->servers;
-		HKEY hKey;
-		RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("Software"), 0, KEY_ALL_ACCESS, &hKey);
-
-		if ( cmd == "Opera" && !RegOpenKeyEx(hKey, TEXT("Opera Software"), 0, KEY_ALL_ACCESS, &hKey) ) {
-  
-			unsigned char buffer[MAX_PATH];
-			unsigned long KeyType = 0;
-			unsigned long KeySize = sizeof(TCHAR) * MAX_PATH;
-			RegQueryValueEx(hKey, TEXT("Last CommandLine"), 0, &KeyType, buffer, &KeySize);
-			RegCloseKey(hKey);
-			QString temp=(char *)buffer;
-			cmd = temp + " " + tempip;
-		}
-		else if (cmd == "iExplore")
-		{
-			cmd = "explorer " + tempip;
-		}
-		else
-		cmd = cmd+ " " + tempip;
-
- 
-		RzxWinExec(cmd, 1);
+		args << tempip;
 	}
 #else
+	cmd = RzxConfig::globalConfig()->httpCmd();
 	#ifdef Q_OS_MAC
-		if(cmd == "Default")
-			cmd = "open";
+	if(cmd == "Default")
+		cmd = "open";
 	#endif
-	cmd = cmd + " " + tempip + " &";
-	system(cmd.latin1());
+	args << tempip;
 #endif
+	
+	QProcess process;
+	process.setWorkingDirectory(path);
+	process.start(cmd, args);
 }
 
 // lance le client news
-void RzxUtilsLauncher::news(const QString& login)
+void RzxUtilsLauncher::news(const QString& login) const
 {
-	RzxItem *item = (RzxItem*)object->rezal->findItem(login, RzxRezal::ColNom, RzxRezal::ExactMatch);
-	if(!item) return;
-	QString tempip = "news://" + (item -> ip).toString();
+	RzxComputer *computer = lister->getComputerByName(login);
+	if(!computer) return;
+	
+	QString ip = computer->getIP().toString();
+	QString path = RzxConfig::globalConfig()->FTPPath();
+	QString tempip = "news://" + ip;
+	
+	// Composition de la ligne de commande
 	QString cmd = RzxConfig::globalConfig()->newsCmd();
+	QStringList args;
 
 #ifdef WIN32
-	int serveurs=item->servers;
-	if( cmd == "standard" )
-		cmd = "explorer " + tempip;
+	if(cmd == "standard" )
+		cmd = tempip
 	else
-		cmd = cmd + " " + tempip;
-
-	RzxWinExec(cmd,1);
+		args << tempip;
 #else
 	#ifdef Q_OS_MAC
-		if(cmd == "Default")
-			cmd = "open";
+	if(cmd == "Default")
+		cmd = "open";
 	#endif
-	cmd = cmd + " " + tempip + " &";
-	system(cmd.latin1());
+	args << tempip;
 #endif
+	
+	QProcess process;
+	process.setWorkingDirectory(path);
+	process.start(cmd, args);
 }
