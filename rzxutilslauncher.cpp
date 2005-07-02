@@ -16,35 +16,30 @@
  ***************************************************************************/
 
 #ifdef WIN32
-	#include <windows.h>
-	#include <tchar.h>
-	#include <malloc.h>
-	#include <stdlib.h>
-	#ifdef UNICODE
-		#define RzxShellExecute(a, b, str, c, d, e)  \
-			ShellExecute( a, b, (LPCWSTR)(str), c, d, e )
-	#else
-		#define RzxShellExecute(a, b, str, c, d, e) \
-			ShellExecute( a, b, (LPCSTR)(str.latin1()), c, d, e )
-	#endif
-	#define RzxWinExec(str, a) \
-		WinExec((LPCSTR)(str.latin1()), a)
-#else
-	#include <stdlib.h>
-#endif
+#include <QApplication>
 
-#ifdef WIN32
 #include <windows.h>
-#include <qapplication.h>
+#include <tchar.h>
+#include <malloc.h>
+#ifdef UNICODE
+	#define RzxShellExecute(a, b, str, c, d, e)  \
+		ShellExecute( a, b, (LPCWSTR)(str), c, d, e )
+#else
+	#define RzxShellExecute(a, b, str, c, d, e) \
+		ShellExecute( a, b, (LPCSTR)(str.latin1()), c, d, e )
+#endif
+#define RzxWinExec(str, a) \
+	WinExec((LPCSTR)(str.latin1()), a)
 #define RZXCHAT_IMPL_H
 #define RZXCLIENTLISTENER_H
 class RzxChat;
 class RzxClientListener;
 class RzxChatSocket;
 #endif
-
+#include <stdlib.h>
 
 #include "rzxutilslauncher.h"
+
 #include "rzxconfig.h"
 #include "rzxrezal.h"
 #include "rzxitem.h"

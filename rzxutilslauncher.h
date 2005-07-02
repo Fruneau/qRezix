@@ -18,7 +18,7 @@
 #ifndef RZXUTILSLAUNCHER_H
 #define RZXUTILSLAUNCHER_H
 
-#include <qstring.h>
+#include <QString>
 
 /**
   *@author Florent Bruneau

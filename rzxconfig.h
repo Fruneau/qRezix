@@ -34,6 +34,7 @@ class RzxComputer;
 class QPixmap;
 class RzxProperty;
 class RzxHostAddress;
+class QHostAddress;
 
 /**
   *@author Sylvain Joyeux
@@ -100,16 +101,23 @@ private :
 
 public:
 	bool isFavorite(const QString&) const;
+	bool isFavorite(const RzxComputer&) const;
 	void addToFavorites(const QString&);
+	void addToFavorites(const RzxComputer&);
 	void delFromFavorites(const QString&);
+	void delFromFavorites(const RzxComputer&);
 	void writeFavorites();
 	
 	bool isBan(const QString&) const;
+	bool isBan(const QHostAddress&) const;
+	bool isBan(const RzxComputer&) const;
 	void addToBanlist(const QString&);
+	void addToBanlist(const RzxComputer&);
 	void delFromBanlist(const QString&);
+	void delFromBanlist(const RzxComputer&);
 	void writeIgnoreList();
 
-// Polices de caractÃ¨res
+	// Polices de caractères
 	QStringList getFontList();
 	const QList<int> getSizes(const QString&) const;
 	bool isItalicSupported(const QString&) const;
