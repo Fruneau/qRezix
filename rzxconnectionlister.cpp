@@ -91,7 +91,7 @@ void RzxConnectionLister::login( const QString& newOrdi )
 	ordi = displayWaiter[0];
 	displayWaiter.remove(ordi);
 
-	RzxComputer * newComputer = new RzxComputer();
+	RzxComputer *newComputer = new RzxComputer();
 	connect( newComputer, SIGNAL( needIcon( const RzxHostAddress& ) ), this, SIGNAL( needIcon( const RzxHostAddress& ) ) );
 	if( newComputer -> parse( ordi ) )
 	{
@@ -101,7 +101,7 @@ void RzxConnectionLister::login( const QString& newOrdi )
 
 	// Recherche si cet ordinateur était déjà présent (refresh ou login)
 	QString tempIP = newComputer -> getIP().toString();
-	RzxComputer *computer = getComputerByIP(newComputer->getIP());
+	RzxComputer *computer = computerByIP.take(newComputer->getIP());
 	if(computer)
 	{
 		//suppression de l'ancien computer du qdict par nom
@@ -111,10 +111,12 @@ void RzxConnectionLister::login( const QString& newOrdi )
 		if(!computer->children().isEmpty())
 		{
 			QObjectList list = computer->children();
-			for(QList<QObject *>::iterator item = list.begin() ; item != list.end() ; item++)
+			QListIterator<QObject *> it(list);
+			while(it.hasNext())
 			{
-				computer->removeChild(*item);
-				newComputer->insertChild(*item);
+				QObject *child = it.next();
+				computer->removeChild(child);
+				newComputer->insertChild(child);
 			}
 		}
 		disconnect(computer, 0, 0, 0);
@@ -136,7 +138,7 @@ void RzxConnectionLister::login( const QString& newOrdi )
 		chatByLogin.insert(newComputer->getName(), chat);
 		chat->setHostname(newComputer->getName());
 	}
-		
+
 	emit login( newComputer);
 
 	//Placé après le emit login, pour que les signaux emits par la destruction n'interfèrent pas avec l'affichage
@@ -160,13 +162,14 @@ void RzxConnectionLister::login( const QString& newOrdi )
 void RzxConnectionLister::logout( const RzxHostAddress& ip )
 {
 	RzxComputer *computer = getComputerByIP(ip);
-	if (computer)
+	if(computer)
 	{
+		emit logout(computer);
+		computerByIP.remove(ip);
 		computerByLogin.remove(computer->getName());
+		computer->deleteLater();
 		emit countChange( tr("%1 clients connected").arg(computerByIP.count()) );
 	}
-	emit logout(computer);
-	computer->deleteLater();
 
 	RzxChat *chat = getChatByIP(ip);
 	if ( chat )
