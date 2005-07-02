@@ -89,10 +89,9 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : Q3ListView(parent, nam
 	client = RzxClientListener::global();
 	lister = RzxConnectionLister::global();
 	
-	//connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(login(RzxComputer*)));
 	connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(bufferedLogin(RzxComputer *)));
+	connect(lister, SIGNAL(logout(RzxComputer*)), this, SLOT(logout(RzxComputer*)));
 	connect(lister, SIGNAL(connectionEtablished()), this, SLOT(init()));
-	connect(lister, SIGNAL(logout(const RzxComputer& )), this, SLOT(logout(const RzxComputer&)));
 
 	// On est obligé d'utiliser ce signal pour savoir dans quelle colonne le
 	// double-clic suivant a lieu
@@ -374,11 +373,11 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 		}
 	}
 
-	itemByName.insert(computer->getName().lower(),new RzxItem*(item));
+	itemByName.insert(computer->getName().lower(), new RzxItem*(item));
 	nameByIP.insert(computer->getIP(), computer->getName().lower());
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 
-	item -> update();
+	item->update();
 	setUpdatesEnabled(TRUE);
 }
 
@@ -396,6 +395,7 @@ void RzxRezal::logBufLogins() { //en fait vu que le QPtrList faisait des segfaul
 void RzxRezal::logout(RzxComputer *computer)
 {
 	RzxItem *item = itemByIp.take(computer->getIP());
+	
 	if(!item) return;
 	
 	if(!dispNotFavorites)
@@ -403,6 +403,7 @@ void RzxRezal::logout(RzxComputer *computer)
 	
 	if((selected == item))
 		selected = NULL;
+	
 	itemByName.remove(computer->getName().lower());
 	nameByIP.remove(computer->getIP());
 	item->deleteLater();
