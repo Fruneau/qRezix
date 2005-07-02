@@ -18,18 +18,18 @@
 #ifndef RZXITEM_H
 #define RZXITEM_H
 
-#include <q3ptrvector.h>
-#include <q3memarray.h>
-#include <qpixmap.h>
-#include <q3listview.h>
-#include <Q3MemArray>
+#include <QVector>
+#include <QPixmap>
+#include <Q3ListViewItem>
+
 #include "rzxhostaddress.h"
+#include "rzxcomputer.h"
 
 /**
   *@author Sylvain Joyeux
   */
 
-class RzxComputer;
+class Q3ListView;
   
 class RzxItem : public QObject, public Q3ListViewItem
 {
@@ -51,21 +51,21 @@ class RzxItem : public QObject, public Q3ListViewItem
 		QString key(int column, bool ascending) const;
 	  	void drawComputerIcon();
 		RzxHostAddress ip;
-		
 
 		void setText(int column, const QString& text);
 		void setPixmap(int column, const QPixmap& pixmap);
+
 	protected: // Protected methods
 		// on sauvegarde les largeurs de colonnes
 		// pour detecter un eventuel changement
 		// idem, on sauvegarde les valeurs originales
 		// des pixmaps et du texte
 		void resizeDataVectors(int size);
-		Q3MemArray<int> colWidth;
-		Q3PtrVector<QString> texts;
-		Q3PtrVector<QStringList> textSplit;
-		Q3PtrVector< Q3MemArray<int> > textLengths;
-		Q3PtrVector<QPixmap> pixmaps;
+		QVector<int> colWidth;
+		QVector<QString> texts;
+		QVector<QStringList> textSplit;
+		QVector< QVector<int> > textLengths;
+		QVector<QPixmap> pixmaps;
 	
 		void updatePixmap(int column, int width);
 		void updateText(int column, int width, const QFontMetrics& fm);
@@ -82,11 +82,7 @@ class RzxItem : public QObject, public Q3ListViewItem
 
 inline RzxComputer *RzxItem::getComputer()
 {
-	QObject *computer = QObject::parent();
-//	if(computer && computer->inherits("RzxComputer"))
-		return (RzxComputer*)computer;
-//	else
-//		return NULL;
+	return qobject_cast<RzxComputer*>(QObject::parent());
 }
 
 #endif

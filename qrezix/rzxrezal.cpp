@@ -227,8 +227,7 @@ void RzxRezal::historique(){
 void RzxRezal::removeFromFavorites()
 {
 	RzxItem *item = (RzxItem*)currentItem();
-	QString temp= item->text(ColNom);
-	RzxConfig::globalConfig()->delFromFavorites(temp);
+	RzxConfig::globalConfig()->delFromFavorites(item->text(ColNom));
 	RzxConfig::globalConfig()->writeFavorites();
 	emit favoriteRemoved(item->getComputer());
 }
@@ -236,8 +235,7 @@ void RzxRezal::removeFromFavorites()
 void RzxRezal::addToFavorites()
 {
 	RzxItem *item = (RzxItem*)currentItem();
-	QString temp= item->text(ColNom);
-	RzxConfig::globalConfig()->addToFavorites(temp);
+	RzxConfig::globalConfig()->addToFavorites(item->text(ColNom));
 	RzxConfig::globalConfig()->writeFavorites();
 	emit favoriteAdded(item->getComputer());
 }
@@ -246,9 +244,7 @@ void RzxRezal::removeFromIgnoreList()
 {
 	RzxItem *item = (RzxItem*)currentItem();
 	item -> ignored = false;
-	RzxComputer * c = item->getComputer();
-	QString ip = c->getIP().toString();
-	RzxConfig::globalConfig()->delFromBanlist(ip);
+	RzxConfig::globalConfig()->delFromBanlist(*(item->getComputer()));
 	RzxConfig::globalConfig()->writeIgnoreList();
 }
 
@@ -257,9 +253,7 @@ void RzxRezal::addToIgnoreList()
 	RzxItem *item = (RzxItem*)currentItem();
 	item -> ignored = true;
 	QString temp= item->text(ColNom);
-	RzxComputer * c = item->getComputer();
-	QString ip = c->getIP().toString();
-	RzxConfig::globalConfig()->addToBanlist(ip);
+	RzxConfig::globalConfig()->addToBanlist(*(item->getComputer()));
 	RzxConfig::globalConfig()->writeIgnoreList();
 }
 
@@ -346,7 +340,7 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 	RzxItem *item = itemByIp.find(computer->getIP().toString());
 	if(!item)
 	{
-		if(!dispNotFavorites && !RzxConfig::globalConfig()->isFavorite( computer->getName()))
+		if(!dispNotFavorites && !RzxConfig::globalConfig()->isFavorite(*computer))
 			return;
 		setUpdatesEnabled(!dispNotFavorites);
 		item = new RzxItem(computer, this, dispNotFavorites);
@@ -359,9 +353,9 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 	{
 		if(!dispNotFavorites)
 		{
-			if(!RzxConfig::globalConfig()->isFavorite(computer->getName()))
+			if(!RzxConfig::globalConfig()->isFavorite(*computer))
 			{
-				RzxConfig::globalConfig()->addToFavorites(computer->getName());
+				RzxConfig::globalConfig()->addToFavorites(*computer);
 				RzxConfig::globalConfig()->writeFavorites();
 			}
 			emit changeFavorite(computer);

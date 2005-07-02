@@ -14,12 +14,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qbitmap.h>
-#include <qimage.h>
-#include <qbrush.h>
-#include <qpainter.h>
-#include <qfont.h>
-//Added by qt3to4:
+#include <QBitmap>
+#include <QImage>
+#include <QBrush>
+#include <QPainter>
+#include <QFont>
 #include <QPixmap>
 
 #include "rzxitem.h"
@@ -30,30 +29,21 @@
 #include "rzxconfig.h"
 
 RzxItem::RzxItem(RzxComputer *parent, Q3ListView * view, bool show)
-	 : QObject(parent), Q3ListViewItem(view)
+	 : QObject(parent), Q3ListViewItem(view), showNotFavorite(show)
 {
-	pixmaps.setAutoDelete(true);
-	texts.setAutoDelete(true);
-	textLengths.setAutoDelete(true);
-	textSplit.setAutoDelete(true);
-	
-	showNotFavorite = show;
-	
 	RzxComputer* computer = getComputer();
+	//Le Q_ASSERT est quand même super violent ici... à supprimer à mon avis
 	Q_ASSERT(computer != NULL);
+
 	ip = computer->getIP();
 	repondeur =  computer->getRepondeur();
-	ignored = RzxConfig::globalConfig()->isBan(computer->getIP().toString());
+	ignored = RzxConfig::globalConfig()->isBan(*computer);
 	promo =  computer->getPromo();
-	setVisible(show || RzxConfig::globalConfig()->isFavorite(computer->getIP().toString()));
-	//setEnabled(!ignored);
+
+	setVisible(show || RzxConfig::globalConfig()->isFavorite(*computer));
 }
 
 RzxItem::~RzxItem(){
-	pixmaps.clear();
-	texts.clear();
-	textLengths.clear();
-	textSplit.clear();
 }
 
 //importé de rzxrezal.cpp
@@ -69,24 +59,18 @@ void RzxItem::update(){
 	if (!computer)
 		return;
 
-	icon = computer  -> getIcon();
+	icon = computer->getIcon();
 	drawComputerIcon();
-	setText(RzxRezal::ColNom, computer -> getName());
-	setText(RzxRezal::ColRemarque, computer -> getRemarque());
+	setText(RzxRezal::ColNom, computer->getName());
+	setText(RzxRezal::ColRemarque, computer->getRemarque());
 	setText(RzxRezal::ColIP, computer->getIP().toString());
 	setText(RzxRezal::ColClient, computer->getClient());
 	setText(RzxRezal::ColResal, computer->getResal());
 	
 	RzxComputer::options_t options = computer -> getOptions();
-	Q3MemArray<QPixmap *> yesno = RzxConfig::yesnoIcons();
+	QVector<QPixmap*> yesno = RzxConfig::yesnoIcons();
 	int imgIdx, base = RzxRezal::ColSamba, codeIdx, mask = 1;
-	//TRES SALE mais dsl sinon faut changer le serveur .. prout@steak
-	/*AVANT*//*for (codeIdx = 0; codeIdx < 5; codeIdx++) {
-		imgIdx = options.Server & mask ? 1 : 0;
-		item -> setPixmap(codeIdx + base, *yesno[imgIdx*5+codeIdx]);
-		mask=mask<<1;
-	}*/
-	/*MAINTENANT*/
+	/*MAINTENANT*/ /* --> très sale d'après prout@steak */
 	for (codeIdx = 0; codeIdx < 5; codeIdx++) {
 		if(codeIdx!=2) {
 			imgIdx = options.Server & mask ? 1 : 0;
@@ -96,12 +80,12 @@ void RzxItem::update(){
 		mask=mask<<1;
 	}
 	
-	Q3MemArray<QPixmap *> os = RzxConfig::osIcons();
-	setPixmap(RzxRezal::ColOS, *os[(int) options.SysEx]);
+	QVector<QPixmap *> os = RzxConfig::osIcons();
+	setPixmap(RzxRezal::ColOS, *os[(int)options.SysEx]);
 	
-	RzxHostAddress ip = RzxServerListener::object() -> getIP();
-	gateway = ip.sameGateway(computer -> getIP());
-	Q3MemArray<QPixmap *> l_gateway = RzxConfig::gatewayIcons();
+	RzxHostAddress ip = RzxServerListener::object()->getIP();
+	gateway = ip.sameGateway(computer->getIP());
+	QVector<QPixmap*> l_gateway = RzxConfig::gatewayIcons();
 	// gateway[0] contient l'icone qu'il faut afficher si les deux passerelles sont !=
 	// gateway[1] contient celle lorsqu'elles sont identiques.
 	if(!l_gateway[gateway?1:0]) qDebug(QString("No gateway pixmap for %1").arg(gateway));
@@ -113,7 +97,7 @@ void RzxItem::update(){
 	if (sysex < 3) sysex += 7;
 
 	int promo=options.Promo;
-	Q3MemArray<QPixmap *> promos = RzxConfig::promoIcons();
+	QVector<QPixmap*> promos = RzxConfig::promoIcons();
 	if(promo==RzxComputer::PROMAL_ORANGE || promo==RzxComputer::PROMAL_UNK)
 		setPixmap(RzxRezal::ColPromo,*promos[0]);
 	else if(promo==RzxComputer::PROMAL_ROUJE)
@@ -158,16 +142,11 @@ QString RzxItem::key(int column, bool ascending) const{
 }
 /** No descriptions */
 void RzxItem::drawComputerIcon(){
-	QPixmap tempIcon = icon;
+	QPixmap tempIcon;
 	if(!icon.isNull() && !RzxConfig::computerIconSize() && (!isSelected() || !RzxConfig::computerIconHighlight()))
-	{
-		QImage img = icon.convertToImage();
-		if(!img.isNull())
-		{
-			img = img.smoothScale(32, 32);
-			tempIcon.convertFromImage(img);
-		}
-	}
+		tempIcon = icon.scaled(32,32, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	else
+		tempIcon = icon;
 	setPixmap(0, tempIcon);
 }
 
@@ -181,20 +160,22 @@ void RzxItem::resizeDataVectors(int size) {
 
 
 void RzxItem::updatePixmap(int column, int width) {
-	if ((int)pixmaps.size() <= column) resizeDataVectors(column + 1);
-	const QPixmap * pix = pixmap(column);	
-	if (!pix) return;
+	if (pixmaps.size() <= column)
+		resizeDataVectors(column + 1);
+	const QPixmap *pix = pixmap(column);	
+	if(!pix) return;
 	
-	QPixmap * tempPix = pixmaps[column];
+	QPixmap &tempPix = pixmaps[column];
 	
 	// redimensionnement de l'image a afficher
-	int w = pix -> width(), h = pix -> height();
+	int w = pix -> width(),
+		h = pix -> height();
 	if (width < pix -> width()) w = width;
 	if (height() < pix -> height()) h = height();
-	if (tempPix -> height() != h || tempPix -> width() != w)
+	if (tempPix.height() != h || tempPix.width() != w)
 	{
-		*tempPix = *pix;
-		tempPix -> resize(w,h);
+		tempPix = *pix;
+		tempPix.resize(w,h);
 	}
 }
 
@@ -205,49 +186,51 @@ void RzxItem::updateText(int column, int width, const QFontMetrics& fm) {
 	
 	int strWidth = fm.width(str);
 	
-	QString * text = texts[column];
+	QString &text = texts[column];
 
 	if (width < strWidth) {
-		*text = "";
-		const QStringList * split = textSplit[column];
-		Q3MemArray<int> * lengths = textLengths[column];
-		if (!split) {
-			textSplit.insert(column, new QStringList(QStringList::split(' ', str, true)));
-			split = textSplit[column];
-			
-			textLengths.insert(column, new Q3MemArray<int>(split -> count()));
-			lengths = textLengths[column];
+		text = "";
+		if(!textSplit[column].count()) {
+			textSplit.insert(column, QStringList::split(' ', str, true));
+
+			const QStringList &split = textSplit[column];
+			textLengths.insert(column, QVector<int>(split.count()));
 			
 			int wordIdx = 0;
 			QString line;
 			QStringList::ConstIterator it;
-			for (it = split -> begin(); it != split -> end(); ++it) {
+			QVector<int> &lengths = textLengths[column];
+			for(it = split.begin(); it != split.end(); ++it) {
 				if (!line.isEmpty()) line += " ";
 				line = line + *it;
-				(*lengths)[wordIdx++] = fm.width(line);
+				lengths[wordIdx++] = fm.width(line);
 			}
 		}
 		
-		QStringList::ConstIterator it (split -> begin());
-				
+		const QStringList &split = textSplit[column];
+		QVector<int> &lengths = textLengths[column];
 		QString line;
 		int curLength = 0;
 		int wordIdx = 0;
-		while (it != split -> end()) {
+		for(QStringList::ConstIterator it = split.begin() ; it != split.end() ; )
+		{
 			line = "";
-			do {
+			do
+			{
 				if (!line.isEmpty()) line += " ";
 				line = line + *it;
-			} while (++it != split -> end() && (*lengths)[++wordIdx] - curLength < width);
-			if (it != split -> end())
-				curLength = (*lengths)[wordIdx - 1];
+			}
+			while (++it != split.end() && lengths[++wordIdx] - curLength < width);
+			if (it != split.end())
+				curLength = lengths[wordIdx - 1];
 			else 
-				curLength = (*lengths)[wordIdx];
-			*text += "\n" + line;
+				curLength = lengths[wordIdx];
+			text += "\n" + line;
 		}
-	} else {
-		*text = str;
 	}
+	// end of if (width < strWidth)
+	else
+		text = str;
 }
 
 /** No descriptions */
@@ -275,31 +258,30 @@ void RzxItem::paintCell(QPainter * p, const QColorGroup& cg, int column, int wid
 		}
 	}
 	
-	p -> setBackgroundColor(backgroundColor);
-	p -> setPen(QPen(textColor));
-	p -> fillRect(0, 0, width, height, QBrush(backgroundColor));
+	p->setBackgroundColor(QBrush(backgroundColor));
+	p->setPen(QPen(textColor));
+	p->fillRect(0, 0, width, height, p->background());
 	
 	// il y en a qui n'ont pas leur rezix a jour
 	// => en particulier, ils n'ont pas de promo
 	// et la colonne 10 n'est pas gÃ©rÃ©e par colWidth
 	// vu que ca peut se reproduire dans de prochaines
 	// maj de qrezix, on gere ici
-	if (column >= (int) colWidth.size()) return;
+	if(column >= (int) colWidth.size()) return;
 	
-	if (width != colWidth[column]) {
+	if(width != colWidth[column]) {
 		updatePixmap(column, width);
 		updateText(column, width, p -> fontMetrics());
 	}
 	colWidth[column] = width;
 	
-	const QPixmap * pix = pixmaps[column];
-	const QString * txt = texts[column];
+	const QPixmap &pix = pixmaps[column];
+	const QString &txt = texts[column];
 	
-	if (!pix && !txt) {
+	if(pix.isNull() && txt.isEmpty())
 		return;
-	}
 	
-	if (!pix) 
+	if(pix.isNull()) 
 	{
 		QFont font = p->font();
 		font.setBold(isSelected() && column == RzxRezal::ColNom);
@@ -307,42 +289,34 @@ void RzxItem::paintCell(QPainter * p, const QColorGroup& cg, int column, int wid
 		font.setItalic(repondeur || ignored);
 #endif
 		p->setFont(font);
-		p -> setBackgroundMode(Qt::OpaqueMode);
-		p -> drawText(0, 0, width, height, align, *txt);
+		p->setBackgroundMode(Qt::OpaqueMode);
+		p->drawText(0, 0, width, height, align, txt);
 		return;
 	}
 	
 	// on dessine l'image
 	int x,y;
-	x = (width - pix -> width()) / 2;
-	y = (height - pix -> height()) / 2;
-	p -> drawPixmap(x, y, *pix);
+	x = (width - pix.width()) / 2;
+	y = (height - pix.height()) / 2;
+	p->drawPixmap(x, y, pix);
 }
 
 void RzxItem::setText(int column, const QString& text) {
 	Q3ListViewItem::setText(column, text);
-	if ((int) textSplit.size() <= column) resizeDataVectors(column + 1);
+	if(textSplit.size() <= column)
+		resizeDataVectors(column + 1);
 	colWidth[column] = 0;
 	
 	if (text.isEmpty()) {
 		textSplit.remove(column);
 		texts.remove(column);
-		return;
 	} 
-
-	if (!texts[column]) texts.insert(column, new QString);
 }
 
 void RzxItem::setPixmap(int column, const QPixmap& pix) {
 	Q3ListViewItem::setPixmap(column, pix);
-	if ((int) pixmaps.size() <= column) resizeDataVectors(column + 1);
+	if(pixmaps.size() <= column)
+		resizeDataVectors(column + 1);
 	colWidth[column] = 0;
-	
-	if (pix.isNull()) {
-		pixmaps.remove(column);
-		return;
-	} 
-	
-	if (!pixmaps[column]) pixmaps.insert(column, new QPixmap);
-	*pixmaps[column] = pix;
+	pixmaps[column] = pix;
 }

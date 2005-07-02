@@ -837,16 +837,34 @@ void RzxConfig::readFavorites()
 	}
 }
 
+///Indique si l'entrée est dans les favoris
 bool RzxConfig::isFavorite(const QString& nom) const {
 	return favorites.contains(nom);
 }
 
+///Idem encore mais à partir d'un RzxComputer
+bool RzxConfig::isFavorite(const RzxComputer& computer) const {
+	return isFavorite(computer.getName());
+}
+
+///Ajout du pseudo à la liste des favoris
 void RzxConfig::addToFavorites(const QString& nom) {
 	favorites.insert(nom);
 }
 
+///Idem à partir du RzxComputer
+void RzxConfig::addToFavorites(const RzxComputer& computer) {
+	favorites.insert(computer.getName());
+}
+
+///Suppression du pseudo de la liste des favoris
 void RzxConfig::delFromFavorites(const QString& nom) {
 	favorites.remove(nom);
+}
+
+///Idem à partir du RzxComputer
+void RzxConfig::delFromFavorites(const RzxComputer& computer) {
+	favorites.remove(computer.getName());
 }
 
 void RzxConfig::writeFavorites()
@@ -900,16 +918,35 @@ void RzxConfig::readIgnoreList()
 	}
 }
 
+///Indique si l'ip donnée est bannée
 bool RzxConfig::isBan(const QString& ip) const {
 	return ignoreList.contains(ip);
+}
+
+///Idem à partir d'un QHostAddress - RzxHostAddress
+bool RzxConfig::isBan(const QHostAddress& ip) const {
+	return isBan(ip.toString());
+}
+
+///Idem à partir d'un RzxComputer
+bool RzxConfig::isBan(const RzxComputer& computer) const {
+	return isBan(computer.getIP().toString());
 }
 
 void RzxConfig::addToBanlist(const QString& ip) {
 	ignoreList.insert(ip);
 }
 
+void RzxConfig::addToBanlist(const RzxComputer& ip) {
+	ignoreList.insert(ip.getIP().toString());
+}
+
 void RzxConfig::delFromBanlist(const QString& ip) {
 	ignoreList.remove(ip);
+}
+
+void RzxConfig::delFromBanlist(const RzxComputer& ip) {
+	ignoreList.remove(ip.getIP().toString());
 }
 
 void RzxConfig::writeIgnoreList()

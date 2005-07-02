@@ -564,7 +564,7 @@ void RzxClientListener::incomingConnection(int socketDescriptor) {
 	// On vérifie au passage que la connexion est valide
 	QHostAddress host;
 	host = sock->peerAddress();
-	if(!RzxConfig::globalConfig()->isBan(host.toString())) 
+	if(!RzxConfig::globalConfig()->isBan(host)) 
 		qDebug("Accept connexion to client " + host.toString());
 	else {
 		qDebug("Message from client "+ host.toString()+ " has been ignored");
