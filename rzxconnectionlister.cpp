@@ -16,6 +16,7 @@
  ***************************************************************************/
 #include <QImage>
 #include <QPixmap>
+#include <QBitmap>
 #include <QObject>
 
 #include "rzxconnectionlister.h"
