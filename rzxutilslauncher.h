@@ -20,29 +20,38 @@
 
 #include <QString>
 
+#include "rzxconnectionlister.h"
+
 /**
   *@author Florent Bruneau
   */
   
-class RzxRezal;
+class RzxConnectionLister;
 
 ///Lanceur d'application externes
 /** Cette classe à pour but de lancer les applications externes liées à qRezix, comme le client ftp, le client http... */
 class RzxUtilsLauncher
 {
 	static RzxUtilsLauncher *object;
-	RzxRezal *rezal;
+	RzxConnectionLister *lister;
 
 	public:
-		RzxUtilsLauncher(RzxRezal *m_rezal);
+		RzxUtilsLauncher();
 		~RzxUtilsLauncher();
 		
-		inline static RzxUtilsLauncher *global() { return object; };
+		static RzxUtilsLauncher *global();
 	
-		static void ftp(const QString& login);
-		static void http(const QString& login);
-		static void news(const QString& login);
-		static void samba(const QString& login);
+		void ftp(const QString& login) const;
+		void http(const QString& login) const;
+		void news(const QString& login) const;
+		void samba(const QString& login) const;
 };
+
+inline RzxUtilsLauncher *RzxUtilsLauncher::global()
+{
+	if(!object)
+		object = new RzxUtilsLauncher();
+	return object;
+}
 
 #endif

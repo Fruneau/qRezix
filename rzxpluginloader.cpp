@@ -586,19 +586,19 @@ void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
 			break;
 			
 		case RzxPlugIn::ACTION_FTP:
-			RzxUtilsLauncher::ftp(param);
+			RzxUtilsLauncher::global()->ftp(param);
 			break;
 			
 		case RzxPlugIn::ACTION_HTTP:
-			RzxUtilsLauncher::http(param);
+			RzxUtilsLauncher::global()->http(param);
 			break;
 			
 		case RzxPlugIn::ACTION_NEWS:
-			RzxUtilsLauncher::news(param);
+			RzxUtilsLauncher::global()->news(param);
 			break;
 			
 		case RzxPlugIn::ACTION_SMB:
-			RzxUtilsLauncher::samba(param);
+			RzxUtilsLauncher::global()->samba(param);
 			break;
 			
 		case RzxPlugIn::ACTION_MINIMIZE:

@@ -183,8 +183,8 @@ void RzxRezal::creePopUpMenu(Q3ListViewItem *ordinateurSelect,const QPoint & pos
 
 void RzxRezal::proprietes(const RzxHostAddress& peer)
 {
-	RzxChat *object = lister->chats.find(peer.toString());
-	RzxComputer *computer = lister->iplist.find(peer.toString());
+	RzxChat *object = lister->getChatByIP(peer);
+	RzxComputer *computer = lister->getComputerByIP(peer);
 	if (!computer)
 		return;
 	if (!object)
@@ -225,7 +225,7 @@ void RzxRezal::proprietes(){
 
 void RzxRezal::historique(){
 	RzxItem * item=(RzxItem*) currentItem();
-	QString hostname = lister->iplist.find(item -> ip.toString()) -> getName();
+	QString hostname = lister->getComputerByIP(item->ip)->getName();
 	if(!RzxChatSocket::showHistorique(item->ip, hostname))
 		emit status(tr("No history file for user %1").arg(hostname), false);
 }
@@ -267,28 +267,28 @@ void RzxRezal::addToIgnoreList()
 void RzxRezal::ftp()
 {
 	QString temp=currentItem()->text(ColNom);
-	RzxUtilsLauncher::ftp(temp);
+	RzxUtilsLauncher::global()->ftp(temp);
 }
 
 ///Lancement du client http
 void RzxRezal::http()
 {
 	QString temp=currentItem()->text(ColNom);
-	RzxUtilsLauncher::http(temp);
+	RzxUtilsLauncher::global()->http(temp);
 }
 
 ///Lancement du client news
 void RzxRezal::news()
 {
 	QString temp=currentItem()->text(ColNom);
-	RzxUtilsLauncher::news(temp);
+	RzxUtilsLauncher::global()->news(temp);
 }
 
 ///Lancement du client samba
 void RzxRezal::samba()
 {
 	QString temp=currentItem()->text(ColNom);
-	RzxUtilsLauncher::samba(temp);
+	RzxUtilsLauncher::global()->samba(temp);
 }
 
 

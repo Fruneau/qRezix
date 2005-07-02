@@ -394,7 +394,7 @@ void RzxChatSocket::chatConnexionTimeout()
 QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString& msg, bool withFrame, QWidget *parent, QPoint *pos )
 {
 	QWidget *propertiesDialog;
-	RzxComputer *computer = RzxConnectionLister::global()->iplist.find(peer.toString());
+	RzxComputer *computer = RzxConnectionLister::global()->getComputerByIP(peer);
 
 	if(!computer)
 		return NULL;

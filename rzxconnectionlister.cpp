@@ -14,11 +14,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <q3socket.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qbitmap.h>
-#include <qobject.h>
+#include <QImage>
+#include <QPixmap>
+#include <QObject>
 
 #include "rzxconnectionlister.h"
 
@@ -37,15 +35,10 @@
 
 RzxConnectionLister *RzxConnectionLister::object = NULL;
 
-RzxConnectionLister::RzxConnectionLister( QObject *parent, const char *name)
-		: QObject( parent, name ), displayWaiter(), iplist( USER_HASH_TABLE_LENGTH ), computerByLogin( USER_HASH_TABLE_LENGTH )
+RzxConnectionLister::RzxConnectionLister( QObject *parent)
+		: QObject(parent)
 {
 	object = this;
-
-	iplist.setAutoDelete( true );
-	chats.setAutoDelete( true );
-	chatsByLogin.setAutoDelete( false ); //surtout pas true, sinon on détruit 2 fois les mêmes objets
-	computerByLogin.setAutoDelete(false);
 
 	server = RzxServerListener::object();
 	client = RzxClientListener::global();
@@ -70,8 +63,8 @@ RzxConnectionLister::RzxConnectionLister( QObject *parent, const char *name)
 
 RzxConnectionLister::~RzxConnectionLister()
 {
-	iplist.clear();
-	chats.clear();
+	qDeleteAll(computerByIP);
+	qDeleteAll(chatByIP);
 	if(server)
 		server->deleteLater();
 	if(client)
@@ -107,7 +100,7 @@ void RzxConnectionLister::login( const QString& newOrdi )
 
 	// Recherche si cet ordinateur était déjà présent (refresh ou login)
 	QString tempIP = newComputer -> getIP().toString();
-	RzxComputer *computer = iplist.take( tempIP );
+	RzxComputer *computer = getComputerByIP(newComputer->getIP());
 	if(computer)
 	{
 		//suppression de l'ancien computer du qdict par nom
@@ -129,17 +122,17 @@ void RzxConnectionLister::login( const QString& newOrdi )
 	//mise à jour des données concernant le chat
 	RzxChat *chat;
 	if(computer)
-		chat = chatsByLogin.take(computer->getName());
+		chat = chatByLogin.take(computer->getName());
 	else
-		chat = chatsByLogin.take(newComputer->getName());
+		chat = chatByLogin.take(newComputer->getName());
 
 	if(chat)
 	{
 		//Indication au chat de la reconnexion
 		if (!computer)
-			chat->info( tr( "reconnected" ) );
+			chat->info( tr("reconnected") );
 
-		chatsByLogin.insert(newComputer->getName(), chat);
+		chatByLogin.insert(newComputer->getName(), chat);
 		chat->setHostname(newComputer->getName());
 	}
 		
@@ -149,10 +142,10 @@ void RzxConnectionLister::login( const QString& newOrdi )
 	if(computer) computer->deleteLater();
 	
 	//Ajout du nouvel ordinateur dans les qdict
-	computerByLogin.replace(newComputer->getName(), newComputer);
-	iplist.replace( newComputer -> getIP().toString(), newComputer );
+	computerByLogin.insert(newComputer->getName(), newComputer);
+	computerByIP.insert(newComputer->getIP(), newComputer );
 
-	emit countChange( tr( "%1 clients connected" ).arg( iplist.count() ) );
+	emit countChange( tr("%1 clients connected").arg(computerByIP.count()) );
 	
 	if(!displayWaiter.isEmpty()) delayDisplay.start(5, true);
 	else
@@ -165,19 +158,18 @@ void RzxConnectionLister::login( const QString& newOrdi )
 ///Enregistre la déconnexion d'un client
 void RzxConnectionLister::logout( const RzxHostAddress& ip )
 {
-	QString key = ip.toString();
-	RzxComputer *computer = iplist.take( key );
+	RzxComputer *computer = getComputerByIP(ip);
 	if (computer)
 	{
 		computerByLogin.remove(computer->getName());
-		emit countChange( tr( "%1 clients connected" ).arg( iplist.count() ) );
+		emit countChange( tr("%1 clients connected").arg(computerByIP.count()) );
 	}
 	emit logout(computer);
 	computer->deleteLater();
 
-	RzxChat *chat = chats.find(key);
+	RzxChat *chat = getChatByIP(ip);
 	if ( chat )
-		chat->info( tr( "disconnected" ) );
+		chat->info( tr("disconnected") );
 }
 
 
@@ -185,12 +177,13 @@ void RzxConnectionLister::logout( const RzxHostAddress& ip )
 /** Permet pour les plug-ins d'obtenir facilement la liste les ip connectées */
 QStringList RzxConnectionLister::getIpList(unsigned int features)
 {
-	Q3DictIterator<RzxComputer> it(iplist);
+	QHashIterator<RzxHostAddress,RzxComputer*> it(computerByIP);
 	QStringList ips;
-	for( ; it.current() ; ++it)
+	while(it.hasNext())
 	{
-		if(!features || it.current()->can(features))
-			ips << (it.currentKey());
+		it.next();
+		if(!features || it.value()->can(features))
+			ips << it.key().toString();
 	}
 	return ips;
 }
@@ -212,7 +205,8 @@ void RzxConnectionLister::serverDisconnected()
 /** No descriptions */
 void RzxConnectionLister::serverConnected()
 {
-	iplist.clear();
+	qDeleteAll(computerByIP);
+	computerByIP.clear();
 	computerByLogin.clear();
 	displayWaiter.clear();
 	initialized = false;
@@ -221,29 +215,31 @@ void RzxConnectionLister::serverConnected()
 /** No descriptions */
 bool RzxConnectionLister::isSocketClosed() const
 {
-	return server -> isSocketClosed();
+	return server->isSocketClosed();
 }
 
 /** No descriptions */
 void RzxConnectionLister::closeSocket()
 {
-	disconnect( server, SIGNAL( disconnected() ), this, SLOT( serverDisconnected() ) );
-	client -> close();
-	chats.clear();
-	if ( server ) server -> close();
+	disconnect(server, SIGNAL(disconnected()), this, SLOT(serverDisconnected()));
+	client->close();
+	qDeleteAll(chatByIP);
+	chatByIP.clear();
+	chatByLogin.clear();
+	if(server) server->close();
 }
 
 ///Création d'une fenêtre de chat et référencement de celle-ci
 /** Création à partir du login de l'utilisateur */
 RzxChat * RzxConnectionLister::chatCreate( const QString& login)
 {
-	RzxChat *chat = chatsByLogin.find(login);
+	RzxChat *chat = getChatByName(login);
 	if(!chat)
-		chat = createChat(computerByLogin.find(login));
+		chat = createChat(getComputerByName(login));
 	if(!chat)
 	{
-		qWarning( tr( "Received a chat request from %1" ).arg(login) );
-		qWarning( tr( "%1 is NOT logged" ).arg(login) );
+		qWarning( tr("Received a chat request from %1").arg(login) );
+		qWarning( tr("%1 is NOT logged").arg(login) );
 		return NULL;
 	}
 	chat->show();
@@ -255,26 +251,24 @@ RzxChat * RzxConnectionLister::chatCreate( const QString& login)
 /** Création à partir de l'adresse de l'utilisateur */
 RzxChat * RzxConnectionLister::chatCreate( const RzxHostAddress& peer )
 {
-	RzxChat *chat = chats.find( peer.toString());
+	RzxChat *chat = getChatByIP(peer);
 	if(!chat)
-		chat = createChat(iplist.find(peer.toString()));
+		chat = createChat(getComputerByIP(peer));
 	if(!chat)
 	{
 		qWarning( tr( "Received a chat request from %1" ).arg( peer.toString() ) );
 		qWarning( tr( "%1 is NOT logged" ).arg( peer.toString() ) );
 		return NULL;
 	}
-	
 	chat->show();
-
 	return chat;
 }
 
 RzxChat *RzxConnectionLister::createChat(RzxComputer *computer)
 {
-	if ( !computer )
+	if (!computer)
 		return NULL;
-		
+
 	RzxHostAddress peer = computer->getIP();
 	
 	RzxChat *chat = new RzxChat(peer);
@@ -288,8 +282,8 @@ RzxChat *RzxConnectionLister::createChat(RzxComputer *computer)
 	connect( chat, SIGNAL( closed( const RzxHostAddress& ) ), this, SLOT( chatDelete( const RzxHostAddress& ) ) );
 	connect( RzxConfig::globalConfig(), SIGNAL( themeChanged() ), chat, SLOT( changeTheme() ) );
 	connect( RzxConfig::globalConfig(), SIGNAL( iconFormatChange() ), chat, SLOT( changeIconFormat() ) );
-	chats.insert( peer.toString(), chat );
-	chatsByLogin.insert(computer->getName(), chat);
+	chatByIP.insert(peer, chat);
+	chatByLogin.insert(computer->getName(), chat);
 	return chat;
 }
 
@@ -297,7 +291,7 @@ RzxChat *RzxConnectionLister::createChat(RzxComputer *computer)
 ///Fermeture du chat (si il existe) associé au login
 void RzxConnectionLister::closeChat( const QString& login )
 {
-	RzxChat *chat = chatsByLogin.find(login);
+	RzxChat *chat = getChatByName(login);
 	if(chat)
 		chat->close();
 }
@@ -306,8 +300,8 @@ void RzxConnectionLister::closeChat( const QString& login )
 /** No descriptions */
 void RzxConnectionLister::chatDelete( const RzxHostAddress& peerAddress )
 {
-	RzxChat *chat = chats.take( peerAddress.toString() );
-	chatsByLogin.remove(chat->getHostName());
+	RzxChat *chat = chatByIP.take(peerAddress);
+	chatByLogin.remove(chat->getHostName());
 	delete chat;
 }
 
@@ -315,18 +309,19 @@ void RzxConnectionLister::chatDelete( const RzxHostAddress& peerAddress )
 /** Cette méthode à pour but de fermer tous les chats en cours pour libérer en particulier le port 5050. Normalement l'appel de cette méthode à la fermeture de qRezix doit corriger le problème de réouverture de l'écoute qui intervient à certains moments lors du démarrage de qRezix */
 void RzxConnectionLister::closeChats()
 {
-	Q3DictIterator<RzxChat> it( chats );
-	for ( ; it.current() ; ++it )
+	QHashIterator<RzxHostAddress, RzxChat*> it(chatByIP);
+	while(it.hasNext())
 	{
-		it.current() ->close();
+		it.next();
+		it.value()->close();
 	}
 }
 
 void RzxConnectionLister::warnProperties( const RzxHostAddress& peer )
 {
-	RzxChat *chat = chats.find( peer.toString() );
-	RzxComputer *computer = iplist.find( peer.toString() );
-	if ( !computer )
+	RzxChat *chat = getChatByIP(peer);
+	RzxComputer *computer = getComputerByIP(peer);
+	if (!computer)
 		return ;
 	QTime cur = QTime::currentTime();
 	QString heure;
@@ -335,11 +330,11 @@ void RzxConnectionLister::warnProperties( const RzxHostAddress& peer )
 	               cur.minute(),
 	               cur.second() );
 
-	if ( !chat )
+	if (!chat)
 	{
-		if ( RzxConfig::globalConfig() ->warnCheckingProperties() == 0 )
+		if (RzxConfig::globalConfig()->warnCheckingProperties()== 0)
 			return ;
-		RzxMessageBox::information(NULL, tr("Properties sent to %1").arg( computer->getName() ),
+		RzxMessageBox::information(NULL, tr("Properties sent to %1").arg(computer->getName()),
 			tr("name : <i>%1</i><br>"
 				"address : <i>%2</i><br>"
 				"client : <i>%3</i><br>"
@@ -364,11 +359,12 @@ void RzxConnectionLister::fatal( const QString& msg )
 }
 
 /** No descriptions */
-void RzxConnectionLister::recvIcon(QImage* icon, const RzxHostAddress& ip){
-	RzxComputer * computer = iplist.find(ip.toString());
+void RzxConnectionLister::recvIcon(QImage* icon, const RzxHostAddress& ip)
+{
+	RzxComputer * computer = getComputerByIP(ip);
 	if (computer)
 	{
-		icon -> save(RzxConfig::computerIconsDir().absFilePath(computer -> getFilename()), "PNG");
+		icon->save(RzxConfig::computerIconsDir().absFilePath(computer->getFilename()), "PNG");
 		QPixmap pix;
 		pix.convertFromImage(*icon);
 		computer->setIcon(pix);
