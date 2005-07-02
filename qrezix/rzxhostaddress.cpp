@@ -63,3 +63,8 @@ quint32 RzxHostAddress::toRezix() const{
 	return ip;
 }
 
+/// Converti l'objet en entier
+RzxHostAddress::operator quint32() const
+{
+	return ip4Addr();
+}
