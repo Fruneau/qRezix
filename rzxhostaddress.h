@@ -34,6 +34,7 @@ public:
 	quint32 toRezix() const;
 
 	bool sameGateway(const RzxHostAddress& peer) const;
+	operator quint32() const;
 };
 
 #endif

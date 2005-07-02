@@ -18,16 +18,17 @@
 #ifndef RZXREZAL_H
 #define RZXREZAL_H
 
-#include <qstringlist.h>
-#include <q3listview.h>
-#include <q3dict.h>
-#include <q3popupmenu.h>
-#include <q3socket.h>
-#include <qtimer.h>
-#include <qdatetime.h>
-//Added by qt3to4:
+#include <QStringList>
+#include <Q3ListView>
+#include <QHash>
+#include <QMenu>
+#include <QTcpSocket>
+#include <QTimer>
+#include <QDateTime>
 #include <QKeyEvent>
 #include <QResizeEvent>
+#include <QHostAddress>
+
 #include "rzxdict.h"
 
 #define USER_HASH_TABLE_LENGTH 1663
@@ -44,21 +45,31 @@ class RzxServerListener;
 class RzxComputer;
 class RzxHostAddress;
 
-//pour réimplanter le clavier et la touche droite, ne mérite pas un .h/.cpp pour lui tt seul
-class RzxPopupMenu : public Q3PopupMenu {
+///Popup simple qui intercepte le clavier
+/** Pour réimplanter le clavier et la touche droite, ne mérite pas un .h/.cpp pour lui tt seul */
+class RzxPopupMenu : public QMenu {
 	Q_OBJECT
 	public:
-		RzxPopupMenu( QWidget * parent = 0, const char * name = 0 );
+		RzxPopupMenu( QWidget * parent = 0);
 
 	protected:
 		void keyPressEvent(QKeyEvent *e);
 };
 
+
+
+///RzxRezal est la classe chargée de l'affichage des connectés
+/** Classe centrale de l'interface, c'est elle qui gère totalement l'affichage et les interactions avec les différents
+ * items (ordinateurs) connectés. C'est vraiment la clé de l'interface de qRezix.
+ */
 class RzxRezal : public Q3ListView  {
 	Q_OBJECT
 
 	RzxConnectionLister *lister;
-	Q3Dict<RzxItem> itemByIp;
+	QHash<RzxHostAddress,RzxItem*> itemByIp;
+	QHash<RzxHostAddress, QString> nameByIP;
+	RzxDict<QString,RzxItem*> itemByName;	// Arbre binaire de recherche équilibré
+											// contenant les associations nom->Item
 
 public: 
 	RzxRezal(QWidget * parent, const char * name = 0);
@@ -70,17 +81,16 @@ public:
 	// Numero des colonnes
 	enum NumColonne
 		{ ColIcone = 0, ColNom = 1, ColRemarque = 2, ColSamba = 3, ColFTP = 4,
-		  /*ColHotline = 5,*/ ColHTTP = 5, ColNews = 6, ColOS = 7, ColGateway = 8,
-		  ColPromo = 9, ColResal = 10, ColIP = 11, ColClient = 12, numColonnes = 13 };
+		  ColHTTP = 5, ColNews = 6, ColOS = 7, ColGateway = 8, ColPromo = 9,
+		  ColResal = 10, ColIP = 11, ColClient = 12, numColonnes = 13 };
 
-	static const char * colNames[numColonnes];
+	static const QString colNames[numColonnes];
 	RzxItem *selected;
-	
 	QTimer *timer;
 
 protected: // Protected attributes
 	bool dispNotFavorites, warnConnection;
-	RzxClientListener * client;
+	RzxClientListener *client;
 	
 	// Pour les filtres
 	bool filterOn;
@@ -92,16 +102,12 @@ protected: // Protected attributes
 	QTime search_timeout;
 	QString search_patern;
 
-	RzxDict<QString,RzxItem*> search_items;	// Arbre binaire de recherche équilibré
-						// contenant les associations nom->Item
-	Q3Dict<QString> search_items0;	// dictionnaire avec référencement des noms/IP
-	
 	NumColonne lastColumnClicked;  // Pour savoir sur quelle icone on double-clique
 	
 public slots: // Public slots
-	void creePopUpMenu(Q3ListViewItem *inutile1,const QPoint & pos,int inutile);
+	void creePopUpMenu(Q3ListViewItem *,const QPoint&, int);
 	void proprietes();
-	void proprietes( const RzxHostAddress & );
+	void proprietes(const RzxHostAddress &);
 	void samba();
 	void ftp();
 	void http();
@@ -111,7 +117,6 @@ public slots: // Public slots
 	void adapteColonnes();
 	//void login(RzxComputer *computer);
 	void bufferedLogin(RzxComputer *computer);
-	void logout(const QString& ip);
 	void logout(RzxComputer *computer);
 	void clear();
 	void init();
@@ -125,7 +130,7 @@ public slots: // Public slots
 	void removeFromIgnoreList();
 	void addToIgnoreList();
 	
-	RzxChat * chatCreate(const QString& login = 0);
+	RzxChat *chatCreate(const QString& login = QString::null);
 	
 	void languageChanged();
 

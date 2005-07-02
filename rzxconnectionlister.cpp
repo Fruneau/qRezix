@@ -172,9 +172,8 @@ void RzxConnectionLister::logout( const RzxHostAddress& ip )
 		computerByLogin.remove(computer->getName());
 		emit countChange( tr( "%1 clients connected" ).arg( iplist.count() ) );
 	}
+	emit logout(computer);
 	computer->deleteLater();
-	
-	emit logout(key);
 
 	RzxChat *chat = chats.find(key);
 	if ( chat )

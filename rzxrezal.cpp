@@ -14,16 +14,14 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qapplication.h>
-#include <qobject.h>
-#include <qtooltip.h>
-#include <qtimer.h>
-#include <qpixmap.h>
-#include <qimage.h>
-//Added by qt3to4:
+#include <QApplication>
+#include <QObject>
+#include <QTimer>
+#include <QPixmap>
+#include <QImage>
 #include <QKeyEvent>
 #include <QResizeEvent>
-#include <Q3PopupMenu>
+#include <QMenu>
 
 #include "rzxrezal.h"
 
@@ -36,31 +34,47 @@
 #include "rzxconnectionlister.h"
 #include "rzxclientlistener.h"
 
-#ifndef abs
-#define abs(x) (x<0?-x:x)
-#endif
-
 #define USER_HASH_TABLE_LENGTH 1663
 
 
-const char * RzxRezal::colNames[RzxRezal::numColonnes] =
+/***********************************************************
+ *** RzxPopupMenu                                        ***
+ ***********************************************************/
+///Constructeur on peut plus simple...
+RzxPopupMenu::RzxPopupMenu(QWidget *parent) : QMenu(parent) { }
+
+///Interception des entrées clavier
+/** La flèche de gauche sert à fermer le popup */
+void RzxPopupMenu::keyPressEvent(QKeyEvent *e) {
+	if(e->key() != Qt::Key_Left) {
+		QMenu::keyPressEvent(e);
+		return;
+	}
+	close();
+} 
+
+
+
+/***********************************************************
+*** RzxRezal                                             ***
+***********************************************************/
+const QString RzxRezal::colNames[RzxRezal::numColonnes] =
 		{ QT_TR_NOOP("Icon"), QT_TR_NOOP("Computer name"), QT_TR_NOOP("Comment"),
-			QT_TR_NOOP("Samba"), QT_TR_NOOP("FTP"), 
-			/*QT_TR_NOOP("Hotline"),*/ QT_TR_NOOP("Web"), 
-			QT_TR_NOOP("News"), QT_TR_NOOP("OS"), 
-			QT_TR_NOOP("Gateway"), QT_TR_NOOP("Promo"),
-			QT_TR_NOOP("Place"), QT_TR_NOOP("IP"), QT_TR_NOOP("Client") };
+			QT_TR_NOOP("Samba"), QT_TR_NOOP("FTP"), QT_TR_NOOP("Web"), 
+			QT_TR_NOOP("News"), QT_TR_NOOP("OS"), QT_TR_NOOP("Gateway"),
+			QT_TR_NOOP("Promo"), QT_TR_NOOP("Place"), QT_TR_NOOP("IP"),
+			QT_TR_NOOP("Client") };
 
 
-RzxRezal::RzxRezal(QWidget * parent, const char * name) : Q3ListView(parent, name), itemByIp(USER_HASH_TABLE_LENGTH)
+RzxRezal::RzxRezal(QWidget * parent, const char * name) : Q3ListView(parent, name)
 {
 	search_patern = QString();
 	search_timeout.start();
-	timer = false;
+	timer = NULL;
 	selected = NULL;
 	
-	int i;
-	for (i = 0; i < numColonnes; i++) {
+	for(int i = 0; i < numColonnes; i++)
+	{
 		addColumn(tr(colNames[i]));
 		setColumnWidthMode(i, Manual);
 		if (i > ColRemarque) setColumnAlignment(i, Qt::AlignCenter);
@@ -78,7 +92,7 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : Q3ListView(parent, nam
 	//connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(login(RzxComputer*)));
 	connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(bufferedLogin(RzxComputer *)));
 	connect(lister, SIGNAL(connectionEtablished()), this, SLOT(init()));
-	connect(lister, SIGNAL(logout(const QString& )), this, SLOT(logout(const QString& )));
+	connect(lister, SIGNAL(logout(const RzxComputer& )), this, SLOT(logout(const RzxComputer&)));
 
 	// On est obligé d'utiliser ce signal pour savoir dans quelle colonne le
 	// double-clic suivant a lieu
@@ -96,8 +110,6 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : Q3ListView(parent, nam
 	filter = QString::null;
 	filterOn = false;
 	setUpdatesEnabled (TRUE);
-
-	search_items0.setAutoDelete(true);
 }
 
 RzxRezal::~RzxRezal(){
@@ -116,32 +128,26 @@ void RzxRezal::loginFromLister(bool val)
 		disconnect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(bufferedLogin(RzxComputer*)));
 }
 
-RzxPopupMenu::RzxPopupMenu(QWidget * parent, const char * name) : Q3PopupMenu(parent, name) {
-}
-
-void RzxPopupMenu::keyPressEvent(QKeyEvent *e) {
-	if(e->key()!=Qt::Key_Left) {
-		Q3PopupMenu::keyPressEvent(e);
-		return;
-	}
-	close();
-} 
-
+///Génère le popup contextuel de l'item sélectionné
+/** Cette fonction génère et affiche le menu contextuel associé à l'item sélectionné. Il tiens compte :
+ * - Des features du client distant
+ * - Des choix de l'utilisateur (ban, favoris...)
+ */
 void RzxRezal::creePopUpMenu(Q3ListViewItem *ordinateurSelect,const QPoint & pos, int){
-	if(ordinateurSelect)
+	RzxItem* item = qobject_cast<RzxItem*>((RzxItem*)ordinateurSelect);
+	if(item)
 	{ 
-		RzxItem* item=(RzxItem*) ordinateurSelect;
 		RzxComputer *computer = item->getComputer();
 		int serveurs=item->servers;
 		popup.clear();
 		
-		#define newItem(name, trad, receiver, slot) popup.insertItem(RzxConfig::themedIcon(name).scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), trad, receiver, slot)
+		#define newItem(name, trad, receiver, slot) popup.addAction(RzxConfig::themedIcon(name).scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), trad, receiver, slot)
 		if(item->ignored) {
 			if(serveurs & 1) newItem("samba", tr("Samba connect"), this, SLOT(samba()));
 			if((serveurs>>1) & 1) newItem("ftp", tr("FTP connect"), this, SLOT(ftp()));
 			if((serveurs>>3) & 1) newItem("http", tr("browse Web"), this, SLOT(http()));
 			if((serveurs>>4) & 1) newItem("news", tr("read News"), this, SLOT(news()));
-			popup.insertSeparator();
+			popup.addSeparator();
 			newItem("unban", tr("Remove from ignore list"), this, SLOT(removeFromIgnoreList()));
 		}
 		else {
@@ -152,11 +158,11 @@ void RzxRezal::creePopUpMenu(Q3ListViewItem *ordinateurSelect,const QPoint & pos
 			if((serveurs>>1) & 1) newItem("ftp", tr("FTP connect"), this, SLOT(ftp()));
 			if((serveurs>>3) & 1) newItem("http", tr("browse Web"), this, SLOT(http()));
 			if((serveurs>>4) & 1) newItem("news", tr("read News"), this, SLOT(news()));
-			popup.insertSeparator();
+			popup.addSeparator();
 			newItem("historique", tr("History"), this, SLOT(historique()));
 			if(computer->can(RzxComputer::CAP_CHAT))
 				newItem("prop", tr("Properties"), this, SLOT(proprietes()));
-			popup.insertSeparator();
+			popup.addSeparator();
 			if(RzxConfig::globalConfig()->isFavorite(ordinateurSelect->text(1)))
 			{
 				newItem("not_favorite", tr("Remove from favorites"), this, SLOT(removeFromFavorites()));
@@ -166,7 +172,7 @@ void RzxRezal::creePopUpMenu(Q3ListViewItem *ordinateurSelect,const QPoint & pos
 				newItem("ban", tr("Add to ignore list"), this, SLOT(addToIgnoreList()));
 			}
 		}
-		popup.insertSeparator();
+		popup.addSeparator();
 		newItem("cancel", tr("Cancel"), &popup, SLOT(hide()));
 		RzxPlugInLoader::global()->menuItem(popup);
 		popup.popup(pos);
@@ -177,8 +183,8 @@ void RzxRezal::creePopUpMenu(Q3ListViewItem *ordinateurSelect,const QPoint & pos
 
 void RzxRezal::proprietes(const RzxHostAddress& peer)
 {
-	RzxChat * object = lister->chats.find(peer.toString());
-	RzxComputer * computer = lister->iplist.find(peer.toString());
+	RzxChat *object = lister->chats.find(peer.toString());
+	RzxComputer *computer = lister->iplist.find(peer.toString());
 	if (!computer)
 		return;
 	if (!object)
@@ -337,15 +343,15 @@ void RzxRezal::adapteColonnes(){
 }
 
 void RzxRezal::bufferedLogin(RzxComputer *computer) {
-	RzxItem *item = itemByIp.find(computer->getIP().toString());
+	RzxItem *item = itemByIp[computer->getIP()];
 	if(!item)
 	{
 		if(!dispNotFavorites && !RzxConfig::globalConfig()->isFavorite(*computer))
 			return;
 		setUpdatesEnabled(!dispNotFavorites);
 		item = new RzxItem(computer, this, dispNotFavorites);
-		itemByIp.insert(computer->getIP().toString(), item);
-		item -> setVisible(!dispNotFavorites);
+		itemByIp.insert(computer->getIP(), item);
+		item->setVisible(!dispNotFavorites);
 		if(!dispNotFavorites)
 			emit newFavorite(computer);
 	}
@@ -360,16 +366,16 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 			}
 			emit changeFavorite(computer);
 		}
-		QString *old_name = search_items0.find(computer->getIP().toString());
-		if(old_name!=NULL)
+		QString old_name = nameByIP[computer->getIP()];
+		if(!old_name.isNull())
 		{
-			search_items.remove(*old_name);
-			search_items0.remove(computer->getIP().toString());
+			itemByName.remove(old_name);
+			nameByIP.remove(computer->getIP());
 		}
 	}
 
-	search_items.insert(computer->getName().lower(),new RzxItem*(item));
-	search_items0.insert(computer->getIP().toString(),new QString(computer->getName().lower()));
+	itemByName.insert(computer->getName().lower(),new RzxItem*(item));
+	nameByIP.insert(computer->getIP(), computer->getName().lower());
 	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 
 	item -> update();
@@ -386,26 +392,20 @@ void RzxRezal::logBufLogins() { //en fait vu que le QPtrList faisait des segfaul
 	}
 }
 
-/** Déconnexion d'un personne */
-void RzxRezal::logout(const QString& ip)
-{
-	RzxItem *item = itemByIp.take(ip);
-	if(!item) return;
-
-	if(!dispNotFavorites)
-		emit lostFavorite(item->getComputer());
-		
-	if((selected == item))
-		selected = NULL;
-	search_items.remove(QString(item->getComputer()->getName().lower()));
-	search_items0.remove(QString(item->getComputer()->getIP().toString()));
-	item->deleteLater();
-}
-
 /** Déconnexion à partir d'un RzxComputer* */
 void RzxRezal::logout(RzxComputer *computer)
 {
-	logout(computer->getIP().toString());
+	RzxItem *item = itemByIp.take(computer->getIP());
+	if(!item) return;
+	
+	if(!dispNotFavorites)
+		emit lostFavorite(computer);
+	
+	if((selected == item))
+		selected = NULL;
+	itemByName.remove(computer->getName().lower());
+	nameByIP.remove(computer->getIP());
+	item->deleteLater();
 }
 
 /** On vide la liste des gens connectés */
@@ -507,7 +507,6 @@ void RzxRezal::resizeEvent(QResizeEvent * e) {
 }
 
 void RzxRezal::keyPressEvent(QKeyEvent *e) {
-	//QListView::keyPressEvent(e);
 	QString s=e->text();
 
 #ifndef WIN32
@@ -534,6 +533,7 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 		}
 		search_patern = QString();
 		emit set_search(tr("%1").arg(search_patern));
+		
 		Q3ListView::keyPressEvent(e); //on laisse Qt gérer
 		return;
 	}
@@ -553,11 +553,9 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 		search_patern += c.lower();
 	search_timeout.start();
 
-//	qDebug(QString() + "searchPatern=" + search_patern);
-
 	RzxItem **item;
 	QString lower, higher;
-	if(!search_items.find_nearest(search_patern,lower,higher))
+	if(!itemByName.find_nearest(search_patern,lower,higher))
 	{
 		bool lmatch, hmatch;
 		lmatch = lower.left(search_patern.length())==search_patern;
@@ -574,7 +572,7 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 				char c  = search_patern.at(i).latin1(),
 				     lc = lower.at(i).latin1(),
 				     hc = higher.at(i).latin1();
-				if(abs(c-hc)<abs(c-lc))
+				if(qAbs(c-hc)<qAbs(c-lc))
 					hmatch=true;
 			}
 			search_patern = search_patern.left(search_patern.length()-1);
@@ -584,7 +582,7 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 	}
 	emit set_search(tr("%1").arg(search_patern));
 
-	search_items.find(lower,item);
+	itemByName.find(lower,item);
 
 	setCurrentItem(*item);
 	ensureItemVisible(*item);
@@ -593,12 +591,10 @@ void RzxRezal::keyPressEvent(QKeyEvent *e) {
 
 /** No descriptions */
 void RzxRezal::redrawAllIcons(){
-//	if (!RzxConfig::computerIconSize())
-		setColumnWidth(0, 64);
- 
-	for (Q3ListViewItemIterator it(this); it.current(); ++it) {
-		RzxItem * item = static_cast<RzxItem *> (it.current());
-		item -> update();
+	setColumnWidth(0, 64);
+	for (Q3ListViewItemIterator it(this) ; it.current() ; ++it) {
+		RzxItem *item = qobject_cast<RzxItem*>((RzxItem*)it.current());
+		item->update();
 	}
 }
 
@@ -614,30 +610,31 @@ void RzxRezal::redrawSelectedIcon(Q3ListViewItem *sel)
 /** Le tooltip permet d'avoir des informations sur la personne, ça peut être pratique pour avoir en particulier une vue réduite mais en conservant l'accès faciles aux données ftp, http, promo... */
 void RzxRezal::buildToolTip(Q3ListViewItem *i) const
 {
-	QToolTip::remove(this->viewport());
 	int tooltipFlags = RzxConfig::tooltip();
 	if(!i || !(tooltipFlags & (int)RzxConfig::Enable) || tooltipFlags==(int)RzxConfig::Enable) return;
 	
-	RzxItem *item = (RzxItem*)i;
+	RzxItem *item = qobject_cast<RzxItem*>((RzxItem*)i);
+	if(!item) return;
+	
 	RzxComputer *computer = item->getComputer();
 	QString tooltip = "<b>"+ i->text(ColNom) + " </b>";
 	if(tooltipFlags & (int)RzxConfig::Promo)
 		tooltip += "<i>(" + computer->getPromoText() + ")</i>";
-	tooltip += "<br><br>";
- 	tooltip += "<b><i>" + tr("Informations :") + "</b></i><br><ul>";
+	tooltip += "<br/><br/>";
+ 	tooltip += "<b><i>" + tr("Informations :") + "</b></i><br/>";
 	
 	int servers = computer->getServers();
 	if(servers & RzxComputer::SERVER_FTP && (tooltipFlags & (int)RzxConfig::Ftp))
-		tooltip += "<li>" + tr("ftp server : ") + tr("<b>on</b>") + "</li>";
+		tooltip += "<b>-></b>&nbsp;" + tr("ftp server : ") + tr("<b>on</b>") + "<br/>";
 	if(servers & RzxComputer::SERVER_HTTP && (tooltipFlags & (int)RzxConfig::Http))
-		tooltip += "<li>" + tr("web server : ") + tr("<b>on</b>") + "</li>";
+		tooltip += "<b>-></b>&nbsp;" + tr("web server : ") + tr("<b>on</b>") + "<br/>";
 	if(servers & RzxComputer::SERVER_NEWS && (tooltipFlags & (int)RzxConfig::News))
-		tooltip += "<li>" + tr("news server : ") + tr("<b>on</b>") + "</li>";
+		tooltip += "<b>-></b>&nbsp;" + tr("news server : ") + tr("<b>on</b>") + "<br/>";
 	if(servers & RzxComputer::SERVER_SAMBA && (tooltipFlags & (int)RzxConfig::Samba))
-		tooltip += "<li>" + tr("samba server : ") + tr("<b>on</b>") + "</li>";
+		tooltip += "<b>-></b>&nbsp;" + tr("samba server : ") + tr("<b>on</b>") + "<br/>";
 	if(tooltipFlags & (int)RzxConfig::OS)
 	{
-		tooltip += "<li> os : ";
+		tooltip += "<b>-></b>&nbsp;os : ";
 		switch((int)computer->getOptions().SysEx)
 		{
 			case 1: tooltip += "Windows 9x/Me"; break;
@@ -648,16 +645,16 @@ void RzxRezal::buildToolTip(Q3ListViewItem *i) const
 			case 6: tooltip += "BSD"; break;
 			default: tooltip += tr("Unknown");
 		}
-		tooltip += "</li>";
+		tooltip += "<br/>";
 	}
 	if(tooltipFlags & (int)RzxConfig::Client)
-		tooltip += "<li>" + computer->getClient() + "</li>";
+		tooltip += "<b>-></b>&nbsp;" + computer->getClient() + "<br/>";
 	if(tooltipFlags & (int)RzxConfig::Features)
 	{
 		if(computer->can(RzxComputer::CAP_ON))
 		{
 			int nb = 0;
-			tooltip += "<li>" + tr("features : ");
+			tooltip += "<b>-></b>&nbsp;" + tr("features : ");
 			if(computer->can(RzxComputer::CAP_CHAT))
 			{
 				tooltip += tr("chat");
@@ -669,16 +666,17 @@ void RzxRezal::buildToolTip(Q3ListViewItem *i) const
 				nb++;
 			}
 			if(!nb) tooltip += tr("none");
+			tooltip += "<br/>";
 		}
 	}
 	if(tooltipFlags & (int)RzxConfig::IP)
-		tooltip += "<li> ip : <i>" + computer->getIP().toString() + "</i></li>";
+		tooltip += "<b>-></b>&nbsp;ip : <i>" + computer->getIP().toString() + "</i><br/>";
 	if(tooltipFlags & (int)RzxConfig::Resal)
-		tooltip += "<li>" + tr("place : ") + computer->getResal(false) + "</li>";
-	tooltip +="</ul>";
-
+		tooltip += "<b>-></b>&nbsp;" + tr("place : ") + computer->getResal(false) + "<br/>";
+	
 	if(tooltipFlags & (int)RzxConfig::Properties)
 	{
+		tooltip += "<br/>";
 		RzxHostAddress address = computer->getIP();
 		QString msg = RzxConfig::cache(address);
 		if(msg.isNull())
@@ -688,14 +686,13 @@ void RzxRezal::buildToolTip(Q3ListViewItem *i) const
 		else
 		{
 			QString date = RzxConfig::getCacheDate(address);
-			tooltip += "<b><i>" + tr("Properties checked on ")  + date + " :</i></b><ul>";
+			tooltip += "<b><i>" + tr("Properties checked on ")  + date + " :</i></b><br/>";
 			QStringList list = QStringList::split("|", msg, true);
 			for(int i = 0 ; i < list.size() - 1 ; i+=2)
-				tooltip += "<li>" + list[i] + " : " + list[i+1] + "</li>";
-			tooltip += "</ul>";
+				tooltip += "<b>-></b>&nbsp;" + list[i] + " : " + list[i+1] + "<br/>";
 		}
 	}
-	QToolTip::add(this->viewport(), itemRect(i), tooltip);
+	viewport()->setToolTip(tooltip);
 }
 
 void RzxRezal::languageChanged(){
