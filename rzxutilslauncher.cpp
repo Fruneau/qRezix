@@ -52,7 +52,6 @@ void RzxUtilsLauncher::ftp(const QString& s_login) const
 	tempip="ftp://"+tempip+"/"+path;
 
 	QString cmd;
-	QStringList args;
 #ifdef WIN32
 	QString sFtpClient=RzxConfig::globalConfig()->ftpCmd();
 
@@ -68,7 +67,6 @@ void RzxUtilsLauncher::ftp(const QString& s_login) const
 			
 			//Récupération du chemin d'accès
 			cmd=regReader.value("AppDir").toString()+"leechftp.exe";
-			args << tempip;
 		}
 	}
 	// SmartFTP
@@ -92,57 +90,39 @@ void RzxUtilsLauncher::ftp(const QString& s_login) const
 			//Récupération du chemin d'accès
 			regReader.setValue("Network/Default Path", tempPath);
 			cmd = regReader.value("Install Directory").toString() + "smartftp.exe";
-			args << tempip;
 		}
 	}
 	// Internet Explorer
 	else if (sFtpClient == "iExplore")
-	{
 		cmd = "explorer";
-		args << tempip;
-	}
 	else if( sFtpClient == "standard")
 		cmd = tempip;
 	else
-	{
-		cmd= sFtpClient;
-		args << tempip;
-	}
+		cmd =  sFtpClient;
 #else
 #ifdef Q_OS_MAC
 	if(RzxConfig::globalConfig()->ftpCmd() == "Default")
-	{
 		cmd = "open";
-		args << "\"" + tempip + "\"";
-	}
 	else
-	{
 		cmd = RzxConfig::globalConfig()->ftpCmd();
-		args << tempip;
-	}
 #else
 	if(RzxConfig::globalConfig()->ftpCmd() == "lftp")
 	{
 		// on lance le client dans un terminal
 #ifdef WITH_KDE
-		cmd = "konsole";
-		args << "-e" << "\"lftp " + tempip + "\"";
+		cmd = "konsole -e lftp";
 #else
-		cmd = "xterm";
-		args << "-e" << "\"lftp " + tempip + "\"";
+		cmd = "xterm -e lftp";
 #endif
 	}
 	else
-	{
 		cmd = RzxConfig::globalConfig()->ftpCmd();
-		args << tempip;
-	}
 #endif //MAC
 #endif //WIN32
 	
 	QProcess process;
 	process.setWorkingDirectory(path);
-	process.start(cmd, args);
+	process.start(cmd + " " + tempip);
 	
 }
 
