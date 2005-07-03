@@ -689,13 +689,13 @@ private:
 };
 
 TrayIcon::TrayIconPrivate::TrayIconPrivate(TrayIcon *object, int _size)
-	: QWidget(0, "psidock", Qt::WNoAutoErase)
+	: QWidget()
 {
 	iconObject = object;
 	size = _size;
 
 	setFocusPolicy(Qt::NoFocus);
-	setBackgroundMode(Qt::X11ParentRelative);
+	//setAttribute(Qt::WA_NoSystemBackground);
 
 	setMinimumSize(size, size);
 	setMaximumSize(size, size);
@@ -729,7 +729,8 @@ void TrayIcon::TrayIconPrivate::initWM(WId icon)
 void TrayIcon::TrayIconPrivate::setPixmap(const QPixmap &pm)
 {
 	pix = pm.scaled(RzxConfig::traySize(), RzxConfig::traySize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-	setIcon(pix);
+	setWindowIcon(pix);
+	setMask(pix.mask());
 	repaint();
 }
 
