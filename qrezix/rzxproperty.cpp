@@ -5,7 +5,7 @@ copyright            : (C) 2002 by Benoit Casoetto
 email                : benoit.casoetto@m4x.org
 ***************************************************************************/
 #include <QPushButton>
-#include <QToolbutton>
+#include <QToolButton>
 #include <QToolBox>
 #include <QGroupBox>
 #include <QObject>
