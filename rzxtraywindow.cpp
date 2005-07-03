@@ -37,8 +37,12 @@ RzxTrayWindow::RzxTrayWindow(RzxComputer* computer, bool connected, unsigned int
     setAttribute(Qt::WA_DeleteOnClose);
 	setMinimumWidth(150);
 	setMinimumHeight(70);
-
+	setWindowOpacity(0.70);
+#ifndef Q_OS_MAC
 	setFrameStyle(Panel | Plain);
+#else
+	setFrameStyle(MenuBarPanel | Plain);
+#endif
 	
 	if(!connected)
 		setPaletteBackgroundColor(QColor(0xff, 0x20, 0x20));
@@ -77,7 +81,11 @@ RzxTrayWindow::RzxTrayWindow(RzxComputer* computer, bool connected, unsigned int
 	setLayout(layout);
 
     //Affichage de la fenêtre
+#ifdef Q_OS_MAC
+	QPoint point(0, 21);
+#else
 	QPoint point(0,0);
+#endif
 	move(point);
 	setFocusPolicy(Qt::NoFocus);
 	show();
