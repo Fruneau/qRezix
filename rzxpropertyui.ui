@@ -28,7 +28,7 @@
    <item row="1" column="1" >
     <widget class="QStackedWidget" name="prefStack" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="pageInfo" >
       <layout class="QGridLayout" >
@@ -63,7 +63,7 @@
           <number>6</number>
          </property>
          <item>
-          <widget class="Q3GroupBox" name="grpInfoPerso" >
+          <widget class="QGroupBox" name="grpInfoPerso" >
            <property name="sizePolicy" >
             <sizepolicy>
              <hsizetype>5</hsizetype>
@@ -77,9 +77,6 @@
            </property>
            <property name="title" >
             <string>Personnal information</string>
-           </property>
-           <property name="orientation" >
-            <enum>Qt::Vertical</enum>
            </property>
            <layout class="QGridLayout" >
             <property name="margin" >
@@ -382,7 +379,7 @@
           <number>2</number>
          </property>
          <item row="0" column="1" >
-          <widget class="Q3GroupBox" name="groupBox31" >
+          <widget class="QGroupBox" name="groupBox31" >
            <property name="sizePolicy" >
             <sizepolicy>
              <hsizetype>4</hsizetype>
@@ -396,9 +393,6 @@
            </property>
            <property name="title" >
             <string>Icon selection</string>
-           </property>
-           <property name="orientation" >
-            <enum>Qt::Vertical</enum>
            </property>
            <layout class="QGridLayout" >
             <property name="margin" >
@@ -701,12 +695,9 @@
             <number>6</number>
            </property>
            <item>
-            <widget class="Q3GroupBox" name="grpMenu" >
+            <widget class="QGroupBox" name="grpMenu" >
              <property name="title" >
               <string>Menu</string>
-             </property>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
              </property>
              <layout class="QGridLayout" >
               <property name="margin" >
@@ -874,7 +865,7 @@
           </layout>
          </item>
          <item>
-          <widget class="Q3GroupBox" name="grpToolTips" >
+          <widget class="QGroupBox" name="grpToolTips" >
            <property name="whatsThis" >
             <string>&lt;h3>ToolTips&lt;/h3>&lt;p>ToolTips are little windows that appears when you </string>
            </property>
@@ -886,9 +877,6 @@
            </property>
            <property name="checkable" >
             <bool>false</bool>
-           </property>
-           <property name="orientation" >
-            <enum>Qt::Vertical</enum>
            </property>
            <layout class="QGridLayout" >
             <property name="margin" >
@@ -1290,7 +1278,7 @@
         </layout>
        </item>
       </layout>
-      <widget class="QWidget" name="" >
+      <widget class="QWidget" name="widget" >
        <property name="geometry" >
         <rect>
          <x>9</x>
@@ -1300,7 +1288,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QWidget" name="" >
+      <widget class="QWidget" name="widget_2" >
        <property name="geometry" >
         <rect>
          <x>10</x>
@@ -1413,15 +1401,12 @@
         </widget>
        </item>
        <item rowspan="2" row="0" column="1" >
-        <widget class="Q3GroupBox" name="GroupBox11_2" >
+        <widget class="QGroupBox" name="GroupBox11_2" >
          <property name="whatsThis" >
           <string>&lt;h3>Open services&lt;/h3>&lt;p>Select the servers you want to share with all the users of the network. If a server is not present, it won't be displayed as present&lt;/p></string>
          </property>
          <property name="title" >
           <string>Open services</string>
-         </property>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
          </property>
          <layout class="QVBoxLayout" >
           <property name="margin" >
@@ -1732,12 +1717,9 @@
         <number>6</number>
        </property>
        <item row="0" column="0" colspan="2" >
-        <widget class="Q3GroupBox" name="groupNotification" >
+        <widget class="QGroupBox" name="groupNotification" >
          <property name="title" >
           <string>Notifications</string>
-         </property>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
          </property>
          <layout class="QGridLayout" >
           <property name="margin" >
@@ -1894,15 +1876,12 @@
           <number>6</number>
          </property>
          <item>
-          <widget class="Q3GroupBox" name="groupSystray" >
+          <widget class="QGroupBox" name="groupSystray" >
            <property name="whatsThis" >
             <string>&lt;h3>Systray&lt;/h3>&lt;p>Do you want to have qRezix reduced to an icon in the systray ?&lt;/p></string>
            </property>
            <property name="title" >
             <string>Systray</string>
-           </property>
-           <property name="orientation" >
-            <enum>Qt::Vertical</enum>
            </property>
            <layout class="QGridLayout" >
             <property name="margin" >
@@ -1978,15 +1957,12 @@
           </widget>
          </item>
          <item>
-          <widget class="Q3GroupBox" name="groupBox27" >
+          <widget class="QGroupBox" name="groupBox27" >
            <property name="whatsThis" >
             <string>&lt;h3>Translation&lt;/h3>&lt;p>Select your language&lt;/p></string>
            </property>
            <property name="title" >
             <string>Translation</string>
-           </property>
-           <property name="orientation" >
-            <enum>Qt::Vertical</enum>
            </property>
            <layout class="QGridLayout" >
             <property name="margin" >
@@ -2038,12 +2014,9 @@
           <number>6</number>
          </property>
          <item>
-          <widget class="Q3GroupBox" name="groupBox29" >
+          <widget class="QGroupBox" name="groupBox29" >
            <property name="title" >
             <string>Chat</string>
-           </property>
-           <property name="orientation" >
-            <enum>Qt::Vertical</enum>
            </property>
            <layout class="QGridLayout" >
             <property name="margin" >
@@ -2083,12 +2056,9 @@
           </widget>
          </item>
          <item>
-          <widget class="Q3GroupBox" name="groupBox30" >
+          <widget class="QGroupBox" name="groupBox30" >
            <property name="title" >
             <string>Other</string>
-           </property>
-           <property name="orientation" >
-            <enum>Qt::Vertical</enum>
            </property>
            <layout class="QGridLayout" >
             <property name="margin" >
@@ -2139,7 +2109,7 @@
         <number>6</number>
        </property>
        <item row="0" column="0" >
-        <widget class="Q3GroupBox" name="grpPlugIn" >
+        <widget class="QGroupBox" name="grpPlugIn" >
          <property name="sizePolicy" >
           <sizepolicy>
            <hsizetype>7</hsizetype>
@@ -2151,9 +2121,6 @@
          <property name="title" >
           <string>Plug-ins</string>
          </property>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
          <layout class="QGridLayout" >
           <property name="margin" >
            <number>-1</number>
@@ -2161,7 +2128,7 @@
           <property name="spacing" >
            <number>0</number>
           </property>
-          <item row="1" column="0" >
+          <item row="0" column="0" >
            <layout class="QHBoxLayout" >
             <property name="margin" >
              <number>2</number>
@@ -2370,33 +2337,32 @@
     </layout>
    </item>
    <item rowspan="2" row="0" column="0" >
-    <widget class="Q3ListBox" name="lbMenu" >
-     <property name="sizePolicy" >
-      <sizepolicy>
-       <hsizetype>0</hsizetype>
-       <vsizetype>7</vsizetype>
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize" >
-      <size>
-       <width>130</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize" >
-      <size>
-       <width>130</width>
-       <height>32767</height>
-      </size>
-     </property>
-     <property name="lineWidth" >
-      <number>1</number>
-     </property>
-     <property name="hScrollBarMode" >
-      <enum>Q3ScrollView::AlwaysOff</enum>
-     </property>
+    <widget class="QListWidget" name="lbMenu" >
+     <item>
+      <property name="text" >
+       <string>Infos</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Layout</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Network</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Misc.</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Plug-ins</string>
+      </property>
+     </item>
     </widget>
    </item>
   </layout>
@@ -2405,23 +2371,9 @@
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>Q3GroupBox</class>
-   <extends></extends>
-   <header>Qt3Support/Q3GroupBox</header>
-   <container>1</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>Q3ListView</class>
    <extends></extends>
    <header>q3listview.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>Q3ListBox</class>
-   <extends></extends>
-   <header>q3listbox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -2520,12 +2472,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>510</x>
-     <y>315</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>510</x>
-     <y>383</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
    </hints>
   </connection>
@@ -2536,12 +2488,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>588</x>
-     <y>321</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>578</x>
-     <y>397</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
    </hints>
   </connection>
@@ -2552,12 +2504,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>548</x>
-     <y>312</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>530</x>
-     <y>421</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
    </hints>
   </connection>
@@ -2568,12 +2520,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>598</x>
-     <y>317</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>593</x>
-     <y>456</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
    </hints>
   </connection>
@@ -2584,12 +2536,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>614</x>
-     <y>322</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>566</x>
-     <y>484</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
    </hints>
   </connection>
@@ -2600,12 +2552,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>656</x>
-     <y>316</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>565</x>
-     <y>499</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
    </hints>
   </connection>
@@ -2616,12 +2568,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>653</x>
-     <y>317</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>666</x>
-     <y>366</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
    </hints>
   </connection>
@@ -2632,12 +2584,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>706</x>
-     <y>316</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>693</x>
-     <y>392</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
    </hints>
   </connection>
@@ -2648,12 +2600,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>706</x>
-     <y>322</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>712</x>
-     <y>433</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
    </hints>
   </connection>
@@ -2664,12 +2616,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>635</x>
-     <y>320</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>638</x>
-     <y>445</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
    </hints>
   </connection>
@@ -2680,12 +2632,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>653</x>
-     <y>315</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>663</x>
-     <y>468</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
    </hints>
   </connection>
@@ -2696,12 +2648,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>269</x>
-     <y>129</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>319</x>
-     <y>148</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
    </hints>
   </connection>
@@ -2712,12 +2664,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>530</x>
-     <y>133</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>742</x>
-     <y>158</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
    </hints>
   </connection>
@@ -2728,12 +2680,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>236</x>
-     <y>200</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>297</x>
-     <y>215</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
    </hints>
   </connection>
@@ -2744,12 +2696,28 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>556</x>
-     <y>195</y>
+     <x>314</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>741</x>
-     <y>230</y>
+     <x>314</x>
+     <y>83</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lbMenu</sender>
+   <signal>currentRowChanged(int)</signal>
+   <receiver>prefStack</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>117</x>
+     <y>218</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>259</x>
+     <y>481</y>
     </hint>
    </hints>
   </connection>
