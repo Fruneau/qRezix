@@ -4,33 +4,32 @@
 copyright            : (C) 2002 by Benoit Casoetto
 email                : benoit.casoetto@m4x.org
 ***************************************************************************/
-#include <qpushbutton.h>
-#include <qtoolbutton.h>
-#include <qtoolbox.h>
-#include <q3groupbox.h>
-#include <qobject.h>
-#include <qlineedit.h>
-#include <qspinbox.h>
-#include <qcombobox.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <q3listbox.h>
-#include <qimage.h>
-#include <qdir.h>
-#include <qapplication.h>
-#include <qmessagebox.h>
-#include <q3widgetstack.h>
-#include <qbitmap.h>
-#include <qvalidator.h>
-//Added by qt3to4:
+#include <QPushButton>
+#include <QToolbutton>
+#include <QToolBox>
+#include <QGroupBox>
+#include <QObject>
+#include <QLineEdit>
+#include <QSpinBox>
+#include <QComboBox>
+#include <QCheckBox>
+#include <QLabel>
+#include <Q3ListBox>
+#include <QImage>
+#include <QDir>
+#include <QApplication>
+#include <QMessageBox>
+#include <QStackedWidget>
+#include <QBitmap>
+#include <QRegExpValidator>
 #include <QPixmap>
 #include <QTranslator>
-#include <QObject>
+#include <QListWidget>
 
 #ifdef WITH_KDE
 #include <kfiledialog.h>
 #else
-#include <q3filedialog.h>
+#include <QFileDialog>
 #endif
 
 #include "rzxproperty.h"
@@ -47,8 +46,9 @@ email                : benoit.casoetto@m4x.org
 #include "defaults.h"
 #include "q.xpm"
 
-RzxProperty::RzxProperty( QRezix*parent ) : QDialog(parent) {
+RzxProperty::RzxProperty(QRezix *parent) : QDialog(parent) {
 	setupUi(this);
+	
 	QPixmap iconeProg( ( const char ** ) q );
 	iconeProg.setMask( iconeProg.createHeuristicMask() );
 	setIcon( iconeProg );
@@ -61,7 +61,7 @@ RzxProperty::RzxProperty( QRezix*parent ) : QDialog(parent) {
 	connect( btnBeepBrowse_3, SIGNAL( clicked()), this, SLOT(chooseBeepConnection())) ;
 	connect(btnAboutQt, SIGNAL(clicked()), this, SLOT(aboutQt()));
 	connect(cmbMenuIcons, SIGNAL(activated(int)), this,SLOT(lockCmbMenuText(int)));
-	connect( lbMenu, SIGNAL(highlighted(int)), this, SLOT(changePage(int )));
+	connect( lbMenu, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(changePage(QListWidgetItem*, QListWidgetItem*)));
 
 	btnBeepBrowse -> setEnabled(false);
 	btnBeepBrowse_3 -> setEnabled(false);
@@ -111,7 +111,7 @@ RzxProperty::RzxProperty( QRezix*parent ) : QDialog(parent) {
 
 	initDlg();
 	changeTheme();
-	changePage(0);
+	lbMenu->setCurrentRow(0);
 }
 
 RzxProperty::~RzxProperty() {}
@@ -128,36 +128,30 @@ void RzxProperty::changeTheme()
 	btnOK->setIconSet(ok);
 	btnMiseAJour->setIconSet(apply);
 
-	#define newItem(icon, name) lbMenu->insertItem(icon.scaled(32, 32, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), name)
+	#define setIcon(icon, name) lbMenu->item(name)->setIcon(icon)
 
 	QPixmap pixmap; //Pour le newItem
-	lbMenu->clear();
 	if(RzxConfig::themedIcon("systray").isNull())
-	{
-		newItem(QPixmap(( const char ** ) q ), tr("Infos"));
-	}
+		setIcon(QPixmap(( const char ** ) q ), 0);
 	else
-	{
-		newItem(RzxConfig::themedIcon("systray"), tr("Infos"));
-	}
-	newItem(RzxConfig::themedIcon("layout"), tr("Layout"));
-	newItem(RzxConfig::themedIcon("network"), tr("Network"));
-	newItem(RzxConfig::themedIcon("pref"), tr("Misc."));
-	newItem(RzxConfig::themedIcon("plugin"), tr("Plug-ins"));
+		setIcon(RzxConfig::themedIcon("systray"), 0);
+	setIcon(RzxConfig::themedIcon("layout"), 1);
+	setIcon(RzxConfig::themedIcon("network"), 2);
+	setIcon(RzxConfig::themedIcon("pref"), 3);
+	setIcon(RzxConfig::themedIcon("plugin"), 4);
 
-	#undef newItem
+	#undef setIcon
 }
 
-void RzxProperty::changePage(int i)
+void RzxProperty::changePage(QListWidgetItem *current, QListWidgetItem *)
 {
-	lblTitle->setText("<h2>"+lbMenu->text(i)+"</h2>");
-	prefStack->setCurrentIndex(i);
+	lblTitle->setText("<h2>"+current->text()+"</h2>");
 }
 
 void RzxProperty::languageChange()
 {
 	QDialog::languageChange();
-	lblTitle->setText("<h2>"+lbMenu->text(prefStack->currentIndex())+"</h2>");
+	lblTitle->setText("<h2>"+lbMenu->currentItem()->text()+"</h2>");
 }
 
 
@@ -643,14 +637,15 @@ void RzxProperty::writeColDisplay() {
 
 QString RzxProperty::browse(const QString& name, const QString& title, const QString& glob) {
 #ifdef WITH_KDE
-	QString filter = glob + "|" + name + " (" + glob + ")";
+	QString filter = name + " (" + glob + ")";
 	QString file = KFileDialog::getOpenFileName( QString::null, filter, this, title );
 #else
 	QString filter = name + " (" + glob + ")";
-	QString file = Q3FileDialog::getOpenFileName( QString::null, filter, this, "ChooseIcon", title);
+	QString file = QFileDialog::getOpenFileName(this, title, QString::null, filter);
 #endif
 	return file;
 }
+
 /** No descriptions */
 void RzxProperty::chooseIcon() {
 	QString file = browse(tr("Icons"), tr("Icon selection"), "*.png *.jpg *.bmp");
@@ -693,11 +688,10 @@ void RzxProperty::launchDirSelectDialog() {
 					 0, tr("Choose default ftp folder") );
 #else
 
-		temp = Q3FileDialog::getExistingDirectory ( RzxConfig::globalConfig() ->FTPPath().latin1(), 
-					0, 0, tr("Choose default ftp folder"), true );
+		temp = QFileDialog::getExistingDirectory(this, tr("Choose default ftp folder"),
+												 RzxConfig::globalConfig()->FTPPath()); 
 	else
-		temp = Q3FileDialog::getExistingDirectory ( ".", 
-					0, 0, tr("Choose default ftp folder"), true );
+		temp = QFileDialog::getExistingDirectory(this, tr("Choose default ftp folder"), ".");
 #endif
 
 	if ( !temp.isNull() )

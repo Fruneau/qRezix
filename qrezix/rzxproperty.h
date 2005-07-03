@@ -16,8 +16,8 @@
 #ifndef RZXPROPERTY_H
 #define RZXPROPERTY_H
 
-#include <qpixmap.h>
 #include <QDialog>
+
 #include "ui_rzxpropertyui.h"
 
 #define NB_COL 10
@@ -26,7 +26,6 @@
   *@author Benoit Casoetto
   */
 
-class Q3Dns;
 class QRezix;
 
 class RzxProperty : public QDialog, public Ui::frmPref {
@@ -73,7 +72,7 @@ protected slots: // Protected slots
 	void chooseBeep();
 	void chooseBeepConnection();
 	void lockCmbMenuText(int index);
-	void changePage(int i);
+	void changePage(QListWidgetItem*, QListWidgetItem*);
 };
 
 #endif

@@ -28,7 +28,7 @@
 #define RZX_MAJOR_VERSION (1)
 #define RZX_MINOR_VERSION (7)
 #define RZX_FUNNY_VERSION (0)
-#define RZX_TAG_VERSION   "-cvs"
+#define RZX_TAG_VERSION   "-svn"
 
 #define RZX_VERSION QString("%1.%2").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION)
 
