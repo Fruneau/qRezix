@@ -353,6 +353,7 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 		item->setVisible(!dispNotFavorites);
 		if(!dispNotFavorites)
 			emit newFavorite(computer);
+		connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 	}
 	else
 	{
@@ -375,7 +376,6 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 
 	itemByName.insert(computer->getName().lower(), new RzxItem*(item));
 	nameByIP.insert(computer->getIP(), computer->getName().lower());
-	connect(computer, SIGNAL(isUpdated()), item, SLOT(update()));
 
 	item->update();
 	setUpdatesEnabled(TRUE);

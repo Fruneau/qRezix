@@ -14,25 +14,31 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qstringlist.h>
-#include <qregexp.h>
-#include <qlineedit.h>
-#include <qpushbutton.h>
-#include <qicon.h>
-#include <qvalidator.h>
-#include <qpixmap.h>
-#include <qimage.h>
+#include <QStringList>
+#include <QRegExp>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QIcon>
+#include <QRegExpValidator>
+#include <QPixmap>
+#include <QImage>
 #include <QDialog>
 
 #include "rzxprotocole.h"
+
+#include "ui_rzxwrongpassui.h"
+
+#include "rzxhostaddress.h"
 #include "rzxcomputer.h"
 #include "rzxconfig.h"
-#include "ui_rzxwrongpassui.h"
 #include "md5.h"
+
 #define MD5_ADD "Vive le BR"
+
+///Masques pour les messages du protocole xNet
 const char * RzxProtocole::ServerFormat[] = {
-	"^JOIN ([0-9A-Fa-f]+ .* [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ .*)\r\n",
-	"^REFRESH ([0-9A-Fa-f]+ .* [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ [0-9A-Fa-f]+ .*)\r\n",
+	"^JOIN ([0-9A-Fa-f]+) (.+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) (.*)\r\n",
+	"^REFRESH ([0-9A-Fa-f]+) (.+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) (.*)\r\n",
 	"^SYSMSG (.*)\r\n",
 	"^PING\r\n",
 	"^PASS ([0-9A-Za-z]+)\r\n",
@@ -47,22 +53,14 @@ const char * RzxProtocole::ServerFormat[] = {
 	0
 };
 
-const unsigned int RzxProtocole::ServerCounts[] = {
-	7, 7, 1, 0, 1, 1, 2, 0, 1
-};
-
+///Construction... RAS
 RzxProtocole::RzxProtocole()
-	: QObject(0, "Protocole")
+	: QObject()
 {
 	changepass = NULL;
 }
 
-RzxProtocole::RzxProtocole(const char * name)
-	: QObject(0, name)
-{
-	changepass = NULL;
-}
-
+///Destruction...
 RzxProtocole::~RzxProtocole(){
 }
 
@@ -86,7 +84,13 @@ void RzxProtocole::parse(const QString& msg){
 		{
 			case SERVER_JOIN:
 			case SERVER_REFRESH:
-				emit login(cmd.cap(1));
+				emit login(RzxHostAddress::fromRezix(cmd.cap(1).toUInt(0, 16)), //IP
+						   cmd.cap(2), //Nom de la machine 
+						   cmd.cap(3).toUInt(0, 16), //Options
+						   cmd.cap(4).toUInt(0, 16), //Version du client
+						   cmd.cap(5).toUInt(0, 16), //Hash de l'icône
+						   cmd.cap(6).toUInt(0, 16), //Flags ?????
+						   cmd.cap(7)); //Remarque
 				
 				//Si le pass donné par le serveur est encore valide, alors, on demande le changement de pass
 				if(testOldPass && !RzxConfig::oldPass().isNull())
@@ -156,7 +160,7 @@ void RzxProtocole::parse(const QString& msg){
 				
 			case SERVER_PART:
 				val = cmd.cap(1).toULong(&ok, 16);
-				if (ok)
+				if(ok)
 					emit logout(RzxHostAddress::fromRezix(val));
 				break;
 				
@@ -171,33 +175,6 @@ void RzxProtocole::parse(const QString& msg){
 	}
 }
 
-/** Extracts the parameters of the command specified */
-QStringList RzxProtocole::split(char sep, const QString& command, int count){
-	QStringList ret; QString temp;
-	
-	int begin = 0, end = 0;
-
-	while(end >= 0 && ret.count() < count - 1) {
-		end = command.find(sep, begin);
-		if (end >= 0)			
-			temp = command.mid(begin, end - begin);
-		else
-			temp = command.right(command.length() - begin);
-			
-		temp = temp.stripWhiteSpace();
-		ret.append(temp);
-			
-		begin = end + 1;
-	}
-	if (begin >= 0 && end != -1)
-		ret.append(command.right(command.length() - begin));
-		
-	while(ret.count() < count){	ret.append("");};
-	
-	return ret;
-}
-
-
 /*******************************************************************************
 * MESSAGES A ENVOYER AU SERVEUR
 */
@@ -205,11 +182,6 @@ QStringList RzxProtocole::split(char sep, const QString& command, int count){
 void RzxProtocole::sendAuth(const QString& passcode, RzxComputer * thisComputer) {
 	QString msg = "VERSION 4.0\r\n";
 	msg = msg + "PASS " + passcode + "\r\n";
-/*      //avec hash:
-	QString pass_added=passcode+MD5_ADD;
-	QString hash=MD5String(pass_added.latin1());
-	msg = msg + "HASH " + hash + "\r\n";*/
-
 	msg = msg + "JOIN " + thisComputer -> serialize() + "\r\n";
 	
 	emit send(msg);	
@@ -273,8 +245,6 @@ void RzxProtocole::validChangePass()
 	if(changepassui.leNewPass->text() == changepassui.leReenterNewPass->text())
 	{
 		m_newPass = changepassui.leNewPass->text();
-/*		qDebug(m_oldPass + " ==> " + m_newPass);
-		emit send("CHANGEPASS " + m_oldPass + " " + m_newPass + "\r\n");*/
        //avec hash:
 		m_newPass = m_newPass+MD5_ADD;
 		m_newPass = MD5String(m_newPass.latin1());

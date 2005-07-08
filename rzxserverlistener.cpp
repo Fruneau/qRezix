@@ -32,7 +32,7 @@ RzxServerListener * RzxServerListener::globalObject = 0;
 
 ///Construction du Socket
 RzxServerListener::RzxServerListener()
-	: RzxProtocole("Serveur"), socket() {
+	: RzxProtocole(), socket() {
 	connect(&reconnection, SIGNAL(timeout()), this, SLOT(waitReconnection()));	
 	
 	connect(this, SIGNAL(ping()), this, SLOT(sendPong()));

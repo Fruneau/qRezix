@@ -117,14 +117,14 @@ public:
 	};
 
 	RzxComputer();
+	RzxComputer(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
 	~RzxComputer();
+
+	QString serialize(bool stamp = false);
 
 	/** Pour la creation de localHost */
 	void initLocalHost();
-
-	bool parse(const QString& params);
-
-	QString serialize(bool stamp = false);
+	void update(const QString&, quint32, quint32, quint32, const QString&);
 
 	void setName(const QString& text);
 	void setPromo(int promo);
