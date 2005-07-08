@@ -131,9 +131,32 @@ void RzxComputer::autoSetOs()
 }
 
 ///Serialise le RzxComputer dans le format utilisé par le protocole xNet
-QString RzxComputer::serialize(bool stamp)
+QString RzxComputer::serialize(bool stamp) const
 {
-	QString ret;
+	if(stamp)
+		return serialize(QString("$nn $xo $xv $xf $rem"));
+	else
+		return serialize(QString("$nn $xo $xv $xi $xf $rem"));
+}
+
+///Retourne une chaîne de caractère représentant l'objet ajencée selon le pattern
+/** Le pattern peut comporter les éléments suivant :
+ * - $nn = nom
+ * - $do = options en décimal
+ * - $xo = options en hexadécimal
+ * - $dv = version en décimal
+ * - $xv = version en hexadécimal
+ * - $di = icône en décimal
+ * - $xi = icône en hexadécimal
+ * - $ip = ip en héxadécimal
+ * - $IP = ip en xxx.xxx.xxx.xxx
+ * - $rem = remarque
+ * - $df = flags en décimal
+ * - $dh = flags en hexadécimal
+ */
+QString RzxComputer::serialize(const QString& pattern) const
+{
+	QString message(pattern);
 	options_t test = options;
 	test.Server &= ServerFlags;
 	//Pour préserver la compatibilité avec les versions antérieures qui ne respectent pas le protocole !!!
@@ -141,16 +164,20 @@ QString RzxComputer::serialize(bool stamp)
 	quint32 opts = *((Q_UINT32*) &test);
 	quint32 vers = *((Q_UINT32*) &version);
 	
-	ret = name + " " +
-		QString::number(opts, 16).right(8) + " " +				
-		QString::number(vers, 16).right(8) + " ";
-		
-	if (stamp) ret += "0 ";
-	
-	ret += QString::number((Q_UINT32)flags, 16).right(8) + " " +
-			remarque;
-		
-	return ret;
+	message.replace("$nn", name);
+	message.replace("$do", QString::number(opts, 10))
+		.replace("$xo", QString::number(opts, 16).right(8));
+	message.replace("$dv", QString::number(vers, 10))
+		.replace("$xv", QString::number(vers, 16).right(8));
+	message.replace("$di", QString::number(stamp, 10))
+		.replace("$xi", QString::number(stamp, 16).right(8));
+	message.replace("$df", QString::number(flags, 10))
+		.replace("$xf", QString::number(flags, 16).right(8));
+	message.replace("$ip", QString::number((quint32)ip.toRezix(), 16).right(8))
+		.replace("$IP", ip.toString());
+	message.replace("$rem", remarque);
+	qDebug(message);
+	return message;
 }
 
 /******************** Remplissage du RzxComputer *********************/
@@ -232,6 +259,7 @@ bool RzxComputer::can(unsigned int cap)
 ///Récupération de la version du client
 RzxComputer::version_t RzxComputer::getVersion() const 
 { return version; }
+
 ///Retourne le client utilisé avec la version
 /**Permet d'obtenir le nom et le numéro de version du client xNet utilisé*/
 QString RzxComputer::getClient() const
@@ -256,6 +284,7 @@ QString RzxComputer::getClient() const
 ///Récupération de l'IP sous la forme d'un RzxHostAddress
 const RzxHostAddress &RzxComputer::getIP() const 
 { return ip; }
+
 ///Permet de retrouver le 'nom' du sous-réseau sur lequel se trouve la machine
 /** Permet de donner un nom au sous-réseau de la machine. A terme cette fonction lira les données à partir d'un fichier qui contiendra les correspondances */
 QString RzxComputer::getResal(bool shortname) const
