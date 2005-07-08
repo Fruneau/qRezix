@@ -46,7 +46,6 @@ class RzxProtocole : public QObject{
 	
 public: 
 	RzxProtocole();
-	RzxProtocole(const char * name);
 	~RzxProtocole();
 	
 	enum Icons {
@@ -56,7 +55,6 @@ public:
 	};
 		
  	static const char * ServerFormat[];
- 	static const unsigned int ServerCounts[];
  	enum ServerCommands {
  		SERVER_JOIN = 0,
 		SERVER_REFRESH = 1,
@@ -73,7 +71,6 @@ public:
 		SERVER_UPLOAD = 12
 	};
 
-	static QStringList split(char sep, const QString& command, int count);
 	virtual void parse(const QString& msg);
 
 	/** Realise une sequence d'authentification aupres du serveur
@@ -109,7 +106,7 @@ signals: // Signals
 	/** login() est emit quand on passe une commande JOIN ou REFRESH a @ref parse
 	*C'est au slot de verifier si oui ou non newComputer a deja ete reference
 	*@param newComputer donnees concernant l'ordinateur */
- 	void login(const QString& newComputer);
+ 	void login(const RzxHostAddress &ip, const QString& name, quint32 options, quint32 version, quint32 stamp, quint32 flags, const QString& comment);
 	/** logout() est emit quand on passe une commande PART @ref parse
 	*@param ip IP de l'ordinateur qui se deconnecte de rezix */
  	void logout(const RzxHostAddress& ip);

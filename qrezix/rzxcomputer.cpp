@@ -44,9 +44,21 @@ const char *RzxComputer::promalText[4] = {
 
 ///Construction d'un RzxComputer
 /** La construction n'initialise pas le RzxComputer en un objet utilisable.
- * Selon le cas on utilise initLocalHost our parse pour initialiser l'objet.
  */
 RzxComputer::RzxComputer():delayScan(NULL) { }
+
+///Consturuction d'un RzxCompuer
+/** La construction initialise le RzxComputer à partir des données obtenues
+ * Cette construction est suffisante uniquement pour un computer distant
+ * et n'est pas adapté à la construction de localhost
+ */
+RzxComputer::RzxComputer(const RzxHostAddress& m_ip, const QString& m_name, quint32 m_options, quint32 m_version, quint32 m_stamp, quint32 m_flags, const QString& m_remarque)
+	:name(m_name), ip(m_ip), flags(m_flags), stamp(m_stamp), remarque(m_remarque), delayScan(NULL)
+{
+	*((quint32 *) &options) = m_options;
+	*((quint32 *) &version) = m_version;
+	loadIcon();
+}	
 
 ///Destruction...
 RzxComputer::~RzxComputer()
@@ -81,52 +93,20 @@ void RzxComputer::initLocalHost()
 	flags = 0;
 }
 
-///Création d'un Computer à partir des données obtenue via le protocole xNet
-/** Permet la représentation des hosts distants...
- */
-bool RzxComputer::parse(const QString& params){
-	if (params.isEmpty()) return true;
-		
-	QStringList args = RzxProtocole::split(' ', params, RzxProtocole::ServerCounts[RzxProtocole::SERVER_JOIN]);
-	if (args.count() != (int)RzxProtocole::ServerCounts[RzxProtocole::SERVER_JOIN])
-		return true;
+///Mise à jour du RzxComputer lors de la réception de nouvelle infos
+void RzxComputer::update(const QString& m_name, quint32 m_options, quint32 m_stamp, quint32 m_flags, const QString& m_remarque)
+{
+	name = m_name;
+	*((quint32 *) &options) = m_options;
+	flags = m_flags;
+	remarque = m_remarque;
 
-	QString temp;
-	bool ok;
-	QStringList::Iterator it;
-	quint32 tempNumb;
-	
-	it = args.begin();	
-	temp = *it;	
-	ip = RzxHostAddress::fromRezix(temp.toUInt(&ok, 16));
-	if (!ok) return true;
-	
-	name = *(++it);
-	if (name.isEmpty()) return true;
-
-	temp = *(++it);	
-	tempNumb = temp.toUInt(&ok, 16);
-	if (!ok) return true;
-	*((quint32 *) &options) = tempNumb;
-	
-	temp = *(++it);
-	tempNumb = temp.toUInt(&ok, 16);
-	if (!ok) return true;
-	*((quint32 *) &version) = tempNumb;
-	
-	temp = *(++it);
-	stamp = temp.toUInt(&ok, 16);
-	if (!ok) return true;
-	
-	temp = *(++it);
-	flags = temp.toUInt(&ok, 16);
-	if (!ok) return true;
-	
-	// maintenant qu'on a le stamp et l'ip, on peut essayer de charger l'icone
-	loadIcon();
-	
-	remarque = *(++it);
-	return false;
+	if(stamp != m_stamp)
+	{
+		stamp = m_stamp;
+		loadIcon();
+	}
+	emit isUpdated();
 }
 
 ///Détermine le système d'exploitation du système local

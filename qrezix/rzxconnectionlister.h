@@ -23,6 +23,7 @@
 #include <QString>
 #include <QTimer>
 #include <QStringList>
+#include <QList>
 
 #include "rzxhostaddress.h"
 
@@ -45,7 +46,7 @@ class RzxConnectionLister : public QObject
 
 	// Pour le traitement asynchrone (buffered)
 	QTimer delayDisplay;
-	QStringList displayWaiter;
+	QList<RzxComputer*> displayWaiter;
 	
 	// Sockets actifs
 	RzxServerListener * server;
@@ -75,7 +76,8 @@ class RzxConnectionLister : public QObject
 		RzxChat *getChatByIP(const RzxHostAddress&) const;
 		
 	public slots:
-		void login(const QString& ordi = QString::null);
+		void login(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
+		void login();
 		void logout(const RzxHostAddress& ip);
 		QStringList getIpList(unsigned int features = 0);
 		

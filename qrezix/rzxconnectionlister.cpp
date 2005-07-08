@@ -44,7 +44,8 @@ RzxConnectionLister::RzxConnectionLister( QObject *parent)
 	server = RzxServerListener::object();
 	client = RzxClientListener::global();
 
-	connect( server, SIGNAL( login( const QString& ) ), this, SLOT( login( const QString& ) ) );
+	connect( server, SIGNAL(login(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&)),
+			 this, SLOT(login(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&)) );
 	connect( server, SIGNAL( logout( const RzxHostAddress& ) ), this, SLOT( logout( const RzxHostAddress& ) ) );
 	connect( server, SIGNAL( rcvIcon( QImage*, const RzxHostAddress& ) ), this, SLOT( recvIcon( QImage*, const RzxHostAddress& ) ) );
 	connect( server, SIGNAL( disconnected() ), this, SLOT( serverDisconnected() ) );
@@ -74,80 +75,58 @@ RzxConnectionLister::~RzxConnectionLister()
 }
 
 ///Enregistrement de l'arrivée d'un nouveau client
-/** Sert aussi au raffraichissement des données*/
-void RzxConnectionLister::login( const QString& newOrdi )
+void RzxConnectionLister::login(const RzxHostAddress& ip, const QString& name, quint32 options, quint32 version, quint32 stamp, quint32 flags, const QString& comment)
 {
-	QString ordi = newOrdi;
-	
-	if(!ordi.isNull())
+	RzxComputer *computer = getComputerByIP(ip);
+	if(!computer)
 	{
-		displayWaiter << newOrdi;
+		computer = new RzxComputer(ip, name, options, version, stamp, flags, comment);
+		computerByIP.insert(ip, computer);
+		displayWaiter << computer;
+	
 		if(!delayDisplay.isActive())
 			delayDisplay.start(1, true);
-		return;
 	}
-	
-	if(displayWaiter.isEmpty()) return;
-	ordi = displayWaiter[0];
-	displayWaiter.remove(ordi);
-
-	RzxComputer *newComputer = new RzxComputer();
-	connect( newComputer, SIGNAL( needIcon( const RzxHostAddress& ) ), this, SIGNAL( needIcon( const RzxHostAddress& ) ) );
-	if( newComputer -> parse( ordi ) )
+	else
 	{
-		delete newComputer;
-		return ;
+		RzxChat *chat = chatByLogin.take(computer->getName());
+		computerByLogin.remove(computer->getName());
+		computer->update(name, options, stamp, flags, comment);
+		computerByLogin.insert(name, computer);
+		if(chat)
+		{
+			chatByLogin.insert(name, chat);
+			chat->setHostname(name);
+		}
+		emit login(computer);
 	}
+}
+
+/** Sert aussi au raffraichissement des données*/
+void RzxConnectionLister::login()
+{
+	if(displayWaiter.isEmpty()) return;
+	RzxComputer *computer = displayWaiter.takeFirst();
+	connect(computer, SIGNAL( needIcon( const RzxHostAddress& ) ), this, SIGNAL( needIcon( const RzxHostAddress& ) ) );
 
 	// Recherche si cet ordinateur était déjà présent (refresh ou login)
-	QString tempIP = newComputer -> getIP().toString();
-	RzxComputer *computer = computerByIP.take(newComputer->getIP());
-	if(computer)
-	{
-		//suppression de l'ancien computer du qdict par nom
-		computerByLogin.remove(computer->getName());
-		
-		//transfert des fenêtres fille vers le nouveau computer
-		if(!computer->children().isEmpty())
-		{
-			QObjectList list = computer->children();
-			QListIterator<QObject *> it(list);
-			while(it.hasNext())
-			{
-				QObject *child = it.next();
-				computer->removeChild(child);
-				newComputer->insertChild(child);
-			}
-		}
-		disconnect(computer, 0, 0, 0);
-	}
+	QString tempIP = computer->getIP().toString();
 
 	//mise à jour des données concernant le chat
-	RzxChat *chat;
-	if(computer)
-		chat = chatByLogin.take(computer->getName());
-	else
-		chat = chatByLogin.take(newComputer->getName());
-
+	RzxChat *chat = chatByLogin.take(computer->getName());
 	if(chat)
 	{
 		//Indication au chat de la reconnexion
 		if (!computer)
 			chat->info( tr("reconnected") );
-
-		chatByLogin.insert(newComputer->getName(), chat);
-		chat->setHostname(newComputer->getName());
+		chatByLogin.insert(computer->getName(), chat);
+		chat->setHostname(computer->getName());
 	}
 
-	emit login( newComputer);
-
-	//Placé après le emit login, pour que les signaux emits par la destruction n'interfèrent pas avec l'affichage
-	if(computer) computer->deleteLater();
+	emit login(computer);
 	
 	//Ajout du nouvel ordinateur dans les qdict
-	computerByLogin.insert(newComputer->getName(), newComputer);
-	computerByIP.insert(newComputer->getIP(), newComputer );
-
+	computerByLogin.insert(computer->getName(), computer);
 	emit countChange( tr("%1 clients connected").arg(computerByIP.count()) );
 	
 	if(!displayWaiter.isEmpty()) delayDisplay.start(5, true);
