@@ -134,9 +134,27 @@ void RzxComputer::autoSetOs()
 QString RzxComputer::serialize(bool stamp) const
 {
 	if(stamp)
-		return serialize(QString("$nn $xo $xv $xf $rem"));
-	else
 		return serialize(QString("$nn $xo $xv $xi $xf $rem"));
+	else
+		return serialize(QString("$nn $xo $xv $xf $rem"));
+/*	QString ret;
+	options_t test = options;
+	test.Server &= ServerFlags;
+	//Pour préserver la compatibilité avec les versions antérieures qui ne respectent pas le protocole !!!
+	if(test.Repondeur == REP_REFUSE) test.Repondeur = REP_ON;
+	quint32 opts = *((Q_UINT32*) &test);
+	quint32 vers = *((Q_UINT32*) &version);
+	
+	ret = name + " " +
+		QString::number(opts, 16).right(8) + " " +				
+		QString::number(vers, 16).right(8) + " ";
+		
+	if (stamp) ret += "0 ";
+	
+	ret += QString::number((Q_UINT32)flags, 16).right(8) + " " +
+			remarque;
+		
+	return ret;*/
 }
 
 ///Retourne une chaîne de caractère représentant l'objet ajencée selon le pattern
