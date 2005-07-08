@@ -37,8 +37,8 @@
 
 ///Masques pour les messages du protocole xNet
 const char * RzxProtocole::ServerFormat[] = {
-	"^JOIN ([0-9A-Fa-f]+) (.+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) (.*)\r\n",
-	"^REFRESH ([0-9A-Fa-f]+) (.+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) (.*)\r\n",
+	"^JOIN ([0-9A-Fa-f]+) (\\S+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) (.*)\r\n",
+	"^REFRESH ([0-9A-Fa-f]+) (\\S+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) (.*)\r\n",
 	"^SYSMSG (.*)\r\n",
 	"^PING\r\n",
 	"^PASS ([0-9A-Za-z]+)\r\n",
