@@ -120,7 +120,8 @@ public:
 	RzxComputer(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
 	~RzxComputer();
 
-	QString serialize(bool stamp = false);
+	QString serialize(bool stamp = false) const;
+	QString serialize(const QString& pattern) const;
 
 	/** Pour la creation de localHost */
 	void initLocalHost();
