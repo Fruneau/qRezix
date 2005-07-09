@@ -9,7 +9,7 @@
     <x>0</x>
     <y>0</y>
     <width>303</width>
-    <height>248</height>
+    <height>207</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -30,30 +30,105 @@
    <property name="spacing" >
     <number>6</number>
    </property>
-   <item row="3" column="0" >
-    <widget class="Line" name="line1" >
-     <property name="frameShape" >
-      <enum>QFrame::HLine</enum>
+   <item row="1" column="1" >
+    <layout class="QVBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
      </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Sunken</enum>
+     <property name="spacing" >
+      <number>6</number>
      </property>
+     <item>
+      <widget class="QRadioButton" name="radioQuit" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>3</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text" >
+        <string>yes, I want to &amp;Leave qRezix</string>
+       </property>
+       <property name="shortcut" >
+        <string>⌥L</string>
+       </property>
+       <property name="checked" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioMinimize" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>3</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text" >
+        <string>no, I want to &amp;Minimize qRezix</string>
+       </property>
+       <property name="shortcut" >
+        <string>⌥M</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioDoNothing" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>7</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text" >
+        <string>Oops, do nothing</string>
+       </property>
+       <property name="shortcut" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" >
+    <spacer>
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
-    </widget>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>16</width>
+       <height>130</height>
+      </size>
+     </property>
+    </spacer>
    </item>
-   <item row="4" column="0" >
-    <widget class="QCheckBox" name="cbSave" >
+   <item row="0" column="0" colspan="2" >
+    <widget class="QLabel" name="lblQuit" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>3</hsizetype>
+       <vsizetype>4</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text" >
-      <string>&amp;Always do like that</string>
-     </property>
-     <property name="shortcut" >
-      <string>⌥A</string>
+      <string>Are you sure you want to &lt;b>Quit qRezix &lt;/b>?</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" >
+   <item row="2" column="0" colspan="2" >
     <widget class="QPushButton" name="btnApply" >
      <property name="maximumSize" >
       <size>
@@ -72,143 +147,43 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" >
-    <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>2</number>
-     </property>
-     <property name="spacing" >
-      <number>6</number>
-     </property>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Fixed</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>16</width>
-         <height>21</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="Q3ButtonGroup" name="radioGroup" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>7</hsizetype>
-         <vsizetype>0</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="title" >
-        <string/>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
-       </property>
-       <layout class="QGridLayout" >
-        <property name="margin" >
-         <number>10</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
-        <item row="2" column="0" >
-         <widget class="QRadioButton" name="radioDoNothing" >
-          <property name="sizePolicy" >
-           <sizepolicy>
-            <hsizetype>7</hsizetype>
-            <vsizetype>0</vsizetype>
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text" >
-           <string>Oops, do nothing</string>
-          </property>
-          <property name="shortcut" >
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0" >
-         <widget class="QRadioButton" name="radioMinimize" >
-          <property name="sizePolicy" >
-           <sizepolicy>
-            <hsizetype>3</hsizetype>
-            <vsizetype>0</vsizetype>
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text" >
-           <string>no, I want to &amp;Minimize qRezix</string>
-          </property>
-          <property name="shortcut" >
-           <string>⌥M</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0" >
-         <widget class="QRadioButton" name="radioQuit" >
-          <property name="sizePolicy" >
-           <sizepolicy>
-            <hsizetype>3</hsizetype>
-            <vsizetype>0</vsizetype>
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text" >
-           <string>yes, I want to &amp;Leave qRezix</string>
-          </property>
-          <property name="shortcut" >
-           <string>⌥L</string>
-          </property>
-          <property name="checked" >
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="0" column="0" >
-    <widget class="QLabel" name="lblQuit" >
-     <property name="sizePolicy" >
-      <sizepolicy>
-       <hsizetype>3</hsizetype>
-       <vsizetype>4</vsizetype>
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+   <item row="4" column="0" colspan="2" >
+    <widget class="QCheckBox" name="cbSave" >
      <property name="text" >
-      <string>Are you sure you want to &lt;b>Quit qRezix &lt;/b>?</string>
+      <string>&amp;Always do like that</string>
+     </property>
+     <property name="shortcut" >
+      <string>⌥A</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2" >
+    <widget class="Line" name="line1" >
+     <property name="frameShape" >
+      <enum>QFrame::HLine</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
   </layout>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>32</y>
+     <width>285</width>
+     <height>136</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="2" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>Q3ButtonGroup</class>
-   <extends></extends>
-   <header>Qt3Support/Q3ButtonGroup</header>
-   <container>1</container>
-   <pixmap></pixmap>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>radioQuit</tabstop>
   <tabstop>radioMinimize</tabstop>
