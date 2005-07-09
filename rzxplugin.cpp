@@ -1,5 +1,5 @@
 /***************************************************************************
-                      rzxpluginloader.cpp  -  description
+		 	  rzxplugin.cpp  -  fonction de base des plugins
                              -------------------
     begin                : Thu Jul 19 2004
     copyright            : (C) 2004 by Florent Bruneau
@@ -15,13 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstring.h>
-#include <qstringlist.h>
-#include <q3popupmenu.h>
-#include <qobject.h>
-#include <qsettings.h>
-#include <qvariant.h>
-//Added by qt3to4:
+#include <QSettings>
+#include <QMenu>
 #include <QPixmap>
 
 #include "rzxplugin.h"
@@ -32,7 +27,7 @@
  * ni menu d'action, ni fenêtre de propriétés
  * ni données de configuration à stocker
  */
-RzxPlugIn::RzxPlugIn() : QObject(0, 0)
+RzxPlugIn::RzxPlugIn() : QObject()
 {
 	name = "";
 	description = "";
@@ -51,7 +46,7 @@ RzxPlugIn::RzxPlugIn() : QObject(0, 0)
  * \param nm fournit le nom du plug-in : un chaîne courte qui n'est qu'un nom simple
  * \param desc fournit la description du plug-in : chaîne qui donne une description plus complète du plug-in
  */
-RzxPlugIn::RzxPlugIn(const QString& nm, const QString& desc) : QObject(0, 0)
+RzxPlugIn::RzxPlugIn(const QString& nm, const QString& desc) : QObject()
 {
 	name = nm;
 	description = desc;
@@ -140,8 +135,7 @@ void RzxPlugIn::setSettings(QSettings *m_settings)
  */
 QString RzxPlugIn::readEntry(const QString& keyname, const QString& def)
 {
-//	if(!settings) return def;
-	return settings->readEntry("/qRezix/" + name + "/" + keyname, def);
+	return settings->value(name + "/" + keyname, def).toString();
 }
 
 /// Lecture d'une donnée numérique de configuration
@@ -152,8 +146,7 @@ QString RzxPlugIn::readEntry(const QString& keyname, const QString& def)
  */
 int RzxPlugIn::readNumEntry(const QString& keyname, int def)
 {
-//	if(!settings) return def;
-	return settings->readNumEntry("/qRezix/" + name + "/" + keyname, def);
+	return settings->value(name + "/" + keyname, def).toInt();
 }
 
 /// Lecture d'une donnée booléenne de configuration
@@ -164,8 +157,7 @@ int RzxPlugIn::readNumEntry(const QString& keyname, int def)
  */
 bool RzxPlugIn::readBoolEntry(const QString& keyname, bool def)
 {
-//	if(!settings) return def;
-	return settings->readBoolEntry("/qRezix/" + name + "/" + keyname, def);
+	return settings->value(name + "/" + keyname, def).toBool();
 }
 
 /// Lecture d'une donnée sous forme de liste de chaîne de configuration
@@ -175,8 +167,7 @@ bool RzxPlugIn::readBoolEntry(const QString& keyname, bool def)
  */
 QStringList RzxPlugIn::readListEntry(const QString& keyname)
 {
-//	if(!settings) return QStringList();
-	return settings->readListEntry("/qRezix/" + name + "/" + keyname);
+	return settings->value(name + "/" + keyname).toStringList();
 }
 
 
@@ -189,7 +180,7 @@ QStringList RzxPlugIn::readListEntry(const QString& keyname)
 void RzxPlugIn::writeEntry(const QString& keyname, const QString& value)
 {
 //	if(!settings) return;
-	settings->writeEntry("/qRezix/" + name + "/" + keyname, value);
+	settings->setValue(name + "/" + keyname, value);
 }
 
 /// Enregistrement d'une entrée numérique dans la configuration
@@ -213,7 +204,7 @@ void RzxPlugIn::writeEntry(const QString& keyname, int value)
 void RzxPlugIn::writeEntry(const QString& keyname, bool value)
 {
 //	if(!settings) return;
-	settings->writeEntry("/qRezix/" + name + "/" + keyname, value);
+	settings->setValue(name + "/" + keyname, value);
 }
 
 /// Enregistrement d'une entrée sous forme de liste de chaîne dans la configuration
@@ -225,7 +216,7 @@ void RzxPlugIn::writeEntry(const QString& keyname, bool value)
 void RzxPlugIn::writeEntry(const QString& keyname, const QStringList& value)
 {
 //	if(!settings) return;
-	settings->writeEntry("/qRezix/" + name + "/" + keyname, value);
+	settings->setValue(name + "/" + keyname, value);
 }
 
 

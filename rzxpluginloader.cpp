@@ -1,5 +1,5 @@
 /***************************************************************************
-                      rzxpluginloader.cpp  -  description
+                      RzxPlugInloader.cpp  -  description
                              -------------------
     begin                : Thu Jul 20 2004
     copyright            : (C) 2004 by Florent Bruneau
@@ -15,22 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QMenu>
-#include <qstring.h>
-#include <qstringlist.h>
-#include <q3ptrlist.h>
-#include <q3listview.h>
-#include <qlibrary.h>
-#include <qtoolbutton.h>
-#include <qobject.h>
-#include <qdir.h>
-#include <qvariant.h>
-#include <qpixmap.h>
-#include <qimage.h>
-#include <qicon.h>
+#include <QStringList>
+#include <Q3ListView>
+#include <Q3ListViewItem>
+#include <QLibrary>
+#include <QToolButton>
+#include <QVariant>
+#include <QPixmap>
+#include <QImage>
+#include <QIcon>
 #include <QTextEdit>
 
-#include "rzxpluginloader.h"
+#include "RzxPlugInloader.h"
 
 #include "qrezix.h"
 #include "rzxrezal.h"
@@ -48,12 +44,11 @@ RzxPlugInLoader *RzxPlugInLoader::object = NULL;
 
 ///Construction d'une interface de gestion des plug-ins
 /** La construction du programme se fait simplement par recherche et chargement des plugins existant. Le chargement et le lancement de l'exécution des plug-ins se fait de manière distincte. On peut donc envisager la désactivation des plugs-ins par le programme principale */
-RzxPlugInLoader::RzxPlugInLoader() : QObject(0, 0)
+RzxPlugInLoader::RzxPlugInLoader() : QObject()
 {
 	qDebug("=== Loading plugins ===");
 	pluginFlags = 0;
 	initialized = false;
-	object = this;
 	
 	//on charge les plug-ins dans les rep /usr/share/qrezix/plugins
 	loadPlugIn(RzxConfig::globalConfig()->systemDir());
@@ -69,8 +64,10 @@ RzxPlugInLoader::RzxPlugInLoader() : QObject(0, 0)
 
 /// Recherche des plugins et chargement dans un répertoire
 /** Le chargement se fait en fait dans sourceDir/plugins */
-void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
+void RzxPlugInLoader::loadPlugIn(const QDir &dir)
 {
+	QDir sourceDir(dir);
+	
 	//vérification de l'existence du rep sourceDir/plugins
 	if(!sourceDir.cd("plugins"))
 	{
@@ -133,10 +130,10 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 					pi->getData(RzxPlugIn::DATA_PLUGINPATH, pipath);
 					pi->getData(RzxPlugIn::DATA_USERDIR, userpath);
 					pi->setSettings(RzxConfig::globalConfig()->settings);
-					plugins.append(pi);
+					plugins << pi;
 					pluginByName.insert(pi->getName(), pi);
 					fileByName.insert(pi->getName(), lib);
-					state.append(false);
+					state.insert(pi, false);
 				}
 				qDebug(log);
 			}
@@ -157,46 +154,38 @@ void RzxPlugInLoader::loadPlugIn(QDir sourceDir)
 /**La fermeture des plugins doit se faire dans les règles parce que j'aime pas les erreurs de segmentation même à la fermeture du programme.*/
 RzxPlugInLoader::~RzxPlugInLoader()
 {
-	RzxPlugIn *it;
-	int i = 0;
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
 	{
-		if(state[i]) it->stop();
-		delete it;
+		RzxPlugIn *pi = it.next();
+		if(state[pi]) pi->stop();
+		delete pi;
 	}
 #ifndef WIN32
-	fileByName.setAutoDelete(true);
+	qDeleteAll(fileByName);
 #endif
 	fileByName.clear();
-}
-
-/// retour de l'objet global
-/** on le construit s'il n'existe pas */
-RzxPlugInLoader *RzxPlugInLoader::global()
-{
-	if(!object) return new RzxPlugInLoader();
-	return object;
 }
 
 /// lancement de l'exécution des plug-ins
 /** Il est du devoir des programmeurs de plugin de faire des programmes qui utilisent au maximum la programmation asynchrone. En effet, il est inimaginable de concevoir un plug-in qui viendrait bloquer le programme à son lancement */
 void RzxPlugInLoader::init()
 {
-	RzxPlugIn *it;
-	int i = 0;
+	QListIterator<RzxPlugIn*> it(plugins);
 	initialized = true;
 	QStringList ignored = RzxConfig::ignoredPluginsList();
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+	while(it.hasNext())
 	{
-		if(ignored.contains(it->getName()))
-			state[i] = false;
+		RzxPlugIn *pi = it.next();
+		if(ignored.contains(pi->getName()))
+			state[pi] = false;
 		else
 		{
 			//le userDir sert à donner l'emplacement des données de configuration
 			//en particulier, c'est comme ça que les plug-ins peuvent écrirent leurs données
 			//dans le qrezixrc du rep .rezix
-			if(!state[i]) it->init(RzxConfig::globalConfig()->settings, "127.0.0.1");
-			state[i] = true;
+			if(!state[pi]) pi->init(RzxConfig::globalConfig()->settings);
+			state[pi] = true;
 		}
 	}
 }
@@ -207,10 +196,8 @@ void RzxPlugInLoader::init(const QString& name)
 	RzxPlugIn *pi = pluginByName[name];
 	if(pi)
 	{
-		int pos = plugins.find(pi);
-		if(!state[pos]) pi->init(RzxConfig::globalConfig()->settings, "127.0.0.1");
-		if(pos > -1)
-			state[pos] = true;
+		if(!state[pi]) pi->init(RzxConfig::globalConfig()->settings);
+		state[pi] = true;
 	}
 }
 
@@ -218,12 +205,12 @@ void RzxPlugInLoader::init(const QString& name)
 /** Bien que l'arrêt soit réalisé par le destructeur de ~RzxPlugInLoader cette méthode est là au cas où */
 void RzxPlugInLoader::stop()
 {
-	RzxPlugIn *it;
-	int i = 0;
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
 	{
-		if(state[i]) it->stop();
-		state[i] = false;
+		RzxPlugIn *pi = it.next();
+		if(state[pi]) pi->stop();
+		state[pi] = false;
 	}
 }
 
@@ -233,10 +220,8 @@ void RzxPlugInLoader::stop(const QString& name)
 	RzxPlugIn *pi = pluginByName[name];
 	if(pi)
 	{
-		int pos = plugins.find(pi);
-		if(state[pos]) pi->stop();
-		if(pos > -1)
-			state[pos] = false;
+		if(state[pi]) pi->stop();
+		state[pi] = false;
 	}
 }
 
@@ -251,9 +236,9 @@ void RzxPlugInLoader::reload()
 void RzxPlugInLoader::setSettings()
 {
 	if(!initialized) return;
-	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next())
-		it->setSettings(RzxConfig::globalConfig()->settings);
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
+		it.next()->setSettings(RzxConfig::globalConfig()->settings);
 }
 
 /* mélange avec l'interface */
@@ -265,25 +250,19 @@ void RzxPlugInLoader::setSettings()
 void RzxPlugInLoader::menuTray(QMenu& menu)
 {
 	if(!initialized) return;
-	RzxPlugIn *it;
-	int i = 0;
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
 	{
-		QMenu *piMenu = it->getTrayMenu();
-		if(piMenu && piMenu->count() && state[i])
+		RzxPlugIn *pi = it.next();
+		QMenu *piMenu = pi->getTrayMenu();
+		if(piMenu && piMenu->count() && state[pi])
 		{
-			QPixmap *icon = it->getIcon();
+			QPixmap *icon = pi->getIcon();
 			if(icon)
-			{
-				QImage img = icon->convertToImage();
-				img = img.smoothScale(16, 16);
-				QPixmap tmp;
-				tmp.convertFromImage(img);
-				QIcon icons(tmp);
-				menu.insertItem(icons, it->getName(), piMenu, 0, 0);
-			}
+				menu.addAction(icon->scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation),
+							   pi->getName(), piMenu, 0, 0);
 			else
-				menu.insertItem(it->getName(), piMenu, 0, 0);
+				menu.insertItem(pi->getName(), piMenu, 0, 0);
 		}
 	}
 	if(menu.count()) menu.insertSeparator();
@@ -293,29 +272,19 @@ void RzxPlugInLoader::menuTray(QMenu& menu)
 void RzxPlugInLoader::menuItem(QMenu& menu)
 {
 	if(!initialized) return;
-	int i=0;
-	int k=0;
-
-	RzxPlugIn *it;
-	for(it = plugins.first() ; it ; it = plugins.next(), k++)
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
 	{
-		QMenu *piMenu = it->getItemMenu();
-		if(piMenu && piMenu->count() && state[k])
+		RzxPlugIn *pi = it.next();
+		QMenu *piMenu = pi->getItemMenu();
+		if(piMenu && piMenu->count() && state[pi])
 		{
-			if(!i) menu.insertSeparator();
-			QPixmap *icon = it->getIcon();
+			QPixmap *icon = pi->getIcon();
 			if(icon)
-			{
-				QImage img = icon->convertToImage();
-				img = img.smoothScale(16, 16);
-				QPixmap tmp;
-				tmp.convertFromImage(img);
-				QIcon icons(tmp);
-				menu.insertItem(icons, it->getName(), piMenu);
-			}
+				menu.addAction(icon->scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation),
+							   pi->getName(), piMenu, 0, 0);
 			else
-				menu.insertItem(it->getName(), piMenu);
-			i++;
+				menu.insertItem(pi->getName(), piMenu, 0, 0);
 		}
 	}
 }
@@ -324,25 +293,19 @@ void RzxPlugInLoader::menuItem(QMenu& menu)
 void RzxPlugInLoader::menuAction(QMenu& menu)
 {
 	if(!initialized) return;
-	RzxPlugIn *it;
-	int i = 0;
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
 	{
-		QMenu *piMenu = it->getActionMenu();
-		if(piMenu && piMenu->count() && state[i])
+		RzxPlugIn *pi = it.next();
+		QMenu *piMenu = pi->getActionMenu();
+		if(piMenu && piMenu->count() && state[pi])
 		{
-			QPixmap *icon = it->getIcon();
+			QPixmap *icon = pi->getIcon();
 			if(icon)
-			{
-				QImage img = icon->convertToImage();
-				img = img.smoothScale(16, 16);
-				QPixmap tmp;
-				tmp.convertFromImage(img);
-				QIcon icons(tmp);
-				menu.insertItem(icons, it->getName(), piMenu);
-			}
+				menu.addAction(icon->scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation),
+							   pi->getName(), piMenu, 0, 0);
 			else
-				menu.insertItem(it->getName(), piMenu);
+				menu.insertItem(pi->getName(), piMenu, 0, 0);
 		}
 	}
 }
@@ -351,25 +314,19 @@ void RzxPlugInLoader::menuAction(QMenu& menu)
 void RzxPlugInLoader::menuChat(QMenu& menu)
 {
 	if(!initialized) return;
-	RzxPlugIn *it;
-	int i = 0;
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
 	{
-		QMenu *piMenu = it->getChatMenu();
-		if(piMenu && piMenu->count() && state[i])
+		RzxPlugIn *pi = it.next();
+		QMenu *piMenu = pi->getChatMenu();
+		if(piMenu && piMenu->count() && state[pi])
 		{
-			QPixmap *icon = it->getIcon();
+			QPixmap *icon = pi->getIcon();
 			if(icon)
-			{
-				QImage img = icon->convertToImage();
-				img = img.smoothScale(16, 16);
-				QPixmap tmp;
-				tmp.convertFromImage(img);
-				QIcon icons(tmp);
-				menu.insertItem(icons, it->getName(), piMenu);
-			}
+				menu.addAction(icon->scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation),
+							   pi->getName(), piMenu, 0, 0);
 			else
-				menu.insertItem(it->getName(), piMenu);
+				menu.insertItem(pi->getName(), piMenu, 0, 0);
 		}
 	}
 }
@@ -386,31 +343,25 @@ void RzxPlugInLoader::makePropListView(Q3ListView *lv, QToolButton *btnProp, QTo
 	if(!lvItems.isEmpty()) return;
 	pluginListView = lv;
 	pluginGetProp = btnProp;
-	RzxPlugIn *it;
-	int i = 0;
-	
+
 	//Non encore implémenté
 	btnReload->setEnabled(false);
 	
 	//la fenêtre consiste en 1 - le nom du plug-in     2 - la description
 	//les deux étant fournis par le plug-in
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
 	{
-		Q3CheckListItem *lvi = new Q3CheckListItem(lv, it->getName(), Q3CheckListItem::CheckBox);
-		lvi->setText(1, it->getDescription());
-		lvi->setText(2, it->getInternalVersion());
-		lvi->setOn(state[i]);
-		QPixmap *icon = it->getIcon();
+		RzxPlugIn *pi = it.next();
+		Q3CheckListItem *lvi = new Q3CheckListItem(lv, pi->getName(), Q3CheckListItem::CheckBox);
+		lvi->setText(1, pi->getDescription());
+		lvi->setText(2, pi->getInternalVersion());
+		lvi->setOn(state[pi]);
+		QPixmap *icon = pi->getIcon();
 		if(icon)
-		{
-			QImage img = icon->convertToImage();
-			img = img.smoothScale(16, 16);
-			QPixmap tmp;
-			tmp.convertFromImage(img);
-			lvi->setPixmap(0, tmp);
-		}
+			lvi->setPixmap(0, icon->scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 		lvi->setVisible(true);
-		lvItems.append(lvi);
+		lvItems.insert(pi, lvi);
 	}
 	btnProp->setEnabled(false);
 	
@@ -423,17 +374,15 @@ void RzxPlugInLoader::makePropListView(Q3ListView *lv, QToolButton *btnProp, QTo
 /// Mise à jour de l'état des plug-ins à partir du statut de la listview
 void RzxPlugInLoader::validPropListView()
 {
-	RzxPlugIn *it;
 	QStringList ignored;
-	Q3CheckListItem *lvi;
-	int i = 0;
-
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
 	{
-		lvi = (Q3CheckListItem*)lvItems.at(i);
-		if(lvi && lvi->isOn() && !state[i])
+		RzxPlugIn *pi = it.next();
+		Q3CheckListItem *lvi = lvItems[pi];
+		if(lvi && lvi->isOn() && !state[pi])
 			init(lvi->text(0));
-		else if(lvi && !lvi->isOn() && state[i])
+		else if(lvi && !lvi->isOn() && state[pi])
 		{
 			stop(lvi->text(0));
 			ignored.append(lvi->text(0));
@@ -448,14 +397,14 @@ void RzxPlugInLoader::changePlugIn()
 {
 	if(!initialized) return;
 	Q3ListViewItem *lvi = pluginListView->selectedItem();
-	selectedPlugIn = lvItems.findRef(lvi);
-	if(selectedPlugIn == -1 || !state[selectedPlugIn])
+	selectedPlugin = lvItems.key((Q3CheckListItem*)lvi);
+	if(!selectedPlugin || !state[selectedPlugin])
 	{
 		pluginGetProp->setEnabled(false);
 		return;
 	}
-	pluginGetProp->setEnabled(plugins.at(selectedPlugIn)->hasProp());
-	selectedPlugInName = plugins.at(selectedPlugIn)->getName();
+	pluginGetProp->setEnabled(selectedPlugin->hasProp());
+	selectedPlugInName = selectedPlugin->getName();
 }
 
 /// Lancement de la gestion des propriétés
@@ -464,8 +413,8 @@ void RzxPlugInLoader::changePlugIn()
 void RzxPlugInLoader::dispProperties()
 {
 	if(!initialized) return;
-	if(selectedPlugIn == -1) return;
-	plugins.at(selectedPlugIn)->properties();
+	if(!selectedPlugin) return;
+	selectedPlugin->properties();
 }
 
 /// Envoi de données aux plugins 
@@ -558,10 +507,12 @@ void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 	//à tous les plugins si aucun plugin particulier n'a été précisé
 	else
 	{
-		RzxPlugIn *it;
-		int i=0;
-		for(it = plugins.first() ; it ; it = plugins.next(), i++)
-			if(state[i]) it->getData(data, value);
+		QListIterator<RzxPlugIn*> it(plugins);
+		while(it.hasNext())
+		{
+			RzxPlugIn *pi = it.next();
+			if(state[pi]) pi->getData(data, value);
+		}
 	}
 
 	delete value;
@@ -615,58 +566,70 @@ void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
 void RzxPlugInLoader::chatChanged(QTextEdit *chat)
 {
 	if(!initialized) return;
-	RzxPlugIn *it;
-	int i=0;
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
-		if(state[i]) it->getData(RzxPlugIn::DATA_CHAT, (QVariant*)chat);
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
+	{
+		RzxPlugIn *pi = it.next();
+		if(state[pi]) pi->getData(RzxPlugIn::DATA_CHAT, (QVariant*)chat);
+	}
 }
 
 /// On indique que le chat envoie le message
 void RzxPlugInLoader::chatSending()
 {
 	if(!initialized) return;
-	RzxPlugIn *it;
-	int i=0;
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
-		if(state[i]) it->getData(RzxPlugIn::DATA_CHATEMIT, NULL);
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
+	{
+		RzxPlugIn *pi = it.next();
+		if(state[pi]) pi->getData(RzxPlugIn::DATA_CHATEMIT, NULL);
+	}
 }
 
 /// On indique que le chat reçoit un message
 void RzxPlugInLoader::chatReceived(QString *chat)
 {
 	if(!initialized) return;
-	RzxPlugIn *it;
-	int i=0;
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
-		if(state[i]) it->getData(RzxPlugIn::DATA_CHATRECEIVE, (QVariant*)chat);
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
+	{
+		RzxPlugIn *pi = it.next();
+		if(state[pi]) pi->getData(RzxPlugIn::DATA_CHATRECEIVE, (QVariant*)chat);
+	}
 }
 
 /// On indique que le chat a envoyé un plug-in
 void RzxPlugInLoader::chatEmitted(QString *chat)
 {
 	if(!initialized) return;
-	RzxPlugIn *it;
-	int i=0;
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
-		if(state[i]) it->getData(RzxPlugIn::DATA_CHATEMITTED, (QVariant*)chat);
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
+	{
+		RzxPlugIn *pi = it.next();
+		if(state[pi]) pi->getData(RzxPlugIn::DATA_CHATEMITTED, (QVariant*)chat);
+	}
 }
 
 ///On indique qu'un nouvel item vient d'être sélectionné
 void RzxPlugInLoader::itemChanged(Q3ListViewItem *item)
 {
 	if(!initialized) return;
-	RzxPlugIn *it;
-	int i = 0;
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
-		if(state[i]) it->getData(RzxPlugIn::DATA_ITEMSELECTED, (QVariant*)item);
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
+	{
+		RzxPlugIn *pi = it.next();
+		if(state[pi]) pi->getData(RzxPlugIn::DATA_ITEMSELECTED, (QVariant*)item);
+	}
 }
 
 ///On indique que l'item sélectionné chez les favoris à changé
 void RzxPlugInLoader::favoriteChanged(Q3ListViewItem *item)
 {
 	if(!initialized) return;
-	RzxPlugIn *it;
-	int i = 0;
-	for(it = plugins.first() ; it ; it = plugins.next(), i++)
-		if(state[i]) it->getData(RzxPlugIn::DATA_FAVORITESELECTED, (QVariant*)item);
+	QListIterator<RzxPlugIn*> it(plugins);
+	while(it.hasNext())
+	{
+		RzxPlugIn *pi = it.next();
+		if(state[pi]) pi->getData(RzxPlugIn::DATA_FAVORITESELECTED, (QVariant*)item);
+	}
 }
