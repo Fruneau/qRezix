@@ -18,14 +18,9 @@
 #ifndef RZXPLUGIN_H
 #define RZXPLUGIN_H
 
-#include <qstring.h>
-#include <qstringlist.h>
-#include <q3popupmenu.h>
-#include <qobject.h>
-#include <qsettings.h>
-#include <qvariant.h>
-//Added by qt3to4:
-#include <QPixmap>
+#include <QObject>
+#include <QString>
+#include <QStringList>
 
 /**
 @file rzxplugin.h
@@ -43,6 +38,9 @@
 
 class QWidget;
 class QPixmap;
+class QSettings;
+class QMenu;
+class QVariant;
 
 ///Exportation du plug-in
 /** Cette macro permet l'exportation du plug-in de manière sûre vers qRezix. De manière indépendante de la plate-forme et de la version du compilateur.
@@ -208,13 +206,13 @@ class RzxPlugIn : public QObject		//NE PAS MODIFIER
 		QPixmap *icon;
 
 		///Contribution du plug-in au menu de la tray-icon
-		Q3PopupMenu *tray;
+		QMenu *tray;
 		///Contribution du plug-in au menu contextuel des éléments du rezal
-		Q3PopupMenu *item;
+		QMenu *item;
 		///Contribution du plug-in au menu plug-in de la fenêtre principale
-		Q3PopupMenu *action;
+		QMenu *action;
 		///Contribution du plug-in au menu plug-in de la fenêtre de chat
-		Q3PopupMenu *chat;
+		QMenu *chat;
 		
 		/*Les fonctions qui suivents fournissent au plug-in
 		le matériel pour enregistrer et lire des données de
@@ -267,21 +265,20 @@ class RzxPlugIn : public QObject		//NE PAS MODIFIER
 		/* Partie abstraite devant être réimplémentée dans chaque
 		classe fille qui définira un plug-in */
 		///Envoi de la contribution au menu de la trayicon
-		virtual Q3PopupMenu *getTrayMenu() = 0;
+		virtual QMenu *getTrayMenu() = 0;
 		///Envoi de la contribution au menu contextuel des éléments du rezal
-		virtual Q3PopupMenu *getItemMenu() = 0;
+		virtual QMenu *getItemMenu() = 0;
 		///Envoi de la contribution au menu de la fenêtre principale
-		virtual Q3PopupMenu *getActionMenu() = 0;
+		virtual QMenu *getActionMenu() = 0;
 		///Envoi de la contribution au menu de la fenêtre de chat
-		virtual Q3PopupMenu *getChatMenu() = 0;
+		virtual QMenu *getChatMenu() = 0;
 
 		///Initialisation du programme principale du plug-in
 		/** Cette méthode abstraite doit implémentée le lancement de l'exécution du plug-in.
 		 * <br>Cette exécution ne doit pas bloquer l'exécution du qRezix, il faut donc utiliser le programmation asynchrône pour réaliser le plug-in.
 		 * \param set le QSetting utilisé par qRezix pour stocker les données de configuration
-		 * \param ip ip à laquelle on peut trouver l'ordinateur local
 		 */
-		virtual void init(QSettings *set, const QString& ip) = 0;
+		virtual void init(QSettings *set) = 0;
 		///Arrêt de l'exécution du programme principale du plug-in
 		/** Cette méthode abstraite doit implémenter l'arrêt de l'exéuction du plug-in
 		 */

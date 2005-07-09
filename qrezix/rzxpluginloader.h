@@ -1,5 +1,5 @@
 /***************************************************************************
-                       rzxpluginloader.h  -  description
+                       RzxPlugInloader.h  -  description
                              -------------------
     begin                : Thu Jul 20 2004
     copyright            : (C) 2004 by Florent Bruneau
@@ -15,30 +15,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef RZXPLUGINLOADER_H
-#define RZXPLUGINLOADER_H
+#ifndef RzxPlugInLOADER_H
+#define RzxPlugInLOADER_H
 
-#include <q3popupmenu.h>
-#include <q3ptrlist.h>
-#include <q3valuelist.h>
-#include <q3dict.h>
-#include <qlibrary.h>
-#include <qobject.h>
-#include <qdir.h>
-#include <q3listview.h>
+#include <QMenu>
+#include <QList>
+#include <QHash>
+#include <QObject>
+#include <QDir>
+#include <QString>
 
-#include "rzxplugin.h"
-
+#include "RzxPlugIn.h"
 
 class QTextEdit;
 class QToolButton;
 class QString;
+class QLibrary;
+class Q3ListView;
+class Q3ListViewItem;
+class Q3CheckListItem;
 
 /**
+
 @author Florent Bruneau
 */
-
-class Q3TextEdit;
 
 typedef RzxPlugIn *(*loadPlugInProc)(void);
 
@@ -48,12 +48,12 @@ class RzxPlugInLoader : public QObject
 {
 	Q_OBJECT
 
-	Q3Dict<QLibrary> fileByName;
-	Q3Dict<RzxPlugIn> pluginByName;
-	Q3PtrList<RzxPlugIn> plugins;
-	Q3PtrList<Q3ListViewItem> lvItems;
-	Q3ValueList<bool> state;
-	int selectedPlugIn;
+	QHash<QString,QLibrary*> fileByName;
+	QHash<QString,RzxPlugIn*> pluginByName;
+	QList<RzxPlugIn*> plugins;
+	QHash<RzxPlugIn*, Q3CheckListItem*> lvItems;
+	QHash<RzxPlugIn*, bool> state;
+	RzxPlugIn *selectedPlugin;
 	QString selectedPlugInName;
 	bool initialized;
 	
@@ -63,10 +63,11 @@ class RzxPlugInLoader : public QObject
 	QToolButton *pluginGetProp;
 
 	static RzxPlugInLoader *object;
-	void loadPlugIn(QDir sourceDir);
+	void loadPlugIn(const QDir &sourceDir);
+
+	RzxPlugInLoader();
 
 	public:
-		RzxPlugInLoader();
 		virtual ~RzxPlugInLoader();
 		static RzxPlugInLoader *global();
 
@@ -81,7 +82,7 @@ class RzxPlugInLoader : public QObject
 		void menuChat(QMenu& menu);
 		
 		void setSettings();
-		inline int getFeatures() { return pluginFlags; };
+		int getFeatures() const;
 		
 		void makePropListView(Q3ListView *lv, QToolButton *btnProp, QToolButton *btnReload);
 		void validPropListView();
@@ -101,5 +102,21 @@ class RzxPlugInLoader : public QObject
 		void dispProperties();
 		void changePlugIn();
 };
+
+///Indique le masque des fonctionnalités du plugin
+inline int RzxPlugInLoader::getFeatures() const
+{
+	 return pluginFlags;
+}
+
+/// retour de l'objet global
+/** on le construit s'il n'existe pas */
+inline RzxPlugInLoader *RzxPlugInLoader::global()
+{
+	if(!object)
+		object = new RzxPlugInLoader();
+	return object;
+}
+
 
 #endif
