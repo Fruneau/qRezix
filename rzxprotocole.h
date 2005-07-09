@@ -44,6 +44,9 @@ class RzxProtocole : public QObject{
 	Ui::RzxChangePassUI changepassui;
 	QDialog *changepass;
 	
+	///Patron de formatage des objets
+	static const QString serialPattern;
+
 public: 
 	RzxProtocole();
 	~RzxProtocole();

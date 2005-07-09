@@ -20,10 +20,9 @@
 #include <QPixmap>
 #include <QMessageBox>
 
-#include <stdlib.h>
+#include "rzxserverlistener.h"
 
 #include "rzxmessagebox.h"
-#include "rzxserverlistener.h"
 #include "rzxcomputer.h"
 #include "rzxconfig.h"
 
@@ -198,7 +197,7 @@ void RzxServerListener::serverConnected(){
 
 /** No descriptions */
 void RzxServerListener::beginAuth(){
-	RzxComputer * localhost = RzxConfig::localHost();
+	RzxComputer *localhost = RzxConfig::localHost();
 	if (!localhost) {
 		RzxMessageBox::critical(0, tr("qReziX error"), tr("Configuration error, cannot connect"));
 		pingTimer.stop();

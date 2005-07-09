@@ -53,6 +53,8 @@ const char * RzxProtocole::ServerFormat[] = {
 	0
 };
 
+const QString RzxProtocole::serialPattern = "$nn $xo $xv $xf $rem";
+
 ///Construction... RAS
 RzxProtocole::RzxProtocole()
 	: QObject()
@@ -182,14 +184,14 @@ void RzxProtocole::parse(const QString& msg){
 void RzxProtocole::sendAuth(const QString& passcode, RzxComputer * thisComputer) {
 	QString msg = "VERSION 4.0\r\n";
 	msg = msg + "PASS " + passcode + "\r\n";
-	msg = msg + "JOIN " + thisComputer -> serialize() + "\r\n";
+	msg = msg + "JOIN " + thisComputer->serialize(serialPattern) + "\r\n";
 	
 	emit send(msg);	
 }
 
 void RzxProtocole::sendRefresh(RzxComputer * thisComputer) {
 	QString msg = "REFRESH ";
-	msg = msg + thisComputer -> serialize() + "\r\n";
+	msg = msg + thisComputer->serialize(serialPattern) + "\r\n";
 	emit send(msg);
 }
 
