@@ -42,7 +42,6 @@
 #include "rzxconfig.h"
 #include "rzxchat.h"
 #include "qrezix.h"
-#include "q.xpm"
 
 //attention a toujours avoir DCCFormat[DCC_message] = messageFormat
 QString RzxChatSocket::DCCFormat[] = {
@@ -406,9 +405,7 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 		propertiesDialog->setAttribute(Qt::WA_DeleteOnClose);
 		propertiesDialog->resize(300, 320);
 
-		QPixmap iconeProg((const char **)q);
-		iconeProg.setMask(iconeProg.createHeuristicMask() );
-		propertiesDialog->setIcon(iconeProg);
+		propertiesDialog->setIcon(QRezix::qRezixIcon());
 
 		propertiesDialog->setWindowTitle( tr( "%1's properties" ).arg(computer->getName()) );
 	}
@@ -496,9 +493,8 @@ QWidget *RzxChatSocket::showHistorique(const RzxHostAddress& ip, const QString& 
 	{
 		histoDialog = new QDialog(parent?parent:QRezix::global(), Qt::Tool | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
 		histoDialog->setAttribute(Qt::WA_DeleteOnClose);
-		QPixmap iconeProg((const char **)q);
-		iconeProg.setMask(iconeProg.createHeuristicMask() );	
-		histoDialog->setIcon(iconeProg);
+
+		histoDialog->setIcon(QRezix::qRezixIcon());
 
 		histoDialog->setWindowTitle( tr( "History - %1" ).arg(hostname) );
 	}

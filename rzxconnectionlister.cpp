@@ -29,8 +29,6 @@
 #include "rzxchat.h"
 #include "rzxconfig.h"
 
-#include "q.xpm"
-
 #define USER_HASH_TABLE_LENGTH 1663
 
 
@@ -255,11 +253,6 @@ RzxChat *RzxConnectionLister::createChat(RzxComputer *computer)
 	RzxHostAddress peer = computer->getIP();
 	
 	RzxChat *chat = new RzxChat(peer);
-
-	QPixmap iconeProg( ( const char ** ) q );
-	iconeProg.setMask( iconeProg.createHeuristicMask() );
-	
-	chat->setIcon( iconeProg );
 	chat->setHostname( computer->getName() );
 
 	connect( chat, SIGNAL( closed( const RzxHostAddress& ) ), this, SLOT( chatDelete( const RzxHostAddress& ) ) );

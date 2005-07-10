@@ -44,14 +44,13 @@ email                : benoit.casoetto@m4x.org
 #include "qrezix.h"
 #include "trayicon.h"
 #include "defaults.h"
-#include "q.xpm"
 
-RzxProperty::RzxProperty(QRezix *parent) : QDialog(parent) {
+RzxProperty::RzxProperty(QRezix *parent) : QDialog(parent)
+{
 	setupUi(this);
 	
-	QPixmap iconeProg( ( const char ** ) q );
-	iconeProg.setMask( iconeProg.createHeuristicMask() );
-	setIcon( iconeProg );
+	setIcon(QRezix::qRezixIcon());
+
 	connect( btnBrowseWorkDir, SIGNAL( clicked() ), this, SLOT( launchDirSelectDialog() ) );
 	connect( btnMiseAJour, SIGNAL( clicked() ), this, SLOT( miseAJour() ) );
 	connect( btnAnnuler, SIGNAL( clicked() ), this, SLOT( annuler() ) );
@@ -132,7 +131,7 @@ void RzxProperty::changeTheme()
 
 	QPixmap pixmap; //Pour le newItem
 	if(RzxConfig::themedIcon("systray").isNull())
-		setIcon(QPixmap(( const char ** ) q ), 0);
+		setIcon(QRezix::qRezixIcon(), 0);
 	else
 		setIcon(RzxConfig::themedIcon("systray"), 0);
 	setIcon(RzxConfig::themedIcon("layout"), 1);

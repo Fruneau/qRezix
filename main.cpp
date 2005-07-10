@@ -23,23 +23,12 @@ email                : sylvain.joyeux@m4x.org
 #include <QDir>
 #include <QString>
 
-#ifdef Q_OS_MAC
-#include <qmacstyle_mac.h>
-#endif
-#include <qwindowsstyle.h>
-
 #include "qrezix.h"
 
 #include "defaults.h"
 #include "rzxconfig.h"
 #include "trayicon.h"
 #include "rzxpluginloader.h"
-
-#ifndef Q_OS_MAC
-#include "q.xpm"
-#else
-#include "q_mac.xpm"
-#endif
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_BSD) && !defined(Q_OS_MAC)
 /* for signal handling */
@@ -115,6 +104,7 @@ void myMessageOutput(QtMsgType type, const char *msg)
 
 int main(int argc, char *argv[])
 {
+	QApplication a(argc,argv);
 	for(int i=1; i<argc; i++)
 		if(strncmp(argv[i],"--log-debug=",12)==0)
 		{
@@ -127,15 +117,7 @@ int main(int argc, char *argv[])
 			break;
 		}
 	qDebug(QString("qRezix ") + VERSION + RZX_TAG_VERSION + "\n");
-	QApplication a(argc,argv);
-
-#ifdef Q_OS_MAC
-	a.setStyle(new QMacStyle());
-#endif
-
-	QPixmap iconeProg((const char **)q);
-	iconeProg.setMask(iconeProg.createHeuristicMask() );
-
+	
 #if defined(Q_OS_UNIX) && !defined(Q_OS_BSD) && !defined(Q_OS_MAC)
 	default_segv_handler = signal( SIGSEGV, fatalHandler );
 	default_pipe_handler = signal( SIGPIPE, SIG_IGN );
@@ -143,20 +125,18 @@ int main(int argc, char *argv[])
 	default_int_handler = signal( SIGINT, sigTermHandler );
 #endif
 	
-	QRezix *rezix = new QRezix();
+	QRezix *rezix = QRezix::global();
 	if(rezix->wellInit)
 	{
 		QObject::connect(RzxConfig::globalConfig(), SIGNAL(languageChanged()), rezix, SLOT(languageChanged()));
 		
-		rezix -> setIcon(iconeProg);
-		rezix -> tray = new TrayIcon(iconeProg, "Rezix", rezix );
+		rezix -> setIcon(QRezix::qRezixIcon());
+		rezix -> tray = new TrayIcon(QRezix::qRezixIcon(), "Rezix", rezix );
 	
 		QObject::connect(rezix->tray,SIGNAL(clicked(const QPoint&)),rezix,SLOT(toggleVisible()));
 		QObject::connect(rezix,SIGNAL(setToolTip(const QString &)),rezix->tray,SLOT(setToolTip(const QString &)));
 		
 		rezix->launchPlugins();
-		
-//		a.setMainWidget(rezix);
 		
 		QString windowSize=RzxConfig::readWindowSize();
 		#ifndef Q_OS_MAC
