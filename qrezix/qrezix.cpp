@@ -53,12 +53,8 @@
 
 #include "defaults.h"
 
-#include "t.xpm"
-#ifdef Q_OS_MAC
-#include "q_mac.xpm"
-#else
-#include "q.xpm"
-#endif
+#include QREZIX_ICON
+#include QREZIX_AWAY_ICON
 
 QRezix *QRezix::object = 0;
 
@@ -66,8 +62,13 @@ QRezix::QRezix(QWidget *parent)
  : QMainWindow(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint),
 	m_properties(0), accel(0), tray(0)
 {
-	setupUi(this);
+	hereIcon = QPixmap(q);
+	hereIcon.setMask(hereIcon.createHeuristicMask());
+	awayIcon = QPixmap(t);
+	awayIcon.setMask(awayIcon.createHeuristicMask());
+	
 	object = this;
+	setupUi(this);
 	byTray = false;
 	statusFlag = false;
 	favoriteWarn = true;
@@ -199,11 +200,6 @@ void QRezix::buildActions()
 void QRezix::launchPlugins()
 {
 	RzxPlugInLoader::global()->init();
-}
-
-QRezix *QRezix::global()
-{
-	return object;
 }
 
 void QRezix::languageChanged(){
@@ -412,14 +408,14 @@ void QRezix::changeTrayIcon(){
 	{
 		trayIcon = RzxConfig::themedIcon("systray");
 		if(trayIcon.isNull())
-			trayIcon = QPixmap::QPixmap(q);
+			trayIcon = qRezixIcon();
 
 	}
 	else
 	{
 		trayIcon = RzxConfig::themedIcon("systrayAway");
 		if(trayIcon.isNull())
-			trayIcon = QPixmap::QPixmap(t);
+			trayIcon = qRezixAwayIcon();
 	}
 #ifdef Q_WS_MAC
 	tray->buildMenu();

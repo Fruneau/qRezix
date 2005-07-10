@@ -47,7 +47,6 @@ class QRezix : public QMainWindow, public Ui::qRezixUI
 	QLineEdit *leSearch;
 	QShortcut *accel;
 	QMenu menuPlugins;
-	static QRezix *object;
 	bool statusFlag;
 	bool favoriteWarn;
 	bool alreadyOpened;
@@ -60,11 +59,19 @@ class QRezix : public QMainWindow, public Ui::qRezixUI
 	QAction *awayAction;
 	
     void buildActions();
+
+	static QRezix *object;
+	QRezix(QWidget* parent = NULL);
+
+	QPixmap hereIcon;
+	QPixmap awayIcon;
 	
 public:
-	static QRezix *global();
+	static const QPixmap& qRezixIcon();
+	static const QPixmap& qRezixAwayIcon();
 
-    QRezix(QWidget* parent=0);
+	static QRezix *global(QWidget *parent = NULL);
+
     ~QRezix();
 	TrayIcon * tray;
 	bool statusMax;
@@ -107,5 +114,27 @@ protected slots: // Protected slots
 	void warnForDeparture(RzxComputer *computer);
 	void newFavorite();
 };
+
+
+///Retourne la fenêtre principale
+/** La fenêtre est construite en cas de besoin.
+ * Cette fonction est la seule qui permet d'obtenir une référence vers cette fenêtre.
+ */
+inline QRezix *QRezix::global(QWidget *parent)
+{
+	if(!object)
+		new QRezix(parent);
+	return object;
+}
+
+inline const QPixmap& QRezix::qRezixIcon()
+{
+	return global()->hereIcon;
+}
+
+inline const QPixmap& QRezix::qRezixAwayIcon()
+{
+	return global()->awayIcon;
+}
 
 #endif

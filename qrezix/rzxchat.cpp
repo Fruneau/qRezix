@@ -46,6 +46,7 @@
 
 #include "rzxchat.h"
 
+#include "qrezix.h"
 #include "rzxconfig.h"
 #include "rzxcomputer.h"
 #include "rzxpluginloader.h"
@@ -144,6 +145,7 @@ void RzxChat::init()
 	new QShortcut(Qt::Key_F1, btnSound, SLOT(toggle()));
 
 	/* Construction du texte et des icônes des boutons */
+	setIcon(QRezix::qRezixIcon());
 	changeTheme();
 	changeIconFormat();
 
