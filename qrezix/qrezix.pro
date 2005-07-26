@@ -86,8 +86,7 @@ FORMS = rzxpropertyui.ui \
 	rzxquitui.ui \
 	rzxwrongpassui.ui \
 	rzxchangepassui.ui \
-	qrezixui.ui \
-	test.ui
+	qrezixui.ui
 macx {
 	FORMS += rzxchatui_mac.ui
 }

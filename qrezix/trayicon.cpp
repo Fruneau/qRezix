@@ -967,8 +967,10 @@ void TrayIcon::sysUpdateToolTip()
 void TrayIcon::setToolTip( const QString &tooltip )
 {
 	tip = tooltip;
+#ifndef Q_OS_MAC
 	if(d)
 		d->setToolTip(tip);
+#endif
 }
 
 QPoint TrayIcon::getPos()

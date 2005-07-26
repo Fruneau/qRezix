@@ -43,11 +43,13 @@ RzxRezalPopup::RzxRezalPopup(const QModelIndex& index, const QPoint& point, QWid
 		return;
 	}
 	QVariant value = index.model()->data(index, Qt::UserRole);
+#ifndef Q_OS_MAC
 	if(!value.canConvert<RzxComputer*>())
 	{
 		deleteLater();
 		return;
 	}
+#endif
 	init(value.value<RzxComputer*>(), point);
 	
 }
