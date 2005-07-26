@@ -36,11 +36,9 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
 	setMinimumHeight( 70 );
 	setWindowOpacity( 0.70 );
 #ifndef Q_OS_MAC
-
 	setFrameStyle( Panel | Plain );
 #else
-
-	setFrameStyle( MenuBarPanel | Plain );
+	setFrameStyle( Panel | Raised );
 #endif
 
 	QPalette palette;

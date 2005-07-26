@@ -775,7 +775,7 @@ void RzxComputer::scanServers()
 	{
 		res = QString(netstat.readAllStandardOutput()).split('\n');
 	#if defined(Q_OS_MAC) || defined(Q_OS_BSD)
-			res = res.grep("LISTEN");
+			res = res.filter(QRegExp("LISTEN"));
 			if(!(res.filter(QRegExp("\\.21\\s")).isEmpty())) newServers |= SERVER_FTP;
 			if(!(res.filter(QRegExp("\\.80\\s")).isEmpty())) newServers |= SERVER_HTTP;
 			if(!(res.filter(QRegExp("\\.119\\s")).isEmpty())) newServers |= SERVER_NEWS;

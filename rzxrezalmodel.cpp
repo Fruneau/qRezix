@@ -790,8 +790,10 @@ QModelIndexList RzxRezalModel::selected(const QModelIndex& ref) const
 	}
 
 	QVariant value = data(ref, Qt::UserRole);
+#ifndef Q_OS_MAC
 	if(!value.canConvert<RzxComputer*>())
 		return QModelIndexList() << ref;
+#endif
 
 	QModelIndexList indexList;
 	RzxComputer *computer = value.value<RzxComputer*>();
