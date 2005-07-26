@@ -1,6 +1,6 @@
 /***************************************************************************
-main.cpp  -  description
--------------------
+                         main.cpp  -  description
+                           -------------------
 begin                : jeu jan 24 03:26:29 CET 2002
 copyright            : (C) 2002 by Sylvain Joyeux
 email                : sylvain.joyeux@m4x.org
@@ -23,10 +23,10 @@ email                : sylvain.joyeux@m4x.org
 #include <QDir>
 #include <QString>
 
-#include "qrezix.h"
+#include "rzxglobal.h"
 
-#include "defaults.h"
 #include "rzxconfig.h"
+#include "qrezix.h"
 #include "trayicon.h"
 #include "rzxpluginloader.h"
 
@@ -89,19 +89,6 @@ void sigTermHandler( int signum )
 }
 #endif
 
-
-QtMsgHandler oldMsgHandler = NULL;
-FILE *logfile = NULL;
-
-void myMessageOutput(QtMsgType type, const char *msg)
-{
-  if(logfile!=NULL)
-    fprintf(logfile,"%s: %s\n", type==QtDebugMsg ? "Debug" : type==QtWarningMsg ? "Warning" : "Error",msg);
-
-  if(oldMsgHandler!=NULL)
-    (*oldMsgHandler)(type,msg);
-}
-
 int main(int argc, char *argv[])
 {
 	QApplication a(argc,argv);
@@ -111,12 +98,14 @@ int main(int argc, char *argv[])
 			int len = strlen(argv[i])-12;
 			char *logfile_name = new char[len+1];
 			memcpy(logfile_name,argv[i]+12,len+1);
-			logfile=fopen(logfile_name,"a");
+			FILE *logfile = fopen(logfile_name,"a");
+			Rzx::useOutputFile(logfile);
 			delete[] logfile_name;
-			oldMsgHandler = qInstallMsgHandler(myMessageOutput);
 			break;
 		}
-	qDebug(QString("qRezix ") + VERSION + RZX_TAG_VERSION + "\n");
+
+	Rzx::installMsgHandler();
+	qDebug((QString("qRezix ") + VERSION + RZX_TAG_VERSION + "\n").toAscii().constData());
 	
 #if defined(Q_OS_UNIX) && !defined(Q_OS_BSD) && !defined(Q_OS_MAC)
 	default_segv_handler = signal( SIGSEGV, fatalHandler );
@@ -128,10 +117,11 @@ int main(int argc, char *argv[])
 	QRezix *rezix = QRezix::global();
 	if(rezix->wellInit)
 	{
-		QObject::connect(RzxConfig::globalConfig(), SIGNAL(languageChanged()), rezix, SLOT(languageChanged()));
+		a.setWindowIcon(QRezix::qRezixIcon());
+		QObject::connect(RzxConfig::global(), SIGNAL(languageChanged()), rezix, SLOT(languageChanged()));
 		
-		rezix -> setIcon(QRezix::qRezixIcon());
-		rezix -> tray = new TrayIcon(QRezix::qRezixIcon(), "Rezix", rezix );
+//		rezix->setWindowIcon(QRezix::qRezixIcon());
+		rezix->tray = new TrayIcon(QRezix::qRezixIcon(), "Rezix", rezix );
 	
 		QObject::connect(rezix->tray,SIGNAL(clicked(const QPoint&)),rezix,SLOT(toggleVisible()));
 		QObject::connect(rezix,SIGNAL(setToolTip(const QString &)),rezix->tray,SLOT(setToolTip(const QString &)));
@@ -152,7 +142,7 @@ int main(int argc, char *argv[])
 			rezix->move(RzxConfig::readWindowPosition()); //QPoint(2,24));
 		}
 		
-		if(RzxConfig::globalConfig()->useSystray())
+		if(RzxConfig::global()->useSystray())
 			rezix->tray->show();
 		else
 			rezix->show();
@@ -163,14 +153,12 @@ int main(int argc, char *argv[])
 		
 		int retour = a.exec();
 		delete rezix;
-		if(RzxConfig::globalConfig())
-			delete RzxConfig::globalConfig();
-  		if(logfile!=NULL)
-			fclose(logfile);
+		if(RzxConfig::global())
+			delete RzxConfig::global();
+		Rzx::closeMsgHandler();
 		return retour;
 	}
 	delete rezix;
-  	if(logfile!=NULL)
-		fclose(logfile);
+	Rzx::closeMsgHandler();
 	return 0;
 }

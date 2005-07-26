@@ -16,22 +16,10 @@
  ***************************************************************************/
 #include "rzxhostaddress.h"
 
-RzxHostAddress::RzxHostAddress(){
-}
-
-RzxHostAddress::RzxHostAddress(quint32 ip)
-	: QHostAddress(ip) {
-	
-}
-
-RzxHostAddress::RzxHostAddress(const QHostAddress& host)
-	: QHostAddress(host)
-{ }
-	
-RzxHostAddress::~RzxHostAddress(){
-}
-
-/** No descriptions */
+///Création d'un RzxHostAddress à partir de la donnée fournie par le protocole xNet
+/** Le protocole xNet a le malheur de transmettre les IPs à l'envers... :/, et donc
+ * pour pouvoir construire un QHostAddress, il faut swapper l'int...
+ */
 RzxHostAddress RzxHostAddress::fromRezix(quint32 tempIP) {
 	RzxHostAddress ret;
 	quint32 ip;
@@ -44,16 +32,12 @@ RzxHostAddress RzxHostAddress::fromRezix(quint32 tempIP) {
 	return ret;
 }
 
-bool RzxHostAddress::sameGateway(const RzxHostAddress& peer) const {
-	quint32 local4 = ip4Addr(), peer4 = peer.ip4Addr();
-	bool retval=((local4 & 0xFFFFFF00) == (peer4 & 0xFFFFFF00));
-	//qDebug(QString("Comparison between %2 and %3 returned %1").arg(retval).arg(local4).arg(peer4));
-	return retval;
-}
-
-/** No descriptions */
-quint32 RzxHostAddress::toRezix() const{
-	quint32 tempIP = ip4Addr();
+///Convertie le RzxHostAddress dans le format utilisable par le protocole xNet
+/** Pour le même raisons que \ref fromRezix, il faut retourner l'adresse
+ */
+quint32 RzxHostAddress::toRezix() const
+{
+	quint32 tempIP = toIPv4Address();
 	quint32 ip;
 	ip = 0;
 	ip |= (tempIP >> 24) & 0xFF;
@@ -63,8 +47,10 @@ quint32 RzxHostAddress::toRezix() const{
 	return ip;
 }
 
-/// Converti l'objet en entier
+///Converti l'objet en entier
+/** L'entier est l'adresse IPv4... à voir le jour où on ajoute le support de l'IPv6
+ */
 RzxHostAddress::operator quint32() const
 {
-	return ip4Addr();
+	return toIPv4Address();
 }

@@ -25,15 +25,14 @@
 #include <QDir>
 #include <QString>
 
-#include "RzxPlugIn.h"
+#include "rzxplugin.h"
 
 class QTextEdit;
 class QToolButton;
 class QString;
 class QLibrary;
-class Q3ListView;
-class Q3ListViewItem;
-class Q3CheckListItem;
+class QTreeWidget;
+class QTreeWidgetItem;
 
 /**
 
@@ -51,7 +50,7 @@ class RzxPlugInLoader : public QObject
 	QHash<QString,QLibrary*> fileByName;
 	QHash<QString,RzxPlugIn*> pluginByName;
 	QList<RzxPlugIn*> plugins;
-	QHash<RzxPlugIn*, Q3CheckListItem*> lvItems;
+	QHash<RzxPlugIn*, QTreeWidgetItem*> lvItems;
 	QHash<RzxPlugIn*, bool> state;
 	RzxPlugIn *selectedPlugin;
 	QString selectedPlugInName;
@@ -59,7 +58,7 @@ class RzxPlugInLoader : public QObject
 	
 	unsigned int pluginFlags;
 
-	Q3ListView *pluginListView;
+	QTreeWidget *pluginListView;
 	QToolButton *pluginGetProp;
 
 	static RzxPlugInLoader *object;
@@ -84,7 +83,7 @@ class RzxPlugInLoader : public QObject
 		void setSettings();
 		int getFeatures() const;
 		
-		void makePropListView(Q3ListView *lv, QToolButton *btnProp, QToolButton *btnReload);
+		void makePropListView(QTreeWidget *lv, QToolButton *btnProp, QToolButton *btnReload);
 		void validPropListView();
 
 	public slots:
@@ -92,8 +91,8 @@ class RzxPlugInLoader : public QObject
 		void chatSending();
 		void chatReceived(QString *chat);
 		void chatEmitted(QString *chat);
-		void itemChanged(Q3ListViewItem *item);
-		void favoriteChanged(Q3ListViewItem *item);
+		void itemChanged(QTreeWidgetItem *item);
+		void favoriteChanged(QTreeWidgetItem *item);
 		void sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin);
 		void action(RzxPlugIn::Action action, const QString& args);
 

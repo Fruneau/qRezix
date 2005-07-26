@@ -192,7 +192,7 @@ void RzxPlugIn::writeEntry(const QString& keyname, const QString& value)
 void RzxPlugIn::writeEntry(const QString& keyname, int value)
 {
 //	if(!settings) return;
-	settings->writeEntry("/qRezix/" + name + "/" + keyname, value);
+	settings->setValue("/qRezix/" + name + "/" + keyname, value);
 }
 
 /// Enregistrement d'une entrée booléenne dans la configuration

@@ -25,42 +25,360 @@
    <property name="spacing" >
     <number>6</number>
    </property>
+   <item row="0" column="1" >
+    <layout class="QVBoxLayout" >
+     <property name="margin" >
+      <number>2</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="lblTitle" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize" >
+        <size>
+         <width>0</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>32767</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string>&lt;h2>New Item&lt;/h2></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line4" >
+       <property name="frameShape" >
+        <enum>QFrame::HLine</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth" >
+        <number>2</number>
+       </property>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
    <item row="1" column="1" >
     <widget class="QStackedWidget" name="prefStack" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>3</hsizetype>
+       <vsizetype>5</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="currentIndex" >
-      <number>0</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="pageInfo" >
       <layout class="QGridLayout" >
        <property name="margin" >
-        <number>0</number>
+        <number>8</number>
        </property>
        <property name="spacing" >
-        <number>4</number>
+        <number>6</number>
        </property>
-       <item row="2" column="0" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
+       <item row="0" column="1" >
+        <widget class="QGroupBox" name="groupBox31" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>5</hsizetype>
+           <vsizetype>5</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <property name="sizeType" >
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" >
+         <property name="minimumSize" >
           <size>
-           <width>20</width>
-           <height>41</height>
+           <width>16</width>
+           <height>16</height>
           </size>
          </property>
-        </spacer>
+         <property name="whatsThis" >
+          <string>&lt;h3>Icon&lt;/h3>&lt;p>Select a small picture (64x64) which will be a kind of logo for your computer&lt;/p></string>
+         </property>
+         <property name="title" >
+          <string>Icon selection</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>6</number>
+          </property>
+          <property name="spacing" >
+           <number>2</number>
+          </property>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="pxmIcon" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>5</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize" >
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="maximumSize" >
+             <size>
+              <width>128</width>
+              <height>64</height>
+             </size>
+            </property>
+            <property name="pixmap" >
+             <pixmap/>
+            </property>
+            <property name="scaledContents" >
+             <bool>false</bool>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignHCenter</set>
+            </property>
+            <property name="buddy" >
+             <cstring>btnBrowse</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" >
+           <widget class="QToolButton" name="btnBrowse" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>5</hsizetype>
+              <vsizetype>5</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text" >
+             <string>Browse...</string>
+            </property>
+            <property name="autoRaise" >
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="0" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+         <widget class="QWidget" name="widget_2" >
+          <property name="geometry" >
+           <rect>
+            <x>13</x>
+            <y>63</y>
+            <width>60</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
        </item>
-       <item row="1" column="0" >
+       <item row="0" column="0" >
+        <widget class="QGroupBox" name="grpInfoRezix" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>7</hsizetype>
+           <vsizetype>5</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title" >
+          <string>ReziX infos</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>6</number>
+          </property>
+          <property name="spacing" >
+           <number>2</number>
+          </property>
+          <item row="0" column="2" >
+           <widget class="QToolButton" name="btnChangePass" >
+            <property name="whatsThis" >
+             <string>&lt;h3>Change my password&lt;/h3>&lt;p>Your connection with the server is secured with a password... This password is defined the first time you get connected to the server, but it can be change&lt;/p></string>
+            </property>
+            <property name="text" >
+             <string>Change my password ...</string>
+            </property>
+            <property name="autoRaise" >
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="QLineEdit" name="hostname" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>3</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="whatsThis" >
+             <string>&lt;h3>Computer name&lt;/h3>
+&lt;p>Name of your computer on the network. You can choose it here&lt;/p>
+&lt;p>Your name should only contains letters, numbers et '-', should not begin or finish with a '-' and each '-' should be isolated. Moreover, this name can't be more than 24 characters long&lt;/p></string>
+            </property>
+            <property name="cursorPosition" >
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="lblHostname" >
+            <property name="text" >
+             <string>Computer name:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>hostname</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0" >
+           <widget class="QCheckBox" name="chkAutoResponder" >
+            <property name="whatsThis" >
+             <string>&lt;h3>Away&lt;/h3>&lt;p>Check this case if you want to be marked away by default&lt;/p></string>
+            </property>
+            <property name="text" >
+             <string>Away:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1" colspan="2" >
+           <widget class="QLineEdit" name="txtAutoResponderMsg" >
+            <property name="whatsThis" >
+             <string>&lt;h3>Responder&lt;/h3>&lt;p>When you are away, people who want to chat with you will receive this message&lt;/p></string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" >
+           <widget class="QLabel" name="lblRem" >
+            <property name="text" >
+             <string>Comment:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>remarque</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1" colspan="2" >
+           <widget class="QLineEdit" name="remarque" >
+            <property name="whatsThis" >
+             <string>&lt;h3>Comment&lt;/h3>&lt;p>Tell here what you want...&lt;/p></string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="3" >
+           <widget class="Line" name="line7" >
+            <property name="frameShape" >
+             <enum>QFrame::HLine</enum>
+            </property>
+            <property name="frameShadow" >
+             <enum>QFrame::Sunken</enum>
+            </property>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>20</width>
+              <height>10</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="1" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>20</width>
+              <height>10</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2" >
         <layout class="QHBoxLayout" >
          <property name="margin" >
           <number>0</number>
          </property>
          <property name="spacing" >
-          <number>6</number>
+          <number>5</number>
          </property>
          <item>
           <widget class="QGroupBox" name="grpInfoPerso" >
@@ -80,7 +398,7 @@
            </property>
            <layout class="QGridLayout" >
             <property name="margin" >
-             <number>0</number>
+             <number>6</number>
             </property>
             <property name="spacing" >
              <number>2</number>
@@ -281,10 +599,10 @@
            </property>
            <layout class="QGridLayout" >
             <property name="margin" >
-             <number>1</number>
+             <number>6</number>
             </property>
             <property name="spacing" >
-             <number>0</number>
+             <number>2</number>
             </property>
             <item row="3" column="0" >
              <widget class="QLabel" name="lblCasert" >
@@ -370,305 +688,33 @@
          </item>
         </layout>
        </item>
-       <item row="0" column="0" >
-        <layout class="QGridLayout" >
-         <property name="margin" >
-          <number>2</number>
+       <item row="2" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
          </property>
-         <property name="spacing" >
-          <number>2</number>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
          </property>
-         <item row="0" column="1" >
-          <widget class="QGroupBox" name="groupBox31" >
-           <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>4</hsizetype>
-             <vsizetype>5</vsizetype>
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="whatsThis" >
-            <string>&lt;h3>Icon&lt;/h3>&lt;p>Select a small picture (64x64) which will be a kind of logo for your computer&lt;/p></string>
-           </property>
-           <property name="title" >
-            <string>Icon selection</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>10</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item row="0" column="0" >
-             <spacer>
-              <property name="orientation" >
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeType" >
-               <enum>QSizePolicy::Preferred</enum>
-              </property>
-              <property name="sizeHint" >
-               <size>
-                <width>16</width>
-                <height>16</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="1" column="0" >
-             <layout class="QHBoxLayout" >
-              <property name="margin" >
-               <number>2</number>
-              </property>
-              <property name="spacing" >
-               <number>2</number>
-              </property>
-              <item>
-               <spacer>
-                <property name="orientation" >
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType" >
-                 <enum>QSizePolicy::Preferred</enum>
-                </property>
-                <property name="sizeHint" >
-                 <size>
-                  <width>4</width>
-                  <height>11</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QLabel" name="pxmIcon" >
-                <property name="sizePolicy" >
-                 <sizepolicy>
-                  <hsizetype>0</hsizetype>
-                  <vsizetype>0</vsizetype>
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                 <size>
-                  <width>16</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="maximumSize" >
-                 <size>
-                  <width>64</width>
-                  <height>64</height>
-                 </size>
-                </property>
-                <property name="pixmap" >
-                 <pixmap/>
-                </property>
-                <property name="scaledContents" >
-                 <bool>true</bool>
-                </property>
-                <property name="buddy" >
-                 <cstring>btnBrowse</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer>
-                <property name="orientation" >
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType" >
-                 <enum>QSizePolicy::Preferred</enum>
-                </property>
-                <property name="sizeHint" >
-                 <size>
-                  <width>5</width>
-                  <height>11</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item row="2" column="0" >
-             <spacer>
-              <property name="orientation" >
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeType" >
-               <enum>QSizePolicy::Preferred</enum>
-              </property>
-              <property name="sizeHint" >
-               <size>
-                <width>16</width>
-                <height>16</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="3" column="0" >
-             <widget class="QToolButton" name="btnBrowse" >
-              <property name="sizePolicy" >
-               <sizepolicy>
-                <hsizetype>5</hsizetype>
-                <vsizetype>5</vsizetype>
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text" >
-               <string>Browse...</string>
-              </property>
-              <property name="autoRaise" >
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item row="0" column="0" >
-          <widget class="QGroupBox" name="grpInfoRezix" >
-           <property name="title" >
-            <string>ReziX infos</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>2</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item row="0" column="2" >
-             <widget class="QToolButton" name="btnChangePass" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Change my password&lt;/h3>&lt;p>Your connection with the server is secured with a password... This password is defined the first time you get connected to the server, but it can be change&lt;/p></string>
-              </property>
-              <property name="text" >
-               <string>Change my password ...</string>
-              </property>
-              <property name="autoRaise" >
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1" >
-             <widget class="QLineEdit" name="hostname" >
-              <property name="sizePolicy" >
-               <sizepolicy>
-                <hsizetype>3</hsizetype>
-                <vsizetype>0</vsizetype>
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="whatsThis" >
-               <string>&lt;h3>Computer name&lt;/h3>
-&lt;p>Name of your computer on the network. You can choose it here&lt;/p>
-&lt;p>Your name should only contains letters, numbers et '-', should not begin or finish with a '-' and each '-' should be isolated. Moreover, this name can't be more than 24 characters long&lt;/p></string>
-              </property>
-              <property name="cursorPosition" >
-               <number>0</number>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="lblHostname" >
-              <property name="text" >
-               <string>Computer name:</string>
-              </property>
-              <property name="buddy" >
-               <cstring>hostname</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0" >
-             <widget class="QCheckBox" name="chkAutoResponder" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Away&lt;/h3>&lt;p>Check this case if you want to be marked away by default&lt;/p></string>
-              </property>
-              <property name="text" >
-               <string>Away:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1" colspan="2" >
-             <widget class="QLineEdit" name="txtAutoResponderMsg" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Responder&lt;/h3>&lt;p>When you are away, people who want to chat with you will receive this message&lt;/p></string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0" >
-             <widget class="QLabel" name="lblRem" >
-              <property name="text" >
-               <string>Comment:</string>
-              </property>
-              <property name="buddy" >
-               <cstring>remarque</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1" colspan="2" >
-             <widget class="QLineEdit" name="remarque" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Comment&lt;/h3>&lt;p>Tell here what you want...&lt;/p></string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0" colspan="3" >
-             <widget class="Line" name="line7" >
-              <property name="frameShape" >
-               <enum>QFrame::HLine</enum>
-              </property>
-              <property name="frameShadow" >
-               <enum>QFrame::Sunken</enum>
-              </property>
-              <property name="orientation" >
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1" >
-             <spacer>
-              <property name="orientation" >
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeType" >
-               <enum>QSizePolicy::Expanding</enum>
-              </property>
-              <property name="sizeHint" >
-               <size>
-                <width>20</width>
-                <height>10</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="1" column="1" >
-             <spacer>
-              <property name="orientation" >
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeType" >
-               <enum>QSizePolicy::Expanding</enum>
-              </property>
-              <property name="sizeHint" >
-               <size>
-                <width>20</width>
-                <height>10</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>41</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
+      <widget class="QWidget" name="widget" >
+       <property name="geometry" >
+        <rect>
+         <x>9</x>
+         <y>9</y>
+         <width>502</width>
+         <height>166</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="pageLayout" >
       <layout class="QGridLayout" >
@@ -678,8 +724,8 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="1" column="0" >
-        <layout class="QHBoxLayout" >
+       <item row="0" column="1" >
+        <layout class="QVBoxLayout" >
          <property name="margin" >
           <number>0</number>
          </property>
@@ -687,182 +733,425 @@
           <number>6</number>
          </property>
          <item>
-          <layout class="QVBoxLayout" >
-           <property name="margin" >
-            <number>0</number>
+          <widget class="QGroupBox" name="grpTheme" >
+           <property name="title" >
+            <string>Icon details</string>
            </property>
-           <property name="spacing" >
-            <number>6</number>
-           </property>
-           <item>
-            <widget class="QGroupBox" name="grpMenu" >
-             <property name="title" >
-              <string>Menu</string>
-             </property>
-             <layout class="QGridLayout" >
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>6</number>
+            </property>
+            <property name="spacing" >
+             <number>2</number>
+            </property>
+            <item row="2" column="0" >
+             <layout class="QHBoxLayout" >
               <property name="margin" >
-               <number>-1</number>
+               <number>6</number>
               </property>
               <property name="spacing" >
-               <number>0</number>
+               <number>2</number>
               </property>
-              <item row="1" column="0" >
-               <widget class="QWidget" name="widget_5" >
-                <layout class="QHBoxLayout" >
-                 <property name="margin" >
-                  <number>2</number>
-                 </property>
-                 <property name="spacing" >
-                  <number>2</number>
-                 </property>
-                 <item>
-                  <widget class="QLabel" name="lblMenuText" >
-                   <property name="text" >
-                    <string>Text position:</string>
-                   </property>
-                   <property name="buddy" >
-                    <cstring>cmbMenuText</cstring>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QComboBox" name="cmbMenuText" >
-                   <property name="currentIndex" >
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <property name="text" >
-                     <string>No text</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text" >
-                     <string>Beside icon</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text" >
-                     <string>Below icon</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                </layout>
+              <item>
+               <widget class="QLabel" name="lblTheme_2" >
+                <property name="enabled" >
+                 <bool>true</bool>
+                </property>
+                <property name="text" >
+                 <string>Themes</string>
+                </property>
+                <property name="buddy" >
+                 <cstring>cmbIconTheme</cstring>
+                </property>
                </widget>
               </item>
-              <item row="0" column="0" >
-               <widget class="QWidget" name="widget_4" >
-                <layout class="QHBoxLayout" >
-                 <property name="margin" >
-                  <number>2</number>
-                 </property>
-                 <property name="spacing" >
-                  <number>6</number>
-                 </property>
-                 <item>
-                  <widget class="QLabel" name="lblMenuIconSize" >
-                   <property name="text" >
-                    <string>Icon size:</string>
-                   </property>
-                   <property name="buddy" >
-                    <cstring>cmbMenuIcons</cstring>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QComboBox" name="cmbMenuIcons" >
-                   <property name="currentIndex" >
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <property name="text" >
-                     <string>No icon</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text" >
-                     <string>Small icons</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text" >
-                     <string>Big icons</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                </layout>
+              <item>
+               <widget class="QComboBox" name="cmbIconTheme" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="whatsThis" >
+                 <string>&lt;h3>Themes&lt;/h3>&lt;p>Choose a themes for the icons.&lt;/p></string>
+                </property>
                </widget>
               </item>
              </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="grpTab" >
-             <property name="title" >
-              <string>Tab</string>
-             </property>
-             <layout class="QGridLayout" >
+            </item>
+            <item row="3" column="0" >
+             <layout class="QHBoxLayout" >
               <property name="margin" >
-               <number>8</number>
+               <number>0</number>
+              </property>
+              <property name="spacing" >
+               <number>2</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="Double_clic_2" >
+                <property name="text" >
+                 <string>Action on double-clic</string>
+                </property>
+                <property name="buddy" >
+                 <cstring>cmdDoubleClic</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="cmdDoubleClic" >
+                <property name="whatsThis" >
+                 <string>&lt;h3>Double clic&lt;/h3>&lt;p>Define the action to execute when you double click on an item&lt;/p></string>
+                </property>
+                <item>
+                 <property name="text" >
+                  <string>Chat</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text" >
+                  <string>Open FTP</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="0" column="0" >
+             <layout class="QHBoxLayout" >
+              <property name="margin" >
+               <number>2</number>
+              </property>
+              <property name="spacing" >
+               <number>2</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="taille_des_icones_2" >
+                <property name="text" >
+                 <string>Icon size</string>
+                </property>
+                <property name="buddy" >
+                 <cstring>cmbIconSize</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="cmbIconSize" >
+                <property name="whatsThis" >
+                 <string>&lt;h3>Icon size&lt;/h3>&lt;p>Do you prefer big icons (64x64) or small icons (32x32) for the pictures of the users&lt;/p></string>
+                </property>
+                <item>
+                 <property name="text" >
+                  <string>32*32</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text" >
+                  <string>64*64</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="0" >
+             <widget class="QCheckBox" name="cbHighlight" >
+              <property name="whatsThis" >
+               <string>&lt;h3>Highlight&lt;/h3>&lt;p>If you choose to display small icons and check this box then the selected item will be displayed with a big icon.&lt;/p></string>
+              </property>
+              <property name="text" >
+               <string>Highlight the selection</string>
+              </property>
+              <property name="checked" >
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="grpMenu" >
+           <property name="title" >
+            <string>Menu</string>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>6</number>
+            </property>
+            <property name="spacing" >
+             <number>2</number>
+            </property>
+            <item row="1" column="0" >
+             <layout class="QHBoxLayout" >
+              <property name="margin" >
+               <number>2</number>
+              </property>
+              <property name="spacing" >
+               <number>2</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="lblMenuText_2" >
+                <property name="text" >
+                 <string>Text position:</string>
+                </property>
+                <property name="buddy" >
+                 <cstring>cmbMenuText</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="cmbMenuText" >
+                <property name="currentIndex" >
+                 <number>0</number>
+                </property>
+                <item>
+                 <property name="text" >
+                  <string>No text</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text" >
+                  <string>Beside icon</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text" >
+                  <string>Below icon</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="0" column="0" >
+             <layout class="QHBoxLayout" >
+              <property name="margin" >
+               <number>2</number>
               </property>
               <property name="spacing" >
                <number>6</number>
               </property>
-              <item row="1" column="0" >
-               <widget class="QCheckBox" name="cbSearch" >
-                <property name="whatsThis" >
-                 <string>&lt;h3>Search&lt;/h3>&lt;p>Do you want to see the search tool ?&lt;/p></string>
-                </property>
+              <item>
+               <widget class="QLabel" name="lblMenuIconSize_2" >
                 <property name="text" >
-                 <string>Show Search Tools</string>
+                 <string>Icon size:</string>
+                </property>
+                <property name="buddy" >
+                 <cstring>cmbMenuIcons</cstring>
                 </property>
                </widget>
               </item>
-              <item row="0" column="0" >
-               <layout class="QHBoxLayout" >
-                <property name="margin" >
-                 <number>2</number>
-                </property>
-                <property name="spacing" >
-                 <number>2</number>
+              <item>
+               <widget class="QComboBox" name="cmbMenuIcons" >
+                <property name="currentIndex" >
+                 <number>0</number>
                 </property>
                 <item>
-                 <widget class="QLabel" name="lblDefaultTab" >
-                  <property name="text" >
-                   <string>Tab to select on start:</string>
-                  </property>
-                  <property name="buddy" >
-                   <cstring>cmbDefaultTab</cstring>
-                  </property>
-                 </widget>
+                 <property name="text" >
+                  <string>No icon</string>
+                 </property>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="cmbDefaultTab" >
-                  <property name="whatsThis" >
-                   <string>&lt;h3>Tab&lt;/h3>&lt;p>When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p></string>
-                  </property>
-                  <property name="currentIndex" >
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <property name="text" >
-                    <string>Favorites</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text" >
-                    <string>Everybody</string>
-                   </property>
-                  </item>
-                 </widget>
+                 <property name="text" >
+                  <string>Small icons</string>
+                 </property>
                 </item>
-               </layout>
+                <item>
+                 <property name="text" >
+                  <string>Big icons</string>
+                 </property>
+                </item>
+               </widget>
               </item>
              </layout>
-            </widget>
-           </item>
-          </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="grpTab" >
+           <property name="title" >
+            <string>Tab</string>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>6</number>
+            </property>
+            <property name="spacing" >
+             <number>2</number>
+            </property>
+            <item row="1" column="0" >
+             <widget class="QCheckBox" name="cbSearch" >
+              <property name="whatsThis" >
+               <string>&lt;h3>Search&lt;/h3>&lt;p>Do you want to see the search tool ?&lt;/p></string>
+              </property>
+              <property name="text" >
+               <string>Show Search Tools</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" >
+             <layout class="QHBoxLayout" >
+              <property name="margin" >
+               <number>2</number>
+              </property>
+              <property name="spacing" >
+               <number>2</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="lblDefaultTab_2" >
+                <property name="text" >
+                 <string>Tab to select on start:</string>
+                </property>
+                <property name="buddy" >
+                 <cstring>cmbDefaultTab</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="cmbDefaultTab" >
+                <property name="whatsThis" >
+                 <string>&lt;h3>Tab&lt;/h3>&lt;p>When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p></string>
+                </property>
+                <property name="currentIndex" >
+                 <number>0</number>
+                </property>
+                <item>
+                 <property name="text" >
+                  <string>Favorites</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text" >
+                  <string>Everybody</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="0" >
+        <layout class="QVBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QGroupBox" name="AffColonnes" >
+           <property name="whatsThis" >
+            <string>&lt;h3>Columns layout&lt;/h3>&lt;p>Choose the columns you want to see...&lt;/p></string>
+           </property>
+           <property name="title" >
+            <string>Columns layout</string>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>6</number>
+            </property>
+            <property name="spacing" >
+             <number>2</number>
+            </property>
+            <item row="0" column="0" >
+             <widget class="QCheckBox" name="cbcIcone" >
+              <property name="text" >
+               <string>Icon</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" >
+             <widget class="QCheckBox" name="cbcRemarque" >
+              <property name="text" >
+               <string>Comment</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" >
+             <widget class="QCheckBox" name="cbcNom" >
+              <property name="text" >
+               <string>Name</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0" >
+             <widget class="QCheckBox" name="cbcPromo" >
+              <property name="text" >
+               <string>Promotion</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0" >
+             <widget class="QCheckBox" name="cbcOS" >
+              <property name="text" >
+               <string>OS</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0" >
+             <widget class="QCheckBox" name="cbcClient" >
+              <property name="text" >
+               <string>Client</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1" >
+             <widget class="QCheckBox" name="cbcIP" >
+              <property name="text" >
+               <string>IP</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1" >
+             <widget class="QCheckBox" name="cbcGateway" >
+              <property name="text" >
+               <string>Same gateway</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1" >
+             <widget class="QCheckBox" name="cbcSamba" >
+              <property name="text" >
+               <string>Samba</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1" >
+             <widget class="QCheckBox" name="cbcNews" >
+              <property name="text" >
+               <string>News</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" >
+             <widget class="QCheckBox" name="cbcHTTP" >
+              <property name="text" >
+               <string>Web</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" >
+             <widget class="QCheckBox" name="cbcFTP" >
+              <property name="text" >
+               <string>FTP</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1" >
+             <widget class="QCheckBox" name="cbcResal" >
+              <property name="text" >
+               <string>Place</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </item>
          <item>
           <widget class="QGroupBox" name="grpToolTips" >
@@ -880,10 +1169,10 @@
            </property>
            <layout class="QGridLayout" >
             <property name="margin" >
-             <number>10</number>
+             <number>6</number>
             </property>
             <property name="spacing" >
-             <number>6</number>
+             <number>2</number>
             </property>
             <item row="3" column="0" >
              <widget class="QCheckBox" name="cbTooltipFtp" >
@@ -1020,281 +1309,24 @@
          </item>
         </layout>
        </item>
-       <item row="0" column="0" >
-        <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>2</number>
-         </property>
-         <property name="spacing" >
-          <number>2</number>
-         </property>
-         <item>
-          <widget class="QGroupBox" name="AffColonnes" >
-           <property name="whatsThis" >
-            <string>&lt;h3>Columns layout&lt;/h3>&lt;p>Choose the columns you want to see...&lt;/p></string>
-           </property>
-           <property name="title" >
-            <string>Columns layout</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>11</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item row="0" column="0" >
-             <widget class="QCheckBox" name="cbcIcone" >
-              <property name="text" >
-               <string>Icon</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0" >
-             <widget class="QCheckBox" name="cbcRemarque" >
-              <property name="text" >
-               <string>Comment</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0" >
-             <widget class="QCheckBox" name="cbcNom" >
-              <property name="text" >
-               <string>Name</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0" >
-             <widget class="QCheckBox" name="cbcPromo" >
-              <property name="text" >
-               <string>Promotion</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0" >
-             <widget class="QCheckBox" name="cbcOS" >
-              <property name="text" >
-               <string>OS</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0" >
-             <widget class="QCheckBox" name="cbcClient" >
-              <property name="text" >
-               <string>Client</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1" >
-             <widget class="QCheckBox" name="cbcIP" >
-              <property name="text" >
-               <string>IP</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1" >
-             <widget class="QCheckBox" name="cbcGateway" >
-              <property name="text" >
-               <string>Same gateway</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1" >
-             <widget class="QCheckBox" name="cbcSamba" >
-              <property name="text" >
-               <string>Samba</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1" >
-             <widget class="QCheckBox" name="cbcNews" >
-              <property name="text" >
-               <string>News</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1" >
-             <widget class="QCheckBox" name="cbcHTTP" >
-              <property name="text" >
-               <string>Web</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1" >
-             <widget class="QCheckBox" name="cbcFTP" >
-              <property name="text" >
-               <string>FTP</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1" >
-             <widget class="QCheckBox" name="cbcResal" >
-              <property name="text" >
-               <string>Place</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="grpTheme" >
-           <property name="title" >
-            <string>Icon details</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>2</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item row="2" column="0" >
-             <layout class="QHBoxLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
-              <property name="spacing" >
-               <number>2</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="lblTheme" >
-                <property name="enabled" >
-                 <bool>true</bool>
-                </property>
-                <property name="text" >
-                 <string>Themes</string>
-                </property>
-                <property name="buddy" >
-                 <cstring>cmbIconTheme</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="cmbIconTheme" >
-                <property name="minimumSize" >
-                 <size>
-                  <width>0</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="whatsThis" >
-                 <string>&lt;h3>Themes&lt;/h3>&lt;p>Choose a themes for the icons.&lt;/p></string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="3" column="0" >
-             <layout class="QHBoxLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
-              <property name="spacing" >
-               <number>2</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="Double_clic" >
-                <property name="text" >
-                 <string>Action on double-clic</string>
-                </property>
-                <property name="buddy" >
-                 <cstring>cmdDoubleClic</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="cmdDoubleClic" >
-                <property name="whatsThis" >
-                 <string>&lt;h3>Double clic&lt;/h3>&lt;p>Define the action to execute when you double click on an item&lt;/p></string>
-                </property>
-                <item>
-                 <property name="text" >
-                  <string>Chat</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text" >
-                  <string>Open FTP</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="0" column="0" >
-             <layout class="QHBoxLayout" >
-              <property name="margin" >
-               <number>2</number>
-              </property>
-              <property name="spacing" >
-               <number>2</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="taille_des_icones" >
-                <property name="text" >
-                 <string>Icon size</string>
-                </property>
-                <property name="buddy" >
-                 <cstring>cmbIconSize</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="cmbIconSize" >
-                <property name="whatsThis" >
-                 <string>&lt;h3>Icon size&lt;/h3>&lt;p>Do you prefer big icons (64x64) or small icons (32x32) for the pictures of the users&lt;/p></string>
-                </property>
-                <item>
-                 <property name="text" >
-                  <string>32*32</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text" >
-                  <string>64*64</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="1" column="0" >
-             <widget class="QCheckBox" name="cbHighlight" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Highlight&lt;/h3>&lt;p>If you choose to display small icons and check this box then the selected item will be displayed with a big icon.&lt;/p></string>
-              </property>
-              <property name="text" >
-               <string>Highlight the selection</string>
-              </property>
-              <property name="checked" >
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
-       </item>
       </layout>
-      <widget class="QWidget" name="widget" >
+      <widget class="QWidget" name="layoutWidget" >
        <property name="geometry" >
         <rect>
-         <x>9</x>
-         <y>209</y>
-         <width>606</width>
-         <height>274</height>
+         <x>249</x>
+         <y>9</y>
+         <width>262</width>
+         <height>478</height>
         </rect>
        </property>
       </widget>
-      <widget class="QWidget" name="widget_2" >
+      <widget class="QWidget" name="widget_3" >
        <property name="geometry" >
         <rect>
-         <x>10</x>
-         <y>210</y>
-         <width>299</width>
-         <height>272</height>
+         <x>250</x>
+         <y>251</y>
+         <width>260</width>
+         <height>235</height>
         </rect>
        </property>
       </widget>
@@ -1302,32 +1334,16 @@
      <widget class="QWidget" name="pageNetwork" >
       <layout class="QGridLayout" >
        <property name="margin" >
-        <number>0</number>
+        <number>8</number>
        </property>
        <property name="spacing" >
-        <number>2</number>
+        <number>6</number>
        </property>
-       <item row="3" column="0" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType" >
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>160</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item rowspan="2" row="0" column="2" >
         <widget class="QGroupBox" name="GroupBox9" >
          <property name="sizePolicy" >
           <sizepolicy>
-           <hsizetype>7</hsizetype>
+           <hsizetype>3</hsizetype>
            <vsizetype>5</vsizetype>
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
@@ -1341,10 +1357,10 @@
          </property>
          <layout class="QGridLayout" >
           <property name="margin" >
-           <number>11</number>
+           <number>6</number>
           </property>
           <property name="spacing" >
-           <number>6</number>
+           <number>2</number>
           </property>
           <item row="0" column="0" >
            <widget class="QLabel" name="TextLabel1" >
@@ -1400,83 +1416,27 @@
          </layout>
         </widget>
        </item>
-       <item rowspan="2" row="0" column="1" >
-        <widget class="QGroupBox" name="GroupBox11_2" >
-         <property name="whatsThis" >
-          <string>&lt;h3>Open services&lt;/h3>&lt;p>Select the servers you want to share with all the users of the network. If a server is not present, it won't be displayed as present&lt;/p></string>
+       <item row="3" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
          </property>
-         <property name="title" >
-          <string>Open services</string>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
          </property>
-         <layout class="QVBoxLayout" >
-          <property name="margin" >
-           <number>0</number>
-          </property>
-          <property name="spacing" >
-           <number>2</number>
-          </property>
-          <item>
-           <layout class="QVBoxLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item>
-             <widget class="QCheckBox" name="CbSamba" >
-              <property name="sizePolicy" >
-               <sizepolicy>
-                <hsizetype>3</hsizetype>
-                <vsizetype>0</vsizetype>
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text" >
-               <string>Samba</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="CbFTP" >
-              <property name="sizePolicy" >
-               <sizepolicy>
-                <hsizetype>3</hsizetype>
-                <vsizetype>0</vsizetype>
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text" >
-               <string>FTP</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="CbHTTP" >
-              <property name="text" >
-               <string>HTTP</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="CbNews" >
-              <property name="text" >
-               <string>News</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>160</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item row="0" column="0" >
         <widget class="QGroupBox" name="grpComm" >
          <property name="sizePolicy" >
           <sizepolicy>
-           <hsizetype>5</hsizetype>
+           <hsizetype>3</hsizetype>
            <vsizetype>5</vsizetype>
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
@@ -1487,10 +1447,10 @@
          </property>
          <layout class="QGridLayout" >
           <property name="margin" >
-           <number>2</number>
+           <number>6</number>
           </property>
           <property name="spacing" >
-           <number>0</number>
+           <number>2</number>
           </property>
           <item row="0" column="0" >
            <layout class="QHBoxLayout" >
@@ -1604,7 +1564,7 @@
         <widget class="QGroupBox" name="grpReconnect" >
          <property name="sizePolicy" >
           <sizepolicy>
-           <hsizetype>5</hsizetype>
+           <hsizetype>3</hsizetype>
            <vsizetype>5</vsizetype>
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
@@ -1618,7 +1578,7 @@
          </property>
          <layout class="QGridLayout" >
           <property name="margin" >
-           <number>0</number>
+           <number>6</number>
           </property>
           <property name="spacing" >
            <number>2</number>
@@ -1706,6 +1666,78 @@
          </item>
         </layout>
        </item>
+       <item rowspan="2" row="0" column="1" >
+        <widget class="QGroupBox" name="GroupBox11_2" >
+         <property name="whatsThis" >
+          <string>&lt;h3>Open services&lt;/h3>&lt;p>Select the servers you want to share with all the users of the network. If a server is not present, it won't be displayed as present&lt;/p></string>
+         </property>
+         <property name="title" >
+          <string>Open services</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>6</number>
+          </property>
+          <property name="spacing" >
+           <number>2</number>
+          </property>
+          <item row="3" column="0" >
+           <widget class="QCheckBox" name="CbNews" >
+            <property name="text" >
+             <string>News</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" >
+           <widget class="QCheckBox" name="CbHTTP" >
+            <property name="text" >
+             <string>HTTP</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QCheckBox" name="CbFTP" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>3</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text" >
+             <string>FTP</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QCheckBox" name="CbSamba" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>3</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text" >
+             <string>Samba</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+         <widget class="QWidget" name="widget_3_2" >
+          <property name="geometry" >
+           <rect>
+            <x>3</x>
+            <y>70</y>
+            <width>144</width>
+            <height>100</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="pageMisc" >
@@ -1716,17 +1748,206 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="0" column="0" colspan="2" >
+       <item row="1" column="0" >
+        <layout class="QGridLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item row="1" column="0" >
+          <widget class="QGroupBox" name="groupBox30" >
+           <property name="title" >
+            <string>Other</string>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>6</number>
+            </property>
+            <property name="spacing" >
+             <number>2</number>
+            </property>
+            <item row="0" column="0" >
+             <widget class="QCheckBox" name="cbQuit" >
+              <property name="whatsThis" >
+               <string>&lt;h3>Quitting dialog&lt;/h3>&lt;p>Enable/disable the dialog box which is displayed when you close the qRezix's main window&lt;/p></string>
+              </property>
+              <property name="text" >
+               <string>Show dialog when clicking on X</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="0" column="0" >
+          <widget class="QGroupBox" name="groupBox29" >
+           <property name="title" >
+            <string>Chat</string>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>6</number>
+            </property>
+            <property name="spacing" >
+             <number>2</number>
+            </property>
+            <item row="1" column="0" >
+             <widget class="QCheckBox" name="cbPropertiesWarning" >
+              <property name="whatsThis" >
+               <string>&lt;h3>warning&lt;/h3>&lt;p>If you check this you will receive an notification each time somebody check you properties&lt;/p>&lt;p>&lt;b>Warning :&lt;/b> in some cases, this option can be used to spam you with notification windows&lt;/p></string>
+              </property>
+              <property name="text" >
+               <string>Warn me when properties are being checked</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" >
+             <widget class="QCheckBox" name="cbPrintTime" >
+              <property name="text" >
+               <string>Print hh:mm:ss in chat</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" >
+             <widget class="QCheckBox" name="cbRefuseAway" >
+              <property name="whatsThis" >
+               <string>&lt;h3>Responder mode&lt;/h3>&lt;p>There are 2 kinds of responder&lt;p>&lt;p>&lt;b>Refuse,&lt;/b> in this mode, all the messages you receive while away are lost&lt;/p>&lt;p>&lt;b>Store,&lt;/b> in this mode, you can read you messages as if you were not marked away&lt;/p></string>
+              </property>
+              <property name="text" >
+               <string>Refuse messages when away</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="1" column="1" >
+          <widget class="QGroupBox" name="groupBox27" >
+           <property name="whatsThis" >
+            <string>&lt;h3>Translation&lt;/h3>&lt;p>Select your language&lt;/p></string>
+           </property>
+           <property name="title" >
+            <string>Translation</string>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>6</number>
+            </property>
+            <property name="spacing" >
+             <number>2</number>
+            </property>
+            <item row="0" column="0" >
+             <widget class="QLabel" name="langLabel" >
+              <property name="text" >
+               <string>UI Language :</string>
+              </property>
+              <property name="buddy" >
+               <cstring>languageBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" >
+             <widget class="QComboBox" name="languageBox" />
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="0" column="1" >
+          <widget class="QGroupBox" name="groupSystray" >
+           <property name="whatsThis" >
+            <string>&lt;h3>Systray&lt;/h3>&lt;p>Do you want to have qRezix reduced to an icon in the systray ?&lt;/p></string>
+           </property>
+           <property name="title" >
+            <string>Systray</string>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>6</number>
+            </property>
+            <property name="spacing" >
+             <number>2</number>
+            </property>
+            <item row="0" column="0" >
+             <widget class="QCheckBox" name="cbSystray" >
+              <property name="text" >
+               <string>Use Systray icon</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" >
+             <layout class="QHBoxLayout" >
+              <property name="margin" >
+               <number>2</number>
+              </property>
+              <property name="spacing" >
+               <number>6</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="lblTraySize" >
+                <property name="text" >
+                 <string>Size of tray icon :</string>
+                </property>
+                <property name="buddy" >
+                 <cstring>sbTraySize</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="sbTraySize" >
+                <property name="sizePolicy" >
+                 <sizepolicy>
+                  <hsizetype>0</hsizetype>
+                  <vsizetype>0</vsizetype>
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize" >
+                 <size>
+                  <width>48</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>48</width>
+                  <height>32767</height>
+                 </size>
+                </property>
+                <property name="buttonSymbols" >
+                 <enum>QAbstractSpinBox::UpDownArrows</enum>
+                </property>
+                <property name="maximum" >
+                 <number>128</number>
+                </property>
+                <property name="minimum" >
+                 <number>1</number>
+                </property>
+                <property name="value" >
+                 <number>22</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="0" >
         <widget class="QGroupBox" name="groupNotification" >
          <property name="title" >
           <string>Notifications</string>
          </property>
          <layout class="QGridLayout" >
           <property name="margin" >
-           <number>-1</number>
+           <number>6</number>
           </property>
           <property name="spacing" >
-           <number>0</number>
+           <number>2</number>
           </property>
           <item row="5" column="0" colspan="2" >
            <layout class="QHBoxLayout" >
@@ -1867,221 +2088,6 @@
          </layout>
         </widget>
        </item>
-       <item row="1" column="1" >
-        <layout class="QVBoxLayout" >
-         <property name="margin" >
-          <number>2</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="QGroupBox" name="groupSystray" >
-           <property name="whatsThis" >
-            <string>&lt;h3>Systray&lt;/h3>&lt;p>Do you want to have qRezix reduced to an icon in the systray ?&lt;/p></string>
-           </property>
-           <property name="title" >
-            <string>Systray</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>10</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item row="0" column="0" >
-             <widget class="QCheckBox" name="cbSystray" >
-              <property name="text" >
-               <string>Use Systray icon</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0" >
-             <layout class="QHBoxLayout" >
-              <property name="margin" >
-               <number>2</number>
-              </property>
-              <property name="spacing" >
-               <number>6</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="lblTraySize" >
-                <property name="text" >
-                 <string>Size of tray icon :</string>
-                </property>
-                <property name="buddy" >
-                 <cstring>sbTraySize</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="sbTraySize" >
-                <property name="sizePolicy" >
-                 <sizepolicy>
-                  <hsizetype>0</hsizetype>
-                  <vsizetype>0</vsizetype>
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                 <size>
-                  <width>48</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize" >
-                 <size>
-                  <width>48</width>
-                  <height>32767</height>
-                 </size>
-                </property>
-                <property name="buttonSymbols" >
-                 <enum>QAbstractSpinBox::UpDownArrows</enum>
-                </property>
-                <property name="maximum" >
-                 <number>128</number>
-                </property>
-                <property name="minimum" >
-                 <number>1</number>
-                </property>
-                <property name="value" >
-                 <number>22</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="groupBox27" >
-           <property name="whatsThis" >
-            <string>&lt;h3>Translation&lt;/h3>&lt;p>Select your language&lt;/p></string>
-           </property>
-           <property name="title" >
-            <string>Translation</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>10</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="langLabel" >
-              <property name="text" >
-               <string>UI Language :</string>
-              </property>
-              <property name="buddy" >
-               <cstring>languageBox</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1" >
-             <widget class="QComboBox" name="languageBox" />
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeType" >
-            <enum>QSizePolicy::Expanding</enum>
-           </property>
-           <property name="sizeHint" >
-            <size>
-             <width>20</width>
-             <height>16</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item row="1" column="0" >
-        <layout class="QVBoxLayout" >
-         <property name="margin" >
-          <number>1</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="QGroupBox" name="groupBox29" >
-           <property name="title" >
-            <string>Chat</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>-1</number>
-            </property>
-            <property name="spacing" >
-             <number>0</number>
-            </property>
-            <item row="1" column="0" >
-             <widget class="QCheckBox" name="cbPropertiesWarning" >
-              <property name="whatsThis" >
-               <string>&lt;h3>warning&lt;/h3>&lt;p>If you check this you will receive an notification each time somebody check you properties&lt;/p>&lt;p>&lt;b>Warning :&lt;/b> in some cases, this option can be used to spam you with notification windows&lt;/p></string>
-              </property>
-              <property name="text" >
-               <string>Warn me when properties are being checked</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0" >
-             <widget class="QCheckBox" name="cbPrintTime" >
-              <property name="text" >
-               <string>Print hh:mm:ss in chat</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0" >
-             <widget class="QCheckBox" name="cbRefuseAway" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Responder mode&lt;/h3>&lt;p>There are 2 kinds of responder&lt;p>&lt;p>&lt;b>Refuse,&lt;/b> in this mode, all the messages you receive while away are lost&lt;/p>&lt;p>&lt;b>Store,&lt;/b> in this mode, you can read you messages as if you were not marked away&lt;/p></string>
-              </property>
-              <property name="text" >
-               <string>Refuse messages when away</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="groupBox30" >
-           <property name="title" >
-            <string>Other</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>10</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item row="0" column="0" >
-             <widget class="QCheckBox" name="cbQuit" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Quitting dialog&lt;/h3>&lt;p>Enable/disable the dialog box which is displayed when you close the qRezix's main window&lt;/p></string>
-              </property>
-              <property name="text" >
-               <string>Show dialog when clicking on X</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
-       </item>
        <item row="2" column="0" >
         <spacer>
          <property name="orientation" >
@@ -2099,6 +2105,26 @@
         </spacer>
        </item>
       </layout>
+      <widget class="QWidget" name="widget_6" >
+       <property name="geometry" >
+        <rect>
+         <x>9</x>
+         <y>189</y>
+         <width>341</width>
+         <height>210</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QWidget" name="widget_7" >
+       <property name="geometry" >
+        <rect>
+         <x>356</x>
+         <y>189</y>
+         <width>214</width>
+         <height>210</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="pagePlugins" >
       <layout class="QGridLayout" >
@@ -2108,173 +2134,125 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="0" column="0" >
-        <widget class="QGroupBox" name="grpPlugIn" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>7</hsizetype>
-           <vsizetype>7</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+       <item row="0" column="0" colspan="3" >
+        <widget class="QTreeWidget" name="lvPlugInList" >
+         <property name="columnCount" >
+          <number>3</number>
          </property>
-         <property name="title" >
-          <string>Plug-ins</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>-1</number>
+         <column>
+          <property name="text" >
+           <string>0</string>
           </property>
-          <property name="spacing" >
-           <number>0</number>
+         </column>
+         <column>
+          <property name="text" >
+           <string>1</string>
           </property>
-          <item row="0" column="0" >
-           <layout class="QHBoxLayout" >
-            <property name="margin" >
-             <number>2</number>
-            </property>
-            <property name="spacing" >
-             <number>3</number>
-            </property>
-            <item>
-             <widget class="QToolButton" name="btnPlugInReload" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Reload plug-in&lt;/h3>&lt;p>Click here to reload the selected plug-in&lt;/p></string>
-              </property>
-              <property name="text" >
-               <string>&amp;Reload plug-in</string>
-              </property>
-              <property name="shortcut" >
-               <string>⌥R</string>
-              </property>
-              <property name="autoRaise" >
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer>
-              <property name="orientation" >
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType" >
-               <enum>QSizePolicy::Expanding</enum>
-              </property>
-              <property name="sizeHint" >
-               <size>
-                <width>270</width>
-                <height>21</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QToolButton" name="btnPlugInProp" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Plug-in properties&lt;/h3>&lt;p>Displays the properties window of the selected plug-in&lt;/p></string>
-              </property>
-              <property name="text" >
-               <string>Plug-in pr&amp;operties ...</string>
-              </property>
-              <property name="shortcut" >
-               <string>⌥O</string>
-              </property>
-              <property name="autoRaise" >
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="0" column="0" >
-           <widget class="Q3ListView" name="lvPlugInList" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>7</hsizetype>
-              <vsizetype>7</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="whatsThis" >
-             <string>&lt;h3>Plug-ins&lt;/h3>&lt;p>Shows the detected plug-ins&lt;/p></string>
-            </property>
-            <column>
-             <property name="text" >
-              <string>Nom</string>
-             </property>
-            </column>
-            <column>
-             <property name="text" >
-              <string>Description</string>
-             </property>
-            </column>
-            <column>
-             <property name="text" >
-              <string>Version</string>
-             </property>
-            </column>
-           </widget>
-          </item>
-         </layout>
+         </column>
+         <column>
+          <property name="text" >
+           <string>2</string>
+          </property>
+         </column>
         </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="QToolButton" name="btnPlugInReload" >
+         <property name="whatsThis" >
+          <string>&lt;h3>Reload plug-in&lt;/h3>&lt;p>Click here to reload the selected plug-in&lt;/p></string>
+         </property>
+         <property name="text" >
+          <string>&amp;Reload plug-in</string>
+         </property>
+         <property name="shortcut" >
+          <string/>
+         </property>
+         <property name="autoRaise" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" >
+        <widget class="QToolButton" name="btnPlugInProp" >
+         <property name="whatsThis" >
+          <string>&lt;h3>Plug-in properties&lt;/h3>&lt;p>Displays the properties window of the selected plug-in&lt;/p></string>
+         </property>
+         <property name="text" >
+          <string>Plug-in pr&amp;operties ...</string>
+         </property>
+         <property name="shortcut" >
+          <string/>
+         </property>
+         <property name="autoRaise" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>251</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
     </widget>
    </item>
-   <item row="0" column="1" >
-    <layout class="QVBoxLayout" >
-     <property name="margin" >
-      <number>2</number>
+   <item rowspan="2" row="0" column="0" >
+    <widget class="QListWidget" name="lbMenu" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>5</hsizetype>
+       <vsizetype>7</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <property name="spacing" >
-      <number>6</number>
+     <property name="minimumSize" >
+      <size>
+       <width>120</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Plain</enum>
      </property>
      <item>
-      <widget class="QLabel" name="lblTitle" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>5</hsizetype>
-         <vsizetype>0</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>0</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>32767</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="text" >
-        <string>&lt;h2>New Item&lt;/h2></string>
-       </property>
-      </widget>
+      <property name="text" >
+       <string>Infos</string>
+      </property>
      </item>
      <item>
-      <widget class="Line" name="line4" >
-       <property name="frameShape" >
-        <enum>QFrame::HLine</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="lineWidth" >
-        <number>2</number>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
+      <property name="text" >
+       <string>Layout</string>
+      </property>
      </item>
-    </layout>
+     <item>
+      <property name="text" >
+       <string>Network</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Misc.</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Plug-ins</string>
+      </property>
+     </item>
+    </widget>
    </item>
    <item row="2" column="0" colspan="2" >
     <layout class="QHBoxLayout" >
@@ -2336,48 +2314,10 @@
      </item>
     </layout>
    </item>
-   <item rowspan="2" row="0" column="0" >
-    <widget class="QListWidget" name="lbMenu" >
-     <item>
-      <property name="text" >
-       <string>Infos</string>
-      </property>
-     </item>
-     <item>
-      <property name="text" >
-       <string>Layout</string>
-      </property>
-     </item>
-     <item>
-      <property name="text" >
-       <string>Network</string>
-      </property>
-     </item>
-     <item>
-      <property name="text" >
-       <string>Misc.</string>
-      </property>
-     </item>
-     <item>
-      <property name="text" >
-       <string>Plug-ins</string>
-      </property>
-     </item>
-    </widget>
-   </item>
   </layout>
  </widget>
  <layoutdefault spacing="2" margin="2" />
  <pixmapfunction></pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>Q3ListView</class>
-   <extends></extends>
-   <header>q3listview.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>hostname</tabstop>
   <tabstop>btnChangePass</tabstop>
@@ -2423,14 +2363,6 @@
   <tabstop>cbTooltipIP</tabstop>
   <tabstop>cbTooltipResal</tabstop>
   <tabstop>cbTooltipFeatures</tabstop>
-  <tabstop>cbSearch</tabstop>
-  <tabstop>cmbIconSize</tabstop>
-  <tabstop>cbHighlight</tabstop>
-  <tabstop>cmbIconTheme</tabstop>
-  <tabstop>cmdDoubleClic</tabstop>
-  <tabstop>cmbMenuIcons</tabstop>
-  <tabstop>cmbMenuText</tabstop>
-  <tabstop>cmbDefaultTab</tabstop>
   <tabstop>server_name</tabstop>
   <tabstop>server_port</tabstop>
   <tabstop>chat_port</tabstop>
@@ -2484,7 +2416,7 @@
   <connection>
    <sender>cbTooltips</sender>
    <signal>toggled(bool)</signal>
-   <receiver>cbTooltipHttp</receiver>
+   <receiver>cbTooltipNews</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -2500,7 +2432,7 @@
   <connection>
    <sender>cbTooltips</sender>
    <signal>toggled(bool)</signal>
-   <receiver>cbTooltipNews</receiver>
+   <receiver>cbTooltipHttp</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >

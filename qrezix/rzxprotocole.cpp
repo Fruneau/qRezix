@@ -31,6 +31,7 @@
 #include "rzxhostaddress.h"
 #include "rzxcomputer.h"
 #include "rzxconfig.h"
+#include "rzxiconcollection.h"
 #include "md5.h"
 
 #define MD5_ADD "Vive le BR"
@@ -79,7 +80,7 @@ void RzxProtocole::parse(const QString& msg){
 	for (int i = 0; ServerFormat[i]; i++)
 	{
 		cmd.setPattern(ServerFormat[i]);
-		if (cmd.search(msg) == -1)
+		if (cmd.indexIn(msg) == -1)
 			continue;
 		
 		switch (i)
@@ -114,7 +115,7 @@ void RzxProtocole::parse(const QString& msg){
 			case SERVER_WRONGPASS:
 				if(!RzxConfig::oldPass().isNull() && !testOldPass)
 				{
-					sendAuth(RzxConfig::oldPass(), RzxConfig::localHost());
+					sendAuth(RzxConfig::oldPass(), RzxComputer::localhost());
 					testOldPass = true;
 				}
 				else
@@ -122,18 +123,17 @@ void RzxProtocole::parse(const QString& msg){
 					Ui::RzxWrongPassUI wp;
 					QDialog wpDialog;
 					wp.setupUi(&wpDialog);
-					RzxConfig::globalConfig()->setOldPass();
-					QIcon icon(RzxConfig::themedIcon("ok"));
-					wp.btnOK->setIconSet(icon);
+					RzxConfig::global()->setOldPass();
+					QIcon icon(RzxIconCollection::getIcon(Rzx::ICON_OK));
+					wp.btnOK->setIcon(icon);
 					wpDialog.exec();
 					QString pwd = wp.ledPassword->text();
 					if(pwd.length())
 					{
 						pwd += MD5_ADD;
-						pwd=MD5String(pwd.latin1());
-						qDebug(pwd);
-						sendAuth(pwd, RzxConfig::localHost());
-						RzxConfig::globalConfig()->setPass(pwd);
+						pwd=MD5String(pwd.toLatin1());
+						sendAuth(pwd, RzxComputer::localhost());
+						RzxConfig::global()->setPass(pwd);
 					}
 				}
 				break;
@@ -144,20 +144,20 @@ void RzxProtocole::parse(const QString& msg){
 				break;
 				
 			case SERVER_PASS:
-				RzxConfig::globalConfig()->setOldPass(cmd.cap(1));
+				RzxConfig::global()->setOldPass(cmd.cap(1));
 				changePass(cmd.cap(1));
 				break;
 			
 			case SERVER_CHANGEPASSOK:
 				emit sysmsg(tr("Your pass has been successfully changed by the server. Keep it well because it can be useful."));
-				if(!RzxConfig::oldPass().isNull()) RzxConfig::globalConfig()->setOldPass();
-				RzxConfig::globalConfig()->setPass(m_newPass);
-				RzxConfig::globalConfig()->flush();
+				if(!RzxConfig::oldPass().isNull()) RzxConfig::global()->setOldPass();
+				RzxConfig::global()->setPass(m_newPass);
+				RzxConfig::global()->flush();
 				break;
 			
 			case SERVER_CHANGEPASSFAILED:
 				emit sysmsg(tr("Server can't change your pass :\n") + cmd.cap(1));
-				RzxConfig::globalConfig()->setPass(m_oldPass);
+				RzxConfig::global()->setPass(m_oldPass);
 				break;
 				
 			case SERVER_PART:
@@ -214,7 +214,7 @@ void RzxProtocole::changePass(const QString& oldPass)
 	if(oldPass.isNull())
 		changepass = new QDialog();
 	else
-		changepass = new QDialog(NULL, Qt::WStyle_Customize | Qt::WStyle_StaysOnTop);
+		changepass = new QDialog(NULL, Qt::Dialog | Qt::WindowStaysOnTopHint);
 	changepassui.setupUi(changepass);
 	
 	//Application du masque pour être sur du formatage du password
@@ -223,11 +223,8 @@ void RzxProtocole::changePass(const QString& oldPass)
 	changepassui.btnOK->setEnabled(false);
 	
 	//Rajout des icônes aux boutons
-	QIcon ok, cancel;
-	ok.addPixmap(RzxConfig::themedIcon("ok"));
-	cancel.addPixmap(RzxConfig::themedIcon("cancel"));
-	changepassui.btnOK->setIconSet(ok);
-	changepassui.btnCancel->setIconSet(cancel);
+	changepassui.btnOK->setIcon(RzxIconCollection::getIcon(Rzx::ICON_OK));
+	changepassui.btnCancel->setIcon(RzxIconCollection::getIcon(Rzx::ICON_CANCEL));
 
 	//Connexion des boutons comme il va bien
 	connect(changepassui.btnOK, SIGNAL(clicked()), this, SLOT(validChangePass()));
@@ -249,7 +246,7 @@ void RzxProtocole::validChangePass()
 		m_newPass = changepassui.leNewPass->text();
        //avec hash:
 		m_newPass = m_newPass+MD5_ADD;
-		m_newPass = MD5String(m_newPass.latin1());
+		m_newPass = MD5String(m_newPass.toLatin1());
 		emit send("CHANGEPASS " + m_newPass + "\r\n");
 
 		changepass->deleteLater();

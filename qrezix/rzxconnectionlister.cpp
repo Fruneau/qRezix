@@ -16,18 +16,18 @@
  ***************************************************************************/
 #include <QImage>
 #include <QPixmap>
-#include <QBitmap>
-#include <QObject>
 
 #include "rzxconnectionlister.h"
 
 #include "rzxmessagebox.h"
 #include "rzxclientlistener.h"
 #include "rzxserverlistener.h"
+#include "rzxiconcollection.h"
 #include "rzxhostaddress.h"
 #include "rzxcomputer.h"
 #include "rzxchat.h"
 #include "rzxconfig.h"
+#include "qrezix.h"
 
 #define USER_HASH_TABLE_LENGTH 1663
 
@@ -42,6 +42,8 @@ RzxConnectionLister::RzxConnectionLister( QObject *parent)
 	server = RzxServerListener::object();
 	client = RzxClientListener::global();
 
+	delayDisplay.setSingleShot(true);
+
 	connect( server, SIGNAL(login(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&)),
 			 this, SLOT(login(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&)) );
 	connect( server, SIGNAL( logout( const RzxHostAddress& ) ), this, SLOT( logout( const RzxHostAddress& ) ) );
@@ -51,6 +53,7 @@ RzxConnectionLister::RzxConnectionLister( QObject *parent)
 	connect( server, SIGNAL( connected() ), this, SLOT( serverConnected() ) );
 	connect( server, SIGNAL( connected() ), this, SIGNAL( connectionEtablished()));
 	connect( server, SIGNAL( disconnected() ), this, SIGNAL( socketClosed() ) );
+	connect( server, SIGNAL(receiveAddress(const RzxHostAddress& )), RzxComputer::localhost(), SLOT(setIP(const RzxHostAddress& )));
 	
 	connect(server, SIGNAL(sysmsg(const QString&)), this, SLOT(sysmsg(const QString&)));
 	connect(server, SIGNAL(fatal(const QString&)), this, SLOT(fatal(const QString&)));
@@ -83,12 +86,12 @@ void RzxConnectionLister::login(const RzxHostAddress& ip, const QString& name, q
 		displayWaiter << computer;
 	
 		if(!delayDisplay.isActive())
-			delayDisplay.start(1, true);
+			delayDisplay.start(1);
 	}
 	else
 	{
-		RzxChat *chat = chatByLogin.take(computer->getName());
-		computerByLogin.remove(computer->getName());
+		RzxChat *chat = chatByLogin.take(computer->name());
+		computerByLogin.remove(computer->name());
 		computer->update(name, options, stamp, flags, comment);
 		computerByLogin.insert(name, computer);
 		if(chat)
@@ -96,7 +99,7 @@ void RzxConnectionLister::login(const RzxHostAddress& ip, const QString& name, q
 			chatByLogin.insert(name, chat);
 			chat->setHostname(name);
 		}
-		emit login(computer);
+		emit update(computer);
 	}
 }
 
@@ -106,28 +109,30 @@ void RzxConnectionLister::login()
 	if(displayWaiter.isEmpty()) return;
 	RzxComputer *computer = displayWaiter.takeFirst();
 	connect(computer, SIGNAL( needIcon( const RzxHostAddress& ) ), this, SIGNAL( needIcon( const RzxHostAddress& ) ) );
+	connect(computer, SIGNAL(stateChanged(RzxComputer* )), QRezix::global(), SLOT(warnForFavorite(RzxComputer* )));
 
 	// Recherche si cet ordinateur était déjà présent (refresh ou login)
-	QString tempIP = computer->getIP().toString();
+	QString tempIP = computer->ip().toString();
 
 	//mise à jour des données concernant le chat
-	RzxChat *chat = chatByLogin.take(computer->getName());
+	RzxChat *chat = chatByLogin.take(computer->name());
 	if(chat)
 	{
 		//Indication au chat de la reconnexion
 		if (!computer)
 			chat->info( tr("reconnected") );
-		chatByLogin.insert(computer->getName(), chat);
-		chat->setHostname(computer->getName());
+		chatByLogin.insert(computer->name(), chat);
+		chat->setHostname(computer->name());
 	}
 
+	computer->login();
 	emit login(computer);
 	
 	//Ajout du nouvel ordinateur dans les qdict
-	computerByLogin.insert(computer->getName(), computer);
+	computerByLogin.insert(computer->name(), computer);
 	emit countChange( tr("%1 clients connected").arg(computerByIP.count()) );
 	
-	if(!displayWaiter.isEmpty()) delayDisplay.start(5, true);
+	if(!displayWaiter.isEmpty()) delayDisplay.start(5);
 	else
 	{
 		emit loginEnd();
@@ -141,9 +146,10 @@ void RzxConnectionLister::logout( const RzxHostAddress& ip )
 	RzxComputer *computer = getComputerByIP(ip);
 	if(computer)
 	{
+		computer->logout();
 		emit logout(computer);
 		computerByIP.remove(ip);
-		computerByLogin.remove(computer->getName());
+		computerByLogin.remove(computer->name());
 		computer->deleteLater();
 		emit countChange( tr("%1 clients connected").arg(computerByIP.count()) );
 	}
@@ -156,16 +162,12 @@ void RzxConnectionLister::logout( const RzxHostAddress& ip )
 
 ///Retourne la liste des IP des gens connectés
 /** Permet pour les plug-ins d'obtenir facilement la liste les ip connectées */
-QStringList RzxConnectionLister::getIpList(unsigned int features)
+QStringList RzxConnectionLister::getIpList(Rzx::Capabilities features)
 {
-	QHashIterator<RzxHostAddress,RzxComputer*> it(computerByIP);
 	QStringList ips;
-	while(it.hasNext())
-	{
-		it.next();
-		if(!features || it.value()->can(features))
-			ips << it.key().toString();
-	}
+	foreach(RzxHostAddress key, computerByIP.keys())
+		if(!features || computerByIP[key]->can(features))
+			ips << key.toString();
 	return ips;
 }
 
@@ -180,7 +182,6 @@ void RzxConnectionLister::initConnection() {
 /** No descriptions */
 void RzxConnectionLister::serverDisconnected()
 {
-	displayWaiter.clear();
 }
 
 /** No descriptions */
@@ -190,6 +191,8 @@ void RzxConnectionLister::serverConnected()
 	computerByIP.clear();
 	computerByLogin.clear();
 	displayWaiter.clear();
+	
+	emit clear();
 	initialized = false;
 }
 
@@ -212,15 +215,15 @@ void RzxConnectionLister::closeSocket()
 
 ///Création d'une fenêtre de chat et référencement de celle-ci
 /** Création à partir du login de l'utilisateur */
-RzxChat * RzxConnectionLister::chatCreate( const QString& login)
+RzxChat * RzxConnectionLister::createChat( const QString& login)
 {
 	RzxChat *chat = getChatByName(login);
 	if(!chat)
 		chat = createChat(getComputerByName(login));
 	if(!chat)
 	{
-		qWarning( tr("Received a chat request from %1").arg(login) );
-		qWarning( tr("%1 is NOT logged").arg(login) );
+		qWarning("Received a chat request from %s", login.toAscii().constData());
+		qWarning("%s is NOT logged", login.toAscii().constData());
 		return NULL;
 	}
 	chat->show();
@@ -230,36 +233,37 @@ RzxChat * RzxConnectionLister::chatCreate( const QString& login)
 
 ///Création d'une fenêtre de chat et référencement de celle-ci
 /** Création à partir de l'adresse de l'utilisateur */
-RzxChat * RzxConnectionLister::chatCreate( const RzxHostAddress& peer )
+RzxChat * RzxConnectionLister::createChat( const RzxHostAddress& peer )
 {
 	RzxChat *chat = getChatByIP(peer);
 	if(!chat)
 		chat = createChat(getComputerByIP(peer));
 	if(!chat)
 	{
-		qWarning( tr( "Received a chat request from %1" ).arg( peer.toString() ) );
-		qWarning( tr( "%1 is NOT logged" ).arg( peer.toString() ) );
+		qWarning("Received a chat request from %s", peer.toString().toAscii().constData());
+		qWarning("%s is NOT logged", peer.toString().toAscii().constData());
 		return NULL;
 	}
 	chat->show();
 	return chat;
 }
 
+///Création d'une fenêtre de chat associée à l'ordinateur
 RzxChat *RzxConnectionLister::createChat(RzxComputer *computer)
 {
 	if (!computer)
 		return NULL;
 
-	RzxHostAddress peer = computer->getIP();
+	RzxHostAddress peer = computer->ip();
 	
 	RzxChat *chat = new RzxChat(peer);
-	chat->setHostname( computer->getName() );
+	chat->setHostname( computer->name() );
 
-	connect( chat, SIGNAL( closed( const RzxHostAddress& ) ), this, SLOT( chatDelete( const RzxHostAddress& ) ) );
-	connect( RzxConfig::globalConfig(), SIGNAL( themeChanged() ), chat, SLOT( changeTheme() ) );
-	connect( RzxConfig::globalConfig(), SIGNAL( iconFormatChange() ), chat, SLOT( changeIconFormat() ) );
+	connect( chat, SIGNAL( closed( const RzxHostAddress& ) ), this, SLOT( deleteChat( const RzxHostAddress& ) ) );
+	connect( RzxConfig::global(), SIGNAL( themeChanged() ), chat, SLOT( changeTheme() ) );
+	connect( RzxConfig::global(), SIGNAL( iconFormatChange() ), chat, SLOT( changeIconFormat() ) );
 	chatByIP.insert(peer, chat);
-	chatByLogin.insert(computer->getName(), chat);
+	chatByLogin.insert(computer->name(), chat);
 	return chat;
 }
 
@@ -274,10 +278,10 @@ void RzxConnectionLister::closeChat( const QString& login )
 
 
 /** No descriptions */
-void RzxConnectionLister::chatDelete( const RzxHostAddress& peerAddress )
+void RzxConnectionLister::deleteChat( const RzxHostAddress& peerAddress )
 {
 	RzxChat *chat = chatByIP.take(peerAddress);
-	chatByLogin.remove(chat->getHostName());
+	chatByLogin.remove(chat->hostname());
 	delete chat;
 }
 
@@ -285,14 +289,26 @@ void RzxConnectionLister::chatDelete( const RzxHostAddress& peerAddress )
 /** Cette méthode à pour but de fermer tous les chats en cours pour libérer en particulier le port 5050. Normalement l'appel de cette méthode à la fermeture de qRezix doit corriger le problème de réouverture de l'écoute qui intervient à certains moments lors du démarrage de qRezix */
 void RzxConnectionLister::closeChats()
 {
-	QHashIterator<RzxHostAddress, RzxChat*> it(chatByIP);
-	while(it.hasNext())
+	foreach(RzxChat *chat, chatByIP.values())
+		chat->close();
+}
+
+///Demande le check des proiétés de \a peer
+void RzxConnectionLister::proprietes(const RzxHostAddress& peer)
+{
+	RzxChat *object = getChatByIP(peer);
+	if(!object)
+		client->checkProperty(peer);
+	else
 	{
-		it.next();
-		it.value()->close();
+		if(object->getSocket())
+			object->getSocket()->sendPropQuery();
+		else
+			client->checkProperty(peer);
 	}
 }
 
+///Indique que les propriétés ont été checkées par \a peer
 void RzxConnectionLister::warnProperties( const RzxHostAddress& peer )
 {
 	RzxChat *chat = getChatByIP(peer);
@@ -308,14 +324,14 @@ void RzxConnectionLister::warnProperties( const RzxHostAddress& peer )
 
 	if (!chat)
 	{
-		if (RzxConfig::globalConfig()->warnCheckingProperties()== 0)
+		if (RzxConfig::global()->warnCheckingProperties()== 0)
 			return ;
-		RzxMessageBox::information(NULL, tr("Properties sent to %1").arg(computer->getName()),
+		RzxMessageBox::information(NULL, tr("Properties sent to %1").arg(computer->name()),
 			tr("name : <i>%1</i><br>"
 				"address : <i>%2</i><br>"
 				"client : <i>%3</i><br>"
 				"time : <i>%4</i>")
-				.arg(computer->getName()).arg(peer.toString()).arg(computer->getClient()).arg(heure));
+				.arg(computer->name()).arg(peer.toString()).arg(computer->client()).arg(heure));
 		return ;
 	}
 	chat->notify( tr( "has checked your properties" ), true );
@@ -337,12 +353,6 @@ void RzxConnectionLister::fatal( const QString& msg )
 /** No descriptions */
 void RzxConnectionLister::recvIcon(QImage* icon, const RzxHostAddress& ip)
 {
-	RzxComputer * computer = getComputerByIP(ip);
-	if (computer)
-	{
-		icon->save(RzxConfig::computerIconsDir().absFilePath(computer->getFilename()), "PNG");
-		QPixmap pix;
-		pix.convertFromImage(*icon);
-		computer->setIcon(pix);
-	}
+	RzxComputer *computer = getComputerByIP(ip);
+	computer->setIcon(RzxIconCollection::global()->saveHashedIcon(computer->stamp(), *icon));
 }

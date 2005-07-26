@@ -14,25 +14,24 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <QApplication>
-#include <QDir>
-#include <QFileInfo>
-#include <QProcess>
 #include <QStringList>
-#include <QRegExp>
 #include <QPixmap>
-#include <QVector>
+
+//Pour l'analyse de localhost
+#include <QRegExp>
+#include <QProcess>
+#include <QApplication>
 
 #include "defaults.h"
 #include "rzxcomputer.h"
 
-#include "rzxserverlistener.h"
-#include "rzxprotocole.h"
 #include "rzxconfig.h"
-#include "rzxchat.h"
 #include "rzxproperty.h"
-#include "rzxmessagebox.h"
 #include "rzxpluginloader.h"
+#include "rzxutilslauncher.h"
+#include "rzxchatsocket.h"
+#include "rzxconnectionlister.h"
+#include "rzxiconcollection.h"
 
 const char *RzxComputer::promalText[4] = { 
     "?", 
@@ -41,6 +40,56 @@ const char *RzxComputer::promalText[4] = {
     QT_TR_NOOP("Jone")
 };
 
+const char *RzxComputer::rezalText[Rzx::RZL_NUMBER][2] = {
+	{ QT_TR_NOOP("World"), QT_TR_NOOP("World") },
+	{ "Binets & Kès", "Binets" },
+	{ "BR", "BR" },
+	{ "BEM Bat. A", "BEM.A" },
+	{ "BEM Bat. D", "BEM.D" },
+	{ "Foch 0", "Foch.0" },
+	{ "Foch 1", "Foch.1" },
+	{ "Foch 2", "Foch.2" },
+	{ "Foch 3", "Foch.3" },
+	{ "Fayolle 0", "Fay.0" },
+	{ "Fayolle 1", "Fay.1" },
+	{ "Fayolle 2", "Fay.2" },
+	{ "Fayolle 3", "Fay.3" },
+	{ "PEM", "PEM" },
+	{ "Joffre 0", "Jof.0" },
+	{ "Joffre 1", "Jof.1" },
+	{ "Joffre 2", "Jof.2" },
+	{ "Joffre 3", "Jof.3" },
+	{ "Maunoury 0", "Mau.0" },
+	{ "Maunoury 1", "Mau.1" },
+	{ "Maunoury 2", "Mau.2" },
+	{ "Maunoury 3", "Mau.3" },
+	{ "Batiment 411", "Bat.411" },
+	{ "Batiment 70", "Bat.70" },
+	{ "Batiment 71", "Bat.71" },
+	{ "Batiment 72", "Bat.72" },
+	{ "Batiment 73", "Bat.73" },
+	{ "Batiment 74", "Bat.74" },
+	{ "Batiment 75", "Bat.75" },
+	{ "Batiment 76", "Bat.76" },
+	{ "Batiment 77", "Bat.77" },
+	{ "Batiment 78", "Bat.78" },
+	{ "Batiment 79", "Bat.79" },
+	{ "Batiment 80", "Bat.80" },
+	{ "Wifi", "Wifi" },
+	{ "X", "X" }
+};
+
+const char *RzxComputer::osText[7] = {
+	QT_TR_NOOP("Unknown"),
+	"Windows 9x/Me",
+	"Windows NT/2k/XP",
+	"Linux",
+	"MacOS",
+	"MacOS X",
+	"BSD"
+};
+
+RzxComputer *RzxComputer::m_localhost = NULL;
 
 ///Construction d'un RzxComputer
 /** La construction n'initialise pas le RzxComputer en un objet utilisable.
@@ -52,12 +101,13 @@ RzxComputer::RzxComputer():delayScan(NULL) { }
  * Cette construction est suffisante uniquement pour un computer distant
  * et n'est pas adapté à la construction de localhost
  */
-RzxComputer::RzxComputer(const RzxHostAddress& m_ip, const QString& m_name, quint32 m_options, quint32 m_version, quint32 m_stamp, quint32 m_flags, const QString& m_remarque)
-	:name(m_name), ip(m_ip), flags(m_flags), stamp(m_stamp), remarque(m_remarque), delayScan(NULL)
+RzxComputer::RzxComputer(const RzxHostAddress& c_ip, const QString& c_name, quint32 c_options, quint32 c_version, quint32 c_stamp, quint32 c_flags, const QString& c_remarque)
+	:m_name(c_name), m_ip(c_ip), m_flags(c_flags), m_stamp(c_stamp), m_remarque(c_remarque), delayScan(NULL)
 {
-	*((quint32 *) &options) = m_options;
-	*((quint32 *) &version) = m_version;
+	*((quint32 *) &m_options) = c_options;
+	*((quint32 *) &m_version) = c_version;
 	loadIcon();
+	connected = false;
 }	
 
 ///Destruction...
@@ -74,39 +124,55 @@ RzxComputer::~RzxComputer()
  * qui représente localhost sur le resal est en fait la copie de cet objet transmise
  * par le réseau via le protocol xNet
  */
-void RzxComputer::initLocalHost()
+void RzxComputer::initLocalhost()
 {
-	version.Client = RZX_CLIENT_ID;
-	version.MajorVersion = RZX_MAJOR_VERSION;
-	version.FunnyVersion = RZX_FUNNY_VERSION;
-	version.MinorVersion = RZX_MINOR_VERSION;
-	
-	options.Capabilities = 3; //capable d'utiliser Capabilities et le chat
-	options.Capabilities |= RzxPlugInLoader::global()->getFeatures();
-
-	autoSetOs();
-
-	ip = RzxHostAddress::fromRezix(0);
 	delayScan = new QTimer();
 	connect(delayScan, SIGNAL(timeout()), this, SLOT(scanServers()));
-	ServerFlags = options.Server = 0;
-	flags = 0;
+
+	//Ip mise à jour par RzxServerListener
+	m_ip = RzxHostAddress::fromRezix(0);
+
+	setName(RzxConfig::dnsname());
+	setRemarque(RzxConfig::remarque());
+	setPromo(RzxConfig::promo());
+	setState(RzxConfig::repondeur());
+	setServerFlags(RzxConfig::servers());
+	autoSetOs();
+
+	m_version.Client = RZX_CLIENT_ID;
+	m_version.MajorVersion = RZX_MAJOR_VERSION;
+	m_version.FunnyVersion = RZX_FUNNY_VERSION;
+	m_version.MinorVersion = RZX_MINOR_VERSION;
+	
+	m_options.Capabilities = Rzx::CAP_ON | Rzx::CAP_CHAT; //capable d'utiliser Capabilities et le chat
+	m_options.Capabilities |= RzxPlugInLoader::global()->getFeatures();
+
+	m_flags = 0;
+	connected = true;
+
+	scanServers();
 }
 
 ///Mise à jour du RzxComputer lors de la réception de nouvelle infos
-void RzxComputer::update(const QString& m_name, quint32 m_options, quint32 m_stamp, quint32 m_flags, const QString& m_remarque)
+void RzxComputer::update(const QString& c_name, quint32 c_options, quint32 c_stamp, quint32 c_flags, const QString& c_remarque)
 {
-	name = m_name;
-	*((quint32 *) &options) = m_options;
-	flags = m_flags;
-	remarque = m_remarque;
+	Rzx::ConnectionState oldState = state();
 
-	if(stamp != m_stamp)
+	m_name = c_name;
+	*((quint32 *) &m_options) = c_options;
+	m_flags = c_flags;
+	m_remarque = c_remarque;
+	connected = true;
+
+	if(m_stamp != c_stamp)
 	{
-		stamp = m_stamp;
+		m_stamp = c_stamp;
 		loadIcon();
 	}
-	emit isUpdated();
+
+	if(oldState != state())
+		emitStateChanged();
+	emit update(this);
 }
 
 ///Détermine le système d'exploitation du système local
@@ -115,18 +181,18 @@ void RzxComputer::autoSetOs()
 {
 #ifdef WIN32
 	if (QApplication::winVersion() & Qt::WV_NT_based)
-		options.SysEx = SYSEX_WINNT;
+		m_options.SysEx = Rzx::SYSEX_WINNT;
 	else
-		options.SysEx = SYSEX_WIN9X;
+		m_options.SysEx = Rzx::SYSEX_WIN9X;
 #endif
 #ifdef Q_OS_UNIX
-	options.SysEx = SYSEX_LINUX;
+	m_options.SysEx = Rzx::SYSEX_LINUX;
 #endif
 #ifdef Q_OS_BSD
-        options.SysEx = SYSEX_BSD;
+	m_options.SysEx = Rzx::SYSEX_BSD;
 #endif
 #ifdef Q_OS_MAC
-	options.SysEx = SYSEX_MACOSX;
+	m_options.SysEx = Rzx::SYSEX_MACOSX;
 #endif
 }
 
@@ -148,153 +214,261 @@ void RzxComputer::autoSetOs()
 QString RzxComputer::serialize(const QString& pattern) const
 {
 	QString message(pattern);
-	options_t test = options;
-	test.Server &= ServerFlags;
+	options_t test = m_options;
+	test.Server &= m_serverFlags;
+
 	//Pour préserver la compatibilité avec les versions antérieures qui ne respectent pas le protocole !!!
 	if(test.Repondeur == REP_REFUSE) test.Repondeur = REP_ON;
-	quint32 opts = *((Q_UINT32*) &test);
-	quint32 vers = *((Q_UINT32*) &version);
+	quint32 opts = *((quint32*) &test);
+	quint32 vers = *((quint32*) &m_version);
 	
-	message.replace("$nn", name);
+	message.replace("$nn", m_name);
 	message.replace("$do", QString::number(opts, 10))
 		.replace("$xo", QString::number(opts, 16).right(8));
 	message.replace("$dv", QString::number(vers, 10))
 		.replace("$xv", QString::number(vers, 16).right(8));
-	message.replace("$di", QString::number(stamp, 10))
-		.replace("$xi", QString::number(stamp, 16).right(8));
-	message.replace("$df", QString::number(flags, 10))
-		.replace("$xf", QString::number(flags, 16).right(8));
-	message.replace("$ip", QString::number((quint32)ip.toRezix(), 16).right(8))
-		.replace("$IP", ip.toString());
-	message.replace("$rem", remarque);
-	qDebug(message);
+	message.replace("$di", QString::number(m_stamp, 10))
+		.replace("$xi", QString::number(m_stamp, 16).right(8));
+	message.replace("$df", QString::number(m_flags, 10))
+		.replace("$xf", QString::number(m_flags, 16).right(8));
+	message.replace("$ip", QString::number((quint32)m_ip.toRezix(), 16).right(8))
+		.replace("$IP", m_ip.toString());
+	message.replace("$rem", m_remarque);
 	return message;
 }
 
 /******************** Remplissage du RzxComputer *********************/
 ///Défition du nom de machine
 void RzxComputer::setName(const QString& newName) 
-{ name = newName; }
+{ m_name = newName; }
 ///Définition de l'état du répondeur
-void RzxComputer::setRepondeur(bool i)
-{ options.Repondeur = i ? (RzxConfig::refuseWhenAway() ? REP_REFUSE :REP_ON) : REP_ACCEPT; }
+void RzxComputer::setState(Rzx::ConnectionState state)
+{
+	if(state == Rzx::STATE_DISCONNECTED)
+	{
+		connected = false;
+		emitStateChanged();
+		return;
+	}
+	connected = true;
+
+	switch(state)
+	{
+		case Rzx::STATE_HERE:
+			m_options.Repondeur = REP_ACCEPT;
+			break;
+		case Rzx::STATE_AWAY:
+			m_options.Repondeur = REP_ON;
+			break;
+		case Rzx::STATE_REFUSE:
+			m_options.Repondeur = REP_REFUSE;
+			break;
+		default: break;
+	}
+	emitStateChanged();
+}
+///Définitioin de l'état du répondeur
+/** Fonction surchargée pour pouvoir définir un type on-off 
+ *
+ * Cette fonction n'a d'utilité que pour localhost
+ */
+void RzxComputer::setState(bool state)
+{
+	if(state)
+	{
+		if(RzxConfig::refuseWhenAway())
+			setState(Rzx::STATE_REFUSE);
+		else
+			setState(Rzx::STATE_AWAY);
+	}
+	else
+		setState(Rzx::STATE_HERE);
+}
+///Connexion de la machine
+void RzxComputer::login()
+{
+	if(!connected)
+	{
+		connected = true;
+		emitStateChanged();
+	}
+}
+///Déconnexion
+void RzxComputer::logout()
+{
+	if(connected)
+	{
+		connected = false;
+		emitStateChanged();
+	}
+}
 ///Définition de l'icône
 void RzxComputer::setIcon(const QPixmap& image){
-	icon = image;
-	emit isUpdated();
+	m_icon = image;
+	emit update(this);
 }
 ///Définition de la liste des serveurs présents sur la machine
-void RzxComputer::setServers(int servers) 
-{ options.Server = servers; }
+void RzxComputer::setServers(QFlags<RzxComputer::ServerFlags> servers) 
+{ m_options.Server = servers; }
 ///Définition de la liste des serveurs envisageables sur la machine (localhost uniquement)
-void RzxComputer::setServerFlags(int serverFlags) 
-{ ServerFlags = serverFlags; }
+void RzxComputer::setServerFlags(QFlags<RzxComputer::ServerFlags> serverFlags) 
+{ m_serverFlags = serverFlags; }
 ///Définition de la promo
-void RzxComputer::setPromo(int promo)
-{ options.Promo = promo; }
+void RzxComputer::setPromo(Rzx::Promal promo)
+{ m_options.Promo = promo; }
 ///Définition du commentaire
 void RzxComputer::setRemarque(const QString& text)
-{ remarque = text; }
+{ m_remarque = text; }
+
+///Définition de l'IP
+/** Utile pour localhost uniquement */
+void RzxComputer::setIP(const RzxHostAddress& address)
+{ m_ip = address; }
 
 
 /************ Récupération des informations concernant le RzxComputer ***********/
 ///Récupération du nom de la machine
-QString RzxComputer::getName() const 
-{ return name; }
+const QString &RzxComputer::name() const 
+{ return m_name; }
 ///Récupération du commentaire
-QString RzxComputer::getRemarque() const 
-{ return remarque; }
+const QString &RzxComputer::remarque() const 
+{ return m_remarque; }
 ///Récupération de l'état du répondeur
-int RzxComputer::getRepondeur() const 
-{ return options.Repondeur; }
+Rzx::ConnectionState RzxComputer::state() const
+{
+	if(!connected)
+		return Rzx::STATE_DISCONNECTED;
+
+	switch((Repondeur)m_options.Repondeur)
+	{
+		case REP_ACCEPT: return Rzx::STATE_HERE;
+		case REP_ON: return Rzx::STATE_AWAY;
+		case REP_REFUSE: return Rzx::STATE_REFUSE;
+		default: return Rzx::STATE_DISCONNECTED;
+	}
+}
 
 ///Récupération de la promo
-int RzxComputer::getPromo() const 
-{ return(options.Promo); }
+Rzx::Promal RzxComputer::promo() const 
+{ return (Rzx::Promal)m_options.Promo; }
 ///Récupération du texte décrivant la promo
-QString RzxComputer::getPromoText() const
-{ return tr(promalText[options.Promo]); }
+QString RzxComputer::promoText() const
+{ return promalText[m_options.Promo]; }
 
 ///Récupération de l'icône
-QPixmap RzxComputer::getIcon() const 
-{ return icon; }
-///Récupération du nom du fichier contenant l'icône
-QString RzxComputer::getFilename() const 
-{ return QString::number(stamp, 16) + ".png"; }
+QPixmap RzxComputer::icon() const 
+{ return m_icon; }
+///Récupération du stamp de l'icône
+quint32 RzxComputer::stamp() const
+{ return m_stamp; }
 
 ///Récupération des options (OS, Servers, Promo, Répondeur)
-RzxComputer::options_t RzxComputer::getOptions() const 
-{ return options; }
+RzxComputer::options_t RzxComputer::options() const 
+{ return m_options; }
+
+///Récupération de l'OS
+Rzx::SysEx RzxComputer::sysEx() const
+{ return (Rzx::SysEx)m_options.SysEx; }
+///Récupération du nom de l'OS
+QString RzxComputer::sysExText() const
+{	return tr(osText[sysEx()]); }
 
 ///Récupération de flags (euh ça sert à quoi ???)
-unsigned long RzxComputer::getFlags() const
-{ return flags; }
+unsigned long RzxComputer::flags() const
+{ return m_flags; }
 ///Récupération de la liste des servers présents sur la machine (ou demandés par l'utilisateur dans le cas de localhost)
-int RzxComputer::getServers() const
-{ return options.Server; }
+QFlags<RzxComputer::ServerFlags> RzxComputer::servers() const
+{ return toServerFlags(m_options.Server); }
 ///Récupération de la liste des serveurs présents (localhost)
-int RzxComputer::getServerFlags() const
-{ return ServerFlags; }
+QFlags<RzxComputer::ServerFlags> RzxComputer::serverFlags() const
+{ return m_serverFlags; }
+bool RzxComputer::hasSambaServer() const
+{ return (m_options.Server & SERVER_SAMBA); }
+///Indique si on a un serveur ftp
+bool RzxComputer::hasFtpServer() const
+{ return (m_options.Server & SERVER_FTP); }
+///Indique si on a un serveur http
+bool RzxComputer::hasHttpServer() const
+{ return (m_options.Server & SERVER_HTTP); }
+///Indique si on a un serveur news
+bool RzxComputer::hasNewsServer() const
+{ return (m_options.Server & SERVER_NEWS); }
 
 ///Teste de la présence d'une possibilité
 /** Retourne true si la machine possède la capacité demandée,
- * ou si elle ne supporte pas l'extension Capabilities du protocole xNet */
-bool RzxComputer::can(unsigned int cap)
+ * ou si elle ne supporte pas l'extension \a cap du protocole xNet */
+bool RzxComputer::can(Rzx::Capabilities cap) const
 {
-	if(cap == CAP_ON) return options.Capabilities & CAP_ON;
+	if(cap == Rzx::CAP_ON) return m_options.Capabilities & Rzx::CAP_ON;
 
-	if(!(options.Capabilities & CAP_ON)) return true;
-	else return (options.Capabilities & cap);
+	if(!(m_options.Capabilities & Rzx::CAP_ON)) return true;
+	else return (m_options.Capabilities & cap);
 }
 
 ///Récupération de la version du client
-RzxComputer::version_t RzxComputer::getVersion() const 
-{ return version; }
+RzxComputer::version_t RzxComputer::version() const
+{ return m_version; }
 
 ///Retourne le client utilisé avec la version
 /**Permet d'obtenir le nom et le numéro de version du client xNet utilisé*/
-QString RzxComputer::getClient() const
+QString RzxComputer::client() const
 {
-	QString client;
-	switch(version.Client)
+	QString clientName;
+	switch(m_version.Client)
 	{
-		case 1: client = "Rezix"; break;
-		case 2: client = "XNet"; break;
-		case 3: client = "MacXNet"; break;
-		case 4: client = "CPANet"; break;
-		case 5: client = "CocoaXNet"; break;
-		case 6: case 0x60: client = "qRezix"; break; //gère le cas de la version erronée
-		case 7: client = "mxNet"; break;
-		case 8: client = "Rezix.NET"; break;
-		default : client = tr("Unknown"); break;
+		case 1: clientName = "Rezix"; break;
+		case 2: clientName = "XNet"; break;
+		case 3: clientName = "MacXNet"; break;
+		case 4: clientName = "CPANet"; break;
+		case 5: clientName = "CocoaXNet"; break;
+		case 6: case 0x60: clientName = "qRezix"; break; //gère le cas de la version erronée
+		case 7: clientName = "mxNet"; break;
+		case 8: clientName = "Rezix.NET"; break;
+		default : clientName = tr("Unknown"); break;
 	}
-	client += QString(" %1.%2.%3").arg(version.MajorVersion).arg(version.MinorVersion).arg(version.FunnyVersion);
-	return client;
+	clientName += QString(" %1.%2.%3").arg(m_version.MajorVersion).arg(m_version.MinorVersion).arg(m_version.FunnyVersion);
+	return clientName;
 }
 
 ///Récupération de l'IP sous la forme d'un RzxHostAddress
-const RzxHostAddress &RzxComputer::getIP() const 
-{ return ip; }
+const RzxHostAddress &RzxComputer::ip() const
+{ return m_ip; }
+///Indique si on est sur la même passerelle que la personne de référence
+bool RzxComputer::isSameGateway(const RzxComputer& ref) const
+{ return rezalId() == ref.rezalId(); }
+///Fonction surchargée par confort d'utilisation
+/** Si \a computer est Null la comparaison est réalisée avec localhost */
+bool RzxComputer::isSameGateway(RzxComputer *computer) const
+{
+	if(!computer)
+		computer = localhost();
+	return isSameGateway(*computer);
+}
+///Indique si l'objet indiqué est localhost
+/** A priori le test sur le nom de machine est suffisant pour indentifier si un objet est le même que localhost */
+bool RzxComputer::isLocalhost() const
+{
+	return name() == localhost()->name();
+}
 
 ///Permet de retrouver le 'nom' du sous-réseau sur lequel se trouve la machine
 /** Permet de donner un nom au sous-réseau de la machine. A terme cette fonction lira les données à partir d'un fichier qui contiendra les correspondances */
-QString RzxComputer::getResal(bool shortname) const
+Rzx::RezalId RzxComputer::rezalId() const
 {
-	QString m_ip = ip.toString();
 	QRegExp mask("(\\d{1,3}\\.\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})");
-	
-	if(mask.search(m_ip) == -1) return tr("Unknown");
+
+	if(mask.indexIn(m_ip.toString()) == -1) return Rzx::RZL_WORLD;
 	
 	//Si l'ip n'est pas de l'X
-	if(mask.cap(1) != "129.104") return tr("World");
+	if(mask.cap(1) != "129.104") return Rzx::RZL_WORLD;
 	
 	int resal = mask.cap(2).toUInt();
 	int adr = mask.cap(3).toUInt();
 	//Kes et binet... avec un cas particulier pour le BR :))
 	if(resal == 201)
 	{
-		if(adr >= 50 && adr <= 62) return "BR";
-		return (shortname?"Binets":"Binets & Kès");
+		if(adr >= 50 && adr <= 62) return Rzx::RZL_BR;
+		return Rzx::RZL_BINETS;
 	}
 	
 	//Cas des bar d'étages
@@ -312,52 +486,256 @@ QString RzxComputer::getResal(bool shortname) const
 		int greaterMask = (resal<<1) + (adr>>7);
 		switch(greaterMask)
 		{
-			case (224<<1)+0: return "B71";
-			case (224<<1)+1: return "B70";
-			case (225<<1)+0: return "B73";
-			case (225<<1)+1: return "B74";
-			case (226<<1)+0: return "B75";
-			case (226<<1)+1: return "B80";
-			case (227<<1)+0: return "B76";
-			case (227<<1)+1: return "B77";
-			case (228<<1)+0: return "B78";
-			case (228<<1)+1: return "B72";
-			case (229<<1)+0: return "B79";
+			case (224<<1)+0: return Rzx::RZL_BAT71;
+			case (224<<1)+1: return Rzx::RZL_BAT70;
+			case (225<<1)+0: return Rzx::RZL_BAT73;
+			case (225<<1)+1: return Rzx::RZL_BAT74;
+			case (226<<1)+0: return Rzx::RZL_BAT75;
+			case (226<<1)+1: return Rzx::RZL_BAT80;
+			case (227<<1)+0: return Rzx::RZL_BAT76;
+			case (227<<1)+1: return Rzx::RZL_BAT77;
+			case (228<<1)+0: return Rzx::RZL_BAT78;
+			case (228<<1)+1: return Rzx::RZL_BAT72;
+			case (229<<1)+0: return Rzx::RZL_BAT79;
 		}
 	}
 
-	//Pour le wifi
-	if(resal == 230) return "Wifi";
-	
-	//Distribution (stribution) des bâtiments en fonction du sous-réseau
-	if(resal == 203 || resal == 204) return "BEM";
-	if(resal >= 205 && resal <= 208) return (shortname?"Foch.":"Foch ") + QString::number(resal - 205);
-	if(resal >= 209 && resal <= 212) return (shortname?"Fay.":"Fayolle ") + QString::number(resal - 209);
-	if(resal == 214) return "PEM";
-	if(resal >= 215 && resal <= 218) return (shortname?"Jof.":"Joffre ") + QString::number(resal - 215);
-	if(resal >= 219 && resal <= 222) return (shortname?"Mau.":"Maunoury ") + QString::number(resal - 219);
-	if(resal == 223) return (shortname?"B.411":"Bat. 411");
-	
-	//Si y'a rien, on sait au moins que c'est à l'X...
-	return "X";
-}
+	switch(resal)
+	{
+		//Pour le BEM
+		case 203: return Rzx::RZL_BEMA;
+		case 204: return Rzx::RZL_BEMD;
 
-/** No descriptions */
-void RzxComputer::loadIcon(){
-	QString file = getFilename();
-	if(!stamp || !icon.load(RzxConfig::computerIconsDir().absFilePath(file))) {
-		icon = *(RzxConfig::osIcons(true)[(int)options.SysEx]);
-		if(stamp) emit needIcon(getIP());
+		//Pour le PEM & BAT411
+		case 214: return Rzx::RZL_PEM;
+		case 223: return Rzx::RZL_BAT411;
+
+		//Pour Foch, Fayolle, Joffre et Maunoury
+		case 205: return Rzx::RZL_FOCH0;
+		case 206: return Rzx::RZL_FOCH1;
+		case 207: return Rzx::RZL_FOCH2;
+		case 208: return Rzx::RZL_FOCH3;
+		case 209: return Rzx::RZL_FAYOLLE0;
+		case 210: return Rzx::RZL_FAYOLLE1;
+		case 211: return Rzx::RZL_FAYOLLE2;
+		case 212: return Rzx::RZL_FAYOLLE3;
+		case 215: return Rzx::RZL_JOFFRE0;
+		case 216: return Rzx::RZL_JOFFRE1;
+		case 217: return Rzx::RZL_JOFFRE2;
+		case 218: return Rzx::RZL_JOFFRE3;
+		case 219: return Rzx::RZL_MAUNOURY0;
+		case 220: return Rzx::RZL_MAUNOURY1;
+		case 221: return Rzx::RZL_MAUNOURY2;
+		case 222: return Rzx::RZL_MAUNOURY3;
+
+		//Pour le wifi
+		case 230: return Rzx::RZL_WIFI;
+
+		//Si y'a rien, on sait au moins que c'est à l'X...
+		default: return Rzx::RZL_X;
 	}
 }
 
+/** No descriptions */
+void RzxComputer::loadIcon()
+{
+	QPixmap temp = RzxIconCollection::global()->hashedIcon(m_stamp);
+	if(temp.isNull())
+	{
+		if(m_stamp)
+			emit needIcon(ip());
+		setIcon(RzxIconCollection::global()->osPixmap(sysEx(), true));
+	}
+	else
+		setIcon(temp);
+}
+
+///Génère un tooltip formaté correspondant à l'objet
+/** Le tooltip généré selon les préférences exprimées par l'utilisateur, avec les informations qui constitue le RzxComputer :
+ * 	- NOM
+ * 	- Informations :
+ * 		- serveurs
+ * 		- promo
+ * 		- ip/rezal
+ * 		- client/modules
+ * 	- Propriétés (dernière propriétés en cache pour ce client)
+ */
+QString RzxComputer::tooltipText() const
+{
+	int tooltipFlags = RzxConfig::tooltip();
+	if(!(tooltipFlags & (int)RzxConfig::Enable) || tooltipFlags==(int)RzxConfig::Enable) return "";
+	
+	QString tooltip = "<b>"+ name() + " </b>";
+	if(tooltipFlags & (int)RzxConfig::Promo)
+		tooltip += "<i>(" + promoText() + ")</i>";
+	tooltip += "<br/><br/>";
+ 	tooltip += "<b><i>" + tr("Informations :") + "</b></i><br/>";
+	
+	if(hasFtpServer() && (tooltipFlags & (int)RzxConfig::Ftp))
+		tooltip += "<b>-></b>&nbsp;" + tr("ftp server : ") + tr("<b>on</b>") + "<br/>";
+	if(hasHttpServer() && (tooltipFlags & (int)RzxConfig::Http))
+		tooltip += "<b>-></b>&nbsp;" + tr("web server : ") + tr("<b>on</b>") + "<br/>";
+	if(hasNewsServer() && (tooltipFlags & (int)RzxConfig::News))
+		tooltip += "<b>-></b>&nbsp;" + tr("news server : ") + tr("<b>on</b>") + "<br/>";
+	if(hasSambaServer() && (tooltipFlags & (int)RzxConfig::Samba))
+		tooltip += "<b>-></b>&nbsp;" + tr("samba server : ") + tr("<b>on</b>") + "<br/>";
+	if(tooltipFlags & (int)RzxConfig::OS)
+		tooltip += "<b>-></b>&nbsp;os : " + sysExText() + "<br/>";
+	if(tooltipFlags & (int)RzxConfig::Client)
+		tooltip += "<b>-></b>&nbsp;" + client() + "<br/>";
+	if(tooltipFlags & (int)RzxConfig::Features)
+	{
+		if(can(Rzx::CAP_ON))
+		{
+			int nb = 0;
+			tooltip += "<b>-></b>&nbsp;" + tr("features : ");
+			if(can(Rzx::CAP_CHAT))
+			{
+				tooltip += tr("chat");
+				nb++;
+			}
+			if(can(Rzx::CAP_XPLO))
+			{
+				tooltip += QString(nb?", ":"") + "Xplo";
+				nb++;
+			}
+			if(!nb) tooltip += tr("none");
+			tooltip += "<br/>";
+		}
+	}
+	if(tooltipFlags & (int)RzxConfig::IP)
+		tooltip += "<b>-></b>&nbsp;ip : <i>" + ip().toString() + "</i><br/>";
+	if(tooltipFlags & (int)RzxConfig::Resal)
+		tooltip += "<b>-></b>&nbsp;" + tr("place : ") + rezal(false) + "<br/>";
+	
+	if(tooltipFlags & (int)RzxConfig::Properties)
+	{
+		tooltip += "<br/>";
+		QString msg = RzxConfig::cache(ip());
+		if(msg.isNull())
+		{
+			tooltip += "<i>" + tr("No properties in cache") + "</i>";
+		}
+		else
+		{
+			QString date = RzxConfig::getCacheDate(ip());
+			tooltip += "<b><i>" + tr("Properties checked on ")  + date + " :</i></b><br/>";
+			QStringList list = msg.split("|");
+			for(int i = 0 ; i < list.size() - 1 ; i+=2)
+				tooltip += "<b>-></b>&nbsp;" + list[i] + " : " + list[i+1] + "<br/>";
+		}
+	}
+
+	return tooltip;
+}
+
+/*********** Lancement des clients sur la machine ************/
+///Lance un client ftp sur l'ordinateur indiqué
+/** On lance le client sur le ftp de l'ordinateur indiqué en s'arrangeant pour parcourir
+ * le répertoire \a path qui est indiqué
+ */
+void RzxComputer::ftp(const QString& path) const
+{
+	RzxUtilsLauncher::ftp(ip(), path);
+}
+
+///Lance un client http sur l'ordinateur indiqué
+/** On lance le client sur le http de l'ordinateur indiqué en s'arrangeant pour parcourir
+ * le répertoire \a path qui est indiqué
+ */
+void RzxComputer::http(const QString& path) const
+{
+	RzxUtilsLauncher::http(ip(), path);
+}
+
+///Lance un client samba sur l'ordinateur indiqué
+/** On lance le client sur le samba de l'ordinateur indiqué en s'arrangeant pour parcourir
+ * le répertoire \a path qui est indiqué
+ */
+void RzxComputer::samba(const QString& path) const
+{
+	RzxUtilsLauncher::samba(ip(), path);
+}
+
+///Lance un client news sur l'ordinateur indiqué
+/** On lance le client sur le serveur news de l'ordinateur indiqué en s'arrangeant pour parcourir
+ * le newsgroup \a path qui est indiqué
+ */
+void RzxComputer::news(const QString& path) const
+{
+	RzxUtilsLauncher::news(ip(), path);
+}
+
+/********** Modification de l'état de préférence *************/
+///Ban l'ordinateur
+void RzxComputer::ban()
+{
+	RzxConfig::global()->addToBanlist(*this);
+	emit update(this);
+}
+
+///Unban l'ordinateur
+void RzxComputer::unban()
+{
+	RzxConfig::global()->delFromBanlist(*this);
+	emit update(this);
+}
+
+///Ajout au favoris
+void RzxComputer::addToFavorites()
+{
+	RzxConfig::global()->addToFavorites(*this);
+	emit update(this);
+}
+
+///Supprime des favoris
+void RzxComputer::removeFromFavorites()
+{
+	RzxConfig::global()->delFromFavorites(*this);
+	emit update(this);
+}
+
+/******** Indique que l'état du favoris a changé *************/
+///Indique que le favoris a changé d'état
+/** L'état est :
+ * 	- Connecté
+ * 	- Absent
+ * 	- Présent
+ * 	- Déconnecté
+ *
+ * et ceci n'est émis que dans le cas où l'objet est un favoris != localhost
+ */
+void RzxComputer::emitStateChanged()
+{
+	if(isFavorite() && !isLocalhost())
+		emit stateChanged(this);
+}
+
+/*********** Lancement des données liées au chat *************/
+///Affichage de l'historique des communications
+void RzxComputer::historique() const
+{
+	RzxChatSocket::showHistorique(ip(), name());
+}
+
+///Check des propriétés
+void RzxComputer::proprietes() const
+{
+	RzxConnectionLister::global()->proprietes(ip());
+}
+
+///Lance un chat avec la machine correspondante
+void RzxComputer::chat() const
+{
+	RzxConnectionLister::global()->createChat(ip());
+}
 
 /****************** Analyse de la machine ********************/
 ///Scan des servers ouverts
 /** Rerchercher parmi les protocoles affichés par qRezix lesquels sont présents sur la machine */
 void RzxComputer::scanServers()
 {
-	int servers = 0;
+	QFlags<ServerFlags> newServers;
 #ifdef WIN32
     //Bon, c pas beau, mais si j'essaye de travailler sur le meme socket pour tous les test
 	//j'arrive toujours à de faux résultats... c ptet un bug de windows (pour changer)
@@ -365,23 +743,23 @@ void RzxComputer::scanServers()
 
 	//scan du ftp
 	if(!detecter.listen(ip, 21))
-		servers |= RzxComputer::SERVER_FTP;
+		newServers |= SERVER_FTP;
 
 	//scan du http
 	if(!detecter.listen(ip, 80))
-		servers |= RzxComputer::SERVER_HTTP;
+		newServers |= SERVER_HTTP;
 
 	//scan du nntp
 	if(!detecter.listen(ip, 119))
-		servers |= RzxComputer::SERVER_NEWS;
+		newServers |= SERVER_NEWS;
 
 	//scan du samba
 	if(!detecter.listen(ip, 445))
-		servers |= RzxComputer::SERVER_SAMBA;
+		newServers |= SERVER_SAMBA;
 #else
 	QProcess netstat;
 	QStringList res;
-     
+
 	#if defined(Q_OS_MAC) || defined(Q_OS_BSD)
         res << "-anf" << "inet";
 	#else
@@ -395,45 +773,48 @@ void RzxComputer::scanServers()
 	netstat.start("netstat", res);
 	if(netstat.waitForFinished(1000))
 	{
-		res = QStringList::split('\n', netstat.readAllStandardOutput());
-    	#if defined(Q_OS_MAC) || defined(Q_OS_BSD)
+		res = QString(netstat.readAllStandardOutput()).split('\n');
+	#if defined(Q_OS_MAC) || defined(Q_OS_BSD)
 			res = res.grep("LISTEN");
-			if(!(res.grep(QRegExp("\\.21\\s")).isEmpty())) servers |= RzxComputer::SERVER_FTP;
-			if(!(res.grep(QRegExp("\\.80\\s")).isEmpty())) servers |= RzxComputer::SERVER_HTTP;
-			if(!(res.grep(QRegExp("\\.119\\s")).isEmpty())) servers |= RzxComputer::SERVER_NEWS;
-			if(!(res.grep(QRegExp("\\.445\\s")).isEmpty())) servers |= RzxComputer::SERVER_SAMBA;
-		#else
+			if(!(res.filter(QRegExp("\\.21\\s")).isEmpty())) newServers |= SERVER_FTP;
+			if(!(res.filter(QRegExp("\\.80\\s")).isEmpty())) newServers |= SERVER_HTTP;
+			if(!(res.filter(QRegExp("\\.119\\s")).isEmpty())) newServers |= SERVER_NEWS;
+			if(!(res.filter(QRegExp("\\.445\\s")).isEmpty())) newServers |= SERVER_SAMBA;
+	#else
 			//lecture des différents port pour voir s'il sont listen
-			if(!(res.grep(":21 ")).isEmpty()) servers |= RzxComputer::SERVER_FTP;
-			if(!(res.grep(":80 ")).isEmpty()) servers |= RzxComputer::SERVER_HTTP;
-			if(!(res.grep(":119 ")).isEmpty()) servers |= RzxComputer::SERVER_NEWS;
-			if(!(res.grep(":445 ")).isEmpty()) servers |= RzxComputer::SERVER_SAMBA;
-		#endif
+			if(!(res.filter(":21 ")).isEmpty()) newServers |= SERVER_FTP;
+			if(!(res.filter(":80 ")).isEmpty()) newServers |= SERVER_HTTP;
+			if(!(res.filter(":119 ")).isEmpty()) newServers |= SERVER_NEWS;
+			if(!(res.filter(":445 ")).isEmpty()) newServers |= SERVER_SAMBA;
+	#endif
 	}
 
 	//au cas où netstat fail ou qu'il ne soit pas installé
 	else
 	{
-        qDebug("Netstat didn't succeed : " + netstat.errorString());
-		servers = RzxComputer::SERVER_FTP | RzxComputer::SERVER_HTTP | RzxComputer::SERVER_NEWS | RzxComputer::SERVER_SAMBA;
-    }
+		qDebug("Netstat didn't succeed : %s", netstat.errorString().toAscii().constData());
+		newServers |= SERVER_FTP;
+		newServers |= SERVER_HTTP;
+		newServers |= SERVER_NEWS;
+		newServers |= SERVER_SAMBA;
+	}
 
 #endif //WIN32
-	int oldServers = getServers();
+	const QFlags<ServerFlags> oldServers = servers();
 	
-	if(servers != getServers())
+	if(newServers != servers())
 	{
-		setServers(servers);
+		setServers(newServers);
 		RzxProperty::serverUpdate();
 	}
 
-	if((servers & RzxComputer::SERVER_FTP) ^ (oldServers & RzxComputer::SERVER_FTP))
+	if((newServers & SERVER_FTP) ^ (oldServers & SERVER_FTP))
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_SERVERFTP, NULL);
-	if((servers & RzxComputer::SERVER_HTTP) ^ (oldServers & RzxComputer::SERVER_HTTP))
+	if((newServers & SERVER_HTTP) ^ (oldServers & SERVER_HTTP))
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_SERVERHTTP, NULL);
-	if((servers & RzxComputer::SERVER_NEWS) ^ (oldServers & RzxComputer::SERVER_NEWS))
+	if((newServers & SERVER_NEWS) ^ (oldServers & SERVER_NEWS))
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_SERVERNEWS, NULL);
-	if((servers & RzxComputer::SERVER_SAMBA) ^ (oldServers & RzxComputer::SERVER_SAMBA))
+	if((newServers & SERVER_SAMBA) ^ (oldServers & SERVER_SAMBA))
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_SERVERSMB, NULL);
 
 	delayScan->start(30000); //bon, le choix de 30s, c vraiment aléatoire

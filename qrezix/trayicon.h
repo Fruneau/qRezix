@@ -29,6 +29,8 @@
 #include <QMouseEvent>
 #include <QEvent>
 
+///Gestion de l'icône système (systray, 'tableau de bord'...)
+/** Cette classe fournit une gestion avec tooltip et actions selon les clics */
 class TrayIcon : public QObject
 {
 	Q_OBJECT

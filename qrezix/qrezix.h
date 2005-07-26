@@ -108,10 +108,9 @@ protected slots: // Protected slots
 	void socketClosed();
 	void toggleVisible();
 	virtual void languageChange();
-	void pluginsMenu(bool show = false);
+	void pluginsMenu();
 	void switchTab();
 	void warnForFavorite(RzxComputer *computer);
-	void warnForDeparture(RzxComputer *computer);
 	void newFavorite();
 };
 

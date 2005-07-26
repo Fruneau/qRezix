@@ -39,9 +39,11 @@
 
 #include "qrezix.h"
 
+#include "rzxglobal.h"
+
 #include "rzxquit.h"
 #include "rzxconfig.h"
-#include "rzxrezal.h"
+#include "rzxiconcollection.h"
 #include "rzxproperty.h"
 #include "rzxpluginloader.h"
 #include "rzxutilslauncher.h"
@@ -50,22 +52,20 @@
 #include "rzxtraywindow.h"
 #include "rzxcomputer.h"
 #include "trayicon.h"
-
-#include "defaults.h"
+#include "rzxrezalmodel.h"
+#include "rzxrezalview.h"
 
 #include QREZIX_ICON
 #include QREZIX_AWAY_ICON
 
-QRezix *QRezix::object = 0;
+QRezix *QRezix::object = NULL;
 
 QRezix::QRezix(QWidget *parent)
  : QMainWindow(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint),
 	m_properties(0), accel(0), tray(0)
 {
 	hereIcon = QPixmap(q);
-	hereIcon.setMask(hereIcon.createHeuristicMask());
 	awayIcon = QPixmap(t);
-	awayIcon.setMask(awayIcon.createHeuristicMask());
 	
 	object = this;
 	setupUi(this);
@@ -75,9 +75,8 @@ QRezix::QRezix(QWidget *parent)
 	wellInit = false;
 	alreadyOpened=false;
 
-	
 	///Chargement de la config
-	RzxConfig::globalConfig();
+	RzxConfig::global();
 	///Chargement des plug-ins
 	RzxPlugInLoader::global();
 	buildActions();
@@ -85,7 +84,6 @@ QRezix::QRezix(QWidget *parent)
 #ifdef Q_OS_MAC
 	QMenuBar *menu = new QMenuBar();
 	QMenu *popup = menu->addMenu("Tools");
-//	popup->addAction(prefAction); //Problème de traduction
 	popup->addAction("Preferences", this, SLOT(boitePreferences()));
 #endif
 
@@ -94,8 +92,8 @@ QRezix::QRezix(QWidget *parent)
 	leSearch->setMinimumSize(50, 22);
 	leSearch->setMaximumSize(150, 22);
 	connect(leSearch, SIGNAL(returnPressed()), this, SLOT(launchSearch()));
-	connect(leSearch, SIGNAL(textChanged(const QString&)), rezal, SLOT(setFilter(const QString&)));
-	connect(leSearch, SIGNAL(textChanged(const QString&)), rezalFavorites, SLOT(setFilter(const QString&)));
+//	connect(leSearch, SIGNAL(textChanged(const QString&)), rezal, SLOT(setFilter(const QString&)));
+//	connect(leSearch, SIGNAL(textChanged(const QString&)), rezalFavorites, SLOT(setFilter(const QString&)));
 	
 	//Construction des barres d'outils
 	QToolBar *bar = addToolBar("Main");
@@ -113,38 +111,26 @@ QRezix::QRezix(QWidget *parent)
 	bar->addAction(prefAction);
 	bar->setMovable(false);
 	
-	rezal->showNotFavorites(true);
-	rezalFavorites->showNotFavorites(false);
-	
- 
+	rezal->setRootIndex(RzxRezalModel::global()->everybodyGroup);
+	rezalFavorites->setRootIndex(RzxRezalModel::global()->favoriteIndex);
+
+	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTheme()));
 	connect(RzxClientListener::global(), SIGNAL(chatSent()), this, SLOT(chatSent()));
 	
 	// Préparation de l'insterface
 	activateAutoResponder( RzxConfig::autoResponder() != 0 );
 
-	connect(rezal, SIGNAL(favoriteAdded(RzxComputer*)), this, SLOT(newFavorite()));
-	connect(rezalFavorites, SIGNAL(favoriteRemoved(RzxComputer*)), this, SLOT(newFavorite()));
-	connect(rezal, SIGNAL(favoriteRemoved(RzxComputer*)), this, SLOT(newFavorite()));
 	
-	connect(rezal, SIGNAL(favoriteRemoved(RzxComputer*)), rezalFavorites, SLOT(logout(RzxComputer*)));
-	connect(rezalFavorites, SIGNAL(favoriteRemoved(RzxComputer*)), rezalFavorites, SLOT(logout(RzxComputer*)));
-	connect(rezal, SIGNAL(favoriteAdded(RzxComputer*)), rezalFavorites, SLOT(bufferedLogin(RzxComputer*)));
-	
-	connect(rezal, SIGNAL(set_search(const QString&)), leSearch, SLOT(setText(const QString &)));
-	connect(rezalFavorites, SIGNAL(set_search(const QString&)), leSearch, SLOT(setText(const QString &)));
-	
+	connect(rezal, SIGNAL(searchPatternChanged(const QString&)), leSearch, SLOT(setText(const QString &)));
+	connect(rezalFavorites, SIGNAL(searchPatternChanged(const QString&)), leSearch, SLOT(setText(const QString &)));
+
 	RzxConnectionLister *lister = RzxConnectionLister::global();
 	connect(lister, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
 	connect(lister, SIGNAL(countChange(const QString&)), lblCount, SLOT(setText(const QString&)));
 	connect(lister, SIGNAL(countChange(const QString&)), this, SIGNAL(setToolTip(const QString&)));
 	
-	/* Gestion des favoris */
-	connect(rezalFavorites, SIGNAL(newFavorite(RzxComputer*)), this, SLOT(warnForFavorite(RzxComputer*)));
-	connect(rezalFavorites, SIGNAL(lostFavorite(RzxComputer*)), this, SLOT(warnForDeparture(RzxComputer*)));
-	connect(rezalFavorites, SIGNAL(changeFavorite(RzxComputer*)), this, SLOT(warnForFavorite(RzxComputer*)));
-
 	m_properties = new RzxProperty(this);
-	if(!RzxConfig::globalConfig()->find() || !m_properties->infoCompleted())
+	if(!RzxConfig::global()->find() || !m_properties->infoCompleted())
 	{
 		m_properties->initDlg();
 		m_properties -> exec();
@@ -154,20 +140,15 @@ QRezix::QRezix(QWidget *parent)
 	qDebug("=== qRezix Running ===");
 	lister->initConnection();
 
-	connect(rezal, SIGNAL(selectionChanged(Q3ListViewItem*)), RzxPlugInLoader::global(), SLOT(itemChanged(Q3ListViewItem*)));
-	connect(RzxConfig::globalConfig(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
+	connect(RzxConfig::global(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
 
 	tbRezalContainer->setCurrentIndex(RzxConfig::defaultTab());
-	showSearch(RzxConfig::globalConfig()->useSearch());
+	showSearch(RzxConfig::global()->useSearch());
 	
 	//Raccourcis claviers particuliers
 	accel = new QShortcut(Qt::Key_Tab + Qt::SHIFT, this, SLOT(switchTab()));
 	menuFormatChange();
 
-#ifdef Q_OS_MAC
-	rezal->afficheColonnes();
-	rezalFavorites->afficheColonnes();
-#endif
 	wellInit = TRUE;
 }
 
@@ -176,9 +157,11 @@ QRezix::QRezix(QWidget *parent)
 void QRezix::buildActions()
 {
 	pluginsAction = new QAction(tr("Plug-ins"), this);
-	pluginsAction->setCheckable(true);
-	connect(pluginsAction, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
-	connect(&menuPlugins, SIGNAL(aboutToHide()), pluginsAction, SLOT(toggle()));
+	//pluginsAction->setCheckable(true);
+	pluginsMenu();
+	pluginsAction->setMenu(&menuPlugins);
+//	connect(pluginsAction, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
+//	connect(&menuPlugins, SIGNAL(aboutToHide()), pluginsAction, SLOT(toggle()));
 
 	prefAction = new QAction(tr("Preferences"), this);
 	connect(prefAction, SIGNAL(triggered()), this, SLOT(boitePreferences()));
@@ -189,8 +172,8 @@ void QRezix::buildActions()
 	
 	searchAction = new QAction(tr("Search"), this);
 	searchAction->setCheckable(true);
-	connect(searchAction, SIGNAL(toggled(bool)), rezal, SLOT(activeFilter(bool)));
-	connect(searchAction, SIGNAL(toggled(bool)), rezalFavorites, SLOT(activeFilter(bool)));
+/*	connect(searchAction, SIGNAL(toggled(bool)), rezal, SLOT(activeFilter(bool)));
+	connect(searchAction, SIGNAL(toggled(bool)), rezalFavorites, SLOT(activeFilter(bool)));*/
 
 	awayAction = new QAction(tr("Away"), this);
 	awayAction->setCheckable(true);	
@@ -205,25 +188,25 @@ void QRezix::launchPlugins()
 void QRezix::languageChanged(){
 	qDebug("Language changed");
 	languageChange();
-	rezal->languageChanged();
-	rezalFavorites->languageChanged();
+/*	rezal->languageChanged();
+	rezalFavorites->languageChanged();*/
 }
 
 QRezix::~QRezix() {
-	delete RzxUtilsLauncher::global();
 	qDebug("Bye Bye\n");
 }
 
-void QRezix::status(const QString& msg, bool fatal){
+void QRezix::status(const QString& msg, bool fatal)
+{
 	lblStatus -> setText(msg);
 	statusFlag = !fatal;
 
 	if(statusFlag)
-		lblStatusIcon->setPixmap(RzxConfig::themedIcon("on"));
+		lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_ON));
 	else
-		lblStatusIcon->setPixmap(RzxConfig::themedIcon("off"));
+		lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_OFF));
 		
-	qDebug("Connection status : " + QString(fatal?"disconnected ":"connected ") + "(" + msg + ")");
+	qDebug(("Connection status : " + QString(fatal?"disconnected ":"connected ") + "(" + msg + ")").toAscii().constData());
 }
 
 void QRezix::closeByTray()
@@ -253,9 +236,9 @@ void QRezix::saveSettings()
 	qDebug("Fermeture des plugins");
 	delete RzxPlugInLoader::global();
 	qDebug("Fermeture de l'enregistrement des configurations");
-	RzxConfig::globalConfig()->writeWindowSize(windowSize);
-	RzxConfig::globalConfig()->writeWindowPosition(pos());
-	RzxConfig::globalConfig() -> closeSettings();
+	RzxConfig::global()->writeWindowSize(windowSize);
+	RzxConfig::global()->writeWindowPosition(pos());
+	RzxConfig::global() -> closeSettings();
 	qDebug("Fermeture des fenêtres de chat");
 	RzxConnectionLister::global() ->closeChats();
 	qDebug("Fermeture de l'écoute réseau");
@@ -292,7 +275,7 @@ void QRezix::saveSettings()
 void QRezix::closeEvent(QCloseEvent * e){
 	//pour éviter de fermer rezix par mégarde, on affiche un boite de dialogue laissant le choix
 	//de fermer qrezix, de minimiser la fenêtre principale --> trayicon, ou d'annuler l'action
-	if(!byTray && isShown() && !isMinimized())
+	if(!byTray && !isHidden() && !isMinimized())
 	{
 		int i;
 		if(RzxConfig::showQuit())
@@ -327,7 +310,7 @@ void QRezix::closeEvent(QCloseEvent * e){
 bool QRezix::event(QEvent * e){
 	if(e->type()==QEvent::WindowDeactivate)
 	{
-		if(isMinimized() && RzxConfig::globalConfig()->useSystray())
+		if(isMinimized() && RzxConfig::global()->useSystray())
 			hide();
 		return true;
 	}
@@ -383,7 +366,7 @@ void QRezix::activateAutoResponder( bool state )
 		return;
 	}
 	if (state == (RzxConfig::autoResponder() != 0)) return;
-	RzxConfig::setAutoResponder( state );
+	RzxConfig::setAutoResponder(state);
 	RzxProperty::serverUpdate();
 	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_AWAY, NULL);
 	changeTrayIcon();
@@ -406,14 +389,13 @@ void QRezix::changeTrayIcon(){
 	QPixmap trayIcon;
 	if(!RzxConfig::autoResponder())
 	{
-		trayIcon = RzxConfig::themedIcon("systray");
+		trayIcon = RzxIconCollection::getPixmap(Rzx::ICON_SYSTRAYHERE);
 		if(trayIcon.isNull())
 			trayIcon = qRezixIcon();
-
 	}
 	else
 	{
-		trayIcon = RzxConfig::themedIcon("systrayAway");
+		trayIcon = RzxIconCollection::getPixmap(Rzx::ICON_SYSTRAYAWAY);
 		if(trayIcon.isNull())
 			trayIcon = qRezixAwayIcon();
 	}
@@ -439,7 +421,7 @@ void QRezix::toggleVisible(){
 			statusMax = saveStatusMax;
 		}
 		show();
-		setActiveWindow();
+		activateWindow();
 		raise();
 		alreadyOpened=true;
 		rezal->afficheColonnes();
@@ -457,7 +439,7 @@ void QRezix::showSearch(bool state)
 void QRezix::languageChange()
 {
 	QWidget::languageChange();
-	setWindowTitle(windowTitle() + " v" + RZX_VERSION);
+	setWindowTitle("qRezix v" + RZX_VERSION);
 
 	//Parce que Qt oublie de traduire les deux noms
 	//Alors faut le faire à la main, mais franchement, c du foutage de gueule
@@ -482,20 +464,20 @@ void QRezix::warnForFavorite(RzxComputer *computer)
 {
 	//ne garde que les favoris avec en plus comme condition que ce ne soit pas les gens présents à la connexion
 	//evite de notifier la présence de favoris si en fait c'est nous qui arrivons.
-	if(!RzxConnectionLister::global()->isInitialized() || !favoriteWarn || computer->getName() == RzxConfig::localHost()->getName())
+	if(!RzxConnectionLister::global()->isInitialized() || !favoriteWarn)
 	{
 		favoriteWarn = true;
 		return;
 	}
-		
+	
 	//Bah, beep à la connexion
-	if(RzxConfig::beepConnection() && computer->getRepondeur()) {
-
+	if(RzxConfig::beepConnection() && computer->state() == Rzx::STATE_HERE)
+	{
 #if defined (WIN32) || defined (Q_OS_MAC)
 		QString file = RzxConfig::connectionSound();
 		if( !file.isEmpty() && QFile(file).exists() )
 			QSound::play( file );
-        	else
+		else
 			QApplication::beep();
 #else
 		QString cmd = RzxConfig::beepCmd(), file = RzxConfig::connectionSound();
@@ -511,15 +493,6 @@ void QRezix::warnForFavorite(RzxComputer *computer)
 		new RzxTrayWindow(computer);
 }
 
-/// Pour la notification de la déconnexion d'un favoris
-void QRezix::warnForDeparture(RzxComputer *computer)
-{
-	//Affichage de la fenêtre de notification de déconnexion
-	if(RzxConfig::showConnection() && favoriteWarn)
-		new RzxTrayWindow(computer, false);
-	favoriteWarn = true;
-}
-
 /// Pour se souvenir que la prochaine connexion sera celle d'un nouveau favoris
 /** Permet d'éviter la notification d'arrivée d'un favoris, lorsqu'une personne change uniquement de statut non-favoris -> favoris */
 void QRezix::newFavorite()
@@ -531,35 +504,19 @@ void QRezix::newFavorite()
 /** Cette méthode met à jour les icônes de l'interface principale (menu), mais aussi celles des listes de connectés */
 void QRezix::changeTheme()
 {
-	qDebug("Theme changed");
-	rezal -> redrawAllIcons();
-	rezalFavorites -> redrawAllIcons();
-	QIcon pi, away, columns, prefs,favorite,not_favorite, search;
-	int icons = RzxConfig::menuIconSize();
-	int texts = RzxConfig::menuTextPosition();
-	if(icons || !texts)
-	{
-		pi.addPixmap(RzxConfig::themedIcon("plugin"));
-		away.addPixmap(RzxConfig::themedIcon("away"), QIcon::Normal, QIcon::Off);
-		away.addPixmap(RzxConfig::themedIcon("here"), QIcon::Normal, QIcon::On);
-		columns.addPixmap(RzxConfig::themedIcon("column"));
-		prefs.addPixmap(RzxConfig::themedIcon("pref"));
-		favorite.addPixmap(RzxConfig::themedIcon("favorite"));
-		not_favorite.addPixmap(RzxConfig::themedIcon("not_favorite"));
-		search.addPixmap(RzxConfig::themedIcon("search"));
-	}
-	pluginsAction->setIcon(pi);
-	awayAction->setIcon(away);
-	columnsAction->setIcon(columns);
-	prefAction->setIcon(prefs);
-	searchAction->setIcon(search);
-	lblCountIcon->setPixmap(RzxConfig::themedIcon("not_favorite").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-	tbRezalContainer->setItemIcon(1,not_favorite);
-	tbRezalContainer->setItemIcon(0,favorite);
+	pluginsAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PLUGIN));
+	awayAction->setIcon(RzxIconCollection::getResponderIcon());
+	columnsAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_COLUMN));
+	prefAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
+	searchAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_SEARCH));
+	lblCountIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_NOTFAVORITE)
+		.scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+	tbRezalContainer->setItemIcon(1,RzxIconCollection::getPixmap(Rzx::ICON_NOTFAVORITE));
+	tbRezalContainer->setItemIcon(0,RzxIconCollection::getPixmap(Rzx::ICON_FAVORITE));
 	if(statusFlag)
-		lblStatusIcon->setPixmap(RzxConfig::themedIcon("on"));
+		lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_ON));
 	else
-		lblStatusIcon->setPixmap(RzxConfig::themedIcon("off"));
+		lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_OFF));
 	if(wellInit) changeTrayIcon();
 }
 
@@ -589,8 +546,8 @@ void QRezix::menuFormatChange()
 			{
 				QIcon empty;
 				QPixmap emptyIcon;
-				tbRezalContainer->setItemIconSet(0,empty);
-				tbRezalContainer->setItemIconSet(1,empty);
+				tbRezalContainer->setItemIcon(0,empty);
+				tbRezalContainer->setItemIcon(1,empty);
 				lblStatusIcon->hide();
 				lblCountIcon->hide();
 			}
@@ -623,14 +580,11 @@ void QRezix::menuFormatChange()
 
 /// Affichage du menu plug-ins lors d'un clic sur le bouton
 /** Les actions sont gérées directement par le plug-in s'il a bien été programmé */
-void QRezix::pluginsMenu(bool show)
+void QRezix::pluginsMenu()
 {
-	if(!show)
-		return;
-	
 	menuPlugins.clear();
 	RzxPlugInLoader::global()->menuAction(menuPlugins);
-	if(!menuPlugins.count())
+	if(!menuPlugins.actions().count())
 		menuPlugins.addAction("<none>");
-//	menuPlugins.popup();//btnPlugins->mapToGlobal(btnPlugins->rect().topRight()));
+//	menuPlugins.popup(btnPlugins->mapToGlobal(btnPlugins->rect().topRight()));
 }
