@@ -16,8 +16,8 @@
  ***************************************************************************/
 
 #include <QStringList>
-#include <Q3ListView>
-#include <Q3ListViewItem>
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
 #include <QLibrary>
 #include <QToolButton>
 #include <QVariant>
@@ -26,18 +26,19 @@
 #include <QIcon>
 #include <QTextEdit>
 
-#include "RzxPlugInloader.h"
+#include "rzxpluginloader.h"
+
+#include "rzxglobal.h"
 
 #include "qrezix.h"
-#include "rzxrezal.h"
-#include "rzxcomputer.h"
 #include "rzxconfig.h"
-#include "rzxserverlistener.h"
-#include "rzxhostaddress.h"
-#include "rzxhostaddress.h"
+#include "rzxcomputer.h"
 #include "rzxmessagebox.h"
+#include "rzxhostaddress.h"
 #include "rzxutilslauncher.h"
+#include "rzxserverlistener.h"
 #include "rzxconnectionlister.h"
+#include "rzxiconcollection.h"
 
 ///L'object global... normalement seul objet de cette classe lors de l'exécution
 RzxPlugInLoader *RzxPlugInLoader::object = NULL;
@@ -46,20 +47,20 @@ RzxPlugInLoader *RzxPlugInLoader::object = NULL;
 /** La construction du programme se fait simplement par recherche et chargement des plugins existant. Le chargement et le lancement de l'exécution des plug-ins se fait de manière distincte. On peut donc envisager la désactivation des plugs-ins par le programme principale */
 RzxPlugInLoader::RzxPlugInLoader() : QObject()
 {
-	qDebug("=== Loading plugins ===");
+	Rzx::beginModuleLoading("Plugins");
 	pluginFlags = 0;
 	initialized = false;
 	
 	//on charge les plug-ins dans les rep /usr/share/qrezix/plugins
-	loadPlugIn(RzxConfig::globalConfig()->systemDir());
+	loadPlugIn(RzxConfig::global()->systemDir());
 
 	//et $HOME/.rezix/plugins
-	if (RzxConfig::globalConfig()->userDir() != RzxConfig::globalConfig()->systemDir())
-		loadPlugIn(RzxConfig::globalConfig()->userDir());
-	if (RzxConfig::globalConfig()->libDir() != RzxConfig::globalConfig()->systemDir())
-		loadPlugIn(RzxConfig::globalConfig()->libDir());
+	if (RzxConfig::global()->userDir() != RzxConfig::global()->systemDir())
+		loadPlugIn(RzxConfig::global()->userDir());
+	if (RzxConfig::global()->libDir() != RzxConfig::global()->systemDir())
+		loadPlugIn(RzxConfig::global()->libDir());
 
-	qDebug("=== Plugins loaded ===\n");
+	Rzx::endModuleLoading("Plugins");
 }
 
 /// Recherche des plugins et chargement dans un répertoire
@@ -71,31 +72,31 @@ void RzxPlugInLoader::loadPlugIn(const QDir &dir)
 	//vérification de l'existence du rep sourceDir/plugins
 	if(!sourceDir.cd("plugins"))
 	{
-		qDebug(QString("Cannot cd to %1/plugins").arg(sourceDir.canonicalPath()));
+		qDebug("Cannot cd to %s/plugins", sourceDir.canonicalPath().toAscii().constData());
 		return;
 	}
 
 	//les plugins doivent avoir un nom de fichier qui contient rzxpi
 	//		par exemple librzxpixplo.so ou rzxpixplo.dll
 #ifdef WIN32 //sous linux c'est librzxpi<nomduplugin>.so
-	sourceDir.setNameFilter("rzxpi*");
+	sourceDir.setNameFilters(QStringList() << "rzxpi*");
 #else //sous windows c'est rzxpi<nomduplugin>.dll
 #ifdef Q_OS_MAC
-	sourceDir.setNameFilter("librzxpi*.dylib");
+	sourceDir.setNameFilters(QStringList() << "librzxpi*.dylib");
 #else
-	sourceDir.setNameFilter("librzxpi*.so");
+	sourceDir.setNameFilters(QStringList() << "librzxpi*.so");
 #endif
 #endif
 	QStringList trans=sourceDir.entryList(QDir::Files|QDir::Readable);
 	
 	//chargement des plugins dans les fichiers
 	QVariant *pipath = new QVariant(sourceDir.canonicalPath());
-	QVariant *userpath = new QVariant(RzxConfig::globalConfig()->userDir().canonicalPath());
-	for(QStringList::Iterator it=trans.begin(); it!=trans.end(); ++it)
+	QVariant *userpath = new QVariant(RzxConfig::global()->userDir().canonicalPath());
+	foreach(QString it, trans)
 	{
 		//tout plug-in doit avoir une fonction RzxPlugIn *getPlugIn() qui renvoi un plugin
 		//à partir duquel on peut traiter.
-		QLibrary *lib = new QLibrary(sourceDir.filePath(*it));
+		QLibrary *lib = new QLibrary(sourceDir.filePath(it));
 		loadPlugInProc getPlugIn = (loadPlugInProc)(lib->resolve("getPlugIn"));
 		if(getPlugIn)
 		{
@@ -122,27 +123,27 @@ void RzxPlugInLoader::loadPlugIn(const QDir &dir)
 				}
 				else
 				{
-					log += " - loaded from " + sourceDir.absPath();
+					log += " - loaded from " + sourceDir.absolutePath();
 					pluginFlags |= pi->getFeatures();
 					connect(pi, SIGNAL(send(const QString&)), RzxServerListener::object(), SLOT(sendProtocolMsg(const QString&)));
 					connect(pi, SIGNAL(queryData(RzxPlugIn::Data, RzxPlugIn*)), this, SLOT(sendQuery(RzxPlugIn::Data, RzxPlugIn*)));
 					connect(pi, SIGNAL(requestAction(RzxPlugIn::Action, const QString& )), this, SLOT(action(RzxPlugIn::Action, const QString& )));
 					pi->getData(RzxPlugIn::DATA_PLUGINPATH, pipath);
 					pi->getData(RzxPlugIn::DATA_USERDIR, userpath);
-					pi->setSettings(RzxConfig::globalConfig()->settings);
+					pi->setSettings(RzxConfig::global()->settings);
 					plugins << pi;
 					pluginByName.insert(pi->getName(), pi);
 					fileByName.insert(pi->getName(), lib);
 					state.insert(pi, false);
 				}
-				qDebug(log);
+				qDebug(log.toAscii().constData());
 			}
 		}
 		else
 		{
 			RzxMessageBox::information(NULL,
 				tr("Unable to load a plug-in"),
-				tr("A plug-in file has been found but qRezix can't extract any plug-in from it. Maybe the plug-in file is corrupted or not up-to-date.\n Try to install the last version of this plug-in (file %1).").arg(*it));
+				tr("A plug-in file has been found but qRezix can't extract any plug-in from it. Maybe the plug-in file is corrupted or not up-to-date.\n Try to install the last version of this plug-in (file %1).").arg(it));
 			delete lib;
 		}
 	}
@@ -154,10 +155,8 @@ void RzxPlugInLoader::loadPlugIn(const QDir &dir)
 /**La fermeture des plugins doit se faire dans les règles parce que j'aime pas les erreurs de segmentation même à la fermeture du programme.*/
 RzxPlugInLoader::~RzxPlugInLoader()
 {
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
+	foreach(RzxPlugIn *pi, plugins)
 	{
-		RzxPlugIn *pi = it.next();
 		if(state[pi]) pi->stop();
 		delete pi;
 	}
@@ -171,12 +170,10 @@ RzxPlugInLoader::~RzxPlugInLoader()
 /** Il est du devoir des programmeurs de plugin de faire des programmes qui utilisent au maximum la programmation asynchrone. En effet, il est inimaginable de concevoir un plug-in qui viendrait bloquer le programme à son lancement */
 void RzxPlugInLoader::init()
 {
-	QListIterator<RzxPlugIn*> it(plugins);
 	initialized = true;
 	QStringList ignored = RzxConfig::ignoredPluginsList();
-	while(it.hasNext())
+	foreach(RzxPlugIn *pi, plugins)
 	{
-		RzxPlugIn *pi = it.next();
 		if(ignored.contains(pi->getName()))
 			state[pi] = false;
 		else
@@ -184,7 +181,7 @@ void RzxPlugInLoader::init()
 			//le userDir sert à donner l'emplacement des données de configuration
 			//en particulier, c'est comme ça que les plug-ins peuvent écrirent leurs données
 			//dans le qrezixrc du rep .rezix
-			if(!state[pi]) pi->init(RzxConfig::globalConfig()->settings);
+			if(!state[pi]) pi->init(RzxConfig::global()->settings);
 			state[pi] = true;
 		}
 	}
@@ -196,7 +193,7 @@ void RzxPlugInLoader::init(const QString& name)
 	RzxPlugIn *pi = pluginByName[name];
 	if(pi)
 	{
-		if(!state[pi]) pi->init(RzxConfig::globalConfig()->settings);
+		if(!state[pi]) pi->init(RzxConfig::global()->settings);
 		state[pi] = true;
 	}
 }
@@ -205,10 +202,8 @@ void RzxPlugInLoader::init(const QString& name)
 /** Bien que l'arrêt soit réalisé par le destructeur de ~RzxPlugInLoader cette méthode est là au cas où */
 void RzxPlugInLoader::stop()
 {
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
+	foreach(RzxPlugIn *pi, plugins)
 	{
-		RzxPlugIn *pi = it.next();
 		if(state[pi]) pi->stop();
 		state[pi] = false;
 	}
@@ -236,9 +231,8 @@ void RzxPlugInLoader::reload()
 void RzxPlugInLoader::setSettings()
 {
 	if(!initialized) return;
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
-		it.next()->setSettings(RzxConfig::globalConfig()->settings);
+	foreach(RzxPlugIn *pi, plugins)
+		pi->setSettings(RzxConfig::global()->settings);
 }
 
 /* mélange avec l'interface */
@@ -250,41 +244,35 @@ void RzxPlugInLoader::setSettings()
 void RzxPlugInLoader::menuTray(QMenu& menu)
 {
 	if(!initialized) return;
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
+	foreach(RzxPlugIn *pi, plugins)
 	{
-		RzxPlugIn *pi = it.next();
 		QMenu *piMenu = pi->getTrayMenu();
-		if(piMenu && piMenu->count() && state[pi])
+		if(piMenu && piMenu->actions().count() && state[pi])
 		{
 			QPixmap *icon = pi->getIcon();
 			if(icon)
-				menu.addAction(icon->scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation),
-							   pi->getName(), piMenu, 0, 0);
+				menu.addAction(*icon, pi->getName(), piMenu, 0, 0);
 			else
-				menu.insertItem(pi->getName(), piMenu, 0, 0);
+				menu.addAction(pi->getName(), piMenu, 0, 0);
 		}
 	}
-	if(menu.count()) menu.insertSeparator();
+	if(menu.actions().count()) menu.addSeparator();
 }
 
 /// ajout des plug-ins au menu des items du rezal
 void RzxPlugInLoader::menuItem(QMenu& menu)
 {
 	if(!initialized) return;
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
+	foreach(RzxPlugIn *pi, plugins)
 	{
-		RzxPlugIn *pi = it.next();
 		QMenu *piMenu = pi->getItemMenu();
-		if(piMenu && piMenu->count() && state[pi])
+		if(piMenu && piMenu->actions().count() && state[pi])
 		{
 			QPixmap *icon = pi->getIcon();
 			if(icon)
-				menu.addAction(icon->scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation),
-							   pi->getName(), piMenu, 0, 0);
+				menu.addAction(*icon, pi->getName(), piMenu, 0, 0);
 			else
-				menu.insertItem(pi->getName(), piMenu, 0, 0);
+				menu.addAction(pi->getName(), piMenu, 0, 0);
 		}
 	}
 }
@@ -293,19 +281,16 @@ void RzxPlugInLoader::menuItem(QMenu& menu)
 void RzxPlugInLoader::menuAction(QMenu& menu)
 {
 	if(!initialized) return;
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
+	foreach(RzxPlugIn *pi, plugins)
 	{
-		RzxPlugIn *pi = it.next();
 		QMenu *piMenu = pi->getActionMenu();
-		if(piMenu && piMenu->count() && state[pi])
+		if(piMenu && piMenu->actions().count() && state[pi])
 		{
 			QPixmap *icon = pi->getIcon();
 			if(icon)
-				menu.addAction(icon->scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation),
-							   pi->getName(), piMenu, 0, 0);
+				menu.addAction(*icon, pi->getName(), piMenu, 0, 0);
 			else
-				menu.insertItem(pi->getName(), piMenu, 0, 0);
+				menu.addAction(pi->getName(), piMenu, 0, 0);
 		}
 	}
 }
@@ -314,19 +299,17 @@ void RzxPlugInLoader::menuAction(QMenu& menu)
 void RzxPlugInLoader::menuChat(QMenu& menu)
 {
 	if(!initialized) return;
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
+	foreach(RzxPlugIn *pi, plugins)
 	{
-		RzxPlugIn *pi = it.next();
 		QMenu *piMenu = pi->getChatMenu();
-		if(piMenu && piMenu->count() && state[pi])
+		if(piMenu && piMenu->actions().count() && state[pi])
 		{
 			QPixmap *icon = pi->getIcon();
 			if(icon)
 				menu.addAction(icon->scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation),
 							   pi->getName(), piMenu, 0, 0);
 			else
-				menu.insertItem(pi->getName(), piMenu, 0, 0);
+				menu.addAction(pi->getName(), piMenu, 0, 0);
 		}
 	}
 }
@@ -337,7 +320,7 @@ void RzxPlugInLoader::menuChat(QMenu& menu)
 //pour faire des réglages propres aux plug-in.
 
 /// Préparation de la liste des plug-ins
-void RzxPlugInLoader::makePropListView(Q3ListView *lv, QToolButton *btnProp, QToolButton *btnReload)
+void RzxPlugInLoader::makePropListView(QTreeWidget *lv, QToolButton *btnProp, QToolButton *btnReload)
 {
 	if(!initialized) return;
 	if(!lvItems.isEmpty()) return;
@@ -349,24 +332,22 @@ void RzxPlugInLoader::makePropListView(Q3ListView *lv, QToolButton *btnProp, QTo
 	
 	//la fenêtre consiste en 1 - le nom du plug-in     2 - la description
 	//les deux étant fournis par le plug-in
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
+	foreach(RzxPlugIn *pi, plugins)
 	{
-		RzxPlugIn *pi = it.next();
-		Q3CheckListItem *lvi = new Q3CheckListItem(lv, pi->getName(), Q3CheckListItem::CheckBox);
+		QTreeWidgetItem *lvi = new QTreeWidgetItem(lv);
+		lvi->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsSelectable);
+		lvi->setText(0, pi->getName());
 		lvi->setText(1, pi->getDescription());
 		lvi->setText(2, pi->getInternalVersion());
-		lvi->setOn(state[pi]);
+		lvi->setCheckState(0, state[pi]?Qt::Checked:Qt::Unchecked);
 		QPixmap *icon = pi->getIcon();
 		if(icon)
-			lvi->setPixmap(0, icon->scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-		lvi->setVisible(true);
-		lvItems.insert(pi, lvi);
+			lvi->setIcon(0, *icon);
 	}
 	btnProp->setEnabled(false);
 	
 	//gestion des actions
-	connect(lv, SIGNAL(selectionChanged()), this, SLOT(changePlugIn()));
+	connect(lv, SIGNAL(itemSelectionChanged()), this, SLOT(changePlugIn()));
 	connect(btnProp, SIGNAL(clicked()), this, SLOT(dispProperties()));
 	connect(btnReload, SIGNAL(clicked()), this, SLOT(reload()));
 }
@@ -375,14 +356,12 @@ void RzxPlugInLoader::makePropListView(Q3ListView *lv, QToolButton *btnProp, QTo
 void RzxPlugInLoader::validPropListView()
 {
 	QStringList ignored;
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
+	foreach(RzxPlugIn *pi, plugins)
 	{
-		RzxPlugIn *pi = it.next();
-		Q3CheckListItem *lvi = lvItems[pi];
-		if(lvi && lvi->isOn() && !state[pi])
+		QTreeWidgetItem *lvi = lvItems[pi];
+		if(lvi && lvi->checkState(0) && !state[pi])
 			init(lvi->text(0));
-		else if(lvi && !lvi->isOn() && state[pi])
+		else if(lvi && !lvi->checkState(0) && state[pi])
 		{
 			stop(lvi->text(0));
 			ignored.append(lvi->text(0));
@@ -396,8 +375,8 @@ void RzxPlugInLoader::validPropListView()
 void RzxPlugInLoader::changePlugIn()
 {
 	if(!initialized) return;
-	Q3ListViewItem *lvi = pluginListView->selectedItem();
-	selectedPlugin = lvItems.key((Q3CheckListItem*)lvi);
+	QTreeWidgetItem *lvi = pluginListView->currentItem();
+	selectedPlugin = lvItems.key((QTreeWidgetItem*)lvi);
 	if(!selectedPlugin || !state[selectedPlugin])
 	{
 		pluginGetProp->setEnabled(false);
@@ -426,73 +405,73 @@ void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 	QVariant *value;
 	switch((int)data)
 	{
-		case RzxPlugIn::DATA_SERVERFTP: value = new QVariant(RzxConfig::localHost()->getServers() & RzxComputer::SERVER_FTP); break;
-		case RzxPlugIn::DATA_SERVERHTTP: value = new QVariant(RzxConfig::localHost()->getServers() & RzxComputer::SERVER_HTTP); break;
-		case RzxPlugIn::DATA_SERVERNEWS: value = new QVariant(RzxConfig::localHost()->getServers() & RzxComputer::SERVER_NEWS); break;
-		case RzxPlugIn::DATA_SERVERSMB: value = new QVariant(RzxConfig::localHost()->getServers() & RzxComputer::SERVER_SAMBA); break;
-		case RzxPlugIn::DATA_DNSNAME: value = new QVariant(RzxConfig::localHost()->getName()); break;
+		case RzxPlugIn::DATA_SERVERFTP: value = new QVariant(RzxComputer::localhost()->servers() & RzxComputer::SERVER_FTP); break;
+		case RzxPlugIn::DATA_SERVERHTTP: value = new QVariant(RzxComputer::localhost()->servers() & RzxComputer::SERVER_HTTP); break;
+		case RzxPlugIn::DATA_SERVERNEWS: value = new QVariant(RzxComputer::localhost()->servers() & RzxComputer::SERVER_NEWS); break;
+		case RzxPlugIn::DATA_SERVERSMB: value = new QVariant(RzxComputer::localhost()->servers() & RzxComputer::SERVER_SAMBA); break;
+		case RzxPlugIn::DATA_DNSNAME: value = new QVariant(RzxComputer::localhost()->name()); break;
 		case RzxPlugIn::DATA_NAME: value = new QVariant(RzxConfig::propLastName()); break;
 		case RzxPlugIn::DATA_FIRSTNAME: value = new QVariant(RzxConfig::propName()); break;
 		case RzxPlugIn::DATA_SURNAME: value = new QVariant(RzxConfig::propSurname()); break;
-		case RzxPlugIn::DATA_IP: value = new QVariant(RzxServerListener::object()->getIP().toString()); break;
+		case RzxPlugIn::DATA_IP: value = new QVariant(RzxComputer::localhost()->ip().toString()); break;
 		case RzxPlugIn::DATA_WORKSPACE: value = new QVariant(RzxConfig::FTPPath()); break;
-		case RzxPlugIn::DATA_DISPFTP: value = new QVariant(RzxConfig::localHost()->getServerFlags() & RzxComputer::FLAG_FTP); break;
-		case RzxPlugIn::DATA_DISPHTTP: value = new QVariant(RzxConfig::localHost()->getServerFlags() & RzxComputer::FLAG_HTTP); break;
-		case RzxPlugIn::DATA_DISPNEWS: value = new QVariant(RzxConfig::localHost()->getServerFlags() & RzxComputer::FLAG_NEWS); break;
-		case RzxPlugIn::DATA_DISPSMB: value = new QVariant(RzxConfig::localHost()->getServerFlags() & RzxComputer::FLAG_SAMBA); break;
+		case RzxPlugIn::DATA_DISPFTP: value = new QVariant(RzxComputer::localhost()->serverFlags() & RzxComputer::SERVER_FTP); break;
+		case RzxPlugIn::DATA_DISPHTTP: value = new QVariant(RzxComputer::localhost()->serverFlags() & RzxComputer::SERVER_HTTP); break;
+		case RzxPlugIn::DATA_DISPNEWS: value = new QVariant(RzxComputer::localhost()->serverFlags() & RzxComputer::SERVER_NEWS); break;
+		case RzxPlugIn::DATA_DISPSMB: value = new QVariant(RzxComputer::localhost()->serverFlags() & RzxComputer::SERVER_SAMBA); break;
 		case RzxPlugIn::DATA_LANGUAGE: value = new QVariant(tr("English")); break;
 		case RzxPlugIn::DATA_THEME: value = new QVariant(RzxConfig::iconTheme()); break;
 		case RzxPlugIn::DATA_AWAY: value = new QVariant(RzxConfig::autoResponder()); break;
-		case RzxPlugIn::DATA_ICONFTP: value = new QVariant(RzxConfig::themedIcon("ftp")); break;
-		case RzxPlugIn::DATA_ICONHTTP: value = new QVariant(RzxConfig::themedIcon("http")); break;
-		case RzxPlugIn::DATA_ICONNEWS: value = new QVariant(RzxConfig::themedIcon("news")); break;
-		case RzxPlugIn::DATA_ICONSAMBA: value = new QVariant(RzxConfig::themedIcon("samba")); break;
-		case RzxPlugIn::DATA_ICONNOFTP: value = new QVariant(RzxConfig::themedIcon("no_ftp")); break;
-		case RzxPlugIn::DATA_ICONNOHTTP: value = new QVariant(RzxConfig::themedIcon("no_http")); break;
-		case RzxPlugIn::DATA_ICONNONEWS: value = new QVariant(RzxConfig::themedIcon("no_news")); break;
-		case RzxPlugIn::DATA_ICONNOSAMBA: value = new QVariant(RzxConfig::themedIcon("no_samba")); break;
-		case RzxPlugIn::DATA_ICONSAMEGATEWAY: value = new QVariant(RzxConfig::themedIcon("same_gateway")); break;
-		case RzxPlugIn::DATA_ICONDIFFGATEWAY: value = new QVariant(RzxConfig::themedIcon("diff_gateway")); break;
-		case RzxPlugIn::DATA_ICONJONE: value = new QVariant(RzxConfig::themedIcon("jone")); break;
-		case RzxPlugIn::DATA_ICONORANGE: value = new QVariant(RzxConfig::themedIcon("orange")); break;
-		case RzxPlugIn::DATA_ICONROUJE: value = new QVariant(RzxConfig::themedIcon("rouje")); break;
-		case RzxPlugIn::DATA_ICONUNKOS: value = new QVariant(RzxConfig::themedIcon("os_0")); break;
-		case RzxPlugIn::DATA_ICONUNKOSLARGE: value = new QVariant(RzxConfig::themedIcon("os_0_large")); break;
-		case RzxPlugIn::DATA_ICONWIN: value = new QVariant(RzxConfig::themedIcon("os_1")); break;
-		case RzxPlugIn::DATA_ICONWINLARGE: value = new QVariant(RzxConfig::themedIcon("os_1_large")); break;
-		case RzxPlugIn::DATA_ICONWINNT: value = new QVariant(RzxConfig::themedIcon("os_2")); break;
-		case RzxPlugIn::DATA_ICONWINNTLARGE: value = new QVariant(RzxConfig::themedIcon("os_2_large")); break;
-		case RzxPlugIn::DATA_ICONLINUX: value = new QVariant(RzxConfig::themedIcon("os_3")); break;
-		case RzxPlugIn::DATA_ICONLINUXLARGE: value = new QVariant(RzxConfig::themedIcon("os_3_large")); break;
-		case RzxPlugIn::DATA_ICONMAC: value = new QVariant(RzxConfig::themedIcon("os_4")); break;
-		case RzxPlugIn::DATA_ICONMACLARGE: value = new QVariant(RzxConfig::themedIcon("os_4_large")); break;
-		case RzxPlugIn::DATA_ICONMACX: value = new QVariant(RzxConfig::themedIcon("os_5")); break;
-		case RzxPlugIn::DATA_ICONMACXLARGE: value = new QVariant(RzxConfig::themedIcon("os_5_large")); break;
-		case RzxPlugIn::DATA_ICONSPEAKER: value = new QVariant(RzxConfig::themedIcon("haut_parleur1")); break;
-		case RzxPlugIn::DATA_ICONNOSPEAKER: value = new QVariant(RzxConfig::themedIcon("haut_parleur2")); break;
-		case RzxPlugIn::DATA_ICONPLUGIN: value = new QVariant(RzxConfig::themedIcon("plugin")); break;
-		case RzxPlugIn::DATA_ICONHERE: value = new QVariant(RzxConfig::themedIcon("here")); break;
-		case RzxPlugIn::DATA_ICONAWAY: value = new QVariant(RzxConfig::themedIcon("away")); break;
-		case RzxPlugIn::DATA_ICONCOLUMNS: value = new QVariant(RzxConfig::themedIcon("column")); break;
-		case RzxPlugIn::DATA_ICONPREF: value = new QVariant(RzxConfig::themedIcon("pref")); break;
-		case RzxPlugIn::DATA_ICONSEND: value = new QVariant(RzxConfig::themedIcon("send")); break;
-		case RzxPlugIn::DATA_ICONHIST: value = new QVariant(RzxConfig::themedIcon("historique")); break;
-		case RzxPlugIn::DATA_ICONPROP: value = new QVariant(RzxConfig::themedIcon("prop")); break;
-		case RzxPlugIn::DATA_ICONCHAT: value = new QVariant(RzxConfig::themedIcon("chat")); break;
+		case RzxPlugIn::DATA_ICONFTP: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_FTP)); break;
+		case RzxPlugIn::DATA_ICONHTTP: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_HTTP)); break;
+		case RzxPlugIn::DATA_ICONNEWS: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_NEWS)); break;
+		case RzxPlugIn::DATA_ICONSAMBA: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_SAMBA)); break;
+		case RzxPlugIn::DATA_ICONNOFTP: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_NOFTP)); break;
+		case RzxPlugIn::DATA_ICONNOHTTP: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_NOHTTP)); break;
+		case RzxPlugIn::DATA_ICONNONEWS: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_NONEWS)); break;
+		case RzxPlugIn::DATA_ICONNOSAMBA: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_NOSAMBA)); break;
+		case RzxPlugIn::DATA_ICONSAMEGATEWAY: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_SAMEGATEWAY)); break;
+		case RzxPlugIn::DATA_ICONDIFFGATEWAY: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_OTHERGATEWAY)); break;
+		case RzxPlugIn::DATA_ICONJONE: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_JONE)); break;
+		case RzxPlugIn::DATA_ICONORANGE: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_ORANJE)); break;
+		case RzxPlugIn::DATA_ICONROUJE: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_ROUJE)); break;
+		case RzxPlugIn::DATA_ICONUNKOS: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_OS0)); break;
+		case RzxPlugIn::DATA_ICONUNKOSLARGE: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_OS0_LARGE)); break;
+		case RzxPlugIn::DATA_ICONWIN: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_OS1)); break;
+		case RzxPlugIn::DATA_ICONWINLARGE: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_OS1_LARGE)); break;
+		case RzxPlugIn::DATA_ICONWINNT: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_OS2)); break;
+		case RzxPlugIn::DATA_ICONWINNTLARGE: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_OS2_LARGE)); break;
+		case RzxPlugIn::DATA_ICONLINUX: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_OS3)); break;
+		case RzxPlugIn::DATA_ICONLINUXLARGE: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_OS3_LARGE)); break;
+		case RzxPlugIn::DATA_ICONMAC: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_OS4)); break;
+		case RzxPlugIn::DATA_ICONMACLARGE: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_OS4_LARGE)); break;
+		case RzxPlugIn::DATA_ICONMACX: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_OS5)); break;
+		case RzxPlugIn::DATA_ICONMACXLARGE: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_OS5_LARGE)); break;
+		case RzxPlugIn::DATA_ICONSPEAKER: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_SOUNDON)); break;
+		case RzxPlugIn::DATA_ICONNOSPEAKER: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_SOUNDOFF)); break;
+		case RzxPlugIn::DATA_ICONPLUGIN: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_PLUGIN)); break;
+		case RzxPlugIn::DATA_ICONHERE: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_HERE)); break;
+		case RzxPlugIn::DATA_ICONAWAY: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_AWAY)); break;
+		case RzxPlugIn::DATA_ICONCOLUMNS: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_COLUMN)); break;
+		case RzxPlugIn::DATA_ICONPREF: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_PREFERENCES)); break;
+		case RzxPlugIn::DATA_ICONSEND: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_SEND)); break;
+		case RzxPlugIn::DATA_ICONHIST: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_HISTORIQUE)); break;
+		case RzxPlugIn::DATA_ICONPROP: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_PROPRIETES)); break;
+		case RzxPlugIn::DATA_ICONCHAT: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_CHAT)); break;
 		case RzxPlugIn::DATA_ICONSIZE: value = new QVariant(RzxConfig::menuIconSize()); break;
 		case RzxPlugIn::DATA_ICONTEXT: value = new QVariant(RzxConfig::menuTextPosition()); break;
-		case RzxPlugIn::DATA_ICONFAVORITE: value = new QVariant(RzxConfig::themedIcon("favorite")); break;
-		case RzxPlugIn::DATA_ICONNOTFAVORITE: value = new QVariant(RzxConfig::themedIcon("not_favorite")); break;
+		case RzxPlugIn::DATA_ICONFAVORITE: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_FAVORITE)); break;
+		case RzxPlugIn::DATA_ICONNOTFAVORITE: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_NOTFAVORITE)); break;
 		case RzxPlugIn::DATA_CONNECTEDLIST: value = new QVariant(RzxConnectionLister::global()->getIpList()); break;
-		case RzxPlugIn::DATA_ICONOK: value = new QVariant(RzxConfig::themedIcon("ok")); break;
-		case RzxPlugIn::DATA_ICONAPPLY: value = new QVariant(RzxConfig::themedIcon("apply")); break;
-		case RzxPlugIn::DATA_ICONCANCEL: value = new QVariant(RzxConfig::themedIcon("cancel")); break;
-		case RzxPlugIn::DATA_ICONBAN: value = new QVariant(RzxConfig::themedIcon("ban")); break;
-		case RzxPlugIn::DATA_ICONUNBAN: value = new QVariant(RzxConfig::themedIcon("unban")); break;
-		case RzxPlugIn::DATA_ICONQUIT: value = new QVariant(RzxConfig::themedIcon("quit")); break;
+		case RzxPlugIn::DATA_ICONOK: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_OK)); break;
+		case RzxPlugIn::DATA_ICONAPPLY: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_APPLY)); break;
+		case RzxPlugIn::DATA_ICONCANCEL: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_CANCEL)); break;
+		case RzxPlugIn::DATA_ICONBAN: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_BAN)); break;
+		case RzxPlugIn::DATA_ICONUNBAN: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_UNBAN)); break;
+		case RzxPlugIn::DATA_ICONQUIT: value = new QVariant(RzxIconCollection::getPixmap(Rzx::ICON_QUIT)); break;
 		case RzxPlugIn::DATA_FEATUREDLIST:
 			if(plugin)
-				value = new QVariant(RzxConnectionLister::global()->getIpList(plugin->getFeatures()));
+				value = new QVariant(RzxConnectionLister::global()->getIpList((Rzx::Capabilities)plugin->getFeatures()));
 			else
 				value = new QVariant(RzxConnectionLister::global()->getIpList());
 			break;
@@ -506,14 +485,8 @@ void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 	
 	//à tous les plugins si aucun plugin particulier n'a été précisé
 	else
-	{
-		QListIterator<RzxPlugIn*> it(plugins);
-		while(it.hasNext())
-		{
-			RzxPlugIn *pi = it.next();
+		foreach(RzxPlugIn *pi, plugins)
 			if(state[pi]) pi->getData(data, value);
-		}
-	}
 
 	delete value;
 }
@@ -529,14 +502,14 @@ void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
 			break;
 
 		case RzxPlugIn::ACTION_CHAT:
-			RzxConnectionLister::global()->chatCreate(param);
+			RzxConnectionLister::global()->createChat(param);
 			break;
 
 		case RzxPlugIn::ACTION_CLOSE_CHAT:
 			RzxConnectionLister::global()->closeChat(param);
 			break;
 			
-		case RzxPlugIn::ACTION_FTP:
+/*		case RzxPlugIn::ACTION_FTP:
 			RzxUtilsLauncher::global()->ftp(param);
 			break;
 			
@@ -550,7 +523,7 @@ void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
 			
 		case RzxPlugIn::ACTION_SMB:
 			RzxUtilsLauncher::global()->samba(param);
-			break;
+			break;*/
 			
 		case RzxPlugIn::ACTION_MINIMIZE:
 			break;
@@ -566,70 +539,46 @@ void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
 void RzxPlugInLoader::chatChanged(QTextEdit *chat)
 {
 	if(!initialized) return;
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
-	{
-		RzxPlugIn *pi = it.next();
+	foreach(RzxPlugIn *pi, plugins)
 		if(state[pi]) pi->getData(RzxPlugIn::DATA_CHAT, (QVariant*)chat);
-	}
 }
 
 /// On indique que le chat envoie le message
 void RzxPlugInLoader::chatSending()
 {
 	if(!initialized) return;
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
-	{
-		RzxPlugIn *pi = it.next();
+	foreach(RzxPlugIn *pi, plugins)
 		if(state[pi]) pi->getData(RzxPlugIn::DATA_CHATEMIT, NULL);
-	}
 }
 
 /// On indique que le chat reçoit un message
 void RzxPlugInLoader::chatReceived(QString *chat)
 {
 	if(!initialized) return;
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
-	{
-		RzxPlugIn *pi = it.next();
+	foreach(RzxPlugIn *pi, plugins)
 		if(state[pi]) pi->getData(RzxPlugIn::DATA_CHATRECEIVE, (QVariant*)chat);
-	}
 }
 
 /// On indique que le chat a envoyé un plug-in
 void RzxPlugInLoader::chatEmitted(QString *chat)
 {
 	if(!initialized) return;
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
-	{
-		RzxPlugIn *pi = it.next();
+	foreach(RzxPlugIn *pi, plugins)
 		if(state[pi]) pi->getData(RzxPlugIn::DATA_CHATEMITTED, (QVariant*)chat);
-	}
 }
 
 ///On indique qu'un nouvel item vient d'être sélectionné
-void RzxPlugInLoader::itemChanged(Q3ListViewItem *item)
+void RzxPlugInLoader::itemChanged(QTreeWidgetItem *item)
 {
 	if(!initialized) return;
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
-	{
-		RzxPlugIn *pi = it.next();
+	foreach(RzxPlugIn *pi, plugins)
 		if(state[pi]) pi->getData(RzxPlugIn::DATA_ITEMSELECTED, (QVariant*)item);
-	}
 }
 
 ///On indique que l'item sélectionné chez les favoris à changé
-void RzxPlugInLoader::favoriteChanged(Q3ListViewItem *item)
+void RzxPlugInLoader::favoriteChanged(QTreeWidgetItem *item)
 {
 	if(!initialized) return;
-	QListIterator<RzxPlugIn*> it(plugins);
-	while(it.hasNext())
-	{
-		RzxPlugIn *pi = it.next();
+	foreach(RzxPlugIn *pi, plugins)
 		if(state[pi]) pi->getData(RzxPlugIn::DATA_FAVORITESELECTED, (QVariant*)item);
-	}
 }

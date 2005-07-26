@@ -75,7 +75,7 @@ signals: // Signals
 	* @param image icone dans le bon sens avec les bonnes couleurs RGB */
 	void rcvIcon(QImage* image, const RzxHostAddress& ip);
 	void status(const QString& msg, bool fatal);
-
+	void receiveAddress(const RzxHostAddress&);
 	void connected();
 	void disconnected();
 

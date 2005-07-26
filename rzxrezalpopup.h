@@ -1,9 +1,9 @@
 /***************************************************************************
-                          rzxutilslauncher.h  -  description
+                          rzxrezalpopup  -  description
                              -------------------
-    begin                : Fri Sep 10 2004
-    copyright            : (C) 2004 by Florent Bruneau
-    email                : fruneau@melix.net
+    begin                : Wed Jul 20 2005
+    copyright            : (C) 2005 by Florent Bruneau
+    email                : florent.bruneau@m4x.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,26 +14,34 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef RZXREZALPOPUP_H
+#define RZXREZALPOPUP_H
 
-#ifndef RZXUTILSLAUNCHER_H
-#define RZXUTILSLAUNCHER_H
-
-#include <QString>
-
-class RzxHostAddress;
+#include <QMenu>
+#include <QPoint>
+#include <QModelIndex>
 
 /**
- @author Florent Bruneau
- */
+@author Florent Bruneau
+*/
 
-///Lanceur d'application externes
-/** Cette classe à pour but de lancer les applications externes liées à qRezix, comme le client ftp, le client http... */
-namespace RzxUtilsLauncher
+class QKeyEvent;
+class RzxComputer;
+
+///Popup simple qui intercepte le clavier
+/** Pour réimplanter le clavier et la touche droite, ne mérite pas un .h/.cpp pour lui tt seul */
+class RzxRezalPopup : public QMenu
 {
-	void ftp(const RzxHostAddress&, const QString& path = QString());
-	void http(const RzxHostAddress&, const QString& path = QString());
-	void news(const RzxHostAddress&, const QString& path = QString());
-	void samba(const RzxHostAddress&, const QString& path = QString());
+	Q_OBJECT
+
+	void init(RzxComputer*, const QPoint&);
+
+	public:
+		RzxRezalPopup(RzxComputer*, const QPoint&, QWidget *parent = 0);
+		RzxRezalPopup(const QModelIndex&, const QPoint&, QWidget *parent = 0);
+
+	protected:
+		void keyPressEvent(QKeyEvent *e);
 };
 
 #endif

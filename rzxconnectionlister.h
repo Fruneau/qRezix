@@ -19,11 +19,12 @@
 #define RZXCONNECTIONLISTER_H
 
 #include <QObject>
+#include <QTimer>
 #include <QHash>
 #include <QString>
-#include <QTimer>
 #include <QStringList>
-#include <QList>
+
+#include "rzxglobal.h"
 
 #include "rzxhostaddress.h"
 
@@ -79,7 +80,7 @@ class RzxConnectionLister : public QObject
 		void login(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
 		void login();
 		void logout(const RzxHostAddress& ip);
-		QStringList getIpList(unsigned int features = 0);
+		QStringList getIpList(Rzx::Capabilities features = Rzx::CAP_NONE);
 		
 		bool isSocketClosed() const;
 		
@@ -88,10 +89,11 @@ class RzxConnectionLister : public QObject
 		
 		void warnProperties(const RzxHostAddress&);
 	
-		RzxChat *chatCreate(const RzxHostAddress&);
-		RzxChat *chatCreate(const QString&);
+		void proprietes(const RzxHostAddress&);
+		RzxChat *createChat(const RzxHostAddress&);
+		RzxChat *createChat(const QString&);
+		void deleteChat(const RzxHostAddress&);
 		void closeChat(const QString& login);
-		void chatDelete(const RzxHostAddress&);
 		void closeChats();
 		
 	protected slots:
@@ -104,6 +106,8 @@ class RzxConnectionLister : public QObject
 		void needIcon(const RzxHostAddress&);
 		void login(RzxComputer*);
 		void logout(RzxComputer*);
+		void update(RzxComputer*);
+		void clear();
 		void status(const QString& msg, bool fatal);
 		void countChange(const QString& newCount);
 		void socketClosed();

@@ -22,6 +22,17 @@
 class RzxComputer;
 class QEvent;
 
+///Gestion de la fenêtre qui s'affiche lorsque les favoris changent d'état
+/** Construit, affiche et détruit la fenêtre.
+ *
+ * Dans l'état actuel la fenêtre apparaît en haut à gauche pour une durée de 5s
+ * et est constituée des éléments suivant :
+ * 	- un fond dont la couleur correspond à l'action (ces couleurs sont définies
+ * dans les données de configuration de RzxConfig)
+ * 	- l'icône de la personne dont l'état à changé
+ * 	- le nom de la personne concerné
+ * 	- un texte décrivant le nouvel état
+ */
 class RzxTrayWindow: public QFrame
 {
 	Q_OBJECT
@@ -29,6 +40,6 @@ class RzxTrayWindow: public QFrame
 	QTimer timer;
 	
 	public:
-		RzxTrayWindow(RzxComputer *computer, bool connected = true, unsigned int time = 5);
+		RzxTrayWindow(RzxComputer *computer, unsigned int time = 5);
 		~RzxTrayWindow();
 };

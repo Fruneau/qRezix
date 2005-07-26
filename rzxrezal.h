@@ -19,7 +19,6 @@
 #define RZXREZAL_H
 
 #include <QStringList>
-#include <Q3ListView>
 #include <QHash>
 #include <QMenu>
 #include <QTcpSocket>
@@ -44,19 +43,6 @@ class RzxClientListener;
 class RzxServerListener;
 class RzxComputer;
 class RzxHostAddress;
-
-///Popup simple qui intercepte le clavier
-/** Pour réimplanter le clavier et la touche droite, ne mérite pas un .h/.cpp pour lui tt seul */
-class RzxPopupMenu : public QMenu {
-	Q_OBJECT
-	public:
-		RzxPopupMenu( QWidget * parent = 0);
-
-	protected:
-		void keyPressEvent(QKeyEvent *e);
-};
-
-
 
 ///RzxRezal est la classe chargée de l'affichage des connectés
 /** Classe centrale de l'interface, c'est elle qui gère totalement l'affichage et les interactions avec les différents
@@ -95,9 +81,6 @@ protected: // Protected attributes
 	// Pour les filtres
 	bool filterOn;
 	QString filter;
-
-	// Definit necessaire pour le menu contextuel
-	RzxPopupMenu popup;
 
 	QTime search_timeout;
 	QString search_patern;

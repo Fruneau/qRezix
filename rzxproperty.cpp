@@ -8,13 +8,11 @@ email                : benoit.casoetto@m4x.org
 #include <QToolButton>
 #include <QToolBox>
 #include <QGroupBox>
-#include <QObject>
 #include <QLineEdit>
 #include <QSpinBox>
 #include <QComboBox>
 #include <QCheckBox>
 #include <QLabel>
-#include <Q3ListBox>
 #include <QImage>
 #include <QDir>
 #include <QApplication>
@@ -24,7 +22,9 @@ email                : benoit.casoetto@m4x.org
 #include <QRegExpValidator>
 #include <QPixmap>
 #include <QTranslator>
+#include <QTreeWidget>
 #include <QListWidget>
+#include <QSize>
 
 #ifdef WITH_KDE
 #include <kfiledialog.h>
@@ -34,23 +34,23 @@ email                : benoit.casoetto@m4x.org
 
 #include "rzxproperty.h"
 
+#include "defaults.h"
+
 #include "rzxmessagebox.h"
 #include "rzxhostaddress.h"
 #include "rzxconfig.h"
 #include "rzxcomputer.h"
 #include "rzxserverlistener.h"
 #include "rzxpluginloader.h"
-#include "rzxrezal.h"
 #include "qrezix.h"
 #include "trayicon.h"
-#include "defaults.h"
+#include "rzxrezalmodel.h"
+#include "rzxiconcollection.h"
 
 RzxProperty::RzxProperty(QRezix *parent) : QDialog(parent)
 {
 	setupUi(this);
 	
-	setIcon(QRezix::qRezixIcon());
-
 	connect( btnBrowseWorkDir, SIGNAL( clicked() ), this, SLOT( launchDirSelectDialog() ) );
 	connect( btnMiseAJour, SIGNAL( clicked() ), this, SLOT( miseAJour() ) );
 	connect( btnAnnuler, SIGNAL( clicked() ), this, SLOT( annuler() ) );
@@ -71,17 +71,18 @@ RzxProperty::RzxProperty(QRezix *parent) : QDialog(parent)
 	connect( chkBeepFavorites, SIGNAL(toggled(bool)), btnBeepBrowse_3, SLOT(setEnabled(bool)));
 	connect( chkBeepFavorites, SIGNAL(toggled(bool)), txtBeepFavorites, SLOT(setEnabled(bool)));
 	connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
-	
+	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTheme()));
+
 	//Pour que le pseudo soit rfc-complient
-	hostname->setValidator( new QRegExpValidator(QRegExp("[a-zA-Z0-9](-?[a-zA-Z0-9])*"), hostname, "dnsnameValidator") );
+	hostname->setValidator( new QRegExpValidator(QRegExp("[a-zA-Z0-9](-?[a-zA-Z0-9])*"), hostname) );
 	//Les pseudos trop longs c'est vraiment imbitable
-	hostname->setMaxLength(24);
+	hostname->setMaxLength(32);
 
 	//La remarque doit tenir en une seule ligne...
-	remarque->setValidator( new QRegExpValidator(QRegExp("[^\n\r]+"), remarque, "RemarqueValidator") );
+	remarque->setValidator( new QRegExpValidator(QRegExp("[^\n\r]+"), remarque) );
 	
 	//Pour éviter que les gens mettent un | dans leurs propriétés
-	QRegExpValidator *propValidator = new QRegExpValidator(QRegExp("[^|]*"), this, "NameValidator");
+	QRegExpValidator *propValidator = new QRegExpValidator(QRegExp("[^|]*"), this);
 	txtName->setValidator(propValidator);
 	txtSurname->setValidator(propValidator);
 	txtFirstname->setValidator(propValidator);
@@ -89,6 +90,12 @@ RzxProperty::RzxProperty(QRezix *parent) : QDialog(parent)
 	txtWeb->setValidator(propValidator);
 	txtPhone->setValidator(propValidator);
 	txtCasert->setValidator(propValidator);
+	lbMenu->setIconSize(QSize(32,32));
+
+	//Initialisation de la treeview des plugins
+	lvPlugInList->setIconSize(QSize(16,16));
+	lvPlugInList->setUniformRowHeights(false);
+	lvPlugInList->setHeaderLabels(QStringList() << tr("Name") << tr("Description") << tr("Version"));
 
 #ifndef WIN32
 	btnAboutQt->hide();
@@ -119,32 +126,27 @@ RzxProperty::~RzxProperty() {}
 /** Le changement de thème correspond à la reconstruction de la listbox de menu (pour que les icônes soient conformes au thème choisi), et au changement des icônes OK, Annuler, Appliquer */
 void RzxProperty::changeTheme()
 {
-	QIcon apply, ok, cancel;
-	apply.addPixmap(RzxConfig::themedIcon("apply"));
-	ok.addPixmap(RzxConfig::themedIcon("ok"));
-	cancel.addPixmap(RzxConfig::themedIcon("cancel"));
-	btnAnnuler->setIconSet(cancel);
-	btnOK->setIconSet(ok);
-	btnMiseAJour->setIconSet(apply);
+	btnAnnuler->setIcon(RzxIconCollection::getIcon(Rzx::ICON_CANCEL));
+	btnOK->setIcon(RzxIconCollection::getIcon(Rzx::ICON_OK));
+	btnMiseAJour->setIcon(RzxIconCollection::getIcon(Rzx::ICON_APPLY));
 
-	#define setIcon(icon, name) lbMenu->item(name)->setIcon(icon)
-
+#define setIcon(icon, name) lbMenu->item(name)->setIcon(icon)
 	QPixmap pixmap; //Pour le newItem
-	if(RzxConfig::themedIcon("systray").isNull())
+	if(RzxIconCollection::getIcon(Rzx::ICON_SYSTRAYHERE).isNull())
 		setIcon(QRezix::qRezixIcon(), 0);
 	else
-		setIcon(RzxConfig::themedIcon("systray"), 0);
-	setIcon(RzxConfig::themedIcon("layout"), 1);
-	setIcon(RzxConfig::themedIcon("network"), 2);
-	setIcon(RzxConfig::themedIcon("pref"), 3);
-	setIcon(RzxConfig::themedIcon("plugin"), 4);
-
-	#undef setIcon
+		setIcon(RzxIconCollection::getIcon(Rzx::ICON_SYSTRAYHERE), 0);
+	setIcon(RzxIconCollection::getIcon(Rzx::ICON_LAYOUT), 1);
+	setIcon(RzxIconCollection::getIcon(Rzx::ICON_NETWORK), 2);
+	setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES), 3);
+	setIcon(RzxIconCollection::getIcon(Rzx::ICON_PLUGIN), 4);
+#undef setIcon
 }
 
 void RzxProperty::changePage(QListWidgetItem *current, QListWidgetItem *)
 {
-	lblTitle->setText("<h2>"+current->text()+"</h2>");
+	if(current)
+		lblTitle->setText("<h2>"+current->text()+"</h2>");
 }
 
 void RzxProperty::languageChange()
@@ -155,57 +157,29 @@ void RzxProperty::languageChange()
 
 
 void RzxProperty::initLangCombo(){
-	RzxConfig *config = RzxConfig::globalConfig();
-	QHashIterator<QString,QTranslator*> it(config->translations);
+	RzxConfig *config = RzxConfig::global();
 	languageBox->clear();
-	languageBox->insertItem("English");
-	while(it.hasNext())
-	{
-		it.next();
-		languageBox->insertItem(it.key());
-	}
+	languageBox->addItem("English");
+	foreach(QString it, config->translations.keys())
+		languageBox->addItem(it);
 }	
 
+///Initialise la liste des thèmes
 void RzxProperty::initThemeCombo() {
-	RzxConfig * config = RzxConfig::globalConfig();
-
-	QStringList userThemes, sysThemes;
-	QStringList::ConstIterator themeIt;
 	cmbIconTheme -> clear();
-	
-	QDir temp = config -> userDir();
-	if (temp.cd(RzxConfig::themePath)) {
-		temp.setSorting(QDir::Name | QDir::IgnoreCase);
-		temp.setFilter(QDir::Dirs);
-		userThemes = temp.entryList();
-		for ( themeIt = userThemes.begin(); themeIt != userThemes.end(); themeIt++ ) {
-			if ( (*themeIt).compare( "." ) && (*themeIt).compare( ".." ) )
-				cmbIconTheme -> insertItem( *themeIt );
-		}
-	}
-	
-	temp = config -> systemDir();
-	if (temp.cd(RzxConfig::themePath)) {
-		temp.setSorting(QDir::Name | QDir::IgnoreCase);
-		temp.setFilter(QDir::Dirs);
-		sysThemes = temp.entryList();
-		for ( themeIt = sysThemes.begin(); themeIt != sysThemes.end(); themeIt++ ) {
-			if ( userThemes.contains(*themeIt) ) continue;
-			if ( (*themeIt).compare( "." ) && (*themeIt).compare( ".." ) )
-				cmbIconTheme -> insertItem( *themeIt );
-		}
-	}
+	cmbIconTheme->insertItems(0, RzxIconCollection::global()->themeList());
+	cmbIconTheme->setCurrentIndex(cmbIconTheme->findText(RzxIconCollection::global()->theme()));
 }
 
 /** No descriptions */
-void RzxProperty::initDlg() {
-	RzxConfig * config = RzxConfig::globalConfig();
+void RzxProperty::initDlg()
+{
+	RzxConfig * config = RzxConfig::global();
 
-	QObjectList l = queryList( "QLineEdit", "txt*" );
-	for(QList<QObject *>::iterator it = l.begin() ; it != l.end() ; it++) {
-		// iteration sur l'ensemble des objets QLineEdit
-		static_cast<QLineEdit *> (*it) -> setText( config -> readEntry( (*it) -> name(), "" ) );
-	}
+	// iteration sur l'ensemble des objets QLineEdit
+	QList<QLineEdit*> l = findChildren<QLineEdit*>(QRegExp("txt.*"));
+	foreach(QLineEdit *edit, l)
+		edit->setText(config->readEntry(edit->objectName(), ""));
 	
 	btnChangePass->setEnabled(!RzxServerListener::object()->isSocketClosed());
 	
@@ -215,8 +189,8 @@ void RzxProperty::initDlg() {
 	chkBeepFavorites->setChecked( RzxConfig::beepConnection());
 	cbWarnFavorite->setChecked( RzxConfig::showConnection());
 	
-	hostname->setText( RzxConfig::localHost() -> getName() );
-	remarque->setText( RzxConfig::localHost() -> getRemarque() );
+	hostname->setText( RzxComputer::localhost()->name() );
+	remarque->setText( RzxComputer::localhost()->remarque() );
 
 	server_name->setText( RzxConfig::serverName() );
 	chat_port->setValue( RzxConfig::chatPort() );
@@ -225,26 +199,21 @@ void RzxProperty::initDlg() {
 	ping_timeout->setValue( RzxConfig::pingTimeout() / 1000 );
 	chkAutoResponder->setChecked( RzxConfig::autoResponder() );
 
-	cmbIconSize->setCurrentItem( RzxConfig::computerIconSize() );
-	cmbPromo->setCurrentItem( RzxConfig::localHost() ->getPromo() - 1 );
-	cmdDoubleClic->setCurrentItem( RzxConfig::doubleClicRole() );
-	cmbIconTheme -> setCurrentItem( 0 );
+	cmbIconSize->setCurrentIndex( RzxConfig::computerIconSize() );
+	cmbPromo->setCurrentIndex( RzxComputer::localhost()->promo() - 1 );
+	cmdDoubleClic->setCurrentIndex( RzxConfig::doubleClicRole() );
 
-	cmbMenuIcons->setCurrentItem(RzxConfig::menuIconSize());
-	cmbMenuText->setCurrentItem(RzxConfig::menuTextPosition());
+	cmbMenuIcons->setCurrentIndex(RzxConfig::menuIconSize());
+	cmbMenuText->setCurrentIndex(RzxConfig::menuTextPosition());
 	lockCmbMenuText(RzxConfig::menuIconSize());
 
-	cmbDefaultTab -> setCurrentItem(RzxConfig::defaultTab());
-	for (int i = 0; i < cmbIconTheme -> count(); i++ )
-		if ( !RzxConfig::iconTheme().compare( cmbIconTheme->text( i ) ) )
-			cmbIconTheme->setCurrentItem( i );
+	cmbDefaultTab -> setCurrentIndex(RzxConfig::defaultTab());
 
-	int servers = RzxConfig::localHost() ->getServerFlags();
-	CbSamba->setChecked( servers & RzxComputer::FLAG_SAMBA );
-	CbFTP->setChecked( servers & RzxComputer::FLAG_FTP );
-	//CbHotline->setChecked( servers & RzxComputer::SERVER_HOTLINE );
-	CbHTTP->setChecked( servers & RzxComputer::FLAG_HTTP );
-	CbNews->setChecked( servers & RzxComputer::FLAG_NEWS );
+	int servers = RzxComputer::localhost()->serverFlags();
+	CbSamba->setChecked(servers & RzxComputer::SERVER_SAMBA);
+	CbFTP->setChecked(servers & RzxComputer::SERVER_FTP);
+	CbHTTP->setChecked(servers & RzxComputer::SERVER_HTTP);
+	CbNews->setChecked(servers & RzxComputer::SERVER_NEWS);
 	
 	int tooltip = RzxConfig::tooltip();
 	cbTooltips->setChecked(tooltip & RzxConfig::Enable);
@@ -261,19 +230,18 @@ void RzxProperty::initDlg() {
 	cbTooltipProperties->setChecked(tooltip & RzxConfig::Properties);
 
 	int colonnes = RzxConfig::colonnes();
-	cbcIcone ->setChecked( colonnes & (1<<RzxRezal::ColIcone) );
-	cbcNom ->setChecked( colonnes & (1<<RzxRezal::ColNom) );
-	cbcRemarque->setChecked( colonnes & (1<<RzxRezal::ColRemarque) );
-	cbcSamba ->setChecked( colonnes & (1<<RzxRezal::ColSamba) );
-	cbcFTP ->setChecked( colonnes & (1<<RzxRezal::ColFTP) );
-	cbcHTTP ->setChecked( colonnes & (1<<RzxRezal::ColHTTP) );
-	cbcNews ->setChecked( colonnes & (1<<RzxRezal::ColNews) );
-	cbcOS ->setChecked( colonnes & (1<<RzxRezal::ColOS) );
-	cbcGateway ->setChecked( colonnes & (1<<RzxRezal::ColGateway) );
-	cbcPromo ->setChecked( colonnes & (1<<RzxRezal::ColPromo) );
-	cbcResal ->setChecked( colonnes & (1<<RzxRezal::ColResal) );
-	cbcIP ->setChecked( colonnes & (1<<RzxRezal::ColIP) );
-	cbcClient ->setChecked( colonnes & (1<<RzxRezal::ColClient) );
+	cbcNom ->setChecked( colonnes & (1<<RzxRezalModel::ColNom) );
+	cbcRemarque->setChecked( colonnes & (1<<RzxRezalModel::ColRemarque) );
+	cbcSamba ->setChecked( colonnes & (1<<RzxRezalModel::ColSamba) );
+	cbcFTP ->setChecked( colonnes & (1<<RzxRezalModel::ColFTP) );
+	cbcHTTP ->setChecked( colonnes & (1<<RzxRezalModel::ColHTTP) );
+	cbcNews ->setChecked( colonnes & (1<<RzxRezalModel::ColNews) );
+	cbcOS ->setChecked( colonnes & (1<<RzxRezalModel::ColOS) );
+	cbcGateway ->setChecked( colonnes & (1<<RzxRezalModel::ColGateway) );
+	cbcPromo ->setChecked( colonnes & (1<<RzxRezalModel::ColPromo) );
+	cbcResal ->setChecked( colonnes & (1<<RzxRezalModel::ColRezal) );
+	cbcIP ->setChecked( colonnes & (1<<RzxRezalModel::ColIP) );
+	cbcClient ->setChecked( colonnes & (1<<RzxRezalModel::ColClient) );
 	cbQuit->setChecked(RzxConfig::showQuit());
 
 	cbHighlight->setChecked(RzxConfig::computerIconHighlight());
@@ -287,101 +255,105 @@ void RzxProperty::initDlg() {
 
 #ifdef WIN32
 	// attention a rzxutilslauncher.cpp en cas de modif
-	clientFtp->insertItem("standard");
-	clientFtp->insertItem("iExplore");
-	clientFtp->insertItem("LeechFTP");
-	clientFtp->insertItem("SmartFTP");
+	clientFtp->addItem("standard");
+	clientFtp->addItem("iExplore");
+	clientFtp->addItem("LeechFTP");
+	clientFtp->addItem("SmartFTP");
 
-	clientHttp->insertItem("standard");
-	clientHttp->insertItem("iExplore", 1);
-	clientHttp->insertItem("Opera", 2);
+	clientHttp->addItem("standard");
+	clientHttp->addItem("iExplore", 1);
+	clientHttp->addItem("Opera", 2);
 
-	clientNews->insertItem("standard");
+	clientNews->addItem("standard");
 #else
 #ifdef Q_OS_MAC
 	// commandes à exécuter sous macos X
-	clientFtp->insertItem("Default");
-	clientHttp->insertItem("Default");
-	clientNews->insertItem("Default");
+	clientFtp->addItem("Default");
+	clientHttp->addItem("Default");
+	clientNews->addItem("Default");
 #else
 	// commandes a executer sous nux
-	clientFtp->insertItem("gftp", 0);
-	clientFtp->insertItem("lftp", 1);
+	clientFtp->addItem("gftp");
+	clientFtp->addItem("lftp");
 
-	clientHttp->insertItem("galeon", 0);
-	clientHttp->insertItem("konqueror", 1);
-	clientHttp->insertItem("lynx", 2);
-	clientHttp->insertItem("mozilla", 3);
-	clientHttp->insertItem("firefox", 4);
-	clientHttp->insertItem("netscape", 5);
-	clientHttp->insertItem("opera", 6);
+	clientHttp->addItem("galeon");
+	clientHttp->addItem("konqueror");
+	clientHttp->addItem("lynx");
+	clientHttp->addItem("mozilla");
+	clientHttp->addItem("firefox");
+	clientHttp->addItem("netscape");
+	clientHttp->addItem("opera");
 
-	clientNews->insertItem("knode", 0);
+	clientNews->addItem("knode");
 #endif //MAC
 #endif //WIN32
 
-	clientFtp->setCurrentText(RzxConfig::globalConfig()->ftpCmd());
-	clientHttp->setCurrentText(RzxConfig::globalConfig()->httpCmd());
-	clientNews->setCurrentText(RzxConfig::globalConfig()->newsCmd());
+#define setValue(cb, cmd) \
+	if(!cb->findText(cmd)) cb->addItem(cmd); \
+	cb->setCurrentIndex(cb->findText(cmd))
 
-	txtWorkDir->setText( RzxConfig::globalConfig() ->FTPPath() );
+	setValue(clientFtp, RzxConfig::global()->ftpCmd());
+	setValue(clientHttp, RzxConfig::global()->httpCmd());
+	setValue(clientNews, RzxConfig::global()->newsCmd());
+//	clientFtp->setItemText(RzxConfig::global()->ftpCmd());
+//	clientHttp->setItemText(RzxConfig::global()->httpCmd());
+//	clientNews->setItemText(RzxConfig::global()->newsCmd());
+#undef setValue
+	txtWorkDir->setText( RzxConfig::global()->FTPPath() );
 	writeColDisplay();
 	
-	cbSystray->setChecked( RzxConfig::globalConfig() ->useSystray() );
-	cbSearch->setChecked( RzxConfig::globalConfig() ->useSearch() );
-	cbPropertiesWarning->setChecked(RzxConfig::globalConfig() -> warnCheckingProperties() );
-	cbPrintTime->setChecked(RzxConfig::globalConfig() -> printTime());
+	cbSystray->setChecked( RzxConfig::global() ->useSystray() );
+	cbSearch->setChecked( RzxConfig::global() ->useSearch() );
+	cbPropertiesWarning->setChecked(RzxConfig::global() -> warnCheckingProperties() );
+	cbPrintTime->setChecked(RzxConfig::global() -> printTime());
 	
-	pxmIcon->setPixmap(RzxConfig::localhostIcon());
+	pxmIcon->setPixmap(RzxIconCollection::global()->localhostPixmap());
 
-	cmbSport->setCurrentItem( RzxConfig::globalConfig() -> numSport() );
+	cmbSport->setCurrentIndex( RzxConfig::global() -> numSport() );
 	
-	languageBox->setCurrentItem( 0 );
-	for (int i = 0; i < languageBox->count(); i++ ){
-		if (tr("English")==languageBox->text(i)){
-			languageBox->setCurrentItem( i );
-		}
-	}
+	languageBox->setCurrentIndex(0);
+	languageBox->setCurrentIndex(languageBox->findText(tr("English")));
 
 	RzxPlugInLoader::global()->makePropListView(lvPlugInList, btnPlugInProp, btnPlugInReload);
 }
 
+///Met à jour l'objet représentant localhost
 bool RzxProperty::updateLocalHost()
 {
-	bool refresh = (RzxConfig::localHost() -> getName().lower() != hostname->text().lower());
-	RzxConfig::localHost() -> setName(hostname->text());
+	bool refresh = (RzxComputer::localhost()->name().toLower() != hostname->text().toLower());
+	RzxComputer::localhost()->setName(hostname->text());
 	if(refresh) RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_DNSNAME, NULL);
 	
-	refresh = refresh || RzxConfig::localHost()->getRemarque() != remarque->text();
-	RzxConfig::localHost() -> setRemarque(remarque -> text());
-	refresh = refresh || RzxConfig::localHost()->getPromo() != cmbPromo->currentItem()+1;
-	RzxConfig::localHost() -> setPromo(cmbPromo->currentItem() + 1);
+	refresh = refresh || RzxComputer::localhost()->remarque() != remarque->text();
+	RzxComputer::localhost() -> setRemarque(remarque -> text());
+	refresh = refresh || RzxComputer::localhost()->promo() != cmbPromo->currentIndex()+1;
+	RzxComputer::localhost()->setPromo((Rzx::Promal)(cmbPromo->currentIndex() + 1));
 	refresh = refresh || RzxConfig::autoResponder() != chkAutoResponder->isChecked();
-	RzxConfig::localHost() -> setRepondeur(chkAutoResponder -> isChecked());
+	RzxComputer::localhost()->setState(chkAutoResponder->isChecked());
 	
 	refresh = refresh || (RzxConfig::refuseWhenAway() ^ cbRefuseAway->isChecked());
 
-	int servers = 0;
+	QFlags<RzxComputer::ServerFlags> servers;
 	if ( CbSamba->isChecked() )
-		servers |= RzxComputer::FLAG_SAMBA;
+		servers |= RzxComputer::SERVER_SAMBA;
 	if ( CbFTP->isChecked() )
-		servers |= RzxComputer::FLAG_FTP;
+		servers |= RzxComputer::SERVER_FTP;
 	if ( CbHTTP->isChecked() )
-		servers |= RzxComputer::FLAG_HTTP;
+		servers |= RzxComputer::SERVER_HTTP;
 	if ( CbNews->isChecked() )
-		servers |= RzxComputer::FLAG_NEWS;
+		servers |= RzxComputer::SERVER_NEWS;
 
-	int oldservers = RzxConfig::localHost()->getServerFlags();
-	if((servers & RzxComputer::FLAG_SAMBA) ^ (oldservers & RzxComputer::FLAG_SAMBA))
+	QFlags<RzxComputer::ServerFlags> oldservers = RzxComputer::localhost()->serverFlags();
+	if((servers & RzxComputer::SERVER_SAMBA) ^ (oldservers & RzxComputer::SERVER_SAMBA))
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_DISPSMB, NULL);
-	if((servers & RzxComputer::FLAG_NEWS) ^ (oldservers & RzxComputer::FLAG_NEWS))
+	if((servers & RzxComputer::SERVER_NEWS) ^ (oldservers & RzxComputer::SERVER_NEWS))
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_DISPNEWS, NULL);
-	if((servers & RzxComputer::FLAG_HTTP) ^ (oldservers & RzxComputer::FLAG_HTTP))
+	if((servers & RzxComputer::SERVER_HTTP) ^ (oldservers & RzxComputer::SERVER_HTTP))
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_DISPHTTP, NULL);
-	if((servers & RzxComputer::FLAG_FTP) ^ (oldservers & RzxComputer::FLAG_FTP))
+	if((servers & RzxComputer::SERVER_FTP) ^ (oldservers & RzxComputer::SERVER_FTP))
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_DISPFTP, NULL);
 	
-	RzxConfig::localHost() -> setServerFlags(servers);
+	RzxComputer::localhost()->setServerFlags(servers);
 	return refresh || servers != oldservers;
 }
 
@@ -404,29 +376,29 @@ bool RzxProperty::miseAJour() {
 	}
 	
 	//Mise à jours des données de configuration
-	RzxConfig * cfgObject = RzxConfig::globalConfig();
-	QRezix * ui = getRezix();
+	RzxConfig *cfgObject = RzxConfig::global();
+	QRezix *ui = getRezix();
 	
-	QObjectList l = queryList( "QLineEdit", "txt*" );
-	for(QList<QObject *>::iterator it = l.begin() ; it != l.end() ; it++)
-		// iteration sur l'ensemble des objets QCheckBox
-		cfgObject->writeEntry( (*it)->name(), static_cast<QLineEdit *>(*it) -> text() );
+	// iteration sur l'ensemble des objets QCheckBox
+	QList<QLineEdit*> l = findChildren<QLineEdit*>(QRegExp("txt.*"));
+	foreach(QLineEdit *edit, l)
+		cfgObject->writeEntry(edit->objectName(), edit->text());
 	
-	bool iconSizeChanged = (cfgObject -> computerIconSize() != cmbIconSize -> currentItem() || cfgObject->computerIconHighlight() != cbHighlight->isChecked());
-	bool themeChanged = RzxConfig::iconTheme().compare( cmbIconTheme -> currentText() );
+//	bool iconSizeChanged = (cfgObject->computerIconSize() != cmbIconSize->currentIndex() || cfgObject->computerIconHighlight() != cbHighlight->isChecked());
+	bool themeChanged = RzxConfig::iconTheme() != cmbIconTheme->currentText();
 
 	//Indique si les données 'partagées' ont été modifiées
 	//localHostUpdated = true ==> besoin de rafraichir le serveur
 	bool localHostUpdated = updateLocalHost();
 	
-	cfgObject -> writeEntry( "dnsname", RzxConfig::localHost() -> getName() );
-	cfgObject -> writeEntry( "comment", RzxConfig::localHost() -> getRemarque() );
-	cfgObject -> writeEntry( "promo", RzxConfig::localHost() -> getPromo() );
-	cfgObject -> writeEntry( "repondeur", RzxConfig::localHost() -> getRepondeur() );
-	cfgObject -> writeEntry( "servers", RzxConfig::localHost() -> getServerFlags() );
+	cfgObject -> writeEntry( "dnsname", RzxComputer::localhost()->name() );
+	cfgObject -> writeEntry( "comment", RzxComputer::localhost()->remarque() );
+	cfgObject -> writeEntry( "promo", RzxComputer::localhost()->promo() );
+	cfgObject -> writeEntry( "repondeur", RzxComputer::localhost()->state() );
+	cfgObject -> writeEntry( "servers", RzxComputer::localhost()->serverFlags() );
 
-	cfgObject -> writeEntry( "doubleClic", cmdDoubleClic->currentItem() );
-	cfgObject -> writeEntry( "iconsize", cmbIconSize -> currentItem() );
+	cfgObject -> writeEntry( "doubleClic", cmdDoubleClic->currentIndex() );
+	cfgObject -> writeEntry( "iconsize", cmbIconSize -> currentIndex() );
 	cfgObject -> writeEntry( "iconhighlight", cbHighlight->isChecked());
 	cfgObject -> writeEntry( "beep", chkBeep->isChecked() ? 1 : 0 );
 	cfgObject -> writeEntry( "beepConnection", chkBeepFavorites->isChecked() ? 1: 0);
@@ -458,12 +430,12 @@ bool RzxProperty::miseAJour() {
 	writeColDisplay();
 	cfgObject -> writeEntry( "useSystray", cbSystray->isChecked() ? 1 : 0 );
 	cfgObject -> writeEntry( "useSearch", cbSearch->isChecked() ? 1 : 0 );
-	cfgObject -> writeEntry( "defaultTab", cmbDefaultTab ->currentItem() );
+	cfgObject -> writeEntry( "defaultTab", cmbDefaultTab ->currentIndex() );
 	
 	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_WORKSPACE, NULL);
 	cfgObject -> writeEntry( "FTPPath", txtWorkDir->text() );
 	cfgObject -> writeEntry( "txtSport", cmbSport->currentText() );
-	cfgObject -> writeEntry( "numSport", cmbSport->currentItem());
+	cfgObject -> writeEntry( "numSport", cmbSport->currentIndex());
 	cfgObject -> writeEntry( "language", languageBox->currentText() );
 	cfgObject -> writeShowQuit(cbQuit->isChecked());
 	
@@ -478,10 +450,10 @@ bool RzxProperty::miseAJour() {
 	}
 #endif
 
-	if(RzxConfig::menuTextPosition() != cmbMenuText->currentItem() || RzxConfig::menuIconSize() != cmbMenuIcons->currentItem())
+	if(RzxConfig::menuTextPosition() != cmbMenuText->currentIndex() || RzxConfig::menuIconSize() != cmbMenuIcons->currentIndex())
 	{
-		cfgObject->writeEntry("menuTextPos", cmbMenuText->currentItem());
-		cfgObject->writeEntry("menuIconSize", cmbMenuIcons->currentItem());
+		cfgObject->writeEntry("menuTextPos", cmbMenuText->currentIndex());
+		cfgObject->writeEntry("menuIconSize", cmbMenuIcons->currentIndex());
 
 		emit cfgObject->iconFormatChange();
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_ICONSIZE, NULL);
@@ -504,36 +476,36 @@ bool RzxProperty::miseAJour() {
 	cfgObject->writeEntry( "tooltip", tooltip);
 
 	const QPixmap *localhostIcon = pxmIcon->pixmap();
-	if(RzxConfig::localhostIcon().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
+	if(RzxIconCollection::global()->localhostPixmap().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
 	{
 		localHostUpdated = true;
-		RzxConfig::saveIcon( "localhost", *localhostIcon );
+		RzxIconCollection::global()->saveLocalhostIcon(*localhostIcon);
 		if (ui->wellInit && !RzxServerListener::object() -> isSocketClosed())
-			RzxServerListener::object() -> sendIcon( localhostIcon -> convertToImage() );
+			RzxServerListener::object() -> sendIcon(localhostIcon->toImage());
 	}
 
 	if(ui->wellInit && localHostUpdated)
 		serverUpdate();
 
-	ui->activateAutoResponder(RzxConfig::localHost() -> getRepondeur());
+	ui->activateAutoResponder(RzxComputer::localhost()->isOnResponder());
 	if (ui->tray)
 		ui->tray->setVisible(cbSystray->isChecked());
 	
 		
-	RzxConfig::globalConfig() -> writeEntry("warnCheckingProperties", (cbPropertiesWarning->isChecked() ? 1: 0));
-	RzxConfig::globalConfig() -> writeEntry("printTime", cbPrintTime->isChecked() ? 1 : 0);
+	RzxConfig::global() -> writeEntry("warnCheckingProperties", (cbPropertiesWarning->isChecked() ? 1: 0));
+	RzxConfig::global() -> writeEntry("printTime", cbPrintTime->isChecked() ? 1 : 0);
 		
-	if ( iconSizeChanged && ui -> rezal)
+/*	if ( iconSizeChanged && ui -> rezal)
 		ui -> rezal -> redrawAllIcons();
 	if ( iconSizeChanged && ui -> rezalFavorites)
-		ui -> rezalFavorites -> redrawAllIcons();
+		ui -> rezalFavorites -> redrawAllIcons();*/
 	ui->showSearch(cbSearch->isChecked());
 	
-	if ( themeChanged )
+	if(themeChanged)
 	{
-		RzxConfig::setIconTheme( QObject::parent(), cmbIconTheme -> currentText() );
+		RzxIconCollection::global()->setTheme(cmbIconTheme->currentText());
+		cfgObject->writeEntry("theme", cmbIconTheme->currentText());
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_THEME, NULL);
-		changeTheme();
 	}
 	
 	/* Mise à jour de l'affichage des Rezal */
@@ -547,7 +519,7 @@ bool RzxProperty::miseAJour() {
 	RzxPlugInLoader::global()->validPropListView();
 	
 	/* Sauvegarde du fichier du conf */
-	RzxConfig::globalConfig()->flush();
+	RzxConfig::global()->flush();
 	
 	return true;
 }
@@ -598,11 +570,8 @@ void RzxProperty::oK() {
 
 
 /** No descriptions */
-QRezix * RzxProperty::getRezix() const {
-	QObject * object = parent();
-	if ( !object -> isA( "QRezix" ) )
-		return 0;
-	return ( QRezix * ) object;
+QRezix *RzxProperty::getRezix() const {
+	return (QRezix*)QRezix::global();
 }
 
 /** No descriptions */
@@ -610,27 +579,26 @@ void RzxProperty::serverUpdate() {
 	// MAJ sur le serveur
 	RzxServerListener * server = RzxServerListener::object();
 	if (server -> isSocketClosed()) return;
-	RzxComputer * localhostObject = RzxConfig::localHost();
+	RzxComputer * localhostObject = RzxComputer::localhost();
 	server -> sendRefresh( localhostObject );
 }
 
 void RzxProperty::writeColDisplay() {
 	int colonnesAffichees = 0;
-	if ( cbcIcone ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColIcone;
-	if ( cbcNom ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColNom;
-	if ( cbcRemarque->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColRemarque;
-	if ( cbcSamba ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColSamba;
-	if ( cbcFTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColFTP;
-	if ( cbcHTTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColHTTP;
-	if ( cbcNews ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColNews;
-	if ( cbcOS ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColOS;
-	if ( cbcGateway ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColGateway;
-	if ( cbcPromo ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColPromo;
-	if ( cbcResal ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColResal;
-	if ( cbcClient ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColClient;
-	if ( cbcIP ->isChecked() ) colonnesAffichees |= 1<<RzxRezal::ColIP;
+	if ( cbcNom ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColNom;
+	if ( cbcRemarque->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColRemarque;
+	if ( cbcSamba ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColSamba;
+	if ( cbcFTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColFTP;
+	if ( cbcHTTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColHTTP;
+	if ( cbcNews ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColNews;
+	if ( cbcOS ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColOS;
+	if ( cbcGateway ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColGateway;
+	if ( cbcPromo ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColPromo;
+	if ( cbcResal ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColRezal;
+	if ( cbcClient ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColClient;
+	if ( cbcIP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColIP;
 
-	RzxConfig::globalConfig() ->writeEntry( "colonnes", colonnesAffichees );
+	RzxConfig::global() ->writeEntry( "colonnes", colonnesAffichees );
 }
 
 
@@ -651,14 +619,14 @@ void RzxProperty::chooseIcon() {
 	if ( file.isEmpty() ) return ;
 
 	QPixmap icon;
-	if ( !icon.load( file ) ) {
+	if (!icon.load(file)) {
 		RzxMessageBox::warning( this,
 		                      tr("Error !"),
 		                      tr("Selected file is not valid"));
 		return ;
 	}
 
-	pxmIcon -> setPixmap( icon );
+	pxmIcon->setPixmap(icon);
 }
 
 void RzxProperty::chooseBeep() {
@@ -677,10 +645,9 @@ void RzxProperty::chooseBeepConnection() {
 
 void RzxProperty::launchDirSelectDialog() {
 	QString temp;
-	if ( !RzxConfig::globalConfig()->FTPPath().isNull() )
+	if ( !RzxConfig::global()->FTPPath().isNull() )
 #ifdef WITH_KDE
-
-		temp = KFileDialog::getExistingDirectory ( RzxConfig::globalConfig() ->FTPPath()
+		temp = KFileDialog::getExistingDirectory ( RzxConfig::global() ->FTPPath()
 		        , 0, tr("Choose default ftp folder") );
 	else
 		temp = KFileDialog::getExistingDirectory ( ".", 
@@ -688,7 +655,7 @@ void RzxProperty::launchDirSelectDialog() {
 #else
 
 		temp = QFileDialog::getExistingDirectory(this, tr("Choose default ftp folder"),
-												 RzxConfig::globalConfig()->FTPPath()); 
+					 RzxConfig::global()->FTPPath()); 
 	else
 		temp = QFileDialog::getExistingDirectory(this, tr("Choose default ftp folder"), ".");
 #endif
@@ -707,10 +674,10 @@ void RzxProperty::lockCmbMenuText(int index)
 {
 	if(index==0)
 	{
-		cmbMenuText->setCurrentItem(1);
-		cmbMenuText->setDisabled(TRUE);
+		cmbMenuText->setCurrentIndex(1);
+		cmbMenuText->setDisabled(true);
 	}
 	else
-		cmbMenuText->setEnabled(TRUE);
+		cmbMenuText->setEnabled(true);
 }
 

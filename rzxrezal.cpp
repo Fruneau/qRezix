@@ -29,35 +29,13 @@
 #include "rzxchat.h"
 #include "rzxitem.h"
 #include "rzxcomputer.h"
-#include "rzxpluginloader.h"
 #include "rzxutilslauncher.h"
 #include "rzxconnectionlister.h"
 #include "rzxclientlistener.h"
+#include "rzxrezalpopup.h"
 
 #define USER_HASH_TABLE_LENGTH 1663
 
-
-/***********************************************************
- *** RzxPopupMenu                                        ***
- ***********************************************************/
-///Constructeur on peut plus simple...
-RzxPopupMenu::RzxPopupMenu(QWidget *parent) : QMenu(parent) { }
-
-///Interception des entrées clavier
-/** La flèche de gauche sert à fermer le popup */
-void RzxPopupMenu::keyPressEvent(QKeyEvent *e) {
-	if(e->key() != Qt::Key_Left) {
-		QMenu::keyPressEvent(e);
-		return;
-	}
-	close();
-} 
-
-
-
-/***********************************************************
-*** RzxRezal                                             ***
-***********************************************************/
 const QString RzxRezal::colNames[RzxRezal::numColonnes] =
 		{ QT_TR_NOOP("Icon"), QT_TR_NOOP("Computer name"), QT_TR_NOOP("Comment"),
 			QT_TR_NOOP("Samba"), QT_TR_NOOP("FTP"), QT_TR_NOOP("Web"), 
@@ -91,6 +69,7 @@ RzxRezal::RzxRezal(QWidget * parent, const char * name) : Q3ListView(parent, nam
 	
 	connect(lister, SIGNAL(login(RzxComputer*)), this, SLOT(bufferedLogin(RzxComputer *)));
 	connect(lister, SIGNAL(logout(RzxComputer*)), this, SLOT(logout(RzxComputer*)));
+	connect(lister, SIGNAL(update(RzxComputer*)), this, SLOT(bufferedLogin(RzxComputer*)));
 	connect(lister, SIGNAL(connectionEtablished()), this, SLOT(init()));
 
 	// On est obligé d'utiliser ce signal pour savoir dans quelle colonne le
@@ -132,52 +111,11 @@ void RzxRezal::loginFromLister(bool val)
  * - Des features du client distant
  * - Des choix de l'utilisateur (ban, favoris...)
  */
-void RzxRezal::creePopUpMenu(Q3ListViewItem *ordinateurSelect,const QPoint & pos, int){
+void RzxRezal::creePopUpMenu(Q3ListViewItem *ordinateurSelect,const QPoint & pos, int)
+{
 	RzxItem* item = qobject_cast<RzxItem*>((RzxItem*)ordinateurSelect);
 	if(item)
-	{ 
-		RzxComputer *computer = item->getComputer();
-		int serveurs=item->servers;
-		popup.clear();
-		
-		#define newItem(name, trad, receiver, slot) popup.addAction(RzxConfig::themedIcon(name).scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), trad, receiver, slot)
-		if(item->ignored) {
-			if(serveurs & 1) newItem("samba", tr("Samba connect"), this, SLOT(samba()));
-			if((serveurs>>1) & 1) newItem("ftp", tr("FTP connect"), this, SLOT(ftp()));
-			if((serveurs>>3) & 1) newItem("http", tr("browse Web"), this, SLOT(http()));
-			if((serveurs>>4) & 1) newItem("news", tr("read News"), this, SLOT(news()));
-			popup.addSeparator();
-			newItem("unban", tr("Remove from ignore list"), this, SLOT(removeFromIgnoreList()));
-		}
-		else {
-			if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur() && computer->can(RzxComputer::CAP_CHAT))
-				newItem("chat", tr("begin &Chat"), this, SLOT(chatCreate()));
-				//popup.insertItem(*RzxConfig::themedIcon("chat"), tr("begin &Chat"),this,SLOT(chatCreate()));
-			if(serveurs & 1) newItem("samba", tr("Samba connect"), this, SLOT(samba()));
-			if((serveurs>>1) & 1) newItem("ftp", tr("FTP connect"), this, SLOT(ftp()));
-			if((serveurs>>3) & 1) newItem("http", tr("browse Web"), this, SLOT(http()));
-			if((serveurs>>4) & 1) newItem("news", tr("read News"), this, SLOT(news()));
-			popup.addSeparator();
-			newItem("historique", tr("History"), this, SLOT(historique()));
-			if(computer->can(RzxComputer::CAP_CHAT))
-				newItem("prop", tr("Properties"), this, SLOT(proprietes()));
-			popup.addSeparator();
-			if(RzxConfig::globalConfig()->isFavorite(ordinateurSelect->text(1)))
-			{
-				newItem("not_favorite", tr("Remove from favorites"), this, SLOT(removeFromFavorites()));
-			}
-			else {
-				newItem("favorite", tr("Add to favorites"), this, SLOT(addToFavorites()));
-				newItem("ban", tr("Add to ignore list"), this, SLOT(addToIgnoreList()));
-			}
-		}
-		popup.addSeparator();
-		newItem("cancel", tr("Cancel"), &popup, SLOT(hide()));
-		RzxPlugInLoader::global()->menuItem(popup);
-		popup.popup(pos);
-		
-		#undef newItem
-	}
+		new RzxRezalPopup(item->getComputer(), pos, this);
 }
 
 void RzxRezal::proprietes(const RzxHostAddress& peer)
@@ -224,7 +162,7 @@ void RzxRezal::proprietes(){
 
 void RzxRezal::historique(){
 	RzxItem * item=(RzxItem*) currentItem();
-	QString hostname = lister->getComputerByIP(item->ip)->getName();
+	QString hostname = lister->getComputerByIP(item->ip)->name();
 	if(!RzxChatSocket::showHistorique(item->ip, hostname))
 		emit status(tr("No history file for user %1").arg(hostname), false);
 }
@@ -232,16 +170,16 @@ void RzxRezal::historique(){
 void RzxRezal::removeFromFavorites()
 {
 	RzxItem *item = (RzxItem*)currentItem();
-	RzxConfig::globalConfig()->delFromFavorites(item->text(ColNom));
-	RzxConfig::globalConfig()->writeFavorites();
+	RzxConfig::global()->delFromFavorites(item->text(ColNom));
+	RzxConfig::global()->writeFavorites();
 	emit favoriteRemoved(item->getComputer());
 }
 
 void RzxRezal::addToFavorites()
 {
 	RzxItem *item = (RzxItem*)currentItem();
-	RzxConfig::globalConfig()->addToFavorites(item->text(ColNom));
-	RzxConfig::globalConfig()->writeFavorites();
+	RzxConfig::global()->addToFavorites(item->text(ColNom));
+	RzxConfig::global()->writeFavorites();
 	emit favoriteAdded(item->getComputer());
 }
 
@@ -249,8 +187,8 @@ void RzxRezal::removeFromIgnoreList()
 {
 	RzxItem *item = (RzxItem*)currentItem();
 	item -> ignored = false;
-	RzxConfig::globalConfig()->delFromBanlist(*(item->getComputer()));
-	RzxConfig::globalConfig()->writeIgnoreList();
+	RzxConfig::global()->delFromBanlist(*(item->getComputer()));
+	RzxConfig::global()->writeIgnoreList();
 }
 
 void RzxRezal::addToIgnoreList()
@@ -258,8 +196,8 @@ void RzxRezal::addToIgnoreList()
 	RzxItem *item = (RzxItem*)currentItem();
 	item -> ignored = true;
 	QString temp= item->text(ColNom);
-	RzxConfig::globalConfig()->addToBanlist(*(item->getComputer()));
-	RzxConfig::globalConfig()->writeIgnoreList();
+	RzxConfig::global()->addToBanlist(*(item->getComputer()));
+	RzxConfig::global()->writeIgnoreList();
 }
 
 ///Lancement du client ftp
@@ -342,14 +280,14 @@ void RzxRezal::adapteColonnes(){
 }
 
 void RzxRezal::bufferedLogin(RzxComputer *computer) {
-	RzxItem *item = itemByIp[computer->getIP()];
+	RzxItem *item = itemByIp[computer->ip()];
 	if(!item)
 	{
-		if(!dispNotFavorites && !RzxConfig::globalConfig()->isFavorite(*computer))
+		if(!dispNotFavorites && !RzxConfig::global()->isFavorite(*computer))
 			return;
 		setUpdatesEnabled(!dispNotFavorites);
 		item = new RzxItem(computer, this, dispNotFavorites);
-		itemByIp.insert(computer->getIP(), item);
+		itemByIp.insert(computer->ip(), item);
 		item->setVisible(!dispNotFavorites);
 		if(!dispNotFavorites)
 			emit newFavorite(computer);
@@ -359,23 +297,23 @@ void RzxRezal::bufferedLogin(RzxComputer *computer) {
 	{
 		if(!dispNotFavorites)
 		{
-			if(!RzxConfig::globalConfig()->isFavorite(*computer))
+			if(!RzxConfig::global()->isFavorite(*computer))
 			{
-				RzxConfig::globalConfig()->addToFavorites(*computer);
-				RzxConfig::globalConfig()->writeFavorites();
+				RzxConfig::global()->addToFavorites(*computer);
+				RzxConfig::global()->writeFavorites();
 			}
 			emit changeFavorite(computer);
 		}
-		QString old_name = nameByIP[computer->getIP()];
+		QString old_name = nameByIP[computer->ip()];
 		if(!old_name.isNull())
 		{
 			itemByName.remove(old_name);
-			nameByIP.remove(computer->getIP());
+			nameByIP.remove(computer->ip());
 		}
 	}
 
-	itemByName.insert(computer->getName().lower(), new RzxItem*(item));
-	nameByIP.insert(computer->getIP(), computer->getName().lower());
+	itemByName.insert(computer->name().lower(), new RzxItem*(item));
+	nameByIP.insert(computer->ip(), computer->name().lower());
 
 	item->update();
 	setUpdatesEnabled(TRUE);
@@ -394,7 +332,7 @@ void RzxRezal::logBufLogins() { //en fait vu que le QPtrList faisait des segfaul
 /** Déconnexion à partir d'un RzxComputer* */
 void RzxRezal::logout(RzxComputer *computer)
 {
-	RzxItem *item = itemByIp.take(computer->getIP());
+	RzxItem *item = itemByIp.take(computer->ip());
 	
 	if(!item) return;
 	
@@ -404,8 +342,8 @@ void RzxRezal::logout(RzxComputer *computer)
 	if((selected == item))
 		selected = NULL;
 	
-	itemByName.remove(computer->getName().lower());
-	nameByIP.remove(computer->getIP());
+	itemByName.remove(computer->name().lower());
+	nameByIP.remove(computer->ip());
 	item->deleteLater();
 }
 
@@ -485,13 +423,13 @@ void RzxRezal::onListDblClicked(Q3ListViewItem * sender){
 
 	if( !gere ) // par défaut -> chat ou ftp.
 	{
-		if(RzxConfig::globalConfig()->doubleClicRole() && (serveurs & RzxComputer::SERVER_FTP)){
+		if(RzxConfig::global()->doubleClicRole() && (serveurs & RzxComputer::SERVER_FTP)){
 			ftp();
 		}
 		else {/*chat*/
 			RzxItem * listItem = (RzxItem *) sender;
 			RzxComputer *computer = listItem->getComputer();
-			if(computer->getName() != RzxConfig::localHost()->getName() && !computer->getRepondeur() && computer->can(RzxComputer::CAP_CHAT))
+			if(computer->name() != RzxConfig::localHost()->name() && !computer->repondeur() && computer->can(RzxComputer::CAP_CHAT))
 				lister->chatCreate(listItem -> ip);
 		}
 	}
@@ -618,82 +556,7 @@ void RzxRezal::buildToolTip(Q3ListViewItem *i) const
 	if(!item) return;
 	
 	RzxComputer *computer = item->getComputer();
-	QString tooltip = "<b>"+ i->text(ColNom) + " </b>";
-	if(tooltipFlags & (int)RzxConfig::Promo)
-		tooltip += "<i>(" + computer->getPromoText() + ")</i>";
-	tooltip += "<br/><br/>";
- 	tooltip += "<b><i>" + tr("Informations :") + "</b></i><br/>";
-	
-	int servers = computer->getServers();
-	if(servers & RzxComputer::SERVER_FTP && (tooltipFlags & (int)RzxConfig::Ftp))
-		tooltip += "<b>-></b>&nbsp;" + tr("ftp server : ") + tr("<b>on</b>") + "<br/>";
-	if(servers & RzxComputer::SERVER_HTTP && (tooltipFlags & (int)RzxConfig::Http))
-		tooltip += "<b>-></b>&nbsp;" + tr("web server : ") + tr("<b>on</b>") + "<br/>";
-	if(servers & RzxComputer::SERVER_NEWS && (tooltipFlags & (int)RzxConfig::News))
-		tooltip += "<b>-></b>&nbsp;" + tr("news server : ") + tr("<b>on</b>") + "<br/>";
-	if(servers & RzxComputer::SERVER_SAMBA && (tooltipFlags & (int)RzxConfig::Samba))
-		tooltip += "<b>-></b>&nbsp;" + tr("samba server : ") + tr("<b>on</b>") + "<br/>";
-	if(tooltipFlags & (int)RzxConfig::OS)
-	{
-		tooltip += "<b>-></b>&nbsp;os : ";
-		switch((int)computer->getOptions().SysEx)
-		{
-			case 1: tooltip += "Windows 9x/Me"; break;
-			case 2: tooltip += "Windows NT/2000/XP"; break;
-			case 3: tooltip += "Linux"; break;
-			case 4: tooltip += "MacOS"; break;
-			case 5: tooltip += "MacOS X"; break;
-			case 6: tooltip += "BSD"; break;
-			default: tooltip += tr("Unknown");
-		}
-		tooltip += "<br/>";
-	}
-	if(tooltipFlags & (int)RzxConfig::Client)
-		tooltip += "<b>-></b>&nbsp;" + computer->getClient() + "<br/>";
-	if(tooltipFlags & (int)RzxConfig::Features)
-	{
-		if(computer->can(RzxComputer::CAP_ON))
-		{
-			int nb = 0;
-			tooltip += "<b>-></b>&nbsp;" + tr("features : ");
-			if(computer->can(RzxComputer::CAP_CHAT))
-			{
-				tooltip += tr("chat");
-				nb++;
-			}
-			if(computer->can(RzxComputer::CAP_XPLO))
-			{
-				tooltip += QString(nb?", ":"") + "Xplo";
-				nb++;
-			}
-			if(!nb) tooltip += tr("none");
-			tooltip += "<br/>";
-		}
-	}
-	if(tooltipFlags & (int)RzxConfig::IP)
-		tooltip += "<b>-></b>&nbsp;ip : <i>" + computer->getIP().toString() + "</i><br/>";
-	if(tooltipFlags & (int)RzxConfig::Resal)
-		tooltip += "<b>-></b>&nbsp;" + tr("place : ") + computer->getResal(false) + "<br/>";
-	
-	if(tooltipFlags & (int)RzxConfig::Properties)
-	{
-		tooltip += "<br/>";
-		RzxHostAddress address = computer->getIP();
-		QString msg = RzxConfig::cache(address);
-		if(msg.isNull())
-		{
-			tooltip += "<i>" + tr("No properties in cache") + "</i>";
-		}
-		else
-		{
-			QString date = RzxConfig::getCacheDate(address);
-			tooltip += "<b><i>" + tr("Properties checked on ")  + date + " :</i></b><br/>";
-			QStringList list = QStringList::split("|", msg, true);
-			for(int i = 0 ; i < list.size() - 1 ; i+=2)
-				tooltip += "<b>-></b>&nbsp;" + list[i] + " : " + list[i+1] + "<br/>";
-		}
-	}
-	viewport()->setToolTip(tooltip);
+	viewport()->setToolTip(computer->tooltipText());
 }
 
 void RzxRezal::languageChanged(){

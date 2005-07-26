@@ -30,7 +30,10 @@
 #include <QPoint>
 #include <QList>
 
-class RzxComputer;
+#include "rzxglobal.h"
+
+#include "rzxcomputer.h"
+
 class QPixmap;
 class RzxProperty;
 class RzxHostAddress;
@@ -40,6 +43,8 @@ class QHostAddress;
   *@author Sylvain Joyeux
   */
 
+///Gestion des données de configuration
+/** Classe à épurer !!! */
 class RzxConfig : public QObject  {
 	Q_OBJECT
 	friend class RzxProperty;
@@ -47,25 +52,22 @@ class RzxConfig : public QObject  {
 	friend class RzxPlugInLoader;
 	friend class QRezix;
 	
-	class FontProperty {
-	public:
-		bool bold;
-		bool italic;
-		QList<int> sizes;
+	class FontProperty
+	{
+		public:
+			bool bold;
+			bool italic;
+			QList<int> sizes;
 		
-		FontProperty() { sizes = QList<int>(); }
-		FontProperty(bool b, bool i, const QList<int> &pS);
-		~FontProperty();
+			FontProperty() { sizes = QList<int>(); }
+			FontProperty(bool b, bool i, const QList<int> &pS);
+			~FontProperty();
 	};
 	
 	static RzxConfig * Config;
 	RzxConfig();
-	QHash<QString,QPixmap> allIcons;
-	QHash<QString,QPixmap> progIcons;
-	QHash<QString,QString> fileEntries;
 	QDir m_systemDir;
 	QDir m_userDir;
-	QDir m_themeDir;
 	QDir m_libDir;
 	QStringList fontFamilies;
 	QHash<QString,FontProperty> fontProperties;
@@ -91,12 +93,12 @@ public:
 	static QHash<QString,QTranslator*> translations;
 	void loadTranslators();
 	static void setLanguage(QString language);
-	static RzxConfig * globalConfig();
+	static RzxConfig *global();
 	~RzxConfig();
 
 // Favoris et BanList
 private :
-        QSet<QString> favorites;
+	QSet<QString> favorites;
 	QSet<QString> ignoreList;
 
 public:
@@ -148,7 +150,7 @@ public:
 	static int chatPort();
 	static int serverPort();
 	static QString serverName();
-	static QString iconTheme(bool def = true);
+	static QString iconTheme();
 	static QString FTPPath();
 	static int quitMode();
 	static bool showQuit();
@@ -167,6 +169,13 @@ public:
 	static void ftpCmd(QString newstr);
 	static void httpCmd(QString newstr);
 	static void newsCmd(QString newstr);
+
+	// Configuration de base de l'ordinateur
+	static QString dnsname();
+	static QString remarque();
+	static Rzx::Promal promo();
+	static Rzx::ConnectionState repondeur();
+	static QFlags<RzxComputer::ServerFlags> servers();
 
 	// proprietes de l'ordinateur
 	static QString propLastName();
@@ -192,7 +201,7 @@ public:
 	static int tooltip();
 	static QStringList ignoredPluginsList();
 	
-	static int autoResponder();
+	static bool autoResponder();
 	static QString autoResponderMsg();
 	static void setAutoResponder(bool val);
 	static QColor repondeurHighlight();
@@ -201,7 +210,6 @@ public:
 	static QColor repondeurNormalText();
 	static QColor ignoredBGColor();
 	static QColor ignoredText();
-	static void setIconTheme(QObject* parent, const QString& name);
 	static QString readWindowSize();
 	static void writeWindowSize(QString ws);
 	static QPoint readWindowPosition();
@@ -220,36 +228,19 @@ public:
 	static QDir libDir();
 	/** the name of the log's subdirectory */
 	static const QString logPath;
-	static const QString themePath;
 
-	static RzxComputer * localHost();
-	
 	static QColor errorTextColor();
 	static QColor errorBackgroundColor();
-	static const QVector<QPixmap*> yesnoIcons();
-	static const QVector<QPixmap*> gatewayIcons();
-	static const QVector<QPixmap*> promoIcons();
-	static const QPixmap& soundIcon(bool sound=true);
-	
-	static const QVector<QPixmap*> osIcons(bool large= false);
-	static const QPixmap& localhostIcon();
-	static void saveIcon(const QString& name, const QPixmap& image);
 	
 	static QString historique(quint32 ip, const QString& hostname);
-	
-	static QString buildLocalhost();
-
-	static const QPixmap& themedIcon(const QString& name);
+	static QString language();
 
 signals:
 	void languageChanged();
 	void updateResponder();
-	void themeChanged();
 	void iconFormatChange();
 	
 protected: // Protected attributes
-	void loadLocalHost();
-	
 	static const QPixmap &icon(const QString& name);
 	static const QPixmap &icon(const QString& name, QHash<QString,QPixmap>& cache, const QString& subdir = QString::null);
 	QString readEntry(const QString& name, const QString& def);
@@ -258,13 +249,12 @@ protected: // Protected attributes
 	void writeEntry(const QString& name, const QString& val);
 	void writeEntry(const QString& name, int val);
 	void writeEntry(const QString& name, const QStringList & list);
-	
-	static QString name();
 
 private: // Public attributes
 	void loadTranslatorsInDir(const QDir &rep);
 	static QTranslator* currentTranslator;
-	RzxComputer * computer;
 };
+
+#define RZXCONFIG_DEFINED_H
 
 #endif

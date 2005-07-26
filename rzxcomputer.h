@@ -19,6 +19,10 @@
 
 #include <QObject>
 #include <QPixmap>
+#include <QFlags>
+#include <QMetaType>
+
+#include "rzxglobal.h"
 
 #include "rzxhostaddress.h"
 
@@ -26,19 +30,32 @@
   *@author Sylvain Joyeux
   */
 
+///Représentation d'un ordinateur
+/** Gère la totalité des informations représentant un ordinateur en fournissant
+ * un accès facile et intuitif au données, des signaux qui permettent d'informer
+ * des changements d'état de la machine.
+ *
+ * Cette classe fait partie du coeur de qRezix et constituant le moyen de stockage
+ * des informations concernant les utilisateurs.
+ */
 class RzxComputer : public QObject  {
 	Q_OBJECT
+	Q_PROPERTY(QString name READ name WRITE setName)
+	Q_PROPERTY(QFlags<ServerFlags> servers READ servers WRITE setServers)
+	Q_PROPERTY(QFlags<ServerFlags> serverFlags READ serverFlags WRITE setServerFlags)
+	Q_PROPERTY(QString remarque READ remarque WRITE setRemarque)
+	Q_PROPERTY(QPixmap icon READ icon WRITE setIcon)
+	Q_PROPERTY(RzxHostAddress ip READ ip WRITE setIP)
+	Q_PROPERTY(quint32 stamp READ stamp)
+	//Commentés parce que Rzx est un namespace et donc ça marche pas :/
+	//pourtant Qt est aussi un namespace...
+	//Q_PROPERTY(Rzx::Promal promo READ promo WRITE setPromo)
+	//Q_PROPERTY(Rzx::ConnectionState state READ state WRITE setState)
+	Q_ENUMS(ServerFlags)
+	Q_FLAGS(Server)
 	
-public: 
 #ifndef Q_OS_MAC
-	struct version_t
-	{
-		unsigned FunnyVersion	:14;
-		unsigned MinorVersion	:7;
-		unsigned MajorVersion	:3;
-		unsigned Client			:8;	//1 = ReziX; 2 = XNet, 3 = MacXNet, 4 = CPANet 5 = CocoaXNet 6 = qrezix 7 = mxnet
-	};
-  struct options_t
+	struct options_t
 	{
 		unsigned Server			:6;
 		unsigned SysEx				:3;	//0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X, 6=BSD
@@ -48,13 +65,6 @@ public:
 		unsigned Capabilities	:19;
 	};
 #else
-	struct version_t
-	{
-		unsigned Client			:8;	//1 = ReziX; 2 = XNet, 3 = MacXNet, 4 = CPANet 5 = CocoaXNet 6 = qrezix 7 = mxnet
-		unsigned MajorVersion	:3;
-		unsigned MinorVersion	:7;
-		unsigned FunnyVersion	:14;
-	};
   struct options_t
 	{
 		unsigned Capabilities	:19;
@@ -66,9 +76,31 @@ public:
 	};
 #endif
 
-	unsigned int ServerFlags;
+	enum Repondeur {
+		REP_ACCEPT = 0,
+		REP_ON = 1,
+		REP_REFUSE = 2
+	};	
 	
-	enum Server {
+public: 
+#ifndef Q_OS_MAC
+	struct version_t
+	{
+		unsigned FunnyVersion	:14;
+		unsigned MinorVersion	:7;
+		unsigned MajorVersion	:3;
+		unsigned Client			:8;	//1 = ReziX; 2 = XNet, 3 = MacXNet, 4 = CPANet 5 = CocoaXNet 6 = qrezix 7 = mxnet
+	};
+#else
+	struct version_t
+	{
+		unsigned Client			:8;	//1 = ReziX; 2 = XNet, 3 = MacXNet, 4 = CPANet 5 = CocoaXNet 6 = qrezix 7 = mxnet
+		unsigned MajorVersion	:3;
+		unsigned MinorVersion	:7;
+		unsigned FunnyVersion	:14;
+	};
+#endif
+	enum ServerFlags {
 		SERVER_SAMBA = 1,
 		SERVER_FTP = 2,
 		SERVER_HOTLINE = 4,
@@ -76,81 +108,90 @@ public:
 		SERVER_NEWS = 16
 	};
 
-	enum ServerFlags {
-		FLAG_SAMBA = 1,
-		FLAG_FTP = 2,
-		FLAG_HOTLINE = 4,
-		FLAG_HTTP = 8,
-		FLAG_NEWS = 16
-	};
-	
-	enum SysEx {
-		SYSEX_UNKNOWN = 0,
-		SYSEX_WIN9X = 1,
-		SYSEX_WINNT = 2,
-		SYSEX_LINUX = 3,
-		SYSEX_MACOS = 4,
-		SYSEX_MACOSX = 5,
-		SYSEX_BSD = 6
-	};
+	Q_DECLARE_FLAGS(Server, ServerFlags)
 
-	enum Promal {
-		PROMAL_UNK = 0,
-		PROMAL_ORANGE = 1,
-		PROMAL_ROUJE = 2,
-		PROMAL_JONE = 3
-	};
+private:
+	///Chaînes de caractères représentant les différents sous-réseau
+	static const char *rezalText[Rzx::RZL_NUMBER][2];
 
-	static const char * promalText[4];
-	
-	enum Repondeur {
-		REP_ACCEPT = 0,
-		REP_ON = 1,
-		REP_REFUSE = 2
-	};	
-	
-	//définition des capabilities supplémentaires connues
-	enum Capabilities {
-		CAP_ON = 1,
-		CAP_CHAT = 2,
-		CAP_XPLO = 4
-	};
+	///Chaînes de caractères des promos
+	static const char *promalText[4];
 
+	///Chaînes de caractères des OS
+	static const char *osText[7];
+
+	static RzxComputer *m_localhost;
+
+	//private car il ne doit être utilisé que pour la construction de localhost
 	RzxComputer();
+
+public:
+	static RzxComputer *localhost();
+	static void buildLocalhost();
+
 	RzxComputer(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
 	~RzxComputer();
 
 	QString serialize(const QString& pattern) const;
 
-	/** Pour la creation de localHost */
-	void initLocalHost();
 	void update(const QString&, quint32, quint32, quint32, const QString&);
 
+protected:
+	/** Pour la creation de localHost */
+	void initLocalhost();
+
+public slots:
+	void logout();
+	void login();
 	void setName(const QString& text);
-	void setPromo(int promo);
-	void setRepondeur(bool);
-	void setServers(int servers);
-	void setServerFlags(int serverFlags);
+	void setPromo(Rzx::Promal promo);
+	void setState(Rzx::ConnectionState);
+	void setState(bool);
+	void setServers(QFlags<ServerFlags>);
+	void setServerFlags(QFlags<ServerFlags>);
 	void setRemarque(const QString& text);
 	void setIcon(const QPixmap& image);
+	void setIP(const RzxHostAddress&);
 	
-	QString getName() const;
-	int getPromo() const;
-	QString getPromoText() const;
-	int getRepondeur() const;
-	int getServers() const;
-	int getServerFlags() const;
-	QString getRemarque() const;
-	QPixmap getIcon() const;
-	QString getClient() const;
-	QString getResal(bool shortname = true) const;
-	bool can(unsigned int cap);
+public:
+	const QString &name() const;
+	const QString &remarque() const;
 
-	QString getFilename() const;
-	options_t getOptions() const;
-	version_t getVersion() const;
-	const RzxHostAddress &getIP() const;
-	unsigned long getFlags() const;
+	QPixmap icon() const;
+	quint32 stamp() const;
+
+	options_t options() const;
+	Rzx::Promal promo() const;
+	QString promoText() const;
+	Rzx::ConnectionState state() const;
+	Rzx::SysEx sysEx() const;
+	QString sysExText() const;
+	QFlags<ServerFlags> servers() const;
+	QFlags<ServerFlags> serverFlags() const;
+	bool hasSambaServer() const;
+	bool hasFtpServer() const;
+	bool hasHttpServer() const;
+	bool hasNewsServer() const;
+
+	version_t version() const;
+	QString client() const;
+	bool can(Rzx::Capabilities) const;
+
+	const RzxHostAddress &ip() const;
+	QString rezal(bool shortname = true) const;
+	Rzx::RezalId rezalId() const;
+	static QString rezalFromId(Rzx::RezalId, bool shortname = true);
+	bool isSameGateway(RzxComputer *computer = 0) const;
+	bool isSameGateway(const RzxComputer&) const;
+	bool isLocalhost() const;
+
+	unsigned long flags() const;
+
+	QString tooltipText() const;
+
+	bool isFavorite() const;
+	bool isIgnored() const;
+	bool isOnResponder() const;
 	
 	void loadIcon();
 	void autoSetOs();
@@ -158,23 +199,115 @@ public:
 	void runScanFtp();
 	void stopScanFtp();
 
-signals: // Signals
-	void isUpdated();
-	void needIcon(const RzxHostAddress&);
+	static QFlags<RzxComputer::ServerFlags> toServerFlags(int);
 
-public slots:
-	void scanServers();
+signals: // Signals
+	void update(RzxComputer*);
+	void needIcon(const RzxHostAddress&);
+	void stateChanged(RzxComputer*);
 
 protected:
-	QString name;
-	options_t options;
-	version_t version;
-	RzxHostAddress ip;
-	unsigned long flags;
-	unsigned long stamp;
-	QString remarque;
-	QPixmap icon;
+	void emitStateChanged();
+
+protected slots:
+	//Reconstruction de la liste des serveurs
+	void scanServers();
+
+public slots:
+	//Lancement des clients
+	void ftp(const QString& path = QString()) const;
+	void http(const QString& path = QString()) const;
+	void samba(const QString& path = QString()) const;
+	void news(const QString& path = QString()) const;
+	//Ban/Favoris
+	void ban();
+	void unban();
+	void addToFavorites();
+	void removeFromFavorites();
+	//Chat, historique, propriétés
+	void historique() const;
+	void proprietes() const;
+	void chat() const;
+
+protected:
+	QString m_name;
+	QFlags<ServerFlags> m_serverFlags;
+	options_t m_options;
+	version_t m_version;
+	RzxHostAddress m_ip;
+	unsigned long m_flags;
+	unsigned long m_stamp;
+	QString m_remarque;
+	QPixmap m_icon;
 	QTimer *delayScan;
+	bool connected;
 };
+
+///Déclaration pour le MetaType RzxComputer dans le but d'utiliser le RzxComputer comme metatype
+Q_DECLARE_METATYPE(RzxComputer*)
+
+///Retourne un objet représentant localhost
+/** Localhost est un RzxComputer* qui contient toutes les informations représentant l'ordinateur local */
+inline RzxComputer *RzxComputer::localhost()
+{
+	if(!m_localhost)
+		buildLocalhost();
+	return m_localhost;
+}
+
+///Construit l'objet représentant localhost
+inline void RzxComputer::buildLocalhost()
+{
+	if(m_localhost) return;
+	m_localhost = new RzxComputer();
+	m_localhost->initLocalhost();
+}
+
+///Retourne la version texte du nom du sous-réseau
+/** Ne fait que réaliser la conversion en chaîne de caractères du RezalId */
+inline QString RzxComputer::rezal(bool shortname) const
+{ return tr(rezalText[rezalId()][shortname?1:0]); }
+
+///Retourne le texte associé au rezalId
+/** Uniquement fournit dans le but de simplifier la gestion par d'autre classes... à utiliser avec parcimonie */
+inline QString RzxComputer::rezalFromId(Rzx::RezalId rezalId, bool shortname)
+{
+	if(rezalId < 0 || rezalId >= Rzx::RZL_NUMBER)
+		rezalId = Rzx::RZL_WORLD;
+	return tr(rezalText[rezalId][shortname?1:0]);
+}
+
+#include "rzxconfig.h"
+#ifdef RZXCONFIG_DEFINED_H
+///Indique si l'objet est dans les favoris
+inline bool RzxComputer::isFavorite() const
+{ return RzxConfig::global()->isFavorite(*this); }
+
+///Indique si l'objet est dans les machines ignorées
+inline bool RzxComputer::isIgnored() const
+{ return RzxConfig::global()->isBan(*this); }
+
+#endif 
+///Indique si la machine est sur répondeur
+/** Permet de traduire simplement l'état 'sur répondeur' qui correspond à 2 Rzx::ConnectionState différents
+ * et donc qui plus casse pied à tester que here et disconnected
+ */
+inline bool RzxComputer::isOnResponder() const
+{
+	Rzx::ConnectionState m_state = state();
+	return m_state == Rzx::STATE_AWAY || m_state == Rzx::STATE_REFUSE;
+}
+
+///Conversion d'un entier de QFlags<ServerFlags>
+inline QFlags<RzxComputer::ServerFlags> RzxComputer::toServerFlags(int rawServers)
+{
+	QFlags<RzxComputer::ServerFlags> servers;
+	if(rawServers & RzxComputer::SERVER_SAMBA) servers |= RzxComputer::SERVER_SAMBA;
+	if(rawServers & RzxComputer::SERVER_FTP) servers |= RzxComputer::SERVER_FTP;
+	if(rawServers & RzxComputer::SERVER_HTTP) servers |= RzxComputer::SERVER_HTTP;
+	if(rawServers & RzxComputer::SERVER_NEWS) servers |= RzxComputer::SERVER_NEWS;
+	if(rawServers & RzxComputer::SERVER_HOTLINE) servers |= RzxComputer::SERVER_HOTLINE;
+	return servers;
+}
 
 #endif

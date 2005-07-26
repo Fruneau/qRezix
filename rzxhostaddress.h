@@ -24,17 +24,38 @@
   *@author Sylvain Joyeux
   */
 
-class RzxHostAddress : public QHostAddress  {
-public: 
-	RzxHostAddress();
-	RzxHostAddress(const QHostAddress& host);
-	RzxHostAddress(quint32 ip);
-	~RzxHostAddress();
-	static RzxHostAddress fromRezix(quint32 ip);
-	quint32 toRezix() const;
+///Gestion des adresses IP
+/** Fournit une extension légère apportant quelques utilitaires
+ * nécessaires pour une interface simple avec la totalité des
+ * composants réseaux du programme et avec en particulier les
+ * particularités du protocole xNet
+ */
+class RzxHostAddress : public QHostAddress 
+{
+	public: 
+		RzxHostAddress();
+		RzxHostAddress(const QHostAddress& host);
+		RzxHostAddress(quint32 ip);
+		~RzxHostAddress();
 
-	bool sameGateway(const RzxHostAddress& peer) const;
-	operator quint32() const;
+		static RzxHostAddress fromRezix(quint32 ip);
+		quint32 toRezix() const;
+
+		operator quint32() const;
 };
+
+///Constructeur
+inline RzxHostAddress::RzxHostAddress() { }
+
+///Constructeur par extension d'un QHostAddress
+inline RzxHostAddress::RzxHostAddress(const QHostAddress& host)
+	:QHostAddress(host) { }
+
+///Contructeur à partir d'une ip sous la forme d'un entier
+inline RzxHostAddress::RzxHostAddress(quint32 ip)
+	:QHostAddress(ip) { }
+
+///Destruction de l'objet
+inline RzxHostAddress::~ RzxHostAddress() { }
 
 #endif

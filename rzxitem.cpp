@@ -35,12 +35,12 @@ RzxItem::RzxItem(RzxComputer *parent, Q3ListView * view, bool show)
 	//Le Q_ASSERT est quand même super violent ici... à supprimer à mon avis
 	Q_ASSERT(computer != NULL);
 
-	ip = computer->getIP();
-	repondeur =  computer->getRepondeur();
-	ignored = RzxConfig::globalConfig()->isBan(*computer);
-	promo =  computer->getPromo();
+	ip = computer->ip();
+	repondeur =  computer->repondeur();
+	ignored = RzxConfig::global()->isBan(*computer);
+	promo =  computer->promo();
 
-	setVisible(show || RzxConfig::globalConfig()->isFavorite(*computer));
+	setVisible(show || RzxConfig::global()->isFavorite(*computer));
 }
 
 RzxItem::~RzxItem(){
@@ -59,21 +59,20 @@ void RzxItem::update(){
 	if (!computer)
 		return;
 
-	icon = computer->getIcon();
+	icon = computer->icon();
 	drawComputerIcon();
-	setText(RzxRezal::ColNom, computer->getName());
-	setText(RzxRezal::ColRemarque, computer->getRemarque());
-	setText(RzxRezal::ColIP, computer->getIP().toString());
-	setText(RzxRezal::ColClient, computer->getClient());
-	setText(RzxRezal::ColResal, computer->getResal());
+	setText(RzxRezal::ColNom, computer->name());
+	setText(RzxRezal::ColRemarque, computer->remarque());
+	setText(RzxRezal::ColIP, computer->ip().toString());
+	setText(RzxRezal::ColClient, computer->client());
+	setText(RzxRezal::ColResal, computer->rezal());
 	
-	RzxComputer::options_t options = computer -> getOptions();
 	QVector<QPixmap*> yesno = RzxConfig::yesnoIcons();
 	int imgIdx, base = RzxRezal::ColSamba, codeIdx, mask = 1;
 	/*MAINTENANT*/ /* --> très sale d'après prout@steak */
 	for (codeIdx = 0; codeIdx < 5; codeIdx++) {
 		if(codeIdx!=2) {
-			imgIdx = options.Server & mask ? 1 : 0;
+			imgIdx = computer->servers() & mask ? 1 : 0;
 			int code=codeIdx+base +(codeIdx>2 ? -1: 0);
 			setPixmap(code, *yesno[imgIdx*5+codeIdx]);
 		}
@@ -81,33 +80,24 @@ void RzxItem::update(){
 	}
 	
 	QVector<QPixmap *> os = RzxConfig::osIcons();
-	setPixmap(RzxRezal::ColOS, *os[(int)options.SysEx]);
+	setPixmap(RzxRezal::ColOS, *os[computer->sysEx()]);
 	
-	RzxHostAddress ip = RzxServerListener::object()->getIP();
-	gateway = ip.sameGateway(computer->getIP());
+	gateway = computer->isSameGateway();
 	QVector<QPixmap*> l_gateway = RzxConfig::gatewayIcons();
 	// gateway[0] contient l'icone qu'il faut afficher si les deux passerelles sont !=
 	// gateway[1] contient celle lorsqu'elles sont identiques.
 	if(!l_gateway[gateway?1:0]) qDebug(QString("No gateway pixmap for %1").arg(gateway));
 	setPixmap(RzxRezal::ColGateway, *(l_gateway[gateway ? 1 : 0]));
 
-	sysex = options.SysEx;
-	servers = options.Server;
-	repondeur = (options.Repondeur==RzxComputer::REP_ON || options.Repondeur==RzxComputer::REP_REFUSE);
-	if (sysex < 3) sysex += 7;
+	sysex = computer->sysEx();
+	servers = computer->servers();
+	repondeur = (computer->repondeur() == RzxComputer::REP_ON || computer->repondeur() == RzxComputer::REP_REFUSE);
+	if(sysex < 3)
+		sysex += 7;
 
-	int promo=options.Promo;
-	QVector<QPixmap*> promos = RzxConfig::promoIcons();
-	if(promo==RzxComputer::PROMAL_ORANGE || promo==RzxComputer::PROMAL_UNK)
-		setPixmap(RzxRezal::ColPromo,*promos[0]);
-	else if(promo==RzxComputer::PROMAL_ROUJE)
-		setPixmap(RzxRezal::ColPromo,*promos[1]);
-	else if(promo==RzxComputer::PROMAL_JONE)
-		setPixmap(RzxRezal::ColPromo,*promos[2]);
-		
+	setPixmap(RzxRezal::ColPromo, *RzxConfig::promoIcons()[computer->promo()]);
+
 	setup();
-//	setVisible(showNotFavorite || RzxConfig::globalConfig()->favorites->find((computer -> getName())));
-	
 }
 
 /** No descriptions */
@@ -140,6 +130,7 @@ QString RzxItem::key(int column, bool ascending) const{
 			return Q3ListViewItem::key(column, ascending);
 	};
 }
+
 /** No descriptions */
 void RzxItem::drawComputerIcon(){
 	QPixmap tempIcon;
@@ -198,11 +189,11 @@ void RzxItem::updateText(int column, int width, const QFontMetrics& fm) {
 			
 			int wordIdx = 0;
 			QString line;
-			QStringList::ConstIterator it;
 			QVector<int> &lengths = textLengths[column];
-			for(it = split.begin(); it != split.end(); ++it) {
+			foreach(QString it, split)
+			{
 				if (!line.isEmpty()) line += " ";
-				line = line + *it;
+				line = line + it;
 				lengths[wordIdx++] = fm.width(line);
 			}
 		}

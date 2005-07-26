@@ -25,6 +25,7 @@
 #include "rzxmessagebox.h"
 #include "rzxcomputer.h"
 #include "rzxconfig.h"
+#include "rzxiconcollection.h"
 
 
 RzxServerListener * RzxServerListener::globalObject = 0;
@@ -78,7 +79,8 @@ void RzxServerListener::setupReconnection(const QString& msg) {
 	{
 		premiereConnexion = false;
 		timeToConnection = 500;
-		reconnection.start(500, true);
+		reconnection.setSingleShot(true);
+		reconnection.start(500);
 		notify(msg);
 	}
 	else
@@ -91,7 +93,8 @@ void RzxServerListener::setupReconnection(const QString& msg) {
 		temp = msg + "... " + tr("will try to reconnect in %1 seconds").arg(time/1000);
 		message = msg;
 		timeToConnection =  time;
-		reconnection.start(1000, false);
+		reconnection.setSingleShot(false);
+		reconnection.start(1000);
 		notify(temp);
 	}
 }
@@ -119,44 +122,44 @@ void RzxServerListener::serverError(int error) {
 			reconnectionMsg = tr("Connection refused");
 			break;
 		
-			case QTcpSocket::RemoteHostClosedError:
-				reconnectionMsg = tr("Connectiion reset by peer");
-				break;
+		case QTcpSocket::RemoteHostClosedError:
+			reconnectionMsg = tr("Connectiion reset by peer");
+			break;
 
-			case QTcpSocket::HostNotFoundError:
-				reconnectionMsg = tr("Cannot find server %1").arg(RzxConfig::serverName());
+		case QTcpSocket::HostNotFoundError:
+			reconnectionMsg = tr("Cannot find server %1").arg(RzxConfig::serverName());
 
-				if(hasBeenConnected)
-					RzxMessageBox::information( NULL, "qRezix",
-						tr("Cannot find server %1:\n\nDNS request failed").arg(RzxConfig::serverName()));
-				hasBeenConnected = false;
-				break;
+			if(hasBeenConnected)
+				RzxMessageBox::information( NULL, "qRezix",
+					tr("Cannot find server %1:\n\nDNS request failed").arg(RzxConfig::serverName()));
+			hasBeenConnected = false;
+			break;
 
-			case QTcpSocket::SocketAccessError:
-				reconnectionMsg = tr("Socket access denied");
-				break;
+		case QTcpSocket::SocketAccessError:
+			reconnectionMsg = tr("Socket access denied");
+			break;
 
-			case QTcpSocket::SocketResourceError:
-				reconnectionMsg = tr("Too many sockets");
-				break;
+		case QTcpSocket::SocketResourceError:
+			reconnectionMsg = tr("Too many sockets");
+			break;
 
-			case QTcpSocket::SocketTimeoutError:
-				reconnectionMsg = tr("Operation timeout");
-				break;
+		case QTcpSocket::SocketTimeoutError:
+			reconnectionMsg = tr("Operation timeout");
+			break;
 
-			case QTcpSocket::NetworkError:
-				reconnectionMsg = tr("Link down");
-				break;
+		case QTcpSocket::NetworkError:
+			reconnectionMsg = tr("Link down");
+			break;
 
-			case QTcpSocket::UnsupportedSocketOperationError:
-				reconnectionMsg = tr("Unspported operation");
-				break;
+		case QTcpSocket::UnsupportedSocketOperationError:
+			reconnectionMsg = tr("Unspported operation");
+			break;
 
-			default:
-				reconnectionMsg = tr("Unknown QSocket error: %1").arg(error);
+		default:
+			reconnectionMsg = tr("Unknown QSocket error: %1").arg(error);
 	}
 	setupReconnection(reconnectionMsg);
-	qDebug("Server socket error : " + socket.errorString());
+	qDebug("Server socket error : %s", socket.errorString().toAscii().constData());
 }
 
 void RzxServerListener::serverClose() {
@@ -193,24 +196,18 @@ void RzxServerListener::serverConnected(){
 	notify(tr("Connected"));
 	hasBeenConnected = true;
 	pingTimer.start(RzxConfig::pingTimeout());
+	emit receiveAddress(getIP());
 }
 
 /** No descriptions */
 void RzxServerListener::beginAuth(){
-	RzxComputer *localhost = RzxConfig::localHost();
-	if (!localhost) {
-		RzxMessageBox::critical(0, tr("qReziX error"), tr("Configuration error, cannot connect"));
-		pingTimer.stop();
-		return;
-	}
-		
+	RzxComputer *localhost = RzxComputer::localhost();
 	sendAuth(RzxConfig::pass(), localhost);
 }
 
 void RzxServerListener::serverReceive() {
 	QString temp;
-	QImage image(64, 64, 32), swapImg;
-	image.setAlphaBuffer(true);
+	QImage image(64, 64, QImage::Format_ARGB32), swapImg;
 	
 	while(socket.canReadLine() || iconMode) {
 		if (iconMode && socket.bytesAvailable() < ICON_SIZE)
@@ -218,7 +215,7 @@ void RzxServerListener::serverReceive() {
 		
 		if (iconMode) {
 			char iconBuffer[ICON_SIZE];
-			socket.readBlock(iconBuffer, ICON_SIZE);
+			socket.read(iconBuffer, ICON_SIZE);
 
 			// on convertit l'image recue pour la rendre affichable
 			unsigned char * src = (unsigned char *) iconBuffer;	
@@ -239,7 +236,7 @@ void RzxServerListener::serverReceive() {
 		
 		if (socket.canReadLine()) {
 			temp = socket.readLine();
-			if(temp.find("\r\n") != -1)
+			if(temp.contains("\r\n"))
 				parse(temp);
 		}
 	}
@@ -247,22 +244,24 @@ void RzxServerListener::serverReceive() {
 
 ///Parsage des données reçes du serveur
 /** Permet de répartir entre les données brutes (icônes) et les données 'protocolaires' qui elles sont gérées par RzxProtocole */
-void RzxServerListener::parse(const QString& msg) {
+void RzxServerListener::parse(const QString& msg)
+{
 	QRegExp cmd;
 	
 	/* Réception d'une icône... passe l'écute en mode attente de données brutes */
 	cmd.setPattern(RzxProtocole::ServerFormat[RzxProtocole::SERVER_ICON]);
-	if (cmd.search(msg, 0) >= 0) {
+	if(cmd.indexIn(msg, 0) >= 0)
+	{
 		// on supprime l'en-tete du message
 		QString msgClean = msg, msgParams;
-		msgClean.stripWhiteSpace();
-		int offset = msgClean.find(" ");
+		msgClean.trimmed();
+		int offset = msgClean.indexOf(" ");
 		if (offset >= 0)
 			msgParams = msgClean.right(msgClean.length() - offset);
 		else return;
 			
 		bool ok;	
-		iconHost = RzxHostAddress::fromRezix(msgParams.stripWhiteSpace().toUInt(&ok, 16));
+		iconHost = RzxHostAddress::fromRezix(msgParams.trimmed().toUInt(&ok, 16));
 		if (!ok)
 			return;
 		iconMode = true;
@@ -271,9 +270,9 @@ void RzxServerListener::parse(const QString& msg) {
 	
 	/* Envoie de l'icône suite à la requête du serveur */
 	cmd.setPattern(RzxProtocole::ServerFormat[RzxProtocole::SERVER_UPLOAD]);
-	if(cmd.search(msg, 0) >= 0)
+	if(cmd.indexIn(msg) != -1)
 	{
-		sendIcon(RzxConfig::localhostIcon().convertToImage());
+		sendIcon(RzxIconCollection::global()->localhostPixmap().toImage());
 		return;
 	}
 	
@@ -283,12 +282,13 @@ void RzxServerListener::parse(const QString& msg) {
 
 /** Change l'icone de l'ordinateur local */
 void RzxServerListener::sendIcon(const QImage& image) {
-	if (image.isNull()) return;
+//	if (image.isNull()) return;
 	// on convertit l'image recue pour la rendre affichable
 	// on fait les copies par bloc de 4 octets --> besoin d'un peu de rab
-	QImage workImage = image.convertDepth(32,0);
-	if(!workImage.isNull())
-		workImage = workImage.smoothScale(ICON_WIDTH, ICON_HEIGHT);
+//	QImage workImage = image.convertDepth(32,0);
+	QImage workImage;
+	if(!image.isNull())
+		workImage = image.scaled(ICON_WIDTH, ICON_HEIGHT, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 	else
 		return;
 
@@ -306,13 +306,12 @@ void RzxServerListener::sendIcon(const QImage& image) {
 		}
 	}
 	sendProtocolMsg("UPLOAD\r\n");
-	socket.writeBlock((char *)buffer, ICON_SIZE);
+	socket.write((char *)buffer, ICON_SIZE);
 }
 
 /** No descriptions */
 void RzxServerListener::sendProtocolMsg(const QString& msg){	
-	const char * strMsg = msg.latin1();
-	if (socket.writeBlock(strMsg, msg.length()) != (int)msg.length())
+	if(socket.write(msg.toLatin1()) != (int)msg.length())
 		notify(tr("Socket error, cannot write"));
 }
 

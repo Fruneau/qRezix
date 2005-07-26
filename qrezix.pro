@@ -13,7 +13,7 @@ TEMPLATE	= app
 LANGUAGE	= C++
 
 # Modules Qt nécessaires
-QT += qt3support network
+QT += network
 
 # Configuration de la compilation
 CONFIG	+= qt warn_on
@@ -32,9 +32,7 @@ HEADERS	+= qrezix.h \
 	rzxcomputer.h \
 	rzxconfig.h \
 	rzxhostaddress.h \
-	rzxitem.h \
 	rzxprotocole.h \
-	rzxrezal.h \
 	rzxserverlistener.h \
 	rzxproperty.h \
 	rzxmessagebox.h \
@@ -46,7 +44,14 @@ HEADERS	+= qrezix.h \
 	rzxutilslauncher.h \
 	rzxconnectionlister.h \
 	md5.h \
-	rzxtraywindow.h
+	rzxtraywindow.h \
+	rzxrezalmodel.h \
+	rzxrezalview.h \
+	rzxrezalpopup.h \
+	rzxrezalsearch.h \
+	rzxchatsocket.h \
+	rzxglobal.h \
+	rzxiconcollection.h 
 
 # Fichier sources -> c++
 SOURCES	+= main.cpp \
@@ -56,9 +61,7 @@ SOURCES	+= main.cpp \
 	rzxcomputer.cpp \
 	rzxconfig.cpp \
 	rzxhostaddress.cpp \
-	rzxitem.cpp \
 	rzxprotocole.cpp \
-	rzxrezal.cpp \
 	rzxproperty.cpp \
 	rzxserverlistener.cpp \
 	rzxmessagebox.cpp \
@@ -69,14 +72,22 @@ SOURCES	+= main.cpp \
 	rzxutilslauncher.cpp \
 	rzxconnectionlister.cpp \
 	md5.cpp \
-	rzxtraywindow.cpp
+	rzxtraywindow.cpp \
+	rzxrezalmodel.cpp \
+	rzxrezalview.cpp \
+	rzxrezalpopup.cpp \
+	rzxrezalsearch.cpp \
+	rzxchatsocket.cpp \
+	rzxglobal.cpp \
+	rzxiconcollection.cpp
 
 # Fichiers ui -> uic
 FORMS = rzxpropertyui.ui \
 	rzxquitui.ui \
 	rzxwrongpassui.ui \
 	rzxchangepassui.ui \
-	qrezixui.ui
+	qrezixui.ui \
+	test.ui
 macx {
 	FORMS += rzxchatui_mac.ui
 }

@@ -1,11 +1,11 @@
 /***************************************************************************
-                               rzxtraywindow.cpp
-         Gestion des fenêtres popups de notification de la trayicon
-                             -------------------
-    begin                : Tue Nov 16 2004
-    copyright            : (C) 2004 by Florent Bruneau
-    email                : fruneau@melix.org
- ***************************************************************************/
+                              rzxtraywindow.cpp
+        Gestion des fenêtres popups de notification de la trayicon
+                            -------------------
+   begin                : Tue Nov 16 2004
+   copyright            : (C) 2004 by Florent Bruneau
+   email                : fruneau@melix.org
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,7 +15,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 #include <QLabel>
 #include <QPixmap>
 #include <QColor>
@@ -26,77 +25,93 @@
 
 #include "rzxcomputer.h"
 #include "rzxconfig.h"
-#include "trayicon.h"
-#include "qrezix.h"
 
 ///Construction de la fenêtre de notification d'état de connexion de computer
 /** La fenêtre est construite pour disparaître automatiquement au bout de time secondes */
-RzxTrayWindow::RzxTrayWindow(RzxComputer* computer, bool connected, unsigned int time)
-	:QFrame(NULL, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint)
+RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
+		: QFrame( NULL, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint )
 {
-    setAttribute(Qt::WA_DeleteOnClose);
-	setMinimumWidth(150);
-	setMinimumHeight(70);
-	setWindowOpacity(0.70);
+	setAttribute( Qt::WA_DeleteOnClose );
+	setMinimumWidth( 150 );
+	setMinimumHeight( 70 );
+	setWindowOpacity( 0.70 );
 #ifndef Q_OS_MAC
-	setFrameStyle(Panel | Plain);
+
+	setFrameStyle( Panel | Plain );
 #else
-	setFrameStyle(MenuBarPanel | Plain);
+
+	setFrameStyle( MenuBarPanel | Plain );
 #endif
-	
-	if(!connected)
-		setPaletteBackgroundColor(QColor(0xff, 0x20, 0x20));
-	else if(computer->getRepondeur())
-		setPaletteBackgroundColor(RzxConfig::repondeurBase());
-	else
-		setPaletteBackgroundColor(0xffffff);
-	
-    //Construction des items à insérer dans la fenêtre :
-    // - l'icône	
+
+	QPalette palette;
+	switch(computer->state())
+	{
+		case Rzx::STATE_DISCONNECTED:
+			palette.setColor( backgroundRole(), QColor( 0xff, 0x20, 0x20 ) );
+			break;
+		case Rzx::STATE_AWAY: case Rzx::STATE_REFUSE:
+			palette.setColor( backgroundRole(), RzxConfig::repondeurBase() );
+			break;
+		case Rzx::STATE_HERE:
+			palette.setColor( backgroundRole(), QColor( 0xff, 0xff, 0xff ) );
+			break;
+	}
+	setPalette( palette );
+
+	//Construction des items à insérer dans la fenêtre :
+	// - l'icône
 	QLabel *icone = new QLabel();
-	icone->setPixmap(computer->getIcon());
+	icone->setPixmap( computer->icon() );
 
-    // - le pseudo
+	// - le pseudo
 	QLabel *name = new QLabel();
-	name->setTextFormat(Qt::RichText);
-	name->setText("<h2>" + computer->getName() + "</h2>");
+	name->setTextFormat( Qt::RichText );
+	name->setText( "<h2>" + computer->name() + "</h2>" );
 
-    // - la description de l'état de connexion
+	// - la description de l'état de connexion
 	QLabel *description = new QLabel();
-	if(connected)
-		description->setText(computer->getRepondeur() ? tr("is now away") : tr("is now here"));
-	else
-		description->setText(tr("is now disconnected"));
+	switch(computer->state())
+	{
+		case Rzx::STATE_HERE:
+			description->setText(tr( "is now here" ));
+			break;
+		case Rzx::STATE_REFUSE: case Rzx::STATE_AWAY:
+			description->setText(tr( "is now away" ));
+			break;
+		case Rzx::STATE_DISCONNECTED:
+			description->setText( tr( "is now disconnected" ) );
+			break;
+	}
 
 	//Insertion des éléments dans les layout qui corresponend
 	// - disposition du texte verticalement
 	QVBoxLayout *textLayout = new QVBoxLayout();
-	textLayout->addWidget(name, 0, Qt::AlignTop | Qt::AlignLeft);
-	textLayout->addWidget(description, 0, Qt::AlignVCenter | Qt::AlignLeft);
+	textLayout->addWidget( name, 0, Qt::AlignTop | Qt::AlignLeft );
+	textLayout->addWidget( description, 0, Qt::AlignVCenter | Qt::AlignLeft );
 
-    // - insertion de l'icône à côté du texte
+	// - insertion de l'icône à côté du texte
 	QHBoxLayout *layout = new QHBoxLayout();
-	layout->addWidget(icone, 0, Qt::AlignVCenter | Qt::AlignLeft);
-	layout->addLayout(textLayout, 1);
-	setLayout(layout);
+	layout->addWidget( icone, 0, Qt::AlignVCenter | Qt::AlignLeft );
+	layout->addLayout( textLayout, 1 );
+	setLayout( layout );
 
-    //Affichage de la fenêtre
+	//Affichage de la fenêtre
 #ifdef Q_OS_MAC
-	QPoint point(0, 21);
+	QPoint point( 0, 21 );
 #else
-	QPoint point(0,0);
+	QPoint point( 0, 0 );
 #endif
-	move(point);
-	setFocusPolicy(Qt::NoFocus);
+
+	move( point );
+	setFocusPolicy( Qt::NoFocus );
 	show();
-	
+
 	//Timer pour déclencher la destruction de le fenêtre
-	connect(&timer, SIGNAL(timeout()), this, SLOT(close()));
-	timer.start(time * 1000);
+	connect( &timer, SIGNAL( timeout() ), this, SLOT( close() ) );
+	timer.start( time * 1000 );
 }
 
 ///Destruction de la fenêtre
 /** Rien à faire ici */
 RzxTrayWindow::~RzxTrayWindow()
-{
-}
+{}

@@ -18,7 +18,7 @@
   <widget class="QWidget" name="centralWidget" >
    <layout class="QGridLayout" >
     <property name="margin" >
-     <number>8</number>
+     <number>4</number>
     </property>
     <property name="spacing" >
      <number>6</number>
@@ -172,7 +172,7 @@ Each item have a menu (right click)&lt;/p>
        <number>1</number>
       </property>
       <property name="currentIndex" >
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabFavorites" >
        <property name="geometry" >
@@ -180,7 +180,7 @@ Each item have a menu (right click)&lt;/p>
          <x>0</x>
          <y>0</y>
          <width>706</width>
-         <height>568</height>
+         <height>562</height>
         </rect>
        </property>
        <attribute name="label" >
@@ -194,11 +194,11 @@ Each item have a menu (right click)&lt;/p>
          <number>0</number>
         </property>
         <item row="0" column="0" >
-         <widget class="RzxRezal" name="rezalFavorites" >
+         <widget class="RzxRezalView" name="rezalFavorites" >
           <property name="sizePolicy" >
            <sizepolicy>
-            <hsizetype>5</hsizetype>
-            <vsizetype>5</vsizetype>
+            <hsizetype>13</hsizetype>
+            <vsizetype>13</vsizetype>
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -219,7 +219,7 @@ Each item have a menu (right click)&lt;/p>
          <x>0</x>
          <y>0</y>
          <width>706</width>
-         <height>376</height>
+         <height>562</height>
         </rect>
        </property>
        <attribute name="label" >
@@ -233,11 +233,11 @@ Each item have a menu (right click)&lt;/p>
          <number>0</number>
         </property>
         <item row="0" column="0" >
-         <widget class="RzxRezal" name="rezal" >
+         <widget class="RzxRezalView" name="rezal" >
           <property name="sizePolicy" >
            <sizepolicy>
-            <hsizetype>5</hsizetype>
-            <vsizetype>5</vsizetype>
+            <hsizetype>13</hsizetype>
+            <vsizetype>13</vsizetype>
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -254,9 +254,9 @@ Each item have a menu (right click)&lt;/p>
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>RzxRezal</class>
-   <extends></extends>
-   <header>rzxrezal.h</header>
+   <class>RzxRezalView</class>
+   <extends>QWidget</extends>
+   <header>rzxrezalview.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

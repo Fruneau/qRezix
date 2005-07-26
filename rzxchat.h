@@ -21,11 +21,10 @@
 #include <QMenu>
 #include <QFrame>
 #include <QTextEdit>
-#include <QWidget>
 #include <QPointer>
 
 #include "rzxhostaddress.h"
-#include "rzxclientlistener.h"
+#include "rzxchatsocket.h"
 
 /**
   *@author Sylvain Joyeux
@@ -38,8 +37,6 @@ class QKeyEvent;
 class QEvent;
 class QTimer;
 class QSplitter;
-class RzxChatSocket;
-class RzxChatUI;
 
 ///Classe pour les fenêtre propriété et historique du chat
 /** Affiche une frame qui permet de contenir les données des propriétés et de l'historique.<br>
@@ -63,28 +60,35 @@ inline void RzxPopup::forceVisible(bool pos)
 }
 
 
-//Rajout de Stéphane Lescuyer 2004/05/27
-//pour customiser la boite d'edition
-class RzxTextEdit : public QTextEdit {
+///Pour customiser la boîte d'édition
+/** Rajout de Stéphane Lescuyer 2004/05/27 */
+class RzxTextEdit : public QTextEdit 
+{
 	Q_OBJECT
 	
 	friend class RzxChat;
 	RzxChat *chat;
 	
 public:
-	RzxTextEdit(QWidget *parent=0):QTextEdit(parent),chat(NULL) { }
+	RzxTextEdit(QWidget *parent=0);
 	~RzxTextEdit();
 	
 protected:
-    void setChat(RzxChat *m_chat) { chat = m_chat; }
-	void keyPressEvent(QKeyEvent *e);
+	void setChat(RzxChat*);
+	void keyPressEvent(QKeyEvent*);
 	bool nickAutocompletion();
 
 signals:
 	void enterPressed();
-	void arrowPressed(bool down);
+	void arrowPressed(bool);
 	void textWritten();
 };
+
+inline RzxTextEdit::RzxTextEdit(QWidget *parent)
+	:QTextEdit(parent), chat(NULL) { }
+
+inline void RzxTextEdit::setChat(RzxChat *m_chat)
+{ chat = m_chat; }
 
 
 #ifdef Q_OS_MAC
@@ -93,20 +97,29 @@ signals:
     #include "ui_rzxchatui.h"
 #endif
 
-class RzxChat : public QWidget, private Ui::RzxChatUI {
+///Fenêtre de dialogue
+/** (et pas boîte de dialogue ;)... gere la totalité de l'interface de chat.
+ *
+ * Cette classe s'interface directement sur un RzxChatSocket pour permettre
+ * une gestion des communications totalement autonome.
+ */
+class RzxChat : public QWidget, private Ui::RzxChatUI
+{
 	Q_OBJECT
+	Q_PROPERTY(QString hostname READ hostname WRITE setHostname)
 	
 	friend class RzxRezal;
 	
-	class ListText {
-	public:
-		ListText * pPrevious;
-		QString texte;
-		ListText * pNext;
-		
-	public:	
-		ListText(QString t, ListText * pN);
-		~ListText();
+	class ListText
+	{
+		public:
+			ListText * pPrevious;
+			QString texte;
+			ListText * pNext;
+			
+		public:	
+			ListText(QString t, ListText * pN);
+			~ListText();
 	};
 
 	static const QColor preDefinedColors[16];
@@ -135,7 +148,7 @@ private:
 	
 protected:
 	RzxHostAddress peer;
-	QString hostname;
+	QString m_hostname;
 	QString textHistorique;
 	QTimer *timer;
 	ListText *history;
@@ -155,17 +168,17 @@ signals: // Signals
 	void showProperties(const RzxHostAddress&, const QString&, bool, QWidget*, QPoint*);
 
 public slots: // Public slots
-	void receive(const QString& msg);
-	void info(const QString& msg);
-	void notify(const QString& msg, bool withHostname = false);
-	void setHostname(const QString& name);
+	void receive(const QString&);
+	void info(const QString&);
+	void notify(const QString&, bool withHostname = false);
+	void setHostname(const QString&);
 	void changeTheme();
 	void changeIconFormat();
-	void receiveProperties(const QString& msg);
-	void peerTypingStateChanged(bool state);
+	void receiveProperties(const QString&);
+	void peerTypingStateChanged(bool);
 	
 public:
-	inline QString getHostName() const { return hostname; }
+	const QString &hostname() const;
 
 protected slots:
 	void pong(int ms);
@@ -194,6 +207,9 @@ protected: // Protected methods
 	void closeEvent(QCloseEvent * e);
 	void moveEvent(QMoveEvent *e);
 };
+
+inline const QString &RzxChat::hostname() const
+{ return m_hostname; }
 
 /// Retourne un socket valide
 /** Cette méthode permet d'obtenir à coup sur un socket valide pour le chat. C'est à dire que si le socket n'existe pas, il est créé */

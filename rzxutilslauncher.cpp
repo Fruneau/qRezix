@@ -19,41 +19,20 @@
 
 #include "rzxutilslauncher.h"
 
-#include "rzxcomputer.h"
+#include "rzxhostaddress.h"
 #include "rzxconfig.h"
 
-///Objet global pour un accès facile
-RzxUtilsLauncher *RzxUtilsLauncher::object = NULL;
-
-///Construction : on référencie juste un rezazl
-/** Le RzxRezal fournit les outils de correspondance IP-Nom */
-RzxUtilsLauncher::RzxUtilsLauncher()
+///Lance le client ftp
+void RzxUtilsLauncher::ftp(const RzxHostAddress& m_ip, const QString& path)
 {
-	lister = RzxConnectionLister::global();
-}
-
-RzxUtilsLauncher::~RzxUtilsLauncher()
-{
-	object = NULL;
-}
-
-// lance le client ftp
-void RzxUtilsLauncher::ftp(const QString& s_login) const
-{
-	QString login = s_login.section("/", 0,0);
-	QString path = s_login.section("/",1);
-	
-	RzxComputer *computer = lister->getComputerByName(login);
-	if(!computer) return;
-
-	QString tempPath = RzxConfig::globalConfig()->FTPPath();
-	QString tempip = computer->getIP().toString();
+	QString tempPath = RzxConfig::global()->FTPPath();
+	QString tempip = m_ip.toString();
 	QString ip=tempip;
 	tempip="ftp://"+tempip+"/"+path;
 
 	QString cmd;
 #ifdef WIN32
-	QString sFtpClient=RzxConfig::globalConfig()->ftpCmd();
+	QString sFtpClient=RzxConfig::global()->ftpCmd();
 
 	// LeechFTP
 	if(sFtpClient == "LeechFTP")
@@ -101,12 +80,12 @@ void RzxUtilsLauncher::ftp(const QString& s_login) const
 		cmd =  sFtpClient;
 #else
 #ifdef Q_OS_MAC
-	if(RzxConfig::globalConfig()->ftpCmd() == "Default")
+	if(RzxConfig::global()->ftpCmd() == "Default")
 		cmd = "open";
 	else
-		cmd = RzxConfig::globalConfig()->ftpCmd();
+		cmd = RzxConfig::global()->ftpCmd();
 #else
-	if(RzxConfig::globalConfig()->ftpCmd() == "lftp")
+	if(RzxConfig::global()->ftpCmd() == "lftp")
 	{
 		// on lance le client dans un terminal
 #ifdef WITH_KDE
@@ -116,7 +95,7 @@ void RzxUtilsLauncher::ftp(const QString& s_login) const
 #endif
 	}
 	else
-		cmd = RzxConfig::globalConfig()->ftpCmd();
+		cmd = RzxConfig::global()->ftpCmd();
 #endif //MAC
 #endif //WIN32
 	
@@ -126,13 +105,11 @@ void RzxUtilsLauncher::ftp(const QString& s_login) const
 	
 }
 
-void RzxUtilsLauncher::samba(const QString& login) const
+///Lance le client samba
+void RzxUtilsLauncher::samba(const RzxHostAddress& m_ip, const QString& m_path)
 {
-	RzxComputer *computer = lister->getComputerByName(login);
-	if(!computer) return;
-	
-	QString ip = computer->getIP().toString();
-	QString path = RzxConfig::globalConfig()->FTPPath();
+	QString ip = m_ip.toString();
+	QString path = RzxConfig::global()->FTPPath();
 
 	// Composition de la ligne de commande
 	QString cmd;
@@ -140,14 +117,14 @@ void RzxUtilsLauncher::samba(const QString& login) const
 
 #ifdef WIN32
 	cmd = "explorer";
-	args << "\\\\" + ip;
+	args << "\\\\" + ip + "\\" + m_path;
 #else
 	#ifdef Q_OS_MAC
 	cmd = "open";
 	#else
 	cmd = "konqueror";
 	#endif //MAC
-	args << "smb://" + ip + "/";
+	args << "smb://" + ip + "/" + m_path;
 #endif
 		
 	QProcess process;
@@ -155,18 +132,15 @@ void RzxUtilsLauncher::samba(const QString& login) const
 	process.start(cmd, args);
 }
 
-// lance le client http
-void RzxUtilsLauncher::http(const QString& login) const
+///Lance le client http
+void RzxUtilsLauncher::http(const RzxHostAddress& m_ip, const QString& m_path)
 {
-	RzxComputer *computer = lister->getComputerByName(login);
-	if(!computer) return;
-	
-	QString ip = computer->getIP().toString();
-	QString path = RzxConfig::globalConfig()->FTPPath();
-	QString tempip = "http://" + ip;
+	QString ip = m_ip.toString();
+	QString path = RzxConfig::global()->FTPPath();
+	QString tempip = "http://" + ip + "/" + m_path;
 	
 	// Composition de la ligne de commande
-	QString cmd = RzxConfig::globalConfig()->httpCmd();
+	QString cmd = RzxConfig::global()->httpCmd();
 	QStringList args;
 
 #ifdef WIN32
@@ -196,7 +170,7 @@ void RzxUtilsLauncher::http(const QString& login) const
 		args << tempip;
 	}
 #else
-	cmd = RzxConfig::globalConfig()->httpCmd();
+	cmd = RzxConfig::global()->httpCmd();
 	#ifdef Q_OS_MAC
 	if(cmd == "Default")
 		cmd = "open";
@@ -209,18 +183,15 @@ void RzxUtilsLauncher::http(const QString& login) const
 	process.start(cmd, args);
 }
 
-// lance le client news
-void RzxUtilsLauncher::news(const QString& login) const
+///Lance le client news
+void RzxUtilsLauncher::news(const RzxHostAddress& m_ip, const QString& m_path)
 {
-	RzxComputer *computer = lister->getComputerByName(login);
-	if(!computer) return;
-	
-	QString ip = computer->getIP().toString();
-	QString path = RzxConfig::globalConfig()->FTPPath();
-	QString tempip = "news://" + ip;
+	QString ip = m_ip.toString();
+	QString path = RzxConfig::global()->FTPPath();
+	QString tempip = "news://" + ip + "/" + m_path;
 	
 	// Composition de la ligne de commande
-	QString cmd = RzxConfig::globalConfig()->newsCmd();
+	QString cmd = RzxConfig::global()->newsCmd();
 	QStringList args;
 
 #ifdef WIN32

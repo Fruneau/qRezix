@@ -33,15 +33,30 @@
 #define RZX_VERSION QString("%1.%2").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION)
 
 #ifndef HAVE_CONFIG_H			// sous linux, la version est definie dans config.h
-#define VERSION QString("%1.%2.%3").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION).arg(RZX_FUNNY_VERSION)
+	#define VERSION QString("%1.%2.%3").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION).arg(RZX_FUNNY_VERSION)
 #endif
 
 #ifdef Q_OS_MAC
-#define QREZIX_ICON "q_mac.xpm"
+	#define QREZIX_ICON "q_mac.xpm"
 #else
-#define QREZIX_ICON "q.xpm"
+	#define QREZIX_ICON "q.xpm"
 #endif
 #define QREZIX_AWAY_ICON "t.xpm"
+
+#ifdef HAVE_CONFIG_H
+	#include "../config.h"
+#else
+	#ifdef Q_OS_MAC
+		#define QREZIX_DATA_DIR "./qrezix.app/Contents/Resources/"
+	#else
+		#define QREZIX_DATA_DIR "/usr/share/qrezix"
+		#define QREZIX_LIB_DIR "/usr/lib/qrezix"
+	#endif
+#endif
+
+//Obsolete, seulement pour la compatibilité avec qRezix < 1.5
+#define CONF_FAVORITES "favorites.conf"
+#define CONF_IGNORELIST "ignorelist.conf"
 
 #define DEFAULT_COMMENT "La nouvelle version de qRezix, plus que le WEI, c'est le feu... merci les BRmen\n" \
 	"L'ascenseur : \"Quand tu montes dans un ascenseur... tu penses. À des tas de choses ; à des créations, à des gens, à des souvenirs... Donc on est jamais seul spirituellement! Mais physiquement, \"dans l'enveloppe\", si je suis seul... eh bien... je suis là. Et je reste là. Jusqu'à ce que les portes s'ouvrent... Et puis je commence à marcher. Je bouge mon enveloppe. Vers ma mission de tous les jours... -+- Jean-Claude VanDamme -+-\n" \
