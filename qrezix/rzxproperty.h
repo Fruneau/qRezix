@@ -35,7 +35,6 @@ public:
 	RzxProperty(QRezix*parent);
 	~RzxProperty();
 
-	bool infoCompleted();
 	QString infoNeeded();
 	int infoCompleteMessage();
 

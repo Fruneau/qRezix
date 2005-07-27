@@ -42,44 +42,36 @@ class QLineEdit;
 class QRezix : public QMainWindow, public Ui::qRezixUI
 {
 	Q_OBJECT
+	Q_PROPERTY(bool initialised READ isInitialised)
 	
-	RzxProperty * m_properties;
 	QLineEdit *leSearch;
 	QShortcut *accel;
 	QMenu menuPlugins;
 	bool statusFlag;
-	bool favoriteWarn;
+	bool statusMax;
 	bool alreadyOpened;
-	bool byTray;
+	bool wellInit;
 	
 	QAction *pluginsAction;
 	QAction *prefAction;
 	QAction *columnsAction;
 	QAction *searchAction;
 	QAction *awayAction;
-	
-    void buildActions();
+
+	void buildActions();
 
 	static QRezix *object;
 	QRezix(QWidget* parent = NULL);
 
-	QPixmap hereIcon;
-	QPixmap awayIcon;
-	
 public:
-	static const QPixmap& qRezixIcon();
-	static const QPixmap& qRezixAwayIcon();
-
 	static QRezix *global(QWidget *parent = NULL);
+	~QRezix();
+	bool isInitialised() const;
 
-    ~QRezix();
-	TrayIcon * tray;
-	bool statusMax;
-	bool wellInit;
-
-	
 signals:
-	void setToolTip(const QString &);
+	void wantQuit();
+	void wantPreferences();
+	void wantToggleResponder();
 
 protected:
 	virtual void closeEvent(QCloseEvent * e);
@@ -88,18 +80,12 @@ protected:
 public slots: // Public slots
 	void status(const QString& msg, bool fatal);
 	void toggleAutoResponder();
-	void toggleButtonResponder();
 	void activateAutoResponder( bool state );
 	void chatSent();
 	void languageChanged();
-	void closeByTray();
 	void changeTheme();
 	void menuFormatChange();
-	void saveSettings();
-	void launchPlugins();
-	void changeTrayIcon();
 	void launchSearch();
-	void boitePreferences();
 	void showSearch(bool state);
 
 protected slots: // Protected slots
@@ -110,8 +96,6 @@ protected slots: // Protected slots
 	virtual void languageChange();
 	void pluginsMenu();
 	void switchTab();
-	void warnForFavorite(RzxComputer *computer);
-	void newFavorite();
 };
 
 
@@ -126,14 +110,10 @@ inline QRezix *QRezix::global(QWidget *parent)
 	return object;
 }
 
-inline const QPixmap& QRezix::qRezixIcon()
+///Indique si l'objet est bien initialisé
+inline bool QRezix::isInitialised() const
 {
-	return global()->hereIcon;
-}
-
-inline const QPixmap& QRezix::qRezixAwayIcon()
-{
-	return global()->awayIcon;
+	return wellInit;
 }
 
 #endif

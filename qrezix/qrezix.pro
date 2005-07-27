@@ -51,7 +51,8 @@ HEADERS	+= qrezix.h \
 	rzxrezalsearch.h \
 	rzxchatsocket.h \
 	rzxglobal.h \
-	rzxiconcollection.h 
+	rzxiconcollection.h \
+	rzxapplication.h
 
 # Fichier sources -> c++
 SOURCES	+= main.cpp \
@@ -79,7 +80,8 @@ SOURCES	+= main.cpp \
 	rzxrezalsearch.cpp \
 	rzxchatsocket.cpp \
 	rzxglobal.cpp \
-	rzxiconcollection.cpp
+	rzxiconcollection.cpp \
+	rzxapplication.cpp
 
 # Fichiers ui -> uic
 FORMS = rzxpropertyui.ui \

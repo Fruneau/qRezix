@@ -58,8 +58,10 @@ void qt_mac_set_dock_menu( QMenu *menu );
 TrayIcon::TrayIcon( QObject *parent )
 		: QObject( parent ), pop(), d( 0 )
 {
+	Rzx::beginModuleLoading("Tray Icon");
 	v_isWMDock = FALSE;
 	buildMenu();
+	Rzx::endModuleLoading("Tray Icon");
 }
 
 /*!
@@ -69,12 +71,13 @@ TrayIcon::TrayIcon( QObject *parent )
  
   \sa show
 */
-TrayIcon::TrayIcon( const QPixmap &icon, const QString &tooltip,
-                    QObject *parent )
+TrayIcon::TrayIcon( const QPixmap &icon, const QString &tooltip, QObject *parent)
 		: QObject( parent ), pm( icon ), tip( tooltip ), d( 0 )
 {
+	Rzx::beginModuleLoading("Tray Icon");
 	v_isWMDock = FALSE;
 	buildMenu();
+	Rzx::endModuleLoading("Tray Icon");
 }
 
 /*!
@@ -98,6 +101,30 @@ void TrayIcon::setIcon( const QPixmap &icon )
 	pm = icon;
 	sysUpdateIcon();
 }
+
+///Mise à jour de l'icône de qRezix
+void TrayIcon::changeTrayIcon()
+{
+	// Change l'icone dans la tray
+	QPixmap trayIcon;
+	if(!RzxConfig::autoResponder())
+	{
+		trayIcon = RzxIconCollection::getPixmap(Rzx::ICON_SYSTRAYHERE);
+		if(trayIcon.isNull())
+			trayIcon = RzxIconCollection::qRezixIcon();
+	}
+	else
+	{
+		trayIcon = RzxIconCollection::getPixmap(Rzx::ICON_SYSTRAYAWAY);
+		if(trayIcon.isNull())
+			trayIcon = RzxIconCollection::qRezixAwayIcon();
+	}
+#ifdef Q_WS_MAC
+	buildMenu();
+#endif
+	setIcon(trayIcon);
+}
+
 
 QPixmap TrayIcon::icon() const
 {
@@ -126,12 +153,12 @@ void TrayIcon::buildMenu()
 #define newItem(name, trad, receiver, slot) pop.addAction(RzxIconCollection::getIcon(name), trad, receiver, slot)
 
 	RzxPlugInLoader::global() ->menuTray( pop );
-	newItem(Rzx::ICON_PREFERENCES , tr( "&Preference" ), parent(), SLOT( boitePreferences() ) );
+	newItem(Rzx::ICON_PREFERENCES , tr( "&Preference" ), this, SIGNAL( wantPreferences() ) );
 	if (RzxConfig::global()->autoResponder())
-		newItem(Rzx::ICON_HERE, tr( "&I'm back !" ), parent(), SLOT( toggleAutoResponder() ) );
+		newItem(Rzx::ICON_HERE, tr( "&I'm back !" ), this, SIGNAL( wantToggleResponder() ) );
 	else
-		newItem(Rzx::ICON_AWAY, tr( "I'm &away !" ), parent(), SLOT( toggleAutoResponder() ) );
-	newItem(Rzx::ICON_QUIT, tr( "&Quit" ), parent(), SLOT( closeByTray() ) );
+		newItem(Rzx::ICON_AWAY, tr( "I'm &away !" ), this, SIGNAL( wantToggleResponder() ) );
+	newItem(Rzx::ICON_QUIT, tr( "&Quit" ), this, SIGNAL(wantQuit()) );
 #ifdef Q_OS_MAC
 
 	qt_mac_set_dock_menu( &pop );
@@ -139,7 +166,6 @@ void TrayIcon::buildMenu()
 
 #undef newItem
 }
-
 
 /*!
   Shows the icon in the system tray.

@@ -59,7 +59,6 @@ inline void RzxPopup::forceVisible(bool pos)
 	else hide();
 }
 
-
 ///Pour customiser la boîte d'édition
 /** Rajout de Stéphane Lescuyer 2004/05/27 */
 class RzxTextEdit : public QTextEdit 
@@ -107,6 +106,7 @@ class RzxChat : public QWidget, private Ui::RzxChatUI
 {
 	Q_OBJECT
 	Q_PROPERTY(QString hostname READ hostname WRITE setHostname)
+	Q_PROPERTY(RzxChatSocket* socket READ socket WRITE setSocket)
 	
 	friend class RzxRezal;
 	
@@ -132,12 +132,11 @@ public:
 	RzxChat(const RzxHostAddress& peerAddress);
 	RzxChat(RzxChatSocket* sock);
 	virtual ~RzxChat();
-	RzxChatSocket *getSocket();
-	void setSocket(RzxChatSocket* sock);
+	RzxChatSocket *socket();
 	void sendChat(const QString& msg);
 
 protected:
-	RzxChatSocket *getValidSocket();
+	RzxChatSocket *validSocket();
 
 private:
 	void init();
@@ -154,7 +153,7 @@ protected:
 	ListText *history;
 	ListText *curLine;
 	QFont *defFont;
-	RzxChatSocket *socket;
+	RzxChatSocket *m_socket;
 	QColor curColor;
 	bool typing, peerTyping;
 	QTimer typingTimer;
@@ -176,6 +175,7 @@ public slots: // Public slots
 	void changeIconFormat();
 	void receiveProperties(const QString&);
 	void peerTypingStateChanged(bool);
+	void setSocket(RzxChatSocket* sock);
 	
 public:
 	const QString &hostname() const;
@@ -213,18 +213,18 @@ inline const QString &RzxChat::hostname() const
 
 /// Retourne un socket valide
 /** Cette méthode permet d'obtenir à coup sur un socket valide pour le chat. C'est à dire que si le socket n'existe pas, il est créé */
-inline RzxChatSocket *RzxChat::getValidSocket()
+inline RzxChatSocket *RzxChat::validSocket()
 {
-	if(!socket)
+	if(!m_socket)
 		setSocket(new RzxChatSocket(peer, this));
-	return socket;
+	return m_socket;
 }
 
 ///Retourne du socket de chat
 /** N'assure pas le retour d'un socket valide. Retourne null si aucun socket n'existe pour ce chat */
-inline RzxChatSocket *RzxChat::getSocket()
+inline RzxChatSocket *RzxChat::socket()
 {
-	return socket;
+	return m_socket;
 }
 
 #endif

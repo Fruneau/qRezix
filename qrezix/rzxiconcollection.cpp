@@ -21,6 +21,9 @@
 
 #include "rzxconfig.h"
 
+#include QREZIX_ICON
+#include QREZIX_AWAY_ICON
+
 ///Données d'information des icônes
 /** Chaque icône est représentée par un IconData qui contient l'identifiant,
  * le nom du fichier correspondant et un flag indiquant si l'icône est ou non
@@ -92,10 +95,15 @@ RzxIconCollection *RzxIconCollection::object = NULL;
 RzxIconCollection::RzxIconCollection()
 {
 	Rzx::beginModuleLoading("Icon Collection");
+	//Définition de l'icône de l'application
+	hereIcon = QPixmap(q);
+	awayIcon = QPixmap(t);
+
+	//Recherche des thèmes installés
+	qDebug("Searching icon themes...");
 	QList<QDir> path;
 	path << RzxConfig::userDir() << RzxConfig::systemDir() << RzxConfig::libDir();
 
-	qDebug("Searching icon themes...");
 	foreach(QDir dir, path)
 	{
 		dir.cd("themes");
@@ -117,6 +125,7 @@ RzxIconCollection::RzxIconCollection()
 		}
 	}
 
+	//Chargement du thème de démarrage
 	qDebug("Loading theme...");
 	activeTheme = QString();
 	setTheme(RzxConfig::iconTheme());
@@ -303,7 +312,7 @@ const QPixmap &RzxIconCollection::hashedIcon(quint32 hash)
 }
 
 ///Enregistrement d'une icône utilisateur
-const QPixmap &RzxIconCollection::saveHashedIcon(quint32 hash, const QImage& image)
+const QPixmap &RzxIconCollection::setHashedIcon(quint32 hash, const QImage& image)
 {
 	QString filename = QString::number(hash, 16) + ".png";
 	image.save(RzxConfig::computerIconsDir().absoluteFilePath(filename), "PNG");
@@ -318,7 +327,7 @@ QPixmap RzxIconCollection::localhostPixmap()
 }
 
 ///Sauvegarde le l'icône de localhost
-void RzxIconCollection::saveLocalhostIcon(const QPixmap& icon)
+void RzxIconCollection::setLocalhostPixmap(const QPixmap& icon)
 {
 	icon.save(RzxConfig::userDir().absoluteFilePath("localhost.png"), "PNG");
 }

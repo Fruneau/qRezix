@@ -30,7 +30,6 @@
 
 #include "rzxglobal.h"
 
-#include "qrezix.h"
 #include "rzxconfig.h"
 #include "rzxcomputer.h"
 #include "rzxmessagebox.h"
@@ -71,10 +70,7 @@ void RzxPlugInLoader::loadPlugIn(const QDir &dir)
 	
 	//vérification de l'existence du rep sourceDir/plugins
 	if(!sourceDir.cd("plugins"))
-	{
-		qDebug("Cannot cd to %s/plugins", sourceDir.canonicalPath().toAscii().constData());
 		return;
-	}
 
 	//les plugins doivent avoir un nom de fichier qui contient rzxpi
 	//		par exemple librzxpixplo.so ou rzxpixplo.dll
@@ -529,7 +525,6 @@ void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
 			break;
 		
 		case RzxPlugIn::ACTION_QUIT:
-			QRezix::global()->closeByTray();
 			break;
 	}
 }

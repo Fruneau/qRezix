@@ -100,7 +100,7 @@ const QColor RzxChat::preDefinedColors[16] = {Qt::black, Qt::red, Qt::darkRed,
 		Qt::darkGray, Qt::lightGray};
 
 /*************** Création/Destruction de la fenêtre *****************/
-//On crée la fenêtre soit avec un socket d'une connection déjà établie
+//On crée la fenêtre soit avec un m_socket d'une connection déjà établie
 RzxChat::RzxChat(RzxChatSocket* sock)
 	:QWidget(NULL, Qt::WindowContextHelpButtonHint), RzxChatUI()
 {
@@ -108,17 +108,17 @@ RzxChat::RzxChat(RzxChatSocket* sock)
 	init();
 }
 
-//Soit sans socket, celui-ci sera initialisé de par la suite
+//Soit sans m_socket, celui-ci sera initialisé de par la suite
 RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 	:QWidget(NULL, Qt::WindowContextHelpButtonHint), RzxChatUI()
 {
 	peer = peerAddress;
-	socket = NULL;
+	m_socket = NULL;
 	init();
 }
 
 ///Initialisation de la fenêtre de chat
-/** L'initialisation de la fenêtre à proprement dit ne gère pas la partie socket */
+/** L'initialisation de la fenêtre à proprement dit ne gère pas la partie m_socket */
 void RzxChat::init()
 {
 	setAttribute(Qt::WA_DeleteOnClose);
@@ -228,9 +228,9 @@ RzxChat::~RzxChat(){
 #endif
 	
 	if(defFont) delete defFont;
-	if(socket)
+	if(m_socket)
 	{
-		socket->close();
+		m_socket->close();
 		qDebug("Connection with %s has been closed by killing the chat window", m_hostname.toAscii().constData());
 	}
 }
@@ -238,29 +238,29 @@ RzxChat::~RzxChat(){
 /********************* Gestion de la connexion au réseau ***********************/
 // Inline définies dans rzxchat.h :
 //	 - RzxChatSocket *RzxChatSocket::getSocket();
-//	 - RzxChatSocket *RzxChatSocket::getValidSocket();
+//	 - RzxChatSocket *RzxChatSocket::validSocket();
 
-///Installation/Remplacement du socket de chat
+///Installation/Remplacement du m_socket de chat
 void RzxChat::setSocket(RzxChatSocket* sock)
 {
-	if(socket != NULL && socket->isConnected() && *sock != *socket)
+	if(m_socket != NULL && m_socket->isConnected() && *sock != *m_socket)
 	{
-		qDebug("Un nouveau socket différent a été proposé à %s", m_hostname.toAscii().constData());
-		socket->close();
+		qDebug("Un nouveau m_socket différent a été proposé à %s", m_hostname.toAscii().constData());
+		m_socket->close();
 	}
 	
-	socket = sock;
+	m_socket = sock;
 
-	if(socket)
+	if(m_socket)
 	{
-		socket->setParent(this);
-		connect(this, SIGNAL(send(const QString& )), socket, SLOT(sendChat(const QString& )));
-		connect(socket, SIGNAL(chat(const QString& )), this, SLOT(receive(const QString& )));
-		connect(socket, SIGNAL(info(const QString& )), this, SLOT(info(const QString& )));
-		connect(socket, SIGNAL(notify(const QString&, bool)), this, SLOT(notify(const QString&, bool )));
-		connect(socket, SIGNAL(pongReceived(int )), this, SLOT(pong(int)));
-		connect(&typingTimer, SIGNAL(timeout()), socket, SLOT(sendTyping()));
-		connect(socket, SIGNAL(typing(bool)), this, SLOT(peerTypingStateChanged(bool)));
+		m_socket->setParent(this);
+		connect(this, SIGNAL(send(const QString& )), m_socket, SLOT(sendChat(const QString& )));
+		connect(m_socket, SIGNAL(chat(const QString& )), this, SLOT(receive(const QString& )));
+		connect(m_socket, SIGNAL(info(const QString& )), this, SLOT(info(const QString& )));
+		connect(m_socket, SIGNAL(notify(const QString&, bool)), this, SLOT(notify(const QString&, bool )));
+		connect(m_socket, SIGNAL(pongReceived(int )), this, SLOT(pong(int)));
+		connect(&typingTimer, SIGNAL(timeout()), m_socket, SLOT(sendTyping()));
+		connect(m_socket, SIGNAL(typing(bool)), this, SLOT(peerTypingStateChanged(bool)));
 	}
 }
 
@@ -416,17 +416,17 @@ void RzxChat::onTextChanged()
 	if(!typing && edMsg->toPlainText().length())
 	{
 		typing = true;
-		//On ne crée pas de socket pour envoyer typing
-		if(socket)
-			socket->sendTyping(true);
+		//On ne crée pas de m_socket pour envoyer typing
+		if(m_socket)
+			m_socket->sendTyping(true);
 		typingTimer.setSingleShot(true);
 		typingTimer.start(10*1000);
 	}
 	if(typing && !edMsg->toPlainText().length())
 	{
 		typing = false;
-		if(socket)
-			socket->sendTyping(false);
+		if(m_socket)
+			m_socket->sendTyping(false);
 		typingTimer.stop();
 	}
 }
@@ -550,7 +550,7 @@ void RzxChat::on_btnSend_clicked()
 
 	if(rawMsg == "/ping" || rawMsg.left(6) == "/ping ")
 	{
-		getValidSocket()->sendPing();
+		validSocket()->sendPing();
 		edMsg->setPlainText("");
 		notify(tr("Ping emitted"));
 		return;
@@ -573,7 +573,7 @@ void RzxChat::on_btnSend_clicked()
 	QString dispMsg = msg;
 	RzxPlugInLoader::global()->chatEmitted(&dispMsg);
 	append("red", ">&nbsp;", dispMsg);
-	sendChat(msg);	//passage par la sous-couche de gestion du socket avant d'émettre
+	sendChat(msg);	//passage par la sous-couche de gestion du m_socket avant d'émettre
 	edMsg -> setPlainText("");
 	
 /*	if(cbSendHTML->isChecked())
@@ -628,14 +628,14 @@ void RzxChat::on_btnProperties_toggled(bool on)
 	
 	if(prop) return;
 	btnHistorique->setChecked(false);
-	getValidSocket()->sendPropQuery();
+	validSocket()->sendPropQuery();
 }
 
 ///Demande l'affichage des propriétés
 void RzxChat::receiveProperties(const QString& msg)
 {
 	QPoint *pos = new QPoint(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
-	prop = (RzxPopup*)socket->showProperties(peer, msg, false, this, pos);
+	prop = (RzxPopup*)m_socket->showProperties(peer, msg, false, this, pos);
 	delete pos;
 	if(prop.isNull())
 	{
@@ -655,12 +655,12 @@ void RzxChat::moveEvent(QMoveEvent *)
 
 /// Gestion de la connexion avec l'autre client
 /** Cette méthode permet de gérer les deux cas :
- *		- soit la connexion est déjà établie, on utilise le socket déjà en place
+ *		- soit la connexion est déjà établie, on utilise le m_socket déjà en place
  *		- soit il n'y a pas connexion, dans ce cas, on ouvre la connexion l'émission du message se fera dès que celle-ci sera prête
  */
 void RzxChat::sendChat(const QString& msg)
 {
-	getValidSocket()->sendChat(msg);
+	validSocket()->sendChat(msg);
 }
 
 /******************* Gestion des événements ***************************/

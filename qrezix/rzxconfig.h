@@ -47,11 +47,9 @@ class QHostAddress;
 /** Classe à épurer !!! */
 class RzxConfig : public QObject  {
 	Q_OBJECT
+
 	friend class RzxProperty;
-	friend class RzxProtocole;
-	friend class RzxPlugInLoader;
-	friend class QRezix;
-	
+
 	class FontProperty
 	{
 		public:
@@ -219,13 +217,14 @@ public:
 	static void writeIgnoredPluginsList(const QStringList& list);
 
 	static bool find();
-	static QString findData(const QString& name, const QString& relative = QString::null, bool important = false);
+
 	/** Returns the dir where all system-wide data are saved */
 	static QDir computerIconsDir();
 	static QDir logDir();
 	static QDir userDir();
 	static QDir systemDir();
 	static QDir libDir();
+
 	/** the name of the log's subdirectory */
 	static const QString logPath;
 
@@ -234,6 +233,7 @@ public:
 	
 	static QString historique(quint32 ip, const QString& hostname);
 	static QString language();
+	static bool infoCompleted();
 
 signals:
 	void languageChanged();

@@ -89,7 +89,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex" >
-      <number>4</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="pageInfo" >
       <layout class="QGridLayout" >
@@ -747,7 +747,7 @@
             <item row="2" column="0" >
              <layout class="QHBoxLayout" >
               <property name="margin" >
-               <number>6</number>
+               <number>0</number>
               </property>
               <property name="spacing" >
                <number>2</number>
@@ -820,7 +820,7 @@
             <item row="0" column="0" >
              <layout class="QHBoxLayout" >
               <property name="margin" >
-               <number>2</number>
+               <number>0</number>
               </property>
               <property name="spacing" >
                <number>2</number>
@@ -885,7 +885,7 @@
             <item row="1" column="0" >
              <layout class="QHBoxLayout" >
               <property name="margin" >
-               <number>2</number>
+               <number>0</number>
               </property>
               <property name="spacing" >
                <number>2</number>
@@ -927,7 +927,7 @@
             <item row="0" column="0" >
              <layout class="QHBoxLayout" >
               <property name="margin" >
-               <number>2</number>
+               <number>0</number>
               </property>
               <property name="spacing" >
                <number>6</number>
@@ -994,7 +994,7 @@
             <item row="0" column="0" >
              <layout class="QHBoxLayout" >
               <property name="margin" >
-               <number>2</number>
+               <number>0</number>
               </property>
               <property name="spacing" >
                <number>2</number>
@@ -1632,7 +1632,7 @@
        <item row="2" column="0" colspan="3" >
         <layout class="QHBoxLayout" >
          <property name="margin" >
-          <number>2</number>
+          <number>0</number>
          </property>
          <property name="spacing" >
           <number>6</number>
@@ -1879,7 +1879,7 @@
             <item row="1" column="0" >
              <layout class="QHBoxLayout" >
               <property name="margin" >
-               <number>2</number>
+               <number>0</number>
               </property>
               <property name="spacing" >
                <number>6</number>
@@ -1898,8 +1898,8 @@
                <widget class="QSpinBox" name="sbTraySize" >
                 <property name="sizePolicy" >
                  <sizepolicy>
-                  <hsizetype>0</hsizetype>
-                  <vsizetype>0</vsizetype>
+                  <hsizetype>5</hsizetype>
+                  <vsizetype>5</vsizetype>
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>

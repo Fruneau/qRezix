@@ -242,8 +242,6 @@ QModelIndex RzxRezalModel::index(RzxComputer *computer, const QModelIndex& paren
 		int value = parent.internalId() & TREE_FLAG_VALUE;
 		list = &rezals[value];
 	}
-	qDebug("%s", computer->name().toAscii().constData());
-	qDebug("%d/%d/%d", list->count(), (int)computer, list->indexOf(computer));
 	return index(list->indexOf(computer), 0, parent);
 }
 

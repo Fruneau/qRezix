@@ -54,31 +54,21 @@
 #include "rzxtrayicon.h"
 #include "rzxrezalmodel.h"
 #include "rzxrezalview.h"
-
-#include QREZIX_ICON
-#include QREZIX_AWAY_ICON
+#include "rzxapplication.h"
 
 QRezix *QRezix::object = NULL;
 
 QRezix::QRezix(QWidget *parent)
- : QMainWindow(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint),
-	m_properties(0), accel(0), tray(0)
+ : QMainWindow(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint), accel(0)
 {
-	hereIcon = QPixmap(q);
-	awayIcon = QPixmap(t);
-	
+	Rzx::beginModuleLoading("Main UI");
 	object = this;
 	setupUi(this);
-	byTray = false;
 	statusFlag = false;
-	favoriteWarn = true;
 	wellInit = false;
 	alreadyOpened=false;
 
-	///Chargement de la config
-	RzxConfig::global();
 	///Chargement des plug-ins
-	RzxPlugInLoader::global();
 	buildActions();
 	
 #ifdef Q_OS_MAC
@@ -114,32 +104,34 @@ QRezix::QRezix(QWidget *parent)
 	rezal->setRootIndex(RzxRezalModel::global()->everybodyGroup);
 	rezalFavorites->setRootIndex(RzxRezalModel::global()->favoriteIndex);
 
+	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(toggleAutoResponder()));
 	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTheme()));
 	connect(RzxClientListener::global(), SIGNAL(chatSent()), this, SLOT(chatSent()));
+	connect(RzxConfig::global(), SIGNAL(languageChanged()), this, SLOT(languageChanged()));
+	QString windowSize = RzxConfig::readWindowSize();
+#ifndef Q_OS_MAC
+	if(windowSize.left(1)=="1")
+		statusMax = true;
+	else
+#endif
+	{
+		statusMax = false;
+		int height=windowSize.mid(1,4).toInt();
+		int width =windowSize.mid(5,4).toInt();
+		resize(QSize(width,height));
+		move(RzxConfig::readWindowPosition()); //QPoint(2,24));
+	}
 	
 	// Préparation de l'insterface
 	activateAutoResponder( RzxConfig::autoResponder() != 0 );
 
-	
 	connect(rezal, SIGNAL(searchPatternChanged(const QString&)), leSearch, SLOT(setText(const QString &)));
 	connect(rezalFavorites, SIGNAL(searchPatternChanged(const QString&)), leSearch, SLOT(setText(const QString &)));
 
 	RzxConnectionLister *lister = RzxConnectionLister::global();
 	connect(lister, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
 	connect(lister, SIGNAL(countChange(const QString&)), lblCount, SLOT(setText(const QString&)));
-	connect(lister, SIGNAL(countChange(const QString&)), this, SIGNAL(setToolTip(const QString&)));
 	
-	m_properties = new RzxProperty(this);
-	if(!RzxConfig::global()->find() || !m_properties->infoCompleted())
-	{
-		m_properties->initDlg();
-		m_properties -> exec();
-	}
-	if(!m_properties->infoCompleted()) { wellInit = FALSE; return;}
-	
-	qDebug("=== qRezix Running ===");
-	lister->initConnection();
-
 	connect(RzxConfig::global(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
 
 	tbRezalContainer->setCurrentIndex(RzxConfig::defaultTab());
@@ -150,6 +142,7 @@ QRezix::QRezix(QWidget *parent)
 	menuFormatChange();
 
 	wellInit = TRUE;
+	Rzx::endModuleLoading("Main UI");
 }
 
 ///Construction des actions
@@ -164,7 +157,7 @@ void QRezix::buildActions()
 //	connect(&menuPlugins, SIGNAL(aboutToHide()), pluginsAction, SLOT(toggle()));
 
 	prefAction = new QAction(tr("Preferences"), this);
-	connect(prefAction, SIGNAL(triggered()), this, SLOT(boitePreferences()));
+	connect(prefAction, SIGNAL(triggered()), this, SIGNAL(wantPreferences()));
 	
 	columnsAction = new QAction(tr("Adjust columns"), this);
 	connect(columnsAction, SIGNAL(triggered()), rezal, SLOT(afficheColonnes()));
@@ -177,23 +170,23 @@ void QRezix::buildActions()
 
 	awayAction = new QAction(tr("Away"), this);
 	awayAction->setCheckable(true);	
-	connect(awayAction, SIGNAL(toggled(bool)), this, SLOT(activateAutoResponder(bool)));
+	connect(awayAction, SIGNAL(triggered()), this, SIGNAL(wantToggleResponder()));
 }
 
-void QRezix::launchPlugins()
+void QRezix::languageChanged()
 {
-	RzxPlugInLoader::global()->init();
-}
-
-void QRezix::languageChanged(){
-	qDebug("Language changed");
 	languageChange();
 /*	rezal->languageChanged();
 	rezalFavorites->languageChanged();*/
 }
 
-QRezix::~QRezix() {
-	qDebug("Bye Bye\n");
+QRezix::~QRezix()
+{
+	if(accel)
+	{
+		delete accel;
+		accel = NULL;
+	}
 }
 
 void QRezix::status(const QString& msg, bool fatal)
@@ -209,73 +202,10 @@ void QRezix::status(const QString& msg, bool fatal)
 	qDebug(("Connection status : " + QString(fatal?"disconnected ":"connected ") + "(" + msg + ")").toAscii().constData());
 }
 
-void QRezix::closeByTray()
-{
-	byTray = true;
-	close();
-}
-
-///Sauvegarde des données au moment de la fermeture
-/** Lance la sauvegarde des données principales lors de la fermeture de rezix. Cette méthode est censée permettre l'enregistrement des données lors de la fermeture de l'environnement graphique... */
-void QRezix::saveSettings()
-{
-	qDebug("\n=== qRezix stopping ===");
-	byTray = true;
-	QSize s = size();       // store size
-	
-	//Pas très beau, mais c'est juste pour voir si ça améliore le rétablissement de l'état de la fenêtre sur mac
-	QString height = QString("%1").arg(s.height(), 4, 10).replace(' ', '0');
-	QString width =  QString("%1").arg(s.width(), 4, 10).replace(' ', '0');
-	QString windowSize;
-#ifndef Q_OS_MAC
-	if( statusMax )
-		windowSize = "100000000";
-	else
-#endif
-		windowSize="0"+height+width;
-	qDebug("Fermeture des plugins");
-	delete RzxPlugInLoader::global();
-	qDebug("Fermeture de l'enregistrement des configurations");
-	RzxConfig::global()->writeWindowSize(windowSize);
-	RzxConfig::global()->writeWindowPosition(pos());
-	RzxConfig::global() -> closeSettings();
-	qDebug("Fermeture des fenêtres de chat");
-	RzxConnectionLister::global() ->closeChats();
-	qDebug("Fermeture de l'écoute réseau");
-	RzxClientListener::global()->close();
-	qDebug("Fermeture de la connexion avec le serveur");
-	if (!RzxConnectionLister::global() -> isSocketClosed()){
-		lblStatus -> setText(tr("Closing socket..."));
-		rezal-> setEnabled(false);
-		rezalFavorites->setEnabled(false);
-		connect(RzxConnectionLister::global(), SIGNAL(socketClosed()), this, SLOT(socketClosed()));
-		RzxConnectionLister::global() -> closeSocket();
-		RzxConnectionLister::global() -> deleteLater();
-	}
-	disconnect(qApp, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
-	qDebug("Fermeture de l'interface");
-	if(m_properties)
-	{
-		delete m_properties;
-		m_properties = NULL;
-	}
-	if(accel)
-	{
-		delete accel;
-		accel = NULL;
-	}
-	if(tray)
-	{
-		delete tray;
-		tray = NULL;
-	}
-	qDebug("Fermeture de qRezix terminée");
-}
-
 void QRezix::closeEvent(QCloseEvent * e){
 	//pour éviter de fermer rezix par mégarde, on affiche un boite de dialogue laissant le choix
 	//de fermer qrezix, de minimiser la fenêtre principale --> trayicon, ou d'annuler l'action
-	if(!byTray && !isHidden() && !isMinimized())
+	if(!isHidden() && !isMinimized())
 	{
 		int i;
 		if(RzxConfig::showQuit())
@@ -285,9 +215,9 @@ void QRezix::closeEvent(QCloseEvent * e){
 		}
 		else
 			i = RzxConfig::quitMode();
-		if(i!=RzxQuit::selectQuit)
+		if(i != RzxQuit::selectQuit)
 		{
-			if(i==RzxQuit::selectMinimize)
+			if(i == RzxQuit::selectMinimize)
 				showMinimized();
 #ifdef WIN32 //c'est très très très très très très moche, mais g pas trouvé d'autre manière de le faire
 			 //c'est pas ma fautre à moi si windows se comporte comme de la merde
@@ -299,18 +229,13 @@ void QRezix::closeEvent(QCloseEvent * e){
 		}
 	}
 
-	saveSettings();
-
-	if (RzxConnectionLister::global()-> isSocketClosed())
-		e -> accept();
-	else
-		e -> ignore();
+	emit wantQuit();
 }
 
 bool QRezix::event(QEvent * e){
 	if(e->type()==QEvent::WindowDeactivate)
 	{
-		if(isMinimized() && RzxConfig::global()->useSystray())
+		if(isMinimized() && RzxConfig::global()->useSystray() && RzxApplication::instance()->hasTrayicon())
 			hide();
 		return true;
 	}
@@ -326,36 +251,16 @@ void QRezix::switchTab()
 }
 
 void QRezix::delayedInit() {
-	disconnect(m_properties, SIGNAL(end()), this, SLOT(delayedInit()));
-	RzxConnectionLister::global()  -> initConnection();
-}
-
-void QRezix::boitePreferences(){
-	if (m_properties) {
-		if (!(m_properties -> isVisible())) {
-			m_properties -> initDlg();
-			m_properties -> show();
-		}
-	}
-	else {
-		m_properties = new RzxProperty(this);
-		m_properties -> show();
-	}
+	RzxConnectionLister::global()->initConnection();
 }
 
 void QRezix::socketClosed(){
 	close();
 }
 
-
 void QRezix::toggleAutoResponder()
 {
-	activateAutoResponder( !awayAction->isChecked());
-}
-
-void QRezix::toggleButtonResponder()
-{
-	activateAutoResponder( !awayAction->isChecked());
+	activateAutoResponder( RzxComputer::localhost()->isOnResponder());
 }
 
 void QRezix::activateAutoResponder( bool state )
@@ -365,11 +270,6 @@ void QRezix::activateAutoResponder( bool state )
 		awayAction->setChecked(state);
 		return;
 	}
-	if (state == (RzxConfig::autoResponder() != 0)) return;
-	RzxConfig::setAutoResponder(state);
-	RzxProperty::serverUpdate();
-	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_AWAY, NULL);
-	changeTrayIcon();
 }
 
 ///Lancement d'une recherche sur le pseudo dans la liste des personnes connectées
@@ -384,34 +284,10 @@ void QRezix::launchSearch()
 	else searchAction->setChecked(true);
 }
 
-void QRezix::changeTrayIcon(){
-	// Change l'icone dans la tray
-	QPixmap trayIcon;
-	if(!RzxConfig::autoResponder())
-	{
-		trayIcon = RzxIconCollection::getPixmap(Rzx::ICON_SYSTRAYHERE);
-		if(trayIcon.isNull())
-			trayIcon = qRezixIcon();
-	}
-	else
-	{
-		trayIcon = RzxIconCollection::getPixmap(Rzx::ICON_SYSTRAYAWAY);
-		if(trayIcon.isNull())
-			trayIcon = qRezixAwayIcon();
-	}
-#ifdef Q_WS_MAC
-	tray->buildMenu();
-#endif
-	if(tray) tray->setIcon(trayIcon);
-}
-
-void QRezix::toggleVisible(){
+void QRezix::toggleVisible()
+{
 	if(isVisible())
-	{
-		bool dispProp = (m_properties && m_properties->isVisible());
 		hide();
-		if(dispProp) m_properties->show();
-	}
 	else{
 		bool saveStatusMax = statusMax;
 		showNormal();	//pour forcer l'affichage de la fenêtre ==> modifie statusMax
@@ -458,48 +334,6 @@ void QRezix::chatSent() {
 	activateAutoResponder( false );
 }
 
-/// Pour l'affichage d'une notification lors de la connexion d'un favoris
-/** Permet d'alerter lors de l'arrivée d'un favoris, que ce soit par l'émission d'un son, ou par l'affichage l'affichage d'un message indiquant la présence de ce favoris */
-void QRezix::warnForFavorite(RzxComputer *computer)
-{
-	//ne garde que les favoris avec en plus comme condition que ce ne soit pas les gens présents à la connexion
-	//evite de notifier la présence de favoris si en fait c'est nous qui arrivons.
-	if(!RzxConnectionLister::global()->isInitialized() || !favoriteWarn)
-	{
-		favoriteWarn = true;
-		return;
-	}
-	
-	//Bah, beep à la connexion
-	if(RzxConfig::beepConnection() && computer->state() == Rzx::STATE_HERE)
-	{
-#if defined (WIN32) || defined (Q_OS_MAC)
-		QString file = RzxConfig::connectionSound();
-		if( !file.isEmpty() && QFile(file).exists() )
-			QSound::play( file );
-		else
-			QApplication::beep();
-#else
-		QString cmd = RzxConfig::beepCmd(), file = RzxConfig::connectionSound();
-		if (!cmd.isEmpty() && !file.isEmpty()) {
-			QProcess process;
-			process.start(cmd, QStringList(file));
-		}
-#endif
-	}
-	
-	//Affichage de la fenêtre de notification de connexion
-	if(RzxConfig::showConnection())
-		new RzxTrayWindow(computer);
-}
-
-/// Pour se souvenir que la prochaine connexion sera celle d'un nouveau favoris
-/** Permet d'éviter la notification d'arrivée d'un favoris, lorsqu'une personne change uniquement de statut non-favoris -> favoris */
-void QRezix::newFavorite()
-{
-	favoriteWarn = false;
-}
-
 /// Changement du thème d'icone
 /** Cette méthode met à jour les icônes de l'interface principale (menu), mais aussi celles des listes de connectés */
 void QRezix::changeTheme()
@@ -517,7 +351,6 @@ void QRezix::changeTheme()
 		lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_ON));
 	else
 		lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_OFF));
-	if(wellInit) changeTrayIcon();
 }
 
 ///Changement de format des boutons de la barre d'outils
