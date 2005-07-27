@@ -234,18 +234,21 @@ QModelIndex RzxRezalModel::index(RzxComputer *computer, const QModelIndex& paren
 		case TREE_FLAG_PROMO | TREE_PROMO_ORANJE: list = &oranje; break;
 		case TREE_FLAG_PROMO | TREE_PROMO_BINET: list = &binet; break;
 		default:
-			if((parent.internalId() & TREE_FLAG_MASK) != TREE_FLAG_REZAL) return QModelIndex();
+			if((parent.internalId() & TREE_FLAG_MASK) != TREE_FLAG_REZAL) 
+				return QModelIndex();
 	}
 	if((parent.internalId() & TREE_FLAG_MASK) == TREE_FLAG_REZAL)
 	{
 		int value = parent.internalId() & TREE_FLAG_VALUE;
 		list = &rezals[value];
 	}
+	qDebug("%s", computer->name().toAscii().constData());
+	qDebug("%d/%d/%d", list->count(), (int)computer, list->indexOf(computer));
 	return index(list->indexOf(computer), 0, parent);
 }
 
 ///Retourne l'arbre des fils
-const RzxDict<QString, RzxComputer*> *RzxRezalModel::childrenByName(const QModelIndex& parent) const
+const RzxRezalSearchTree *RzxRezalModel::childrenByName(const QModelIndex& parent) const
 {
 	if(!parent.isValid()) return NULL;
 	switch(parent.internalId())
@@ -744,23 +747,23 @@ void RzxRezalModel::clear()
 
 
 ///Insertion d'un objet dans la liste et le groupe correspondant
-void RzxRezalModel::insertObject(const QModelIndex& parent, QList<RzxComputer*>& list, RzxDict<QString, RzxComputer*>& tree, RzxComputer *computer)
+void RzxRezalModel::insertObject(const QModelIndex& parent, QList<RzxComputer*>& list, RzxRezalSearchTree& tree, RzxComputer *computer)
 {
 	int row = list.count();
 	beginInsertRows(parent, row, row);
 	list << computer;
-	tree.insert(computer->name(), &computer);
+	tree.insert(computer->name().toLower(), new RzxComputer*(computer));
 	endInsertRows();
 }
 
 ///Suppression d'un objet de la liste et du groupe correspondant
-void RzxRezalModel::removeObject(const QModelIndex& parent, QList<RzxComputer*>& list, RzxDict<QString, RzxComputer*>& tree, RzxComputer *computer)
+void RzxRezalModel::removeObject(const QModelIndex& parent, QList<RzxComputer*>& list, RzxRezalSearchTree& tree, RzxComputer *computer)
 {
 	int row = list.indexOf(computer);
 	if(row == -1) return;
 	beginRemoveRows(parent, row, row);
 	list.removeAll(computer);
-	tree.remove(computer->name());
+	tree.remove(computer->name().toLower());
 	endRemoveRows();
 }
 

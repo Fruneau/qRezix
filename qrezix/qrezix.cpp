@@ -51,7 +51,7 @@
 #include "rzxclientlistener.h"
 #include "rzxtraywindow.h"
 #include "rzxcomputer.h"
-#include "trayicon.h"
+#include "rzxtrayicon.h"
 #include "rzxrezalmodel.h"
 #include "rzxrezalview.h"
 
