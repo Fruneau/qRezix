@@ -41,6 +41,8 @@ class QImage;
 class RzxConnectionLister : public QObject
 {
 	Q_OBJECT
+	Q_PROPERTY(bool initialized READ isInitialized)
+
 	bool initialized;
 	
 	static RzxConnectionLister *object;

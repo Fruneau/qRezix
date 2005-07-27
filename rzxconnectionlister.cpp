@@ -27,7 +27,6 @@
 #include "rzxcomputer.h"
 #include "rzxchat.h"
 #include "rzxconfig.h"
-#include "qrezix.h"
 
 #define USER_HASH_TABLE_LENGTH 1663
 
@@ -109,7 +108,6 @@ void RzxConnectionLister::login()
 	if(displayWaiter.isEmpty()) return;
 	RzxComputer *computer = displayWaiter.takeFirst();
 	connect(computer, SIGNAL( needIcon( const RzxHostAddress& ) ), this, SIGNAL( needIcon( const RzxHostAddress& ) ) );
-	connect(computer, SIGNAL(stateChanged(RzxComputer* )), QRezix::global(), SLOT(warnForFavorite(RzxComputer* )));
 
 	// Recherche si cet ordinateur était déjà présent (refresh ou login)
 	QString tempIP = computer->ip().toString();
@@ -301,8 +299,8 @@ void RzxConnectionLister::proprietes(const RzxHostAddress& peer)
 		client->checkProperty(peer);
 	else
 	{
-		if(object->getSocket())
-			object->getSocket()->sendPropQuery();
+		if(object->socket())
+			object->socket()->sendPropQuery();
 		else
 			client->checkProperty(peer);
 	}
@@ -354,5 +352,5 @@ void RzxConnectionLister::fatal( const QString& msg )
 void RzxConnectionLister::recvIcon(QImage* icon, const RzxHostAddress& ip)
 {
 	RzxComputer *computer = getComputerByIP(ip);
-	computer->setIcon(RzxIconCollection::global()->saveHashedIcon(computer->stamp(), *icon));
+	computer->setIcon(RzxIconCollection::global()->setHashedIcon(computer->stamp(), *icon));
 }

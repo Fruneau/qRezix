@@ -55,6 +55,7 @@ public:
 	QPoint getPos();
 
 public slots:
+	void changeTrayIcon();
 	void setIcon( const QPixmap &icon );
 	void setToolTip( const QString &tip );
 
@@ -67,6 +68,9 @@ signals:
 	void clicked(const QPoint&);
 	void doubleClicked(const QPoint&);
 	void closed();
+	void wantQuit();
+	void wantPreferences();
+	void wantToggleResponder();
 
 protected:
 	bool event( QEvent * );

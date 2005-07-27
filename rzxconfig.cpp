@@ -47,7 +47,6 @@
 #include "rzxmessagebox.h"
 #include "rzxhostaddress.h"
 #include "rzxcomputer.h"
-#include "qrezix.h"
 #include "rzxserverlistener.h"
 #include "rzxpluginloader.h"
 #include "rzxrezalmodel.h"
@@ -209,7 +208,11 @@ RzxConfig::RzxConfig()
 
 /**
 */
-RzxConfig::~RzxConfig(){
+RzxConfig::~RzxConfig()
+{
+	writeFavorites();
+	writeIgnoreList();
+	settings->sync();
 	if(settings)
 		delete settings;
 	fontProperties.clear();
@@ -268,20 +271,6 @@ QDir RzxConfig::logDir() {
 		ret.cd("log");
 	}
 	return ret;
-}
-
-QString RzxConfig::findData(const QString& name, const QString& relative, bool important) {
-	QDir temp(global() -> m_userDir);
-	temp.cd(relative);
-	if (temp.exists(name)) return temp.absoluteFilePath(name);
-	
-	temp = global() -> m_systemDir;
-	temp.cd(relative);
-	if (temp.exists(name)) return temp.absoluteFilePath(name);
-	
-	if(important)
-		qWarning("qRezix can't find  %s/%s", relative.toLatin1().constData(), name.toLatin1().constData());
-	return QString::null;
 }
 
 /******************************************************************************
@@ -523,6 +512,13 @@ int RzxConfig::colonnes() {
 	colonnes |= (1<<RzxRezalModel::ColPromo);
 	colonnes |= (1<<RzxRezalModel::ColRezal);
 	return global()->readEntry("colonnes", colonnes);
+}
+
+///Indique si la totalité des informations sont enregistrées
+bool RzxConfig::infoCompleted()
+{
+	return propLastName() != "" && propName() != "" && propCasert() != "" 
+		&& propMail() != DEFAULT_MAIL && propTel() != "";
 }
 
 /** Change le mode du répondeur */

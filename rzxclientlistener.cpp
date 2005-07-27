@@ -22,15 +22,15 @@
 #include "rzxcomputer.h"
 #include "rzxconfig.h"
 #include "rzxchat.h"
-#include "qrezix.h"
-
+#include "rzxapplication.h"
 
 RzxClientListener * RzxClientListener::object = 0;
 
 RzxClientListener::RzxClientListener()
-{
-	if(!object) object = this;
-}
+{ }
+
+RzxClientListener::~ RzxClientListener()
+{ }
 
 ///Connexion d'un RzxChatSocket au reste du programme
 void RzxClientListener::attach(RzxChatSocket *sock)
@@ -73,5 +73,5 @@ void RzxClientListener::checkProperty(const RzxHostAddress& host)
 ///Permet l'affichage des messages d'erreur des socket conçus uniquement pour le check de propriétés
 void RzxClientListener::info(const QString& msg)
 {
-	RzxMessageBox::information(QRezix::global(), tr("Connection error"), tr("An error occured while checking properties :\n") + msg);
+	RzxMessageBox::information(RzxApplication::mainWindow(), tr("Connection error"), tr("An error occured while checking properties :\n") + msg);
 }

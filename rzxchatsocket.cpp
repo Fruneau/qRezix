@@ -34,9 +34,9 @@
 
 #include "rzxchatsocket.h"
 
-#include "qrezix.h"
 #include "rzxchat.h"
 #include "rzxconfig.h"
+#include "rzxapplication.h"
 #include "rzxclientlistener.h"
 #include "rzxconnectionlister.h"
 
@@ -398,7 +398,7 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	if(withFrame)
 	{
 		// creation de la boite de dialogue (non modale, elle se detruit automatiquement grace a WDestructiveClose)
-		propertiesDialog = new QDialog(parent?parent:QRezix::global(), Qt::Tool | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+		propertiesDialog = new QDialog(parent?parent:RzxApplication::mainWindow(), Qt::Tool | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
 		propertiesDialog->setAttribute(Qt::WA_DeleteOnClose);
 		propertiesDialog->resize(300, 320);
 
@@ -406,7 +406,7 @@ QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString
 	}
 	else
 	{
-		propertiesDialog = new RzxPopup(parent?parent:QRezix::global());
+		propertiesDialog = new RzxPopup(parent?parent:RzxApplication::mainWindow());
 		((QFrame*)propertiesDialog)->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
 		if(pos) propertiesDialog->move(*pos);
 	}
@@ -493,14 +493,14 @@ QWidget *RzxChatSocket::showHistorique(const RzxHostAddress& ip, const QString& 
 	QWidget *histoDialog;
 	if(withFrame)
 	{
-		histoDialog = new QDialog(parent?parent:QRezix::global(), Qt::Tool | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+		histoDialog = new QDialog(parent?parent:RzxApplication::mainWindow(), Qt::Tool | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
 		histoDialog->setAttribute(Qt::WA_DeleteOnClose);
 
 		histoDialog->setWindowTitle( tr( "History - %1" ).arg(hostname) );
 	}
 	else
 	{
-		histoDialog = new RzxPopup(parent?parent:QRezix::global());
+		histoDialog = new RzxPopup(parent?parent:RzxApplication::mainWindow());
 		((QFrame*)histoDialog)->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
 		if(pos) 
 		{

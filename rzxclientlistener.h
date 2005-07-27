@@ -32,17 +32,14 @@ class RzxChatSocket;
 class RzxClientListener : public QTcpServer  {
 	Q_OBJECT
 
+	RzxClientListener();
 	static RzxClientListener * object;
 	
 	public:
-		RzxClientListener();
-		~RzxClientListener() { }
+		~RzxClientListener();
 	
-		static RzxClientListener *global() {
-			if(!object) new RzxClientListener;
-			return object;
-		}
-		bool listen(quint16 port) { return QTcpServer::listen(QHostAddress::Any, port); }
+		static RzxClientListener *global();
+		bool listen(quint16 port);
 		void attach(RzxChatSocket* socket);
 		
 	public slots:
@@ -56,5 +53,19 @@ class RzxClientListener : public QTcpServer  {
 		void propertiesSent(const RzxHostAddress&);
 		void chatSent();
 };
+
+///Retourne un objet global
+inline RzxClientListener *RzxClientListener::global()
+{
+	if(!object)
+		object = new RzxClientListener();
+	return object;
+}
+
+///Surcharge pour simplifier l'appel
+inline bool RzxClientListener::listen(quint16 port)
+{
+	return QTcpServer::listen(QHostAddress::Any, port);
+}
 
 #endif

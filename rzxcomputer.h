@@ -204,6 +204,7 @@ public:
 signals: // Signals
 	void update(RzxComputer*);
 	void needIcon(const RzxHostAddress&);
+	void favoriteStateChanged(RzxComputer*);
 	void stateChanged(RzxComputer*);
 
 protected:

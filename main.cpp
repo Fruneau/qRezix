@@ -25,10 +25,7 @@ email                : sylvain.joyeux@m4x.org
 
 #include "rzxglobal.h"
 
-#include "rzxconfig.h"
-#include "qrezix.h"
-#include "rzxtrayicon.h"
-#include "rzxpluginloader.h"
+#include "rzxapplication.h"
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_BSD) && !defined(Q_OS_MAC)
 /* for signal handling */
@@ -87,78 +84,21 @@ void sigTermHandler( int signum )
 	QApplication::exit( 255 );
 	qDebug( "Terminated" );
 }
-#endif
 
 int main(int argc, char *argv[])
 {
-	QApplication a(argc,argv);
-	for(int i=1; i<argc; i++)
-		if(strncmp(argv[i],"--log-debug=",12)==0)
-		{
-			int len = strlen(argv[i])-12;
-			char *logfile_name = new char[len+1];
-			memcpy(logfile_name,argv[i]+12,len+1);
-			FILE *logfile = fopen(logfile_name,"a");
-			Rzx::useOutputFile(logfile);
-			delete[] logfile_name;
-			break;
-		}
-
-	Rzx::installMsgHandler();
-	qDebug((QString("qRezix ") + VERSION + RZX_TAG_VERSION + "\n").toAscii().constData());
-	
-#if defined(Q_OS_UNIX) && !defined(Q_OS_BSD) && !defined(Q_OS_MAC)
 	default_segv_handler = signal( SIGSEGV, fatalHandler );
 	default_pipe_handler = signal( SIGPIPE, SIG_IGN );
 	default_term_handler = signal( SIGTERM, sigTermHandler );
 	default_int_handler = signal( SIGINT, sigTermHandler );
+#else
+int main(int argc, char *argv[])
+{
 #endif
-	
-	QRezix *rezix = QRezix::global();
-	if(rezix->wellInit)
-	{
-		a.setWindowIcon(QRezix::qRezixIcon());
-		QObject::connect(RzxConfig::global(), SIGNAL(languageChanged()), rezix, SLOT(languageChanged()));
-		
-//		rezix->setWindowIcon(QRezix::qRezixIcon());
-		rezix->tray = new TrayIcon(QRezix::qRezixIcon(), "Rezix", rezix );
-	
-		QObject::connect(rezix->tray,SIGNAL(clicked(const QPoint&)),rezix,SLOT(toggleVisible()));
-		QObject::connect(rezix,SIGNAL(setToolTip(const QString &)),rezix->tray,SLOT(setToolTip(const QString &)));
-		
-		rezix->launchPlugins();
-		
-		QString windowSize=RzxConfig::readWindowSize();
-		#ifndef Q_OS_MAC
-		if(windowSize.left(1)=="1")
-			rezix->statusMax=true;
-		else
-		#endif
-		{
-			rezix->statusMax=false;
-			int height=windowSize.mid(1,4).toInt();
-			int width =windowSize.mid(5,4).toInt();
-			rezix->resize(QSize(width,height));
-			rezix->move(RzxConfig::readWindowPosition()); //QPoint(2,24));
-		}
-		
-		if(RzxConfig::global()->useSystray())
-			rezix->tray->show();
-		else
-			rezix->show();
-		
-		QObject::connect(&a, SIGNAL(aboutToQuit()), rezix, SLOT(saveSettings()));
-		
-		rezix->changeTrayIcon();
-		
-		int retour = a.exec();
-		delete rezix;
-		if(RzxConfig::global())
-			delete RzxConfig::global();
-		Rzx::closeMsgHandler();
-		return retour;
-	}
-	delete rezix;
+	RzxApplication a(argc,argv);
+	int returnCode = 0;
+	if(a.isInitialised())
+		a.exec();
 	Rzx::closeMsgHandler();
-	return 0;
+	return returnCode;
 }

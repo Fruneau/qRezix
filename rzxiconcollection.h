@@ -50,6 +50,12 @@ class RzxIconCollection: public QObject
 	Q_OBJECT
 	Q_PROPERTY(QString theme READ theme WRITE setTheme)
 	Q_PROPERTY(QStringList themeList READ themeList)
+	Q_PROPERTY(QIcon responderIcon READ responderIcon)
+	Q_PROPERTY(QIcon soundIcon READ soundIcon)
+	Q_PROPERTY(QIcon onOffIcon READ onOffIcon)
+	Q_PROPERTY(QIcon favoriteIcon READ favoriteIcon)
+	Q_PROPERTY(QIcon banIcon READ banIcon)
+	Q_PROPERTY(QPixmap localhostPixmap READ localhostPixmap WRITE setLocalhostPixmap)
 
 	struct IconData
 	{
@@ -66,6 +72,9 @@ class RzxIconCollection: public QObject
 
 	RzxIconCollection();
 	static RzxIconCollection *object;
+
+	QPixmap hereIcon;
+	QPixmap awayIcon;
 
 	public:
 		static RzxIconCollection *global();
@@ -91,13 +100,16 @@ class RzxIconCollection: public QObject
 
 		//gestion des icônes hors-thème : les icônes des personnes
 		const QPixmap &hashedIcon(quint32 hash);
-		const QPixmap &saveHashedIcon(quint32 hash, const QImage& icon);
+		const QPixmap &setHashedIcon(quint32 hash, const QImage& icon);
 
 		//gestion de l'icône de localhost
 		QPixmap localhostPixmap();
-		void saveLocalhostIcon(const QPixmap&);
+		void setLocalhostPixmap(const QPixmap&);
 
 		static const QPixmap &getPixmap(Rzx::Icon);
+
+		static const QPixmap& qRezixIcon();
+		static const QPixmap& qRezixAwayIcon();
 		static QIcon getIcon(Rzx::Icon);
 		static QIcon getResponderIcon();
 		static QIcon getSoundIcon();
@@ -145,5 +157,11 @@ inline QIcon RzxIconCollection::getFavoriteIcon()
 
 inline QIcon RzxIconCollection::getBanIcon()
 { return global()->banIcon(); }
+
+inline const QPixmap& RzxIconCollection::qRezixIcon()
+{ return global()->hereIcon; }
+
+inline const QPixmap& RzxIconCollection::qRezixAwayIcon()
+{ return global()->awayIcon; }
 
 #endif

@@ -15,7 +15,6 @@ email                : benoit.casoetto@m4x.org
 #include <QLabel>
 #include <QImage>
 #include <QDir>
-#include <QApplication>
 #include <QMessageBox>
 #include <QStackedWidget>
 #include <QBitmap>
@@ -46,6 +45,7 @@ email                : benoit.casoetto@m4x.org
 #include "rzxtrayicon.h"
 #include "rzxrezalmodel.h"
 #include "rzxiconcollection.h"
+#include "rzxapplication.h"
 
 RzxProperty::RzxProperty(QRezix *parent) : QDialog(parent)
 {
@@ -133,7 +133,7 @@ void RzxProperty::changeTheme()
 #define setIcon(icon, name) lbMenu->item(name)->setIcon(icon)
 	QPixmap pixmap; //Pour le newItem
 	if(RzxIconCollection::getIcon(Rzx::ICON_SYSTRAYHERE).isNull())
-		setIcon(QRezix::qRezixIcon(), 0);
+		setIcon(RzxIconCollection::qRezixIcon(), 0);
 	else
 		setIcon(RzxIconCollection::getIcon(Rzx::ICON_SYSTRAYHERE), 0);
 	setIcon(RzxIconCollection::getIcon(Rzx::ICON_LAYOUT), 1);
@@ -314,7 +314,8 @@ void RzxProperty::initDlg()
 	languageBox->setCurrentIndex(0);
 	languageBox->setCurrentIndex(languageBox->findText(tr("English")));
 
-	RzxPlugInLoader::global()->makePropListView(lvPlugInList, btnPlugInProp, btnPlugInReload);
+	if(((RzxApplication*)RzxApplication::instance())->isInitialised())
+		RzxPlugInLoader::global()->makePropListView(lvPlugInList, btnPlugInProp, btnPlugInReload);
 }
 
 ///Met à jour l'objet représentant localhost
@@ -444,10 +445,7 @@ bool RzxProperty::miseAJour() {
 
 #ifdef Q_OS_UNIX
 	if(sbTraySize->value() != RzxConfig::traySize())
-	{
 		cfgObject->writeEntry("traysize", sbTraySize->value());
-		QRezix::global()->changeTrayIcon();
-	}
 #endif
 
 	if(RzxConfig::menuTextPosition() != cmbMenuText->currentIndex() || RzxConfig::menuIconSize() != cmbMenuIcons->currentIndex())
@@ -479,27 +477,20 @@ bool RzxProperty::miseAJour() {
 	if(RzxIconCollection::global()->localhostPixmap().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
 	{
 		localHostUpdated = true;
-		RzxIconCollection::global()->saveLocalhostIcon(*localhostIcon);
-		if (ui->wellInit && !RzxServerListener::object() -> isSocketClosed())
+		RzxIconCollection::global()->setLocalhostPixmap(*localhostIcon);
+		if (ui->isInitialised() && !RzxServerListener::object() -> isSocketClosed())
 			RzxServerListener::object() -> sendIcon(localhostIcon->toImage());
 	}
 
-	if(ui->wellInit && localHostUpdated)
+	if(localHostUpdated)
 		serverUpdate();
 
-	ui->activateAutoResponder(RzxComputer::localhost()->isOnResponder());
-	if (ui->tray)
-		ui->tray->setVisible(cbSystray->isChecked());
-	
+	if(ui) ui->activateAutoResponder(RzxComputer::localhost()->isOnResponder());
 		
 	RzxConfig::global() -> writeEntry("warnCheckingProperties", (cbPropertiesWarning->isChecked() ? 1: 0));
 	RzxConfig::global() -> writeEntry("printTime", cbPrintTime->isChecked() ? 1 : 0);
 		
-/*	if ( iconSizeChanged && ui -> rezal)
-		ui -> rezal -> redrawAllIcons();
-	if ( iconSizeChanged && ui -> rezalFavorites)
-		ui -> rezalFavorites -> redrawAllIcons();*/
-	ui->showSearch(cbSearch->isChecked());
+	if(ui) ui->showSearch(cbSearch->isChecked());
 	
 	if(themeChanged)
 	{
@@ -509,10 +500,10 @@ bool RzxProperty::miseAJour() {
 	}
 	
 	/* Mise à jour de l'affichage des Rezal */
-	if (ui -> rezal)
+	if(ui && ui -> rezal)
 		ui -> rezal -> afficheColonnes();
 
-	if (ui -> rezalFavorites)
+	if (ui && ui -> rezalFavorites)
 		ui -> rezalFavorites -> afficheColonnes();
 	
 	/* Mise à jour de l'état des plugins */
@@ -522,12 +513,6 @@ bool RzxProperty::miseAJour() {
 	RzxConfig::global()->flush();
 	
 	return true;
-}
-
-bool RzxProperty::infoCompleted()
-{
-	return RzxConfig::propLastName() != "" && RzxConfig::propName() != "" && RzxConfig::propCasert() != "" 
-		&& RzxConfig::propMail() != DEFAULT_MAIL && RzxConfig::propTel() != "";
 }
 
 QString RzxProperty::infoNeeded()
@@ -555,7 +540,7 @@ int RzxProperty::infoCompleteMessage()
 }
 
 void RzxProperty::annuler() {
-	if(infoCompleted()||(infoCompleteMessage()==QMessageBox::Cancel))
+	if(RzxConfig::infoCompleted() || (infoCompleteMessage() == QMessageBox::Cancel))
 		close();
 }
 
@@ -570,8 +555,9 @@ void RzxProperty::oK() {
 
 
 /** No descriptions */
-QRezix *RzxProperty::getRezix() const {
-	return (QRezix*)QRezix::global();
+QRezix *RzxProperty::getRezix() const
+{
+	return qobject_cast<QRezix*>(parent());
 }
 
 /** No descriptions */

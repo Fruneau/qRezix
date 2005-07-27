@@ -707,8 +707,9 @@ void RzxComputer::removeFromFavorites()
  */
 void RzxComputer::emitStateChanged()
 {
+	emit stateChanged(this);
 	if(isFavorite() && !isLocalhost())
-		emit stateChanged(this);
+		emit favoriteStateChanged(this);
 }
 
 /*********** Lancement des données liées au chat *************/

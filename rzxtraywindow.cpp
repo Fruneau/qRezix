@@ -41,20 +41,6 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
 	setFrameStyle( Panel | Raised );
 #endif
 
-	QPalette palette;
-	switch(computer->state())
-	{
-		case Rzx::STATE_DISCONNECTED:
-			palette.setColor( backgroundRole(), QColor( 0xff, 0x20, 0x20 ) );
-			break;
-		case Rzx::STATE_AWAY: case Rzx::STATE_REFUSE:
-			palette.setColor( backgroundRole(), RzxConfig::repondeurBase() );
-			break;
-		case Rzx::STATE_HERE:
-			palette.setColor( backgroundRole(), QColor( 0xff, 0xff, 0xff ) );
-			break;
-	}
-	setPalette( palette );
 
 	//Construction des items à insérer dans la fenêtre :
 	// - l'icône
@@ -68,18 +54,23 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
 
 	// - la description de l'état de connexion
 	QLabel *description = new QLabel();
+	QPalette palette;
 	switch(computer->state())
 	{
-		case Rzx::STATE_HERE:
-			description->setText(tr( "is now here" ));
-			break;
-		case Rzx::STATE_REFUSE: case Rzx::STATE_AWAY:
-			description->setText(tr( "is now away" ));
-			break;
 		case Rzx::STATE_DISCONNECTED:
 			description->setText( tr( "is now disconnected" ) );
+			palette.setColor( backgroundRole(), QColor( 0xff, 0x20, 0x20 ) );
+			break;
+		case Rzx::STATE_AWAY: case Rzx::STATE_REFUSE:
+			description->setText(tr( "is now away" ));
+			palette.setColor( backgroundRole(), RzxConfig::repondeurBase() );
+			break;
+		case Rzx::STATE_HERE:
+			description->setText(tr( "is now here" ));
+			palette.setColor( backgroundRole(), QColor( 0xff, 0xff, 0xff ) );
 			break;
 	}
+	setPalette( palette );
 
 	//Insertion des éléments dans les layout qui corresponend
 	// - disposition du texte verticalement
