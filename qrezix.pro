@@ -37,7 +37,7 @@ HEADERS	+= qrezix.h \
 	rzxproperty.h \
 	rzxmessagebox.h \
 	defaults.h \
-	trayicon.h \
+	rzxtrayicon.h \
 	rzxquit.h \
 	rzxplugin.h \
 	rzxpluginloader.h \
@@ -65,7 +65,7 @@ SOURCES	+= main.cpp \
 	rzxproperty.cpp \
 	rzxserverlistener.cpp \
 	rzxmessagebox.cpp \
-	trayicon.cpp \
+	rzxtrayicon.cpp \
 	rzxquit.cpp \
 	rzxplugin.cpp \
 	rzxpluginloader.cpp \

@@ -29,28 +29,46 @@ RzxRezalSearch::RzxRezalSearch(QAbstractItemView *view, int timeout)
 RzxRezalSearch::~RzxRezalSearch()
 { }
 
+///Retourne le QAbstractItemView auquel est rattaché l'objet actuel
 QAbstractItemView *RzxRezalSearch::view() const
 { return qobject_cast<QAbstractItemView*>(parent()); }
 
+///Retourne le RzxRezalModel
+/** Ceci implique donc que le QAbstractItemView doit utiliser un RzxRezalModel
+ * comme modèle...
+ */
 RzxRezalModel *RzxRezalSearch::model() const
 { return qobject_cast<RzxRezalModel*>(view()->model()); }
 
+///Retourne le filtre actuel
 const QString &RzxRezalSearch::pattern() const
 { return searchPattern; }
 
+///Retourne le temps de timeout du filtre
+/** Un filtre de recherche timeout automatiquement au bout d'un certain temps...
+ * Ceci évite entre autre de continuer une rechercher oubliée au lieu d'en recommencer
+ * une nouvelle 
+ */
 int RzxRezalSearch::timeout() const
 { return timeLimit; }
 
 ///Met à jour le filtre
+/** La mise à jour s'accompagne de la recherche de l'élément le plus proche dans
+ * le RzxDict des objets
+ */
 void RzxRezalSearch::setPattern(const QString& pattern)
 {
 	if(pattern == searchPattern) return;
 	searchPattern = pattern;
-	emit searchPatternChanged(searchPattern);
 	searchTimeout.start();
 
+	//Implémentation de la recherche par Ey pour qRezix 1.6.2
+	// le but étant d'utiliser un arbre binaire de recherche pour avoir
+	// une recherche vraiment rapide
+	const RzxRezalSearchTree *itemByName = model()->childrenByName(view()->rootIndex());
+	if(!itemByName) return;
+
 	RzxComputer **item;
-	const RzxDict<QString, RzxComputer*> *itemByName = model()->childrenByName(view()->rootIndex());
 	QString lower, higher;
 	if(!itemByName->find_nearest(searchPattern, lower, higher ))
 	{
@@ -80,20 +98,24 @@ void RzxRezalSearch::setPattern(const QString& pattern)
 			lower = higher;
 	}
 	itemByName->find(lower, item);
+	emit searchPatternChanged(searchPattern);
 	emit findItem(model()->index(*item, view()->rootIndex()));
 }
 
+///Réinitialise le filtre de la rechercher
 void RzxRezalSearch::resetPattern()
 {
 	setPattern(QString());
 }
 
+///Complète le filtre en ajoutant
 void RzxRezalSearch::addToPattern(const QString& pattern)
 {
 	testTimeout();
 	setPattern(searchPattern + pattern);
 }
 
+///Réduit le filtre en supprimant ses derniers caractères
 void RzxRezalSearch::reducePattern(int size)
 {
 	testTimeout();
@@ -104,14 +126,19 @@ void RzxRezalSearch::reducePattern(int size)
 		setPattern(searchPattern.left(length));
 }
 
+///Défini le temps de timeout
 void RzxRezalSearch::setTimeout(int time)
 {
 	timeLimit = time;
 }
 
+///Fait timeouter le filtre
+/** Test si le filtre est trop ancien, et le fait timeouté
+ * si nécessaire
+ */
 void RzxRezalSearch::testTimeout()
 {
-	if(searchTimeout.elapsed() > 5000)
+	if(searchTimeout.elapsed() > timeLimit)
 	{
 		searchPattern = QString();
 		emit searchPatternChanged(searchPattern);

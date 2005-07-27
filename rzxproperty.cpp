@@ -43,7 +43,7 @@ email                : benoit.casoetto@m4x.org
 #include "rzxserverlistener.h"
 #include "rzxpluginloader.h"
 #include "qrezix.h"
-#include "trayicon.h"
+#include "rzxtrayicon.h"
 #include "rzxrezalmodel.h"
 #include "rzxiconcollection.h"
 

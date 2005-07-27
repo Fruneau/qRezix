@@ -27,6 +27,7 @@
 #include "rzxdict.h"
 
 class RzxComputer;
+typedef class RzxDict<QString, RzxComputer*> RzxRezalSearchTree;
 /**
  *@author Florent Bruneau
  */
@@ -110,15 +111,15 @@ class RzxRezalModel:public QAbstractItemModel
 		QList<RzxComputer*> binet;
 		QList<RzxComputer*> *rezals;
 
-		RzxDict<QString, RzxComputer*> everybodyByName;
-		RzxDict<QString, RzxComputer*> favoritesByName;
-		RzxDict<QString, RzxComputer*> ignoredByName;
-		RzxDict<QString, RzxComputer*> neutralByName;
-		RzxDict<QString, RzxComputer*> joneByName;
-		RzxDict<QString, RzxComputer*> roujeByName;
-		RzxDict<QString, RzxComputer*> oranjeByName;
-		RzxDict<QString, RzxComputer*> binetByName;
-		RzxDict<QString, RzxComputer*> *rezalsByName;
+		RzxRezalSearchTree everybodyByName;
+		RzxRezalSearchTree favoritesByName;
+		RzxRezalSearchTree ignoredByName;
+		RzxRezalSearchTree neutralByName;
+		RzxRezalSearchTree joneByName;
+		RzxRezalSearchTree roujeByName;
+		RzxRezalSearchTree oranjeByName;
+		RzxRezalSearchTree binetByName;
+		RzxRezalSearchTree *rezalsByName;
 
 		///Ordre utilisé pour trier
 		NumColonne order;
@@ -177,9 +178,9 @@ class RzxRezalModel:public QAbstractItemModel
 #define GET_ID_FROM_REZAL(rezal) (((rezal + 1) << 16) | TREE_FLAG_REZAL)
 
 		///Insertion d'un objet dans le groupe et la liste donnée
-		void insertObject(const QModelIndex&, QList<RzxComputer*>&, RzxDict<QString, RzxComputer*>&, RzxComputer*);
+		void insertObject(const QModelIndex&, QList<RzxComputer*>&, RzxRezalSearchTree&, RzxComputer*);
 		///Suppression d'un objet d'un groupe et de la liste donnée
-		void removeObject(const QModelIndex&, QList<RzxComputer*>&, RzxDict<QString, RzxComputer*>&, RzxComputer*);
+		void removeObject(const QModelIndex&, QList<RzxComputer*>&, RzxRezalSearchTree&, RzxComputer*);
 		///Indication de modification d'un objet
 		void updateObject(const QModelIndex&, const QList<RzxComputer*>&, RzxComputer*);
 
@@ -223,7 +224,7 @@ class RzxRezalModel:public QAbstractItemModel
 
 		virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
-		virtual const RzxDict<QString, RzxComputer*> *childrenByName(const QModelIndex&) const;
+		virtual const RzxRezalSearchTree *childrenByName(const QModelIndex&) const;
 
 	public slots:
 		virtual void login(RzxComputer *);

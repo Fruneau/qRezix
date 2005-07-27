@@ -27,7 +27,7 @@ email                : sylvain.joyeux@m4x.org
 
 #include "rzxconfig.h"
 #include "qrezix.h"
-#include "trayicon.h"
+#include "rzxtrayicon.h"
 #include "rzxpluginloader.h"
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_BSD) && !defined(Q_OS_MAC)
