@@ -115,7 +115,7 @@ void RzxProtocole::parse(const QString& msg){
 			case SERVER_WRONGPASS:
 				if(!RzxConfig::oldPass().isNull() && !testOldPass)
 				{
-					sendAuth(RzxConfig::oldPass(), RzxComputer::localhost());
+					sendAuth(RzxConfig::oldPass());
 					testOldPass = true;
 				}
 				else
@@ -132,7 +132,7 @@ void RzxProtocole::parse(const QString& msg){
 					{
 						pwd += MD5_ADD;
 						pwd=MD5String(pwd.toLatin1());
-						sendAuth(pwd, RzxComputer::localhost());
+						sendAuth(pwd);
 						RzxConfig::global()->setPass(pwd);
 					}
 				}
@@ -181,17 +181,18 @@ void RzxProtocole::parse(const QString& msg){
 * MESSAGES A ENVOYER AU SERVEUR
 */
 
-void RzxProtocole::sendAuth(const QString& passcode, RzxComputer * thisComputer) {
+void RzxProtocole::sendAuth(const QString& passcode)
+{
 	QString msg = "VERSION 4.0\r\n";
 	msg = msg + "PASS " + passcode + "\r\n";
-	msg = msg + "JOIN " + thisComputer->serialize(serialPattern) + "\r\n";
+	msg = msg + "JOIN " + RzxComputer::localhost()->serialize(serialPattern) + "\r\n";
 	
 	emit send(msg);	
 }
 
-void RzxProtocole::sendRefresh(RzxComputer * thisComputer) {
+void RzxProtocole::sendRefresh() {
 	QString msg = "REFRESH ";
-	msg = msg + thisComputer->serialize(serialPattern) + "\r\n";
+	msg = msg + RzxComputer::localhost()->serialize(serialPattern) + "\r\n";
 	emit send(msg);
 }
 

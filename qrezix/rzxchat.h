@@ -195,17 +195,15 @@ protected slots:
 	bool event(QEvent *e);
 	void on_btnPlugins_clicked();
 	void updateTitle();
-#ifdef Q_OS_MAC
-    virtual void languageChange();
-#endif
 
 protected: // Protected methods
 	void append(const QString& color, const QString& host, const QString& msg);
 #ifdef WIN32
-	void showEvent ( QShowEvent * e);
+	virtual void showEvent ( QShowEvent * e);
 #endif
-	void closeEvent(QCloseEvent * e);
-	void moveEvent(QMoveEvent *e);
+	virtual void closeEvent(QCloseEvent * e);
+	virtual void moveEvent(QMoveEvent *e);
+	virtual void changeEvent(QEvent *e);
 };
 
 inline const QString &RzxChat::hostname() const

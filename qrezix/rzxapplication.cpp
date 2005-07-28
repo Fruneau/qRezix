@@ -27,10 +27,10 @@
 #include "rzxiconcollection.h"
 #include "rzxpluginloader.h"
 #include "rzxconnectionlister.h"
-#include "rzxclientlistener.h"
 #include "rzxserverlistener.h"
 #include "rzxtraywindow.h"
 #include "rzxproperty.h"
+#include "rzxchatlister.h"
 
 ///Chargement de qRezix et de ses différents modules
 RzxApplication::RzxApplication(int argc, char **argv)
@@ -59,9 +59,49 @@ RzxApplication::RzxApplication(int argc, char **argv)
 	Rzx::installMsgHandler();
 	qDebug("qRezix %s%s\n", VERSION.toAscii().constData(), RZX_TAG_VERSION);
 
+	//Chargement du coeur de qRezix
+	if(!loadCore())
+		return;
+	//Chargement des modules de qRezix
+	if(!loadModules())
+		return;
+
+	//Lancement de l'interface réseau
+	RzxConnectionLister *lister = RzxConnectionLister::global();
+	connect(lister, SIGNAL(login(RzxComputer* )), this, SLOT(installComputer(RzxComputer*)));
+	connect(lister, SIGNAL(loginEnd()), this, SLOT(firstLoadingEnd()));
+	RzxConnectionLister::global()->initConnection();
+	RzxPlugInLoader::global()->init();
+
+	wellInit = true;
+}
+
+///Destruction de l'application
+/** :( */
+RzxApplication::~RzxApplication()
+{
+}
+
+///Chargement du coeur de qRezix
+/** Le qRezix Core contient :
+ * 	- la config
+ * 	- l'objet RzxComputer global
+ * 	- la gestion de la liste des connexion
+ * 	- par extension du précédent, les interfaces réseaux client
+ *
+ * Tout le reste (interface graphique, chat, trayicon, plugins...)
+ * ne fait pas partie de qRezix Core.
+ */
+bool RzxApplication::loadCore()
+{
+	//Début du chargement
+	Rzx::beginModuleLoading("qRezix Core");
 	//Chargement des configs
 	RzxConfig::global();
 	setWindowIcon(RzxIconCollection::qRezixIcon());
+	//Initialisation de l'objet représentant localhost
+	RzxComputer::localhost();
+	//Vérification du remplissage des propriétés
 	connect(this, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
 	if(!RzxConfig::global()->find() || !RzxConfig::infoCompleted())
 	{
@@ -69,12 +109,23 @@ RzxApplication::RzxApplication(int argc, char **argv)
 		properties->initDlg();
 		properties -> exec();
 		if(!RzxConfig::infoCompleted())
-		{
-			wellInit = false;
-			return;
-		}
+			return false;
 	}
+	//Chargement de la base réseau de qRezix
+	RzxConnectionLister::global();
+	Rzx::endModuleLoading("qRezix Core");
+	return true;
+}
 
+///Chargement des modules
+/** Charge les modules de qRezix. Les modules doivent absolument
+ * être désactivable par suppression tout bonnement de son chargement
+ * qui doit se résumer à 1 ligne...
+ * Des connexions sont envisageables entre les modules ou plutôt entre
+ * catégories de modules...
+ */
+bool RzxApplication::loadModules()
+{
 	//Chargement des différents modules
 	Rzx::beginModuleLoading("Modules loading");
 	//Chargement des plugins
@@ -91,6 +142,11 @@ RzxApplication::RzxApplication(int argc, char **argv)
 	connect(mainui, SIGNAL(wantToggleResponder()), this, SLOT(toggleResponder()));
 	if(properties)
 		properties->setParent(mainui);
+	//Chargement du chat
+	RzxChatLister *chat = RzxChatLister::global();
+	connect(RzxConnectionLister::global(), SIGNAL(wantChat(RzxComputer* )), chat, SLOT(createChat(RzxComputer* )));
+	connect(RzxConnectionLister::global(), SIGNAL(wantHistorique(RzxComputer* )), chat, SLOT(historique(RzxComputer* )));
+	connect(RzxConnectionLister::global(), SIGNAL(wantProperties(RzxComputer* )), chat, SLOT(proprietes(RzxComputer* )));
 
 	//Chargement de la trayicon
 	tray = new TrayIcon(RzxIconCollection::qRezixIcon(), "qRezix", this);
@@ -113,29 +169,12 @@ RzxApplication::RzxApplication(int argc, char **argv)
 		mainui->show();
 
 	if(mainui && tray)
-	{
 		connect(tray,SIGNAL(clicked(const QPoint&)), mainui,SLOT(toggleVisible()));
-		connect(mainui,SIGNAL(setToolTip(const QString &)),tray,SLOT(setToolTip(const QString &)));
-	}
 	Rzx::endModuleLoading("Modules interactions");
 
 	//Fin du chargement des modules
 	Rzx::endModuleLoading("Modules loading");
-
-	//Lancement de l'interface réseau
-	RzxConnectionLister *lister = RzxConnectionLister::global();
-	connect(lister, SIGNAL(login(RzxComputer* )), this, SLOT(installComputer(RzxComputer*)));
-	connect(lister, SIGNAL(loginEnd()), this, SLOT(firstLoadingEnd()));
-	RzxConnectionLister::global()->initConnection();
-	RzxPlugInLoader::global()->init();
-
-	wellInit = true;
-}
-
-///Destruction de l'application
-/** :( */
-RzxApplication::~RzxApplication()
-{
+	return true;
 }
 
 ///Sauvegarde des données au moment de la fermeture
@@ -171,8 +210,7 @@ void RzxApplication::saveSettings()
 		tray = NULL;
 	}
 	qDebug("Closing chats");
-	RzxConnectionLister::global() ->closeChats();
-	RzxClientListener::global()->close();
+	RzxChatLister::global() ->closeChats();
 	Rzx::endModuleLoading("Closing Interface");
 	Rzx::beginModuleLoading("Closing qRezix core");
 	qDebug("Closing plugins");
@@ -184,7 +222,7 @@ void RzxApplication::saveSettings()
 		RzxConnectionLister::global() -> deleteLater();
 	}
 	qDebug("Closing configuration center");
-	RzxConfig::global() -> closeSettings();
+	delete RzxConfig::global();
 	Rzx::endModuleLoading("Closing qRezix core");
 	Rzx::endModuleLoading("Quitting");
 	qDebug("Bye Bye\n");
@@ -257,5 +295,5 @@ void RzxApplication::preferences()
 void RzxApplication::toggleResponder()
 {
 	RzxConfig::setAutoResponder(!RzxComputer::localhost()->isOnResponder());
-	RzxProperty::serverUpdate();
+	RzxServerListener::object()->sendRefresh();
 }

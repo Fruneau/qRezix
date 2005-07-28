@@ -26,8 +26,6 @@
 #include "rzxcomputer.h"
 
 #include "rzxconfig.h"
-#include "rzxproperty.h"
-#include "rzxpluginloader.h"
 #include "rzxutilslauncher.h"
 #include "rzxchatsocket.h"
 #include "rzxconnectionlister.h"
@@ -126,6 +124,7 @@ RzxComputer::~RzxComputer()
  */
 void RzxComputer::initLocalhost()
 {
+	Rzx::beginModuleLoading("Local computer image");
 	delayScan = new QTimer();
 	connect(delayScan, SIGNAL(timeout()), this, SLOT(scanServers()));
 
@@ -144,13 +143,13 @@ void RzxComputer::initLocalhost()
 	m_version.FunnyVersion = RZX_FUNNY_VERSION;
 	m_version.MinorVersion = RZX_MINOR_VERSION;
 	
-	m_options.Capabilities = Rzx::CAP_ON | Rzx::CAP_CHAT; //capable d'utiliser Capabilities et le chat
-	m_options.Capabilities |= RzxPlugInLoader::global()->getFeatures();
+	m_options.Capabilities = Rzx::CAP_ON; //capable d'utiliser Capabilities et le chat
 
 	m_flags = 0;
 	connected = true;
 
 	scanServers();
+	Rzx::endModuleLoading("Local computer image");
 }
 
 ///Mise à jour du RzxComputer lors de la réception de nouvelle infos
@@ -324,6 +323,9 @@ void RzxComputer::setRemarque(const QString& text)
 /** Utile pour localhost uniquement */
 void RzxComputer::setIP(const RzxHostAddress& address)
 { m_ip = address; }
+///Ajout d'une feature à la machine
+void RzxComputer::addCapabilities(int feature)
+{ m_options.Capabilities |= feature; }
 
 
 /************ Récupération des informations concernant le RzxComputer ***********/
@@ -714,21 +716,21 @@ void RzxComputer::emitStateChanged()
 
 /*********** Lancement des données liées au chat *************/
 ///Affichage de l'historique des communications
-void RzxComputer::historique() const
+void RzxComputer::historique()
 {
-	RzxChatSocket::showHistorique(ip(), name());
+	emit wantHistorique(this);
 }
 
 ///Check des propriétés
-void RzxComputer::proprietes() const
+void RzxComputer::proprietes()
 {
-	RzxConnectionLister::global()->proprietes(ip());
+	emit wantProperties(this);
 }
 
 ///Lance un chat avec la machine correspondante
-void RzxComputer::chat() const
+void RzxComputer::chat()
 {
-	RzxConnectionLister::global()->createChat(ip());
+	emit wantChat(this);
 }
 
 /****************** Analyse de la machine ********************/
@@ -806,17 +808,8 @@ void RzxComputer::scanServers()
 	if(newServers != servers())
 	{
 		setServers(newServers);
-		RzxProperty::serverUpdate();
+		emitStateChanged();
 	}
-
-	if((newServers & SERVER_FTP) ^ (oldServers & SERVER_FTP))
-		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_SERVERFTP, NULL);
-	if((newServers & SERVER_HTTP) ^ (oldServers & SERVER_HTTP))
-		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_SERVERHTTP, NULL);
-	if((newServers & SERVER_NEWS) ^ (oldServers & SERVER_NEWS))
-		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_SERVERNEWS, NULL);
-	if((newServers & SERVER_SAMBA) ^ (oldServers & SERVER_SAMBA))
-		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_SERVERSMB, NULL);
 
 	delayScan->start(30000); //bon, le choix de 30s, c vraiment aléatoire
 							//1 ou 2 minutes, ç'aurait pas été mal, mais bon

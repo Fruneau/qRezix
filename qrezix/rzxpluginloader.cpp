@@ -47,7 +47,6 @@ RzxPlugInLoader *RzxPlugInLoader::object = NULL;
 RzxPlugInLoader::RzxPlugInLoader() : QObject()
 {
 	Rzx::beginModuleLoading("Plugins");
-	pluginFlags = 0;
 	initialized = false;
 	
 	//on charge les plug-ins dans les rep /usr/share/qrezix/plugins
@@ -120,7 +119,7 @@ void RzxPlugInLoader::loadPlugIn(const QDir &dir)
 				else
 				{
 					log += " - loaded from " + sourceDir.absolutePath();
-					pluginFlags |= pi->getFeatures();
+					RzxComputer::localhost()->addCapabilities(pi->getFeatures());
 					connect(pi, SIGNAL(send(const QString&)), RzxServerListener::object(), SLOT(sendProtocolMsg(const QString&)));
 					connect(pi, SIGNAL(queryData(RzxPlugIn::Data, RzxPlugIn*)), this, SLOT(sendQuery(RzxPlugIn::Data, RzxPlugIn*)));
 					connect(pi, SIGNAL(requestAction(RzxPlugIn::Action, const QString& )), this, SLOT(action(RzxPlugIn::Action, const QString& )));
@@ -489,7 +488,7 @@ void RzxPlugInLoader::sendQuery(RzxPlugIn::Data data, RzxPlugIn *plugin)
 
 ///Exécution des actions demandées par le plugin
 /** Permet la demande d'action par le plug-in à qRez */
-void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
+void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString&)
 {
 	if(!initialized) return;
 	switch((int)action)
@@ -498,11 +497,11 @@ void RzxPlugInLoader::action(RzxPlugIn::Action action, const QString& param)
 			break;
 
 		case RzxPlugIn::ACTION_CHAT:
-			RzxConnectionLister::global()->createChat(param);
+			//RzxConnectionLister::global()->createChat(param);
 			break;
 
 		case RzxPlugIn::ACTION_CLOSE_CHAT:
-			RzxConnectionLister::global()->closeChat(param);
+			//RzxConnectionLister::global()->closeChat(param);
 			break;
 			
 /*		case RzxPlugIn::ACTION_FTP:

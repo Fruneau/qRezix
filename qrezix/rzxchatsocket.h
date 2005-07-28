@@ -25,6 +25,7 @@
 #include "rzxhostaddress.h"
 
 class QPoint;
+class RzxComputer;
 class RzxChat;
 class RzxClientListener;
 
@@ -107,8 +108,6 @@ class RzxChatSocket : public QTcpSocket
 		void sendDccChat(const QString& msg);
 		
 	public:
-		static QWidget *showProperties(const RzxHostAddress&, const QString&, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
-		static QWidget *showHistorique(const RzxHostAddress&, const QString&, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL );
 
 	signals: // Signals
 		void propQuery();

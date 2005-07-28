@@ -76,21 +76,20 @@ public:
 
 	virtual void parse(const QString& msg);
 
-	/** Realise une sequence d'authentification aupres du serveur
-	*@param thisComputer donnees concernant l'ordinateur local */	
-	void sendAuth(const QString& passcode, RzxComputer * thisComputer);
-	/** Envoie une commande refresh
-	*@param thisComputer donnees concernant l'ordinateur local */
-	void sendRefresh(RzxComputer * thisComputer);
-	/** Envoie le message de deconnection */
-	void sendPart();
-	
 public slots:
 	/** Demande un envoi d'icone
 	*@param ip ip de l'hote dont on veut l'icone */
 	void getIcon(const RzxHostAddress& ip);
 	/** Envoie un pong */
 	void sendPong();
+	/** Realise une sequence d'authentification aupres du serveur
+	*@param thisComputer donnees concernant l'ordinateur local */	
+	void sendAuth(const QString& passcode);
+	/** Envoie le message de deconnection */
+	void sendPart();
+	/** Envoie une commande refresh
+	*@param thisComputer donnees concernant l'ordinateur local */
+	void sendRefresh();
 	
 	/** Demande de changement de pass */
 	void changePass(const QString& oldPass = QString::null);

@@ -62,6 +62,7 @@
 #include "rzxchatsocket.h"
 #include "rzxpluginloader.h"
 #include "rzxiconcollection.h"
+#include "rzxchatlister.h"
 
 /****************************************************
 * RzxPopup
@@ -611,7 +612,7 @@ void RzxChat::on_btnHistorique_toggled(bool on)
 	file.write(temp.toUtf8());
 	file.close();
 	QPoint *pos = new QPoint(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
-	hist = (RzxPopup*)RzxChatSocket::showHistorique(peer, m_hostname, false, this, pos);
+	hist = (RzxPopup*)RzxChatLister::global()->historique(peer, false, this, pos);
 	delete pos;
 	hist->show();
 }
@@ -635,7 +636,7 @@ void RzxChat::on_btnProperties_toggled(bool on)
 void RzxChat::receiveProperties(const QString& msg)
 {
 	QPoint *pos = new QPoint(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
-	prop = (RzxPopup*)m_socket->showProperties(peer, msg, false, this, pos);
+	prop = (RzxPopup*)RzxChatLister::global()->showProperties(peer, msg, false, this, pos);
 	delete pos;
 	if(prop.isNull())
 	{
@@ -742,13 +743,16 @@ void RzxChat::changeIconFormat()
 	if(btnPlugins->icon().isNull()) changeTheme(); //pour recharcher les icônes s'il y a besoin
 }
 
-#ifdef Q_OS_MAC
-void RzxChat::languageChange()
+///Changement de la langue...
+void RzxChat::changeEvent(QEvent *e)
 {
-	QWidget::languageChange();
-	changeIconFormat();
+	if(e->type() == QEvent::LanguageChange)
+	{
+		QWidget::languageChange();
+		retranslateUi(editor);
+		changeIconFormat();
+	}
 }
-#endif
 
 /// Affichage du menu plug-ins lors d'un clic sur le bouton
 /** Les actions sont gérées directement par le plug-in s'il a bien été programmé */

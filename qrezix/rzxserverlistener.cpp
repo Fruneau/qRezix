@@ -33,31 +33,31 @@ RzxServerListener * RzxServerListener::globalObject = 0;
 ///Construction du Socket
 RzxServerListener::RzxServerListener()
 	: RzxProtocole(), socket() {
+	Rzx::beginModuleLoading("Network interface");
 	connect(&reconnection, SIGNAL(timeout()), this, SLOT(waitReconnection()));	
 	
 	connect(this, SIGNAL(ping()), this, SLOT(sendPong()));
 	connect(this, SIGNAL(ping()), this, SLOT(serverResetTimer()));
-	connect(&socket, SIGNAL(bytesWritten(int)), this, SLOT(serverResetTimer()));
+	connect(&socket, SIGNAL(bytesWritten(qint64)), this, SLOT(serverResetTimer()));
 	connect(&socket, SIGNAL(readyRead()), this, SLOT(serverResetTimer()));
 	connect(this, SIGNAL(send(const QString&)), this, SLOT(sendProtocolMsg(const QString&)));
 	
 	connect(&socket, SIGNAL(disconnected()), this, SLOT(serverClose()));
-	connect(&socket, SIGNAL(error(int)), this, SLOT(serverError(int)));
+	connect(&socket, SIGNAL(error(QTcpSocket::SocketError)), this, SLOT(serverError(QTcpSocket::SocketError)));
 	connect(&socket, SIGNAL(readyRead()), this, SLOT(serverReceive()));
 	
 	connect(&socket, SIGNAL(hostFound()), this, SLOT(serverFound()));
+	
+	connect(&socket, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
+	connect(&socket, SIGNAL(connected()), this, SIGNAL(connected()));
 	connect(&socket, SIGNAL(connected()), this, SLOT(serverConnected()));
 	connect(&socket, SIGNAL(connected()), this, SLOT(beginAuth()));
-	
-	connect(&socket, SIGNAL(closed()), this, SIGNAL(disconnected()));
-	connect(&socket, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
-	connect(&socket, SIGNAL(error(int)), this, SIGNAL(disconnected()));
-	connect(&socket, SIGNAL(connected()), this, SIGNAL(connected()));
 
 	connect(&pingTimer, SIGNAL(timeout()), this, SLOT(serverTimeout()));
 	
 	premiereConnexion = true;
 	hasBeenConnected = true;
+	Rzx::endModuleLoading("Network interface");
 }
 
 
@@ -113,7 +113,7 @@ void RzxServerListener::waitReconnection()
 }
 
 /** Erreur à la conenction au serveur. On rï¿½ssaie en SERVER_RECONNECTION ms */
-void RzxServerListener::serverError(int error) {
+void RzxServerListener::serverError(QTcpSocket::SocketError error) {
 	pingTimer.stop();
 	QString reconnectionMsg;
 	
@@ -201,8 +201,7 @@ void RzxServerListener::serverConnected(){
 
 /** No descriptions */
 void RzxServerListener::beginAuth(){
-	RzxComputer *localhost = RzxComputer::localhost();
-	sendAuth(RzxConfig::pass(), localhost);
+	sendAuth(RzxConfig::pass());
 }
 
 void RzxServerListener::serverReceive() {

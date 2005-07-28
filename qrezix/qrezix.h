@@ -75,14 +75,13 @@ signals:
 
 protected:
 	virtual void closeEvent(QCloseEvent * e);
+	virtual void changeEvent(QEvent *e);
 	virtual bool event(QEvent * e);
 
 public slots: // Public slots
 	void status(const QString& msg, bool fatal);
 	void toggleAutoResponder();
 	void activateAutoResponder( bool state );
-	void chatSent();
-	void languageChanged();
 	void changeTheme();
 	void menuFormatChange();
 	void launchSearch();
@@ -93,7 +92,6 @@ protected slots: // Protected slots
 	/*affiche la boite de dialogue permettant de modifier les preferences*/
 	void socketClosed();
 	void toggleVisible();
-	virtual void languageChange();
 	void pluginsMenu();
 	void switchTab();
 };

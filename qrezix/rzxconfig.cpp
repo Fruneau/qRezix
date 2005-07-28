@@ -68,6 +68,7 @@ void RzxConfig::loadTranslators()
 	translations.clear();
 
 	qDebug("Searching for translations...");
+	translations.insert("English", NULL);
 	loadTranslatorsInDir(m_userDir);
 	loadTranslatorsInDir(m_systemDir);
 	loadTranslatorsInDir(m_libDir);
@@ -90,7 +91,7 @@ void RzxConfig::loadTranslatorsInDir(const QDir &rep)
 		QTranslator *cur = new QTranslator;
 		cur->load(it, sourceDir.path());
 		QString lang = cur->translate("RzxConfig", "English");
-		if(!translations[lang])
+		if(!lang.isEmpty() && (!translations.keys().contains(lang) || translations[lang]))
 		{
 			translations.insert(lang, cur);
 			qDebug("* %s in %s", lang.toAscii().constData(), sourceDir.absolutePath().toAscii().constData());
@@ -98,21 +99,35 @@ void RzxConfig::loadTranslatorsInDir(const QDir &rep)
 	}
 }
 
-///Sélection de la langue à utiliser
-void RzxConfig::setLanguage(QString language)
+///Retourne la liste des traductions disponibles
+QStringList RzxConfig::translationsList()
 {
-	if(language != tr("English"))
+	QStringList list = translations.keys();
+	qSort(list);
+	return list;
+}
+
+///Retourne la traduction actuelle
+/** Contrairement à language qui retourne la langue demandée par l'utilisateur
+ * cette fonction retourne le nom de la langue actuellement chargée... ce qui
+ * peut être différent dans certaines conditions.
+ */
+QString RzxConfig::translation()
+{
+	return tr("English");
+}
+
+///Sélection de la langue à utiliser
+void RzxConfig::setLanguage(const QString& language)
+{
+	if(language != translation() && translations.keys().contains(language))
 	{
-		if(currentTranslator) qApp->removeTranslator(currentTranslator);
-		currentTranslator=NULL;
-		if(language != "English")
-		{
-			currentTranslator = translations[language];
-			qApp->installTranslator(currentTranslator);
-		}
-		qDebug("Language set to %s", language.toAscii().constData());
+		QApplication::removeTranslator(currentTranslator);
+		currentTranslator = translations[language];
+		QApplication::installTranslator(currentTranslator);
 		emit Config->languageChanged();
 	}
+	qDebug("Language set to %s", tr("English").toLatin1().constData());
 }
 
 /**

@@ -1,13 +1,13 @@
-############################################
-###       Fichier projet de qRezix       ###
-############################################
+# ###########################################
+# ##       Fichier projet de qRezix       ###
+# ###########################################
 
 # Ce fichier permet de générer les Makefiles
 # > qmake qrezix.pro
 
-############################################
-### Partie 1 : Configuration de Qt       ###
-############################################
+# ###########################################
+# ## Partie 1 : Configuration de Qt       ###
+# ###########################################
 # Type de projet
 TEMPLATE	= app
 LANGUAGE	= C++
@@ -16,15 +16,15 @@ LANGUAGE	= C++
 QT += network
 
 # Configuration de la compilation
-CONFIG	+= qt warn_on
+CONFIG	+= qt warn_on debug
 DEFINES += QT_DLL
 
 # Options supplémentaires
 win32:LIBS	+= IMM32.LIB
 
-############################################
-### Partie 2 : Fichiers sources          ###
-############################################
+# ###########################################
+# ## Partie 2 : Fichiers sources          ###
+# ###########################################
 # Fichier headers -> moc
 HEADERS	+= qrezix.h \
 	rzxchat.h \
@@ -52,7 +52,8 @@ HEADERS	+= qrezix.h \
 	rzxchatsocket.h \
 	rzxglobal.h \
 	rzxiconcollection.h \
-	rzxapplication.h
+	rzxapplication.h \
+	rzxchatlister.h
 
 # Fichier sources -> c++
 SOURCES	+= main.cpp \
@@ -81,29 +82,29 @@ SOURCES	+= main.cpp \
 	rzxchatsocket.cpp \
 	rzxglobal.cpp \
 	rzxiconcollection.cpp \
-	rzxapplication.cpp
+	rzxapplication.cpp \
+	rzxchatlister.cpp
 
 # Fichiers ui -> uic
 FORMS = rzxpropertyui.ui \
 	rzxquitui.ui \
 	rzxwrongpassui.ui \
 	rzxchangepassui.ui \
-	qrezixui.ui
+	qrezixui.ui \
+	rzxchatui.ui
 macx {
-	FORMS += rzxchatui_mac.ui
+	FORMS ~= s/rzxchatui.ui/rzxchatui_mac.ui/
 }
-!macx {
-	FORMS += rzxchatui.ui
-}
+
 
 # Ressources supplémentaire du projet
-TRANSLATIONS = ./translations/qrezix.ts \
-	./translations/qrezix_fr.ts
-RC_FILE         = icone.rc
+TRANSLATIONS	= ./translations/qrezix_fr.ts
+RC_FILE		= icone.rc
 
-############################################
-### Partie 3 : Installation              ###
-############################################
+
+# ###########################################
+# ## Partie 3 : Installation              ###
+# ###########################################
 # Uniquement définie sur MacOS
 # Consiste à mettre les thèmes/traductions
 # dans le package du programme
@@ -139,3 +140,4 @@ macx {
 		info \
 		qrezix
 }
+

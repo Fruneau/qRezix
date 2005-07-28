@@ -152,6 +152,7 @@ public slots:
 	void setRemarque(const QString& text);
 	void setIcon(const QPixmap& image);
 	void setIP(const RzxHostAddress&);
+	void addCapabilities(int);
 	
 public:
 	const QString &name() const;
@@ -207,6 +208,10 @@ signals: // Signals
 	void favoriteStateChanged(RzxComputer*);
 	void stateChanged(RzxComputer*);
 
+	void wantChat(RzxComputer*);
+	void wantProperties(RzxComputer*);
+	void wantHistorique(RzxComputer*);
+
 protected:
 	void emitStateChanged();
 
@@ -226,9 +231,9 @@ public slots:
 	void addToFavorites();
 	void removeFromFavorites();
 	//Chat, historique, propriétés
-	void historique() const;
-	void proprietes() const;
-	void chat() const;
+	void historique();
+	void proprietes();
+	void chat();
 
 protected:
 	QString m_name;
