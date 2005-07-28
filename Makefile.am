@@ -5,17 +5,17 @@ bin_PROGRAMS = qrezix
 
 
 qrezix_SOURCES = rzxtraywindow.cpp md5.cpp rzxconnectionlister.cpp \
-				rzxchangepassui.ui rzxwrongpassui.ui rzxchatui.ui qrezixui.ui rzxquitui.ui \
-				rzxpropertyui.ui rzxutilslauncher.cpp rzxpluginloader.cpp rzxplugin.cpp rzxquit.cpp \
-				trayicon.cpp rzxchat.cpp rzxproperty.cpp rzxserverlistener.cpp rzxrezal.cpp \
-				rzxprotocole.cpp rzxitem.cpp rzxhostaddress.cpp rzxconfig.cpp rzxcomputer.cpp \
-				rzxclientlistener.cpp qrezix.cpp main.cpp rzxmessagebox.cpp rzxmessagebox.h defaults.h \
-				qrezix.h resource.h rzxchat.h rzxclientlistener.h rzxcomputer.h rzxconfig.h \
-				rzxhostaddress.h rzxitem.h rzxmessagebox.h rzxproperty.h rzxprotocole.h rzxrezal.h \
-				rzxserverlistener.h trayicon.h rzxquit.h rzxplugin.h rzxpluginloader.h rzxutilslauncher.h \
-				rzxconnectionlister.h md5.h rzxtraywindow.h rzxrezalmodel.cpp rzxrezalview.cpp \
-				rzxrezalpopup.cpp rzxchatsocket.cpp rzxiconcollection.cpp rzxglobal.cpp \
-		rzxrezalsearch.cpp rzxapplication.cpp
+					rzxchangepassui.ui rzxwrongpassui.ui rzxchatui.ui qrezixui.ui rzxquitui.ui \
+					rzxpropertyui.ui rzxutilslauncher.cpp rzxpluginloader.cpp rzxplugin.cpp rzxquit.cpp \
+					trayicon.cpp rzxchat.cpp rzxproperty.cpp rzxserverlistener.cpp rzxrezal.cpp \
+					rzxprotocole.cpp rzxitem.cpp rzxhostaddress.cpp rzxconfig.cpp rzxcomputer.cpp \
+					rzxclientlistener.cpp qrezix.cpp main.cpp rzxmessagebox.cpp rzxmessagebox.h defaults.h \
+					qrezix.h resource.h rzxchat.h rzxclientlistener.h rzxcomputer.h rzxconfig.h \
+					rzxhostaddress.h rzxitem.h rzxmessagebox.h rzxproperty.h rzxprotocole.h rzxrezal.h \
+					rzxserverlistener.h trayicon.h rzxquit.h rzxplugin.h rzxpluginloader.h rzxutilslauncher.h \
+					rzxconnectionlister.h md5.h rzxtraywindow.h rzxrezalmodel.cpp rzxrezalview.cpp \
+					rzxrezalpopup.cpp rzxchatsocket.cpp rzxiconcollection.cpp rzxglobal.cpp \
+			rzxrezalsearch.cpp rzxapplication.cpp rzxchatlister.cpp
 
 qrezix_LDADD   =  $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 
@@ -56,4 +56,4 @@ AM_CXXFLAGS =
 AM_FFLAGS = 
 SUBDIRS = translations
 noinst_HEADERS = rzxrezalmodel.h rzxrezalview.h rzxrezalpopup.h rzxglobal.h \
-			rzxchatsocket.h rzxiconcollection.h rzxrezalsearch.h rzxapplication.h
+				rzxchatsocket.h rzxiconcollection.h rzxrezalsearch.h rzxapplication.h rzxchatlister.h

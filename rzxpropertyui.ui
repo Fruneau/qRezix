@@ -89,7 +89,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex" >
-      <number>0</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="pageInfo" >
       <layout class="QGridLayout" >
@@ -1484,10 +1484,10 @@
                <string>&lt;h3>Server&lt;/h3>&lt;p>Define the address of the xnetserver&lt;/p></string>
               </property>
               <property name="text" >
-               <string>xnetserver.eleves.polytechnique.fr</string>
+               <string/>
               </property>
               <property name="cursorPosition" >
-               <number>34</number>
+               <number>0</number>
               </property>
              </widget>
             </item>
@@ -2081,7 +2081,7 @@
              <string>&lt;h3>Sound command&lt;/h3>&lt;p>Select the commant to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p></string>
             </property>
             <property name="text" >
-             <string>play</string>
+             <string/>
             </property>
            </widget>
           </item>
@@ -2136,6 +2136,15 @@
        </property>
        <item row="0" column="0" colspan="3" >
         <widget class="QTreeWidget" name="lvPlugInList" >
+         <property name="rootIsDecorated" >
+          <bool>false</bool>
+         </property>
+         <property name="uniformRowHeights" >
+          <bool>true</bool>
+         </property>
+         <property name="itemsExpandable" >
+          <bool>false</bool>
+         </property>
          <property name="columnCount" >
           <number>3</number>
          </property>

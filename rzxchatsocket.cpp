@@ -17,21 +17,6 @@
 //Pour les communications
 #include <QRegExp>
 
-//Pour les fenêtres historique/proprités
-#include <QFrame>
-#include <QDialog>
-#include <QGridLayout>
-//Pour la fenêtre d'historique
-#include <QFile>
-#include <QTextStream>
-#include <QTextEdit>
-#include <QTextCursor>
-//Pour la fenêtre propriétés
-#include <QLabel>
-#include <QHeaderView>
-#include <QTreeWidget>
-#include <QTreeWidgetItem>
-
 #include "rzxchatsocket.h"
 
 #include "rzxchat.h"
@@ -39,6 +24,7 @@
 #include "rzxapplication.h"
 #include "rzxclientlistener.h"
 #include "rzxconnectionlister.h"
+#include "rzxchatlister.h"
 
 //attention a toujours avoir DCCFormat[DCC_message] = messageFormat
 QString RzxChatSocket::DCCFormat[] = {
@@ -158,7 +144,7 @@ int RzxChatSocket::parse(const QString& msg)
 						return DCC_PROPANSWER;		// ou que l'on n'a rien demande on s'arrete
 					}
 					if(!chatWindow)
-						showProperties(host, cmd.cap(2));
+						RzxChatLister::global()->showProperties(host, cmd.cap(2));
 					else
 						chatWindow->receiveProperties(cmd.cap(2));
 					if(alone)
@@ -176,7 +162,7 @@ int RzxChatSocket::parse(const QString& msg)
 					}
 					if(!chatWindow)
 					{
-						chatWindow = RzxConnectionLister::global()->createChat(this->peerAddress());
+						chatWindow = RzxChatLister::global()->createChat(this->peerAddress());
 						if(!chatWindow) return DCC_CHAT;
 						chatWindow->setSocket(this);
 					}
@@ -384,150 +370,4 @@ void RzxChatSocket::chatConnexionError(SocketError error)
 void RzxChatSocket::chatConnexionTimeout()
 {
 	chatConnexionError(SocketTimeoutError);
-}
-
-///Affichage des proprietes d'un ordinateur
-QWidget *RzxChatSocket::showProperties(const RzxHostAddress& peer, const QString& msg, bool withFrame, QWidget *parent, QPoint *pos )
-{
-	QWidget *propertiesDialog;
-	RzxComputer *computer = RzxConnectionLister::global()->getComputerByIP(peer);
-
-	if(!computer)
-		return NULL;
-
-	if(withFrame)
-	{
-		// creation de la boite de dialogue (non modale, elle se detruit automatiquement grace a WDestructiveClose)
-		propertiesDialog = new QDialog(parent?parent:RzxApplication::mainWindow(), Qt::Tool | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
-		propertiesDialog->setAttribute(Qt::WA_DeleteOnClose);
-		propertiesDialog->resize(300, 320);
-
-		propertiesDialog->setWindowTitle( tr( "%1's properties" ).arg(computer->name()) );
-	}
-	else
-	{
-		propertiesDialog = new RzxPopup(parent?parent:RzxApplication::mainWindow());
-		((QFrame*)propertiesDialog)->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
-		if(pos) propertiesDialog->move(*pos);
-	}
-
-	// Layout, pour le resize libre
-	QGridLayout * qPropertiesLayout = new QGridLayout(propertiesDialog);
-	qPropertiesLayout->setSpacing(0);
-	qPropertiesLayout->setMargin(withFrame?6:0);
- 
-	// creation de la liste des proprietes et ajout au layout
-	QTreeWidget* propList = new QTreeWidget();
-	QLabel *clientLabel = new QLabel(tr("xNet client : %1").arg(computer->client()));
-	qPropertiesLayout->addWidget(propList, 0, 0);
-	qPropertiesLayout->addWidget(clientLabel, 300, 0);
- 
-	QPalette palette;
-	palette.setColor(propList->backgroundRole(), QColor(255,255,255));
-	propList->setPalette(palette);
-	propList->resize(300, 300);
-	propList->setColumnCount(2);
-	propList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	propList->setSortingEnabled(false);
-	
-	// Création des en-têtes de colonnes
-	QTreeWidgetItem *item = new QTreeWidgetItem();
-	item->setText(0, tr("Property"));
-	item->setText(1, tr("Value"));
-	propList->setHeaderItem(item);
-	propList->setRootIsDecorated(false);
-
-	// Remplissage
-	QStringList props = msg.split('|');
-	int propCount = 0;
-	item = NULL;
-	for(int i = 0 ; i < props.size() - 1 ; i+=2)
-	{
-		item = new QTreeWidgetItem(propList, item);
-		item->setText(0, props[i]);
-		item->setText(1, props[i+1]);
-		propCount++;
-	}
-	QHeaderView *header = propList->header();
-	header->resizeSection(0, header->sectionSizeHint(0));
-	header->resizeSection(1, header->sectionSizeHint(1));
-	if(!propCount)
-	{
-		propertiesDialog->deleteLater();
-		return NULL;
-	}
-
-	propertiesDialog->raise();
-	if(withFrame)
-		propertiesDialog->show();
- 
-	// Fit de la fenetre, on ne le fait pas si il n'y a pas d'accents, sinon ca plante
-//	int width=PropList->columnWidth(0)+PropList->columnWidth(1)+4+12;
-	int height=(propCount+3)*20; //+20 pour le client xnet, et puis headers e un peu de marge
-	propertiesDialog->resize(header->sizeHint().width(), height);
-	RzxConfig::addCache(peer,msg);
-	return propertiesDialog;
-}
-
-///Affichage de la fenêtre de favoris
-QWidget *RzxChatSocket::showHistorique(const RzxHostAddress& ip, const QString& hostname, bool withFrame, QWidget *parent, QPoint *pos ){
-	// chargement de l'historique
-	QString filename = RzxConfig::historique(ip.toRezix(), hostname);
-	if (filename.isNull())
-		return NULL;
- 
-	QString text;
-	QFile file(filename);
-	if(!file.exists())
-		return NULL;
-	
-	file.open(QIODevice::ReadOnly); 
-	QTextStream stream(&file);
-	stream.setCodec("UTF-8");
-	while(!stream.atEnd()) {
-		text += stream.readLine();
-	}
-	file.close();
- 
-	// construction de la boite de dialogue
-	QWidget *histoDialog;
-	if(withFrame)
-	{
-		histoDialog = new QDialog(parent?parent:RzxApplication::mainWindow(), Qt::Tool | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
-		histoDialog->setAttribute(Qt::WA_DeleteOnClose);
-
-		histoDialog->setWindowTitle( tr( "History - %1" ).arg(hostname) );
-	}
-	else
-	{
-		histoDialog = new RzxPopup(parent?parent:RzxApplication::mainWindow());
-		((QFrame*)histoDialog)->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
-		if(pos) 
-		{
-			QPoint ul = *pos;
-			histoDialog->move(ul);
-		}
-	}
-	QGridLayout * qHistoLayout = new QGridLayout(histoDialog);
-	qHistoLayout->setSpacing(0);
-	qHistoLayout->setMargin(withFrame?6:0);
-
-
-	// creation de la liste des proprietes et ajout au layout
-	QTextEdit* histoView = new QTextEdit(histoDialog);
-	histoView->setReadOnly(true);
-	qHistoLayout->addWidget((QWidget*)histoView, 0, 0);
-	
-	histoDialog->resize(450, 300);
-	QPalette palette;
-	palette.setColor(histoView->backgroundRole(), QColor(255,255,255));
-	histoView->setPalette(palette);
-	histoView -> setHtml(text);
-	histoView->textCursor().movePosition(QTextCursor::End);
-	histoView->ensureCursorVisible();
-	
-	histoDialog->raise();
-	if(withFrame)
-		histoDialog->show();
-	return histoDialog;
 }

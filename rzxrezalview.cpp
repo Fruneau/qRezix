@@ -100,6 +100,7 @@ void RzxRezalView::mousePressEvent(QMouseEvent *e)
 ///Pour lancer le client qui va bien en fonction de la position du clic
 void RzxRezalView::mouseDoubleClickEvent(QMouseEvent *e)
 {
+	qDebug("plaf");
 	QModelIndex model = indexAt(e->pos());
 	if(!model.isValid()) return;
 	RzxComputer *computer = model.model()->data(model, Qt::UserRole).value<RzxComputer*>();

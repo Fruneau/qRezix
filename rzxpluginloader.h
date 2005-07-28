@@ -55,8 +55,6 @@ class RzxPlugInLoader : public QObject
 	RzxPlugIn *selectedPlugin;
 	QString selectedPlugInName;
 	bool initialized;
-	
-	unsigned int pluginFlags;
 
 	QTreeWidget *pluginListView;
 	QToolButton *pluginGetProp;
@@ -81,7 +79,6 @@ class RzxPlugInLoader : public QObject
 		void menuChat(QMenu& menu);
 		
 		void setSettings();
-		int getFeatures() const;
 		
 		void makePropListView(QTreeWidget *lv, QToolButton *btnProp, QToolButton *btnReload);
 		void validPropListView();
@@ -101,12 +98,6 @@ class RzxPlugInLoader : public QObject
 		void dispProperties();
 		void changePlugIn();
 };
-
-///Indique le masque des fonctionnalités du plugin
-inline int RzxPlugInLoader::getFeatures() const
-{
-	 return pluginFlags;
-}
 
 /// retour de l'objet global
 /** on le construit s'il n'existe pas */

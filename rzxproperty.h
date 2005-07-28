@@ -28,7 +28,8 @@
 
 class QRezix;
 
-class RzxProperty : public QDialog, public Ui::frmPref {
+class RzxProperty : public QDialog, public Ui::frmPref
+{
 	Q_OBJECT
 	
 public: 
@@ -48,13 +49,13 @@ public slots: // Public slots
 	void annuler();
 	void initDlg();
 	void aboutQt();
-	static void serverUpdate();
 	void changeTheme();
 
 
 protected: // Protected methods
-	QRezix * getRezix() const;
+	QRezix *getRezix() const;
 	void writeColDisplay();
+	virtual void changeEvent(QEvent*);
 
 private:
 	void initLangCombo();
@@ -62,7 +63,6 @@ private:
 	bool updateLocalHost();
 	QPixmap localhostIcon;
 	QString browse(const QString& name, const QString& title, const QString& glob);
-	virtual void languageChange();
 
 
 protected slots: // Protected slots

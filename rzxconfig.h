@@ -45,7 +45,8 @@ class QHostAddress;
 
 ///Gestion des données de configuration
 /** Classe à épurer !!! */
-class RzxConfig : public QObject  {
+class RzxConfig : public QObject
+{
 	Q_OBJECT
 
 	friend class RzxProperty;
@@ -61,14 +62,6 @@ class RzxConfig : public QObject  {
 			FontProperty(bool b, bool i, const QList<int> &pS);
 			~FontProperty();
 	};
-	
-	static RzxConfig * Config;
-	RzxConfig();
-	QDir m_systemDir;
-	QDir m_userDir;
-	QDir m_libDir;
-	QStringList fontFamilies;
-	QHash<QString,FontProperty> fontProperties;
 
 public:
 	enum ToolTip
@@ -86,13 +79,44 @@ public:
 		Features = 1024,
 		Properties = 2048
 	};
-	
-	QSettings *settings;
-	static QHash<QString,QTranslator*> translations;
-	void loadTranslators();
-	static void setLanguage(QString language);
+
+//Centre de la classe...
+private:
+	QDir m_systemDir;
+	QDir m_userDir;
+	QDir m_libDir;
+
+	static RzxConfig * Config;
+	RzxConfig();
+
+public:
 	static RzxConfig *global();
 	~RzxConfig();
+	QSettings *settings;
+	void flush();
+	void closeSettings();
+
+protected:
+	QString readEntry(const QString& name, const QString& def);
+	int readEntry(const QString& name, int def);
+	QStringList readEntry(const QString& name);
+	void writeEntry(const QString& name, const QString& val);
+	void writeEntry(const QString& name, int val);
+	void writeEntry(const QString& name, const QStringList & list);
+
+
+//Gestion des traductions
+private:
+	static QHash<QString,QTranslator*> translations;
+	static QTranslator* currentTranslator;
+	void loadTranslators();
+	void loadTranslatorsInDir(const QDir &rep);
+
+public:
+	static void setLanguage(const QString&);
+	static QStringList translationsList();
+	static QString translation();
+
 
 // Favoris et BanList
 private :
@@ -117,15 +141,19 @@ public:
 	void delFromBanlist(const RzxComputer&);
 	void writeIgnoreList();
 
-	// Polices de caractères
+
+// Polices de caractères
+private:
+	QStringList fontFamilies;
+	QHash<QString,FontProperty> fontProperties;
+
+public:
 	QStringList getFontList();
 	const QList<int> getSizes(const QString&) const;
 	bool isItalicSupported(const QString&) const;
 	bool isBoldSupported(const QString&) const;
 
 
-	void flush();
-	void closeSettings();
 
 	void setPass(const QString& passcode);
 	void setOldPass(const QString& oldPass = QString::null);
@@ -239,20 +267,6 @@ signals:
 	void languageChanged();
 	void updateResponder();
 	void iconFormatChange();
-	
-protected: // Protected attributes
-	static const QPixmap &icon(const QString& name);
-	static const QPixmap &icon(const QString& name, QHash<QString,QPixmap>& cache, const QString& subdir = QString::null);
-	QString readEntry(const QString& name, const QString& def);
-	int readEntry(const QString& name, int def);
-	QStringList readEntry(const QString& name);
-	void writeEntry(const QString& name, const QString& val);
-	void writeEntry(const QString& name, int val);
-	void writeEntry(const QString& name, const QStringList & list);
-
-private: // Public attributes
-	void loadTranslatorsInDir(const QDir &rep);
-	static QTranslator* currentTranslator;
 };
 
 #define RZXCONFIG_DEFINED_H

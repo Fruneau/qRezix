@@ -149,20 +149,13 @@ void RzxProperty::changePage(QListWidgetItem *current, QListWidgetItem *)
 		lblTitle->setText("<h2>"+current->text()+"</h2>");
 }
 
-void RzxProperty::languageChange()
+///Remplissage de la boîte des langues
+void RzxProperty::initLangCombo()
 {
-	QDialog::languageChange();
-	lblTitle->setText("<h2>"+lbMenu->currentItem()->text()+"</h2>");
-}
-
-
-void RzxProperty::initLangCombo(){
-	RzxConfig *config = RzxConfig::global();
 	languageBox->clear();
-	languageBox->addItem("English");
-	foreach(QString it, config->translations.keys())
-		languageBox->addItem(it);
-}	
+	languageBox->insertItems(0, RzxConfig::translationsList());
+	languageBox->setCurrentIndex(languageBox->findText(RzxConfig::translation()));
+}
 
 ///Initialise la liste des thèmes
 void RzxProperty::initThemeCombo() {
@@ -311,9 +304,6 @@ void RzxProperty::initDlg()
 
 	cmbSport->setCurrentIndex( RzxConfig::global() -> numSport() );
 	
-	languageBox->setCurrentIndex(0);
-	languageBox->setCurrentIndex(languageBox->findText(tr("English")));
-
 	if(((RzxApplication*)RzxApplication::instance())->isInitialised())
 		RzxPlugInLoader::global()->makePropListView(lvPlugInList, btnPlugInProp, btnPlugInReload);
 }
@@ -483,7 +473,7 @@ bool RzxProperty::miseAJour() {
 	}
 
 	if(localHostUpdated)
-		serverUpdate();
+		RzxServerListener::object()->sendRefresh();
 
 	if(ui) ui->activateAutoResponder(RzxComputer::localhost()->isOnResponder());
 		
@@ -511,6 +501,9 @@ bool RzxProperty::miseAJour() {
 	
 	/* Sauvegarde du fichier du conf */
 	RzxConfig::global()->flush();
+
+	//On ne change la langue qu'au dernier moment car ça réinitialise toutes les boîtes
+	RzxConfig::setLanguage(languageBox->currentText());
 	
 	return true;
 }
@@ -548,8 +541,6 @@ void RzxProperty::annuler() {
 void RzxProperty::oK() {
 	if(!miseAJour())
 		return;
-	if(tr("English")!=languageBox->currentText())
-		RzxConfig::setLanguage(languageBox->currentText());
 	annuler();
 }
 
@@ -558,15 +549,6 @@ void RzxProperty::oK() {
 QRezix *RzxProperty::getRezix() const
 {
 	return qobject_cast<QRezix*>(parent());
-}
-
-/** No descriptions */
-void RzxProperty::serverUpdate() {
-	// MAJ sur le serveur
-	RzxServerListener * server = RzxServerListener::object();
-	if (server -> isSocketClosed()) return;
-	RzxComputer * localhostObject = RzxComputer::localhost();
-	server -> sendRefresh( localhostObject );
 }
 
 void RzxProperty::writeColDisplay() {
@@ -656,6 +638,7 @@ void RzxProperty::aboutQt()
 	QMessageBox::aboutQt(this);
 }
 
+///Règle les problèmes entre affichage des icônes et du texte
 void RzxProperty::lockCmbMenuText(int index)
 {
 	if(index==0)
@@ -667,3 +650,17 @@ void RzxProperty::lockCmbMenuText(int index)
 		cmbMenuText->setEnabled(true);
 }
 
+///Change la langue...
+void RzxProperty::changeEvent(QEvent *e)
+{
+	QDialog::changeEvent(e);
+	if(e->type() == QEvent::LanguageChange)
+	{
+		int row = lbMenu->currentRow();
+		retranslateUi(this);
+		lbMenu->setCurrentRow(row);
+		lvPlugInList->setHeaderLabels(QStringList() << tr("Name") << tr("Description") << tr("Version"));
+		changeTheme();
+		initDlg();
+	}
+}

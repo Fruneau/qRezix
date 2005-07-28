@@ -52,6 +52,10 @@ class RzxApplication:public QApplication
 		static RzxApplication *instance();
 		static QWidget *mainWindow();
 
+	protected:
+		bool loadCore();
+		bool loadModules();
+
 	public slots:
 		void saveSettings();
 		void warnForFavorite(RzxComputer *computer);

@@ -22,7 +22,7 @@
     <name>QRezix</name>
     <message>
         <source>Closing socket...</source>
-        <translation>Fermeture du socket...</translation>
+        <translation type="obsolete">Fermeture du socket...</translation>
     </message>
     <message>
         <source>Everybody</source>
@@ -61,7 +61,7 @@
     </message>
     <message>
         <source>&amp;Away</source>
-        <translation>&amp;Loin</translation>
+        <translation type="obsolete">&amp;Loin</translation>
     </message>
     <message>
         <source>Ajust columns</source>
@@ -69,51 +69,51 @@
     </message>
     <message>
         <source>&amp;Preferences</source>
-        <translation>&amp;Préférences</translation>
+        <translation type="obsolete">&amp;Préférences</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoris</translation>
+        <translation type="obsolete">Favoris</translation>
     </message>
     <message>
         <source>Adjust columns</source>
-        <translation>Ajuster les colonnes</translation>
+        <translation type="obsolete">Ajuster les colonnes</translation>
     </message>
     <message>
         <source>Pl&amp;ug-ins</source>
-        <translation>Pl&amp;ug-ins</translation>
+        <translation type="obsolete">Pl&amp;ug-ins</translation>
     </message>
     <message>
         <source>Alt+U</source>
-        <translation>Alt+U</translation>
+        <translation type="obsolete">Alt+U</translation>
     </message>
     <message>
         <source>Alt+A</source>
-        <translation>Alt+L</translation>
+        <translation type="obsolete">Alt+L</translation>
     </message>
     <message>
         <source>Alt+P</source>
-        <translation>Alt+P</translation>
+        <translation type="obsolete">Alt+P</translation>
     </message>
     <message>
         <source>Everybody</source>
-        <translation>Tout le monde</translation>
+        <translation type="obsolete">Tout le monde</translation>
     </message>
     <message>
         <source>Plug-ins</source>
-        <translation>Plug-ins</translation>
+        <translation type="obsolete">Plug-ins</translation>
     </message>
     <message>
         <source>Away</source>
-        <translation>Loin</translation>
+        <translation type="obsolete">Loin</translation>
     </message>
     <message>
         <source>Preferences</source>
-        <translation>Préférences</translation>
+        <translation type="obsolete">Préférences</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation>Rechercher</translation>
+        <translation type="obsolete">Rechercher</translation>
     </message>
     <message>
         <source>&amp;Search</source>
@@ -129,18 +129,18 @@
     </message>
     <message>
         <source>qRezix</source>
-        <translation>qRezix</translation>
+        <translation type="obsolete">qRezix</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Status bar&lt;/h3&gt;
 &lt;p&gt;Shows the status of your connection with the xnetserver&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Bar d&apos;état&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Bar d&apos;état&lt;/h3&gt;
 &lt;p&gt;Indique le statut de votre connexion avec le xnetserver&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Status bar&lt;/h3&gt;
 &lt;p&gt;Shows the number of clients connected&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Barre d&apos;état&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Barre d&apos;état&lt;/h3&gt;
 &lt;p&gt;Permet de connaître le nombre de personnes connectées au serveur&lt;/p&gt;</translation>
     </message>
     <message>
@@ -148,7 +148,7 @@
 &lt;p&gt;You can choose if you want to see Everybody or only your favorites.&lt;br&gt;
 Each item have a menu (right click)&lt;/p&gt;
 &lt;p&gt;To switch you can use &lt;b&gt;Shift+Tab&lt;/b&gt;&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;qRezix&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;qRezix&lt;/h3&gt;
 &lt;p&gt;Permet de savoir qui est connecté de façon exhaustive. Vous avez le choix entre l&apos;affichage de tout le monde ou seulement de vos favoris&lt;/p&gt;
 &lt;p&gt;Pour chaque personne vous avez la possibilité de voire différentes informations, et un clique-droit sur la ligne correspondante permet d&apos;avoir accès à différentes actions.&lt;/p&gt;
 &lt;p&gt;Pour passer des Favoris à Tout le monde (et vice-versa), vous pouvez utiliser &lt;b&gt;Maj+Tab&lt;/b&gt;&lt;/p&gt;</translation>
@@ -156,33 +156,40 @@ Each item have a menu (right click)&lt;/p&gt;
     <message>
         <source>&lt;h3&gt;Search&lt;/h3&gt;
 &lt;p&gt;Type the beginning of the pseudonyme you are looking for and enable the search mode...&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Recherche&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Recherche&lt;/h3&gt;
 &lt;p&gt;Taper le début du pseudo que vous cherchez pour le trouver.&lt;/p&gt;
 &lt;p&gt;N&apos;oubliez pas d&apos;activer le mode recherche...&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Plug-ins&lt;/h3&gt;
 &lt;p&gt;Shows a menu which helps you to use the extra-features provided by qRezix&apos;s plug-ins&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Plug-ins&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Plug-ins&lt;/h3&gt;
 &lt;p&gt;Affiche un menu qui permet de parcourir les fonctionalités offertes par les plug-ins installés&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Away&lt;/h3&gt;
 &lt;p&gt;If you press this button, other people will be informed that you are away, and your chat will be handle by a responder&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Loin&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Loin&lt;/h3&gt;
 &lt;p&gt;En cliquant sur ce bouton vous être marqué &apos;Loin&apos; pour tout le monde. Vos communications tombent dès lors sur répondeur&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Adjust columns&lt;/h3&gt;
 &lt;p&gt;Sometimes useful...&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Ajuster les colonnes&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Ajuster les colonnes&lt;/h3&gt;
 &lt;p&gt;Utile... de temps en temps&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Preferences&lt;/h3&gt;
 &lt;p&gt;Set your preferences. A lot of things can be modified through this dialog&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Préférences&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Préférences&lt;/h3&gt;
 &lt;p&gt;Permet d&apos;ajuster une multitudes de petits réglages qui permettent d&apos;avoir un qRezix totalement personnalisé&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>Rzx</name>
+    <message>
+        <source>World</source>
+        <translation>Monde</translation>
     </message>
 </context>
 <context>
@@ -209,7 +216,7 @@ Each item have a menu (right click)&lt;/p&gt;
     </message>
     <message>
         <source>Alt+C</source>
-        <translation>Alt+A</translation>
+        <translation type="obsolete">Alt+A</translation>
     </message>
     <message>
         <source>OK</source>
@@ -224,6 +231,10 @@ Each item have a menu (right click)&lt;/p&gt;
 It must be at least&lt;b&gt; 6 characters long&lt;/b&gt;.</source>
         <translation>Votre mot de passe peut contenir n&apos;importe quel caractère,&lt;br&gt;
 mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</translation>
+    </message>
+    <message encoding="UTF-8">
+        <source>⌥C</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -274,19 +285,19 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Plug-ins</source>
-        <translation>Plug-ins</translation>
+        <translation type="obsolete">Plug-ins</translation>
     </message>
     <message>
         <source>History</source>
-        <translation>Historique</translation>
+        <translation type="obsolete">Historique</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation>Envoyer</translation>
+        <translation type="obsolete">Envoyer</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation>Propriétés</translation>
+        <translation type="obsolete">Propriétés</translation>
     </message>
 </context>
 <context>
@@ -456,7 +467,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <source>Plug-ins</source>
@@ -468,7 +479,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>&lt;h3&gt;Chat&lt;/h3&gt;&lt;p&gt;This is the place where you can read your chat&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Discussion&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Discussion&lt;/h3&gt;
 &lt;p&gt;C&apos;est ici que vous pouvez lire la discussion en cours&lt;/p&gt;</translation>
     </message>
     <message>
@@ -626,7 +637,55 @@ Vérifiez que votre correspondant a bien ouvert le port de chat dans son firewal
     </message>
     <message>
         <source>World</source>
-        <translation>Monde</translation>
+        <translation type="obsolete">Monde</translation>
+    </message>
+    <message>
+        <source>Informations :</source>
+        <translation>Informations : </translation>
+    </message>
+    <message>
+        <source>ftp server : </source>
+        <translation>serveur ftp : </translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;on&lt;/b&gt;</source>
+        <translation>&lt;b&gt;lancé&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>web server : </source>
+        <translation>serveur web : </translation>
+    </message>
+    <message>
+        <source>news server : </source>
+        <translation>serveur de news : </translation>
+    </message>
+    <message>
+        <source>samba server : </source>
+        <translation>serveur samba : </translation>
+    </message>
+    <message>
+        <source>features : </source>
+        <translation>fonctionnalités : </translation>
+    </message>
+    <message>
+        <source>chat</source>
+        <translation>chat</translation>
+    </message>
+    <message>
+        <source>none</source>
+        <translation>aucune</translation>
+    </message>
+    <message>
+        <source>place : </source>
+        <translation>bâtiment : </translation>
+    </message>
+    <message>
+        <source>No properties in cache</source>
+        <translation>Pas de propriétés en cache</translation>
+    </message>
+    <message>
+        <source>Properties checked on </source>
+        <translation>Propriétés obtenues le </translation>
     </message>
 </context>
 <context>
@@ -645,7 +704,7 @@ dans lequel il enregistre sa configuration
     </message>
     <message>
         <source>%s doesn&apos;t exist</source>
-        <translation>%s n&apos;existe pas</translation>
+        <translation type="obsolete">%s n&apos;existe pas</translation>
     </message>
     <message>
         <source>qReziX error</source>
@@ -691,7 +750,7 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>qRezix can&apos;t find  %s/%s</source>
-        <translation>qRezix ne peut pas trouver %s/%s</translation>
+        <translation type="obsolete">qRezix ne peut pas trouver %s/%s</translation>
     </message>
     <message>
         <source>Unable to open ignoreList file %1</source>
@@ -705,12 +764,12 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>No icons theme</source>
-        <translation>Pas de thème d&apos;icônes</translation>
+        <translation type="obsolete">Pas de thème d&apos;icônes</translation>
     </message>
     <message>
         <source>qRezix was unable to find a usable icons theme.
 Please, check you installation</source>
-        <translation>qRezix n&apos;a pas pu trouver de thème d&apos;icône exploitable.
+        <translation type="obsolete">qRezix n&apos;a pas pu trouver de thème d&apos;icône exploitable.
 Assurez-vous qu&apos;au moins un thème d&apos;icônes a été installé.</translation>
     </message>
 </context>
@@ -742,11 +801,11 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Received a chat request from %1</source>
-        <translation>Vous avez reçu une demande de chat de %1</translation>
+        <translation type="obsolete">Vous avez reçu une demande de chat de %1</translation>
     </message>
     <message>
         <source>%1 is NOT logged</source>
-        <translation>%1 n&apos;est pas connecté au serveur</translation>
+        <translation type="obsolete">%1 n&apos;est pas connecté au serveur</translation>
     </message>
     <message>
         <source>Chat</source>
@@ -894,7 +953,7 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="obsolete">OK</translation>
     </message>
     <message>
         <source>All files</source>
@@ -914,7 +973,7 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     </message>
     <message>
         <source>English</source>
-        <translation>Français</translation>
+        <translation type="obsolete">Français</translation>
     </message>
     <message>
         <source>Sound file selection</source>
@@ -990,23 +1049,35 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     </message>
     <message>
         <source>Infos</source>
-        <translation>Infos</translation>
+        <translation type="obsolete">Infos</translation>
     </message>
     <message>
         <source>Layout</source>
-        <translation>Affichage</translation>
+        <translation type="obsolete">Affichage</translation>
     </message>
     <message>
         <source>Network</source>
-        <translation>Réseau</translation>
+        <translation type="obsolete">Réseau</translation>
     </message>
     <message>
         <source>Misc.</source>
-        <translation>Divers</translation>
+        <translation type="obsolete">Divers</translation>
     </message>
     <message>
         <source>Plug-ins</source>
-        <translation>Plug-ins</translation>
+        <translation type="obsolete">Plug-ins</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Description</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Version</translation>
     </message>
 </context>
 <context>
@@ -1063,7 +1134,7 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>Alt+L</source>
-        <translation>Alt+Q</translation>
+        <translation type="obsolete">Alt+Q</translation>
     </message>
     <message>
         <source>no, I want to &amp;Minimize qRezix</source>
@@ -1071,7 +1142,7 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>Alt+M</source>
-        <translation>Alt+M</translation>
+        <translation type="obsolete">Alt+M</translation>
     </message>
     <message>
         <source>Return</source>
@@ -1087,30 +1158,42 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>Alt+A</source>
-        <translation>Alt+A</translation>
+        <translation type="obsolete">Alt+A</translation>
+    </message>
+    <message encoding="UTF-8">
+        <source>⌥L</source>
+        <translation></translation>
+    </message>
+    <message encoding="UTF-8">
+        <source>⌥M</source>
+        <translation></translation>
+    </message>
+    <message encoding="UTF-8">
+        <source>⌥A</source>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>RzxRezal</name>
     <message>
         <source>Icon</source>
-        <translation>Icône</translation>
+        <translation type="obsolete">Icône</translation>
     </message>
     <message>
         <source>Computer name</source>
-        <translation>Nom d&apos;ordinateur</translation>
+        <translation type="obsolete">Nom d&apos;ordinateur</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation>Commentaire</translation>
+        <translation type="obsolete">Commentaire</translation>
     </message>
     <message>
         <source>Samba</source>
-        <translation>Samba</translation>
+        <translation type="obsolete">Samba</translation>
     </message>
     <message>
         <source>FTP</source>
-        <translation>FTP</translation>
+        <translation type="obsolete">FTP</translation>
     </message>
     <message>
         <source>Hotline</source>
@@ -1118,63 +1201,63 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>Web</source>
-        <translation>Web</translation>
+        <translation type="obsolete">Web</translation>
     </message>
     <message>
         <source>News</source>
-        <translation>News</translation>
+        <translation type="obsolete">News</translation>
     </message>
     <message>
         <source>OS</source>
-        <translation>OS</translation>
+        <translation type="obsolete">OS</translation>
     </message>
     <message>
         <source>Gateway</source>
-        <translation>Passerelle</translation>
+        <translation type="obsolete">Passerelle</translation>
     </message>
     <message>
         <source>Promo</source>
-        <translation>Promâl</translation>
+        <translation type="obsolete">Promâl</translation>
     </message>
     <message>
         <source>begin &amp;Chat</source>
-        <translation>Ouvrir une fenêtre &amp;de discussion</translation>
+        <translation type="obsolete">Ouvrir une fenêtre &amp;de discussion</translation>
     </message>
     <message>
         <source>Samba connect</source>
-        <translation>Connexion en Samba</translation>
+        <translation type="obsolete">Connexion en Samba</translation>
     </message>
     <message>
         <source>FTP connect</source>
-        <translation>Connexion en FTP</translation>
+        <translation type="obsolete">Connexion en FTP</translation>
     </message>
     <message>
         <source>browse Web</source>
-        <translation>Voir le site Web</translation>
+        <translation type="obsolete">Voir le site Web</translation>
     </message>
     <message>
         <source>read News</source>
-        <translation>Lire les News</translation>
+        <translation type="obsolete">Lire les News</translation>
     </message>
     <message>
         <source>History</source>
-        <translation>Historique</translation>
+        <translation type="obsolete">Historique</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation>Propriétés</translation>
+        <translation type="obsolete">Propriétés</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
-        <translation>Retirer des favoris</translation>
+        <translation type="obsolete">Retirer des favoris</translation>
     </message>
     <message>
         <source>Add to favorites</source>
-        <translation>Ajouter aux favoris</translation>
+        <translation type="obsolete">Ajouter aux favoris</translation>
     </message>
     <message>
         <source>No history file for user %1</source>
-        <translation>Aucun historique pour %1</translation>
+        <translation type="obsolete">Aucun historique pour %1</translation>
     </message>
     <message>
         <source>Computer properties</source>
@@ -1254,7 +1337,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuler</translation>
+        <translation type="obsolete">Annuler</translation>
     </message>
     <message>
         <source>Hey, it&apos;s you %1... you can&apos;t have a chat with yourself.
@@ -1282,43 +1365,126 @@ Propriétés envoyées à %2 (%3)</translation>
     </message>
     <message>
         <source>Informations :</source>
-        <translation>Informations : </translation>
+        <translation type="obsolete">Informations : </translation>
     </message>
     <message>
         <source>ftp server : </source>
-        <translation>serveur ftp : </translation>
+        <translation type="obsolete">serveur ftp : </translation>
     </message>
     <message>
         <source>&lt;b&gt;on&lt;/b&gt;</source>
-        <translation>&lt;b&gt;lancé&lt;/b&gt;</translation>
+        <translation type="obsolete">&lt;b&gt;lancé&lt;/b&gt;</translation>
     </message>
     <message>
         <source>web server : </source>
-        <translation>serveur web : </translation>
+        <translation type="obsolete">serveur web : </translation>
     </message>
     <message>
         <source>news server : </source>
-        <translation>serveur de news : </translation>
+        <translation type="obsolete">serveur de news : </translation>
     </message>
     <message>
         <source>samba server : </source>
-        <translation>serveur samba : </translation>
+        <translation type="obsolete">serveur samba : </translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Inconnu</translation>
+        <translation type="obsolete">Inconnu</translation>
     </message>
     <message>
         <source>Remove from ignore list</source>
-        <translation>Ne plus ignorer l&apos;utilisateur</translation>
+        <translation type="obsolete">Ne plus ignorer l&apos;utilisateur</translation>
     </message>
     <message>
         <source>Add to ignore list</source>
-        <translation>Ignorer l&apos;utilisateur</translation>
+        <translation type="obsolete">Ignorer l&apos;utilisateur</translation>
     </message>
     <message>
         <source>Remove frome ignore list</source>
         <translation type="obsolete">Ne plus ignorer l&apos;utilisateur</translation>
+    </message>
+    <message>
+        <source>IP</source>
+        <translation type="obsolete">IP</translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <translation type="obsolete">Client</translation>
+    </message>
+    <message>
+        <source>Place</source>
+        <translation type="obsolete">Bâtiment</translation>
+    </message>
+    <message>
+        <source>place : </source>
+        <translation type="obsolete">bâtiment : </translation>
+    </message>
+    <message>
+        <source>features : </source>
+        <translation type="obsolete">fonctionnalités : </translation>
+    </message>
+    <message>
+        <source>chat</source>
+        <translation type="obsolete">chat</translation>
+    </message>
+    <message>
+        <source>none</source>
+        <translation type="obsolete">aucune</translation>
+    </message>
+    <message>
+        <source>%1</source>
+        <translation type="obsolete">%1</translation>
+    </message>
+    <message>
+        <source>No properties in cache</source>
+        <translation type="obsolete">Pas de propriétés en cache</translation>
+    </message>
+    <message>
+        <source>Properties checked on </source>
+        <translation type="obsolete">Propriétés obtenues le </translation>
+    </message>
+</context>
+<context>
+    <name>RzxRezalModel</name>
+    <message>
+        <source>Computer name</source>
+        <translation>Nom d&apos;ordinateur</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation>Commentaire</translation>
+    </message>
+    <message>
+        <source>Samba</source>
+        <translation>Samba</translation>
+    </message>
+    <message>
+        <source>FTP</source>
+        <translation>FTP</translation>
+    </message>
+    <message>
+        <source>Web</source>
+        <translation>Web</translation>
+    </message>
+    <message>
+        <source>News</source>
+        <translation>News</translation>
+    </message>
+    <message>
+        <source>OS</source>
+        <translation>OS</translation>
+    </message>
+    <message>
+        <source>Gateway</source>
+        <translation>Passerelle</translation>
+    </message>
+    <message>
+        <source>Promo</source>
+        <translation>Promâl</translation>
+    </message>
+    <message>
+        <source>Place</source>
+        <translation>Bâtiment</translation>
     </message>
     <message>
         <source>IP</source>
@@ -1329,36 +1495,95 @@ Propriétés envoyées à %2 (%3)</translation>
         <translation>Client</translation>
     </message>
     <message>
-        <source>Place</source>
-        <translation>Bâtiment</translation>
+        <source>Everybody</source>
+        <translation>Tout le monde</translation>
     </message>
     <message>
-        <source>place : </source>
-        <translation>bâtiment : </translation>
+        <source>Category</source>
+        <translation>Catégorie</translation>
     </message>
     <message>
-        <source>features : </source>
-        <translation>fonctionnalités : </translation>
+        <source>Subnet</source>
+        <translation>Sous-réseau</translation>
     </message>
     <message>
-        <source>chat</source>
-        <translation>chat</translation>
+        <source>Favorites</source>
+        <translation>Favoris</translation>
     </message>
     <message>
-        <source>none</source>
-        <translation>aucune</translation>
+        <source>Banned</source>
+        <translation>Exclus</translation>
     </message>
     <message>
-        <source>%1</source>
-        <translation>%1</translation>
+        <source>Others...</source>
+        <translation>Autres...</translation>
     </message>
     <message>
-        <source>No properties in cache</source>
-        <translation>Pas de propriétés en cache</translation>
+        <source>Jones</source>
+        <translation>Jônes</translation>
     </message>
     <message>
-        <source>Properties checked on </source>
-        <translation>Propriétés obtenues le </translation>
+        <source>Roujes</source>
+        <translation>Roujes</translation>
+    </message>
+    <message>
+        <source>Oranjes</source>
+        <translation>Oranjes</translation>
+    </message>
+    <message>
+        <source>Binet</source>
+        <translation>Binet</translation>
+    </message>
+</context>
+<context>
+    <name>RzxRezalPopup</name>
+    <message>
+        <source>Samba connect</source>
+        <translation>Connexion en Samba</translation>
+    </message>
+    <message>
+        <source>FTP connect</source>
+        <translation>Connexion en FTP</translation>
+    </message>
+    <message>
+        <source>browse Web</source>
+        <translation>Voir le site Web</translation>
+    </message>
+    <message>
+        <source>read News</source>
+        <translation>Lire les News</translation>
+    </message>
+    <message>
+        <source>Remove from ignore list</source>
+        <translation>Ne plus ignorer l&apos;utilisateur</translation>
+    </message>
+    <message>
+        <source>begin &amp;Chat</source>
+        <translation>Ouvrir une fenêtre &amp;de discussion</translation>
+    </message>
+    <message>
+        <source>History</source>
+        <translation>Historique</translation>
+    </message>
+    <message>
+        <source>Properties</source>
+        <translation>Propriétés</translation>
+    </message>
+    <message>
+        <source>Remove from favorites</source>
+        <translation>Retirer des favoris</translation>
+    </message>
+    <message>
+        <source>Add to favorites</source>
+        <translation>Ajouter aux favoris</translation>
+    </message>
+    <message>
+        <source>Add to ignore list</source>
+        <translation>Ignorer l&apos;utilisateur</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuler</translation>
     </message>
 </context>
 <context>
@@ -1369,7 +1594,7 @@ Propriétés envoyées à %2 (%3)</translation>
     </message>
     <message>
         <source>Connexion refused</source>
-        <translation>Connection refusée</translation>
+        <translation type="obsolete">Connection refusée</translation>
     </message>
     <message>
         <source>Host not found. Manual search...</source>
@@ -1390,7 +1615,7 @@ Erreur DNS
     </message>
     <message>
         <source>Socket error</source>
-        <translation>Erreur de socket</translation>
+        <translation type="obsolete">Erreur de socket</translation>
     </message>
     <message>
         <source>Unknown QSocket error: %1</source>
@@ -1422,11 +1647,11 @@ Erreur DNS
     </message>
     <message>
         <source>qReziX error</source>
-        <translation>Erreur de qReziX</translation>
+        <translation type="obsolete">Erreur de qReziX</translation>
     </message>
     <message>
         <source>Configuration error, cannot connect</source>
-        <translation>Erreur de configuration, impossible de se connecter</translation>
+        <translation type="obsolete">Erreur de configuration, impossible de se connecter</translation>
     </message>
     <message>
         <source>Socket error, cannot write</source>
@@ -1435,6 +1660,34 @@ Erreur DNS
     <message>
         <source>will try to reconnect in %1 seconds</source>
         <translation>prochaine tentative de connexion dans %1 secondes</translation>
+    </message>
+    <message>
+        <source>Connection refused</source>
+        <translation>Connexion refusé</translation>
+    </message>
+    <message>
+        <source>Connectiion reset by peer</source>
+        <translation>Connexion réinitialisé par l&apos;hôte distant</translation>
+    </message>
+    <message>
+        <source>Socket access denied</source>
+        <translation>Accès au socket interdit</translation>
+    </message>
+    <message>
+        <source>Too many sockets</source>
+        <translation>Trop de sockets ouverts</translation>
+    </message>
+    <message>
+        <source>Operation timeout</source>
+        <translation>Temps alloué à l&apos;opération dépassé</translation>
+    </message>
+    <message>
+        <source>Link down</source>
+        <translation>Pas de connexion réseau</translation>
+    </message>
+    <message>
+        <source>Unspported operation</source>
+        <translation>Opération non supportée</translation>
     </message>
 </context>
 <context>
@@ -1478,7 +1731,7 @@ Le mot de passe avec lequel vous avez tenté de vous connecter au serveur Xnet e
     </message>
     <message>
         <source>Alt+O, Return</source>
-        <translation>Alt+O, Return</translation>
+        <translation type="obsolete">Alt+O, Return</translation>
     </message>
     <message>
         <source>&lt;b&gt;Wrong Password&lt;/b&gt;&lt;br&gt;&lt;br&gt;
@@ -1487,6 +1740,10 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
         <translation>&lt;b&gt;Mot de passe incorrect&lt;/b&gt;&lt;br&gt;&lt;br&gt;
 Si vous n&apos;avez jamais été connecté au xnetserver, il est possible que le nom d&apos;ordinateur que vous avez choisi soit déjà utilisé par un autre utilisateur. Dans ce cas : &lt;br&gt;&lt;i&gt;Essayez de changer votre nom d&apos;ordinateur&lt;/i&gt;&lt;br&gt;&lt;br&gt;
 Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot de passe.</translation>
+    </message>
+    <message encoding="UTF-8">
+        <source>⌥O, Return</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1828,15 +2085,15 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Misc.</source>
-        <translation type="obsolete">Divers</translation>
+        <translation>Divers</translation>
     </message>
     <message>
         <source>Command to play a sound :</source>
-        <translation>Commande pour jouer un son:</translation>
+        <translation>Commande pour jouer un son :</translation>
     </message>
     <message>
         <source>play</source>
-        <translation>play</translation>
+        <translation type="obsolete">play</translation>
     </message>
     <message>
         <source>Automatic columns resize (buggy)</source>
@@ -1860,7 +2117,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>UI Language :</source>
-        <translation>Langue:</translation>
+        <translation>Langue :</translation>
     </message>
     <message>
         <source>Warn me when properties are being checked</source>
@@ -1888,15 +2145,15 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Alt+O</source>
-        <translation>Alt+O</translation>
+        <translation type="obsolete">Alt+O</translation>
     </message>
     <message>
         <source>Nom</source>
-        <translation>Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation>Description</translation>
+        <translation type="obsolete">Description</translation>
     </message>
     <message>
         <source>Show dialog when clicking on X</source>
@@ -1944,7 +2201,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Version</source>
-        <translation>Version</translation>
+        <translation type="obsolete">Version</translation>
     </message>
     <message>
         <source>Highlight the selection</source>
@@ -2012,7 +2269,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>xnetserver.eleves.polytechnique.fr</source>
-        <translation>xnetserver.eleves.polytechnique.fr</translation>
+        <translation type="obsolete">xnetserver.eleves.polytechnique.fr</translation>
     </message>
     <message>
         <source>ToolTips</source>
@@ -2052,7 +2309,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Alt+R</source>
-        <translation>Alt+R</translation>
+        <translation type="obsolete">Alt+R</translation>
     </message>
     <message>
         <source>Client</source>
@@ -2216,7 +2473,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&lt;h3&gt;Plug-ins&lt;/h3&gt;&lt;p&gt;Shows the detected plug-ins&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Plug-ins&lt;/h3&gt;&lt;p&gt;Affiche la liste des plug-ins détectés sur votre machine.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Plug-ins&lt;/h3&gt;&lt;p&gt;Affiche la liste des plug-ins détectés sur votre machine.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Reload plug-in&lt;/h3&gt;&lt;p&gt;Click here to reload the selected plug-in&lt;/p&gt;</source>
@@ -2232,19 +2489,19 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Infos</source>
-        <translation type="obsolete">Infos</translation>
+        <translation>Infos</translation>
     </message>
     <message>
         <source>Layout</source>
-        <translation type="obsolete">Affichage</translation>
+        <translation>Affichage</translation>
     </message>
     <message>
         <source>Network</source>
-        <translation type="obsolete">Réseau</translation>
+        <translation>Réseau</translation>
     </message>
     <message>
         <source>Size of tray icon :</source>
-        <translation>Taille de la trayicon</translation>
+        <translation>Taille de la trayicon :</translation>
     </message>
     <message>
         <source>Properties</source>
@@ -2252,11 +2509,60 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Draw icons in menus</source>
-        <translation>Dessiner les icônes des menus</translation>
+        <translation type="obsolete">Dessiner les icônes des menus</translation>
     </message>
     <message>
         <source>Add menu texts</source>
-        <translation>Ajouter la description des menus</translation>
+        <translation type="obsolete">Ajouter la description des menus</translation>
+    </message>
+    <message>
+        <source>0</source>
+        <translation>0</translation>
+    </message>
+    <message>
+        <source>1</source>
+        <translation>1</translation>
+    </message>
+    <message>
+        <source>2</source>
+        <translation>2</translation>
+    </message>
+</context>
+<context>
+    <name>qRezixUI</name>
+    <message>
+        <source>qRezix</source>
+        <translation>qRezix</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Status bar&lt;/h3&gt;
+&lt;p&gt;Shows the status of your connection with the xnetserver&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Bar d&apos;état&lt;/h3&gt;
+&lt;p&gt;Indique le statut de votre connexion avec le xnetserver&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Status bar&lt;/h3&gt;
+&lt;p&gt;Shows the number of clients connected&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Barre d&apos;état&lt;/h3&gt;
+&lt;p&gt;Permet de connaître le nombre de personnes connectées au serveur&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Main view&lt;/h3&gt;
+&lt;p&gt;You can choose if you want to see Everybody or only your favorites.&lt;br&gt;
+Each item have a menu (right click)&lt;/p&gt;
+&lt;p&gt;To switch you can use &lt;b&gt;Shift+Tab&lt;/b&gt;&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;qRezix&lt;/h3&gt;
+&lt;p&gt;Permet de savoir qui est connecté de façon exhaustive. Vous avez le choix entre l&apos;affichage de tout le monde ou seulement de vos favoris&lt;/p&gt;
+&lt;p&gt;Pour chaque personne vous avez la possibilité de voire différentes informations, et un clique-droit sur la ligne correspondante permet d&apos;avoir accès à différentes actions.&lt;/p&gt;
+&lt;p&gt;Pour passer des Favoris à Tout le monde (et vice-versa), vous pouvez utiliser &lt;b&gt;Maj+Tab&lt;/b&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favoris</translation>
+    </message>
+    <message>
+        <source>Everybody</source>
+        <translation>Tout le monde</translation>
     </message>
 </context>
 </TS>

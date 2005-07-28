@@ -44,11 +44,8 @@
 #include "rzxquit.h"
 #include "rzxconfig.h"
 #include "rzxiconcollection.h"
-#include "rzxproperty.h"
 #include "rzxpluginloader.h"
-#include "rzxutilslauncher.h"
 #include "rzxconnectionlister.h"
-#include "rzxclientlistener.h"
 #include "rzxtraywindow.h"
 #include "rzxcomputer.h"
 #include "rzxtrayicon.h"
@@ -106,8 +103,6 @@ QRezix::QRezix(QWidget *parent)
 
 	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(toggleAutoResponder()));
 	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTheme()));
-	connect(RzxClientListener::global(), SIGNAL(chatSent()), this, SLOT(chatSent()));
-	connect(RzxConfig::global(), SIGNAL(languageChanged()), this, SLOT(languageChanged()));
 	QString windowSize = RzxConfig::readWindowSize();
 #ifndef Q_OS_MAC
 	if(windowSize.left(1)=="1")
@@ -171,13 +166,6 @@ void QRezix::buildActions()
 	awayAction = new QAction(tr("Away"), this);
 	awayAction->setCheckable(true);	
 	connect(awayAction, SIGNAL(triggered()), this, SIGNAL(wantToggleResponder()));
-}
-
-void QRezix::languageChanged()
-{
-	languageChange();
-/*	rezal->languageChanged();
-	rezalFavorites->languageChanged();*/
 }
 
 QRezix::~QRezix()
@@ -312,28 +300,23 @@ void QRezix::showSearch(bool state)
 	searchAction->setVisible(state);
 }
 
-void QRezix::languageChange()
+///Pour prendre en compte le changement de traduction...
+void QRezix::changeEvent(QEvent *e)
 {
-	QWidget::languageChange();
-	setWindowTitle("qRezix v" + RZX_VERSION);
+	QMainWindow::changeEvent(e);
+	if(e->type() == QEvent::LanguageChange)
+	{
+		retranslateUi(this);
+		setWindowTitle("qRezix v" + RZX_VERSION);
 
-	//Parce que Qt oublie de traduire les deux noms
-	//Alors faut le faire à la main, mais franchement, c du foutage de gueule
-	//à mon avis ça leur prendrait 5 minutes chez trolltech pour corriger le pb
-	tbRezalContainer->setItemText(0, tr("Favorites"));
-	tbRezalContainer->setItemText(1, tr("Everybody"));
-	
-	//Parce que sous Mac, les boutons sont gérés avec des QPushButton
-#ifdef Q_OS_MAC
-	menuFormatChange();
-#endif
+		//Parce que Qt oublie de traduire les deux noms
+		//Alors faut le faire à la main, mais franchement, c du foutage de gueule
+		//à mon avis ça leur prendrait 5 minutes chez trolltech pour corriger le pb
+		tbRezalContainer->setItemText(0, tr("Favorites"));
+		tbRezalContainer->setItemText(1, tr("Everybody"));
+	}
 }
-
-void QRezix::chatSent() {
-	// Desactive le répondeur lorsqu'on envoie un chat
-	activateAutoResponder( false );
-}
-
+ 
 /// Changement du thème d'icone
 /** Cette méthode met à jour les icônes de l'interface principale (menu), mais aussi celles des listes de connectés */
 void QRezix::changeTheme()

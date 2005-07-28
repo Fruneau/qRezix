@@ -58,7 +58,7 @@ public:
 protected slots:
 	void serverClose();
 	void serverReceive();
-	void serverError(int);
+	void serverError(QTcpSocket::SocketError);
 	void serverTimeout();
 	void connectToXnetserver();
 	void sendProtocolMsg(const QString& msg);

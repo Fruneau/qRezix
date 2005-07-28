@@ -60,6 +60,7 @@ void RzxRezalPopup::init(RzxComputer *computer, const QPoint& point)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 
+	qDebug("blam");
 #define newItem(name, trad, receiver, slot) addAction(RzxIconCollection::getIcon(name), trad, receiver, slot)
 	if(computer->isIgnored())
 	{
