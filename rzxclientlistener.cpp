@@ -16,7 +16,6 @@
  ***************************************************************************/
 #include "rzxclientlistener.h"
 
-#include "rzxconnectionlister.h"
 #include "rzxchatsocket.h"
 #include "rzxmessagebox.h"
 #include "rzxcomputer.h"
@@ -30,7 +29,9 @@ RzxClientListener::RzxClientListener()
 { }
 
 RzxClientListener::~ RzxClientListener()
-{ }
+{
+	close();
+}
 
 ///Connexion d'un RzxChatSocket au reste du programme
 void RzxClientListener::attach(RzxChatSocket *sock)

@@ -482,7 +482,7 @@ QVariant RzxRezalModel::getComputer(int role, const QList<RzxComputer*>& list, i
 				return QColor(RzxConfig::repondeurBase());
 			return QVariant();
 
-		case Qt::UserRole: return QVariant::fromValue(computer);
+		case Qt::UserRole: return QVariant::fromValue<RzxComputer*>(computer);
 		default: return QVariant();
 	}
 }

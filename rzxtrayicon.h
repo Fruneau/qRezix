@@ -31,7 +31,7 @@
 
 ///Gestion de l'icône système (systray, 'tableau de bord'...)
 /** Cette classe fournit une gestion avec tooltip et actions selon les clics */
-class TrayIcon : public QObject
+class RzxTrayIcon : public QObject
 {
 	Q_OBJECT
 
@@ -39,9 +39,9 @@ class TrayIcon : public QObject
 	Q_PROPERTY( QPixmap icon READ icon WRITE setIcon )
 
 public:
-	TrayIcon( QObject *parent = 0 );
-	TrayIcon( const QPixmap &, const QString &, QObject *parent = 0 );
-	~TrayIcon();
+	RzxTrayIcon( QObject *parent = 0 );
+	RzxTrayIcon( const QPixmap &, const QString &, QObject *parent = 0 );
+	~RzxTrayIcon();
 
 	// use WindowMaker dock mode.  ignored on non-X11 platforms
 	void setWMDock(bool use) { v_isWMDock = use; }
@@ -51,7 +51,8 @@ public:
 	QString toolTip() const;
 
 	void gotCloseEvent();
-	
+	bool isInitialised() const;
+
 	QPoint getPos();
 
 public slots:
@@ -87,15 +88,15 @@ private:
 
 	// system-dependant part
 public:
-	class TrayIconPrivate;
+	class RzxTrayIconPrivate;
 private:
-	TrayIconPrivate *d;
+	RzxTrayIconPrivate *d;
 	void sysInstall();
 	void sysRemove();
 	void sysUpdateIcon();
 	void sysUpdateToolTip();
 
-	friend class TrayIconPrivate;
+	friend class RzxTrayIconPrivate;
 };
 
 #endif // CS_TRAYICON_H

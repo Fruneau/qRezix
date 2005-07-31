@@ -161,9 +161,13 @@ namespace Rzx
 	void closeMsgHandler();
 	void useOutputFile(FILE *file = NULL);
 
-	///Début du chargement d'un module
+	//Chargement d'un module
 	void beginModuleLoading(const QString&);
 	void endModuleLoading(const QString&, bool success = true);
+
+	//Fermeture d'un module
+	void beginModuleClosing(const QString&);
+	void endModuleClosing(const QString&);
 
 	///Pour trier case unsensitive
 	bool caseInsensitiveLessThan(const QString&, const QString&);

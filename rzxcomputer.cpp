@@ -27,7 +27,6 @@
 
 #include "rzxconfig.h"
 #include "rzxutilslauncher.h"
-#include "rzxchatsocket.h"
 #include "rzxconnectionlister.h"
 #include "rzxiconcollection.h"
 

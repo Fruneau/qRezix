@@ -36,8 +36,10 @@
 #include "rzxtrayicon.h"
 
 #include "rzxconfig.h"
+#include "rzxcomputer.h"
 #include "rzxpluginloader.h"
 #include "rzxiconcollection.h"
+#include "rzxconnectionlister.h"
 
 #ifdef Q_WS_MAC
 void qt_mac_set_dock_menu( QMenu *menu );
@@ -45,54 +47,70 @@ void qt_mac_set_dock_menu( QMenu *menu );
 
 
 /*!
-  \class TrayIcon qtrayicon.h
-  \brief The TrayIcon class implements an entry in the system tray.
+  \class RzxTrayIcon qtrayicon.h
+  \brief The RzxTrayIcon class implements an entry in the system tray.
 */
 
 /*!
-  Creates a TrayIcon object. \a parent and \a name are propagated
+  Creates a RzxTrayIcon object. \a parent and \a name are propagated
   to the QObject constructor. The icon is initially invisible.
  
   \sa show
 */
-TrayIcon::TrayIcon( QObject *parent )
+RzxTrayIcon::RzxTrayIcon( QObject *parent )
 		: QObject( parent ), pop(), d( 0 )
 {
 	Rzx::beginModuleLoading("Tray Icon");
 	v_isWMDock = FALSE;
 	buildMenu();
+	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(changeTrayIcon()));
+	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTrayIcon()));
+	connect(RzxConnectionLister::global(), SIGNAL(countChange(const QString& )), this, SLOT(setToolTip(const QString& )));
+	changeTrayIcon();
 	Rzx::endModuleLoading("Tray Icon");
 }
 
 /*!
-  Creates a TrayIcon object displaying \a icon and \a tooltip, and opening
+  Creates a RzxTrayIcon object displaying \a icon and \a tooltip, and opening
   \a popup when clicked with the right mousebutton. \a parent and \a name are
   propagated to the QObject constructor. The icon is initially invisible.
  
   \sa show
 */
-TrayIcon::TrayIcon( const QPixmap &icon, const QString &tooltip, QObject *parent)
+RzxTrayIcon::RzxTrayIcon( const QPixmap &icon, const QString &tooltip, QObject *parent)
 		: QObject( parent ), pm( icon ), tip( tooltip ), d( 0 )
 {
 	Rzx::beginModuleLoading("Tray Icon");
 	v_isWMDock = FALSE;
 	buildMenu();
+	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(changeTrayIcon()));
+	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTrayIcon()));
+	connect(RzxConnectionLister::global(), SIGNAL(countChange(const QString& )), this, SLOT(setToolTip(const QString& )));
+	changeTrayIcon();
 	Rzx::endModuleLoading("Tray Icon");
 }
 
 /*!
   Removes the icon from the system tray and frees all allocated resources.
 */
-TrayIcon::~TrayIcon()
+RzxTrayIcon::~RzxTrayIcon()
 {
+	Rzx::beginModuleClosing("Tray Icon");
 	sysRemove();
+	Rzx::endModuleClosing("Tray Icon");
+}
+
+///Indique si l'objet est bien initialisé
+bool RzxTrayIcon::isInitialised() const
+{
+	return true;
 }
 
 /*!
-  \property TrayIcon::icon
+  \property RzxTrayIcon::icon
   \brief the system tray icon.
 */
-void TrayIcon::setIcon( const QPixmap &icon )
+void RzxTrayIcon::setIcon( const QPixmap &icon )
 {
 	//if(!popup()) {
 	//    tip = "";
@@ -103,7 +121,7 @@ void TrayIcon::setIcon( const QPixmap &icon )
 }
 
 ///Mise à jour de l'icône de qRezix
-void TrayIcon::changeTrayIcon()
+void RzxTrayIcon::changeTrayIcon()
 {
 	// Change l'icone dans la tray
 	QPixmap trayIcon;
@@ -126,17 +144,17 @@ void TrayIcon::changeTrayIcon()
 }
 
 
-QPixmap TrayIcon::icon() const
+QPixmap RzxTrayIcon::icon() const
 {
 	return pm;
 }
 
-QString TrayIcon::toolTip() const
+QString RzxTrayIcon::toolTip() const
 {
 	return tip;
 }
 
-void TrayIcon::setVisible( bool yes )
+void RzxTrayIcon::setVisible( bool yes )
 {
 	if ( yes )
 		show();
@@ -144,7 +162,7 @@ void TrayIcon::setVisible( bool yes )
 		hide();
 }
 
-void TrayIcon::buildMenu()
+void RzxTrayIcon::buildMenu()
 {
 	if ( pop.actions().count() )
 		pop.clear();
@@ -172,7 +190,7 @@ void TrayIcon::buildMenu()
  
   \sa hide
 */
-void TrayIcon::show()
+void RzxTrayIcon::show()
 {
 	sysInstall();
 }
@@ -180,7 +198,7 @@ void TrayIcon::show()
 /*!
   Hides the system tray entry.
 */
-void TrayIcon::hide()
+void RzxTrayIcon::hide()
 {
 	sysRemove();
 }
@@ -188,7 +206,7 @@ void TrayIcon::hide()
 /*!
   \reimp
 */
-bool TrayIcon::event( QEvent *e )
+bool RzxTrayIcon::event( QEvent *e )
 {
 	switch ( e->type() )
 	{
@@ -220,7 +238,7 @@ bool TrayIcon::event( QEvent *e )
  
   \sa mousePressEvent(), mouseReleaseEvent(), mouseDoubleClickEvent(),  QMouseEvent
 */
-void TrayIcon::mouseMoveEvent( QMouseEvent *e )
+void RzxTrayIcon::mouseMoveEvent( QMouseEvent *e )
 {
 	e->ignore();
 }
@@ -232,7 +250,7 @@ void TrayIcon::mouseMoveEvent( QMouseEvent *e )
   \sa mouseReleaseEvent(), mouseDoubleClickEvent(),
   mouseMoveEvent(), QMouseEvent
 */
-void TrayIcon::mousePressEvent( QMouseEvent *e )
+void RzxTrayIcon::mousePressEvent( QMouseEvent *e )
 {
 #ifndef Q_WS_WIN 
 	// This is for X11, menus appear on mouse press
@@ -268,7 +286,7 @@ void TrayIcon::mousePressEvent( QMouseEvent *e )
   \sa setPopup(), mousePressEvent(), mouseDoubleClickEvent(),
   mouseMoveEvent(), QMouseEvent
 */
-void TrayIcon::mouseReleaseEvent( QMouseEvent *e )
+void RzxTrayIcon::mouseReleaseEvent( QMouseEvent *e )
 {
 #ifdef Q_WS_WIN 
 	// This is for Windows, where menus appear on mouse release
@@ -307,7 +325,7 @@ void TrayIcon::mouseReleaseEvent( QMouseEvent *e )
   \sa mousePressEvent(), mouseReleaseEvent(),
   mouseMoveEvent(), QMouseEvent
 */
-void TrayIcon::mouseDoubleClickEvent( QMouseEvent *e )
+void RzxTrayIcon::mouseDoubleClickEvent( QMouseEvent *e )
 {
 	if ( e->button() == Qt::LeftButton )
 		emit doubleClicked( e->globalPos() );
@@ -315,7 +333,7 @@ void TrayIcon::mouseDoubleClickEvent( QMouseEvent *e )
 }
 
 /*!
-  \fn void TrayIcon::clicked( const QPoint &p )
+  \fn void RzxTrayIcon::clicked( const QPoint &p )
  
   This signal is emitted when the user clicks the system tray icon
   with the left mouse button, with \a p being the global mouse position
@@ -323,14 +341,14 @@ void TrayIcon::mouseDoubleClickEvent( QMouseEvent *e )
 */
 
 /*!
-  \fn void TrayIcon::doubleClicked( const QPoint &p )
+  \fn void RzxTrayIcon::doubleClicked( const QPoint &p )
  
   This signal is emitted when the user double clicks the system tray
   icon with the left mouse button, with \a p being the global mouse position
   at that moment.
 */
 
-void TrayIcon::gotCloseEvent()
+void RzxTrayIcon::gotCloseEvent()
 {
 	closed();
 }
@@ -376,21 +394,21 @@ static void resolveLibs()
 	}
 }
 
-class TrayIcon::TrayIconPrivate : public QWidget
+class RzxTrayIcon::RzxTrayIconPrivate : public QWidget
 {
 	public:
 		HICON	hIcon;
 		HBITMAP hMask;
-		TrayIcon	*iconObject;
+		RzxTrayIcon	*iconObject;
 
-		TrayIconPrivate( TrayIcon *object )
+		RzxTrayIconPrivate( RzxTrayIcon *object )
 				: QWidget( 0 ), hIcon( 0 ), hMask( 0 ), iconObject( object )
 		{
 			if ( !WM_TASKBARCREATED )
 				WM_TASKBARCREATED = RegisterWindowMessage( TEXT( "TaskbarCreated" ) );
 		}
 
-		~TrayIconPrivate()
+		~RzxTrayIconPrivate()
 		{
 			if ( hMask )
 				DeleteObject( hMask );
@@ -567,18 +585,18 @@ static HICON createIcon( const QPixmap &pm, HBITMAP &hbm )
 	return CreateIconIndirect( &iconInfo );
 }
 
-void TrayIcon::sysInstall()
+void RzxTrayIcon::sysInstall()
 {
 	if ( !d )
 	{
-		d = new TrayIconPrivate( this );
+		d = new RzxTrayIconPrivate( this );
 		d->hIcon = createIcon( pm, d->hMask );
 
 		d->trayMessage( NIM_ADD );
 	}
 }
 
-void TrayIcon::sysRemove()
+void RzxTrayIcon::sysRemove()
 {
 	if ( d )
 	{
@@ -589,7 +607,7 @@ void TrayIcon::sysRemove()
 	}
 }
 
-void TrayIcon::sysUpdateIcon()
+void RzxTrayIcon::sysUpdateIcon()
 {
 	if ( d )
 	{
@@ -603,7 +621,7 @@ void TrayIcon::sysUpdateIcon()
 	}
 }
 
-void TrayIcon::sysUpdateToolTip()
+void RzxTrayIcon::sysUpdateToolTip()
 {
 	if ( d )
 		d->trayMessage( NIM_MODIFY );
@@ -612,16 +630,16 @@ void TrayIcon::sysUpdateToolTip()
 #else
 #ifdef Q_OS_MAC
 
-void TrayIcon::sysInstall()
+void RzxTrayIcon::sysInstall()
 {}
 
-void TrayIcon::sysRemove()
+void RzxTrayIcon::sysRemove()
 {}
 
-void TrayIcon::sysUpdateIcon()
+void RzxTrayIcon::sysUpdateIcon()
 {}
 
-void TrayIcon::sysUpdateToolTip()
+void RzxTrayIcon::sysUpdateToolTip()
 {}
 
 #else 
@@ -713,14 +731,14 @@ static bool send_message(
 #define SYSTEM_TRAY_CANCEL_MESSAGE  2
 
 //----------------------------------------------------------------------------
-// TrayIcon::TrayIconPrivate
+// RzxTrayIcon::RzxTrayIconPrivate
 //----------------------------------------------------------------------------
 
-class TrayIcon::TrayIconPrivate : public QWidget
+class RzxTrayIcon::RzxTrayIconPrivate : public QWidget
 {
 	public:
-		TrayIconPrivate( TrayIcon *object, int size );
-		~TrayIconPrivate()
+		RzxTrayIconPrivate( RzxTrayIcon *object, int size );
+		~RzxTrayIconPrivate()
 		{ }
 
 		virtual void initWM( WId icon );
@@ -736,12 +754,12 @@ class TrayIcon::TrayIconPrivate : public QWidget
 		virtual void closeEvent( QCloseEvent *e );
 
 	private:
-		TrayIcon *iconObject;
+		RzxTrayIcon *iconObject;
 		QPixmap pix;
 		int size;
 };
 
-TrayIcon::TrayIconPrivate::TrayIconPrivate( TrayIcon *object, int _size )
+RzxTrayIcon::RzxTrayIconPrivate::RzxTrayIconPrivate( RzxTrayIcon *object, int _size )
 		: QWidget()
 {
 	iconObject = object;
@@ -754,7 +772,7 @@ TrayIcon::TrayIconPrivate::TrayIconPrivate( TrayIcon *object, int _size )
 }
 
 // This base stuff is required by both FreeDesktop specification and WindowMaker
-void TrayIcon::TrayIconPrivate::initWM( WId icon )
+void RzxTrayIcon::RzxTrayIconPrivate::initWM( WId icon )
 {
 	Display * dsp = QX11Info::display();
 	WId leader = winId();
@@ -778,7 +796,7 @@ void TrayIcon::TrayIconPrivate::initWM( WId icon )
 	XFree( hints );
 }
 
-void TrayIcon::TrayIconPrivate::setPixmap( const QPixmap &pm )
+void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 {
 	pix = pm.scaled( RzxConfig::traySize(), RzxConfig::traySize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 	setWindowIcon( pix );
@@ -786,13 +804,13 @@ void TrayIcon::TrayIconPrivate::setPixmap( const QPixmap &pm )
 	repaint();
 }
 
-void TrayIcon::TrayIconPrivate::paintEvent( QPaintEvent * )
+void RzxTrayIcon::RzxTrayIconPrivate::paintEvent( QPaintEvent * )
 {
 	QPainter p( this );
 	p.drawPixmap( ( width() - pix.width() ) / 2, ( height() - pix.height() ) / 2, pix );
 }
 
-void TrayIcon::TrayIconPrivate::enterEvent( QEvent *e )
+void RzxTrayIcon::RzxTrayIconPrivate::enterEvent( QEvent *e )
 {
 	// Taken from KSystemTray..
 	XEvent ev;
@@ -809,44 +827,44 @@ void TrayIcon::TrayIconPrivate::enterEvent( QEvent *e )
 	QWidget::enterEvent( e );
 }
 
-void TrayIcon::TrayIconPrivate::mouseMoveEvent( QMouseEvent *e )
+void RzxTrayIcon::RzxTrayIconPrivate::mouseMoveEvent( QMouseEvent *e )
 {
 	QApplication::sendEvent( iconObject, e );
 }
 
-void TrayIcon::TrayIconPrivate::mousePressEvent( QMouseEvent *e )
+void RzxTrayIcon::RzxTrayIconPrivate::mousePressEvent( QMouseEvent *e )
 {
 	QApplication::sendEvent( iconObject, e );
 }
 
-void TrayIcon::TrayIconPrivate::mouseReleaseEvent( QMouseEvent *e )
+void RzxTrayIcon::RzxTrayIconPrivate::mouseReleaseEvent( QMouseEvent *e )
 {
 	QApplication::sendEvent( iconObject, e );
 }
 
-void TrayIcon::TrayIconPrivate::mouseDoubleClickEvent( QMouseEvent *e )
+void RzxTrayIcon::RzxTrayIconPrivate::mouseDoubleClickEvent( QMouseEvent *e )
 {
 	QApplication::sendEvent( iconObject, e );
 }
 
-void TrayIcon::TrayIconPrivate::closeEvent( QCloseEvent *e )
+void RzxTrayIcon::RzxTrayIconPrivate::closeEvent( QCloseEvent *e )
 {
 	iconObject->gotCloseEvent();
 	e->accept();
 }
 
 //----------------------------------------------------------------------------
-// TrayIconFreeDesktop
+// RzxTrayIconFreeDesktop
 //----------------------------------------------------------------------------
 
-class TrayIconFreeDesktop : public TrayIcon::TrayIconPrivate
+class RzxTrayIconFreeDesktop : public RzxTrayIcon::RzxTrayIconPrivate
 {
 	public:
-		TrayIconFreeDesktop( TrayIcon *object, const QPixmap &pm );
+		RzxTrayIconFreeDesktop( RzxTrayIcon *object, const QPixmap &pm );
 };
 
-TrayIconFreeDesktop::TrayIconFreeDesktop( TrayIcon *object, const QPixmap &pm )
-		: TrayIconPrivate( object, 22 )
+RzxTrayIconFreeDesktop::RzxTrayIconFreeDesktop( RzxTrayIcon *object, const QPixmap &pm )
+		: RzxTrayIconPrivate( object, 22 )
 {
 	initWM( winId() );
 
@@ -882,21 +900,21 @@ TrayIconFreeDesktop::TrayIconFreeDesktop( TrayIcon *object, const QPixmap &pm )
 }
 
 //----------------------------------------------------------------------------
-// TrayIconWindowMaker
+// RzxTrayIconWindowMaker
 //----------------------------------------------------------------------------
 
-class TrayIconWharf : public TrayIcon::TrayIconPrivate
+class RzxTrayIconWharf : public RzxTrayIcon::RzxTrayIconPrivate
 {
 	public:
-		TrayIconWharf( TrayIcon *object, const QPixmap &pm )
-				: TrayIconPrivate( object, 64 )
+		RzxTrayIconWharf( RzxTrayIcon *object, const QPixmap &pm )
+				: RzxTrayIconPrivate( object, 64 )
 		{
 			setPixmap( pm );
 		}
 
 		void setPixmap( const QPixmap &pm )
 		{
-			TrayIconPrivate::setPixmap( pm.scaled( pm.width() * 2, pm.height() * 2, Qt::IgnoreAspectRatio, Qt::SmoothTransformation ) );
+			RzxTrayIconPrivate::setPixmap( pm.scaled( pm.width() * 2, pm.height() * 2, Qt::IgnoreAspectRatio, Qt::SmoothTransformation ) );
 
 			// thanks to Robert Spier for this:
 			// for some reason the repaint() isn't being honored, or isn't for
@@ -907,55 +925,55 @@ class TrayIconWharf : public TrayIcon::TrayIconPrivate
 		}
 };
 
-class TrayIconWindowMaker : public TrayIcon::TrayIconPrivate
+class RzxTrayIconWindowMaker : public RzxTrayIcon::RzxTrayIconPrivate
 {
 	public:
-		TrayIconWindowMaker( TrayIcon *object, const QPixmap &pm );
-		~TrayIconWindowMaker();
+		RzxTrayIconWindowMaker( RzxTrayIcon *object, const QPixmap &pm );
+		~RzxTrayIconWindowMaker();
 
 		void setPixmap( const QPixmap &pm );
 
 	private:
-		TrayIconWharf *wharf;
+		RzxTrayIconWharf *wharf;
 };
 
-TrayIconWindowMaker::TrayIconWindowMaker( TrayIcon *object, const QPixmap &pm )
-		: TrayIconPrivate( object, 32 )
+RzxTrayIconWindowMaker::RzxTrayIconWindowMaker( RzxTrayIcon *object, const QPixmap &pm )
+		: RzxTrayIconPrivate( object, 32 )
 {
-	wharf = new TrayIconWharf( object, pm );
+	wharf = new RzxTrayIconWharf( object, pm );
 
 	initWM( wharf->winId() );
 }
 
-TrayIconWindowMaker::~TrayIconWindowMaker()
+RzxTrayIconWindowMaker::~RzxTrayIconWindowMaker()
 {
 	delete wharf;
 }
 
-void TrayIconWindowMaker::setPixmap( const QPixmap &pm )
+void RzxTrayIconWindowMaker::setPixmap( const QPixmap &pm )
 {
 	wharf->setPixmap( pm );
 }
 
 //----------------------------------------------------------------------------
-// TrayIcon
+// RzxTrayIcon
 //----------------------------------------------------------------------------
 
-void TrayIcon::sysInstall()
+void RzxTrayIcon::sysInstall()
 {
 	if ( d )
 		return ;
 
 	if ( v_isWMDock )
-		d = ( TrayIconPrivate * ) ( new TrayIconWindowMaker( this, pm ) );
+		d = ( RzxTrayIconPrivate * ) ( new RzxTrayIconWindowMaker( this, pm ) );
 	else
-		d = ( TrayIconPrivate * ) ( new TrayIconFreeDesktop( this, pm ) );
+		d = ( RzxTrayIconPrivate * ) ( new RzxTrayIconFreeDesktop( this, pm ) );
 
 	sysUpdateToolTip();
 	d->show();
 }
 
-void TrayIcon::sysRemove()
+void RzxTrayIcon::sysRemove()
 {
 	if ( !d )
 		return ;
@@ -964,7 +982,7 @@ void TrayIcon::sysRemove()
 	d = 0;
 }
 
-void TrayIcon::sysUpdateIcon()
+void RzxTrayIcon::sysUpdateIcon()
 {
 	if ( !d )
 		return ;
@@ -973,7 +991,7 @@ void TrayIcon::sysUpdateIcon()
 	d->setPixmap( pix );
 }
 
-void TrayIcon::sysUpdateToolTip()
+void RzxTrayIcon::sysUpdateToolTip()
 {
 	if ( !d )
 		return ;
@@ -985,12 +1003,12 @@ void TrayIcon::sysUpdateToolTip()
 #endif
 
 /*!
-  \property TrayIcon::toolTip
+  \property RzxTrayIcon::toolTip
   \brief the tooltip for the system tray entry
  
   On some systems, the tooltip's length is limited and will be truncated as necessary.
 */
-void TrayIcon::setToolTip( const QString &tooltip )
+void RzxTrayIcon::setToolTip( const QString &tooltip )
 {
 	tip = tooltip;
 #ifndef Q_OS_MAC
@@ -999,7 +1017,7 @@ void TrayIcon::setToolTip( const QString &tooltip )
 #endif
 }
 
-QPoint TrayIcon::getPos()
+QPoint RzxTrayIcon::getPos()
 {
 #ifdef Q_OS_MAC
 	return QPoint( 0, 0 );

@@ -100,7 +100,6 @@ void RzxRezalView::mousePressEvent(QMouseEvent *e)
 ///Pour lancer le client qui va bien en fonction de la position du clic
 void RzxRezalView::mouseDoubleClickEvent(QMouseEvent *e)
 {
-	qDebug("plaf");
 	QModelIndex model = indexAt(e->pos());
 	if(!model.isValid()) return;
 	RzxComputer *computer = model.model()->data(model, Qt::UserRole).value<RzxComputer*>();
@@ -115,7 +114,7 @@ void RzxRezalView::mouseDoubleClickEvent(QMouseEvent *e)
 		default:
 			if(RzxConfig::global()->doubleClicRole() && computer->hasFtpServer())
 				computer->ftp();
-			else if(!computer->isOnResponder() && computer->can(Rzx::CAP_CHAT))
+			else if(!computer->isOnResponder() && computer->can(Rzx::CAP_CHAT) && RzxComputer::localhost()->can(Rzx::CAP_CHAT))
 				computer->chat();
 	}
 	return;
