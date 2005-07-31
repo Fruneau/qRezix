@@ -60,7 +60,6 @@ void RzxRezalPopup::init(RzxComputer *computer, const QPoint& point)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 
-	qDebug("blam");
 #define newItem(name, trad, receiver, slot) addAction(RzxIconCollection::getIcon(name), trad, receiver, slot)
 	if(computer->isIgnored())
 	{
@@ -73,7 +72,7 @@ void RzxRezalPopup::init(RzxComputer *computer, const QPoint& point)
 	}
 	else
 	{
-		if(!computer->isLocalhost() && !computer->isOnResponder() && computer->can(Rzx::CAP_CHAT))
+		if(!computer->isLocalhost() && !computer->isOnResponder() && computer->can(Rzx::CAP_CHAT) && RzxComputer::localhost()->can(Rzx::CAP_CHAT))
 			newItem(Rzx::ICON_CHAT, tr("begin &Chat"), computer, SLOT(chat()));
 		if(computer->hasSambaServer()) newItem(Rzx::ICON_SAMBA, tr("Samba connect"), computer, SLOT(samba()));
 		if(computer->hasFtpServer()) newItem(Rzx::ICON_FTP, tr("FTP connect"), computer, SLOT(ftp()));
@@ -81,7 +80,7 @@ void RzxRezalPopup::init(RzxComputer *computer, const QPoint& point)
 		if(computer->hasNewsServer()) newItem(Rzx::ICON_NEWS, tr("read News"), computer, SLOT(news()));
 		addSeparator();
 		newItem(Rzx::ICON_HISTORIQUE, tr("History"), computer, SLOT(historique()));
-		if(computer->can(Rzx::CAP_CHAT))
+		if(computer->can(Rzx::CAP_CHAT) && RzxComputer::localhost()->can(Rzx::CAP_CHAT))
 			newItem(Rzx::ICON_PROPRIETES, tr("Properties"), computer, SLOT(proprietes()));
 		addSeparator();
 		if(computer->isFavorite())

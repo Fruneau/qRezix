@@ -20,9 +20,11 @@
 #include <QApplication>
 
 class QRezix;
-class TrayIcon;
+class RzxTrayIcon;
+class RzxChatLister;
 class RzxComputer;
 class RzxProperty;
+class RzxNotifier;
 
 /**
 @author Florent Bruneau
@@ -37,10 +39,11 @@ class RzxApplication:public QApplication
 	Q_PROPERTY(bool initialised READ isInitialised)
 
 	QRezix *mainui;
-	TrayIcon *tray;
+	RzxTrayIcon *tray;
 	RzxProperty *properties;
+	RzxChatLister *chat;
+	RzxNotifier *notifier;
 
-	bool favoriteWarn;
 	bool wellInit;
 
 	public:
@@ -58,12 +61,9 @@ class RzxApplication:public QApplication
 
 	public slots:
 		void saveSettings();
-		void warnForFavorite(RzxComputer *computer);
 		void preferences();
 
 	protected slots:
-		void installComputer(RzxComputer *computer);
-		void firstLoadingEnd();
 		void toggleResponder();
 };
 

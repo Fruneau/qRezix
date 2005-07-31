@@ -14,8 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <QProcess>
-
 #include "rzxapplication.h"
 
 #include "rzxglobal.h"
@@ -31,6 +29,7 @@
 #include "rzxtraywindow.h"
 #include "rzxproperty.h"
 #include "rzxchatlister.h"
+#include "rzxnotifier.h"
 
 ///Chargement de qRezix et de ses différents modules
 RzxApplication::RzxApplication(int argc, char **argv)
@@ -39,6 +38,8 @@ RzxApplication::RzxApplication(int argc, char **argv)
 	mainui = NULL;
 	tray = NULL;
 	properties = NULL;
+	chat = NULL;
+	notifier = NULL;
 	wellInit = false;
 
 	//Analyse des arguments
@@ -68,9 +69,7 @@ RzxApplication::RzxApplication(int argc, char **argv)
 
 	//Lancement de l'interface réseau
 	RzxConnectionLister *lister = RzxConnectionLister::global();
-	connect(lister, SIGNAL(login(RzxComputer* )), this, SLOT(installComputer(RzxComputer*)));
-	connect(lister, SIGNAL(loginEnd()), this, SLOT(firstLoadingEnd()));
-	RzxConnectionLister::global()->initConnection();
+	lister->initConnection();
 	RzxPlugInLoader::global()->init();
 
 	wellInit = true;
@@ -96,11 +95,14 @@ bool RzxApplication::loadCore()
 {
 	//Début du chargement
 	Rzx::beginModuleLoading("qRezix Core");
+
 	//Chargement des configs
 	RzxConfig::global();
 	setWindowIcon(RzxIconCollection::qRezixIcon());
+
 	//Initialisation de l'objet représentant localhost
 	RzxComputer::localhost();
+
 	//Vérification du remplissage des propriétés
 	connect(this, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
 	if(!RzxConfig::global()->find() || !RzxConfig::infoCompleted())
@@ -111,6 +113,7 @@ bool RzxApplication::loadCore()
 		if(!RzxConfig::infoCompleted())
 			return false;
 	}
+
 	//Chargement de la base réseau de qRezix
 	RzxConnectionLister::global();
 	Rzx::endModuleLoading("qRezix Core");
@@ -126,43 +129,47 @@ bool RzxApplication::loadCore()
  */
 bool RzxApplication::loadModules()
 {
+#define installModule(mod) \
+		if(mod) { \
+			if(!mod->isInitialised()) { \
+				mod->deleteLater(); \
+				mod = NULL; \
+			} else { \
+				connect(mod, SIGNAL(wantQuit()), this, SLOT(quit())); \
+				connect(mod, SIGNAL(wantPreferences()), this, SLOT(preferences())); \
+				connect(mod, SIGNAL(wantToggleResponder()), this, SLOT(toggleResponder())); \
+			} \
+		}
+		
 	//Chargement des différents modules
 	Rzx::beginModuleLoading("Modules loading");
+
 	//Chargement des plugins
 	RzxPlugInLoader::global();
+
+	Rzx::beginModuleLoading("Built-ins");
 	//Chargement de l'ui principale
 	mainui = QRezix::global();
-	if(mainui && !mainui->isInitialised())
-	{
-		mainui->deleteLater();
-		mainui = NULL;
-	}
-	connect(mainui, SIGNAL(wantQuit()), this, SLOT(quit()));
-	connect(mainui, SIGNAL(wantPreferences()), this, SLOT(preferences()));
-	connect(mainui, SIGNAL(wantToggleResponder()), this, SLOT(toggleResponder()));
-	if(properties)
-		properties->setParent(mainui);
+	installModule(mainui);
+
 	//Chargement du chat
-	RzxChatLister *chat = RzxChatLister::global();
-	connect(RzxConnectionLister::global(), SIGNAL(wantChat(RzxComputer* )), chat, SLOT(createChat(RzxComputer* )));
-	connect(RzxConnectionLister::global(), SIGNAL(wantHistorique(RzxComputer* )), chat, SLOT(historique(RzxComputer* )));
-	connect(RzxConnectionLister::global(), SIGNAL(wantProperties(RzxComputer* )), chat, SLOT(proprietes(RzxComputer* )));
+	chat = RzxChatLister::global();
+	installModule(chat);
 
 	//Chargement de la trayicon
-	tray = new TrayIcon(RzxIconCollection::qRezixIcon(), "qRezix", this);
-	if(tray)
-	{
-		connect(tray, SIGNAL(wantQuit()), this, SLOT(quit()));
-		connect(tray, SIGNAL(wantPreferences()), this, SLOT(preferences()));
-		connect(tray, SIGNAL(wantToggleResponder()), this, SLOT(toggleResponder()));
-		connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), tray, SLOT(changeTrayIcon()));
-		connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), tray, SLOT(changeTrayIcon()));
-		connect(RzxConnectionLister::global(), SIGNAL(countChange(const QString& )), tray, SLOT(setToolTip(const QString& )));
-		tray->changeTrayIcon();
-	}
+	tray = new RzxTrayIcon(RzxIconCollection::qRezixIcon(), "qRezix", this);
+	installModule(tray);
 
+	//Chargement du notifier
+	notifier = new RzxNotifier();
+	installModule(notifier);
+
+	Rzx::endModuleLoading("Built-ins");
 	//Installation des intéractions entre les modules
 	Rzx::beginModuleLoading("Modules interactions");
+	if(properties)
+		properties->setParent(mainui);
+
 	if(tray && (!mainui || RzxConfig::global()->useSystray()))
 		tray->show();
 	else if(mainui)
@@ -175,117 +182,66 @@ bool RzxApplication::loadModules()
 	//Fin du chargement des modules
 	Rzx::endModuleLoading("Modules loading");
 	return true;
+#undef installModule
 }
 
 ///Sauvegarde des données au moment de la fermeture
 /** Lance la sauvegarde des données principales lors de la fermeture de rezix. Cette méthode est censée permettre l'enregistrement des données lors de la fermeture de l'environnement graphique... */
 void RzxApplication::saveSettings()
 {
-	Rzx::beginModuleLoading("Quitting");
-	Rzx::beginModuleLoading("Closing Interface");
+	Rzx::beginModuleClosing("qRezix");
+	Rzx::beginModuleClosing("Modules");
+	Rzx::beginModuleClosing("Built-ins");
 	if(mainui)
 	{
-		qDebug("Closing main window");
-		QSize s = mainui->size();       // store size
-	
-		//Pas très beau, mais c'est juste pour voir si ça améliore le rétablissement de l'état de la fenêtre sur mac
-		QString height = QString("%1").arg(s.height(), 4, 10).replace(' ', '0');
-		QString width =  QString("%1").arg(s.width(), 4, 10).replace(' ', '0');
-		QString windowSize;
-#ifndef Q_OS_MAC
-		if(mainui->isMaximized())
-			windowSize = "100000000";
-		else
-#endif
-			windowSize="0"+height+width;
-		RzxConfig::global()->writeWindowSize(windowSize);
-		RzxConfig::global()->writeWindowPosition(mainui->pos());
-		mainui->deleteLater();
+		delete mainui;
 		mainui = NULL;
 	}
 	if(tray)
 	{
-		qDebug("Closing trayicon");
-		tray->deleteLater();
+		delete tray;
 		tray = NULL;
 	}
-	qDebug("Closing chats");
-	RzxChatLister::global() ->closeChats();
-	Rzx::endModuleLoading("Closing Interface");
-	Rzx::beginModuleLoading("Closing qRezix core");
-	qDebug("Closing plugins");
+	if(chat)
+	{
+		delete chat;
+		chat = NULL;
+	}
+	if(notifier)
+	{
+		delete notifier;
+		notifier = NULL;
+	}
+	Rzx::endModuleClosing("Built-ins");
 	delete RzxPlugInLoader::global();
+	Rzx::endModuleClosing("Interfaces");
+	Rzx::beginModuleClosing("qRezix core");
 	qDebug("Closing connection with server");
-	if (!RzxConnectionLister::global() -> isSocketClosed())
+	if(!RzxConnectionLister::global() -> isSocketClosed())
 	{
 		RzxConnectionLister::global() -> closeSocket();
 		RzxConnectionLister::global() -> deleteLater();
 	}
 	qDebug("Closing configuration center");
 	delete RzxConfig::global();
-	Rzx::endModuleLoading("Closing qRezix core");
-	Rzx::endModuleLoading("Quitting");
+	Rzx::endModuleClosing("qRezix core");
+	Rzx::endModuleClosing("qRezix");
 	qDebug("Bye Bye\n");
-}
-
-///Install les connexions du RzxComputer*
-void RzxApplication::installComputer(RzxComputer *computer)
-{
-	connect(computer, SIGNAL(favoriteStateChanged(RzxComputer*)), this, SLOT(warnForFavorite(RzxComputer* )));
-}
-
-/// Pour l'affichage d'une notification lors de la connexion d'un favoris
-/** Permet d'alerter lors de l'arrivée d'un favoris, que ce soit par l'émission d'un son, ou par l'affichage l'affichage d'un message indiquant la présence de ce favoris */
-void RzxApplication::warnForFavorite(RzxComputer *computer)
-{
-	//ne garde que les favoris avec en plus comme condition que ce ne soit pas les gens présents à la connexion
-	//evite de notifier la présence de favoris si en fait c'est nous qui arrivons.
-	if(!RzxConnectionLister::global()->isInitialized() || !favoriteWarn)
-	{
-		favoriteWarn = true;
-		return;
-	}
-	
-	//Bah, beep à la connexion
-	if(RzxConfig::beepConnection() && computer->state() == Rzx::STATE_HERE)
-	{
-#if defined (WIN32) || defined (Q_OS_MAC)
-		QString file = RzxConfig::connectionSound();
-		if( !file.isEmpty() && QFile(file).exists() )
-			QSound::play( file );
-		else
-			QApplication::beep();
-#else
-		QString cmd = RzxConfig::beepCmd(), file = RzxConfig::connectionSound();
-		if (!cmd.isEmpty() && !file.isEmpty()) {
-			QProcess process;
-			process.start(cmd, QStringList(file));
-		}
-#endif
-	}
-	
-	//Affichage de la fenêtre de notification de connexion
-	if(RzxConfig::showConnection())
-		new RzxTrayWindow(computer);
-}
-
-/// Pour se souvenir que la prochaine connexion sera celle d'un nouveau favoris
-/** Permet d'éviter la notification d'arrivée d'un favoris, lorsqu'une personne change uniquement de statut non-favoris -> favoris */
-void RzxApplication::firstLoadingEnd()
-{
-	favoriteWarn = false;
 }
 
 /// Affiche la boite de préférences
 void RzxApplication::preferences()
 {
-	if (properties) {
-		if (!(properties -> isVisible())) {
+	if(properties)
+	{
+		if(!properties -> isVisible())
+		{
 			properties -> initDlg();
 			properties -> show();
 		}
 	}
-	else {
+	else
+	{
 		properties = new RzxProperty(mainui);
 		properties -> show();
 	}

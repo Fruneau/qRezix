@@ -328,13 +328,13 @@ bool RzxServerListener::isSocketClosed() const{
 /** No descriptions */
 void RzxServerListener::close(){
 	disconnect(&socket, SIGNAL(connectionClosed()), this, SLOT(serverClose()));
-	disconnect(&socket, SIGNAL(error(int)), this, SLOT(serverError(int)));
+	disconnect(&socket, SIGNAL(error(QTcpSocket::SocketError)), this, SLOT(serverError(QTcpSocker::SocketError)));
 	if (isSocketClosed()) {
 		emit disconnected();
 		return;
 	}
 	
-	connect(&socket, SIGNAL(delayedCloseFinished()), this, SLOT(closeWaitFlush()));
+	connect(&socket, SIGNAL(disconnected()), this, SLOT(closeWaitFlush()));
 	sendPart();
 	socket.close();
 	

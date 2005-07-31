@@ -23,7 +23,6 @@
 #include "rzxconfig.h"
 #include "rzxapplication.h"
 #include "rzxclientlistener.h"
-#include "rzxconnectionlister.h"
 #include "rzxchatlister.h"
 
 //attention a toujours avoir DCCFormat[DCC_message] = messageFormat

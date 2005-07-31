@@ -179,7 +179,7 @@ void RzxChat::init()
 	cbColorSelect->setCurrentIndex(1); //black par défaut
 
 	//gestion du formatiage du texte
-	connect(btnBold, SIGNAL(toggled(bool)), edMsg, SLOT(setBold(bool)));
+	//connect(btnBold, SIGNAL(toggled(bool)), edMsg, SLOT(setBold(bool)));
 	connect(btnItalic, SIGNAL(toggled(bool)), edMsg, SLOT(setFontItalic(bool)));
 	connect(btnUnderline, SIGNAL(toggled(bool)), edMsg, SLOT(setFontUnderline(bool)));
 	connect(cbColorSelect, SIGNAL(activated(int)), this, SLOT(on_cbColorSelect_activated(int)));

@@ -46,9 +46,7 @@
 #include "rzxiconcollection.h"
 #include "rzxpluginloader.h"
 #include "rzxconnectionlister.h"
-#include "rzxtraywindow.h"
 #include "rzxcomputer.h"
-#include "rzxtrayicon.h"
 #include "rzxrezalmodel.h"
 #include "rzxrezalview.h"
 #include "rzxapplication.h"
@@ -168,13 +166,30 @@ void QRezix::buildActions()
 	connect(awayAction, SIGNAL(triggered()), this, SIGNAL(wantToggleResponder()));
 }
 
+///energistre l'état de la fenêtre et quitte....
 QRezix::~QRezix()
 {
+	Rzx::beginModuleClosing("Main UI");
+	QSize s = size();       // store size
+	
+	//Pas très beau, mais c'est juste pour voir si ça améliore le rétablissement de l'état de la fenêtre sur mac
+	QString height = QString("%1").arg(s.height(), 4, 10).replace(' ', '0');
+	QString width =  QString("%1").arg(s.width(), 4, 10).replace(' ', '0');
+	QString windowSize;
+#ifndef Q_OS_MAC
+	if(isMaximized())
+		windowSize = "100000000";
+	else
+#endif
+		windowSize="0"+height+width;
+	RzxConfig::global()->writeWindowSize(windowSize);
+	RzxConfig::global()->writeWindowPosition(pos());
 	if(accel)
 	{
 		delete accel;
 		accel = NULL;
 	}
+	Rzx::endModuleClosing("Main UI");
 }
 
 void QRezix::status(const QString& msg, bool fatal)

@@ -150,6 +150,7 @@ void RzxPlugInLoader::loadPlugIn(const QDir &dir)
 /**La fermeture des plugins doit se faire dans les règles parce que j'aime pas les erreurs de segmentation même à la fermeture du programme.*/
 RzxPlugInLoader::~RzxPlugInLoader()
 {
+	Rzx::beginModuleClosing("Plugins");
 	foreach(RzxPlugIn *pi, plugins)
 	{
 		if(state[pi]) pi->stop();
@@ -159,6 +160,7 @@ RzxPlugInLoader::~RzxPlugInLoader()
 	qDeleteAll(fileByName);
 #endif
 	fileByName.clear();
+	Rzx::endModuleClosing("Plugins");
 }
 
 /// lancement de l'exécution des plug-ins

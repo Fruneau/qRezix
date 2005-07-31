@@ -50,6 +50,8 @@ class RzxChatLister:public QObject
 		static RzxChatLister *global();
 		~RzxChatLister();
 
+		bool isInitialised() const;
+
 	public slots:
 		void login(RzxComputer*);
 		void logout(RzxComputer*);
@@ -68,7 +70,10 @@ class RzxChatLister:public QObject
 		void closeChat(const QString& login);
 		void closeChats();
 
-	protected slots:
+	signals:
+		void wantQuit();
+		void wantPreferences();
+		void wantToggleResponder();
 };
 
 ///Renvoie un objet
@@ -77,6 +82,12 @@ inline RzxChatLister *RzxChatLister::global()
 	if(!object)
 		object = new RzxChatLister();
 	return object;
+}
+
+///Indique si l'objet est bien initialisé
+inline bool RzxChatLister::isInitialised() const
+{
+	return true;
 }
 
 ///Renvoie la fenêtre de chat associée à name

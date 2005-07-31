@@ -68,9 +68,9 @@ void Rzx::beginModuleLoading(const QString& module)
 	QString msg = module;
 	switch(level)
 	{
-		case 0: msg = "=== Loading module " + msg + " ==="; break;
-		case 1: msg = "--- Loading sub-module " + msg + " ---"; break;
-		case 2: msg = "--> Loading sub-sub-module " + msg + "..."; break;
+		case 0: msg = "=== Loading " + msg + " ==="; break;
+		case 1: msg = "--- Loading " + msg + " ---"; break;
+		case 2: msg = "--> Loading " + msg + "..."; break;
 		default: msg = "* Loading " + msg + "..."; break;
 	}
 	qDebug("%s", msg.toAscii().constData());
@@ -96,8 +96,38 @@ void Rzx::endModuleLoading(const QString& module, bool success)
 			case 0: msg = "=== " + msg + " failed  ===\n"; break;
 			case 1: msg = "--- " + msg + " failed ---"; break;
 			case 2: msg = "--> " + msg + " failed..."; break;
-			default: msg = "* " + msg + "failed..."; break;
+			default: msg = "* " + msg + " failed..."; break;
 		}
+	qDebug("%s", msg.toAscii().constData());
+}
+
+///Permet juste de loguer le début de fermeture d'un module
+void Rzx::beginModuleClosing(const QString& module)
+{
+	QString msg = module;
+	switch(level)
+	{
+		case 0: msg = "\n=== Closing " + msg + " ==="; break;
+		case 1: msg = "--- Closing " + msg + " ---"; break;
+		case 2: msg = "--> Closing " + msg + "..."; break;
+		default: msg = "* Closing " + msg + "..."; break;
+	}
+	qDebug("%s", msg.toAscii().constData());
+	level++;
+}
+
+///Permet juste de logguer la fin de la fermeture d'un module
+void Rzx::endModuleClosing(const QString& module)
+{
+	QString msg = module;
+	switch(--level)
+	{
+		case 0: msg = "=== " + msg + " closed  ===\n"; break;
+//		case 1: msg = "--- " + msg + " closed ---"; break;
+//		case 2: msg = "--> " + msg + " closed..."; break;
+//		default: msg = "* " + msg + " closed..."; break;
+		default: return;
+	}
 	qDebug("%s", msg.toAscii().constData());
 }
 

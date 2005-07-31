@@ -53,6 +53,10 @@ RzxChatLister::RzxChatLister()
 	connect(lister, SIGNAL(update(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(lister, SIGNAL(logout(RzxComputer* )), this, SLOT(logout(RzxComputer* )));
 
+	connect(lister, SIGNAL(wantChat(RzxComputer* )), this, SLOT(createChat(RzxComputer* )));
+	connect(lister, SIGNAL(wantHistorique(RzxComputer* )), this, SLOT(historique(RzxComputer* )));
+	connect(lister, SIGNAL(wantProperties(RzxComputer* )), this, SLOT(proprietes(RzxComputer* )));
+
 	if(!client->listen(RzxConfig::chatPort()) )
 	{
 		RzxMessageBox::warning( (QWidget *) parent(), "qRezix",
@@ -68,10 +72,10 @@ RzxChatLister::RzxChatLister()
 
 RzxChatLister::~RzxChatLister()
 {
-	client->close();
-	qDeleteAll(chatByIP);
-	chatByIP.clear();
-	chatByLogin.clear();
+	Rzx::beginModuleClosing("Chat lister");
+	closeChats();
+	client->deleteLater();
+	Rzx::endModuleClosing("Chat lister");
 }
 
 /** Sert aussi au raffraichissement des données*/
@@ -338,7 +342,7 @@ QWidget *RzxChatLister::historique(RzxComputer *computer, bool withFrame, QWidge
 	QPalette palette;
 	palette.setColor(histoView->backgroundRole(), QColor(255,255,255));
 	histoView->setPalette(palette);
-	histoView -> setHtml(text);
+	histoView->setHtml(text);
 	histoView->textCursor().movePosition(QTextCursor::End);
 	histoView->ensureCursorVisible();
 	

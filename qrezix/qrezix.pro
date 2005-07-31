@@ -53,7 +53,8 @@ HEADERS	+= qrezix.h \
 	rzxglobal.h \
 	rzxiconcollection.h \
 	rzxapplication.h \
-	rzxchatlister.h
+	rzxchatlister.h \
+	rzxnotifier.h
 
 # Fichier sources -> c++
 SOURCES	+= main.cpp \
@@ -83,7 +84,8 @@ SOURCES	+= main.cpp \
 	rzxglobal.cpp \
 	rzxiconcollection.cpp \
 	rzxapplication.cpp \
-	rzxchatlister.cpp
+	rzxchatlister.cpp \
+	rzxnotifier.cpp
 
 # Fichiers ui -> uic
 FORMS = rzxpropertyui.ui \
