@@ -45,6 +45,7 @@ RzxChatLister *RzxChatLister::object = NULL;
 RzxChatLister::RzxChatLister()
 {
 	Rzx::beginModuleLoading("Chat lister");
+	wellInit = false;
 	client = RzxClientListener::global();
 	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), this, SLOT(warnProperties(const RzxHostAddress&)));
 
@@ -66,6 +67,7 @@ RzxChatLister::RzxChatLister()
 	else
 	{
 		RzxComputer::localhost()->addCapabilities(Rzx::CAP_CHAT);
+		wellInit = true;
 		Rzx::endModuleLoading("Chat lister");
 	}
 }

@@ -43,6 +43,8 @@ class RzxChatLister:public QObject
 
 	RzxClientListener *client;
 
+	bool wellInit;
+
 	RzxChatLister();
 	static RzxChatLister *object;
 
@@ -87,7 +89,7 @@ inline RzxChatLister *RzxChatLister::global()
 ///Indique si l'objet est bien initialisé
 inline bool RzxChatLister::isInitialised() const
 {
-	return true;
+	return wellInit;
 }
 
 ///Renvoie la fenêtre de chat associée à name
