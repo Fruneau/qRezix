@@ -21,7 +21,6 @@
 #define DEFAULT_TIMEOUT 120000
 #define DEFAULT_MAIL "Inscris toi sur polytechnique.org"
 #define DEFAULT_THEME "krystal"
-#define DEFAULT_THEME_HELP "classic"
 
 // Version envoyee au serveur
 #define RZX_CLIENT_ID (0x06)
@@ -31,8 +30,7 @@
 #define RZX_TAG_VERSION   "-svn"
 
 #define RZX_VERSION QString("%1.%2").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION)
-
-#ifndef HAVE_CONFIG_H			// sous linux, la version est definie dans config.h
+#ifndef HAVE_CONFIG_H
 	#define VERSION QString("%1.%2.%3").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION).arg(RZX_FUNNY_VERSION)
 #endif
 

@@ -84,9 +84,7 @@ void RzxRezalPopup::init(RzxComputer *computer, const QPoint& point)
 			newItem(Rzx::ICON_PROPRIETES, tr("Properties"), computer, SLOT(proprietes()));
 		addSeparator();
 		if(computer->isFavorite())
-		{
 			newItem(Rzx::ICON_NOTFAVORITE, tr("Remove from favorites"), computer, SLOT(removeFromFavorites()));
-		}
 		else
 		{
 			newItem(Rzx::ICON_FAVORITE, tr("Add to favorites"), computer, SLOT(addToFavorites()));

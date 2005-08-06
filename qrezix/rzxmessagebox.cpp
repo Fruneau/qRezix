@@ -14,6 +14,7 @@
  ***************************************************************************/
 
 #include <QMessageBox>
+#include <QApplication>
 
 #include "rzxmessagebox.h"
 
@@ -24,12 +25,18 @@
  * éviter les fenêtre modales.
  */
 int RzxMessageBox::information( QWidget *parent, const QString& caption,
-	const QString& text, bool modal ){
-	QMessageBox *mb = new QMessageBox(caption, text, QMessageBox::Information,
-									  0, 0, 0, parent);
-	mb->setAttribute(Qt::WA_DeleteOnClose);
-	mb->setModal(modal);
-	mb->show();
+	const QString& text, bool modal )
+{
+	if(QApplication::type() == QApplication::Tty)
+		qDebug("[%s] %s", caption.toLatin1().constData(), text.toLatin1().constData());
+	else
+	{
+		QMessageBox *mb = new QMessageBox(caption, text, QMessageBox::Information,
+										  0, 0, 0, parent);
+		mb->setAttribute(Qt::WA_DeleteOnClose);
+		mb->setModal(modal);
+		mb->show();
+	}
 	return 0;
 }
 
@@ -41,12 +48,18 @@ int RzxMessageBox::information( QWidget *parent, const QString& caption,
 * éviter les fenêtre modales.
 */
 int RzxMessageBox::warning( QWidget *parent, const QString& caption,
-	const QString& text, bool modal ){
-	QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Warning,
-									   0, 0, 0, parent);
-	mb->setAttribute(Qt::WA_DeleteOnClose);
-	mb->setModal(modal);
-	mb->show();
+	const QString& text, bool modal )
+{
+	if(QApplication::type() == QApplication::Tty)
+		qDebug("[%s] %s", caption.toLatin1().constData(), text.toLatin1().constData());
+	else
+	{
+		QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Warning,
+										   0, 0, 0, parent);
+		mb->setAttribute(Qt::WA_DeleteOnClose);
+		mb->setModal(modal);
+		mb->show();
+	}
 	return 0;
 }
 
@@ -58,12 +71,18 @@ int RzxMessageBox::warning( QWidget *parent, const QString& caption,
 * éviter les fenêtre modales.
 */
 int RzxMessageBox::critical( QWidget *parent, const QString& caption,
-	const QString& text, bool modal ){
-	QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Critical,
-									   0, 0, 0, parent);
-	mb->setAttribute(Qt::WA_DeleteOnClose);
-	mb->setModal(modal);
-	mb->show();
+	const QString& text, bool modal )
+{
+	if(QApplication::type() == QApplication::Tty)
+		qDebug("[%s] %s", caption.toLatin1().constData(), text.toLatin1().constData());
+	else
+	{
+		QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Critical,
+										   0, 0, 0, parent);
+		mb->setAttribute(Qt::WA_DeleteOnClose);
+		mb->setModal(modal);
+		mb->show();
+	}
 	return 0;
 }
 
