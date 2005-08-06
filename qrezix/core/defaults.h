@@ -35,14 +35,14 @@
 #endif
 
 #ifdef Q_OS_MAC
-	#define QREZIX_ICON "q_mac.xpm"
+	#define QREZIX_ICON "../resources/q_mac.xpm"
 #else
-	#define QREZIX_ICON "q.xpm"
+	#define QREZIX_ICON "../resources/q.xpm"
 #endif
-#define QREZIX_AWAY_ICON "t.xpm"
+#define QREZIX_AWAY_ICON "../resources/t.xpm"
 
 #ifdef HAVE_CONFIG_H
-	#include "../config.h"
+	#include "../../config.h"
 #else
 	#ifdef Q_OS_MAC
 		#define QREZIX_DATA_DIR "./qrezix.app/Contents/Resources/"

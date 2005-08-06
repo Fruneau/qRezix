@@ -19,6 +19,8 @@
 
 #include <QObject>
 
+#include "../core/rzxmodule.h"
+
 class RzxComputer;
 
 /**
@@ -26,7 +28,7 @@ class RzxComputer;
 */
 
 ///Notification de connexion des favoris
-class RzxNotifier : public QObject
+class RzxNotifier : public RzxModule
 {
 	Q_OBJECT
 
@@ -35,18 +37,12 @@ class RzxNotifier : public QObject
 	public:
 		RzxNotifier();
 		~RzxNotifier();
-		bool isInitialised() const;
+		virtual bool isInitialised() const;
 
 	public slots:
 		void favoriteUpdated(RzxComputer *);
 		void login(RzxComputer *);
 		void loginEnd();
-
-	signals:
-		void wantQuit();
-		void wantPreferences();
-		void wantToggleResponder();
-
 };
 
 #endif

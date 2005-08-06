@@ -29,23 +29,28 @@
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 
+#include "../core/rzxglobal.h"
+#include "../core/rzxconfig.h"
+#include "../core/rzxiconcollection.h"
+#include "../core/rzxmessagebox.h"
+#include "../core/rzxconnectionlister.h"
+#include "../rzxapplication.h"
+
 #include "rzxchatlister.h"
 
 #include "rzxchat.h"
-#include "rzxglobal.h"
-#include "rzxconfig.h"
-#include "rzxiconcollection.h"
-#include "rzxmessagebox.h"
 #include "rzxclientlistener.h"
-#include "rzxconnectionlister.h"
-#include "rzxapplication.h"
+
 
 RzxChatLister *RzxChatLister::object = NULL;
 
 RzxChatLister::RzxChatLister()
+	:RzxModule("Chat 1.7.0-svn", QT_TR_NOOP("qRezix graphical chat interface"))
 {
-	Rzx::beginModuleLoading("Chat lister");
+	beginLoading();
 	wellInit = false;
+	object = this;
+	setType(MOD_CHATUI);
 	client = RzxClientListener::global();
 	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), this, SLOT(warnProperties(const RzxHostAddress&)));
 
@@ -62,22 +67,21 @@ RzxChatLister::RzxChatLister()
 	{
 		RzxMessageBox::warning( (QWidget *) parent(), "qRezix",
 			tr("Cannot create peer to peer socket !\n\nChat and properties browsing are disabled") );
-		Rzx::endModuleLoading("Chat lister", false);
 	}
 	else
 	{
 		RzxComputer::localhost()->addCapabilities(Rzx::CAP_CHAT);
 		wellInit = true;
-		Rzx::endModuleLoading("Chat lister");
 	}
+	endLoading();
 }
 
 RzxChatLister::~RzxChatLister()
 {
-	Rzx::beginModuleClosing("Chat lister");
+	beginClosing();
 	closeChats();
 	client->deleteLater();
-	Rzx::endModuleClosing("Chat lister");
+	endClosing();
 }
 
 /** Sert aussi au raffraichissement des données*/

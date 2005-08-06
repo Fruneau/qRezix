@@ -35,11 +35,11 @@
 
 #include "rzxtrayicon.h"
 
-#include "rzxconfig.h"
-#include "rzxcomputer.h"
-#include "rzxpluginloader.h"
-#include "rzxiconcollection.h"
-#include "rzxconnectionlister.h"
+#include "../core/rzxconfig.h"
+#include "../core/rzxcomputer.h"
+#include "../core/rzxpluginloader.h"
+#include "../core/rzxiconcollection.h"
+#include "../core/rzxconnectionlister.h"
 
 #ifdef Q_WS_MAC
 void qt_mac_set_dock_menu( QMenu *menu );
@@ -52,42 +52,26 @@ void qt_mac_set_dock_menu( QMenu *menu );
 */
 
 /*!
-  Creates a RzxTrayIcon object. \a parent and \a name are propagated
-  to the QObject constructor. The icon is initially invisible.
- 
-  \sa show
-*/
-RzxTrayIcon::RzxTrayIcon( QObject *parent )
-		: QObject( parent ), pop(), d( 0 )
-{
-	Rzx::beginModuleLoading("Tray Icon");
-	v_isWMDock = FALSE;
-	buildMenu();
-	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(changeTrayIcon()));
-	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTrayIcon()));
-	connect(RzxConnectionLister::global(), SIGNAL(countChange(const QString& )), this, SLOT(setToolTip(const QString& )));
-	changeTrayIcon();
-	Rzx::endModuleLoading("Tray Icon");
-}
-
-/*!
   Creates a RzxTrayIcon object displaying \a icon and \a tooltip, and opening
   \a popup when clicked with the right mousebutton. \a parent and \a name are
   propagated to the QObject constructor. The icon is initially invisible.
  
   \sa show
 */
-RzxTrayIcon::RzxTrayIcon( const QPixmap &icon, const QString &tooltip, QObject *parent)
-		: QObject( parent ), pm( icon ), tip( tooltip ), d( 0 )
+RzxTrayIcon::RzxTrayIcon()
+		: RzxModule("Tray icon 1.7.0-svn", QT_TR_NOOP("qRezix tray icon")), tip("qRezix"), d( 0 )
 {
-	Rzx::beginModuleLoading("Tray Icon");
+	beginLoading();
+	setType(MOD_GUI);
+	setType(MOD_HIDE);
 	v_isWMDock = FALSE;
 	buildMenu();
 	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(changeTrayIcon()));
 	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTrayIcon()));
 	connect(RzxConnectionLister::global(), SIGNAL(countChange(const QString& )), this, SLOT(setToolTip(const QString& )));
+	connect(this, SIGNAL(clicked(const QPoint&)), this, SIGNAL(wantToggleVisible()));
 	changeTrayIcon();
-	Rzx::endModuleLoading("Tray Icon");
+	endLoading();
 }
 
 /*!
@@ -95,9 +79,9 @@ RzxTrayIcon::RzxTrayIcon( const QPixmap &icon, const QString &tooltip, QObject *
 */
 RzxTrayIcon::~RzxTrayIcon()
 {
-	Rzx::beginModuleClosing("Tray Icon");
+	beginClosing();
 	sysRemove();
-	Rzx::endModuleClosing("Tray Icon");
+	endClosing();
 }
 
 ///Indique si l'objet est bien initialisé
@@ -110,7 +94,7 @@ bool RzxTrayIcon::isInitialised() const
   \property RzxTrayIcon::icon
   \brief the system tray icon.
 */
-void RzxTrayIcon::setIcon( const QPixmap &icon )
+void RzxTrayIcon::setTrayIcon( const QPixmap &icon )
 {
 	//if(!popup()) {
 	//    tip = "";
@@ -140,11 +124,11 @@ void RzxTrayIcon::changeTrayIcon()
 #ifdef Q_WS_MAC
 	buildMenu();
 #endif
-	setIcon(trayIcon);
+	setTrayIcon(trayIcon);
 }
 
 
-QPixmap RzxTrayIcon::icon() const
+QPixmap RzxTrayIcon::trayIcon() const
 {
 	return pm;
 }

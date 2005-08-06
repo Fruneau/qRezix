@@ -18,12 +18,14 @@
 #include <QHeaderView>
 #include <QMouseEvent>
 
+#include "../core/rzxcomputer.h"
+#include "../core/rzxconfig.h"
+
 #include "rzxrezalview.h"
 
 #include "rzxrezalmodel.h"
 #include "rzxrezalpopup.h"
-#include "rzxcomputer.h"
-#include "rzxconfig.h"
+
 
 ///Construction du RezalView
 RzxRezalView::RzxRezalView( QWidget *parent )

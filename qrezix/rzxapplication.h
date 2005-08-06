@@ -18,6 +18,7 @@
 #define RZXAPPLICATION_H
 
 #include <QApplication>
+#include <QList>
 
 class QRezix;
 class RzxTrayIcon;
@@ -25,6 +26,7 @@ class RzxChatLister;
 class RzxComputer;
 class RzxProperty;
 class RzxNotifier;
+class RzxModule;
 
 /**
 @author Florent Bruneau
@@ -38,11 +40,11 @@ class RzxApplication:public QApplication
 	Q_OBJECT
 	Q_PROPERTY(bool initialised READ isInitialised)
 
-	QRezix *mainui;
-	RzxTrayIcon *tray;
 	RzxProperty *properties;
-	RzxChatLister *chat;
-	RzxNotifier *notifier;
+	QList<RzxModule*> modules;
+	QList<RzxModule*> hiders;
+	RzxModule *mainui;
+	RzxModule *chat;
 
 	bool wellInit;
 
@@ -50,7 +52,7 @@ class RzxApplication:public QApplication
 		RzxApplication(int argc, char **argv);
 		~RzxApplication();
 		bool isInitialised() const;
-		bool hasTrayicon() const;
+		bool hasHider() const;
 		bool hasMainWindow() const;
 		static RzxApplication *instance();
 		static QWidget *mainWindow();
@@ -58,6 +60,9 @@ class RzxApplication:public QApplication
 	protected:
 		bool loadCore();
 		bool loadModules();
+
+	private:
+		void installModule(RzxModule*);
 
 	public slots:
 		void saveSettings();
@@ -83,22 +88,13 @@ inline RzxApplication *RzxApplication::instance()
 	return qobject_cast<RzxApplication*>(QApplication::instance());
 }
 
-///Retourne un pointeur vers la fenêtre principale
-/** L'intérêt de cette fonction est de fournir un moyen simple
- * de connaître la fenêtre principale pour avoir par un parent...
- */
-inline QWidget *RzxApplication::mainWindow()
-{
-	return (QWidget*)instance()->mainui;
-}
-
 ///Indique si l'application bénéficie d'une trayicon
 /** La trayicon a un statut particulier car elle permet à l'application
  * d'avoir une intéraction 'discrète'...
  */
-inline bool RzxApplication::hasTrayicon() const
+inline bool RzxApplication::hasHider() const
 {
-	return tray != NULL;
+	return hiders.count();
 }
 
 ///Indique si l'application a une fenêtre principale

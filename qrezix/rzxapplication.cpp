@@ -16,30 +16,28 @@
  ***************************************************************************/
 #include "rzxapplication.h"
 
-#include "rzxglobal.h"
+#include "core/rzxglobal.h"
+#include "core/rzxconfig.h"
+#include "core/rzxcomputer.h"
+#include "core/rzxiconcollection.h"
+#include "core/rzxpluginloader.h"
+#include "core/rzxconnectionlister.h"
+#include "core/rzxserverlistener.h"
+#include "core/rzxproperty.h"
+#include "core/rzxmodule.h"
 
-#include "qrezix.h"
-#include "rzxtrayicon.h"
-#include "rzxconfig.h"
-#include "rzxcomputer.h"
-#include "rzxiconcollection.h"
-#include "rzxpluginloader.h"
-#include "rzxconnectionlister.h"
-#include "rzxserverlistener.h"
-#include "rzxtraywindow.h"
-#include "rzxproperty.h"
-#include "rzxchatlister.h"
-#include "rzxnotifier.h"
+#include "mainui/rzxui.h"
+#include "tray/rzxtrayicon.h"
+#include "chat/rzxchatlister.h"
+#include "notifier/rzxnotifier.h"
 
 ///Chargement de qRezix et de ses différents modules
 RzxApplication::RzxApplication(int argc, char **argv)
 	:QApplication(argc, argv)
 {
 	mainui = NULL;
-	tray = NULL;
 	properties = NULL;
 	chat = NULL;
-	notifier = NULL;
 	wellInit = false;
 
 	//Analyse des arguments
@@ -129,18 +127,6 @@ bool RzxApplication::loadCore()
  */
 bool RzxApplication::loadModules()
 {
-#define installModule(mod) \
-		if(mod) { \
-			if(!mod->isInitialised()) { \
-				delete mod; \
-				mod = NULL; \
-			} else { \
-				connect(mod, SIGNAL(wantQuit()), this, SLOT(quit())); \
-				connect(mod, SIGNAL(wantPreferences()), this, SLOT(preferences())); \
-				connect(mod, SIGNAL(wantToggleResponder()), this, SLOT(toggleResponder())); \
-			} \
-		}
-		
 	//Chargement des différents modules
 	Rzx::beginModuleLoading("Modules loading");
 
@@ -148,41 +134,64 @@ bool RzxApplication::loadModules()
 	RzxPlugInLoader::global();
 
 	Rzx::beginModuleLoading("Built-ins");
-	//Chargement de l'ui principale
-	mainui = QRezix::global();
-	installModule(mainui);
-
-	//Chargement du chat
-	chat = RzxChatLister::global();
-	installModule(chat);
-
-	//Chargement de la trayicon
-	tray = new RzxTrayIcon(RzxIconCollection::qRezixIcon(), "qRezix", this);
-	installModule(tray);
-
-	//Chargement du notifier
-	notifier = new RzxNotifier();
-	installModule(notifier);
-
+#define loadBuiltIn(a) installModule(new a)
+	loadBuiltIn(RzxUi);
+	loadBuiltIn(RzxChatLister);
+	loadBuiltIn(RzxNotifier);
+	loadBuiltIn(RzxTrayIcon);
+#undef loadBuiltIn
 	Rzx::endModuleLoading("Built-ins");
+
 	//Installation des intéractions entre les modules
 	Rzx::beginModuleLoading("Modules interactions");
 	if(properties)
-		properties->setParent(mainui);
+		properties->setParent(mainWindow());
 
-	if(tray && (!mainui || RzxConfig::global()->useSystray()))
-		tray->show();
-	else if(mainui)
-		mainui->show();
+	if(mainui)
+	{
+		foreach(RzxModule *hider, hiders)
+		{
+			connect(hider, SIGNAL(wantToggleVisible()), mainui, SLOT(toggleVisible()));
+			connect(hider, SIGNAL(wantShow()), mainui, SLOT(show()));
+			connect(hider, SIGNAL(wantHide()), mainui, SLOT(hide()));
+			hider->show();
+		}
+		if(!hiders.count())
+			mainui->show();
+	}
 
-	if(mainui && tray)
-		connect(tray,SIGNAL(clicked(const QPoint&)), mainui,SLOT(toggleVisible()));
 	Rzx::endModuleLoading("Modules interactions");
 
 	//Fin du chargement des modules
 	Rzx::endModuleLoading("Modules loading");
 	return true;
-#undef installModule
+}
+
+///Installe le module
+void RzxApplication::installModule(RzxModule *mod)
+{
+	if(mod)
+	{
+		if(!mod->isInitialised())
+		{
+			delete mod;
+			mod = NULL;
+		}
+		else
+		{
+			connect(mod, SIGNAL(wantQuit()), this, SLOT(quit()));
+			connect(mod, SIGNAL(wantPreferences()), this, SLOT(preferences()));
+			connect(mod, SIGNAL(wantToggleResponder()), this, SLOT(toggleResponder()));
+			QFlags<RzxModule::TypeFlags> type = mod->type();
+			modules << mod;
+			if((type & RzxModule::MOD_GUI) && (type & RzxModule::MOD_MAIN) && !mainui)
+				mainui = mod;
+			if((type & RzxModule::MOD_CHAT) && !chat)
+				chat = mod;
+			if(type & RzxModule::MOD_HIDE)
+				hiders << mod;
+		}
+	}
 }
 
 ///Sauvegarde des données au moment de la fermeture
@@ -191,28 +200,11 @@ void RzxApplication::saveSettings()
 {
 	Rzx::beginModuleClosing("qRezix");
 	Rzx::beginModuleClosing("Modules");
+
 	Rzx::beginModuleClosing("Built-ins");
-	if(mainui)
-	{
-		delete mainui;
-		mainui = NULL;
-	}
-	if(tray)
-	{
-		delete tray;
-		tray = NULL;
-	}
-	if(chat)
-	{
-		delete chat;
-		chat = NULL;
-	}
-	if(notifier)
-	{
-		delete notifier;
-		notifier = NULL;
-	}
+	qDeleteAll(modules);
 	Rzx::endModuleClosing("Built-ins");
+
 	delete RzxPlugInLoader::global();
 	Rzx::endModuleClosing("Interfaces");
 	Rzx::beginModuleClosing("qRezix core");
@@ -242,7 +234,7 @@ void RzxApplication::preferences()
 	}
 	else
 	{
-		properties = new RzxProperty(mainui);
+		properties = new RzxProperty(mainWindow());
 		properties -> show();
 	}
 }
@@ -252,4 +244,16 @@ void RzxApplication::toggleResponder()
 {
 	RzxConfig::setAutoResponder(!RzxComputer::localhost()->isOnResponder());
 	RzxServerListener::object()->sendRefresh();
+}
+
+///Retourne un pointeur vers la fenêtre principale
+/** L'intérêt de cette fonction est de fournir un moyen simple
+ * de connaître la fenêtre principale pour avoir par un parent...
+ */
+QWidget *RzxApplication::mainWindow()
+{
+	if(instance()->mainui)
+		return instance()->mainui->mainWindow();
+	else
+		return NULL;
 }

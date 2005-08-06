@@ -54,14 +54,14 @@
 #endif
 #include <QApplication>
 
+#include "../core/rzxconfig.h"
+#include "../core/rzxcomputer.h"
+#include "../core/rzxpluginloader.h"
+#include "../core/rzxiconcollection.h"
 
 #include "rzxchat.h"
 
-#include "rzxconfig.h"
-#include "rzxcomputer.h"
 #include "rzxchatsocket.h"
-#include "rzxpluginloader.h"
-#include "rzxiconcollection.h"
 #include "rzxchatlister.h"
 
 /****************************************************

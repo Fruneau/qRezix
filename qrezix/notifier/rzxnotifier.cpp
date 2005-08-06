@@ -17,10 +17,9 @@
 #include <QProcess>
 #include <QSound>
 
-#include "rzxglobal.h"
-#include "rzxtrayicon.h"
-#include "rzxcomputer.h"
-#include "rzxconnectionlister.h"
+#include "../core/rzxglobal.h"
+#include "../core/rzxcomputer.h"
+#include "../core/rzxconnectionlister.h"
 
 #include "rzxnotifier.h"
 
@@ -30,19 +29,21 @@
 /** La construction consiste juste à mettre en place les connexions qvb
  */
 RzxNotifier::RzxNotifier()
+	:RzxModule("Favorite notifier 1.7.0-svn", QT_TR_NOOP("Notify that a favorite state has changed"))
 {
-	Rzx::beginModuleLoading("Favorite notifier");
+	beginLoading();
 	favoriteWarn = false;
+	setType(MOD_GUI);
 	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(RzxConnectionLister::global(), SIGNAL(loginEnd()), this, SLOT(loginEnd()));
-	Rzx::endModuleLoading("Favorite notifier");
+	endLoading();
 }
 
 ///Destruction vide...
 RzxNotifier::~RzxNotifier()
 {
-	Rzx::beginModuleClosing("Favorite notifier");
-	Rzx::endModuleClosing("Favorite notifier");
+	beginClosing();
+	endClosing();
 }
 
 ///Indique si l'objet est bien initialisé

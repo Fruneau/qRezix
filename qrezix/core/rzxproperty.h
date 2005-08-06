@@ -33,7 +33,7 @@ class RzxProperty : public QDialog, public Ui::frmPref
 	Q_OBJECT
 	
 public: 
-	RzxProperty(QRezix*parent);
+	RzxProperty(QWidget *parent);
 	~RzxProperty();
 
 	QString infoNeeded();

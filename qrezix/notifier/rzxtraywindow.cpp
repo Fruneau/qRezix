@@ -21,10 +21,11 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
+#include "../core/rzxcomputer.h"
+#include "../core/rzxconfig.h"
+
 #include "rzxtraywindow.h"
 
-#include "rzxcomputer.h"
-#include "rzxconfig.h"
 
 ///Construction de la fenêtre de notification d'état de connexion de computer
 /** La fenêtre est construite pour disparaître automatiquement au bout de time secondes */

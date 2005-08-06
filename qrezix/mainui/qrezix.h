@@ -86,12 +86,12 @@ public slots: // Public slots
 	void menuFormatChange();
 	void launchSearch();
 	void showSearch(bool state);
+	void toggleVisible();
 
 protected slots: // Protected slots
 	void delayedInit();
 	/*affiche la boite de dialogue permettant de modifier les preferences*/
 	void socketClosed();
-	void toggleVisible();
 	void pluginsMenu();
 	void switchTab();
 };

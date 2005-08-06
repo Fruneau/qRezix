@@ -21,7 +21,7 @@
 #include <QTcpServer>
 #include <QString>
 
-#include "rzxhostaddress.h"
+#include "../core/rzxhostaddress.h"
 
 class RzxChatSocket;
 

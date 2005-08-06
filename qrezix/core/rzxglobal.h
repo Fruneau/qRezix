@@ -17,41 +17,45 @@
 #ifndef RZXGLOBAL_H
 #define RZXGLOBAL_H
 
+#include <QtGlobal>
+#include <stdio.h>
+
 #include "defaults.h"
+
 
 ///Namespace pour encadrer les enums communs à la plupart des interfaces
 namespace Rzx
 {
 	enum SysEx {
-		SYSEX_UNKNOWN = 0,
-		SYSEX_WIN9X = 1,
-		SYSEX_WINNT = 2,
-		SYSEX_LINUX = 3,
-		SYSEX_MACOS = 4,
-		SYSEX_MACOSX = 5,
-		SYSEX_BSD = 6
+		SYSEX_UNKNOWN = 0, /**< Système d'exploitation inconnu */
+		SYSEX_WIN9X = 1, /**< Windows 95, 98 ou Millenium */
+		SYSEX_WINNT = 2, /**< Windows NT, 2000, XP ou 2003 server */
+		SYSEX_LINUX = 3, /**< Linux, ou tout autre Unix non BSD */
+		SYSEX_MACOS = 4, /**< MacOS jusqu'à 9 */
+		SYSEX_MACOSX = 5, /**< MacOS X */
+		SYSEX_BSD = 6 /**< BSD différentre de MacOS */
 	};
 
 	enum Promal {
-		PROMAL_UNK = 0,
-		PROMAL_ORANGE = 1,
-		PROMAL_ROUJE = 2,
-		PROMAL_JONE = 3
+		PROMAL_UNK = 0, /**< Promotion inconnue */
+		PROMAL_ORANGE = 1, /**< Promotion oranje, ou bipromo */
+		PROMAL_ROUJE = 2, /**< Promo rouje */
+		PROMAL_JONE = 3 /**< Chic à la Jône */
 	};
 	
 	enum ConnectionState {
-		STATE_DISCONNECTED = 0,
-		STATE_HERE = 1,
-		STATE_AWAY = 2,
-		STATE_REFUSE = 3
+		STATE_DISCONNECTED = 0, /**< Non connecté */
+		STATE_HERE = 1, /**< Connecté et présent */
+		STATE_AWAY = 2, /**< Connecté et sur répondeur */
+		STATE_REFUSE = 3 /**< Connecté et sur répondeur qui refuse les messages */
 	};	
 	
 	///Définition des capabilities supplémentaires connues
 	enum Capabilities {
-		CAP_NONE = 0,
-		CAP_ON = 1,
-		CAP_CHAT = 2,
-		CAP_XPLO = 4
+		CAP_NONE = 0, /**< Aucune extension connue */
+		CAP_ON = 1, /**< Supporte le système d'extension de fonctionnalité */
+		CAP_CHAT = 2, /**< Supporte le chat sur le protocole DCC du xNet */
+		CAP_XPLO = 4 /**< Supporte le protocole Xplo */
 	};
 
 	///Définition des identifiants des sous réseaux
@@ -159,7 +163,7 @@ namespace Rzx
 	///Définition de la fonction d'output surchargée
 	void installMsgHandler();
 	void closeMsgHandler();
-	void useOutputFile(FILE *file = NULL);
+	void useOutputFile(FILE *file);
 
 	//Chargement d'un module
 	void beginModuleLoading(const QString&);

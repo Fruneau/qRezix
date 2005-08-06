@@ -23,7 +23,7 @@ email                : sylvain.joyeux@m4x.org
 #include <QDir>
 #include <QString>
 
-#include "rzxglobal.h"
+#include "core/rzxglobal.h"
 
 #include "rzxapplication.h"
 

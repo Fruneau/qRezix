@@ -30,10 +30,10 @@
 #include "rzxconnectionlister.h"
 #include "rzxiconcollection.h"
 
-const char *RzxComputer::promalText[4] = { 
-    "?", 
+const char *RzxComputer::promalText[4] = {
+    "?",
     QT_TR_NOOP("Orange") ,
-    QT_TR_NOOP("Rouje"), 
+    QT_TR_NOOP("Rouje"),
     QT_TR_NOOP("Jone")
 };
 
