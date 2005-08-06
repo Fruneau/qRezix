@@ -132,7 +132,7 @@ bool RzxApplication::loadModules()
 #define installModule(mod) \
 		if(mod) { \
 			if(!mod->isInitialised()) { \
-				mod->deleteLater(); \
+				delete mod; \
 				mod = NULL; \
 			} else { \
 				connect(mod, SIGNAL(wantQuit()), this, SLOT(quit())); \

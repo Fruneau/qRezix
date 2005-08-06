@@ -81,23 +81,16 @@ void Rzx::beginModuleLoading(const QString& module)
 void Rzx::endModuleLoading(const QString& module, bool success)
 {
 	QString msg = module;
-	if(success)
-		switch(--level)
-		{
-			case 0: msg = "=== " + msg + " loaded with success  ===\n"; break;
-//			case 1: msg = "--- " + msg + " loaded with success ---"; break;
-//			case 2: msg = "--> " + msg + " loaded with success..."; break;
-//			default: msg = "* " + msg + "loaded with success..."; break;
-			default: return;
-		}
-	else
-		switch(--level)
-		{
-			case 0: msg = "=== " + msg + " failed  ===\n"; break;
-			case 1: msg = "--- " + msg + " failed ---"; break;
-			case 2: msg = "--> " + msg + " failed..."; break;
-			default: msg = "* " + msg + " failed..."; break;
-		}
+	if(!success)
+	{
+		msg = "Loading failed : " + msg;
+		qDebug("%s", msg.toAscii().constData());
+	}
+	switch(--level)
+	{
+		case 0: msg = "=== " + module + " loading finished ===\n"; break;
+		default: return;
+	}
 	qDebug("%s", msg.toAscii().constData());
 }
 
@@ -123,9 +116,6 @@ void Rzx::endModuleClosing(const QString& module)
 	switch(--level)
 	{
 		case 0: msg = "=== " + msg + " closed  ===\n"; break;
-//		case 1: msg = "--- " + msg + " closed ---"; break;
-//		case 2: msg = "--> " + msg + " closed..."; break;
-//		default: msg = "* " + msg + " closed..."; break;
 		default: return;
 	}
 	qDebug("%s", msg.toAscii().constData());
@@ -136,4 +126,3 @@ bool Rzx::caseInsensitiveLessThan(const QString &s1, const QString &s2)
 {
 	return s1.toLower() < s2.toLower();
 }
-
