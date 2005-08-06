@@ -49,7 +49,7 @@
 #include "rzxcomputer.h"
 #include "rzxserverlistener.h"
 #include "rzxpluginloader.h"
-#include "rzxrezalmodel.h"
+#include "../mainui/rzxrezalmodel.h"
 #include "rzxiconcollection.h"
 
 RzxConfig *RzxConfig::Config = 0;

@@ -20,8 +20,9 @@
 #include <QPushButton>
 #include <QLabel>
 
+#include "../core/rzxconfig.h"
+
 #include "rzxquit.h"
-#include "rzxconfig.h"
 
 //connexion des boutons à leurs action respectives
 RzxQuit::RzxQuit(QWidget* parent)

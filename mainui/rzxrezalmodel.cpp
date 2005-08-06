@@ -18,11 +18,12 @@
 #include <QString>
 #include <QIcon>
 
+#include "../core/rzxcomputer.h"
+#include "../core/rzxiconcollection.h"
+#include "../core/rzxconnectionlister.h"
+
 #include "rzxrezalmodel.h"
 
-#include "rzxcomputer.h"
-#include "rzxiconcollection.h"
-#include "rzxconnectionlister.h"
 
 RzxRezalModel *RzxRezalModel::object = NULL;
 

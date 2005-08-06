@@ -301,6 +301,57 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
 </context>
 <context>
+    <name>RzxChatLister</name>
+    <message>
+        <source>Cannot create peer to peer socket !
+
+Chat and properties browsing are disabled</source>
+        <translation type="unfinished">Impossible de créer les communications client à client!
+
+Les discussions et les propriétés sont désactivées</translation>
+    </message>
+    <message>
+        <source>reconnected</source>
+        <translation type="unfinished">reconnecté</translation>
+    </message>
+    <message>
+        <source>disconnected</source>
+        <translation type="unfinished">déconnecté</translation>
+    </message>
+    <message>
+        <source>Properties sent to %1</source>
+        <translation type="unfinished">Propriétés envoyées à %1</translation>
+    </message>
+    <message>
+        <source>name : &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;address : &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;client : &lt;i&gt;%3&lt;/i&gt;&lt;br&gt;time : &lt;i&gt;%4&lt;/i&gt;</source>
+        <translation type="unfinished">nom : &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;adresse : &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;client : &lt;i&gt;%3&lt;/i&gt;&lt;br&gt;heure : &lt;i&gt;%4&lt;/i&gt;</translation>
+    </message>
+    <message>
+        <source>has checked your properties</source>
+        <translation type="unfinished">a demandé vos propriétés</translation>
+    </message>
+    <message>
+        <source>%1&apos;s properties</source>
+        <translation type="unfinished">Propriétés de %1</translation>
+    </message>
+    <message>
+        <source>xNet client : %1</source>
+        <translation type="unfinished">Client xNet : %1</translation>
+    </message>
+    <message>
+        <source>Property</source>
+        <translation type="unfinished">Propriété</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation type="unfinished">Valeur</translation>
+    </message>
+    <message>
+        <source>History - %1</source>
+        <translation type="unfinished">Historique - %1</translation>
+    </message>
+</context>
+<context>
     <name>RzxChatSocket</name>
     <message>
         <source>Surname</source>
@@ -368,11 +419,11 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Property</source>
-        <translation>Propriété</translation>
+        <translation type="obsolete">Propriété</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation>Valeur</translation>
+        <translation type="obsolete">Valeur</translation>
     </message>
     <message>
         <source>History</source>
@@ -384,86 +435,86 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>%1&apos;s properties</source>
-        <translation>Propriétés de %1</translation>
+        <translation type="obsolete">Propriétés de %1</translation>
     </message>
     <message>
         <source>xNet client : %1</source>
-        <translation>Client xNet : %1</translation>
+        <translation type="obsolete">Client xNet : %1</translation>
     </message>
     <message>
         <source>History - %1</source>
-        <translation>Historique - %1</translation>
+        <translation type="obsolete">Historique - %1</translation>
     </message>
 </context>
 <context>
     <name>RzxChatUI</name>
     <message>
         <source>Chat [Qt]</source>
-        <translation>Chat [Qt]</translation>
+        <translation type="obsolete">Chat [Qt]</translation>
     </message>
     <message>
         <source>&amp;Send</source>
-        <translation>&amp;Envoyer</translation>
+        <translation type="obsolete">&amp;Envoyer</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>Fermer</translation>
+        <translation type="obsolete">Fermer</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation>Propriétés</translation>
+        <translation type="obsolete">Propriétés</translation>
     </message>
     <message>
         <source>History</source>
-        <translation>Historique</translation>
+        <translation type="obsolete">Historique</translation>
     </message>
     <message>
         <source>Send as &amp;HTML</source>
-        <translation>Envoyer en &amp;HTML</translation>
+        <translation type="obsolete">Envoyer en &amp;HTML</translation>
     </message>
     <message>
         <source>Alt+S</source>
-        <translation>Alt+S</translation>
+        <translation type="obsolete">Alt+S</translation>
     </message>
     <message>
         <source>Alt+H</source>
-        <translation>Alt+H</translation>
+        <translation type="obsolete">Alt+H</translation>
     </message>
     <message>
         <source>B</source>
-        <translation>G</translation>
+        <translation type="obsolete">G</translation>
     </message>
     <message>
         <source>I</source>
-        <translation>I</translation>
+        <translation type="obsolete">I</translation>
     </message>
     <message>
         <source>U</source>
-        <translation>S</translation>
+        <translation type="obsolete">S</translation>
     </message>
     <message>
         <source>Pl&amp;ug-ins</source>
-        <translation>Pl&amp;ug-ins</translation>
+        <translation type="obsolete">Pl&amp;ug-ins</translation>
     </message>
     <message>
         <source>Alt+U</source>
-        <translation>Alt+U</translation>
+        <translation type="obsolete">Alt+U</translation>
     </message>
     <message>
         <source>Ctrl+B</source>
-        <translation>Ctrl+G</translation>
+        <translation type="obsolete">Ctrl+G</translation>
     </message>
     <message>
         <source>Ctrl+I</source>
-        <translation>Ctrl+I</translation>
+        <translation type="obsolete">Ctrl+I</translation>
     </message>
     <message>
         <source>Ctrl+U</source>
-        <translation>Ctrl+S</translation>
+        <translation type="obsolete">Ctrl+S</translation>
     </message>
     <message>
         <source>Ctrl+S</source>
-        <translation>Ctrl+H</translation>
+        <translation type="obsolete">Ctrl+H</translation>
     </message>
     <message>
         <source>...</source>
@@ -471,11 +522,11 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Plug-ins</source>
-        <translation>Plug-ins</translation>
+        <translation type="obsolete">Plug-ins</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation>Envoyer</translation>
+        <translation type="obsolete">Envoyer</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Chat&lt;/h3&gt;&lt;p&gt;This is the place where you can read your chat&lt;/p&gt;</source>
@@ -484,7 +535,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>&lt;h3&gt;Input&lt;/h3&gt;&lt;p&gt;This is the place where you can type your messages.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Shortcuts :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Enter : &lt;/b&gt;Send your message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] : &lt;/b&gt;Navigate through the messages you have already typed&lt;br&gt;&lt;b&gt;Ctrl+Enter : &lt;/b&gt; Add a line-break&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Boite de saisie&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Boite de saisie&lt;/h3&gt;
 &lt;p&gt;C&apos;est ici qu&apos;il faut taper les messages à envoyer&lt;p&gt;
 &lt;p&gt;&lt;b&gt;Raccourcis clavier :&lt;/b&gt;&lt;br&gt;
 &lt;b&gt;Entrer : &lt;/b&gt; Pour envoyer le message&lt;br&gt;
@@ -494,56 +545,56 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     <message>
         <source>&lt;h3&gt;Plug-ins&lt;/h3&gt;
 &lt;p&gt;Shows a menu which helps you to use the extra-features provided by qRezix&apos;s plug-ins&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Plug-ins&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Plug-ins&lt;/h3&gt;
 &lt;p&gt;Affiche un menu qui permet de parcourir les fonctionalités offertes par les plug-ins installés&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Font&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, you can choose here the font to use&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Police&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, vous pouvez choisir la police de caractères de votre message&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Police&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, vous pouvez choisir la police de caractères de votre message&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Color&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, you can choose here the color to use&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Couleur&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, vous pouvez choisir la couleur de votre message&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Couleur&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, vous pouvez choisir la couleur de votre message&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Size&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, you can choose here the size of the text &lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Taille&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, vous pouvez choisir la taille du texte&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Taille&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, vous pouvez choisir la taille du texte&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Bold&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the bold style for the text&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Gras&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, ce bouton permet de mettre votre texte en gras&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Gras&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, ce bouton permet de mettre votre texte en gras&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Italic&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the italic style for the text&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Gras&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, ce bouton permet de mettre votre texte en italique&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Gras&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, ce bouton permet de mettre votre texte en italique&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Underlined&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the underlined style for the text&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Gras&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, ce bouton permet de souligner votre texte&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Gras&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, ce bouton permet de souligner votre texte&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Send&lt;/h3&gt;&lt;p&gt;Send the message you have typed...&lt;br&gt;It&apos;s a lot easier to use &lt;b&gt;Enter&lt;/b&gt;&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Envoyer&lt;/h3&gt;&lt;p&gt;Envoie votre message&lt;br&gt;C&apos;est tout de même beacoup plus simple de taper &lt;b&gt;Entrer&lt;/b&gt;&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Envoyer&lt;/h3&gt;&lt;p&gt;Envoie votre message&lt;br&gt;C&apos;est tout de même beacoup plus simple de taper &lt;b&gt;Entrer&lt;/b&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Send as HTML&lt;/h3&gt;&lt;p&gt;When this case is checked, you can format your text&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning : &lt;/b&gt;some clients don&apos;t support HTML...&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Envoyer en HTML&lt;/h3&gt;&lt;p&gt;Lorsque cette case est cochée, vous pouvez utiliser les options de formatage du texte&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention : &lt;/b&gt; certains clients ne gèrent pas le texte formaté&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Envoyer en HTML&lt;/h3&gt;&lt;p&gt;Lorsque cette case est cochée, vous pouvez utiliser les options de formatage du texte&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention : &lt;/b&gt; certains clients ne gèrent pas le texte formaté&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Sound&lt;/h3&gt;&lt;p&gt;Enables/disables the sound which is played when a new message arrives&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Son&lt;/h3&gt;&lt;p&gt;(Dés)active le son qui est joué à la réception d&apos;un nouveau message&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Son&lt;/h3&gt;&lt;p&gt;(Dés)active le son qui est joué à la réception d&apos;un nouveau message&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Properties&lt;/h3&gt;&lt;p&gt;Ask for the properties of the person you are talking to.&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Propriétés&lt;/h3&gt;&lt;p&gt;Demande les propriétés de la personne avec qui vous discutez&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Propriétés&lt;/h3&gt;&lt;p&gt;Demande les propriétés de la personne avec qui vous discutez&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;History&lt;/h3&gt;&lt;p&gt;If you want to read all your old chats with this person&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Historique&lt;/h3&gt;&lt;p&gt;Permet d&apos;avoir accès à vos discussions antérieures&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Historique&lt;/h3&gt;&lt;p&gt;Permet d&apos;avoir accès à vos discussions antérieures&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Close&lt;/h3&gt;&lt;p&gt;Ends the chat et close the window&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Fermer&lt;/h3&gt;&lt;p&gt;Met fin à la discussion et ferme la fenêtre&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Fermer&lt;/h3&gt;&lt;p&gt;Met fin à la discussion et ferme la fenêtre&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -777,7 +828,7 @@ Assurez-vous qu&apos;au moins un thème d&apos;icônes a été installé.</trans
     <name>RzxConnectionLister</name>
     <message>
         <source>reconnected</source>
-        <translation>reconnecté</translation>
+        <translation type="obsolete">reconnecté</translation>
     </message>
     <message>
         <source>%1 clients connected</source>
@@ -785,13 +836,13 @@ Assurez-vous qu&apos;au moins un thème d&apos;icônes a été installé.</trans
     </message>
     <message>
         <source>disconnected</source>
-        <translation>déconnecté</translation>
+        <translation type="obsolete">déconnecté</translation>
     </message>
     <message>
         <source>Cannot create peer to peer socket !
 
 Chat and properties browsing are disabled</source>
-        <translation>Impossible de créer les communications client à client!
+        <translation type="obsolete">Impossible de créer les communications client à client!
 
 Les discussions et les propriétés sont désactivées</translation>
     </message>
@@ -817,7 +868,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>has checked your properties</source>
-        <translation>a demandé vos propriétés</translation>
+        <translation type="obsolete">a demandé vos propriétés</translation>
     </message>
     <message>
         <source>XNet Server message:</source>
@@ -833,11 +884,11 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Properties sent to %1</source>
-        <translation>Propriétés envoyées à %1</translation>
+        <translation type="obsolete">Propriétés envoyées à %1</translation>
     </message>
     <message>
         <source>name : &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;address : &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;client : &lt;i&gt;%3&lt;/i&gt;&lt;br&gt;time : &lt;i&gt;%4&lt;/i&gt;</source>
-        <translation>nom : &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;adresse : &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;client : &lt;i&gt;%3&lt;/i&gt;&lt;br&gt;heure : &lt;i&gt;%4&lt;/i&gt;</translation>
+        <translation type="obsolete">nom : &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;adresse : &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;client : &lt;i&gt;%3&lt;/i&gt;&lt;br&gt;heure : &lt;i&gt;%4&lt;/i&gt;</translation>
     </message>
 </context>
 <context>
@@ -1691,6 +1742,25 @@ Erreur DNS
     </message>
 </context>
 <context>
+    <name>RzxTrayIcon</name>
+    <message>
+        <source>&amp;Preference</source>
+        <translation type="unfinished">&amp;Préférences</translation>
+    </message>
+    <message>
+        <source>&amp;I&apos;m back !</source>
+        <translation type="unfinished">Je suis &amp;revenu !</translation>
+    </message>
+    <message>
+        <source>I&apos;m &amp;away !</source>
+        <translation type="unfinished">Je m&apos;en &amp;vais !</translation>
+    </message>
+    <message>
+        <source>&amp;Quit</source>
+        <translation type="unfinished">&amp;Quitter</translation>
+    </message>
+</context>
+<context>
     <name>RzxTrayWindow</name>
     <message>
         <source>is now away</source>
@@ -1750,19 +1820,19 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <name>TrayIcon</name>
     <message>
         <source>&amp;I&apos;m back !</source>
-        <translation>Je suis &amp;revenu !</translation>
+        <translation type="obsolete">Je suis &amp;revenu !</translation>
     </message>
     <message>
         <source>I&apos;m &amp;away !</source>
-        <translation>Je m&apos;en &amp;vais !</translation>
+        <translation type="obsolete">Je m&apos;en &amp;vais !</translation>
     </message>
     <message>
         <source>&amp;Quit</source>
-        <translation>&amp;Quitter</translation>
+        <translation type="obsolete">&amp;Quitter</translation>
     </message>
     <message>
         <source>&amp;Preference</source>
-        <translation>&amp;Préférences</translation>
+        <translation type="obsolete">&amp;Préférences</translation>
     </message>
 </context>
 <context>

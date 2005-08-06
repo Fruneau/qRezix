@@ -29,35 +29,37 @@
 #include <QMouseEvent>
 #include <QEvent>
 
+#include "../core/rzxmodule.h"
+
+
 ///Gestion de l'icône système (systray, 'tableau de bord'...)
 /** Cette classe fournit une gestion avec tooltip et actions selon les clics */
-class RzxTrayIcon : public QObject
+class RzxTrayIcon : public RzxModule
 {
 	Q_OBJECT
 
-	Q_PROPERTY( QString toolTip READ toolTip WRITE setToolTip )
-	Q_PROPERTY( QPixmap icon READ icon WRITE setIcon )
+	Q_PROPERTY(QString toolTip READ toolTip WRITE setToolTip )
+	Q_PROPERTY(QPixmap trayIcon READ trayIcon WRITE setTrayIcon )
 
 public:
-	RzxTrayIcon( QObject *parent = 0 );
-	RzxTrayIcon( const QPixmap &, const QString &, QObject *parent = 0 );
+	RzxTrayIcon();
 	~RzxTrayIcon();
 
 	// use WindowMaker dock mode.  ignored on non-X11 platforms
 	void setWMDock(bool use) { v_isWMDock = use; }
 	bool isWMDock() { return v_isWMDock; }
 
-	QPixmap icon() const;
+	QPixmap trayIcon() const;
 	QString toolTip() const;
 
 	void gotCloseEvent();
-	bool isInitialised() const;
+	virtual bool isInitialised() const;
 
 	QPoint getPos();
 
 public slots:
 	void changeTrayIcon();
-	void setIcon( const QPixmap &icon );
+	void setTrayIcon( const QPixmap &icon );
 	void setToolTip( const QString &tip );
 
 	void buildMenu();
@@ -69,9 +71,6 @@ signals:
 	void clicked(const QPoint&);
 	void doubleClicked(const QPoint&);
 	void closed();
-	void wantQuit();
-	void wantPreferences();
-	void wantToggleResponder();
 
 protected:
 	bool event( QEvent * );

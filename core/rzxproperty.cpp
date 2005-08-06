@@ -41,13 +41,15 @@ email                : benoit.casoetto@m4x.org
 #include "rzxcomputer.h"
 #include "rzxserverlistener.h"
 #include "rzxpluginloader.h"
-#include "qrezix.h"
-#include "rzxtrayicon.h"
-#include "rzxrezalmodel.h"
 #include "rzxiconcollection.h"
-#include "rzxapplication.h"
 
-RzxProperty::RzxProperty(QRezix *parent) : QDialog(parent)
+#include "../mainui/qrezix.h"
+#include "../mainui/rzxrezalmodel.h"
+#include "../tray/rzxtrayicon.h"
+#include "../rzxapplication.h"
+
+RzxProperty::RzxProperty(QWidget *parent)
+	:QDialog(parent)
 {
 	setupUi(this);
 	

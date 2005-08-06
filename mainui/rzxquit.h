@@ -19,6 +19,7 @@
 #define RZXQUIT_H
 
 #include <QDialog>
+
 #include "ui_rzxquitui.h"
 
 class RzxConfig;

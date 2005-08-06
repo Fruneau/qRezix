@@ -21,7 +21,8 @@
 #include <QString>
 #include <QHash>
 
-#include "rzxhostaddress.h"
+#include "../core/rzxhostaddress.h"
+#include "../core/rzxmodule.h"
 
 class QPoint;
 class RzxChat;
@@ -31,7 +32,7 @@ class RzxClientListener;
 /**
 @author Florent Bruneau
 */
-class RzxChatLister:public QObject
+class RzxChatLister:public RzxModule
 {
 	Q_OBJECT
 
@@ -45,14 +46,14 @@ class RzxChatLister:public QObject
 
 	bool wellInit;
 
-	RzxChatLister();
 	static RzxChatLister *object;
 
 	public:
+		RzxChatLister();
 		static RzxChatLister *global();
 		~RzxChatLister();
 
-		bool isInitialised() const;
+		virtual bool isInitialised() const;
 
 	public slots:
 		void login(RzxComputer*);
@@ -71,18 +72,13 @@ class RzxChatLister:public QObject
 		void deleteChat(const RzxHostAddress&);
 		void closeChat(const QString& login);
 		void closeChats();
-
-	signals:
-		void wantQuit();
-		void wantPreferences();
-		void wantToggleResponder();
 };
 
 ///Renvoie un objet
 inline RzxChatLister *RzxChatLister::global()
 {
 	if(!object)
-		object = new RzxChatLister();
+		new RzxChatLister();
 	return object;
 }
 

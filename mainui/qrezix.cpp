@@ -37,26 +37,25 @@
 #include <QToolBar>
 #include <QAction>
 
+#include "../rzxapplication.h"
+#include "../core/rzxglobal.h"
+#include "../core/rzxconfig.h"
+#include "../core/rzxiconcollection.h"
+#include "../core/rzxpluginloader.h"
+#include "../core/rzxconnectionlister.h"
+#include "../core/rzxcomputer.h"
+
 #include "qrezix.h"
 
-#include "rzxglobal.h"
-
 #include "rzxquit.h"
-#include "rzxconfig.h"
-#include "rzxiconcollection.h"
-#include "rzxpluginloader.h"
-#include "rzxconnectionlister.h"
-#include "rzxcomputer.h"
 #include "rzxrezalmodel.h"
 #include "rzxrezalview.h"
-#include "rzxapplication.h"
 
 QRezix *QRezix::object = NULL;
 
 QRezix::QRezix(QWidget *parent)
  : QMainWindow(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint), accel(0)
 {
-	Rzx::beginModuleLoading("Main UI");
 	object = this;
 	setupUi(this);
 	statusFlag = false;
@@ -135,7 +134,6 @@ QRezix::QRezix(QWidget *parent)
 	menuFormatChange();
 
 	wellInit = TRUE;
-	Rzx::endModuleLoading("Main UI");
 }
 
 ///Construction des actions
@@ -169,7 +167,6 @@ void QRezix::buildActions()
 ///energistre l'état de la fenêtre et quitte....
 QRezix::~QRezix()
 {
-	Rzx::beginModuleClosing("Main UI");
 	QSize s = size();       // store size
 	
 	//Pas très beau, mais c'est juste pour voir si ça améliore le rétablissement de l'état de la fenêtre sur mac
@@ -189,7 +186,6 @@ QRezix::~QRezix()
 		delete accel;
 		accel = NULL;
 	}
-	Rzx::endModuleClosing("Main UI");
 }
 
 void QRezix::status(const QString& msg, bool fatal)
@@ -238,7 +234,7 @@ void QRezix::closeEvent(QCloseEvent * e){
 bool QRezix::event(QEvent * e){
 	if(e->type()==QEvent::WindowDeactivate)
 	{
-		if(isMinimized() && RzxConfig::global()->useSystray() && RzxApplication::instance()->hasTrayicon())
+		if(isMinimized() && RzxConfig::global()->useSystray() && RzxApplication::instance()->hasHider())
 			hide();
 		return true;
 	}

@@ -14,14 +14,16 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include "../core/rzxmessagebox.h"
+#include "../core/rzxcomputer.h"
+#include "../core/rzxconfig.h"
+#include "../rzxapplication.h"
+
 #include "rzxclientlistener.h"
 
 #include "rzxchatsocket.h"
-#include "rzxmessagebox.h"
-#include "rzxcomputer.h"
-#include "rzxconfig.h"
 #include "rzxchat.h"
-#include "rzxapplication.h"
+
 
 RzxClientListener * RzxClientListener::object = 0;
 

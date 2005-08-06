@@ -18,12 +18,13 @@
 #include <QString>
 #include <QPixmap>
 
+#include "../core/rzxpluginloader.h"
+#include "../core/rzxcomputer.h"
+#include "../core/rzxconfig.h"
+#include "../core/rzxiconcollection.h"
+
 #include "rzxrezalpopup.h"
 
-#include "rzxpluginloader.h"
-#include "rzxcomputer.h"
-#include "rzxconfig.h"
-#include "rzxiconcollection.h"
 
 ///Constructeur on ne peut plus simple...
 RzxRezalPopup::RzxRezalPopup(RzxComputer *computer, const QPoint& point, QWidget *parent)

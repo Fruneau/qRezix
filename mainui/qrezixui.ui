@@ -256,7 +256,7 @@ Each item have a menu (right click)&lt;/p>
   <customwidget>
    <class>RzxRezalView</class>
    <extends>QWidget</extends>
-   <header>rzxrezalview.h</header>
+   <header>mainui/rzxrezalview.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

@@ -17,11 +17,12 @@
 //Pour les communications
 #include <QRegExp>
 
+#include "../core/rzxconfig.h"
+#include "../rzxapplication.h"
+
 #include "rzxchatsocket.h"
 
 #include "rzxchat.h"
-#include "rzxconfig.h"
-#include "rzxapplication.h"
 #include "rzxclientlistener.h"
 #include "rzxchatlister.h"
 
