@@ -33,8 +33,6 @@ email                : benoit.casoetto@m4x.org
 
 #include "rzxproperty.h"
 
-#include "defaults.h"
-
 #include "rzxmessagebox.h"
 #include "rzxhostaddress.h"
 #include "rzxconfig.h"
@@ -42,11 +40,12 @@ email                : benoit.casoetto@m4x.org
 #include "rzxserverlistener.h"
 #include "rzxpluginloader.h"
 #include "rzxiconcollection.h"
+#include "rzxapplication.h"
 
 #include "../mainui/qrezix.h"
 #include "../mainui/rzxrezalmodel.h"
 #include "../tray/rzxtrayicon.h"
-#include "../rzxapplication.h"
+
 
 RzxProperty::RzxProperty(QWidget *parent)
 	:QDialog(parent)

@@ -60,6 +60,7 @@ class RzxModule:public QObject
 	Q_ENUMS(TypeFlags)
 	Q_FLAGS(Type)
 
+
 	public:
 		///Défini la version d'un module
 		/** La version est simplement définie de la forme
@@ -101,13 +102,8 @@ class RzxModule:public QObject
 		};
 		Q_DECLARE_FLAGS(Type, TypeFlags)
 
-	private:
-		QString m_name;
-		QString m_description;
-		Version m_version;
-		QFlags<TypeFlags> m_type;
-		QIcon m_icon;
 
+	//Chargement du module
 	protected:
 		RzxModule(const QString&, const QString&, int, int, int, const QString& = QString());
 		RzxModule(const QString&, const QString&, const Version&);
@@ -118,12 +114,24 @@ class RzxModule:public QObject
 		void beginClosing() const;
 		void endClosing() const;
 
+	public:
+		~RzxModule();
+		virtual bool isInitialised() const = 0;
+
+
+	//Propriétés du modules
+	private:
+		QString m_name;
+		QString m_description;
+		Version m_version;
+		QFlags<TypeFlags> m_type;
+		QIcon m_icon;
+
 	protected slots:
 		void setType(TypeFlags);
 		void setIcon(const QIcon&);
 
 	public:
-		~RzxModule();
 		const QString &name() const;
 		const QString &description() const;
 		const Version &version() const;
@@ -131,12 +139,20 @@ class RzxModule:public QObject
 		const QFlags<TypeFlags> &type() const;
 		const QIcon &icon() const;
 
-		virtual bool isInitialised() const = 0;
 		virtual QWidget *mainWindow() const;
 
-	public:
-		static QString versionToString(const Version&);
 
+	//Gestion de propriétés du module
+	public:
+		virtual QList<QWidget*> propWidgets() const;
+		virtual QStringList propWidgetsName() const;
+
+	public slots:
+		virtual void propUpdate();
+		virtual void propDefault();
+
+
+	//Communication avec qRezix
 	public slots:
 		virtual void show();
 		virtual void hide();
@@ -165,6 +181,12 @@ class RzxModule:public QObject
 		 */
 		void wantToggleResponder();
 
+		///Demande l'activation du répondeur
+		void wantActivateResponder();
+
+		///Demande la désactivation du répondeur
+		void wantDeactivateResponder();
+
 		///Demande l'inversion de l'état d'affichage de l'interface
 		/** Si l'interface est affiché on la cache et vice-versa. Ce signal est connecté aux
 		 * modules de type \ref MOD_MAINUI si le module a le type \ref MOD_HIDE
@@ -182,6 +204,9 @@ class RzxModule:public QObject
 		 * le module a le type \ref MOD_HIDE
 		 */
 		void wantHide();
+
+	public:
+		static QString versionToString(const Version&);
 };
 
 #endif

@@ -15,17 +15,9 @@ email                : sylvain.joyeux@m4x.org
 *                                                                         *
 ***************************************************************************/
 
-#include <QApplication>
-#include <QTextCodec>
-#include <QPixmap>
-#include <QBitmap>
-#include <QMenu>
-#include <QDir>
-#include <QString>
-
 #include "core/rzxglobal.h"
 
-#include "rzxapplication.h"
+#include "core/rzxapplication.h"
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_BSD) && !defined(Q_OS_MAC)
 /* for signal handling */
