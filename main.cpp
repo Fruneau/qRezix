@@ -15,9 +15,9 @@ email                : sylvain.joyeux@m4x.org
 *                                                                         *
 ***************************************************************************/
 
-#include "core/rzxglobal.h"
+#include <RzxGlobal>
+#include <RzxApplication>
 
-#include "core/rzxapplication.h"
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_BSD) && !defined(Q_OS_MAC)
 /* for signal handling */

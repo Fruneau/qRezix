@@ -17,13 +17,25 @@
 #include <QProcess>
 #include <QSound>
 
-#include "../core/rzxglobal.h"
-#include "../core/rzxcomputer.h"
-#include "../core/rzxconnectionlister.h"
+#include <RzxGlobal>
+#include <RzxComputer>
+#include <RzxConnectionLister>
+#include <RzxIconCollection>
+#include <RzxProperty>
 
 #include "rzxnotifier.h"
 
 #include "rzxtraywindow.h"
+#include "ui_rzxnotifierpropui.h"
+
+#ifdef RZX_NOTIFIER_BUILTIN
+#	define RZX_BUILTIN
+#else
+#	define RZX_PLUGIN
+#endif
+
+///Exporte le module
+RZX_MODULE_EXPORT(RzxNotifier)
 
 ///Contruction du notifier
 /** La construction consiste juste à mettre en place les connexions qvb
@@ -33,6 +45,8 @@ RzxNotifier::RzxNotifier()
 {
 	beginLoading();
 	favoriteWarn = false;
+	ui = NULL;
+	propWidget = NULL;
 	setType(MOD_GUI);
 	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(RzxConnectionLister::global(), SIGNAL(loginEnd()), this, SLOT(loginEnd()));
@@ -50,6 +64,12 @@ RzxNotifier::~RzxNotifier()
 bool RzxNotifier::isInitialised() const
 {
 	return true;
+}
+
+/** \reimp */
+QIcon RzxNotifier::icon() const
+{
+	return RzxIconCollection::getIcon(Rzx::ICON_FAVORITE);
 }
 
 ///Prend en note le fait que les connexions initiales sont terminées
@@ -94,4 +114,66 @@ void RzxNotifier::favoriteUpdated(RzxComputer *computer)
 	//Affichage de la fenêtre de notification de connexion
 	if(RzxConfig::showConnection())
 		new RzxTrayWindow(computer);
+}
+
+/** \reimp */
+QList<QWidget*> RzxNotifier::propWidgets()
+{
+	if(!ui)
+		ui = new Ui::RzxNotifierPropUI;
+	if(!propWidget)
+	{
+		propWidget = new QWidget;
+		ui->setupUi(propWidget);
+		connect( ui->btnBeepBrowse, SIGNAL( clicked()), this, SLOT(chooseBeepConnection())) ;
+	}
+	return QList<QWidget*>() << propWidget;
+}
+
+/** \reimp */
+QStringList RzxNotifier::propWidgetsName()
+{
+	return QStringList() << name();
+}
+
+/** \reimp */
+void RzxNotifier::propInit()
+{
+	ui->cbWarnFavorite->setChecked( RzxConfig::showConnection());
+	ui->chkBeepFavorites->setChecked( RzxConfig::beepConnection());
+}
+
+/** \reimp */
+void RzxNotifier::propUpdate()
+{
+	if(!ui) return;
+
+	RzxConfig *cfgObject = RzxConfig::global();
+	cfgObject -> writeEntry( "beepConnection", ui->chkBeepFavorites->isChecked());
+	cfgObject -> writeEntry( "showConnection", ui->cbWarnFavorite->isChecked());
+	cfgObject -> writeEntry( "txtBeepConnection", ui->txtBeepFavorites->text());
+}
+
+/** \reimp */
+void RzxNotifier::propClose()
+{
+	if(propWidget)
+	{
+		delete propWidget;
+		propWidget = NULL;
+	}
+	if(ui)
+	{
+		delete ui;
+		ui = NULL;
+	}
+}
+
+///Choix du son à jouer à la connexion d'un favoris
+void RzxNotifier::chooseBeepConnection()
+{
+	QString file = RzxProperty::browse(tr("All files"), tr("Sound file selection"), "*");
+	if (file.isEmpty()) return;
+
+	ui->txtBeepFavorites -> setText(file);
 }

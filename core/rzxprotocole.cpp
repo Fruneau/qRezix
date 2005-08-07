@@ -24,14 +24,12 @@
 #include <QImage>
 #include <QDialog>
 
-#include "rzxprotocole.h"
+#include <RzxProtocole>
+#include <RzxComputer>
+#include <RzxConfig>
+#include <RzxIconCollection>
 
 #include "ui_rzxwrongpassui.h"
-
-#include "rzxhostaddress.h"
-#include "rzxcomputer.h"
-#include "rzxconfig.h"
-#include "rzxiconcollection.h"
 #include "md5.h"
 
 #define MD5_ADD "Vive le BR"

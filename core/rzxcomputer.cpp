@@ -22,13 +22,12 @@
 #include <QProcess>
 #include <QApplication>
 
-#include "defaults.h"
-#include "rzxcomputer.h"
+#include <RzxComputer>
 
-#include "rzxconfig.h"
-#include "rzxutilslauncher.h"
-#include "rzxconnectionlister.h"
-#include "rzxiconcollection.h"
+#include <RzxConfig>
+#include <RzxUtilsLauncher>
+#include <RzxConnectionLister>
+#include <RzxIconCollection>
 
 const char *RzxComputer::promalText[4] = {
     "?",

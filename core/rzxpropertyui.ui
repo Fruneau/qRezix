@@ -9,7 +9,7 @@
     <x>0</x>
     <y>0</y>
     <width>778</width>
-    <height>597</height>
+    <height>592</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -18,216 +18,606 @@
   <property name="whatsThis" >
    <string>&lt;h3>Menu&lt;/h3>&lt;p>Define the appearance of the menus and butons of the interface&lt;/p></string>
   </property>
-  <layout class="QGridLayout" >
-   <property name="margin" >
-    <number>8</number>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>551</y>
+     <width>760</width>
+     <height>32</height>
+    </rect>
    </property>
-   <property name="spacing" >
-    <number>6</number>
+   <layout class="QHBoxLayout" >
+    <property name="margin" >
+     <number>1</number>
+    </property>
+    <property name="spacing" >
+     <number>2</number>
+    </property>
+    <item>
+     <widget class="QPushButton" name="btnAboutQt" >
+      <property name="text" >
+       <string>About Qt</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer>
+      <property name="orientation" >
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType" >
+       <enum>QSizePolicy::Expanding</enum>
+      </property>
+      <property name="sizeHint" >
+       <size>
+        <width>213</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnOK" >
+      <property name="text" >
+       <string>Accept</string>
+      </property>
+      <property name="default" >
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnMiseAJour" >
+      <property name="text" >
+       <string>Apply</string>
+      </property>
+      <property name="default" >
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnAnnuler" >
+      <property name="text" >
+       <string>Cancel</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>210</x>
+     <y>9</y>
+     <width>559</width>
+     <height>39</height>
+    </rect>
    </property>
-   <item row="0" column="1" >
-    <layout class="QVBoxLayout" >
+   <layout class="QVBoxLayout" >
+    <property name="margin" >
+     <number>2</number>
+    </property>
+    <property name="spacing" >
+     <number>6</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="lblTitle" >
+      <property name="sizePolicy" >
+       <sizepolicy>
+        <hsizetype>5</hsizetype>
+        <vsizetype>0</vsizetype>
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize" >
+       <size>
+        <width>0</width>
+        <height>24</height>
+       </size>
+      </property>
+      <property name="maximumSize" >
+       <size>
+        <width>32767</width>
+        <height>24</height>
+       </size>
+      </property>
+      <property name="text" >
+       <string>&lt;h2>New Item&lt;/h2></string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="Line" name="line4" >
+      <property name="frameShape" >
+       <enum>QFrame::HLine</enum>
+      </property>
+      <property name="frameShadow" >
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth" >
+       <number>2</number>
+      </property>
+      <property name="orientation" >
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QListWidget" name="lbMenu" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>195</width>
+     <height>536</height>
+    </rect>
+   </property>
+   <property name="sizePolicy" >
+    <sizepolicy>
+     <hsizetype>5</hsizetype>
+     <vsizetype>7</vsizetype>
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize" >
+    <size>
+     <width>120</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Plain</enum>
+   </property>
+   <item>
+    <property name="text" >
+     <string>Infos</string>
+    </property>
+   </item>
+   <item>
+    <property name="text" >
+     <string>Interfaces</string>
+    </property>
+   </item>
+   <item>
+    <property name="text" >
+     <string>Network</string>
+    </property>
+   </item>
+   <item>
+    <property name="text" >
+     <string>Tools</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QStackedWidget" name="prefStack" >
+   <property name="geometry" >
+    <rect>
+     <x>210</x>
+     <y>54</y>
+     <width>559</width>
+     <height>491</height>
+    </rect>
+   </property>
+   <property name="sizePolicy" >
+    <sizepolicy>
+     <hsizetype>3</hsizetype>
+     <vsizetype>5</vsizetype>
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="currentIndex" >
+    <number>1</number>
+   </property>
+   <widget class="QWidget" name="pageInfo" >
+    <layout class="QGridLayout" >
      <property name="margin" >
-      <number>2</number>
+      <number>8</number>
      </property>
      <property name="spacing" >
       <number>6</number>
      </property>
-     <item>
-      <widget class="QLabel" name="lblTitle" >
+     <item row="2" column="0" >
+      <widget class="QGroupBox" name="grpInfoContact" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>5</hsizetype>
-         <vsizetype>0</vsizetype>
+         <vsizetype>5</vsizetype>
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize" >
-        <size>
-         <width>0</width>
-         <height>24</height>
-        </size>
+       <property name="whatsThis" >
+        <string>&lt;h3>How to contact&lt;/h3>&lt;p>Some informations which give ways to contact you&lt;/p></string>
        </property>
-       <property name="maximumSize" >
-        <size>
-         <width>32767</width>
-         <height>24</height>
-        </size>
+       <property name="title" >
+        <string>How to contact</string>
        </property>
-       <property name="text" >
-        <string>&lt;h2>New Item&lt;/h2></string>
-       </property>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>6</number>
+        </property>
+        <property name="spacing" >
+         <number>2</number>
+        </property>
+        <item row="3" column="0" >
+         <widget class="QLabel" name="lblCasert" >
+          <property name="text" >
+           <string>Room:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>txtCasert</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1" >
+         <widget class="QLineEdit" name="txtCasert" />
+        </item>
+        <item row="2" column="0" >
+         <widget class="QLabel" name="lblPhone" >
+          <property name="text" >
+           <string>Phone number:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>txtPhone</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" >
+         <widget class="QLineEdit" name="txtPhone" >
+          <property name="sizePolicy" >
+           <sizepolicy>
+            <hsizetype>7</hsizetype>
+            <vsizetype>0</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="cursorPosition" >
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" >
+         <widget class="QLabel" name="lblWeb" >
+          <property name="text" >
+           <string>Web page:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>txtWeb</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" >
+         <widget class="QLineEdit" name="txtWeb" />
+        </item>
+        <item row="0" column="1" >
+         <widget class="QLineEdit" name="txtMail" >
+          <property name="sizePolicy" >
+           <sizepolicy>
+            <hsizetype>7</hsizetype>
+            <vsizetype>0</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text" >
+           <string/>
+          </property>
+          <property name="cursorPosition" >
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" >
+         <widget class="QLabel" name="lblMail" >
+          <property name="text" >
+           <string>e-mail:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>txtMail</cstring>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </item>
-     <item>
-      <widget class="Line" name="line4" >
-       <property name="frameShape" >
-        <enum>QFrame::HLine</enum>
+     <item row="1" column="0" >
+      <widget class="QGroupBox" name="grpInfoPerso" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>5</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Plain</enum>
+       <property name="whatsThis" >
+        <string>&lt;h3>Personnal information&lt;/h3>&lt;p>Give here some informations about you.&lt;/p>&lt;p>This informations can be very useful, so you should fill it with honesty&lt;/p></string>
        </property>
-       <property name="lineWidth" >
-        <number>2</number>
+       <property name="title" >
+        <string>Personnal information</string>
        </property>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>6</number>
+        </property>
+        <property name="spacing" >
+         <number>2</number>
+        </property>
+        <item row="1" column="0" >
+         <widget class="QLabel" name="lblFirstname" >
+          <property name="text" >
+           <string>First name:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>txtFirstname</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" >
+         <widget class="QLabel" name="lblSurname" >
+          <property name="text" >
+           <string>Nick:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>txtSurname</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" >
+         <widget class="QLineEdit" name="txtFirstname" />
+        </item>
+        <item row="2" column="1" >
+         <widget class="QLineEdit" name="txtSurname" />
+        </item>
+        <item row="0" column="1" >
+         <widget class="QLineEdit" name="txtName" />
+        </item>
+        <item row="0" column="0" >
+         <widget class="QLabel" name="lblName" >
+          <property name="text" >
+           <string>Surname:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>txtName</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0" >
+         <widget class="QLabel" name="lbPromo" >
+          <property name="text" >
+           <string>Promo:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>cmbPromo</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1" >
+         <widget class="QComboBox" name="cmbPromo" >
+          <property name="sizePolicy" >
+           <sizepolicy>
+            <hsizetype>7</hsizetype>
+            <vsizetype>0</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <item>
+           <property name="text" >
+            <string>orange</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>rouje</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>jone</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="4" column="0" >
+         <widget class="QLabel" name="lblSport" >
+          <property name="text" >
+           <string>Sport:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>cmbSport</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1" >
+         <widget class="QComboBox" name="cmbSport" >
+          <item>
+           <property name="text" >
+            <string>None</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Athletism</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Rowing</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Basketball</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Orienting</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Riding</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Climbing</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Fencing</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Football</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Golf</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Handball</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Judo</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Swimming</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Rugby</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Tennis</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Sailing</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Volleyball</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="2" column="1" >
+      <spacer>
        <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Vertical</enum>
        </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>20</width>
+         <height>41</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="1" >
+      <widget class="QGroupBox" name="groupServices" >
+       <property name="whatsThis" >
+        <string>&lt;h3>Open services&lt;/h3>&lt;p>Select the servers you want to share with all the users of the network. If a server is not present, it won't be displayed as present&lt;/p></string>
+       </property>
+       <property name="title" >
+        <string>Open services</string>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>8</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item row="0" column="0" >
+         <widget class="QCheckBox" name="CbSamba" >
+          <property name="sizePolicy" >
+           <sizepolicy>
+            <hsizetype>3</hsizetype>
+            <vsizetype>0</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text" >
+           <string>Samba</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" >
+         <widget class="QCheckBox" name="CbFTP" >
+          <property name="sizePolicy" >
+           <sizepolicy>
+            <hsizetype>3</hsizetype>
+            <vsizetype>0</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text" >
+           <string>FTP</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" >
+         <widget class="QCheckBox" name="CbHTTP" >
+          <property name="text" >
+           <string>HTTP</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0" >
+         <widget class="QCheckBox" name="CbNews" >
+          <property name="text" >
+           <string>News</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </item>
-    </layout>
-   </item>
-   <item row="1" column="1" >
-    <widget class="QStackedWidget" name="prefStack" >
-     <property name="sizePolicy" >
-      <sizepolicy>
-       <hsizetype>3</hsizetype>
-       <vsizetype>5</vsizetype>
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="currentIndex" >
-      <number>4</number>
-     </property>
-     <widget class="QWidget" name="pageInfo" >
-      <layout class="QGridLayout" >
+     <item row="0" column="0" colspan="2" >
+      <layout class="QHBoxLayout" >
        <property name="margin" >
-        <number>8</number>
+        <number>0</number>
        </property>
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="0" column="1" >
-        <widget class="QGroupBox" name="groupBox31" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>5</hsizetype>
-           <vsizetype>5</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize" >
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-         <property name="whatsThis" >
-          <string>&lt;h3>Icon&lt;/h3>&lt;p>Select a small picture (64x64) which will be a kind of logo for your computer&lt;/p></string>
-         </property>
-         <property name="title" >
-          <string>Icon selection</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>6</number>
-          </property>
-          <property name="spacing" >
-           <number>2</number>
-          </property>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="pxmIcon" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>5</hsizetype>
-              <vsizetype>0</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize" >
-             <size>
-              <width>16</width>
-              <height>16</height>
-             </size>
-            </property>
-            <property name="maximumSize" >
-             <size>
-              <width>128</width>
-              <height>64</height>
-             </size>
-            </property>
-            <property name="pixmap" >
-             <pixmap/>
-            </property>
-            <property name="scaledContents" >
-             <bool>false</bool>
-            </property>
-            <property name="alignment" >
-             <set>Qt::AlignHCenter</set>
-            </property>
-            <property name="buddy" >
-             <cstring>btnBrowse</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" >
-           <widget class="QToolButton" name="btnBrowse" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>5</hsizetype>
-              <vsizetype>5</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text" >
-             <string>Browse...</string>
-            </property>
-            <property name="autoRaise" >
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" >
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>16</width>
-              <height>16</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="0" column="0" >
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>16</width>
-              <height>16</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-         <widget class="QWidget" name="widget_2" >
-          <property name="geometry" >
-           <rect>
-            <x>13</x>
-            <y>63</y>
-            <width>60</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-       </item>
-       <item row="0" column="0" >
+       <item>
         <widget class="QGroupBox" name="grpInfoRezix" >
          <property name="sizePolicy" >
           <sizepolicy>
@@ -372,1209 +762,27 @@
          </layout>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2" >
-        <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
+       <item>
+        <widget class="QGroupBox" name="groupBox31" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>5</hsizetype>
+           <vsizetype>5</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <property name="spacing" >
-          <number>5</number>
-         </property>
-         <item>
-          <widget class="QGroupBox" name="grpInfoPerso" >
-           <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>5</hsizetype>
-             <vsizetype>5</vsizetype>
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="whatsThis" >
-            <string>&lt;h3>Personnal information&lt;/h3>&lt;p>Give here some informations about you.&lt;/p>&lt;p>This informations can be very useful, so you should fill it with honesty&lt;/p></string>
-           </property>
-           <property name="title" >
-            <string>Personnal information</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>6</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="lblFirstname" >
-              <property name="text" >
-               <string>First name:</string>
-              </property>
-              <property name="buddy" >
-               <cstring>txtFirstname</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0" >
-             <widget class="QLabel" name="lblSurname" >
-              <property name="text" >
-               <string>Nick:</string>
-              </property>
-              <property name="buddy" >
-               <cstring>txtSurname</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1" >
-             <widget class="QLineEdit" name="txtFirstname" />
-            </item>
-            <item row="2" column="1" >
-             <widget class="QLineEdit" name="txtSurname" />
-            </item>
-            <item row="0" column="1" >
-             <widget class="QLineEdit" name="txtName" />
-            </item>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="lblName" >
-              <property name="text" >
-               <string>Surname:</string>
-              </property>
-              <property name="buddy" >
-               <cstring>txtName</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0" >
-             <widget class="QLabel" name="lbPromo" >
-              <property name="text" >
-               <string>Promo:</string>
-              </property>
-              <property name="buddy" >
-               <cstring>cmbPromo</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1" >
-             <widget class="QComboBox" name="cmbPromo" >
-              <property name="sizePolicy" >
-               <sizepolicy>
-                <hsizetype>7</hsizetype>
-                <vsizetype>0</vsizetype>
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <item>
-               <property name="text" >
-                <string>orange</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>rouje</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>jone</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="4" column="0" >
-             <widget class="QLabel" name="lblSport" >
-              <property name="text" >
-               <string>Sport:</string>
-              </property>
-              <property name="buddy" >
-               <cstring>cmbSport</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1" >
-             <widget class="QComboBox" name="cmbSport" >
-              <item>
-               <property name="text" >
-                <string>None</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Athletism</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Rowing</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Basketball</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Orienting</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Riding</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Climbing</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Fencing</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Football</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Golf</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Handball</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Judo</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Swimming</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Rugby</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Tennis</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Sailing</string>
-               </property>
-              </item>
-              <item>
-               <property name="text" >
-                <string>Volleyball</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="grpInfoContact" >
-           <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>5</hsizetype>
-             <vsizetype>5</vsizetype>
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="whatsThis" >
-            <string>&lt;h3>How to contact&lt;/h3>&lt;p>Some informations which give ways to contact you&lt;/p></string>
-           </property>
-           <property name="title" >
-            <string>How to contact</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>6</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item row="3" column="0" >
-             <widget class="QLabel" name="lblCasert" >
-              <property name="text" >
-               <string>Room:</string>
-              </property>
-              <property name="buddy" >
-               <cstring>txtCasert</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1" >
-             <widget class="QLineEdit" name="txtCasert" />
-            </item>
-            <item row="2" column="0" >
-             <widget class="QLabel" name="lblPhone" >
-              <property name="text" >
-               <string>Phone number:</string>
-              </property>
-              <property name="buddy" >
-               <cstring>txtPhone</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1" >
-             <widget class="QLineEdit" name="txtPhone" >
-              <property name="sizePolicy" >
-               <sizepolicy>
-                <hsizetype>7</hsizetype>
-                <vsizetype>0</vsizetype>
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="cursorPosition" >
-               <number>0</number>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="lblWeb" >
-              <property name="text" >
-               <string>Web page:</string>
-              </property>
-              <property name="buddy" >
-               <cstring>txtWeb</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1" >
-             <widget class="QLineEdit" name="txtWeb" />
-            </item>
-            <item row="0" column="1" >
-             <widget class="QLineEdit" name="txtMail" >
-              <property name="sizePolicy" >
-               <sizepolicy>
-                <hsizetype>7</hsizetype>
-                <vsizetype>0</vsizetype>
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text" >
-               <string/>
-              </property>
-              <property name="cursorPosition" >
-               <number>0</number>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="lblMail" >
-              <property name="text" >
-               <string>e-mail:</string>
-              </property>
-              <property name="buddy" >
-               <cstring>txtMail</cstring>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="2" column="0" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType" >
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" >
+         <property name="minimumSize" >
           <size>
-           <width>20</width>
-           <height>41</height>
+           <width>16</width>
+           <height>16</height>
           </size>
          </property>
-        </spacer>
-       </item>
-      </layout>
-      <widget class="QWidget" name="widget" >
-       <property name="geometry" >
-        <rect>
-         <x>9</x>
-         <y>9</y>
-         <width>502</width>
-         <height>166</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QWidget" name="pageLayout" >
-      <layout class="QGridLayout" >
-       <property name="margin" >
-        <number>8</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <item row="0" column="1" >
-        <layout class="QVBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="QGroupBox" name="grpTheme" >
-           <property name="title" >
-            <string>Icon details</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>6</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item row="2" column="0" >
-             <layout class="QHBoxLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
-              <property name="spacing" >
-               <number>2</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="lblTheme_2" >
-                <property name="enabled" >
-                 <bool>true</bool>
-                </property>
-                <property name="text" >
-                 <string>Themes</string>
-                </property>
-                <property name="buddy" >
-                 <cstring>cmbIconTheme</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="cmbIconTheme" >
-                <property name="minimumSize" >
-                 <size>
-                  <width>0</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="whatsThis" >
-                 <string>&lt;h3>Themes&lt;/h3>&lt;p>Choose a themes for the icons.&lt;/p></string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="3" column="0" >
-             <layout class="QHBoxLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
-              <property name="spacing" >
-               <number>2</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="Double_clic_2" >
-                <property name="text" >
-                 <string>Action on double-clic</string>
-                </property>
-                <property name="buddy" >
-                 <cstring>cmdDoubleClic</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="cmdDoubleClic" >
-                <property name="whatsThis" >
-                 <string>&lt;h3>Double clic&lt;/h3>&lt;p>Define the action to execute when you double click on an item&lt;/p></string>
-                </property>
-                <item>
-                 <property name="text" >
-                  <string>Chat</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text" >
-                  <string>Open FTP</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="0" column="0" >
-             <layout class="QHBoxLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
-              <property name="spacing" >
-               <number>2</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="taille_des_icones_2" >
-                <property name="text" >
-                 <string>Icon size</string>
-                </property>
-                <property name="buddy" >
-                 <cstring>cmbIconSize</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="cmbIconSize" >
-                <property name="whatsThis" >
-                 <string>&lt;h3>Icon size&lt;/h3>&lt;p>Do you prefer big icons (64x64) or small icons (32x32) for the pictures of the users&lt;/p></string>
-                </property>
-                <item>
-                 <property name="text" >
-                  <string>32*32</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text" >
-                  <string>64*64</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="1" column="0" >
-             <widget class="QCheckBox" name="cbHighlight" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Highlight&lt;/h3>&lt;p>If you choose to display small icons and check this box then the selected item will be displayed with a big icon.&lt;/p></string>
-              </property>
-              <property name="text" >
-               <string>Highlight the selection</string>
-              </property>
-              <property name="checked" >
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="grpMenu" >
-           <property name="title" >
-            <string>Menu</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>6</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item row="1" column="0" >
-             <layout class="QHBoxLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
-              <property name="spacing" >
-               <number>2</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="lblMenuText_2" >
-                <property name="text" >
-                 <string>Text position:</string>
-                </property>
-                <property name="buddy" >
-                 <cstring>cmbMenuText</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="cmbMenuText" >
-                <property name="currentIndex" >
-                 <number>0</number>
-                </property>
-                <item>
-                 <property name="text" >
-                  <string>No text</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text" >
-                  <string>Beside icon</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text" >
-                  <string>Below icon</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="0" column="0" >
-             <layout class="QHBoxLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
-              <property name="spacing" >
-               <number>6</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="lblMenuIconSize_2" >
-                <property name="text" >
-                 <string>Icon size:</string>
-                </property>
-                <property name="buddy" >
-                 <cstring>cmbMenuIcons</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="cmbMenuIcons" >
-                <property name="currentIndex" >
-                 <number>0</number>
-                </property>
-                <item>
-                 <property name="text" >
-                  <string>No icon</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text" >
-                  <string>Small icons</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text" >
-                  <string>Big icons</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="grpTab" >
-           <property name="title" >
-            <string>Tab</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>6</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item row="1" column="0" >
-             <widget class="QCheckBox" name="cbSearch" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Search&lt;/h3>&lt;p>Do you want to see the search tool ?&lt;/p></string>
-              </property>
-              <property name="text" >
-               <string>Show Search Tools</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0" >
-             <layout class="QHBoxLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
-              <property name="spacing" >
-               <number>2</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="lblDefaultTab_2" >
-                <property name="text" >
-                 <string>Tab to select on start:</string>
-                </property>
-                <property name="buddy" >
-                 <cstring>cmbDefaultTab</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="cmbDefaultTab" >
-                <property name="whatsThis" >
-                 <string>&lt;h3>Tab&lt;/h3>&lt;p>When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p></string>
-                </property>
-                <property name="currentIndex" >
-                 <number>0</number>
-                </property>
-                <item>
-                 <property name="text" >
-                  <string>Favorites</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text" >
-                  <string>Everybody</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="0" column="0" >
-        <layout class="QVBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="QGroupBox" name="AffColonnes" >
-           <property name="whatsThis" >
-            <string>&lt;h3>Columns layout&lt;/h3>&lt;p>Choose the columns you want to see...&lt;/p></string>
-           </property>
-           <property name="title" >
-            <string>Columns layout</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>6</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item row="0" column="0" >
-             <widget class="QCheckBox" name="cbcIcone" >
-              <property name="text" >
-               <string>Icon</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0" >
-             <widget class="QCheckBox" name="cbcRemarque" >
-              <property name="text" >
-               <string>Comment</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0" >
-             <widget class="QCheckBox" name="cbcNom" >
-              <property name="text" >
-               <string>Name</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0" >
-             <widget class="QCheckBox" name="cbcPromo" >
-              <property name="text" >
-               <string>Promotion</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0" >
-             <widget class="QCheckBox" name="cbcOS" >
-              <property name="text" >
-               <string>OS</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0" >
-             <widget class="QCheckBox" name="cbcClient" >
-              <property name="text" >
-               <string>Client</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1" >
-             <widget class="QCheckBox" name="cbcIP" >
-              <property name="text" >
-               <string>IP</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1" >
-             <widget class="QCheckBox" name="cbcGateway" >
-              <property name="text" >
-               <string>Same gateway</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1" >
-             <widget class="QCheckBox" name="cbcSamba" >
-              <property name="text" >
-               <string>Samba</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1" >
-             <widget class="QCheckBox" name="cbcNews" >
-              <property name="text" >
-               <string>News</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1" >
-             <widget class="QCheckBox" name="cbcHTTP" >
-              <property name="text" >
-               <string>Web</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1" >
-             <widget class="QCheckBox" name="cbcFTP" >
-              <property name="text" >
-               <string>FTP</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1" >
-             <widget class="QCheckBox" name="cbcResal" >
-              <property name="text" >
-               <string>Place</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="grpToolTips" >
-           <property name="whatsThis" >
-            <string>&lt;h3>ToolTips&lt;/h3>&lt;p>ToolTips are little windows that appears when you </string>
-           </property>
-           <property name="title" >
-            <string>ToolTips</string>
-           </property>
-           <property name="flat" >
-            <bool>false</bool>
-           </property>
-           <property name="checkable" >
-            <bool>false</bool>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>6</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item row="3" column="0" >
-             <widget class="QCheckBox" name="cbTooltipFtp" >
-              <property name="enabled" >
-               <bool>false</bool>
-              </property>
-              <property name="text" >
-               <string>FTP</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0" >
-             <widget class="QCheckBox" name="cbTooltipNews" >
-              <property name="enabled" >
-               <bool>false</bool>
-              </property>
-              <property name="text" >
-               <string>News</string>
-              </property>
-             </widget>
-            </item>
-            <item rowspan="2" row="1" column="0" colspan="2" >
-             <widget class="Line" name="line2" >
-              <property name="frameShape" >
-               <enum>QFrame::HLine</enum>
-              </property>
-              <property name="frameShadow" >
-               <enum>QFrame::Sunken</enum>
-              </property>
-              <property name="orientation" >
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0" >
-             <widget class="QCheckBox" name="cbTooltipSamba" >
-              <property name="enabled" >
-               <bool>false</bool>
-              </property>
-              <property name="text" >
-               <string>Samba</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1" >
-             <widget class="QCheckBox" name="cbTooltipVersion" >
-              <property name="enabled" >
-               <bool>false</bool>
-              </property>
-              <property name="text" >
-               <string>Client version</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="0" >
-             <widget class="QCheckBox" name="cbTooltipPromo" >
-              <property name="enabled" >
-               <bool>false</bool>
-              </property>
-              <property name="text" >
-               <string>Promotion</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1" >
-             <widget class="QCheckBox" name="cbTooltipIP" >
-              <property name="enabled" >
-               <bool>false</bool>
-              </property>
-              <property name="text" >
-               <string>Ip address</string>
-              </property>
-             </widget>
-            </item>
-            <item rowspan="2" row="2" column="1" >
-             <widget class="QCheckBox" name="cbTooltipOS" >
-              <property name="enabled" >
-               <bool>false</bool>
-              </property>
-              <property name="text" >
-               <string>OS</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1" >
-             <widget class="QCheckBox" name="cbTooltipResal" >
-              <property name="enabled" >
-               <bool>false</bool>
-              </property>
-              <property name="text" >
-               <string>Place</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0" >
-             <widget class="QCheckBox" name="cbTooltipHttp" >
-              <property name="enabled" >
-               <bool>false</bool>
-              </property>
-              <property name="text" >
-               <string>Web</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0" colspan="2" >
-             <widget class="QCheckBox" name="cbTooltips" >
-              <property name="text" >
-               <string>Enable tooltips</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="1" >
-             <widget class="QCheckBox" name="cbTooltipFeatures" >
-              <property name="enabled" >
-               <bool>false</bool>
-              </property>
-              <property name="text" >
-               <string>Features</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="0" colspan="2" >
-             <widget class="QCheckBox" name="cbTooltipProperties" >
-              <property name="enabled" >
-               <bool>false</bool>
-              </property>
-              <property name="text" >
-               <string>Properties</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-      <widget class="QWidget" name="layoutWidget" >
-       <property name="geometry" >
-        <rect>
-         <x>249</x>
-         <y>9</y>
-         <width>262</width>
-         <height>478</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QWidget" name="widget_3" >
-       <property name="geometry" >
-        <rect>
-         <x>250</x>
-         <y>251</y>
-         <width>260</width>
-         <height>235</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QWidget" name="pageNetwork" >
-      <layout class="QGridLayout" >
-       <property name="margin" >
-        <number>8</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <item rowspan="2" row="0" column="2" >
-        <widget class="QGroupBox" name="GroupBox9" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>3</hsizetype>
-           <vsizetype>5</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
          <property name="whatsThis" >
-          <string>&lt;h3>Clients&lt;/h3>&lt;p>Choose the program you want to use. You can choose a predefined client, or typed the command line to use&lt;/p></string>
+          <string>&lt;h3>Icon&lt;/h3>&lt;p>Select a small picture (64x64) which will be a kind of logo for your computer&lt;/p></string>
          </property>
          <property name="title" >
-          <string>Clients</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>6</number>
-          </property>
-          <property name="spacing" >
-           <number>2</number>
-          </property>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="TextLabel1" >
-            <property name="text" >
-             <string>FTP client</string>
-            </property>
-            <property name="buddy" >
-             <cstring>clientFtp</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QComboBox" name="clientFtp" >
-            <property name="editable" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0" >
-           <widget class="QComboBox" name="clientNews" >
-            <property name="editable" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0" >
-           <widget class="QLabel" name="TextLabel3" >
-            <property name="text" >
-             <string>News reader</string>
-            </property>
-            <property name="buddy" >
-             <cstring>clientNews</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" >
-           <widget class="QComboBox" name="clientHttp" >
-            <property name="editable" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" >
-           <widget class="QLabel" name="TextLabel2" >
-            <property name="text" >
-             <string>Web browser</string>
-            </property>
-            <property name="buddy" >
-             <cstring>clientHttp</cstring>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="3" column="0" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType" >
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>160</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="0" >
-        <widget class="QGroupBox" name="grpComm" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>3</hsizetype>
-           <vsizetype>5</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="title" >
-          <string>Network configuration</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>6</number>
-          </property>
-          <property name="spacing" >
-           <number>2</number>
-          </property>
-          <item row="0" column="0" >
-           <layout class="QHBoxLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="lblServername" >
-              <property name="text" >
-               <string>Server:</string>
-              </property>
-              <property name="buddy" >
-               <cstring>server_name</cstring>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="server_name" >
-              <property name="sizePolicy" >
-               <sizepolicy>
-                <hsizetype>3</hsizetype>
-                <vsizetype>0</vsizetype>
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="whatsThis" >
-               <string>&lt;h3>Server&lt;/h3>&lt;p>Define the address of the xnetserver&lt;/p></string>
-              </property>
-              <property name="text" >
-               <string/>
-              </property>
-              <property name="cursorPosition" >
-               <number>0</number>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="0" >
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item row="1" column="1" >
-             <widget class="QSpinBox" name="chat_port" >
-              <property name="toolTip" >
-               <string>&lt;h3>Peer2peer port&lt;/h3>&lt;p>Define the port of the chat&lt;/p>&lt;p>You shouldn't have to modify this value&lt;/p></string>
-              </property>
-              <property name="maximum" >
-               <number>32768</number>
-              </property>
-              <property name="value" >
-               <number>5050</number>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="lblServerport" >
-              <property name="sizePolicy" >
-               <sizepolicy>
-                <hsizetype>3</hsizetype>
-                <vsizetype>1</vsizetype>
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text" >
-               <string>Port:</string>
-              </property>
-              <property name="buddy" >
-               <cstring>server_port</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1" >
-             <widget class="QSpinBox" name="server_port" >
-              <property name="toolTip" >
-               <string>&lt;h3>Port&lt;/h3>&lt;p>Defines the port to connect to on the xnetserver&lt;/p>&lt;p>You shouldn't have to modify this value&lt;/p></string>
-              </property>
-              <property name="maximum" >
-               <number>32768</number>
-              </property>
-              <property name="value" >
-               <number>5053</number>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="lblServerport_2" >
-              <property name="text" >
-               <string>Peer2peer port:</string>
-              </property>
-              <property name="buddy" >
-               <cstring>chat_port</cstring>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="0" >
-        <widget class="QGroupBox" name="grpReconnect" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>3</hsizetype>
-           <vsizetype>5</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="whatsThis" >
-          <string>&lt;h3>Reconnection&lt;/h3>&lt;p>Defines the parameters of the reconnection.&lt;p>&lt;p>You shouldn't have to modify this values&lt;/p></string>
-         </property>
-         <property name="title" >
-          <string>Reconnection</string>
+          <string>Icon selection</string>
          </property>
          <layout class="QGridLayout" >
           <property name="margin" >
@@ -1584,746 +792,958 @@
            <number>2</number>
           </property>
           <item row="1" column="0" >
-           <widget class="QLabel" name="lblReconnection" >
-            <property name="text" >
-             <string>Auto-reconnect delay:</string>
-            </property>
-            <property name="buddy" >
-             <cstring>reconnection</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="lblPingTimeout" >
-            <property name="text" >
-             <string>Ping timeout (sec):</string>
-            </property>
-            <property name="buddy" >
-             <cstring>ping_timeout</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" >
-           <widget class="QSpinBox" name="reconnection" >
-            <property name="maximum" >
-             <number>32768</number>
-            </property>
-            <property name="minimum" >
-             <number>30</number>
-            </property>
-            <property name="value" >
-             <number>60</number>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="QSpinBox" name="ping_timeout" >
-            <property name="maximum" >
-             <number>32768</number>
-            </property>
-            <property name="value" >
-             <number>120</number>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="3" >
-        <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="lblWorkDir" >
-           <property name="text" >
-            <string>Working directory :</string>
-           </property>
-           <property name="buddy" >
-            <cstring>btnBrowseWorkDir</cstring>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="txtWorkDir" >
-           <property name="whatsThis" >
-            <string>&lt;h3>Working directory&lt;/h3>&lt;p>Define the default directory where you want your clients store the files you download&lt;/p></string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="btnBrowseWorkDir" >
-           <property name="text" >
-            <string>Browse...</string>
-           </property>
-           <property name="autoRaise" >
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item rowspan="2" row="0" column="1" >
-        <widget class="QGroupBox" name="GroupBox11_2" >
-         <property name="whatsThis" >
-          <string>&lt;h3>Open services&lt;/h3>&lt;p>Select the servers you want to share with all the users of the network. If a server is not present, it won't be displayed as present&lt;/p></string>
-         </property>
-         <property name="title" >
-          <string>Open services</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>6</number>
-          </property>
-          <property name="spacing" >
-           <number>2</number>
-          </property>
-          <item row="3" column="0" >
-           <widget class="QCheckBox" name="CbNews" >
-            <property name="text" >
-             <string>News</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" >
-           <widget class="QCheckBox" name="CbHTTP" >
-            <property name="text" >
-             <string>HTTP</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QCheckBox" name="CbFTP" >
+           <widget class="QLabel" name="pxmIcon" >
             <property name="sizePolicy" >
              <sizepolicy>
-              <hsizetype>3</hsizetype>
+              <hsizetype>5</hsizetype>
               <vsizetype>0</vsizetype>
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="text" >
-             <string>FTP</string>
+            <property name="minimumSize" >
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="maximumSize" >
+             <size>
+              <width>128</width>
+              <height>64</height>
+             </size>
+            </property>
+            <property name="pixmap" >
+             <pixmap/>
+            </property>
+            <property name="scaledContents" >
+             <bool>false</bool>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignHCenter</set>
+            </property>
+            <property name="buddy" >
+             <cstring>btnBrowse</cstring>
             </property>
            </widget>
           </item>
-          <item row="0" column="0" >
-           <widget class="QCheckBox" name="CbSamba" >
+          <item row="3" column="0" >
+           <widget class="QToolButton" name="btnBrowse" >
             <property name="sizePolicy" >
              <sizepolicy>
-              <hsizetype>3</hsizetype>
-              <vsizetype>0</vsizetype>
+              <hsizetype>5</hsizetype>
+              <vsizetype>5</vsizetype>
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
             <property name="text" >
-             <string>Samba</string>
+             <string>Browse...</string>
+            </property>
+            <property name="autoRaise" >
+             <bool>false</bool>
             </property>
            </widget>
           </item>
+          <item row="2" column="0" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="0" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
-         <widget class="QWidget" name="widget_3_2" >
+         <widget class="QWidget" name="widget_2" >
           <property name="geometry" >
            <rect>
-            <x>3</x>
-            <y>70</y>
-            <width>144</width>
-            <height>100</height>
+            <x>13</x>
+            <y>63</y>
+            <width>60</width>
+            <height>22</height>
            </rect>
           </property>
          </widget>
         </widget>
        </item>
       </layout>
-     </widget>
-     <widget class="QWidget" name="pageMisc" >
-      <layout class="QGridLayout" >
-       <property name="margin" >
-        <number>8</number>
+     </item>
+    </layout>
+    <widget class="QWidget" name="widget" >
+     <property name="geometry" >
+      <rect>
+       <x>9</x>
+       <y>181</y>
+       <width>506</width>
+       <height>170</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="pageLayout" >
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>8</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item row="1" column="0" colspan="2" >
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
        </property>
-       <property name="spacing" >
-        <number>6</number>
+       <property name="sizeHint" >
+        <size>
+         <width>441</width>
+         <height>161</height>
+        </size>
        </property>
-       <item row="1" column="0" >
-        <layout class="QGridLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item row="1" column="0" >
-          <widget class="QGroupBox" name="groupBox30" >
-           <property name="title" >
-            <string>Other</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>6</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item row="0" column="0" >
-             <widget class="QCheckBox" name="cbQuit" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Quitting dialog&lt;/h3>&lt;p>Enable/disable the dialog box which is displayed when you close the qRezix's main window&lt;/p></string>
-              </property>
-              <property name="text" >
-               <string>Show dialog when clicking on X</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item row="0" column="0" >
-          <widget class="QGroupBox" name="groupBox29" >
-           <property name="title" >
-            <string>Chat</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>6</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item row="1" column="0" >
-             <widget class="QCheckBox" name="cbPropertiesWarning" >
-              <property name="whatsThis" >
-               <string>&lt;h3>warning&lt;/h3>&lt;p>If you check this you will receive an notification each time somebody check you properties&lt;/p>&lt;p>&lt;b>Warning :&lt;/b> in some cases, this option can be used to spam you with notification windows&lt;/p></string>
-              </property>
-              <property name="text" >
-               <string>Warn me when properties are being checked</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0" >
-             <widget class="QCheckBox" name="cbPrintTime" >
-              <property name="text" >
-               <string>Print hh:mm:ss in chat</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0" >
-             <widget class="QCheckBox" name="cbRefuseAway" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Responder mode&lt;/h3>&lt;p>There are 2 kinds of responder&lt;p>&lt;p>&lt;b>Refuse,&lt;/b> in this mode, all the messages you receive while away are lost&lt;/p>&lt;p>&lt;b>Store,&lt;/b> in this mode, you can read you messages as if you were not marked away&lt;/p></string>
-              </property>
-              <property name="text" >
-               <string>Refuse messages when away</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item row="1" column="1" >
-          <widget class="QGroupBox" name="groupBox27" >
-           <property name="whatsThis" >
-            <string>&lt;h3>Translation&lt;/h3>&lt;p>Select your language&lt;/p></string>
-           </property>
-           <property name="title" >
-            <string>Translation</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>6</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="langLabel" >
-              <property name="text" >
-               <string>UI Language :</string>
-              </property>
-              <property name="buddy" >
-               <cstring>languageBox</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1" >
-             <widget class="QComboBox" name="languageBox" />
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item row="0" column="1" >
-          <widget class="QGroupBox" name="groupSystray" >
-           <property name="whatsThis" >
-            <string>&lt;h3>Systray&lt;/h3>&lt;p>Do you want to have qRezix reduced to an icon in the systray ?&lt;/p></string>
-           </property>
-           <property name="title" >
-            <string>Systray</string>
-           </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>6</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item row="0" column="0" >
-             <widget class="QCheckBox" name="cbSystray" >
-              <property name="text" >
-               <string>Use Systray icon</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0" >
-             <layout class="QHBoxLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
-              <property name="spacing" >
-               <number>6</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="lblTraySize" >
-                <property name="text" >
-                 <string>Size of tray icon :</string>
-                </property>
-                <property name="buddy" >
-                 <cstring>sbTraySize</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="sbTraySize" >
-                <property name="sizePolicy" >
-                 <sizepolicy>
-                  <hsizetype>5</hsizetype>
-                  <vsizetype>5</vsizetype>
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                 <size>
-                  <width>48</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize" >
-                 <size>
-                  <width>48</width>
-                  <height>32767</height>
-                 </size>
-                </property>
-                <property name="buttonSymbols" >
-                 <enum>QAbstractSpinBox::UpDownArrows</enum>
-                </property>
-                <property name="maximum" >
-                 <number>128</number>
-                </property>
-                <property name="minimum" >
-                 <number>1</number>
-                </property>
-                <property name="value" >
-                 <number>22</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="0" column="0" >
-        <widget class="QGroupBox" name="groupNotification" >
-         <property name="title" >
-          <string>Notifications</string>
-         </property>
-         <layout class="QGridLayout" >
+      </spacer>
+     </item>
+     <item row="0" column="1" >
+      <widget class="QGroupBox" name="groupBox" >
+       <property name="title" >
+        <string>Interface</string>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>8</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item row="2" column="0" >
+         <widget class="Line" name="line" >
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" >
+         <layout class="QHBoxLayout" >
           <property name="margin" >
-           <number>6</number>
+           <number>0</number>
           </property>
           <property name="spacing" >
            <number>2</number>
           </property>
-          <item row="5" column="0" colspan="2" >
-           <layout class="QHBoxLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
-            <property name="spacing" >
-             <number>1</number>
-            </property>
-            <item>
-             <spacer>
-              <property name="orientation" >
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType" >
-               <enum>QSizePolicy::Preferred</enum>
-              </property>
-              <property name="sizeHint" >
-               <size>
-                <width>90</width>
-                <height>10</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="txtBeepFavorites" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Beep on connection&lt;/h3>&lt;p>Select the sound to play when a favorite get connected&lt;/p></string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="btnBeepBrowse_3" >
-              <property name="text" >
-               <string>...</string>
-              </property>
-              <property name="autoRaise" >
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="2" column="0" colspan="2" >
-           <layout class="QHBoxLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
-            <property name="spacing" >
-             <number>2</number>
-            </property>
-            <item>
-             <spacer>
-              <property name="orientation" >
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType" >
-               <enum>QSizePolicy::Preferred</enum>
-              </property>
-              <property name="sizeHint" >
-               <size>
-                <width>90</width>
-                <height>10</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="txtBeep" >
-              <property name="whatsThis" >
-               <string>&lt;h3>Beep on message&lt;/h3>&lt;p>Select the sound to play when you receive a new message&lt;/p></string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="btnBeepBrowse" >
-              <property name="text" >
-               <string>...</string>
-              </property>
-              <property name="autoRaise" >
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="3" column="0" colspan="2" >
-           <widget class="QCheckBox" name="cbWarnFavorite" >
-            <property name="whatsThis" >
-             <string>&lt;h3>Notification&lt;/h3>&lt;p>Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p></string>
+          <item>
+           <widget class="QLabel" name="lblTheme" >
+            <property name="enabled" >
+             <bool>true</bool>
             </property>
             <property name="text" >
-             <string>Show a notification window on favorite's state modification</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0" colspan="2" >
-           <widget class="QCheckBox" name="chkBeepFavorites" >
-            <property name="whatsThis" >
-             <string>&lt;h3>Beep on connection&lt;/h3>&lt;p>Check this if you want qRezix to play a sound when a favorite get connected&lt;/p></string>
-            </property>
-            <property name="text" >
-             <string>Beep on connection of one of your favorites</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" colspan="2" >
-           <widget class="QCheckBox" name="chkBeep" >
-            <property name="whatsThis" >
-             <string>&lt;h3>Beep on message&lt;/h3>&lt;p>Check this if you want qRezix to play a sound when you receive en message&lt;/p></string>
-            </property>
-            <property name="text" >
-             <string>Beep on message receiption</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="lblWorkDir_2" >
-            <property name="text" >
-             <string>Command to play a sound :</string>
+             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Themes:&lt;/p>&lt;/body>&lt;/html></string>
             </property>
             <property name="buddy" >
-             <cstring>txtBeepCmd</cstring>
+             <cstring>cmbIconTheme</cstring>
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <widget class="QLineEdit" name="txtBeepCmd" >
-            <property name="whatsThis" >
-             <string>&lt;h3>Sound command&lt;/h3>&lt;p>Select the commant to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p></string>
+          <item>
+           <widget class="QComboBox" name="cmbIconTheme" >
+            <property name="minimumSize" >
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
             </property>
-            <property name="text" >
-             <string/>
+            <property name="whatsThis" >
+             <string>&lt;h3>Themes&lt;/h3>&lt;p>Choose a themes for the icons.&lt;/p></string>
             </property>
            </widget>
           </item>
          </layout>
-        </widget>
-       </item>
-       <item row="2" column="0" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType" >
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>30</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-      <widget class="QWidget" name="widget_6" >
-       <property name="geometry" >
-        <rect>
-         <x>9</x>
-         <y>189</y>
-         <width>341</width>
-         <height>210</height>
-        </rect>
-       </property>
+        </item>
+        <item row="0" column="0" >
+         <layout class="QHBoxLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="langLabel" >
+            <property name="text" >
+             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>UI Language:&lt;/p>&lt;/body>&lt;/html></string>
+            </property>
+            <property name="buddy" >
+             <cstring>languageBox</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="languageBox" />
+          </item>
+         </layout>
+        </item>
+        <item row="3" column="0" >
+         <layout class="QHBoxLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblMenuIconSize_2" >
+            <property name="text" >
+             <string>Icon size:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>cmbMenuIcons</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbMenuIcons" >
+            <property name="currentIndex" >
+             <number>0</number>
+            </property>
+            <item>
+             <property name="text" >
+              <string>No icon</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Small icons</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Big icons</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="4" column="0" >
+         <layout class="QHBoxLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblMenuText_2" >
+            <property name="text" >
+             <string>Text position:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>cmbMenuText</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbMenuText" >
+            <property name="currentIndex" >
+             <number>0</number>
+            </property>
+            <item>
+             <property name="text" >
+              <string>No text</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Beside icon</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Below icon</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
-      <widget class="QWidget" name="widget_7" >
-       <property name="geometry" >
-        <rect>
-         <x>356</x>
-         <y>189</y>
-         <width>214</width>
-         <height>210</height>
-        </rect>
+     </item>
+     <item row="0" column="0" >
+      <widget class="QGroupBox" name="grpToolTips" >
+       <property name="whatsThis" >
+        <string>&lt;h3>ToolTips&lt;/h3>&lt;p>ToolTips are little windows that appears when you </string>
        </property>
+       <property name="title" >
+        <string>ToolTips</string>
+       </property>
+       <property name="flat" >
+        <bool>false</bool>
+       </property>
+       <property name="checkable" >
+        <bool>false</bool>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>8</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item row="2" column="1" >
+         <widget class="QCheckBox" name="cbTooltipOS" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string>OS</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" >
+         <widget class="QCheckBox" name="cbTooltipFtp" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string>FTP</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" >
+         <widget class="QCheckBox" name="cbTooltipNews" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string>News</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="2" >
+         <widget class="Line" name="line2" >
+          <property name="frameShape" >
+           <enum>QFrame::HLine</enum>
+          </property>
+          <property name="frameShadow" >
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0" >
+         <widget class="QCheckBox" name="cbTooltipSamba" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string>Samba</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1" >
+         <widget class="QCheckBox" name="cbTooltipVersion" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string>Client version</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0" >
+         <widget class="QCheckBox" name="cbTooltipPromo" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string>Promotion</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1" >
+         <widget class="QCheckBox" name="cbTooltipIP" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string>Ip address</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1" >
+         <widget class="QCheckBox" name="cbTooltipResal" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string>Place</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0" >
+         <widget class="QCheckBox" name="cbTooltipHttp" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string>Web</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="2" >
+         <widget class="QCheckBox" name="cbTooltips" >
+          <property name="text" >
+           <string>Enable tooltips</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1" >
+         <widget class="QCheckBox" name="cbTooltipFeatures" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string>Features</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0" colspan="2" >
+         <widget class="QCheckBox" name="cbTooltipProperties" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string>Properties</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
-     </widget>
-     <widget class="QWidget" name="pagePlugins" >
-      <layout class="QGridLayout" >
-       <property name="margin" >
-        <number>8</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <item row="0" column="0" colspan="3" >
-        <widget class="QTreeWidget" name="lvPlugInList" >
-         <property name="rootIsDecorated" >
-          <bool>false</bool>
-         </property>
-         <property name="uniformRowHeights" >
-          <bool>true</bool>
-         </property>
-         <property name="itemsExpandable" >
-          <bool>false</bool>
-         </property>
-         <property name="columnCount" >
-          <number>3</number>
-         </property>
-         <column>
-          <property name="text" >
-           <string>0</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>1</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>2</string>
-          </property>
-         </column>
-        </widget>
-       </item>
-       <item row="1" column="0" >
-        <widget class="QToolButton" name="btnPlugInReload" >
-         <property name="whatsThis" >
-          <string>&lt;h3>Reload plug-in&lt;/h3>&lt;p>Click here to reload the selected plug-in&lt;/p></string>
-         </property>
-         <property name="text" >
-          <string>&amp;Reload plug-in</string>
-         </property>
-         <property name="shortcut" >
-          <string/>
-         </property>
-         <property name="autoRaise" >
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2" >
-        <widget class="QToolButton" name="btnPlugInProp" >
-         <property name="whatsThis" >
-          <string>&lt;h3>Plug-in properties&lt;/h3>&lt;p>Displays the properties window of the selected plug-in&lt;/p></string>
-         </property>
-         <property name="text" >
-          <string>Plug-in pr&amp;operties ...</string>
-         </property>
-         <property name="shortcut" >
-          <string/>
-         </property>
-         <property name="autoRaise" >
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>251</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
+     </item>
+    </layout>
+    <widget class="QWidget" name="widget_3" >
+     <property name="geometry" >
+      <rect>
+       <x>9</x>
+       <y>9</y>
+       <width>251</width>
+       <height>473</height>
+      </rect>
+     </property>
     </widget>
-   </item>
-   <item rowspan="2" row="0" column="0" >
-    <widget class="QListWidget" name="lbMenu" >
-     <property name="sizePolicy" >
-      <sizepolicy>
-       <hsizetype>5</hsizetype>
-       <vsizetype>7</vsizetype>
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+    <widget class="QWidget" name="widget_4" >
+     <property name="geometry" >
+      <rect>
+       <x>266</x>
+       <y>9</y>
+       <width>250</width>
+       <height>473</height>
+      </rect>
      </property>
-     <property name="minimumSize" >
-      <size>
-       <width>120</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="frameShape" >
-      <enum>QFrame::Panel</enum>
-     </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Plain</enum>
-     </property>
-     <item>
-      <property name="text" >
-       <string>Infos</string>
-      </property>
-     </item>
-     <item>
-      <property name="text" >
-       <string>Layout</string>
-      </property>
-     </item>
-     <item>
-      <property name="text" >
-       <string>Network</string>
-      </property>
-     </item>
-     <item>
-      <property name="text" >
-       <string>Misc.</string>
-      </property>
-     </item>
-     <item>
-      <property name="text" >
-       <string>Plug-ins</string>
-      </property>
-     </item>
     </widget>
-   </item>
-   <item row="2" column="0" colspan="2" >
-    <layout class="QHBoxLayout" >
+   </widget>
+   <widget class="QWidget" name="pageNetwork" >
+    <layout class="QGridLayout" >
      <property name="margin" >
-      <number>1</number>
+      <number>8</number>
      </property>
      <property name="spacing" >
-      <number>2</number>
+      <number>6</number>
      </property>
-     <item>
-      <widget class="QPushButton" name="btnAboutQt" >
-       <property name="text" >
-        <string>About Qt</string>
+     <item row="0" column="0" >
+      <widget class="QGroupBox" name="grpComm" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>3</hsizetype>
+         <vsizetype>5</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
+       <property name="title" >
+        <string>Network configuration</string>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>6</number>
+        </property>
+        <property name="spacing" >
+         <number>2</number>
+        </property>
+        <item row="0" column="0" >
+         <layout class="QHBoxLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblServername" >
+            <property name="text" >
+             <string>Server:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>server_name</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="server_name" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>3</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="whatsThis" >
+             <string>&lt;h3>Server&lt;/h3>&lt;p>Define the address of the xnetserver&lt;/p></string>
+            </property>
+            <property name="text" >
+             <string/>
+            </property>
+            <property name="cursorPosition" >
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0" >
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="1" column="1" >
+           <widget class="QSpinBox" name="chat_port" >
+            <property name="toolTip" >
+             <string>&lt;h3>Peer2peer port&lt;/h3>&lt;p>Define the port of the chat&lt;/p>&lt;p>You shouldn't have to modify this value&lt;/p></string>
+            </property>
+            <property name="maximum" >
+             <number>32768</number>
+            </property>
+            <property name="value" >
+             <number>5050</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="lblServerport" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>3</hsizetype>
+              <vsizetype>1</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text" >
+             <string>Port:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>server_port</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="QSpinBox" name="server_port" >
+            <property name="toolTip" >
+             <string>&lt;h3>Port&lt;/h3>&lt;p>Defines the port to connect to on the xnetserver&lt;/p>&lt;p>You shouldn't have to modify this value&lt;/p></string>
+            </property>
+            <property name="maximum" >
+             <number>32768</number>
+            </property>
+            <property name="value" >
+             <number>5053</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="lblServerport_2" >
+            <property name="text" >
+             <string>Peer2peer port:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>chat_port</cstring>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </item>
-     <item>
+     <item row="2" column="0" >
       <spacer>
        <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Vertical</enum>
        </property>
        <property name="sizeType" >
         <enum>QSizePolicy::Expanding</enum>
        </property>
        <property name="sizeHint" >
         <size>
-         <width>213</width>
-         <height>20</height>
+         <width>20</width>
+         <height>160</height>
         </size>
        </property>
       </spacer>
      </item>
-     <item>
-      <widget class="QPushButton" name="btnOK" >
-       <property name="text" >
-        <string>Accept</string>
+     <item row="1" column="0" >
+      <widget class="QGroupBox" name="grpReconnect" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>3</hsizetype>
+         <vsizetype>5</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="default" >
-        <bool>true</bool>
+       <property name="whatsThis" >
+        <string>&lt;h3>Reconnection&lt;/h3>&lt;p>Defines the parameters of the reconnection.&lt;p>&lt;p>You shouldn't have to modify this values&lt;/p></string>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnMiseAJour" >
-       <property name="text" >
-        <string>Apply</string>
+       <property name="title" >
+        <string>Reconnection</string>
        </property>
-       <property name="default" >
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnAnnuler" >
-       <property name="text" >
-        <string>Cancel</string>
-       </property>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>6</number>
+        </property>
+        <property name="spacing" >
+         <number>2</number>
+        </property>
+        <item row="1" column="0" >
+         <widget class="QLabel" name="lblReconnection" >
+          <property name="text" >
+           <string>Auto-reconnect delay:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>reconnection</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" >
+         <widget class="QLabel" name="lblPingTimeout" >
+          <property name="text" >
+           <string>Ping timeout (sec):</string>
+          </property>
+          <property name="buddy" >
+           <cstring>ping_timeout</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" >
+         <widget class="QSpinBox" name="reconnection" >
+          <property name="maximum" >
+           <number>32768</number>
+          </property>
+          <property name="minimum" >
+           <number>30</number>
+          </property>
+          <property name="value" >
+           <number>60</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" >
+         <widget class="QSpinBox" name="ping_timeout" >
+          <property name="maximum" >
+           <number>32768</number>
+          </property>
+          <property name="value" >
+           <number>120</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </item>
     </layout>
-   </item>
-  </layout>
+   </widget>
+   <widget class="QWidget" name="pageMisc" >
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>8</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item row="1" column="0" >
+      <widget class="QGroupBox" name="groupNotification" >
+       <property name="title" >
+        <string>Commands</string>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>8</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item row="0" column="2" >
+         <layout class="QHBoxLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblHTTPBrowser" >
+            <property name="text" >
+             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Web browser:&lt;/p>&lt;/body>&lt;/html></string>
+            </property>
+            <property name="buddy" >
+             <cstring>clientHttp</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="clientHttp" >
+            <property name="editable" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="0" colspan="2" >
+         <layout class="QHBoxLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblFTPClient" >
+            <property name="text" >
+             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>FTP client:&lt;/p>&lt;/body>&lt;/html></string>
+            </property>
+            <property name="buddy" >
+             <cstring>clientFtp</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="clientFtp" >
+            <property name="editable" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="2" >
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>20</width>
+            <height>16</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="0" colspan="2" >
+         <layout class="QHBoxLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblNewsReader" >
+            <property name="text" >
+             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>News reader:&lt;/p>&lt;/body>&lt;/html></string>
+            </property>
+            <property name="buddy" >
+             <cstring>clientNews</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="clientNews" >
+            <property name="editable" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0" colspan="3" >
+         <layout class="QHBoxLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblWorkDir" >
+            <property name="text" >
+             <string>Working directory :</string>
+            </property>
+            <property name="buddy" >
+             <cstring>btnBrowseWorkDir</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="txtWorkDir" >
+            <property name="whatsThis" >
+             <string>&lt;h3>Working directory&lt;/h3>&lt;p>Define the default directory where you want your clients store the files you download&lt;/p></string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnBrowseWorkDir" >
+            <property name="text" >
+             <string>Browse...</string>
+            </property>
+            <property name="autoRaise" >
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="4" column="1" colspan="2" >
+         <widget class="QLineEdit" name="txtBeepCmd" >
+          <property name="whatsThis" >
+           <string>&lt;h3>Sound command&lt;/h3>&lt;p>Select the commant to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p></string>
+          </property>
+          <property name="text" >
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" >
+         <widget class="QLabel" name="lblWorkDir_2" >
+          <property name="text" >
+           <string>Command to play a sound :</string>
+          </property>
+          <property name="buddy" >
+           <cstring>txtBeepCmd</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0" colspan="3" >
+         <widget class="Line" name="line_2" >
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="0" column="0" >
+      <widget class="QGroupBox" name="groupMisc" >
+       <property name="title" >
+        <string>Misc</string>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>8</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item row="0" column="0" >
+         <widget class="QCheckBox" name="cbRefuseAway" >
+          <property name="whatsThis" >
+           <string>&lt;h3>Responder mode&lt;/h3>&lt;p>There are 2 kinds of responder&lt;p>&lt;p>&lt;b>Refuse,&lt;/b> in this mode, all the messages you receive while away are lost&lt;/p>&lt;p>&lt;b>Store,&lt;/b> in this mode, you can read you messages as if you were not marked away&lt;/p></string>
+          </property>
+          <property name="text" >
+           <string>Refuse messages when away</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="2" column="0" >
+      <widget class="QGroupBox" name="groupModules" >
+       <property name="title" >
+        <string>Modules</string>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>8</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item row="0" column="0" >
+         <widget class="QTreeWidget" name="lvPlugInList" >
+          <property name="rootIsDecorated" >
+           <bool>false</bool>
+          </property>
+          <property name="uniformRowHeights" >
+           <bool>true</bool>
+          </property>
+          <property name="itemsExpandable" >
+           <bool>false</bool>
+          </property>
+          <property name="columnCount" >
+           <number>3</number>
+          </property>
+          <column>
+           <property name="text" >
+            <string>0</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>1</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>2</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
  </widget>
  <layoutdefault spacing="2" margin="2" />
  <pixmapfunction></pixmapfunction>
@@ -2347,19 +1767,6 @@
   <tabstop>btnAnnuler</tabstop>
   <tabstop>btnAboutQt</tabstop>
   <tabstop>txtSurname</tabstop>
-  <tabstop>cbcIcone</tabstop>
-  <tabstop>cbcNom</tabstop>
-  <tabstop>cbcRemarque</tabstop>
-  <tabstop>cbcPromo</tabstop>
-  <tabstop>cbcOS</tabstop>
-  <tabstop>cbcClient</tabstop>
-  <tabstop>cbcFTP</tabstop>
-  <tabstop>cbcHTTP</tabstop>
-  <tabstop>cbcNews</tabstop>
-  <tabstop>cbcSamba</tabstop>
-  <tabstop>cbcGateway</tabstop>
-  <tabstop>cbcIP</tabstop>
-  <tabstop>cbcResal</tabstop>
   <tabstop>cbTooltips</tabstop>
   <tabstop>cbTooltipFtp</tabstop>
   <tabstop>cbTooltipHttp</tabstop>
@@ -2375,34 +1782,10 @@
   <tabstop>server_name</tabstop>
   <tabstop>server_port</tabstop>
   <tabstop>chat_port</tabstop>
-  <tabstop>btnPlugInReload</tabstop>
-  <tabstop>btnPlugInProp</tabstop>
-  <tabstop>CbSamba</tabstop>
-  <tabstop>CbFTP</tabstop>
-  <tabstop>CbHTTP</tabstop>
-  <tabstop>CbNews</tabstop>
-  <tabstop>clientFtp</tabstop>
-  <tabstop>clientHttp</tabstop>
-  <tabstop>clientNews</tabstop>
-  <tabstop>txtWorkDir</tabstop>
-  <tabstop>btnBrowseWorkDir</tabstop>
   <tabstop>ping_timeout</tabstop>
   <tabstop>reconnection</tabstop>
   <tabstop>txtBeepCmd</tabstop>
-  <tabstop>chkBeep</tabstop>
-  <tabstop>txtBeep</tabstop>
-  <tabstop>btnBeepBrowse</tabstop>
-  <tabstop>cbWarnFavorite</tabstop>
-  <tabstop>chkBeepFavorites</tabstop>
-  <tabstop>txtBeepFavorites</tabstop>
-  <tabstop>btnBeepBrowse_3</tabstop>
   <tabstop>cbRefuseAway</tabstop>
-  <tabstop>cbPropertiesWarning</tabstop>
-  <tabstop>cbPrintTime</tabstop>
-  <tabstop>cbQuit</tabstop>
-  <tabstop>cbSystray</tabstop>
-  <tabstop>sbTraySize</tabstop>
-  <tabstop>languageBox</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -2413,12 +1796,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>377</x>
+     <y>405</y>
     </hint>
    </hints>
   </connection>
@@ -2429,12 +1812,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>377</x>
+     <y>455</y>
     </hint>
    </hints>
   </connection>
@@ -2445,12 +1828,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>377</x>
+     <y>430</y>
     </hint>
    </hints>
   </connection>
@@ -2461,12 +1844,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>377</x>
+     <y>480</y>
     </hint>
    </hints>
   </connection>
@@ -2477,12 +1860,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>377</x>
+     <y>505</y>
     </hint>
    </hints>
   </connection>
@@ -2493,12 +1876,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>530</y>
     </hint>
    </hints>
   </connection>
@@ -2509,12 +1892,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>338</y>
     </hint>
    </hints>
   </connection>
@@ -2525,12 +1908,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>430</y>
     </hint>
    </hints>
   </connection>
@@ -2541,12 +1924,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>455</y>
     </hint>
    </hints>
   </connection>
@@ -2557,12 +1940,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>480</y>
     </hint>
    </hints>
   </connection>
@@ -2573,76 +1956,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkBeep</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtBeep</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkBeep</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>btnBeepBrowse</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkBeepFavorites</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtBeepFavorites</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkBeepFavorites</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>btnBeepBrowse_3</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>314</x>
-     <y>83</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>314</x>
-     <y>83</y>
+     <x>493</x>
+     <y>505</y>
     </hint>
    </hints>
   </connection>

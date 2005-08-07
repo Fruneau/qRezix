@@ -37,13 +37,13 @@
 #include <QToolBar>
 #include <QAction>
 
-#include "../rzxapplication.h"
-#include "../core/rzxglobal.h"
-#include "../core/rzxconfig.h"
-#include "../core/rzxiconcollection.h"
-#include "../core/rzxpluginloader.h"
-#include "../core/rzxconnectionlister.h"
-#include "../core/rzxcomputer.h"
+#include <RzxApplication>
+#include <RzxGlobal>
+#include <RzxConfig>
+#include <RzxIconCollection>
+#include <RzxPlugInLoader>
+#include <RzxConnectionLister>
+#include <RzxComputer>
 
 #include "qrezix.h"
 

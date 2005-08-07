@@ -23,7 +23,7 @@
 #include <QString>
 #include <QHash>
 
-#include "rzxglobal.h"
+#include <RzxGlobal>
 
 class QDir;
 

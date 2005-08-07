@@ -29,8 +29,11 @@
 #include <QMouseEvent>
 #include <QEvent>
 
-#include "../core/rzxmodule.h"
+#include <RzxModule>
 
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+namespace Ui { class RzxTrayPropUI; }
+#endif
 
 ///Gestion de l'icône système (systray, 'tableau de bord'...)
 /** Cette classe fournit une gestion avec tooltip et actions selon les clics */
@@ -54,6 +57,7 @@ public:
 
 	void gotCloseEvent();
 	virtual bool isInitialised() const;
+	virtual QIcon icon() const;
 
 	QPoint getPos();
 
@@ -64,8 +68,8 @@ public slots:
 
 	void buildMenu();
 	void setVisible(bool yes);
-	void show();
-	void hide();
+	virtual void show();
+	virtual void hide();
 
 signals:
 	void clicked(const QPoint&);
@@ -85,7 +89,7 @@ private:
 	QString tip;
 	bool v_isWMDock;
 
-	// system-dependant part
+// system-dependant part
 public:
 	class RzxTrayIconPrivate;
 private:
@@ -96,6 +100,21 @@ private:
 	void sysUpdateToolTip();
 
 	friend class RzxTrayIconPrivate;
+
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+private:
+	Ui::RzxTrayPropUI *ui;
+	QWidget *propWidget;
+
+public:
+	virtual QList<QWidget*> propWidgets();
+	virtual QStringList propWidgetsName();
+
+public slots:
+	virtual void propInit();
+	virtual void propUpdate();
+	virtual void propClose();
+#endif
 };
 
 #endif // CS_TRAYICON_H

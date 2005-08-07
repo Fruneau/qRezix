@@ -26,15 +26,17 @@
   *@author Benoit Casoetto
   */
 
-class QRezix;
-
 class RzxProperty : public QDialog, public Ui::frmPref
 {
 	Q_OBJECT
-	
+
+	static RzxProperty *object;
+
 public: 
 	RzxProperty(QWidget *parent);
 	~RzxProperty();
+
+	static QString browse(const QString& name, const QString& title, const QString& glob);
 
 	QString infoNeeded();
 	int infoCompleteMessage();
@@ -53,8 +55,6 @@ public slots: // Public slots
 
 
 protected: // Protected methods
-	QRezix *getRezix() const;
-	void writeColDisplay();
 	virtual void changeEvent(QEvent*);
 
 private:
@@ -62,14 +62,10 @@ private:
 	void initThemeCombo();
 	bool updateLocalHost();
 	QPixmap localhostIcon;
-	QString browse(const QString& name, const QString& title, const QString& glob);
-
 
 protected slots: // Protected slots
 	void launchDirSelectDialog();
 	void chooseIcon();
-	void chooseBeep();
-	void chooseBeepConnection();
 	void lockCmbMenuText(int index);
 	void changePage(QListWidgetItem*, QListWidgetItem*);
 };

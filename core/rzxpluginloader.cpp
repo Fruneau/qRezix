@@ -26,18 +26,18 @@
 #include <QIcon>
 #include <QTextEdit>
 
-#include "rzxpluginloader.h"
+#include <RzxPlugInLoader>
 
-#include "rzxglobal.h"
+#include <RzxGlobal>
 
-#include "rzxconfig.h"
-#include "rzxcomputer.h"
-#include "rzxmessagebox.h"
-#include "rzxhostaddress.h"
-#include "rzxutilslauncher.h"
-#include "rzxserverlistener.h"
-#include "rzxconnectionlister.h"
-#include "rzxiconcollection.h"
+#include <RzxConfig>
+#include <RzxComputer>
+#include <RzxMessageBox>
+#include <RzxHostAddress>
+#include <RzxUtilsLauncher>
+#include <RzxServerListener>
+#include <RzxIconCollection>
+#include <RzxConnectionLister>
 
 ///L'object global... normalement seul objet de cette classe lors de l'exécution
 RzxPlugInLoader *RzxPlugInLoader::object = NULL;

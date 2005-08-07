@@ -19,7 +19,7 @@
 #include <QMenu>
 #include <QPixmap>
 
-#include "rzxplugin.h"
+#include <RzxPlugIn>
 
 /// Construction avec des valeurs par par défaut
 /** Par défaut, on a un plug-in sans nom ni description

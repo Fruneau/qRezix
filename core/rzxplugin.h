@@ -49,7 +49,7 @@ class QVariant;
  new PLUGIN();
  \endcode
  */
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 #	define RZX_EXPORT_PLUGIN(PLUGIN) \
 		extern "C" __declspec(dllexport) RzxPlugIn *getPlugIn(void) { return (RzxPlugIn*)(new PLUGIN()); }
 #else

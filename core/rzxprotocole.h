@@ -18,10 +18,10 @@
 #ifndef RZXPROTOCOLE_H
 #define RZXPROTOCOLE_H
 
-#include <qobject.h>
-#include <qstring.h>
+#include <QObject>
+#include <QString>
 
-#include "rzxhostaddress.h"
+#include <RzxHostAddress>
 #include "ui_rzxchangepassui.h"
 
 /**

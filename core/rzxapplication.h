@@ -20,12 +20,8 @@
 #include <QApplication>
 #include <QList>
 
-class QRezix;
-class RzxTrayIcon;
-class RzxChatLister;
 class RzxComputer;
 class RzxProperty;
-class RzxNotifier;
 class RzxModule;
 
 /**
@@ -56,6 +52,7 @@ class RzxApplication:public QApplication
 		bool hasMainWindow() const;
 		static RzxApplication *instance();
 		static QWidget *mainWindow();
+		static QList<RzxModule*> modulesList();
 
 	protected:
 		bool loadCore();

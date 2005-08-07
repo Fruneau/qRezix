@@ -25,7 +25,7 @@
 #include <QDir>
 #include <QString>
 
-#include "rzxplugin.h"
+#include <RzxPlugIn>
 
 class QTextEdit;
 class QToolButton;

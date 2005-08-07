@@ -24,9 +24,9 @@
 #include <QString>
 #include <QStringList>
 
-#include "rzxglobal.h"
+#include <RzxGlobal>
 
-#include "rzxhostaddress.h"
+#include <RzxHostAddress>
 
 class RzxComputer;
 class RzxChat;

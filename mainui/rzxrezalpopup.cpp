@@ -18,10 +18,10 @@
 #include <QString>
 #include <QPixmap>
 
-#include "../core/rzxpluginloader.h"
-#include "../core/rzxcomputer.h"
-#include "../core/rzxconfig.h"
-#include "../core/rzxiconcollection.h"
+#include <RzxPlugInLoader>
+#include <RzxComputer>
+#include <RzxConfig>
+#include <RzxIconCollection>
 
 #include "rzxrezalpopup.h"
 

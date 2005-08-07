@@ -21,8 +21,8 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-#include "../core/rzxcomputer.h"
-#include "../core/rzxconfig.h"
+#include <RzxComputer>
+#include <RzxConfig>
 
 #include "rzxtraywindow.h"
 
@@ -41,7 +41,6 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
 #else
 	setFrameStyle( Panel | Raised );
 #endif
-
 
 	//Construction des items à insérer dans la fenêtre :
 	// - l'icône

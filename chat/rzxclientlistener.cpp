@@ -14,10 +14,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "../core/rzxmessagebox.h"
-#include "../core/rzxcomputer.h"
-#include "../core/rzxconfig.h"
-#include "../rzxapplication.h"
+#include <RzxMessageBox>
+#include <RzxComputer>
+#include <RzxConfig>
+#include <RzxApplication>
 
 #include "rzxclientlistener.h"
 

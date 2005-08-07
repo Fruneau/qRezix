@@ -16,9 +16,10 @@
  *                                                                         *
  ***************************************************************************/
 #include <QRegExp>
+#include <QWidget>
 
-#include "rzxglobal.h"
-#include "rzxmodule.h"
+#include <RzxGlobal>
+#include <RzxModule>
 
 
 ///Construction du module à partir des différentes informations
@@ -107,12 +108,6 @@ void RzxModule::setType(TypeFlags flag)
 	m_type |= flag;
 }
 
-///Défini l'icône du module
-void RzxModule::setIcon(const QIcon& icon)
-{
-	m_icon = icon;
-}
-
 ///Récupération du nom du module
 const QString& RzxModule::name() const
 {
@@ -146,9 +141,15 @@ const QFlags<RzxModule::TypeFlags>& RzxModule::type() const
 }
 
 ///Récupération de l'icône représentant le module
-const QIcon& RzxModule::icon() const
+/** L'implémentation par défaut retourne une icône vide.
+ *
+ * On utilise une réimplémentation de cette fonction dans les modules
+ * dans le but de permettre l'utilisation d'une icône qui change
+ * en fonction du thème
+ */
+QIcon RzxModule::icon() const
 {
-	return m_icon;
+	return QIcon();
 }
 
 ///Converti la version en numéro de version lisible par l'utilisateur
@@ -219,7 +220,7 @@ QWidget *RzxModule::mainWindow() const
  *
  * L'implémentation par défaut retourne une liste vide
  */
-QList<QWidget*> RzxModule::propWidgets() const
+QList<QWidget*> RzxModule::propWidgets()
 {
 	return QList<QWidget*>();
 }
@@ -229,12 +230,24 @@ QList<QWidget*> RzxModule::propWidgets() const
  *
  * L'implémentation par défaut retourne une liste vide
  */
-QStringList RzxModule::propWidgetsName() const
+QStringList RzxModule::propWidgetsName()
 {
 	return QStringList();
 }
 
-///Mets à jour le plug-in avec le contenu actuel des fenêtres
+///Initialise les données de configuration du module
+/** Lorsqu'il faut réinitialiser les valeurs des données de
+ * configurations affichées dans les fenêtres du module.
+ *
+ * \sa propDefault propUpdate propWidgets
+ *
+ * L'implémentation par défaut ne fait rien
+ */
+void RzxModule::propInit()
+{
+}
+
+///Mets à jour le module avec le contenu actuel des fenêtres
 /** Lorsque l'utilisateur demande la mise à jour des données de la
  * fenêtre de propriétés (par OK ou Appliquer), cette fonction est appellée
  * dans le but de mettre à jour toutes les propriétés.
@@ -248,7 +261,7 @@ void RzxModule::propUpdate()
 }
 
 ///Restauration de la configuration par défaut
-/** Lorsque l'utilsateur demande la restauration des propriétés
+/** Lorsque l'utilisateur demande la restauration des propriétés
  * par défaut, cette fonction fait le travail pour les données
  * liées au module.
  *
@@ -258,4 +271,18 @@ void RzxModule::propUpdate()
  */
 void RzxModule::propDefault()
 {
+}
+
+///Fermeture de la fenêtre de configuration
+/** Lorsqu'on procède à la fermeture des 
+ * ce slot est appelé dans le but de procéder à la fermeture des fenêtres
+ * du module.
+ *
+ * L'implémentation par défaut détruit tous les objets obtenus par
+ * \ref propWidgets
+ */
+void RzxModule::propClose()
+{
+	QList<QWidget*> widgets;
+	qDeleteAll(widgets);
 }

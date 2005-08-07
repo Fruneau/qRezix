@@ -22,9 +22,9 @@
 #include <QFlags>
 #include <QMetaType>
 
-#include "rzxglobal.h"
+#include <RzxGlobal>
 
-#include "rzxhostaddress.h"
+#include <RzxHostAddress>
 
 /**
   *@author Sylvain Joyeux

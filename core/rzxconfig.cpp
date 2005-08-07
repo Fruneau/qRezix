@@ -40,17 +40,15 @@
 	#include <unistd.h>
 #endif
 
-#include "rzxconfig.h"
+#include <RzxConfig>
 
-#include "defaults.h"
+#include <RzxMessageBox>
+#include <RzxHostAddress>
+#include <RzxComputer>
+#include <RzxServerListener>
+#include <RzxPlugInLoader>
+#include <RzxIconCollection>
 
-#include "rzxmessagebox.h"
-#include "rzxhostaddress.h"
-#include "rzxcomputer.h"
-#include "rzxserverlistener.h"
-#include "rzxpluginloader.h"
-#include "../mainui/rzxrezalmodel.h"
-#include "rzxiconcollection.h"
 
 RzxConfig *RzxConfig::Config = 0;
 const QString RzxConfig::logPath("log");
@@ -518,14 +516,14 @@ QString RzxConfig::oldPass()
 /** Renvoie la variable correspondant aux colonnes à afficher */
 int RzxConfig::colonnes() {
 	uint colonnes = 0;
-	colonnes |= (1<<RzxRezalModel::ColNom);
-	colonnes |= (1<<RzxRezalModel::ColRemarque);
-	colonnes |= (1<<RzxRezalModel::ColFTP);
-	colonnes |= (1<<RzxRezalModel::ColHTTP);
-	colonnes |= (1<<RzxRezalModel::ColNews);
-	colonnes |= (1<<RzxRezalModel::ColOS);
-	colonnes |= (1<<RzxRezalModel::ColPromo);
-	colonnes |= (1<<RzxRezalModel::ColRezal);
+	colonnes |= (1<<0);
+	colonnes |= (1<<1);
+	colonnes |= (1<<3);
+	colonnes |= (1<<4);
+	colonnes |= (1<<5);
+	colonnes |= (1<<6);
+	colonnes |= (1<<8);
+	colonnes |= (1<<9);
 	return global()->readEntry("colonnes", colonnes);
 }
 

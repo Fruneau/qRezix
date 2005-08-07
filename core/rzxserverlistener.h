@@ -22,7 +22,7 @@
 #include <QTcpSocket>
 #include <QPixmap>
 
-#include "rzxprotocole.h"
+#include <RzxProtocole>
 
 
 /**
