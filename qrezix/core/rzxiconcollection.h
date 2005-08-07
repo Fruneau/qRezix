@@ -86,6 +86,8 @@ class RzxIconCollection: public QObject
 		//recuperation des icônes à thème
 		const QPixmap &pixmap(Rzx::Icon);
 		QIcon icon(Rzx::Icon);
+		const QPixmap &pixmap(const QString&);
+		QIcon icon(const QString&);
 		const QPixmap &osPixmap(Rzx::SysEx, bool large = true);
 		QIcon osIcon(Rzx::SysEx);
 		const QPixmap &promoPixmap(Rzx::Promal);
@@ -111,6 +113,7 @@ class RzxIconCollection: public QObject
 		static const QPixmap& qRezixIcon();
 		static const QPixmap& qRezixAwayIcon();
 		static QIcon getIcon(Rzx::Icon);
+		static QIcon getIcon(const QString&);
 		static QIcon getResponderIcon();
 		static QIcon getSoundIcon();
 		static QIcon getOnOffIcon();
@@ -141,6 +144,9 @@ inline const QPixmap &RzxIconCollection::getPixmap(Rzx::Icon icon)
 { return global()->pixmap(icon); }
 
 inline QIcon RzxIconCollection::getIcon(Rzx::Icon m_icon)
+{ return global()->icon(m_icon); }
+
+inline QIcon RzxIconCollection::getIcon(const QString& m_icon)
 { return global()->icon(m_icon); }
 
 inline QIcon RzxIconCollection::getResponderIcon()

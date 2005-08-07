@@ -207,3 +207,55 @@ QWidget *RzxModule::mainWindow() const
 {
 	return NULL;
 }
+
+///Retourne la liste des fenêtres de configuration du plugin
+/** Chaque module bénéficie de la possibilité de fournir plusieurs
+ * fenêtre de configuration. Ces fenêtres possèdent alors un nom chacune
+ * qu'il est possible d'obtenir via la fonction \ref propWidgetsName.
+ *
+ * Toute la gestion de la fenêtre est déléguée totalement au module...
+ * qui sera informé lors de différentes demandes comme \ref propUpdate ou
+ * \ref propDefault.
+ *
+ * L'implémentation par défaut retourne une liste vide
+ */
+QList<QWidget*> RzxModule::propWidgets() const
+{
+	return QList<QWidget*>();
+}
+
+///Retourne les noms des différentes fenêtres de configuration
+/** \sa propWidgets
+ *
+ * L'implémentation par défaut retourne une liste vide
+ */
+QStringList RzxModule::propWidgetsName() const
+{
+	return QStringList();
+}
+
+///Mets à jour le plug-in avec le contenu actuel des fenêtres
+/** Lorsque l'utilisateur demande la mise à jour des données de la
+ * fenêtre de propriétés (par OK ou Appliquer), cette fonction est appellée
+ * dans le but de mettre à jour toutes les propriétés.
+ *
+ * \sa propWidgets propWidgetsName propDefault
+ *
+ * L'implémentation par défaut ne fait rien
+ */
+void RzxModule::propUpdate()
+{
+}
+
+///Restauration de la configuration par défaut
+/** Lorsque l'utilsateur demande la restauration des propriétés
+ * par défaut, cette fonction fait le travail pour les données
+ * liées au module.
+ *
+ * \sa propWidgets propWidgetsName propUpdate
+ *
+ * L'implémentation par défaut ne fait rien
+ */
+void RzxModule::propDefault()
+{
+}

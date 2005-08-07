@@ -18,7 +18,7 @@
 #include <QRegExp>
 
 #include "../core/rzxconfig.h"
-#include "../rzxapplication.h"
+#include "../core/rzxapplication.h"
 
 #include "rzxchatsocket.h"
 

@@ -28,7 +28,7 @@ RzxUi::RzxUi()
 {
 	beginLoading();
 	setType(MOD_MAINUI);
-	QRezix::global();
+	qrezix = QRezix::global();
 	endLoading();
 }
 
@@ -36,36 +36,36 @@ RzxUi::RzxUi()
 RzxUi::~RzxUi()
 {
 	beginClosing();
-	delete QRezix::global();
+	delete qrezix;
 	endClosing();
 }
 
 /** \reimp */
 bool RzxUi::isInitialised() const
 {
-	return QRezix::global()->isInitialised();
+	return qrezix->isInitialised();
 }
 
 /** \reimp */
 void RzxUi::show()
 {
-	QRezix::global()->show();
+	qrezix->show();
 }
 
 /** \reimp */
 void RzxUi::hide()
 {
-	QRezix::global()->hide();
+	qrezix->hide();
 }
 
 /** \reimp */
 void RzxUi::toggleVisible()
 {
-	QRezix::global()->toggleVisible();
+	qrezix->toggleVisible();
 }
 
 /** \reimp */
 QWidget *RzxUi::mainWindow() const
 {
-	return QRezix::global();
+	return qrezix;
 }

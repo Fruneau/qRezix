@@ -10,8 +10,7 @@ include(tray/tray.pri)
 include(notifier/notifier.pri)
 include(chat/chat.pri)
 
-HEADERS	+= rzxapplication.h
-SOURCES	+= main.cpp rzxapplication.cpp
+SOURCES	+= main.cpp
 
 TRANSLATIONS	= translations/qrezix_fr.ts
 RC_FILE		= icone.rc

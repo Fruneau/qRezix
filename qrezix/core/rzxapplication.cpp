@@ -16,20 +16,20 @@
  ***************************************************************************/
 #include "rzxapplication.h"
 
-#include "core/rzxglobal.h"
-#include "core/rzxconfig.h"
-#include "core/rzxcomputer.h"
-#include "core/rzxiconcollection.h"
-#include "core/rzxpluginloader.h"
-#include "core/rzxconnectionlister.h"
-#include "core/rzxserverlistener.h"
-#include "core/rzxproperty.h"
-#include "core/rzxmodule.h"
+#include "rzxglobal.h"
+#include "rzxconfig.h"
+#include "rzxcomputer.h"
+#include "rzxiconcollection.h"
+#include "rzxpluginloader.h"
+#include "rzxconnectionlister.h"
+#include "rzxserverlistener.h"
+#include "rzxproperty.h"
+#include "rzxmodule.h"
 
-#include "mainui/rzxui.h"
-#include "tray/rzxtrayicon.h"
-#include "chat/rzxchatlister.h"
-#include "notifier/rzxnotifier.h"
+#include "../mainui/rzxui.h"
+#include "../tray/rzxtrayicon.h"
+#include "../chat/rzxchatlister.h"
+#include "../notifier/rzxnotifier.h"
 
 ///Chargement de qRezix et de ses différents modules
 RzxApplication::RzxApplication(int argc, char **argv)
@@ -168,6 +168,10 @@ bool RzxApplication::loadModules()
 }
 
 ///Installe le module
+/** L'installation correspond à :
+ * 	# vérification du module
+ * 	# connexion du module
+ */
 void RzxApplication::installModule(RzxModule *mod)
 {
 	if(mod)
@@ -182,6 +186,8 @@ void RzxApplication::installModule(RzxModule *mod)
 			connect(mod, SIGNAL(wantQuit()), this, SLOT(quit()));
 			connect(mod, SIGNAL(wantPreferences()), this, SLOT(preferences()));
 			connect(mod, SIGNAL(wantToggleResponder()), this, SLOT(toggleResponder()));
+			connect(mod, SIGNAL(wantActivateResponder()), this, SLOT(activateResponder()));
+			connect(mod, SIGNAL(wantDeactivateResponder()), this, SLOT(deactivateResponder()));
 			QFlags<RzxModule::TypeFlags> type = mod->type();
 			modules << mod;
 			if((type & RzxModule::MOD_GUI) && (type & RzxModule::MOD_MAIN) && !mainui)
@@ -243,6 +249,22 @@ void RzxApplication::preferences()
 void RzxApplication::toggleResponder()
 {
 	RzxConfig::setAutoResponder(!RzxComputer::localhost()->isOnResponder());
+	RzxServerListener::object()->sendRefresh();
+}
+
+///Active le répondeur
+void RzxApplication::activateResponder()
+{
+	if(RzxComputer::localhost()->isOnResponder()) return;
+	RzxConfig::setAutoResponder(true);
+	RzxServerListener::object()->sendRefresh();
+}
+
+///Désactive le répondeur
+void RzxApplication::deactivateResponder()
+{
+	if(!RzxComputer::localhost()->isOnResponder()) return;
+	RzxConfig::setAutoResponder(false);
 	RzxServerListener::object()->sendRefresh();
 }
 

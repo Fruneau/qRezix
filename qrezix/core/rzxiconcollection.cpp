@@ -212,7 +212,33 @@ const QPixmap &RzxIconCollection::pixmap(Rzx::Icon icon)
 }
 
 ///Récupération d'une icône
+/** Surcharge permettant de charger une fonction à partir d'un nom
+ * de fichier plutôt que d'un identifiant.
+ *
+ * L'intérêt de cette fonction est surtout pour les modules qui ont
+ * des icônes personnalisées
+ */
+const QPixmap &RzxIconCollection::pixmap(const QString& name)
+{
+	if(icons[name].isNull())
+		icons.insert(name, loadIcon(name, activeTheme));
+	return icons[name];
+}
+
+///Récupération d'une icône
 QIcon RzxIconCollection::icon(Rzx::Icon icon)
+{
+	return QIcon(pixmap(icon));
+}
+
+///Récupération d'une icône
+/** Surcharge permettant de charger une fonction à partir d'un nom
+ * de fichier plutôt que d'un identifiant.
+ *
+ * L'intérêt de cette fonction est surtout pour les modules qui ont
+ * des icônes personnalisées
+ */
+QIcon RzxIconCollection::icon(const QString& icon)
 {
 	return QIcon(pixmap(icon));
 }

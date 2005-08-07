@@ -25,12 +25,16 @@
  @author Florent Bruneau
  */
 
+class QRezix;
+
 ///Interface de module pour l'interface principale de qRezix
 /** Cette classe existe parce que le double héritage par QObjet
  * pose quelques problème...
  */
 class RzxUi:public RzxModule
 {
+	QRezix *qrezix;
+
 	public:
 		RzxUi();
 		~RzxUi();

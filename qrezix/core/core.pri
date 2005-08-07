@@ -1,6 +1,7 @@
 QT *= network
 
 SOURCES += core/rzxglobal.cpp \
+	core/rzxapplication.cpp \
 	core/rzxhostaddress.cpp \
 	core/rzxconnectionlister.cpp \
 	core/rzxserverlistener.cpp \
@@ -17,6 +18,7 @@ SOURCES += core/rzxglobal.cpp \
 	core/md5.cpp
 
 HEADERS += core/rzxglobal.h \
+	core/rzxapplication.h \
 	core/rzxhostaddress.h \
 	core/rzxconnectionlister.h \
 	core/rzxserverlistener.h \

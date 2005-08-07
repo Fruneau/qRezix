@@ -70,6 +70,8 @@ class RzxApplication:public QApplication
 
 	protected slots:
 		void toggleResponder();
+		void activateResponder();
+		void deactivateResponder();
 };
 
 ///Indique si l'application a été initialisée sans encombre

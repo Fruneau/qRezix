@@ -34,7 +34,7 @@
 #include "../core/rzxiconcollection.h"
 #include "../core/rzxmessagebox.h"
 #include "../core/rzxconnectionlister.h"
-#include "../rzxapplication.h"
+#include "../core/rzxapplication.h"
 
 #include "rzxchatlister.h"
 
@@ -119,6 +119,7 @@ RzxChat *RzxChatLister::createChat(RzxComputer *computer)
 		RzxChat *chat = new RzxChat(peer);
 		chat->setHostname( computer->name() );
 
+		connect(chat, SIGNAL(send(const QString&)), this, SLOT(wantDeactivateResponder()));
 		connect( chat, SIGNAL( closed( const RzxHostAddress& ) ), this, SLOT( deleteChat( const RzxHostAddress& ) ) );
 		connect( RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), chat, SLOT( changeTheme() ) );
 		connect( RzxConfig::global(), SIGNAL( iconFormatChange() ), chat, SLOT( changeIconFormat() ) );
