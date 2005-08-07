@@ -1,14 +1,21 @@
 TEMPLATE = app
 LANGUAGE = C++
 CONFIG	+= qt warn_on debug
-DEFINES += QT_DLL
+DEFINES += QT_DLL \
+	RZX_MAINUI_BUILTIN \
+	RZX_TRAYICON_BUILTIN \
+	RZX_CHAT_BUILTIN \
+	RZX_NOTIFIER_BUILTIN
 win32:LIBS += IMM32.LIB
+INCLUDEPATH += core
+
+SUBDIRS += core
 
 include(core/core.pri)
-include(mainui/mainui.pri)
-include(tray/tray.pri)
-include(notifier/notifier.pri)
-include(chat/chat.pri)
+contains(DEFINES, RZX_MAINUI_BUILTIN):include(mainui/mainui.pri)
+contains(DEFINES, RZX_TRAYICON_BUILTIN):include(tray/tray.pri)
+contains(DEFINES, RZX_NOTIFIER_BUILTIN):include(notifier/notifier.pri)
+contains(DEFINES, RZX_CHAT_BUILTIN):include(chat/chat.pri)
 
 SOURCES	+= main.cpp
 

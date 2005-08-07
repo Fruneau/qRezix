@@ -10,6 +10,7 @@ HEADERS += chat/rzxchatlister.h \
 	chat/rzxchatsocket.h \
 	chat/rzxchat.h
 
+FORMS += chat/rzxchatpropui.ui
 mac {
 	FORMS += chat/rzxchatui_mac.ui
 } else {

@@ -16,7 +16,7 @@
 #include <QMessageBox>
 #include <QApplication>
 
-#include "rzxmessagebox.h"
+#include <RzxMessageBox>
 
 ///Affiche une fenêtre d'information
 /** L'utilisateur défini le titre et le contenu du message. Il a également 

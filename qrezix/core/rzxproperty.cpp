@@ -31,25 +31,26 @@ email                : benoit.casoetto@m4x.org
 #include <QFileDialog>
 #endif
 
-#include "rzxproperty.h"
+#include <RzxProperty>
 
-#include "rzxmessagebox.h"
-#include "rzxhostaddress.h"
-#include "rzxconfig.h"
-#include "rzxcomputer.h"
-#include "rzxserverlistener.h"
-#include "rzxpluginloader.h"
-#include "rzxiconcollection.h"
-#include "rzxapplication.h"
+#include <RzxMessageBox>
+#include <RzxHostAddress>
+#include <RzxConfig>
+#include <RzxComputer>
+#include <RzxServerListener>
+#include <RzxPlugInLoader>
+#include <RzxIconCollection>
+#include <RzxApplication>
+#include <RzxModule>
 
-#include "../mainui/qrezix.h"
-#include "../mainui/rzxrezalmodel.h"
 #include "../tray/rzxtrayicon.h"
 
+RzxProperty *RzxProperty::object = NULL;
 
 RzxProperty::RzxProperty(QWidget *parent)
 	:QDialog(parent)
 {
+	object = this;
 	setupUi(this);
 	
 	connect( btnBrowseWorkDir, SIGNAL( clicked() ), this, SLOT( launchDirSelectDialog() ) );
@@ -57,22 +58,12 @@ RzxProperty::RzxProperty(QWidget *parent)
 	connect( btnAnnuler, SIGNAL( clicked() ), this, SLOT( annuler() ) );
 	connect( btnOK, SIGNAL( clicked() ), this, SLOT( oK() ) );
 	connect( btnBrowse, SIGNAL( clicked() ), this, SLOT( chooseIcon() ) );
-	connect( btnBeepBrowse, SIGNAL( clicked() ), this, SLOT( chooseBeep() ) );
-	connect( btnBeepBrowse_3, SIGNAL( clicked()), this, SLOT(chooseBeepConnection())) ;
 	connect(btnAboutQt, SIGNAL(clicked()), this, SLOT(aboutQt()));
-	connect(cmbMenuIcons, SIGNAL(activated(int)), this,SLOT(lockCmbMenuText(int)));
 	connect( lbMenu, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(changePage(QListWidgetItem*, QListWidgetItem*)));
 
-	btnBeepBrowse -> setEnabled(false);
-	btnBeepBrowse_3 -> setEnabled(false);
-	txtBeep -> setEnabled(false);
-	txtBeepFavorites -> setEnabled(false);
-	connect( chkBeep, SIGNAL(toggled(bool)), btnBeepBrowse, SLOT(setEnabled(bool)));
-	connect( chkBeep, SIGNAL(toggled(bool)), txtBeep, SLOT(setEnabled(bool)));
-	connect( chkBeepFavorites, SIGNAL(toggled(bool)), btnBeepBrowse_3, SLOT(setEnabled(bool)));
-	connect( chkBeepFavorites, SIGNAL(toggled(bool)), txtBeepFavorites, SLOT(setEnabled(bool)));
 	connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
 	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTheme()));
+	connect(cmbMenuIcons, SIGNAL(activated(int)), this,SLOT(lockCmbMenuText(int)));
 
 	//Pour que le pseudo soit rfc-complient
 	hostname->setValidator( new QRegExpValidator(QRegExp("[a-zA-Z0-9](-?[a-zA-Z0-9])*"), hostname) );
@@ -96,7 +87,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 	//Initialisation de la treeview des plugins
 	lvPlugInList->setIconSize(QSize(16,16));
 	lvPlugInList->setUniformRowHeights(false);
-	lvPlugInList->setHeaderLabels(QStringList() << tr("Name") << tr("Description") << tr("Version"));
+	lvPlugInList->setHeaderLabels(QStringList() << tr("Name") << tr("Version") << tr("Description"));
 
 #ifndef WIN32
 	btnAboutQt->hide();
@@ -114,14 +105,39 @@ RzxProperty::RzxProperty(QWidget *parent)
 	sbTraySize->hide();
 	lblTraySize->hide();
 #endif
-	btnPlugInReload->hide();
+
+	QList<RzxModule*> modules = RzxApplication::modulesList();
+	foreach(RzxModule *module, modules)
+	{
+		QList<QWidget*> props = module->propWidgets();
+		QStringList names = module->propWidgetsName();
+		foreach(QWidget *widget, props)
+			prefStack->addWidget(widget);
+		foreach(QString name, names)
+		{
+			QListWidgetItem *item = new QListWidgetItem(lbMenu);
+			item->setText(name);
+			item->setIcon(module->icon());
+		}
+		QTreeWidgetItem *item = new QTreeWidgetItem(lvPlugInList);
+		item->setIcon(0, module->icon());
+		item->setText(0, module->name());
+		item->setText(1, module->versionString());
+		item->setText(2, module->description());
+	}
 
 	initDlg();
 	changeTheme();
 	lbMenu->setCurrentRow(0);
 }
 
-RzxProperty::~RzxProperty() {}
+RzxProperty::~RzxProperty()
+{
+	QList<RzxModule*> modules = RzxApplication::modulesList();
+	foreach(RzxModule *module, modules)
+		module->propClose();
+	object = NULL;
+}
 
 /// Change le thème d'icône de la fenêtre de préférence
 /** Le changement de thème correspond à la reconstruction de la listbox de menu (pour que les icônes soient conformes au thème choisi), et au changement des icônes OK, Annuler, Appliquer */
@@ -133,14 +149,19 @@ void RzxProperty::changeTheme()
 
 #define setIcon(icon, name) lbMenu->item(name)->setIcon(icon)
 	QPixmap pixmap; //Pour le newItem
-	if(RzxIconCollection::getIcon(Rzx::ICON_SYSTRAYHERE).isNull())
-		setIcon(RzxIconCollection::qRezixIcon(), 0);
-	else
-		setIcon(RzxIconCollection::getIcon(Rzx::ICON_SYSTRAYHERE), 0);
+	setIcon(RzxIconCollection::getIcon(Rzx::ICON_PROPRIETES), 0);
 	setIcon(RzxIconCollection::getIcon(Rzx::ICON_LAYOUT), 1);
 	setIcon(RzxIconCollection::getIcon(Rzx::ICON_NETWORK), 2);
 	setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES), 3);
-	setIcon(RzxIconCollection::getIcon(Rzx::ICON_PLUGIN), 4);
+
+	int i = 4;
+	QList<RzxModule*> modules = RzxApplication::modulesList();
+	foreach(RzxModule *module, modules)
+	{
+		int nb = module->propWidgets().count();
+		for(int j = 0 ; j < nb ; j++, i++)
+			setIcon(module->icon(), i);
+	}
 #undef setIcon
 }
 
@@ -168,6 +189,10 @@ void RzxProperty::initThemeCombo() {
 /** No descriptions */
 void RzxProperty::initDlg()
 {
+	QList<RzxModule*> modules = RzxApplication::modulesList();
+	foreach(RzxModule *module, modules)
+		module->propInit();
+
 	RzxConfig * config = RzxConfig::global();
 
 	// iteration sur l'ensemble des objets QLineEdit
@@ -179,9 +204,6 @@ void RzxProperty::initDlg()
 	
 	initThemeCombo();
 	initLangCombo();
-	chkBeep->setChecked( RzxConfig::beep() );
-	chkBeepFavorites->setChecked( RzxConfig::beepConnection());
-	cbWarnFavorite->setChecked( RzxConfig::showConnection());
 	
 	hostname->setText( RzxComputer::localhost()->name() );
 	remarque->setText( RzxComputer::localhost()->remarque() );
@@ -193,15 +215,11 @@ void RzxProperty::initDlg()
 	ping_timeout->setValue( RzxConfig::pingTimeout() / 1000 );
 	chkAutoResponder->setChecked( RzxConfig::autoResponder() );
 
-	cmbIconSize->setCurrentIndex( RzxConfig::computerIconSize() );
 	cmbPromo->setCurrentIndex( RzxComputer::localhost()->promo() - 1 );
-	cmdDoubleClic->setCurrentIndex( RzxConfig::doubleClicRole() );
 
 	cmbMenuIcons->setCurrentIndex(RzxConfig::menuIconSize());
 	cmbMenuText->setCurrentIndex(RzxConfig::menuTextPosition());
 	lockCmbMenuText(RzxConfig::menuIconSize());
-
-	cmbDefaultTab -> setCurrentIndex(RzxConfig::defaultTab());
 
 	int servers = RzxComputer::localhost()->serverFlags();
 	CbSamba->setChecked(servers & RzxComputer::SERVER_SAMBA);
@@ -223,25 +241,6 @@ void RzxProperty::initDlg()
 	cbTooltipFeatures->setChecked(tooltip & RzxConfig::Features);
 	cbTooltipProperties->setChecked(tooltip & RzxConfig::Properties);
 
-	int colonnes = RzxConfig::colonnes();
-	cbcNom ->setChecked( colonnes & (1<<RzxRezalModel::ColNom) );
-	cbcRemarque->setChecked( colonnes & (1<<RzxRezalModel::ColRemarque) );
-	cbcSamba ->setChecked( colonnes & (1<<RzxRezalModel::ColSamba) );
-	cbcFTP ->setChecked( colonnes & (1<<RzxRezalModel::ColFTP) );
-	cbcHTTP ->setChecked( colonnes & (1<<RzxRezalModel::ColHTTP) );
-	cbcNews ->setChecked( colonnes & (1<<RzxRezalModel::ColNews) );
-	cbcOS ->setChecked( colonnes & (1<<RzxRezalModel::ColOS) );
-	cbcGateway ->setChecked( colonnes & (1<<RzxRezalModel::ColGateway) );
-	cbcPromo ->setChecked( colonnes & (1<<RzxRezalModel::ColPromo) );
-	cbcResal ->setChecked( colonnes & (1<<RzxRezalModel::ColRezal) );
-	cbcIP ->setChecked( colonnes & (1<<RzxRezalModel::ColIP) );
-	cbcClient ->setChecked( colonnes & (1<<RzxRezalModel::ColClient) );
-	cbQuit->setChecked(RzxConfig::showQuit());
-
-	cbHighlight->setChecked(RzxConfig::computerIconHighlight());
-	cbRefuseAway->setChecked(RzxConfig::refuseWhenAway());
-	sbTraySize->setValue(RzxConfig::traySize());
-	
 	clientFtp ->clear();
 	clientHttp ->clear();
 	clientNews ->clear();
@@ -294,19 +293,13 @@ void RzxProperty::initDlg()
 //	clientNews->setItemText(RzxConfig::global()->newsCmd());
 #undef setValue
 	txtWorkDir->setText( RzxConfig::global()->FTPPath() );
-	writeColDisplay();
-	
-	cbSystray->setChecked( RzxConfig::global() ->useSystray() );
-	cbSearch->setChecked( RzxConfig::global() ->useSearch() );
-	cbPropertiesWarning->setChecked(RzxConfig::global() -> warnCheckingProperties() );
-	cbPrintTime->setChecked(RzxConfig::global() -> printTime());
 	
 	pxmIcon->setPixmap(RzxIconCollection::global()->localhostPixmap());
 
 	cmbSport->setCurrentIndex( RzxConfig::global() -> numSport() );
 	
-	if(((RzxApplication*)RzxApplication::instance())->isInitialised())
-		RzxPlugInLoader::global()->makePropListView(lvPlugInList, btnPlugInProp, btnPlugInReload);
+/*	if(((RzxApplication*)RzxApplication::instance())->isInitialised())
+		RzxPlugInLoader::global()->makePropListView(lvPlugInList, btnPlugInProp, btnPlugInReload);*/
 }
 
 ///Met à jour l'objet représentant localhost
@@ -350,7 +343,12 @@ bool RzxProperty::updateLocalHost()
 }
 
 
-bool RzxProperty::miseAJour() {
+bool RzxProperty::miseAJour()
+{
+	QList<RzxModule*> modules = RzxApplication::modulesList();
+	foreach(RzxModule *module, modules)
+		module->propUpdate();
+
 	//Vérification que les données sont correctes
 	if(!hostname->hasAcceptableInput())
 	{
@@ -369,7 +367,6 @@ bool RzxProperty::miseAJour() {
 	
 	//Mise à jours des données de configuration
 	RzxConfig *cfgObject = RzxConfig::global();
-	QRezix *ui = getRezix();
 	
 	// iteration sur l'ensemble des objets QCheckBox
 	QList<QLineEdit*> l = findChildren<QLineEdit*>(QRegExp("txt.*"));
@@ -389,14 +386,6 @@ bool RzxProperty::miseAJour() {
 	cfgObject -> writeEntry( "repondeur", RzxComputer::localhost()->state() );
 	cfgObject -> writeEntry( "servers", RzxComputer::localhost()->serverFlags() );
 
-	cfgObject -> writeEntry( "doubleClic", cmdDoubleClic->currentIndex() );
-	cfgObject -> writeEntry( "iconsize", cmbIconSize -> currentIndex() );
-	cfgObject -> writeEntry( "iconhighlight", cbHighlight->isChecked());
-	cfgObject -> writeEntry( "beep", chkBeep->isChecked() ? 1 : 0 );
-	cfgObject -> writeEntry( "beepConnection", chkBeepFavorites->isChecked() ? 1: 0);
-	cfgObject -> writeEntry( "showConnection", cbWarnFavorite->isChecked() ? 1 : 0);
-	cfgObject -> writeEntry( "txtBeep", txtBeep->text());
-	cfgObject -> writeEntry( "txtBeepConnection", txtBeepFavorites->text());
 	cfgObject -> writeEntry( "txtBeepCmd", txtBeepCmd->text());
 	if(server_name->text() != cfgObject->serverName() || server_port->value() != cfgObject->serverPort())
 	{
@@ -419,25 +408,14 @@ bool RzxProperty::miseAJour() {
 	cfgObject -> ftpCmd( clientFtp -> currentText() );
 	cfgObject -> newsCmd( clientNews -> currentText() );
 
-	writeColDisplay();
-	cfgObject -> writeEntry( "useSystray", cbSystray->isChecked() ? 1 : 0 );
-	cfgObject -> writeEntry( "useSearch", cbSearch->isChecked() ? 1 : 0 );
-	cfgObject -> writeEntry( "defaultTab", cmbDefaultTab ->currentIndex() );
-	
 	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_WORKSPACE, NULL);
 	cfgObject -> writeEntry( "FTPPath", txtWorkDir->text() );
 	cfgObject -> writeEntry( "txtSport", cmbSport->currentText() );
 	cfgObject -> writeEntry( "numSport", cmbSport->currentIndex());
 	cfgObject -> writeEntry( "language", languageBox->currentText() );
-	cfgObject -> writeShowQuit(cbQuit->isChecked());
 	
 	cfgObject -> writeEntry( "refuseAway", cbRefuseAway->isChecked());
 	RzxConfig::setAutoResponder(RzxConfig::autoResponder());
-
-#ifdef Q_OS_UNIX
-	if(sbTraySize->value() != RzxConfig::traySize())
-		cfgObject->writeEntry("traysize", sbTraySize->value());
-#endif
 
 	if(RzxConfig::menuTextPosition() != cmbMenuText->currentIndex() || RzxConfig::menuIconSize() != cmbMenuIcons->currentIndex())
 	{
@@ -469,20 +447,13 @@ bool RzxProperty::miseAJour() {
 	{
 		localHostUpdated = true;
 		RzxIconCollection::global()->setLocalhostPixmap(*localhostIcon);
-		if (ui->isInitialised() && !RzxServerListener::object() -> isSocketClosed())
+		if(RzxApplication::instance()->isInitialised() && !RzxServerListener::object() -> isSocketClosed())
 			RzxServerListener::object() -> sendIcon(localhostIcon->toImage());
 	}
 
 	if(localHostUpdated)
 		RzxServerListener::object()->sendRefresh();
 
-	if(ui) ui->activateAutoResponder(RzxComputer::localhost()->isOnResponder());
-		
-	RzxConfig::global() -> writeEntry("warnCheckingProperties", (cbPropertiesWarning->isChecked() ? 1: 0));
-	RzxConfig::global() -> writeEntry("printTime", cbPrintTime->isChecked() ? 1 : 0);
-		
-	if(ui) ui->showSearch(cbSearch->isChecked());
-	
 	if(themeChanged)
 	{
 		RzxIconCollection::global()->setTheme(cmbIconTheme->currentText());
@@ -490,15 +461,8 @@ bool RzxProperty::miseAJour() {
 		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_THEME, NULL);
 	}
 	
-	/* Mise à jour de l'affichage des Rezal */
-	if(ui && ui -> rezal)
-		ui -> rezal -> afficheColonnes();
-
-	if (ui && ui -> rezalFavorites)
-		ui -> rezalFavorites -> afficheColonnes();
-	
 	/* Mise à jour de l'état des plugins */
-	RzxPlugInLoader::global()->validPropListView();
+	//RzxPlugInLoader::global()->validPropListView();
 	
 	/* Sauvegarde du fichier du conf */
 	RzxConfig::global()->flush();
@@ -538,46 +502,21 @@ void RzxProperty::annuler() {
 		close();
 }
 
-
 void RzxProperty::oK() {
 	if(!miseAJour())
 		return;
 	annuler();
 }
 
-
-/** No descriptions */
-QRezix *RzxProperty::getRezix() const
+///Fonction générique pour la recherche d'un fichier à charger
+QString RzxProperty::browse(const QString& name, const QString& title, const QString& glob)
 {
-	return qobject_cast<QRezix*>(parent());
-}
-
-void RzxProperty::writeColDisplay() {
-	int colonnesAffichees = 0;
-	if ( cbcNom ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColNom;
-	if ( cbcRemarque->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColRemarque;
-	if ( cbcSamba ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColSamba;
-	if ( cbcFTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColFTP;
-	if ( cbcHTTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColHTTP;
-	if ( cbcNews ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColNews;
-	if ( cbcOS ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColOS;
-	if ( cbcGateway ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColGateway;
-	if ( cbcPromo ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColPromo;
-	if ( cbcResal ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColRezal;
-	if ( cbcClient ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColClient;
-	if ( cbcIP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColIP;
-
-	RzxConfig::global() ->writeEntry( "colonnes", colonnesAffichees );
-}
-
-
-QString RzxProperty::browse(const QString& name, const QString& title, const QString& glob) {
 #ifdef WITH_KDE
 	QString filter = name + " (" + glob + ")";
-	QString file = KFileDialog::getOpenFileName( QString::null, filter, this, title );
+	QString file = KFileDialog::getOpenFileName( QString::null, filter, object, title );
 #else
 	QString filter = name + " (" + glob + ")";
-	QString file = QFileDialog::getOpenFileName(this, title, QString::null, filter);
+	QString file = QFileDialog::getOpenFileName(object, title, QString::null, filter);
 #endif
 	return file;
 }
@@ -596,20 +535,6 @@ void RzxProperty::chooseIcon() {
 	}
 
 	pxmIcon->setPixmap(icon);
-}
-
-void RzxProperty::chooseBeep() {
-	QString file = browse(tr("All files"), tr("Sound file selection"), "*");
-	if (file.isEmpty()) return;
-
-	txtBeep -> setText(file);
-}
-
-void RzxProperty::chooseBeepConnection() {
-	QString file = browse(tr("All files"), tr("Sound file selection"), "*");
-	if (file.isEmpty()) return;
-
-	txtBeepFavorites -> setText(file);
 }
 
 void RzxProperty::launchDirSelectDialog() {
@@ -660,7 +585,7 @@ void RzxProperty::changeEvent(QEvent *e)
 		int row = lbMenu->currentRow();
 		retranslateUi(this);
 		lbMenu->setCurrentRow(row);
-		lvPlugInList->setHeaderLabels(QStringList() << tr("Name") << tr("Description") << tr("Version"));
+		lvPlugInList->setHeaderLabels(QStringList() << tr("Name") << tr("Version") << tr("Description"));
 		changeTheme();
 		initDlg();
 	}

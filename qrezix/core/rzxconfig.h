@@ -30,9 +30,9 @@
 #include <QPoint>
 #include <QList>
 
-#include "rzxglobal.h"
+#include <RzxGlobal>
 
-#include "rzxcomputer.h"
+#include <RzxComputer>
 
 class QPixmap;
 class RzxProperty;
@@ -96,7 +96,6 @@ public:
 	void flush();
 	void closeSettings();
 
-protected:
 	QString readEntry(const QString& name, const QString& def);
 	int readEntry(const QString& name, int def);
 	QStringList readEntry(const QString& name);

@@ -125,11 +125,9 @@ class RzxModule:public QObject
 		QString m_description;
 		Version m_version;
 		QFlags<TypeFlags> m_type;
-		QIcon m_icon;
 
 	protected slots:
 		void setType(TypeFlags);
-		void setIcon(const QIcon&);
 
 	public:
 		const QString &name() const;
@@ -137,19 +135,21 @@ class RzxModule:public QObject
 		const Version &version() const;
 		QString versionString() const;
 		const QFlags<TypeFlags> &type() const;
-		const QIcon &icon() const;
+		virtual QIcon icon() const;
 
 		virtual QWidget *mainWindow() const;
 
 
 	//Gestion de propriétés du module
 	public:
-		virtual QList<QWidget*> propWidgets() const;
-		virtual QStringList propWidgetsName() const;
+		virtual QList<QWidget*> propWidgets();
+		virtual QStringList propWidgetsName();
 
 	public slots:
+		virtual void propInit();
 		virtual void propUpdate();
 		virtual void propDefault();
+		virtual void propClose();
 
 
 	//Communication avec qRezix
@@ -208,5 +208,28 @@ class RzxModule:public QObject
 	public:
 		static QString versionToString(const Version&);
 };
+
+///Exportation du module
+/** Défini une fonction qui exporte le module. Cette macro doit être appelée pour tout
+ * module. Elle sert à la création d'une entité du module en pour les plug-ins.
+ *
+ * Il est important de définir RZX_PLUGIN si le module est un plugin et RZX_BUILTIN si
+ * le module est un builtin avant l'appel de RZX_EXPORT_MODULE. Cet appel doit
+ * impérativement être réalisé un dans un fichier sources et non un fichier d'en-têtes.
+ */
+#ifndef RZX_PLUGIN
+#	define RZX_MODULE_EXPORT(MODULE)
+#else
+#	ifdef Q_OS_WIN
+#		define RZX_MODULE_EXPORT(MODULE) \
+			extern "C" __declspec(dllexport) RzxModule *getModule(void) { return (RzxModule*)(new MODULE); }
+#	else
+#		define RZX_MODULE_EXPORT(MODULE) \
+			extern "C" RzxModule *getModule(void) { return (RzxModule*)(new MODULE); }
+#	endif
+#endif
+
+///Prototype de fonction permettant l'importation d'un module
+typedef RzxModule *(*loadModuleProc)(void);
 
 #endif

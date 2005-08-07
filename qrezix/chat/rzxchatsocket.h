@@ -22,7 +22,7 @@
 #include <QTimer>
 #include <QTime>
 
-#include "../core/rzxhostaddress.h"
+#include <RzxHostAddress>
 
 class QPoint;
 class RzxComputer;

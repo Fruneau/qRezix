@@ -23,7 +23,7 @@
 #include <QTextEdit>
 #include <QPointer>
 
-#include "../core/rzxhostaddress.h"
+#include <RzxHostAddress>
 
 #include "rzxchatsocket.h"
 

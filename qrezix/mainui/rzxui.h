@@ -19,13 +19,14 @@
 #ifndef RZXUI_H
 #define RZXUI_H
 
-#include "../core/rzxmodule.h"
+#include <RzxModule>
 
 /**
  @author Florent Bruneau
  */
 
 class QRezix;
+namespace Ui { class RzxMainuiPropUI; }
 
 ///Interface de module pour l'interface principale de qRezix
 /** Cette classe existe parce que le double héritage par QObjet
@@ -35,11 +36,15 @@ class RzxUi:public RzxModule
 {
 	QRezix *qrezix;
 
+	Ui::RzxMainuiPropUI *ui;
+	QWidget *propWidget;
+
 	public:
 		RzxUi();
 		~RzxUi();
 
 		virtual bool isInitialised() const;
+		virtual QIcon icon() const;
 
 	public slots:
 		virtual void show();
@@ -47,7 +52,14 @@ class RzxUi:public RzxModule
 		virtual void toggleVisible();
 
 	public:
-		QWidget *mainWindow() const;
+		virtual QWidget *mainWindow() const;
+		virtual QList<QWidget*> propWidgets();
+		virtual QStringList propWidgetsName();
+
+	public slots:
+		virtual void propInit();
+		virtual void propUpdate();
+		virtual void propClose();
 };
 
 #endif

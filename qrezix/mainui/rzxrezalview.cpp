@@ -18,8 +18,8 @@
 #include <QHeaderView>
 #include <QMouseEvent>
 
-#include "../core/rzxcomputer.h"
-#include "../core/rzxconfig.h"
+#include <RzxComputer>
+#include <RzxConfig>
 
 #include "rzxrezalview.h"
 

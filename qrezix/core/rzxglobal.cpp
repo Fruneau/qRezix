@@ -16,7 +16,7 @@
  ***************************************************************************/
 #include <QString>
 
-#include "rzxglobal.h"
+#include <RzxGlobal>
 
 static QtMsgHandler oldMsgHandler = NULL;
 static FILE *logfile = NULL;

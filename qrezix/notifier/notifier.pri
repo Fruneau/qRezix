@@ -3,3 +3,5 @@ SOURCES += notifier/rzxnotifier.cpp \
 
 HEADERS += notifier/rzxnotifier.h \
 	notifier/rzxtraywindow.h
+
+FORMS += notifier/rzxnotifierpropui.ui

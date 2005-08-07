@@ -27,7 +27,9 @@ class RzxHostAddress;
  */
 
 ///Lanceur d'application externes
-/** Cette classe à pour but de lancer les applications externes liées à qRezix, comme le client ftp, le client http... */
+/** Cette classe à pour but de lancer les applications externes liées à qRezix,
+ * comme le client ftp, le client http...
+ */
 namespace RzxUtilsLauncher
 {
 	void ftp(const RzxHostAddress&, const QString& path = QString());

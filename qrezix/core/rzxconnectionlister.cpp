@@ -17,14 +17,14 @@
 #include <QImage>
 #include <QPixmap>
 
-#include "rzxconnectionlister.h"
+#include <RzxConnectionLister>
 
-#include "rzxmessagebox.h"
-#include "rzxserverlistener.h"
-#include "rzxiconcollection.h"
-#include "rzxhostaddress.h"
-#include "rzxcomputer.h"
-#include "rzxconfig.h"
+#include <RzxMessageBox>
+#include <RzxServerListener>
+#include <RzxIconCollection>
+#include <RzxHostAddress>
+#include <RzxComputer>
+#include <RzxConfig>
 
 #define USER_HASH_TABLE_LENGTH 1663
 

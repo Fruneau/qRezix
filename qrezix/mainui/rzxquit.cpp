@@ -20,7 +20,7 @@
 #include <QPushButton>
 #include <QLabel>
 
-#include "../core/rzxconfig.h"
+#include <RzxConfig>
 
 #include "rzxquit.h"
 

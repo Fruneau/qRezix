@@ -17,11 +17,10 @@
 #ifndef RZXNOTIFIER_H
 #define RZXNOTIFIER_H
 
-#include <QObject>
-
-#include "../core/rzxmodule.h"
+#include <RzxModule>
 
 class RzxComputer;
+namespace Ui { class RzxNotifierPropUI; }
 
 /**
 @author Florent Bruneau
@@ -34,15 +33,31 @@ class RzxNotifier : public RzxModule
 
 	bool favoriteWarn;
 
+	Ui::RzxNotifierPropUI *ui;
+	QWidget *propWidget;
+
 	public:
 		RzxNotifier();
 		~RzxNotifier();
 		virtual bool isInitialised() const;
+		virtual QIcon icon() const;
 
 	public slots:
 		void favoriteUpdated(RzxComputer *);
 		void login(RzxComputer *);
 		void loginEnd();
+
+	public:
+		virtual QList<QWidget*> propWidgets();
+		virtual QStringList propWidgetsName();
+
+	public slots:
+		virtual void propInit();
+		virtual void propUpdate();
+		virtual void propClose();
+
+	protected slots:
+		void chooseBeepConnection();
 };
 
 #endif

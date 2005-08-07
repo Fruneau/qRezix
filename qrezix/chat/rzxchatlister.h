@@ -21,13 +21,14 @@
 #include <QString>
 #include <QHash>
 
-#include "../core/rzxhostaddress.h"
-#include "../core/rzxmodule.h"
+#include <RzxHostAddress>
+#include <RzxModule>
 
 class QPoint;
 class RzxChat;
 class RzxComputer;
 class RzxClientListener;
+namespace Ui { class RzxChatPropUI; }
 
 /**
 @author Florent Bruneau
@@ -44,6 +45,9 @@ class RzxChatLister:public RzxModule
 
 	RzxClientListener *client;
 
+	QWidget *propWidget;
+	Ui::RzxChatPropUI *ui;
+
 	bool wellInit;
 
 	static RzxChatLister *object;
@@ -54,6 +58,7 @@ class RzxChatLister:public RzxModule
 		~RzxChatLister();
 
 		virtual bool isInitialised() const;
+		virtual QIcon icon() const;
 
 	public slots:
 		void login(RzxComputer*);
@@ -72,6 +77,18 @@ class RzxChatLister:public RzxModule
 		void deleteChat(const RzxHostAddress&);
 		void closeChat(const QString& login);
 		void closeChats();
+
+	public:
+		virtual QList<QWidget*> propWidgets();
+		virtual QStringList propWidgetsName();
+
+	public slots:
+		virtual void propInit();
+		virtual void propUpdate();
+		virtual void propClose();
+
+	protected slots:
+		void chooseBeep();
 };
 
 ///Renvoie un objet

@@ -16,5 +16,6 @@ HEADERS += mainui/rzxui.h \
 	mainui/rzxquit.h
 
 FORMS += mainui/qrezixui.ui \
-	mainui/rzxquitui.ui
+	mainui/rzxquitui.ui \
+	mainui/rzxmainuipropui.ui
 

@@ -33,18 +33,26 @@
 #include <QEvent>
 #include <QMouseEvent>
 
-#include "rzxtrayicon.h"
+#include <RzxConfig>
+#include <RzxComputer>
+#include <RzxPlugInLoader>
+#include <RzxIconCollection>
+#include <RzxConnectionLister>
 
-#include "../core/rzxconfig.h"
-#include "../core/rzxcomputer.h"
-#include "../core/rzxpluginloader.h"
-#include "../core/rzxiconcollection.h"
-#include "../core/rzxconnectionlister.h"
+#include "rzxtrayicon.h"
 
 #ifdef Q_WS_MAC
 void qt_mac_set_dock_menu( QMenu *menu );
 #endif
 
+#ifdef RZX_TRAYICON_BUILTIN
+#	define RZX_BUILTIN
+#else
+#	define RZX_PLUGIN
+#endif
+
+///Exporte le module
+RZX_MODULE_EXPORT(RzxTrayIcon)
 
 /*!
   \class RzxTrayIcon qtrayicon.h
@@ -90,6 +98,12 @@ bool RzxTrayIcon::isInitialised() const
 	return true;
 }
 
+/** \reimp */
+QIcon RzxTrayIcon::icon() const
+{
+	return RzxIconCollection::getIcon(Rzx::ICON_SYSTRAYAWAY);
+}
+
 /*!
   \property RzxTrayIcon::icon
   \brief the system tray icon.
@@ -110,17 +124,9 @@ void RzxTrayIcon::changeTrayIcon()
 	// Change l'icone dans la tray
 	QPixmap trayIcon;
 	if(!RzxConfig::autoResponder())
-	{
 		trayIcon = RzxIconCollection::getPixmap(Rzx::ICON_SYSTRAYHERE);
-		if(trayIcon.isNull())
-			trayIcon = RzxIconCollection::qRezixIcon();
-	}
 	else
-	{
 		trayIcon = RzxIconCollection::getPixmap(Rzx::ICON_SYSTRAYAWAY);
-		if(trayIcon.isNull())
-			trayIcon = RzxIconCollection::qRezixAwayIcon();
-	}
 #ifdef Q_WS_MAC
 	buildMenu();
 #endif
@@ -1010,3 +1016,61 @@ QPoint RzxTrayIcon::getPos()
 	return d->mapToGlobal( d->pos() );
 #endif
 }
+
+
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+#include "ui_rzxtraypropui.h"
+
+/** \reimp */
+QList<QWidget*> RzxTrayIcon::propWidgets()
+{
+	if(!ui)
+		ui = new Ui::RzxTrayPropUI;
+	if(!propWidget)
+	{
+		propWidget = new QWidget;
+		ui->setupUi(propWidget);
+	}
+	return QList<QWidget*>() << propWidget;
+}
+
+/** \reimp */
+QStringList RzxTrayIcon::propWidgetsName()
+{
+	return QStringList() << name();
+}
+
+/** \reimp */
+void RzxTrayIcon::propInit()
+{
+	ui->sbTraySize->setValue(RzxConfig::traySize());	
+}
+
+/** \reimp */
+void RzxTrayIcon::propUpdate()
+{
+	if(!ui) return;
+
+	RzxConfig *cfgObject = RzxConfig::global();
+	if(ui->sbTraySize->value() != RzxConfig::traySize())
+	{
+		cfgObject->writeEntry("traysize", ui->sbTraySize->value());
+		changeTrayIcon();
+	}
+}
+
+/** \reimp */
+void RzxTrayIcon::propClose()
+{
+	if(propWidget)
+	{
+		delete propWidget;
+		propWidget = NULL;
+	}
+	if(ui)
+	{
+		delete ui;
+		ui = NULL;
+	}
+}
+#endif

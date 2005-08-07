@@ -17,10 +17,10 @@
 
 #include <QProcess>
 
-#include "rzxutilslauncher.h"
+#include <RzxUtilsLauncher>
 
-#include "rzxhostaddress.h"
-#include "rzxconfig.h"
+#include <RzxHostAddress>
+#include <RzxConfig>
 
 ///Lance le client ftp
 void RzxUtilsLauncher::ftp(const RzxHostAddress& m_ip, const QString& path)

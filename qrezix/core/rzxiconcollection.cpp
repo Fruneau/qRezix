@@ -17,9 +17,9 @@
 #include <QDir>
 #include <QList>
 
-#include "rzxiconcollection.h"
+#include <RzxIconCollection>
 
-#include "rzxconfig.h"
+#include <RzxConfig>
 
 #include QREZIX_ICON
 #include QREZIX_AWAY_ICON
@@ -207,6 +207,13 @@ const QPixmap &RzxIconCollection::pixmap(Rzx::Icon icon)
 		name = data[icon].filename;
 		if(icons[name].isNull())
 			icons.insert(name, loadIcon(name, activeTheme));
+	}
+	if(icons[name].isNull())
+	{
+		if(icon == Rzx::ICON_SYSTRAYHERE)
+			icons.insert(name, qRezixIcon());
+		else if(icon == Rzx::ICON_SYSTRAYAWAY)
+			icons.insert(name, qRezixAwayIcon());
 	}
 	return icons[name];
 }

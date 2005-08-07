@@ -17,8 +17,8 @@
 //Pour les communications
 #include <QRegExp>
 
-#include "../core/rzxconfig.h"
-#include "../core/rzxapplication.h"
+#include <RzxConfig>
+#include <RzxApplication>
 
 #include "rzxchatsocket.h"
 

@@ -18,9 +18,9 @@
 #include <QString>
 #include <QIcon>
 
-#include "../core/rzxcomputer.h"
-#include "../core/rzxiconcollection.h"
-#include "../core/rzxconnectionlister.h"
+#include <RzxComputer>
+#include <RzxIconCollection>
+#include <RzxConnectionLister>
 
 #include "rzxrezalmodel.h"
 

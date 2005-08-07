@@ -20,12 +20,12 @@
 #include <QPixmap>
 #include <QMessageBox>
 
-#include "rzxserverlistener.h"
+#include <RzxServerListener>
 
-#include "rzxmessagebox.h"
-#include "rzxcomputer.h"
-#include "rzxconfig.h"
-#include "rzxiconcollection.h"
+#include <RzxMessageBox>
+#include <RzxComputer>
+#include <RzxConfig>
+#include <RzxIconCollection>
 
 
 RzxServerListener * RzxServerListener::globalObject = 0;

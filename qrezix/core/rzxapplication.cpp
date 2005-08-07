@@ -14,22 +14,30 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "rzxapplication.h"
+#include <RzxApplication>
 
-#include "rzxglobal.h"
-#include "rzxconfig.h"
-#include "rzxcomputer.h"
-#include "rzxiconcollection.h"
-#include "rzxpluginloader.h"
-#include "rzxconnectionlister.h"
-#include "rzxserverlistener.h"
-#include "rzxproperty.h"
-#include "rzxmodule.h"
+#include <RzxGlobal>
+#include <RzxConfig>
+#include <RzxComputer>
+#include <RzxIconCollection>
+#include <RzxPlugInLoader>
+#include <RzxConnectionLister>
+#include <RzxServerListener>
+#include <RzxProperty>
+#include <RzxModule>
 
-#include "../mainui/rzxui.h"
-#include "../tray/rzxtrayicon.h"
-#include "../chat/rzxchatlister.h"
-#include "../notifier/rzxnotifier.h"
+#ifdef RZX_MAINUI_BUILTIN
+#	include "../mainui/rzxui.h"
+#endif
+#ifdef RZX_TRAYICON_BUILTIN
+#	include "../tray/rzxtrayicon.h"
+#endif
+#ifdef RZX_CHAT_BUILTIN
+#	include "../chat/rzxchatlister.h"
+#endif
+#ifdef RZX_NOTIFIER_BUILTIN
+#	include "../notifier/rzxnotifier.h"
+#endif
 
 ///Chargement de qRezix et de ses différents modules
 RzxApplication::RzxApplication(int argc, char **argv)
@@ -74,7 +82,8 @@ RzxApplication::RzxApplication(int argc, char **argv)
 }
 
 ///Destruction de l'application
-/** :( */
+/** :(
+ */
 RzxApplication::~RzxApplication()
 {
 }
@@ -135,10 +144,18 @@ bool RzxApplication::loadModules()
 
 	Rzx::beginModuleLoading("Built-ins");
 #define loadBuiltIn(a) installModule(new a)
+#ifdef RZX_MAINUI_BUILTIN
 	loadBuiltIn(RzxUi);
+#endif
+#ifdef RZX_CHAT_BUILTIN
 	loadBuiltIn(RzxChatLister);
+#endif
+#ifdef RZX_NOTIFIER_BUILTIN
 	loadBuiltIn(RzxNotifier);
+#endif
+#ifdef RZX_TRAYICON_BUILTIN
 	loadBuiltIn(RzxTrayIcon);
+#endif
 #undef loadBuiltIn
 	Rzx::endModuleLoading("Built-ins");
 
@@ -147,18 +164,18 @@ bool RzxApplication::loadModules()
 	if(properties)
 		properties->setParent(mainWindow());
 
-	if(mainui)
+	foreach(RzxModule *hider, hiders)
 	{
-		foreach(RzxModule *hider, hiders)
+		if(mainui)
 		{
 			connect(hider, SIGNAL(wantToggleVisible()), mainui, SLOT(toggleVisible()));
 			connect(hider, SIGNAL(wantShow()), mainui, SLOT(show()));
 			connect(hider, SIGNAL(wantHide()), mainui, SLOT(hide()));
-			hider->show();
 		}
-		if(!hiders.count())
-			mainui->show();
+		hider->show();
 	}
+	if(mainui && !hiders.count())
+		mainui->show();
 
 	Rzx::endModuleLoading("Modules interactions");
 
@@ -201,7 +218,10 @@ void RzxApplication::installModule(RzxModule *mod)
 }
 
 ///Sauvegarde des données au moment de la fermeture
-/** Lance la sauvegarde des données principales lors de la fermeture de rezix. Cette méthode est censée permettre l'enregistrement des données lors de la fermeture de l'environnement graphique... */
+/** Lance la sauvegarde des données principales lors de la fermeture de rezix.
+ * Cette méthode est censée permettre l'enregistrement des données lors de la
+ * fermeture de l'environnement graphique...
+ */
 void RzxApplication::saveSettings()
 {
 	Rzx::beginModuleClosing("qRezix");
@@ -278,4 +298,10 @@ QWidget *RzxApplication::mainWindow()
 		return instance()->mainui->mainWindow();
 	else
 		return NULL;
+}
+
+///Retourne la liste des modules chargés
+QList<RzxModule*> RzxApplication::modulesList()
+{
+	return instance()->modules;
 }

@@ -29,18 +29,28 @@
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 
-#include "../core/rzxglobal.h"
-#include "../core/rzxconfig.h"
-#include "../core/rzxiconcollection.h"
-#include "../core/rzxmessagebox.h"
-#include "../core/rzxconnectionlister.h"
-#include "../core/rzxapplication.h"
+#include <RzxGlobal>
+#include <RzxConfig>
+#include <RzxIconCollection>
+#include <RzxMessageBox>
+#include <RzxConnectionLister>
+#include <RzxApplication>
+#include <RzxProperty>
 
 #include "rzxchatlister.h"
 
 #include "rzxchat.h"
 #include "rzxclientlistener.h"
+#include "ui_rzxchatpropui.h"
 
+#ifdef RZX_CHAT_BUILTIN
+#	define RZX_BUILTIN
+#else
+#	define RZX_PLUGIN
+#endif
+
+///Exporte le module
+RZX_MODULE_EXPORT(RzxChatLister)
 
 RzxChatLister *RzxChatLister::object = NULL;
 
@@ -48,6 +58,8 @@ RzxChatLister::RzxChatLister()
 	:RzxModule("Chat 1.7.0-svn", QT_TR_NOOP("qRezix graphical chat interface"))
 {
 	beginLoading();
+	propWidget = NULL;
+	ui = NULL;
 	wellInit = false;
 	object = this;
 	setType(MOD_CHATUI);
@@ -82,6 +94,12 @@ RzxChatLister::~RzxChatLister()
 	closeChats();
 	client->deleteLater();
 	endClosing();
+}
+
+/** \reimp */
+QIcon RzxChatLister::icon() const
+{
+	return RzxIconCollection::getIcon(Rzx::ICON_CHAT);
 }
 
 /** Sert aussi au raffraichissement des données*/
@@ -364,3 +382,69 @@ QWidget *RzxChatLister::historique(const RzxHostAddress& peer, bool withFrame, Q
 {
 	return historique(RzxConnectionLister::global()->getComputerByIP(peer), withFrame, parent, pos);
 }
+
+
+/** \reimp */
+QList<QWidget*> RzxChatLister::propWidgets()
+{
+	if(!ui)
+		ui = new Ui::RzxChatPropUI;
+	if(!propWidget)
+	{
+		propWidget = new QWidget;
+		ui->setupUi(propWidget);
+		connect( ui->btnBeepBrowse, SIGNAL( clicked() ), this, SLOT( chooseBeep() ) );
+	}
+	return QList<QWidget*>() << propWidget;
+}
+
+/** \reimp */
+QStringList RzxChatLister::propWidgetsName()
+{
+	return QStringList() << name();
+}
+
+/** \reimp */
+void RzxChatLister::propInit()
+{
+	ui->chkBeep->setChecked( RzxConfig::beep() );
+	ui->cbPropertiesWarning->setChecked(RzxConfig::global() -> warnCheckingProperties() );
+	ui->cbPrintTime->setChecked(RzxConfig::global() -> printTime());
+}
+
+/** \reimp */
+void RzxChatLister::propUpdate()
+{
+	if(!ui) return;
+
+	RzxConfig *cfgObject = RzxConfig::global();
+	cfgObject -> writeEntry( "beep", ui->chkBeep->isChecked());
+	cfgObject -> writeEntry( "txtBeep", ui->txtBeep->text());
+	cfgObject -> writeEntry("warnCheckingProperties", ui->cbPropertiesWarning->isChecked());
+	cfgObject -> writeEntry("printTime",ui->cbPrintTime->isChecked());
+}
+
+/** \reimp */
+void RzxChatLister::propClose()
+{
+	if(propWidget)
+	{
+		delete propWidget;
+		propWidget = NULL;
+	}
+	if(ui)
+	{
+		delete ui;
+		ui = NULL;
+	}
+}
+
+///Choix du son pour le beep
+void RzxChatLister::chooseBeep()
+{
+	QString file = RzxProperty::browse(tr("All files"), tr("Sound file selection"), "*");
+	if (file.isEmpty()) return;
+
+	ui->txtBeep->setText(file);
+}
+
