@@ -18,7 +18,6 @@
 #include <QString>
 #include <QPixmap>
 
-#include <RzxPlugInLoader>
 #include <RzxComputer>
 #include <RzxConfig>
 #include <RzxIconCollection>
@@ -94,7 +93,6 @@ void RzxRezalPopup::init(RzxComputer *computer, const QPoint& point)
 	}
 	addSeparator();
 	newItem(Rzx::ICON_CANCEL, tr("Cancel"), this, SLOT(close()));
-	RzxPlugInLoader::global()->menuItem(*this);
 	popup(point);
 #undef newItem
 }

@@ -25,6 +25,7 @@
 #include "rzxchat.h"
 #include "rzxclientlistener.h"
 #include "rzxchatlister.h"
+#include "rzxchatconfig.h"
 
 //attention a toujours avoir DCCFormat[DCC_message] = messageFormat
 QString RzxChatSocket::DCCFormat[] = {
@@ -105,7 +106,7 @@ void RzxChatSocket::setChat(RzxChat *parent)
 ///Connexion à l'hôte
 void RzxChatSocket::connectToHost()
 {
-	QTcpSocket::connectToHost(host.toString(), RzxConfig::chatPort());
+	QTcpSocket::connectToHost(host.toString(), RzxChatConfig::chatPort());
 	timeOut.start(10*1000); //descend le timeout de connexion à 10s
 }
 

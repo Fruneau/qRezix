@@ -19,6 +19,12 @@
 #ifndef RZXUI_H
 #define RZXUI_H
 
+#ifdef RZX_MAINUI_BUILTIN
+#	define RZX_BUILTIN
+#else
+#	define RZX_PLUGIN
+#endif
+
 #include <RzxModule>
 
 /**
@@ -34,6 +40,8 @@ namespace Ui { class RzxMainuiPropUI; }
  */
 class RzxUi:public RzxModule
 {
+	Q_OBJECT
+
 	QRezix *qrezix;
 
 	Ui::RzxMainuiPropUI *ui;
@@ -44,7 +52,6 @@ class RzxUi:public RzxModule
 		~RzxUi();
 
 		virtual bool isInitialised() const;
-		virtual QIcon icon() const;
 
 	public slots:
 		virtual void show();

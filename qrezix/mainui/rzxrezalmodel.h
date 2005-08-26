@@ -24,6 +24,8 @@
 #include <QIcon>
 #include <QString>
 
+#include <RzxGlobal>
+
 #include "rzxdict.h"
 
 class RzxComputer;
@@ -70,10 +72,9 @@ typedef class RzxDict<QString, RzxComputer*> RzxRezalSearchTree;
 class RzxRezalModel:public QAbstractItemModel
 {
 	Q_OBJECT
-	Q_ENUMS(NumColonne)
-
-	///Object statique pour une utilisation globale
-	static RzxRezalModel *object;
+	Q_ENUMS(NumColonne ToolTipFlags)
+	Q_FLAGS(ToolTip)
+	RZX_GLOBAL(RzxRezalModel)
 
 	///Construction de l'objet
 	RzxRezalModel();
@@ -95,6 +96,24 @@ class RzxRezalModel:public QAbstractItemModel
 			ColClient = 11,
 			numColonnes = 12
 		};
+
+		///Flags des éléments des tooltips
+		enum ToolTipFlags
+		{
+			TipEnable = 1,
+			TipFtp = 2,
+			TipHttp = 4,
+			TipNews = 8,
+			TipSamba = 16,
+			TipPromo = 32,
+			TipOS = 64,
+			TipClient = 128,
+			TipIP = 256,
+			TipResal = 512,
+			TipFeatures = 1024,
+			TipProperties = 2048
+		};
+		Q_DECLARE_FLAGS(ToolTip, ToolTipFlags)
 
 	private:
 		///Nom des colonnes
@@ -206,11 +225,10 @@ class RzxRezalModel:public QAbstractItemModel
 	public:
 		virtual ~RzxRezalModel();
 
-		static RzxRezalModel *global();
-
 		virtual QModelIndex index(int, int, const QModelIndex& index = QModelIndex()) const;
 		virtual QModelIndex index(RzxComputer*, const QModelIndex& index = QModelIndex()) const;
 		virtual QModelIndex parent(const QModelIndex&) const;
+		virtual bool isIndex(const QModelIndex&) const;
 		
 		virtual int rowCount(const QModelIndex&) const;
 		virtual int columnCount(const QModelIndex&) const;
@@ -231,16 +249,10 @@ class RzxRezalModel:public QAbstractItemModel
 		virtual void logout(RzxComputer *);
 		virtual void update(RzxComputer *);
 		virtual void clear();
-};
 
-///Retourne l'objet global
-/** L'objet est construit si ceci est nécessaire. */
-inline RzxRezalModel *RzxRezalModel::global()
-{
-	if(!object)
-		object = new RzxRezalModel();
-	return object;
-}
+	protected:
+		virtual QString tooltip(RzxComputer *) const;
+};
 
 ///Création d'un index associé à un objet
 /** Permet la création d'un QModelIndex associé à un RzxComputer. Ce RzxComputer est indentifé par deux objets :

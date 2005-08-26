@@ -36,45 +36,6 @@ const char *RzxComputer::promalText[4] = {
     QT_TR_NOOP("Jone")
 };
 
-const char *RzxComputer::rezalText[Rzx::RZL_NUMBER][2] = {
-	{ QT_TR_NOOP("World"), QT_TR_NOOP("World") },
-	{ "Binets & Kès", "Binets" },
-	{ "BR", "BR" },
-	{ "BEM Bat. A", "BEM.A" },
-	{ "BEM Bat. D", "BEM.D" },
-	{ "Foch 0", "Foch.0" },
-	{ "Foch 1", "Foch.1" },
-	{ "Foch 2", "Foch.2" },
-	{ "Foch 3", "Foch.3" },
-	{ "Fayolle 0", "Fay.0" },
-	{ "Fayolle 1", "Fay.1" },
-	{ "Fayolle 2", "Fay.2" },
-	{ "Fayolle 3", "Fay.3" },
-	{ "PEM", "PEM" },
-	{ "Joffre 0", "Jof.0" },
-	{ "Joffre 1", "Jof.1" },
-	{ "Joffre 2", "Jof.2" },
-	{ "Joffre 3", "Jof.3" },
-	{ "Maunoury 0", "Mau.0" },
-	{ "Maunoury 1", "Mau.1" },
-	{ "Maunoury 2", "Mau.2" },
-	{ "Maunoury 3", "Mau.3" },
-	{ "Batiment 411", "Bat.411" },
-	{ "Batiment 70", "Bat.70" },
-	{ "Batiment 71", "Bat.71" },
-	{ "Batiment 72", "Bat.72" },
-	{ "Batiment 73", "Bat.73" },
-	{ "Batiment 74", "Bat.74" },
-	{ "Batiment 75", "Bat.75" },
-	{ "Batiment 76", "Bat.76" },
-	{ "Batiment 77", "Bat.77" },
-	{ "Batiment 78", "Bat.78" },
-	{ "Batiment 79", "Bat.79" },
-	{ "Batiment 80", "Bat.80" },
-	{ "Wifi", "Wifi" },
-	{ "X", "X" }
-};
-
 const char *RzxComputer::osText[7] = {
 	QT_TR_NOOP("Unknown"),
 	"Windows 9x/Me",
@@ -129,11 +90,11 @@ void RzxComputer::initLocalhost()
 	//Ip mise à jour par RzxServerListener
 	m_ip = RzxHostAddress::fromRezix(0);
 
-	setName(RzxConfig::dnsname());
+	setName(RzxConfig::dnsName());
 	setRemarque(RzxConfig::remarque());
 	setPromo(RzxConfig::promo());
 	setState(RzxConfig::repondeur());
-	setServerFlags(RzxConfig::servers());
+	setServerFlags((ServerFlags)RzxConfig::servers());
 	autoSetOs();
 
 	m_version.Client = RZX_CLIENT_ID;
@@ -176,16 +137,17 @@ void RzxComputer::update(const QString& c_name, quint32 c_options, quint32 c_sta
 /** Les différents OS supportés sont Windows 9X (1) ou NT (2), Linux (3), MacOS (4), MacOSX(5), BSD(6) */
 void RzxComputer::autoSetOs()
 {
+	m_options.SysEx = Rzx::SYSEX_UNKNOWN;
 #ifdef WIN32
 	if (QApplication::winVersion() & Qt::WV_NT_based)
 		m_options.SysEx = Rzx::SYSEX_WINNT;
 	else
 		m_options.SysEx = Rzx::SYSEX_WIN9X;
 #endif
-#ifdef Q_OS_UNIX
+#ifdef Q_OS_LINUX
 	m_options.SysEx = Rzx::SYSEX_LINUX;
 #endif
-#ifdef Q_OS_BSD
+#ifdef Q_OS_BSD4
 	m_options.SysEx = Rzx::SYSEX_BSD;
 #endif
 #ifdef Q_OS_MAC
@@ -305,10 +267,10 @@ void RzxComputer::setIcon(const QPixmap& image){
 	emit update(this);
 }
 ///Définition de la liste des serveurs présents sur la machine
-void RzxComputer::setServers(QFlags<RzxComputer::ServerFlags> servers) 
+void RzxComputer::setServers(Servers servers) 
 { m_options.Server = servers; }
 ///Définition de la liste des serveurs envisageables sur la machine (localhost uniquement)
-void RzxComputer::setServerFlags(QFlags<RzxComputer::ServerFlags> serverFlags) 
+void RzxComputer::setServerFlags(Servers serverFlags) 
 { m_serverFlags = serverFlags; }
 ///Définition de la promo
 void RzxComputer::setPromo(Rzx::Promal promo)
@@ -377,10 +339,10 @@ QString RzxComputer::sysExText() const
 unsigned long RzxComputer::flags() const
 { return m_flags; }
 ///Récupération de la liste des servers présents sur la machine (ou demandés par l'utilisateur dans le cas de localhost)
-QFlags<RzxComputer::ServerFlags> RzxComputer::servers() const
+RzxComputer::Servers RzxComputer::servers() const
 { return toServerFlags(m_options.Server); }
 ///Récupération de la liste des serveurs présents (localhost)
-QFlags<RzxComputer::ServerFlags> RzxComputer::serverFlags() const
+RzxComputer::Servers RzxComputer::serverFlags() const
 { return m_serverFlags; }
 bool RzxComputer::hasSambaServer() const
 { return (m_options.Server & SERVER_SAMBA); }
@@ -435,7 +397,7 @@ const RzxHostAddress &RzxComputer::ip() const
 { return m_ip; }
 ///Indique si on est sur la même passerelle que la personne de référence
 bool RzxComputer::isSameGateway(const RzxComputer& ref) const
-{ return rezalId() == ref.rezalId(); }
+{ return RzxHostAddress::isSameGateway(ip(), ref.ip()); }
 ///Fonction surchargée par confort d'utilisation
 /** Si \a computer est Null la comparaison est réalisée avec localhost */
 bool RzxComputer::isSameGateway(RzxComputer *computer) const
@@ -453,87 +415,9 @@ bool RzxComputer::isLocalhost() const
 
 ///Permet de retrouver le 'nom' du sous-réseau sur lequel se trouve la machine
 /** Permet de donner un nom au sous-réseau de la machine. A terme cette fonction lira les données à partir d'un fichier qui contiendra les correspondances */
-Rzx::RezalId RzxComputer::rezalId() const
+Rzx::RezalId RzxComputer::rezal() const
 {
-	QRegExp mask("(\\d{1,3}\\.\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})");
-
-	if(mask.indexIn(m_ip.toString()) == -1) return Rzx::RZL_WORLD;
-	
-	//Si l'ip n'est pas de l'X
-	if(mask.cap(1) != "129.104") return Rzx::RZL_WORLD;
-	
-	int resal = mask.cap(2).toUInt();
-	int adr = mask.cap(3).toUInt();
-	//Kes et binet... avec un cas particulier pour le BR :))
-	if(resal == 201)
-	{
-		if(adr >= 50 && adr <= 62) return Rzx::RZL_BR;
-		return Rzx::RZL_BINETS;
-	}
-	
-	//Cas des bar d'étages
-	//Comment ça y'a pas de bar au premier étage ? faudra dire ça à NC :þ
-	if(resal == 208 || resal == 212 || resal == 218 || resal == 222)
-	{
-		if(adr >= 97 && adr <= 100) resal -= 2;
-		if(adr >= 101 && adr <= 104) resal--;
-	}
-
-	//Pour prendre en compte les nouveaux caserts...
-	//En espérant tout de même qu'un jour ils porteronts des vrais nom :(
-	if(resal >= 224 && resal <= 229)
-	{
-		int greaterMask = (resal<<1) + (adr>>7);
-		switch(greaterMask)
-		{
-			case (224<<1)+0: return Rzx::RZL_BAT71;
-			case (224<<1)+1: return Rzx::RZL_BAT70;
-			case (225<<1)+0: return Rzx::RZL_BAT73;
-			case (225<<1)+1: return Rzx::RZL_BAT74;
-			case (226<<1)+0: return Rzx::RZL_BAT75;
-			case (226<<1)+1: return Rzx::RZL_BAT80;
-			case (227<<1)+0: return Rzx::RZL_BAT76;
-			case (227<<1)+1: return Rzx::RZL_BAT77;
-			case (228<<1)+0: return Rzx::RZL_BAT78;
-			case (228<<1)+1: return Rzx::RZL_BAT72;
-			case (229<<1)+0: return Rzx::RZL_BAT79;
-		}
-	}
-
-	switch(resal)
-	{
-		//Pour le BEM
-		case 203: return Rzx::RZL_BEMA;
-		case 204: return Rzx::RZL_BEMD;
-
-		//Pour le PEM & BAT411
-		case 214: return Rzx::RZL_PEM;
-		case 223: return Rzx::RZL_BAT411;
-
-		//Pour Foch, Fayolle, Joffre et Maunoury
-		case 205: return Rzx::RZL_FOCH0;
-		case 206: return Rzx::RZL_FOCH1;
-		case 207: return Rzx::RZL_FOCH2;
-		case 208: return Rzx::RZL_FOCH3;
-		case 209: return Rzx::RZL_FAYOLLE0;
-		case 210: return Rzx::RZL_FAYOLLE1;
-		case 211: return Rzx::RZL_FAYOLLE2;
-		case 212: return Rzx::RZL_FAYOLLE3;
-		case 215: return Rzx::RZL_JOFFRE0;
-		case 216: return Rzx::RZL_JOFFRE1;
-		case 217: return Rzx::RZL_JOFFRE2;
-		case 218: return Rzx::RZL_JOFFRE3;
-		case 219: return Rzx::RZL_MAUNOURY0;
-		case 220: return Rzx::RZL_MAUNOURY1;
-		case 221: return Rzx::RZL_MAUNOURY2;
-		case 222: return Rzx::RZL_MAUNOURY3;
-
-		//Pour le wifi
-		case 230: return Rzx::RZL_WIFI;
-
-		//Si y'a rien, on sait au moins que c'est à l'X...
-		default: return Rzx::RZL_X;
-	}
+	return m_ip.rezal();
 }
 
 /** No descriptions */
@@ -550,85 +434,6 @@ void RzxComputer::loadIcon()
 		setIcon(temp);
 }
 
-///Génère un tooltip formaté correspondant à l'objet
-/** Le tooltip généré selon les préférences exprimées par l'utilisateur, avec les informations qui constitue le RzxComputer :
- * 	- NOM
- * 	- Informations :
- * 		- serveurs
- * 		- promo
- * 		- ip/rezal
- * 		- client/modules
- * 	- Propriétés (dernière propriétés en cache pour ce client)
- */
-QString RzxComputer::tooltipText() const
-{
-	int tooltipFlags = RzxConfig::tooltip();
-	if(!(tooltipFlags & (int)RzxConfig::Enable) || tooltipFlags==(int)RzxConfig::Enable) return "";
-	
-	QString tooltip = "<b>"+ name() + " </b>";
-	if(tooltipFlags & (int)RzxConfig::Promo)
-		tooltip += "<i>(" + promoText() + ")</i>";
-	tooltip += "<br/><br/>";
- 	tooltip += "<b><i>" + tr("Informations :") + "</b></i><br/>";
-	
-	if(hasFtpServer() && (tooltipFlags & (int)RzxConfig::Ftp))
-		tooltip += "<b>-></b>&nbsp;" + tr("ftp server : ") + tr("<b>on</b>") + "<br/>";
-	if(hasHttpServer() && (tooltipFlags & (int)RzxConfig::Http))
-		tooltip += "<b>-></b>&nbsp;" + tr("web server : ") + tr("<b>on</b>") + "<br/>";
-	if(hasNewsServer() && (tooltipFlags & (int)RzxConfig::News))
-		tooltip += "<b>-></b>&nbsp;" + tr("news server : ") + tr("<b>on</b>") + "<br/>";
-	if(hasSambaServer() && (tooltipFlags & (int)RzxConfig::Samba))
-		tooltip += "<b>-></b>&nbsp;" + tr("samba server : ") + tr("<b>on</b>") + "<br/>";
-	if(tooltipFlags & (int)RzxConfig::OS)
-		tooltip += "<b>-></b>&nbsp;os : " + sysExText() + "<br/>";
-	if(tooltipFlags & (int)RzxConfig::Client)
-		tooltip += "<b>-></b>&nbsp;" + client() + "<br/>";
-	if(tooltipFlags & (int)RzxConfig::Features)
-	{
-		if(can(Rzx::CAP_ON))
-		{
-			int nb = 0;
-			tooltip += "<b>-></b>&nbsp;" + tr("features : ");
-			if(can(Rzx::CAP_CHAT))
-			{
-				tooltip += tr("chat");
-				nb++;
-			}
-			if(can(Rzx::CAP_XPLO))
-			{
-				tooltip += QString(nb?", ":"") + "Xplo";
-				nb++;
-			}
-			if(!nb) tooltip += tr("none");
-			tooltip += "<br/>";
-		}
-	}
-	if(tooltipFlags & (int)RzxConfig::IP)
-		tooltip += "<b>-></b>&nbsp;ip : <i>" + ip().toString() + "</i><br/>";
-	if(tooltipFlags & (int)RzxConfig::Resal)
-		tooltip += "<b>-></b>&nbsp;" + tr("place : ") + rezal(false) + "<br/>";
-	
-	if(tooltipFlags & (int)RzxConfig::Properties)
-	{
-		tooltip += "<br/>";
-		QString msg = RzxConfig::cache(ip());
-		if(msg.isNull())
-		{
-			tooltip += "<i>" + tr("No properties in cache") + "</i>";
-		}
-		else
-		{
-			QString date = RzxConfig::getCacheDate(ip());
-			tooltip += "<b><i>" + tr("Properties checked on ")  + date + " :</i></b><br/>";
-			QStringList list = msg.split("|");
-			for(int i = 0 ; i < list.size() - 1 ; i+=2)
-				tooltip += "<b>-></b>&nbsp;" + list[i] + " : " + list[i+1] + "<br/>";
-		}
-	}
-
-	return tooltip;
-}
-
 /*********** Lancement des clients sur la machine ************/
 ///Lance un client ftp sur l'ordinateur indiqué
 /** On lance le client sur le ftp de l'ordinateur indiqué en s'arrangeant pour parcourir
@@ -636,7 +441,8 @@ QString RzxComputer::tooltipText() const
  */
 void RzxComputer::ftp(const QString& path) const
 {
-	RzxUtilsLauncher::ftp(ip(), path);
+	if(hasFtpServer())
+		RzxUtilsLauncher::ftp(ip(), path);
 }
 
 ///Lance un client http sur l'ordinateur indiqué
@@ -645,7 +451,8 @@ void RzxComputer::ftp(const QString& path) const
  */
 void RzxComputer::http(const QString& path) const
 {
-	RzxUtilsLauncher::http(ip(), path);
+	if(hasHttpServer())
+		RzxUtilsLauncher::http(ip(), path);
 }
 
 ///Lance un client samba sur l'ordinateur indiqué
@@ -654,7 +461,8 @@ void RzxComputer::http(const QString& path) const
  */
 void RzxComputer::samba(const QString& path) const
 {
-	RzxUtilsLauncher::samba(ip(), path);
+	if(hasSambaServer())
+		RzxUtilsLauncher::samba(ip(), path);
 }
 
 ///Lance un client news sur l'ordinateur indiqué
@@ -663,7 +471,8 @@ void RzxComputer::samba(const QString& path) const
  */
 void RzxComputer::news(const QString& path) const
 {
-	RzxUtilsLauncher::news(ip(), path);
+	if(hasNewsServer())
+		RzxUtilsLauncher::news(ip(), path);
 }
 
 /********** Modification de l'état de préférence *************/
@@ -736,7 +545,7 @@ void RzxComputer::chat()
 /** Rerchercher parmi les protocoles affichés par qRezix lesquels sont présents sur la machine */
 void RzxComputer::scanServers()
 {
-	QFlags<ServerFlags> newServers;
+	Servers newServers;
 #ifdef WIN32
     //Bon, c pas beau, mais si j'essaye de travailler sur le meme socket pour tous les test
 	//j'arrive toujours à de faux résultats... c ptet un bug de windows (pour changer)
@@ -761,7 +570,7 @@ void RzxComputer::scanServers()
 	QProcess netstat;
 	QStringList res;
 
-	#if defined(Q_OS_MAC) || defined(Q_OS_BSD)
+	#if defined(Q_OS_MAC) || defined(Q_OS_BSD4)
         res << "-anf" << "inet";
 	#else
 		res << "-ltn";
@@ -775,7 +584,7 @@ void RzxComputer::scanServers()
 	if(netstat.waitForFinished(1000))
 	{
 		res = QString(netstat.readAllStandardOutput()).split('\n');
-	#if defined(Q_OS_MAC) || defined(Q_OS_BSD)
+	#if defined(Q_OS_MAC) || defined(Q_OS_BSD4)
 			res = res.filter(QRegExp("LISTEN"));
 			if(!(res.filter(QRegExp("\\.21\\s")).isEmpty())) newServers |= SERVER_FTP;
 			if(!(res.filter(QRegExp("\\.80\\s")).isEmpty())) newServers |= SERVER_HTTP;
@@ -801,7 +610,7 @@ void RzxComputer::scanServers()
 	}
 
 #endif //WIN32
-	const QFlags<ServerFlags> oldServers = servers();
+	const Servers oldServers = servers();
 	
 	if(newServers != servers())
 	{

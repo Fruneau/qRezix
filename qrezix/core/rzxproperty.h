@@ -18,6 +18,7 @@
 
 #include <QDialog>
 
+#include <RzxGlobal>
 #include "ui_rzxpropertyui.h"
 
 #define NB_COL 10
@@ -29,11 +30,10 @@
 class RzxProperty : public QDialog, public Ui::frmPref
 {
 	Q_OBJECT
-
-	static RzxProperty *object;
+	RZX_GLOBAL(RzxProperty)
 
 public: 
-	RzxProperty(QWidget *parent);
+	RzxProperty(QWidget *parent = NULL);
 	~RzxProperty();
 
 	static QString browse(const QString& name, const QString& title, const QString& glob);

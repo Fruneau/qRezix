@@ -17,6 +17,10 @@
 #include <QKeyEvent>
 #include <QHeaderView>
 #include <QMouseEvent>
+#include <QPaintEvent>
+#include <QRect>
+#include <QPen>
+#include <QPainter>
 
 #include <RzxComputer>
 #include <RzxConfig>
@@ -25,12 +29,17 @@
 
 #include "rzxrezalmodel.h"
 #include "rzxrezalpopup.h"
+#include "rzxmainuiconfig.h"
 
+RZX_REZAL_EXPORT(RzxRezalView)
 
 ///Construction du RezalView
 RzxRezalView::RzxRezalView( QWidget *parent )
-	: QTreeView( parent ), search(this)
+	: QTreeView( parent ), RzxRezal("Item view 1.7.0-svn", "Historical way to display computers"), search(this)
 {
+	beginLoading();
+	setType(TYP_ALL);
+	setType(TYP_INDEXED);
 	setModel(RzxRezalModel::global());
 	setIconSize(QSize(32,32));
 	header()->setStretchLastSection(false);
@@ -39,7 +48,6 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 	header()->setHighlightSections(false);
 	setRootIndex( RzxRezalModel::global()->everybodyGroup );
 
-	setRootIsDecorated(false);
 	setUniformRowHeights(false);
 	setAlternatingRowColors(true);
 
@@ -47,11 +55,15 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 
 	connect(&search, SIGNAL(findItem(const QModelIndex& )), this, SLOT(setCurrentIndex(const QModelIndex&)));
 	connect(&search, SIGNAL(searchPatternChanged(const QString& )), this, SIGNAL(searchPatternChanged(const QString& )));
+	endLoading();
 }
 
 ///Destruction du RezalView
 RzxRezalView::~RzxRezalView()
-{}
+{
+	beginClosing();
+	endClosing();
+}
 
 ///Gestion des touches du clavier...
 /** Le clavier est utilisé dans 2 buts :
@@ -114,7 +126,7 @@ void RzxRezalView::mouseDoubleClickEvent(QMouseEvent *e)
 		case RzxRezalModel::ColSamba: computer->samba(); break;
 		case RzxRezalModel::ColNews: computer->news(); break;
 		default:
-			if(RzxConfig::global()->doubleClicRole() && computer->hasFtpServer())
+			if(RzxMainUIConfig::doubleClicRole() && computer->hasFtpServer())
 				computer->ftp();
 			else if(!computer->isOnResponder() && computer->can(Rzx::CAP_CHAT) && RzxComputer::localhost()->can(Rzx::CAP_CHAT))
 				computer->chat();
@@ -129,10 +141,17 @@ void RzxRezalView::resizeEvent(QResizeEvent * e) {
 	adapteColonnes();
 }
 
+///Mise à jour de l'affichage
+/** \reimp */
+void RzxRezalView::updateLayout()
+{
+	afficheColonnes();
+}
+
 ///Affiche les colonnes qui correspondent
 void RzxRezalView::afficheColonnes()
 {
-	int colonnesAffichees = RzxConfig::colonnes();
+	int colonnesAffichees = RzxMainUIConfig::colonnes();
 
 	for(int i = 0; i < RzxRezalModel::numColonnes ; i++)
 	{
@@ -177,7 +196,7 @@ void RzxRezalView::afficheColonnes()
  */
 void RzxRezalView::adapteColonnes()
 {
-	int colonnesAffichees = RzxConfig::colonnes();
+	int colonnesAffichees = RzxMainUIConfig::colonnes();
 	int somme=0;
 
 	for(int i=0 ; i < RzxRezalModel::numColonnes ; i++)
@@ -190,4 +209,55 @@ void RzxRezalView::adapteColonnes()
 		else
 			header()->resizeSection(RzxRezalModel::ColRemarque, 100);
 	}
+}
+
+///Réimplémente le changement de root
+/** Dans le but de ne pas mettre un mettre un objet
+ * comme racine de l'affichage
+ */
+void RzxRezalView::setRootIndex(const QModelIndex& index)
+{
+	if(model()->data(index, Qt::UserRole).canConvert<RzxComputer*>())
+		QTreeView::setRootIndex(index.parent());
+	else
+		QTreeView::setRootIndex(index);
+	setRootIsDecorated(((RzxRezalModel*)model())->isIndex(rootIndex()));
+}
+
+///Dessine la ligne
+/** Réimplémente la fonction dans le simple but de régler les problèmes de couleur de fond... */
+void RzxRezalView::drawRow(QPainter *painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+	QStyleOptionViewItem newoption = option;
+	QVariant variant = model()->data(index, Qt::BackgroundColorRole);
+
+	if(variant.canConvert<QColor>())
+	{
+#define setColor(org, dest) \
+	newoption.palette.setBrush(dest, QColor(variant.value<QColor>().rgba() & option.palette.org().color().rgba()))
+		setColor(highlight, QPalette::Highlight);
+		setColor(base, QPalette::Base);
+		setColor(alternateBase, QPalette::AlternateBase);
+#undef setColor
+	}
+
+	QTreeView::drawRow(painter, newoption, index);
+}
+
+///Retourne une fenêtre utilisable pour l'affichage.
+QAbstractItemView *RzxRezalView::widget()
+{
+	return this;
+}
+
+///Retourne les caractéristiques du rezal en tant que dock
+QDockWidget::DockWidgetFeatures RzxRezalView::features() const
+{
+	return QDockWidget::AllDockWidgetFeatures;
+}
+
+///Retourne les positions autorisées du rezal en tant que dock
+Qt::DockWidgetAreas RzxRezalView::allowedAreas() const
+{
+	return Qt::AllDockWidgetAreas;
 }

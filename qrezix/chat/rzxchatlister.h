@@ -17,6 +17,12 @@
 #ifndef RZXCHATLISTER_H
 #define RZXCHATLISTER_H
 
+#ifdef RZX_CHAT_BUILTIN
+#	define RZX_BUILTIN
+#else
+#	define RZX_PLUGIN
+#endif
+
 #include <QObject>
 #include <QString>
 #include <QHash>
@@ -36,6 +42,7 @@ namespace Ui { class RzxChatPropUI; }
 class RzxChatLister:public RzxModule
 {
 	Q_OBJECT
+	RZX_GLOBAL(RzxChatLister)
 
 	QHash<RzxHostAddress, RzxChat*> chatByIP;
 	QHash<QString, RzxChat*> chatByLogin;
@@ -50,15 +57,11 @@ class RzxChatLister:public RzxModule
 
 	bool wellInit;
 
-	static RzxChatLister *object;
-
 	public:
 		RzxChatLister();
-		static RzxChatLister *global();
 		~RzxChatLister();
 
 		virtual bool isInitialised() const;
-		virtual QIcon icon() const;
 
 	public slots:
 		void login(RzxComputer*);
@@ -90,14 +93,6 @@ class RzxChatLister:public RzxModule
 	protected slots:
 		void chooseBeep();
 };
-
-///Renvoie un objet
-inline RzxChatLister *RzxChatLister::global()
-{
-	if(!object)
-		new RzxChatLister();
-	return object;
-}
 
 ///Indique si l'objet est bien initialisé
 inline bool RzxChatLister::isInitialised() const

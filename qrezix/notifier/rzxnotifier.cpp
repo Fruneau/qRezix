@@ -27,15 +27,11 @@
 
 #include "rzxtraywindow.h"
 #include "ui_rzxnotifierpropui.h"
-
-#ifdef RZX_NOTIFIER_BUILTIN
-#	define RZX_BUILTIN
-#else
-#	define RZX_PLUGIN
-#endif
+#include "rzxnotifierconfig.h"
 
 ///Exporte le module
 RZX_MODULE_EXPORT(RzxNotifier)
+RZX_CONFIG_INIT(RzxNotifierConfig)
 
 ///Contruction du notifier
 /** La construction consiste juste à mettre en place les connexions qvb
@@ -48,6 +44,8 @@ RzxNotifier::RzxNotifier()
 	ui = NULL;
 	propWidget = NULL;
 	setType(MOD_GUI);
+	setIcon(Rzx::ICON_FAVORITE);
+	new RzxNotifierConfig(this);
 	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(RzxConnectionLister::global(), SIGNAL(loginEnd()), this, SLOT(loginEnd()));
 	endLoading();
@@ -60,16 +58,10 @@ RzxNotifier::~RzxNotifier()
 	endClosing();
 }
 
-///Indique si l'objet est bien initialisé
+/** \reimp */
 bool RzxNotifier::isInitialised() const
 {
 	return true;
-}
-
-/** \reimp */
-QIcon RzxNotifier::icon() const
-{
-	return RzxIconCollection::getIcon(Rzx::ICON_FAVORITE);
 }
 
 ///Prend en note le fait que les connexions initiales sont terminées
@@ -94,16 +86,16 @@ void RzxNotifier::favoriteUpdated(RzxComputer *computer)
 		return;
 	
 	//Bah, beep à la connexion
-	if(RzxConfig::beepConnection() && computer->state() == Rzx::STATE_HERE)
+	if(RzxNotifierConfig::beepConnection() && computer->state() == Rzx::STATE_HERE)
 	{
 #if defined (WIN32) || defined (Q_OS_MAC)
-		QString file = RzxConfig::connectionSound();
+		QString file = RzxNotifierConfig::beepSound();
 		if( !file.isEmpty() && QFile(file).exists() )
 			QSound::play( file );
 		else
 			QApplication::beep();
 #else
-		QString cmd = RzxConfig::beepCmd(), file = RzxConfig::connectionSound();
+		QString cmd = RzxConfig::beepCmd(), file = RzxNotifierConfig::beepSound();
 		if (!cmd.isEmpty() && !file.isEmpty()) {
 			QProcess process;
 			process.start(cmd, QStringList(file));
@@ -112,7 +104,7 @@ void RzxNotifier::favoriteUpdated(RzxComputer *computer)
 	}
 	
 	//Affichage de la fenêtre de notification de connexion
-	if(RzxConfig::showConnection())
+	if(RzxNotifierConfig::showConnection())
 		new RzxTrayWindow(computer);
 }
 
@@ -139,8 +131,9 @@ QStringList RzxNotifier::propWidgetsName()
 /** \reimp */
 void RzxNotifier::propInit()
 {
-	ui->cbWarnFavorite->setChecked( RzxConfig::showConnection());
-	ui->chkBeepFavorites->setChecked( RzxConfig::beepConnection());
+	ui->cbWarnFavorite->setChecked(RzxNotifierConfig::showConnection());
+	ui->chkBeepFavorites->setChecked(RzxNotifierConfig::beepConnection());
+	ui->txtBeepFavorites->setText(RzxNotifierConfig::beepSound());
 }
 
 /** \reimp */
@@ -148,10 +141,9 @@ void RzxNotifier::propUpdate()
 {
 	if(!ui) return;
 
-	RzxConfig *cfgObject = RzxConfig::global();
-	cfgObject -> writeEntry( "beepConnection", ui->chkBeepFavorites->isChecked());
-	cfgObject -> writeEntry( "showConnection", ui->cbWarnFavorite->isChecked());
-	cfgObject -> writeEntry( "txtBeepConnection", ui->txtBeepFavorites->text());
+	RzxNotifierConfig::setBeepConnection(ui->chkBeepFavorites->isChecked());
+	RzxNotifierConfig::setShowConnection(ui->cbWarnFavorite->isChecked());
+	RzxNotifierConfig::setBeepSound(ui->txtBeepFavorites->text());
 }
 
 /** \reimp */

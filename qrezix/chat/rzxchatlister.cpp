@@ -36,23 +36,20 @@
 #include <RzxConnectionLister>
 #include <RzxApplication>
 #include <RzxProperty>
+#include <RzxComputer>
 
 #include "rzxchatlister.h"
 
 #include "rzxchat.h"
 #include "rzxclientlistener.h"
 #include "ui_rzxchatpropui.h"
-
-#ifdef RZX_CHAT_BUILTIN
-#	define RZX_BUILTIN
-#else
-#	define RZX_PLUGIN
-#endif
+#include "rzxchatconfig.h"
 
 ///Exporte le module
 RZX_MODULE_EXPORT(RzxChatLister)
 
-RzxChatLister *RzxChatLister::object = NULL;
+RZX_CONFIG_INIT(RzxChatConfig)
+RZX_GLOBAL_INIT(RzxChatLister)
 
 RzxChatLister::RzxChatLister()
 	:RzxModule("Chat 1.7.0-svn", QT_TR_NOOP("qRezix graphical chat interface"))
@@ -63,6 +60,8 @@ RzxChatLister::RzxChatLister()
 	wellInit = false;
 	object = this;
 	setType(MOD_CHATUI);
+	setIcon(Rzx::ICON_CHAT);
+	new RzxChatConfig(this);
 	client = RzxClientListener::global();
 	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), this, SLOT(warnProperties(const RzxHostAddress&)));
 
@@ -75,7 +74,7 @@ RzxChatLister::RzxChatLister()
 	connect(lister, SIGNAL(wantHistorique(RzxComputer* )), this, SLOT(historique(RzxComputer* )));
 	connect(lister, SIGNAL(wantProperties(RzxComputer* )), this, SLOT(proprietes(RzxComputer* )));
 
-	if(!client->listen(RzxConfig::chatPort()) )
+	if(!client->listen(RzxChatConfig::chatPort()) )
 	{
 		RzxMessageBox::warning( (QWidget *) parent(), "qRezix",
 			tr("Cannot create peer to peer socket !\n\nChat and properties browsing are disabled") );
@@ -94,12 +93,6 @@ RzxChatLister::~RzxChatLister()
 	closeChats();
 	client->deleteLater();
 	endClosing();
-}
-
-/** \reimp */
-QIcon RzxChatLister::icon() const
-{
-	return RzxIconCollection::getIcon(Rzx::ICON_CHAT);
 }
 
 /** Sert aussi au raffraichissement des données*/
@@ -137,7 +130,7 @@ RzxChat *RzxChatLister::createChat(RzxComputer *computer)
 		RzxChat *chat = new RzxChat(peer);
 		chat->setHostname( computer->name() );
 
-		connect(chat, SIGNAL(send(const QString&)), this, SLOT(wantDeactivateResponder()));
+		connect(chat, SIGNAL(send(const QString&)), this, SIGNAL(wantDeactivateResponder()));
 		connect( chat, SIGNAL( closed( const RzxHostAddress& ) ), this, SLOT( deleteChat( const RzxHostAddress& ) ) );
 		connect( RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), chat, SLOT( changeTheme() ) );
 		connect( RzxConfig::global(), SIGNAL( iconFormatChange() ), chat, SLOT( changeIconFormat() ) );
@@ -209,7 +202,7 @@ void RzxChatLister::warnProperties( const RzxHostAddress& peer )
 
 	if (!chat)
 	{
-		if (RzxConfig::global()->warnCheckingProperties()== 0)
+		if(!RzxChatConfig::warnWhenChecked())
 			return ;
 		RzxMessageBox::information(NULL, tr("Properties sent to %1").arg(computer->name()),
 			tr("name : <i>%1</i><br>"
@@ -226,9 +219,15 @@ void RzxChatLister::warnProperties( const RzxHostAddress& peer )
 ///Affichage des proprietes d'un ordinateur
 QWidget *RzxChatLister::showProperties(RzxComputer *computer, const QString& msg, bool withFrame, QWidget *parent, QPoint *pos )
 {
-	QWidget *propertiesDialog;
 	if(!computer)
 		return NULL;
+
+	RzxConfig::addCache(computer->ip(), msg);
+	bool used = false;
+	emit haveProperties(computer, &used);
+	if(used) return NULL;	
+	
+	QWidget *propertiesDialog;
 
 	if(withFrame)
 	{
@@ -300,7 +299,6 @@ QWidget *RzxChatLister::showProperties(RzxComputer *computer, const QString& msg
 //	int width=PropList->columnWidth(0)+PropList->columnWidth(1)+4+12;
 	int height=(propCount+3)*20; //+20 pour le client xnet, et puis headers e un peu de marge
 	propertiesDialog->resize(header->sizeHint().width(), height);
-	RzxConfig::addCache(computer->ip(), msg);
 	return propertiesDialog;
 }
 
@@ -317,7 +315,7 @@ QWidget *RzxChatLister::historique(RzxComputer *computer, bool withFrame, QWidge
 	const QString &hostname = computer->name();
 
 	// chargement de l'historique
-	QString filename = RzxConfig::historique(ip.toRezix(), hostname);
+	QString filename = RzxChatConfig::historique(ip.toRezix(), hostname);
 	if (filename.isNull())
 		return NULL;
  
@@ -407,9 +405,11 @@ QStringList RzxChatLister::propWidgetsName()
 /** \reimp */
 void RzxChatLister::propInit()
 {
-	ui->chkBeep->setChecked( RzxConfig::beep() );
-	ui->cbPropertiesWarning->setChecked(RzxConfig::global() -> warnCheckingProperties() );
-	ui->cbPrintTime->setChecked(RzxConfig::global() -> printTime());
+	ui->chkBeep->setChecked(RzxChatConfig::beep());
+	ui->beepSound->setText(RzxChatConfig::beepSound());
+	ui->cbPropertiesWarning->setChecked(RzxChatConfig::warnWhenChecked());
+	ui->cbPrintTime->setChecked(RzxChatConfig::printTime());
+	ui->chat_port->setValue(RzxChatConfig::chatPort());
 }
 
 /** \reimp */
@@ -417,11 +417,11 @@ void RzxChatLister::propUpdate()
 {
 	if(!ui) return;
 
-	RzxConfig *cfgObject = RzxConfig::global();
-	cfgObject -> writeEntry( "beep", ui->chkBeep->isChecked());
-	cfgObject -> writeEntry( "txtBeep", ui->txtBeep->text());
-	cfgObject -> writeEntry("warnCheckingProperties", ui->cbPropertiesWarning->isChecked());
-	cfgObject -> writeEntry("printTime",ui->cbPrintTime->isChecked());
+	RzxChatConfig::setBeep(ui->chkBeep->isChecked());
+	RzxChatConfig::setBeepSound(ui->beepSound->text());
+	RzxChatConfig::setWarnWhenChecked(ui->cbPropertiesWarning->isChecked());
+	RzxChatConfig::setPrintTime(ui->cbPrintTime->isChecked());
+	RzxChatConfig::setChatPort(ui->chat_port->value());
 }
 
 /** \reimp */
@@ -445,6 +445,5 @@ void RzxChatLister::chooseBeep()
 	QString file = RzxProperty::browse(tr("All files"), tr("Sound file selection"), "*");
 	if (file.isEmpty()) return;
 
-	ui->txtBeep->setText(file);
+	ui->beepSound->setText(file);
 }
-

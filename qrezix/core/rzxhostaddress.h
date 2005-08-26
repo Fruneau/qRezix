@@ -18,7 +18,9 @@
 #ifndef RZXHOSTADDRESS_H
 #define RZXHOSTADDRESS_H
 
-#include <qhostaddress.h>
+#include <QHostAddress>
+
+#include <RzxGlobal>
 
 /**
   *@author Sylvain Joyeux
@@ -32,7 +34,10 @@
  */
 class RzxHostAddress : public QHostAddress 
 {
-	public: 
+	///Chaînes de caractères représentant les différents sous-réseau
+	static const char *rezalText[Rzx::RZL_NUMBER][2];
+
+	public:
 		RzxHostAddress();
 		RzxHostAddress(const QHostAddress& host);
 		RzxHostAddress(quint32 ip);
@@ -42,6 +47,13 @@ class RzxHostAddress : public QHostAddress
 		quint32 toRezix() const;
 
 		operator quint32() const;
+
+		Rzx::RezalId rezal() const;
+		QString rezalName(bool = true) const;
+		static QString rezalName(Rzx::RezalId, bool = true);
+		
+		bool isSameGateway(const RzxHostAddress&) const;
+		static bool isSameGateway(const RzxHostAddress&, const RzxHostAddress&);
 };
 
 ///Constructeur
@@ -57,5 +69,17 @@ inline RzxHostAddress::RzxHostAddress(quint32 ip)
 
 ///Destruction de l'objet
 inline RzxHostAddress::~ RzxHostAddress() { }
+
+///Indique si deux adresses sont sur le même sous réseau
+inline bool RzxHostAddress::isSameGateway(const RzxHostAddress& a) const
+{
+	return rezal() == a.rezal();
+}
+
+///Surcharge pour simplifier l'utilisation
+inline bool RzxHostAddress::isSameGateway(const RzxHostAddress& a, const RzxHostAddress& b)
+{
+	return a.rezal() == b.rezal();
+}
 
 #endif

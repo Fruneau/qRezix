@@ -19,7 +19,7 @@ email                : sylvain.joyeux@m4x.org
 #include <RzxApplication>
 
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_BSD) && !defined(Q_OS_MAC)
+#ifdef Q_OS_LINUX
 /* for signal handling */
 #include <signal.h>
 #include <stdio.h>
@@ -57,22 +57,8 @@ void fatalHandler( int signum )
 	QApplication::exit( 1 );
 }
 
-void sigTermHandler( int signum )
+void sigTermHandler(int)
 {
-	void * array[ 128 ];
-	size_t size;
-	char **strings;
-
-	size = backtrace ( array, 128 * sizeof( void* ) );
-	strings = backtrace_symbols ( array, size );
-	qDebug( "%s", strings[ 0 ] );
-	for ( uint i = 0; i < size; i++ )
-	{
-		qDebug( "[frame %i]: %s", i, strings[ i ] );
-	}
-	qDebug( "Received a %i signal, automatic backtrace", signum );
-	qDebug( "State of the stack: %i frames", size );
-
 	QApplication::exit( 255 );
 	qDebug( "Terminated" );
 }

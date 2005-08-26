@@ -17,6 +17,12 @@
 #ifndef RZXNOTIFIER_H
 #define RZXNOTIFIER_H
 
+#ifdef RZX_NOTIFIER_BUILTIN
+#	define RZX_BUILTIN
+#else
+#	define RZX_PLUGIN
+#endif
+
 #include <RzxModule>
 
 class RzxComputer;
@@ -40,7 +46,6 @@ class RzxNotifier : public RzxModule
 		RzxNotifier();
 		~RzxNotifier();
 		virtual bool isInitialised() const;
-		virtual QIcon icon() const;
 
 	public slots:
 		void favoriteUpdated(RzxComputer *);

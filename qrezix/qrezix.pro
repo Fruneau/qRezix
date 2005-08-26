@@ -1,29 +1,17 @@
-TEMPLATE = app
+TEMPLATE = subdirs
 LANGUAGE = C++
 CONFIG	+= qt warn_on debug
-DEFINES += QT_DLL \
-	RZX_MAINUI_BUILTIN \
-	RZX_TRAYICON_BUILTIN \
-	RZX_CHAT_BUILTIN \
-	RZX_NOTIFIER_BUILTIN
-win32:LIBS += IMM32.LIB
+DEFINES += QT_DLL
 INCLUDEPATH += core
 
-SUBDIRS += core
+SUBDIRS += core main
 
-include(core/core.pri)
-contains(DEFINES, RZX_MAINUI_BUILTIN):include(mainui/mainui.pri)
-contains(DEFINES, RZX_TRAYICON_BUILTIN):include(tray/tray.pri)
-contains(DEFINES, RZX_NOTIFIER_BUILTIN):include(notifier/notifier.pri)
-contains(DEFINES, RZX_CHAT_BUILTIN):include(chat/chat.pri)
-
-SOURCES	+= main.cpp
-
-TRANSLATIONS	= translations/qrezix_fr.ts
-RC_FILE		= icone.rc
+!contains(DEFINES, RZX_MAINUI_BUILTIN):SUBDIRS += mainui
+!contains(DEFINES, RZX_TRAYICON_BUILTIN):SUBDIRS += tray
+!contains(DEFINES, RZX_NOTIFIER_BUILTIN):SUBDIRS += notifier
+!contains(DEFINES, RZX_CHAT_BUILTIN):SUBDIRS += chat
 
 mac {
-	TARGET = qRezix
 	translations.files = translations/*.qm
 	translations.path = qRezix.app/Contents/Resources/translations
 	themes.files = ../icons/themes/*

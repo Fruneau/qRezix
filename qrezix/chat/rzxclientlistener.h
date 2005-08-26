@@ -31,14 +31,12 @@ class RzxChatSocket;
 
 class RzxClientListener : public QTcpServer  {
 	Q_OBJECT
+	RZX_GLOBAL(RzxClientListener)
 
 	RzxClientListener();
-	static RzxClientListener * object;
-	
 	public:
 		~RzxClientListener();
-	
-		static RzxClientListener *global();
+
 		bool listen(quint16 port);
 		void attach(RzxChatSocket* socket);
 		
@@ -53,14 +51,6 @@ class RzxClientListener : public QTcpServer  {
 		void propertiesSent(const RzxHostAddress&);
 		void chatSent();
 };
-
-///Retourne un objet global
-inline RzxClientListener *RzxClientListener::global()
-{
-	if(!object)
-		object = new RzxClientListener();
-	return object;
-}
 
 ///Surcharge pour simplifier l'appel
 inline bool RzxClientListener::listen(quint16 port)

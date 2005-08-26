@@ -27,25 +27,28 @@ class RzxConfig;
 class RzxQuit : public QDialog, private Ui::RzxQuitUI
 {
 	Q_OBJECT
-	friend class RzxConfig;
-
-	int selection;
+	Q_PROPERTY(QuitMode quitMode READ quitMode)
+	Q_ENUMS(QuitMode)
 
 	public:
-		enum QuitMode
-		{
+		enum QuitMode {
 			selectQuit = 0x01,
 			selectMinimize = 0x02,
 			selectAbort = 0x04
 		};
 
-		 RzxQuit(QWidget* parent=0);
-	    ~RzxQuit();
+	private:
+		QuitMode selection;
+
+	public:
+		RzxQuit(QWidget* parent=0);
+	   ~RzxQuit();
+
+		QuitMode quitMode() const;
 
 	protected slots:
 		void quitOptionChange();
 		void on_btnApply_clicked();
 };
-
 
 #endif //RZXQUIT_H

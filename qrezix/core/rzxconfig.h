@@ -32,12 +32,12 @@
 
 #include <RzxGlobal>
 
-#include <RzxComputer>
+#include <RzxAbstractConfig>
 
 class QPixmap;
 class RzxProperty;
 class RzxHostAddress;
-class QHostAddress;
+class RzxComputer;
 
 /**
   *@author Sylvain Joyeux
@@ -45,64 +45,18 @@ class QHostAddress;
 
 ///Gestion des données de configuration
 /** Classe à épurer !!! */
-class RzxConfig : public QObject
+class RzxConfig : public RzxAbstractConfig
 {
 	Q_OBJECT
-
-	friend class RzxProperty;
-
-	class FontProperty
-	{
-		public:
-			bool bold;
-			bool italic;
-			QList<int> sizes;
-		
-			FontProperty() { sizes = QList<int>(); }
-			FontProperty(bool b, bool i, const QList<int> &pS);
-			~FontProperty();
-	};
-
-public:
-	enum ToolTip
-	{
-		Enable = 1,
-		Ftp = 2,
-		Http = 4,
-		News = 8,
-		Samba = 16,
-		Promo = 32,
-		OS = 64,
-		Client = 128,
-		IP = 256,
-		Resal = 512,
-		Features = 1024,
-		Properties = 2048
-	};
+	Q_ENUMS(DirFlags)
+	Q_FLAGS(Dir)
+	RZX_CONFIG_EXPANDED(RzxConfig)
 
 //Centre de la classe...
 private:
 	QDir m_systemDir;
 	QDir m_userDir;
 	QDir m_libDir;
-
-	static RzxConfig * Config;
-	RzxConfig();
-
-public:
-	static RzxConfig *global();
-	~RzxConfig();
-	QSettings *settings;
-	void flush();
-	void closeSettings();
-
-	QString readEntry(const QString& name, const QString& def);
-	int readEntry(const QString& name, int def);
-	QStringList readEntry(const QString& name);
-	void writeEntry(const QString& name, const QString& val);
-	void writeEntry(const QString& name, int val);
-	void writeEntry(const QString& name, const QStringList & list);
-
 
 //Gestion des traductions
 private:
@@ -113,6 +67,7 @@ private:
 
 public:
 	static void setLanguage(const QString&);
+	static QString language();
 	static QStringList translationsList();
 	static QString translation();
 
@@ -130,21 +85,37 @@ public:
 	void delFromFavorites(const QString&);
 	void delFromFavorites(const RzxComputer&);
 	void writeFavorites();
+	void readFavorites();
 	
 	bool isBan(const QString&) const;
-	bool isBan(const QHostAddress&) const;
+	bool isBan(const RzxHostAddress&) const;
 	bool isBan(const RzxComputer&) const;
 	void addToBanlist(const QString&);
 	void addToBanlist(const RzxComputer&);
 	void delFromBanlist(const QString&);
 	void delFromBanlist(const RzxComputer&);
 	void writeIgnoreList();
+	void readIgnoreList();
 
 
 // Polices de caractères
 private:
+	class FontProperty
+	{
+		public:
+			bool bold;
+			bool italic;
+			QList<int> sizes;
+		
+			FontProperty() { sizes = QList<int>(); }
+			FontProperty(bool b, bool i, const QList<int> &pS);
+			~FontProperty();
+	};
 	QStringList fontFamilies;
 	QHash<QString,FontProperty> fontProperties;
+
+protected:
+	void loadFontList();
 
 public:
 	QStringList getFontList();
@@ -153,113 +124,98 @@ public:
 	bool isBoldSupported(const QString&) const;
 
 
-
+// Données
 	void setPass(const QString& passcode);
 	void setOldPass(const QString& oldPass = QString::null);
 	
-	static int useSystray();
-	static int traySize();
-	static int useSearch();
-	static int defaultTab();
-	static int warnCheckingProperties();
-	static int printTime();
-	static int beep();
-	static int beepConnection();
-	static bool showConnection();
-	static QString beepCmd();
-	static QString beepSound();
-	static QString connectionSound();
-	static int doubleClicRole();
-	static int reconnection();
-	static int pingTimeout();
-	static int chatPort();
-	static int serverPort();
-	static QString serverName();
-	static QString iconTheme();
-	static QString FTPPath();
-	static int quitMode();
-	static bool showQuit();
-	void readFavorites();
-	void readIgnoreList();
-	static void addCache(const RzxHostAddress&, const QString&);
-	static QString cache(const RzxHostAddress&);
-	static QString getCacheDate(const RzxHostAddress&);
+	RZX_STRINGPROP("theme", iconTheme, setIconTheme, DEFAULT_THEME)
+	RZX_STRINGPROP("txtBeepCmd", beepCmd, setBeepCmd, "play")
+	
+	RZX_UINTPROP("reconnection", reconnection, setReconnection, DEFAULT_RECONNECTION)
+	RZX_UINTPROP("ping_timeout", pingTimeout, setPingTimeout, DEFAULT_TIMEOUT)
+	RZX_INTPROP("server_port", serverPort, setServerPort, DEFAULT_PORT)
+	RZX_STRINGPROP("server_name", serverName, setServerName, DEFAULT_SERVER)
 
-	static QString sambaCmd();
-	static QString ftpCmd();
-	static QString httpCmd();
-	static QString newsCmd();
-
-	static void sambaCmd(QString newstr);
-	static void ftpCmd(QString newstr);
-	static void httpCmd(QString newstr);
-	static void newsCmd(QString newstr);
+	RZX_STRINGPROP("FTPPath", ftpPath, setFtpPath, QString())
+	RZX_STRINGPROP("samba_cmd", sambaCmd, setSambaCmd, DEFAULT_SAMBACMD)
+	RZX_STRINGPROP("ftp_cmd", ftpCmd, setFtpCmd, DEFAULT_FTPCMD)
+	RZX_STRINGPROP("http_cmd", httpCmd, setHttpCmd, DEFAULT_HTTPCMD)
+	RZX_STRINGPROP("news_cmd", newsCmd, setNewsCmd, DEFAULT_NEWSCMD)
 
 	// Configuration de base de l'ordinateur
-	static QString dnsname();
+	RZX_STRINGPROP("dnsname", dnsName, setDnsName, QString())
+	RZX_ENUMPROP(Rzx::Promal, "promo", promo, setPromo, Rzx::PROMAL_UNK)
+	RZX_ENUMPROP(Rzx::ConnectionState, "repondeur", repondeur, setRepondeur, Rzx::STATE_HERE)
+	RZX_INTPROP("servers", servers, setServers, 0)
 	static QString remarque();
-	static Rzx::Promal promo();
-	static Rzx::ConnectionState repondeur();
-	static QFlags<RzxComputer::ServerFlags> servers();
+	static void setRemarque(const QString&);
 
 	// proprietes de l'ordinateur
-	static QString propLastName();
-	static QString propName();
-	static QString propSurname();
-	static QString propCasert();
-	static QString propMail();
-	static QString propWebPage();
-	static QString propTel();
-	static QString propSport();
-	static int numSport();
+	RZX_STRINGPROP("txtFirstname", propLastName, setPropLastName, QString())
+	RZX_STRINGPROP("txtName", propName, setPropName, QString())
+	RZX_STRINGPROP("txtSurname", propSurname, setPropSurname, QString())
+	RZX_STRINGPROP("txtCasert", propCasert, setPropCasert, QString())
+	RZX_STRINGPROP("txtMail", propMail, setPropMail, DEFAULT_MAIL)
+	RZX_STRINGPROP("txtWeb", propWebPage, setPropWebPage, QString())
+	RZX_STRINGPROP("txtPhone", propTel, setPropTel, QString())
+	RZX_STRINGPROP("txtSport", propSport, setPropSport, QString())
+	RZX_UINTPROP("numSport", numSport, setNumSport, 0)
 	static QString propPromo();
 
 	static QString pass();
 	static QString oldPass();
-	static int colonnes();	
-	static int computerIconSize();
-	static bool computerIconHighlight();
-	static bool refuseWhenAway();
+
+	static void addCache(const RzxHostAddress&, const QString&);
+	static QString cache(const RzxHostAddress&);
+	static QString getCacheDate(const RzxHostAddress&);
+
+	static void emitIconFormatChanged();
+	RZX_INTPROP("menuTextPos", menuTextPosition, setMenuTextPosition, 2)
+	RZX_INTPROP("menuIconSize", menuIconSize, setMenuIconSize, 2)
 	
-	static int menuTextPosition();
-	static int menuIconSize();
-	static int tooltip();
-	static QStringList ignoredPluginsList();
-	
+	//Etat du répondeur
+	RZX_BOOLPROP("refuseAway", refuseWhenAway, setRefuseWhenAway, true)
 	static bool autoResponder();
-	static QString autoResponderMsg();
 	static void setAutoResponder(bool val);
-	static QColor repondeurHighlight();
-	static QColor repondeurBase();
-	static QColor repondeurHighlightedText();
-	static QColor repondeurNormalText();
-	static QColor ignoredBGColor();
-	static QColor ignoredText();
-	static QString readWindowSize();
-	static void writeWindowSize(QString ws);
-	static QPoint readWindowPosition();
-	static void writeWindowPosition(const QPoint&);
-	static void writeQuitMode(int mode);
-	static void writeShowQuit(bool mode);
-	static void writeIgnoredPluginsList(const QStringList& list);
+	RZX_STRINGPROP("txtAutoResponderMsg", autoResponderMsg, setAutoResponderMsg, "Répondeur automatique")
+	
+	RZX_RGBPROP("repondeur_highlight", repondeurHighlight, setRepondeurHighlight, 0xFD3D3D)
+	RZX_RGBPROP("repondeur_base", repondeurBase, setRepondeurBase, 0xFFEE7C)
+	RZX_RGBPROP("repondeur_highlightedtext", repondeurHighlightedText, setRepondeurHighlightedText, 0xFFFFFF)
+	RZX_RGBPROP("repondeur_normaltext", repondeurNormalText, setRepondeurNormalText, 0x000000)
+	RZX_RGBPROP("ignoredBGColor", ignoredBGColor, setIgnoredBGColor, 0xCCCCCC)
+	RZX_RGBPROP("ignoredtext", ignoredText, setIgnoredText, 0xEEEEEE)
 
 	static bool find();
 
 	/** Returns the dir where all system-wide data are saved */
+	enum DirFlags {
+		UserDir = 1,
+		SystemDir = 2,
+		LibDir = 4,
+		CurrentDir = 8,
+		TempDir = 16,
+		AllDirsExceptTemp = UserDir | SystemDir | LibDir | CurrentDir,
+		AllDirs = UserDir | SystemDir | LibDir | CurrentDir | TempDir
+	};
+	Q_DECLARE_FLAGS(Dir, DirFlags);
+
+protected:
+	void loadDirs();
+	static void addDir(QList<QDir>&, QDir);
+
+public:
 	static QDir computerIconsDir();
-	static QDir logDir();
-	static QDir userDir();
-	static QDir systemDir();
-	static QDir libDir();
+	static const QDir &userDir();
+	static const QDir &systemDir();
+	static const QDir &libDir();
+	static QList<QDir> dirList(Dir = AllDirsExceptTemp, const QString& = QString(), bool = false, bool = false);
+	static QDir dir(DirFlags, const QString& = QString(), bool = false, bool = false);
 
 	/** the name of the log's subdirectory */
-	static const QString logPath;
-
-	static QColor errorTextColor();
-	static QColor errorBackgroundColor();
+	RZX_RGBPROP("error_back", errorBackgroundColor, setErrorBackgroundColor, 0xFF0000)
+	RZX_RGBPROP("error_text", errorTextColor, setErrorTextColor, 0xFFFFFF)
 	
-	static QString historique(quint32 ip, const QString& hostname);
-	static QString language();
 	static bool infoCompleted();
 
 signals:
@@ -267,7 +223,5 @@ signals:
 	void updateResponder();
 	void iconFormatChange();
 };
-
-#define RZXCONFIG_DEFINED_H
 
 #endif

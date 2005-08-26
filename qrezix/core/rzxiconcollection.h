@@ -56,6 +56,7 @@ class RzxIconCollection: public QObject
 	Q_PROPERTY(QIcon favoriteIcon READ favoriteIcon)
 	Q_PROPERTY(QIcon banIcon READ banIcon)
 	Q_PROPERTY(QPixmap localhostPixmap READ localhostPixmap WRITE setLocalhostPixmap)
+	RZX_GLOBAL(RzxIconCollection)
 
 	struct IconData
 	{
@@ -70,14 +71,11 @@ class RzxIconCollection: public QObject
 	QHash<quint32, QPixmap> userIcons;
 	QString activeTheme;
 
-	RzxIconCollection();
-	static RzxIconCollection *object;
-
 	QPixmap hereIcon;
 	QPixmap awayIcon;
 
+	RzxIconCollection();
 	public:
-		static RzxIconCollection *global();
 		virtual ~RzxIconCollection();
 
 		const QString &theme() const;
@@ -130,14 +128,6 @@ class RzxIconCollection: public QObject
 	signals:
 		void themeChanged(const QString&);
 };
-
-///Retourne l'objet global...
-inline RzxIconCollection *RzxIconCollection::global()
-{
-	if(!object)
-		object = new RzxIconCollection();
-	return object;
-}
 
 ///Pour simplifier l'écriture...
 inline const QPixmap &RzxIconCollection::getPixmap(Rzx::Icon icon)

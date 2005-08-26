@@ -35,29 +35,21 @@
 
 #include <RzxConfig>
 #include <RzxComputer>
-#include <RzxPlugInLoader>
 #include <RzxIconCollection>
 #include <RzxConnectionLister>
 
 #include "rzxtrayicon.h"
+#include "rzxtrayconfig.h"
 
 #ifdef Q_WS_MAC
 void qt_mac_set_dock_menu( QMenu *menu );
 #endif
 
-#ifdef RZX_TRAYICON_BUILTIN
-#	define RZX_BUILTIN
-#else
-#	define RZX_PLUGIN
-#endif
-
 ///Exporte le module
 RZX_MODULE_EXPORT(RzxTrayIcon)
 
-/*!
-  \class RzxTrayIcon qtrayicon.h
-  \brief The RzxTrayIcon class implements an entry in the system tray.
-*/
+///Initialisation de la config
+RZX_CONFIG_INIT(RzxTrayConfig)
 
 /*!
   Creates a RzxTrayIcon object displaying \a icon and \a tooltip, and opening
@@ -72,6 +64,12 @@ RzxTrayIcon::RzxTrayIcon()
 	beginLoading();
 	setType(MOD_GUI);
 	setType(MOD_HIDE);
+	setIcon(Rzx::ICON_SYSTRAYAWAY);
+	new RzxTrayConfig(this);
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+	ui = NULL;
+	propWidget = NULL;
+#endif
 	v_isWMDock = FALSE;
 	buildMenu();
 	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(changeTrayIcon()));
@@ -92,28 +90,18 @@ RzxTrayIcon::~RzxTrayIcon()
 	endClosing();
 }
 
-///Indique si l'objet est bien initialisé
+/** \reimp */
 bool RzxTrayIcon::isInitialised() const
 {
 	return true;
 }
 
-/** \reimp */
-QIcon RzxTrayIcon::icon() const
-{
-	return RzxIconCollection::getIcon(Rzx::ICON_SYSTRAYAWAY);
-}
-
 /*!
-  \property RzxTrayIcon::icon
+  \property RzxTrayIcon::trayIcon
   \brief the system tray icon.
 */
 void RzxTrayIcon::setTrayIcon( const QPixmap &icon )
 {
-	//if(!popup()) {
-	//    tip = "";
-	//}
-
 	pm = icon;
 	sysUpdateIcon();
 }
@@ -160,9 +148,8 @@ void RzxTrayIcon::buildMenu()
 	QPixmap pixmap;
 #define newItem(name, trad, receiver, slot) pop.addAction(RzxIconCollection::getIcon(name), trad, receiver, slot)
 
-	RzxPlugInLoader::global() ->menuTray( pop );
 	newItem(Rzx::ICON_PREFERENCES , tr( "&Preference" ), this, SIGNAL( wantPreferences() ) );
-	if (RzxConfig::global()->autoResponder())
+	if (RzxConfig::autoResponder())
 		newItem(Rzx::ICON_HERE, tr( "&I'm back !" ), this, SIGNAL( wantToggleResponder() ) );
 	else
 		newItem(Rzx::ICON_AWAY, tr( "I'm &away !" ), this, SIGNAL( wantToggleResponder() ) );
@@ -788,7 +775,7 @@ void RzxTrayIcon::RzxTrayIconPrivate::initWM( WId icon )
 
 void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 {
-	pix = pm.scaled( RzxConfig::traySize(), RzxConfig::traySize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+	pix = pm.scaled( RzxTrayConfig::traySize(), RzxTrayConfig::traySize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 	setWindowIcon( pix );
 	setMask( pix.mask() );
 	repaint();
@@ -1043,7 +1030,7 @@ QStringList RzxTrayIcon::propWidgetsName()
 /** \reimp */
 void RzxTrayIcon::propInit()
 {
-	ui->sbTraySize->setValue(RzxConfig::traySize());	
+	ui->sbTraySize->setValue(RzxTrayConfig::traySize());	
 }
 
 /** \reimp */
@@ -1051,10 +1038,9 @@ void RzxTrayIcon::propUpdate()
 {
 	if(!ui) return;
 
-	RzxConfig *cfgObject = RzxConfig::global();
-	if(ui->sbTraySize->value() != RzxConfig::traySize())
+	if(ui->sbTraySize->value() != RzxTrayConfig::traySize())
 	{
-		cfgObject->writeEntry("traysize", ui->sbTraySize->value());
+		RzxTrayConfig::setTraySize(ui->sbTraySize->value());
 		changeTrayIcon();
 	}
 }

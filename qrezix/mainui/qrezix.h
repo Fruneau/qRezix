@@ -26,26 +26,28 @@
 #include <QMainWindow>
 #include <QMenu>
 
-#include "ui_qrezixui.h"
+#include <RzxBaseLoader>
 
-class TrayIcon;
-class RzxProperty;
+#include "rzxrezal.h"
+#include "ui_rzxstatusui.h"
+
 class RzxComputer;
 class QEvent;
 class QCloseEvent;
-class QShortcut;
 class QAction;
 class QLineEdit;
 
-
 /** QRezix is the base class of the project */
-class QRezix : public QMainWindow, public Ui::qRezixUI
+class QRezix : public QMainWindow, public RzxBaseLoader<RzxRezal>
 {
 	Q_OBJECT
 	Q_PROPERTY(bool initialised READ isInitialised)
+	RZX_GLOBAL(QRezix)
+
+	RzxRezal *central;
+	RzxRezal *index;
 	
 	QLineEdit *leSearch;
-	QShortcut *accel;
 	QMenu menuPlugins;
 	bool statusFlag;
 	bool statusMax;
@@ -58,13 +60,12 @@ class QRezix : public QMainWindow, public Ui::qRezixUI
 	QAction *searchAction;
 	QAction *awayAction;
 
+	Ui::RzxStatusUI *statusui;
+
 	void buildActions();
 
-	static QRezix *object;
 	QRezix(QWidget* parent = NULL);
-
 public:
-	static QRezix *global(QWidget *parent = NULL);
 	~QRezix();
 	bool isInitialised() const;
 
@@ -78,6 +79,10 @@ protected:
 	virtual void changeEvent(QEvent *e);
 	virtual bool event(QEvent * e);
 
+	virtual void loadBuiltins();
+	virtual bool installModule(RzxRezal*);
+	virtual void linkModules();
+
 public slots: // Public slots
 	void status(const QString& msg, bool fatal);
 	void toggleAutoResponder();
@@ -86,27 +91,13 @@ public slots: // Public slots
 	void menuFormatChange();
 	void launchSearch();
 	void showSearch(bool state);
+	void setSearchPattern(const QString&);
 	void toggleVisible();
+	void updateLayout();
 
 protected slots: // Protected slots
-	void delayedInit();
-	/*affiche la boite de dialogue permettant de modifier les preferences*/
-	void socketClosed();
 	void pluginsMenu();
-	void switchTab();
 };
-
-
-///Retourne la fenêtre principale
-/** La fenêtre est construite en cas de besoin.
- * Cette fonction est la seule qui permet d'obtenir une référence vers cette fenêtre.
- */
-inline QRezix *QRezix::global(QWidget *parent)
-{
-	if(!object)
-		new QRezix(parent);
-	return object;
-}
 
 ///Indique si l'objet est bien initialisé
 inline bool QRezix::isInitialised() const

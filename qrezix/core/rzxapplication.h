@@ -20,9 +20,11 @@
 #include <QApplication>
 #include <QList>
 
+#include <RzxBaseLoader>
+#include <RzxModule>
+
 class RzxComputer;
 class RzxProperty;
-class RzxModule;
 
 /**
 @author Florent Bruneau
@@ -31,13 +33,13 @@ class RzxModule;
 ///Classe principale de l'application
 /** Le but de cette classe est de réunir tous les composants...
  */
-class RzxApplication:public QApplication
+class RzxApplication:public QApplication, public RzxBaseLoader<RzxModule>
 {
 	Q_OBJECT
 	Q_PROPERTY(bool initialised READ isInitialised)
 
 	RzxProperty *properties;
-	QList<RzxModule*> modules;
+
 	QList<RzxModule*> hiders;
 	RzxModule *mainui;
 	RzxModule *chat;
@@ -56,10 +58,10 @@ class RzxApplication:public QApplication
 
 	protected:
 		bool loadCore();
-		bool loadModules();
-
-	private:
-		void installModule(RzxModule*);
+		
+		virtual void loadBuiltins();
+		virtual bool installModule(RzxModule*);
+		virtual void linkModules();
 
 	public slots:
 		void saveSettings();
@@ -69,6 +71,10 @@ class RzxApplication:public QApplication
 		void toggleResponder();
 		void activateResponder();
 		void deactivateResponder();
+
+	signals:
+		///Simple relais pour RzxModule::haveProperties
+		void haveProperties(RzxComputer*, bool *);
 };
 
 ///Indique si l'application a été initialisée sans encombre

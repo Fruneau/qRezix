@@ -18,6 +18,8 @@
 #define RZXGLOBAL_H
 
 #include <QtGlobal>
+#include <QString>
+
 #include <stdio.h>
 
 #include "defaults.h"
@@ -160,6 +162,21 @@ namespace Rzx
 		ICON_NUMBER = 56
 	};
 
+	///Défini une version
+	/** La version est simplement définie de la forme
+	 * major.minor.build-tag
+	 *
+	 * comme par exemple 1.7.0-svn
+	 */
+	struct Version
+	{
+		uint major;
+		uint minor;
+		uint build;
+		QString tag;
+	};
+	QString versionToString(const Rzx::Version&);
+
 	///Définition de la fonction d'output surchargée
 	void installMsgHandler();
 	void closeMsgHandler();
@@ -175,6 +192,39 @@ namespace Rzx
 
 	///Pour trier case unsensitive
 	bool caseInsensitiveLessThan(const QString&, const QString&);
+
+	///Comparaison de versions
+	bool operator==(const Version&, const Version&);
+	bool operator<(const Version&, const Version&);
 };
+
+///Défini les fonctions nécessaire pour générer un objet global
+/** Cette macro n'a pour but que de fournir un système homogène pour
+ * définir des objets globaux pour une classe
+ *
+ * Il faut placer cet macro dans la partie privée de la déclaration
+ * de la classe :
+ * \code
+ * *** dans myclass.h ***
+ * class MyClass
+ * {
+ * 	RZX_GLOBAL(MyClass)
+ * 	...
+ * };
+ *
+ * *** dans myclass.cpp ***
+ * RZX_GLOBAL_INIT(MyClass)
+ * \endcode
+ * \sa RZX_GLOBAL_INIT
+ */
+#define RZX_GLOBAL(type) \
+	public: \
+		static type *global() { if(!object) object = new type; return object; } \
+	private: \
+		static type *object;
+
+///Initialise la définition globale
+/** \sa RZX_GLOBAL */
+#define RZX_GLOBAL_INIT(type) type *type::object = NULL;
 
 #endif

@@ -126,3 +126,32 @@ bool Rzx::caseInsensitiveLessThan(const QString &s1, const QString &s2)
 {
 	return s1.toLower() < s2.toLower();
 }
+
+
+///Converti la version en numéro de version lisible par l'utilisateur
+/** Le numéro de version est de la forme :
+ * major.minor.build[-tag],
+ * le tag étant ignoré si et seulement si la chaîne est nulle
+ */
+QString Rzx::versionToString(const Rzx::Version& version)
+{
+	QString value = QString("%1.%2.%3").arg(version.major).arg(version.minor).arg(version.build);
+	if(!version.tag.isNull())
+		value += "-" + version.tag;
+	return value;
+}
+
+///Compare les numéros de version
+bool Rzx::operator==(const Rzx::Version& a, const Rzx::Version& b)
+{
+	return a.major == b.major && a.minor == b.minor && a.build == b.build;
+}
+
+///Compare les numéros de version
+bool Rzx::operator<(const Rzx::Version& a, const Rzx::Version& b)
+{
+	if(a.major < b.major) return true;
+	if(a.minor < b.minor) return true;
+	if(a.build < b.build) return true;
+	return false;
+}

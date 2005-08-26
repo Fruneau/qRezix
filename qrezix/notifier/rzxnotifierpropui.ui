@@ -108,6 +108,9 @@
         </item>
         <item>
          <widget class="QLineEdit" name="txtBeepFavorites" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
           <property name="whatsThis" >
            <string>&lt;h3>Beep on connection&lt;/h3>&lt;p>Select the sound to play when a favorite get connected&lt;/p></string>
           </property>
@@ -115,6 +118,9 @@
         </item>
         <item>
          <widget class="QToolButton" name="btnBeepBrowse" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
           <property name="text" >
            <string>...</string>
           </property>

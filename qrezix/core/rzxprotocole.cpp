@@ -56,7 +56,7 @@ const QString RzxProtocole::serialPattern = "$nn $xo $xv $xf $rem";
 
 ///Construction... RAS
 RzxProtocole::RzxProtocole()
-	: QObject()
+	: RzxNetwork("xNet 1.7.0-svn", "Native support for the xNet protocole version 4.0")
 {
 	changepass = NULL;
 }
@@ -69,7 +69,8 @@ RzxProtocole::~RzxProtocole(){
 /** Analyse les messages serveur -> client. Cette methode ne gere
 pas les messages ICON du fait des donnees binaires qui arrivent. Elle est
 reimplementer dans RzxServerListener */
-void RzxProtocole::parse(const QString& msg){
+void RzxProtocole::parse(const QString& msg)
+{
 	bool ok=true;
 	quint32 val;
 	static bool testOldPass = false;
@@ -103,7 +104,7 @@ void RzxProtocole::parse(const QString& msg){
 				
 			case SERVER_SYSMSG:
 				if (!cmd.cap(1).isEmpty())
-				  emit sysmsg(cmd.cap(1));
+				  emit info(cmd.cap(1));
 				break;
 				
 			case SERVER_PING:
@@ -147,14 +148,14 @@ void RzxProtocole::parse(const QString& msg){
 				break;
 			
 			case SERVER_CHANGEPASSOK:
-				emit sysmsg(tr("Your pass has been successfully changed by the server. Keep it well because it can be useful."));
+				emit info(tr("Your pass has been successfully changed by the server. Keep it well because it can be useful."));
 				if(!RzxConfig::oldPass().isNull()) RzxConfig::global()->setOldPass();
 				RzxConfig::global()->setPass(m_newPass);
 				RzxConfig::global()->flush();
 				break;
 			
 			case SERVER_CHANGEPASSFAILED:
-				emit sysmsg(tr("Server can't change your pass :\n") + cmd.cap(1));
+				emit info(tr("Server can't change your pass :\n") + cmd.cap(1));
 				RzxConfig::global()->setPass(m_oldPass);
 				break;
 				
@@ -178,6 +179,11 @@ void RzxProtocole::parse(const QString& msg){
 /*******************************************************************************
 * MESSAGES A ENVOYER AU SERVEUR
 */
+/** No descriptions */
+void RzxProtocole::beginAuth()
+{
+	sendAuth(RzxConfig::pass());
+}
 
 void RzxProtocole::sendAuth(const QString& passcode)
 {

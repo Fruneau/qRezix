@@ -25,14 +25,14 @@
 ///Lance le client ftp
 void RzxUtilsLauncher::ftp(const RzxHostAddress& m_ip, const QString& path)
 {
-	QString tempPath = RzxConfig::global()->FTPPath();
+	QString tempPath = RzxConfig::ftpPath();
 	QString tempip = m_ip.toString();
 	QString ip=tempip;
 	tempip="ftp://"+tempip+"/"+path;
 
 	QString cmd;
 #ifdef WIN32
-	QString sFtpClient=RzxConfig::global()->ftpCmd();
+	QString sFtpClient=RzxConfig::ftpCmd();
 
 	// LeechFTP
 	if(sFtpClient == "LeechFTP")
@@ -109,7 +109,7 @@ void RzxUtilsLauncher::ftp(const RzxHostAddress& m_ip, const QString& path)
 void RzxUtilsLauncher::samba(const RzxHostAddress& m_ip, const QString& m_path)
 {
 	QString ip = m_ip.toString();
-	QString path = RzxConfig::global()->FTPPath();
+	QString path = RzxConfig::ftpPath();
 
 	// Composition de la ligne de commande
 	QString cmd;
@@ -136,11 +136,11 @@ void RzxUtilsLauncher::samba(const RzxHostAddress& m_ip, const QString& m_path)
 void RzxUtilsLauncher::http(const RzxHostAddress& m_ip, const QString& m_path)
 {
 	QString ip = m_ip.toString();
-	QString path = RzxConfig::global()->FTPPath();
+	QString path = RzxConfig::ftpPath();
 	QString tempip = "http://" + ip + "/" + m_path;
 	
 	// Composition de la ligne de commande
-	QString cmd = RzxConfig::global()->httpCmd();
+	QString cmd = RzxConfig::httpCmd();
 	QStringList args;
 
 #ifdef WIN32
@@ -187,11 +187,11 @@ void RzxUtilsLauncher::http(const RzxHostAddress& m_ip, const QString& m_path)
 void RzxUtilsLauncher::news(const RzxHostAddress& m_ip, const QString& m_path)
 {
 	QString ip = m_ip.toString();
-	QString path = RzxConfig::global()->FTPPath();
+	QString path = RzxConfig::ftpPath();
 	QString tempip = "news://" + ip + "/" + m_path;
 	
 	// Composition de la ligne de commande
-	QString cmd = RzxConfig::global()->newsCmd();
+	QString cmd = RzxConfig::newsCmd();
 	QStringList args;
 
 #ifdef WIN32

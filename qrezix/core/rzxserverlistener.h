@@ -22,6 +22,12 @@
 #include <QTcpSocket>
 #include <QPixmap>
 
+#ifdef RZX_XNET_BUILTIN
+#	define RZX_BUILTIN
+#else
+#	define RZX_PLUGIN
+#endif
+
 #include <RzxProtocole>
 
 
@@ -35,25 +41,23 @@ class RzxComputer;
 
 class RzxServerListener : public RzxProtocole {
 	Q_OBJECT
-	
-	RzxServerListener();
-	static RzxServerListener * globalObject;
-	
+
 public:
-	static RzxServerListener * object();
-		
+	RzxServerListener();
 	~RzxServerListener();
 
 	/** Reimplemente depuis @ref RzxProtocole pour ajouter la gestion des icones. */
 	virtual void parse(const QString& msg);
 	/** Change l'icone de l'ordinateur local */
 	void sendIcon(const QImage& image);
-	void setupConnection();
 	void setupReconnection(const QString& msg);
-	bool isSocketClosed() const;
-	void close();
 	RzxHostAddress getServerIP() const;
 	RzxHostAddress getIP() const;
+	virtual bool isStarted() const;
+
+public slots:
+	virtual void start();
+	virtual void stop();
 	
 protected slots:
 	void serverClose();
@@ -63,21 +67,10 @@ protected slots:
 	void connectToXnetserver();
 	void sendProtocolMsg(const QString& msg);
 	void serverConnected();
-	void beginAuth();
 	void serverFound();
 	void serverResetTimer();
 	void closeWaitFlush();
 	void waitReconnection();
-
-signals: // Signals
-	/** Emit lorsque on passe un message ICON a @ref parse
-	* @param ip ip de l'ordinateur auquel appartien l'icone
-	* @param image icone dans le bon sens avec les bonnes couleurs RGB */
-	void rcvIcon(QImage* image, const RzxHostAddress& ip);
-	void status(const QString& msg, bool fatal);
-	void receiveAddress(const RzxHostAddress&);
-	void connected();
-	void disconnected();
 
 protected: // Protected attributes
 	QTcpSocket socket;
@@ -104,20 +97,10 @@ private:
 	void notify(const QString& text);
 };
 
-
-
-///Renvoie un objet global
-inline RzxServerListener * RzxServerListener::object() {
-	if (!globalObject)
-		globalObject = new RzxServerListener;
-	
-	return globalObject;
-}
-
 ///Notifie de la modification du statut de la connexion
 inline void RzxServerListener::notify(const QString& text)
 {
-    emit status(text, socket.state() != QTcpSocket::ConnectedState);
+    emit status(text);
 }
 
 #endif
