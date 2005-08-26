@@ -23,8 +23,9 @@
 #include <RzxConfig>
 
 #include "rzxquit.h"
+#include "rzxmainuiconfig.h"
 
-//connexion des boutons à leurs action respectives
+///connexion des boutons à leurs action respectives
 RzxQuit::RzxQuit(QWidget* parent)
 	: QDialog(parent)
 {
@@ -39,7 +40,13 @@ RzxQuit::~RzxQuit()
 {
 }
 
-//Recherche du bouton coché, et extraction d'un numéro
+///Retourne l'état de la sélection
+RzxQuit::QuitMode RzxQuit::quitMode() const
+{
+	return selection;
+}
+
+///Recherche du bouton coché, et extraction d'un numéro
 void RzxQuit::quitOptionChange(void)
 {
 	if(radioQuit->isChecked())
@@ -59,10 +66,10 @@ void RzxQuit::quitOptionChange(void)
 	}
 }
 
-//Sortie de la fenêtre entre retournant le code d'action
+///Sortie de la fenêtre entre retournant le code d'action
 void RzxQuit::on_btnApply_clicked()
 {
-	RzxConfig::writeQuitMode(selection);
-	RzxConfig::writeShowQuit(!cbSave->isChecked());
+	RzxMainUIConfig::setQuitMode(selection);
+	RzxMainUIConfig::setShowQuit(!cbSave->isChecked());
 	QDialog::done(selection);
 }

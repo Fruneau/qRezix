@@ -22,6 +22,7 @@
 #include <QString>
 
 #include <RzxHostAddress>
+#include <RzxNetwork>
 #include "ui_rzxchangepassui.h"
 
 /**
@@ -36,7 +37,8 @@
 class QStringList;
 class RzxComputer;
 
-class RzxProtocole : public QObject{
+class RzxProtocole : public RzxNetwork
+{
 	Q_OBJECT
 	
 	QString m_oldPass;
@@ -79,17 +81,20 @@ public:
 public slots:
 	/** Demande un envoi d'icone
 	*@param ip ip de l'hote dont on veut l'icone */
-	void getIcon(const RzxHostAddress& ip);
+	virtual void getIcon(const RzxHostAddress& ip);
 	/** Envoie un pong */
 	void sendPong();
 	/** Realise une sequence d'authentification aupres du serveur
 	*@param thisComputer donnees concernant l'ordinateur local */	
 	void sendAuth(const QString& passcode);
+	/** Surchage sendAuth en envoyant avec le pass par défaut */
+	void beginAuth();
 	/** Envoie le message de deconnection */
 	void sendPart();
 	/** Envoie une commande refresh
 	*@param thisComputer donnees concernant l'ordinateur local */
 	void sendRefresh();
+	virtual void refresh();
 	
 	/** Demande de changement de pass */
 	void changePass(const QString& oldPass = QString::null);
@@ -105,19 +110,6 @@ protected slots:
 signals: // Signals
 	/** ping() est emit quand on passe une commande PING a @ref parse */
  	void ping();
-	/** login() est emit quand on passe une commande JOIN ou REFRESH a @ref parse
-	*C'est au slot de verifier si oui ou non newComputer a deja ete reference
-	*@param newComputer donnees concernant l'ordinateur */
- 	void login(const RzxHostAddress &ip, const QString& name, quint32 options, quint32 version, quint32 stamp, quint32 flags, const QString& comment);
-	/** logout() est emit quand on passe une commande PART @ref parse
-	*@param ip IP de l'ordinateur qui se deconnecte de rezix */
- 	void logout(const RzxHostAddress& ip);
-	/** sysmsg() est emit quand on passe une commande SYSMSG a @ref parse
-	*@param msg message envoye par le serveur */
-	void sysmsg(const QString& msg);
-	/** fatal() est emit quand on passe une commande FATAL a @ref parse
-	*@param msg message envoye par le serveur */
- 	void fatal(const QString& msg);
  	
  	/** emit quand l'objet RzxProtocole a besoin d'envoyer une commande au serveur,
  	*typiquement lors d'appel aux fonctions @ref sendAuth, @ref sendRefresh,
@@ -125,5 +117,10 @@ signals: // Signals
 	void send(const QString& msg);
 
 };
+
+inline void RzxProtocole::refresh()
+{
+	sendRefresh();
+}
 
 #endif

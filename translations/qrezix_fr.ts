@@ -26,31 +26,31 @@
     </message>
     <message>
         <source>Everybody</source>
-        <translation>Tout le monde</translation>
+        <translation type="obsolete">Tout le monde</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoris</translation>
+        <translation type="obsolete">Favoris</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation>Rercherche</translation>
+        <translation type="obsolete">Rercherche</translation>
     </message>
     <message>
         <source>Plug-ins</source>
-        <translation>Plug-ins</translation>
+        <translation type="obsolete">Plug-ins</translation>
     </message>
     <message>
         <source>Away</source>
-        <translation>Loin</translation>
+        <translation type="obsolete">Loin</translation>
     </message>
     <message>
         <source>Adjust columns</source>
-        <translation>Ajuster les colonnes</translation>
+        <translation type="obsolete">Ajuster les colonnes</translation>
     </message>
     <message>
         <source>Preferences</source>
-        <translation>Préférences</translation>
+        <translation type="obsolete">Préférences</translation>
     </message>
 </context>
 <context>
@@ -306,49 +306,116 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <source>Cannot create peer to peer socket !
 
 Chat and properties browsing are disabled</source>
-        <translation type="unfinished">Impossible de créer les communications client à client!
+        <translation>Impossible de créer les communications client à client!
 
 Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>reconnected</source>
-        <translation type="unfinished">reconnecté</translation>
+        <translation>reconnecté</translation>
     </message>
     <message>
         <source>disconnected</source>
-        <translation type="unfinished">déconnecté</translation>
+        <translation>déconnecté</translation>
     </message>
     <message>
         <source>Properties sent to %1</source>
-        <translation type="unfinished">Propriétés envoyées à %1</translation>
+        <translation>Propriétés envoyées à %1</translation>
     </message>
     <message>
         <source>name : &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;address : &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;client : &lt;i&gt;%3&lt;/i&gt;&lt;br&gt;time : &lt;i&gt;%4&lt;/i&gt;</source>
-        <translation type="unfinished">nom : &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;adresse : &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;client : &lt;i&gt;%3&lt;/i&gt;&lt;br&gt;heure : &lt;i&gt;%4&lt;/i&gt;</translation>
+        <translation>nom : &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;adresse : &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;client : &lt;i&gt;%3&lt;/i&gt;&lt;br&gt;heure : &lt;i&gt;%4&lt;/i&gt;</translation>
     </message>
     <message>
         <source>has checked your properties</source>
-        <translation type="unfinished">a demandé vos propriétés</translation>
+        <translation>a demandé vos propriétés</translation>
     </message>
     <message>
         <source>%1&apos;s properties</source>
-        <translation type="unfinished">Propriétés de %1</translation>
+        <translation>Propriétés de %1</translation>
     </message>
     <message>
         <source>xNet client : %1</source>
-        <translation type="unfinished">Client xNet : %1</translation>
+        <translation>Client xNet : %1</translation>
     </message>
     <message>
         <source>Property</source>
-        <translation type="unfinished">Propriété</translation>
+        <translation>Propriété</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation type="unfinished">Valeur</translation>
+        <translation>Valeur</translation>
     </message>
     <message>
         <source>History - %1</source>
-        <translation type="unfinished">Historique - %1</translation>
+        <translation>Historique - %1</translation>
+    </message>
+    <message>
+        <source>qRezix graphical chat interface</source>
+        <translation>Interface graphique de qRezix</translation>
+    </message>
+    <message>
+        <source>All files</source>
+        <translation>Tous les fichiers</translation>
+    </message>
+    <message>
+        <source>Sound file selection</source>
+        <translation>Sélection du fichier son</translation>
+    </message>
+</context>
+<context>
+    <name>RzxChatPropUI</name>
+    <message>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Chat</source>
+        <translation>Discussion</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;warning&lt;/h3&gt;&lt;p&gt;If you check this you will receive an notification each time somebody check you properties&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning :&lt;/b&gt; in some cases, this option can be used to spam you with notification windows&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Propriétés&lt;/h3&gt;&lt;p&gt;Si vous cochez cette case, vous recevrez un message de notification chaque fois que quelqu&apos;un regarde vos propriétés&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt; Dans certaines conditions cette option peut-être utilisée par un utilisateur malveillant faire apparaître une multitude de fenêtre.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Warn me when properties are being checked</source>
+        <translation>Prévenir quand les propriétés sont envoyées</translation>
+    </message>
+    <message>
+        <source>Print hh:mm:ss in chat</source>
+        <translation>Afficher hh:mm:ss dans le chat</translation>
+    </message>
+    <message>
+        <source>Beep</source>
+        <translation>Bip</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Select the sound to play when you receive a new message&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Choisissez le son à jouer à la réception d&apos;un nouveau message&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive en message&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez que qRezix joue un son à la réception d&apos;un nouveau message.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Beep on message receiption</source>
+        <translation>Bip à la réception d&apos;un message</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation>Réseau</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Peer2peer port&lt;/h3&gt;&lt;p&gt;Define the port of the chat&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Port P2P&lt;/h3&gt;&lt;p&gt;Port à utiliser pour le chat&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir besoin de modifier cette valeur&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>Port:</translation>
     </message>
 </context>
 <context>
@@ -692,51 +759,51 @@ Vérifiez que votre correspondant a bien ouvert le port de chat dans son firewal
     </message>
     <message>
         <source>Informations :</source>
-        <translation>Informations : </translation>
+        <translation type="obsolete">Informations : </translation>
     </message>
     <message>
         <source>ftp server : </source>
-        <translation>serveur ftp : </translation>
+        <translation type="obsolete">serveur ftp : </translation>
     </message>
     <message>
         <source>&lt;b&gt;on&lt;/b&gt;</source>
-        <translation>&lt;b&gt;lancé&lt;/b&gt;</translation>
+        <translation type="obsolete">&lt;b&gt;lancé&lt;/b&gt;</translation>
     </message>
     <message>
         <source>web server : </source>
-        <translation>serveur web : </translation>
+        <translation type="obsolete">serveur web : </translation>
     </message>
     <message>
         <source>news server : </source>
-        <translation>serveur de news : </translation>
+        <translation type="obsolete">serveur de news : </translation>
     </message>
     <message>
         <source>samba server : </source>
-        <translation>serveur samba : </translation>
+        <translation type="obsolete">serveur samba : </translation>
     </message>
     <message>
         <source>features : </source>
-        <translation>fonctionnalités : </translation>
+        <translation type="obsolete">fonctionnalités : </translation>
     </message>
     <message>
         <source>chat</source>
-        <translation>chat</translation>
+        <translation type="obsolete">chat</translation>
     </message>
     <message>
         <source>none</source>
-        <translation>aucune</translation>
+        <translation type="obsolete">aucune</translation>
     </message>
     <message>
         <source>place : </source>
-        <translation>bâtiment : </translation>
+        <translation type="obsolete">bâtiment : </translation>
     </message>
     <message>
         <source>No properties in cache</source>
-        <translation>Pas de propriétés en cache</translation>
+        <translation type="obsolete">Pas de propriétés en cache</translation>
     </message>
     <message>
         <source>Properties checked on </source>
-        <translation>Propriétés obtenues le </translation>
+        <translation type="obsolete">Propriétés obtenues le </translation>
     </message>
 </context>
 <context>
@@ -906,33 +973,247 @@ dans lequel il enregistre sa configuration</translation>
     </message>
 </context>
 <context>
+    <name>RzxMainuiPropUI</name>
+    <message>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Tab</source>
+        <translation>Onglet</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Search&lt;/h3&gt;&lt;p&gt;Do you want to see the search tool ?&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Recherche&lt;/h3&gt;&lt;p&gt;Cochez la case si vous voulez voir apparaître l&apos;outil de recherche&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Show Search Tools</source>
+        <translation>Afficher les outils de recherche</translation>
+    </message>
+    <message>
+        <source>Tab to select on start:</source>
+        <translation>Onglet actif au démarrage:</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Onglet&lt;/h3&gt;&lt;p&gt;Quand vous lancez qRezix, vous pouvez soit affichier vos Favoris, soit afficher Tout le Monde. qRezix sera néanmoins plus rapide à charger la liste des personnes connectées si vous choisissez de démarrer sur la liste des favoris.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favoris</translation>
+    </message>
+    <message>
+        <source>Everybody</source>
+        <translation>Tout le monde</translation>
+    </message>
+    <message>
+        <source>Computer icons</source>
+        <translation>Icônes des ordinateurs</translation>
+    </message>
+    <message>
+        <source>Icon size</source>
+        <translation>Taille des icônes</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Icon size&lt;/h3&gt;&lt;p&gt;Do you prefer big icons (64x64) or small icons (32x32) for the pictures of the users&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Taille des icônes&lt;/h3&gt;&lt;p&gt;Préférez- ous des grandes (64x64) ou des petites icônes (32x32) ? Les grandes icônes sont plus belles à voir, mais limite le nombre d&apos;utilisateurs affichés simultanément.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>32*32</source>
+        <translation>32*32</translation>
+    </message>
+    <message>
+        <source>64*64</source>
+        <translation>64*64</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Highlight&lt;/h3&gt;&lt;p&gt;If you choose to display small icons and check this box then the selected item will be displayed with a big icon.&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Démarquer la sélection&lt;/h3&gt;&lt;p&gt;Si vous avez choisi d&apos;afficher de petite icônes, vous pouvez sélectionnez cette option qui permettra d&apos;afficher une grande icône pour l&apos;ordinateur sélectionné... pratique pour le retrouver :-)&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Highlight the selection</source>
+        <translation>Démarquer la sélection</translation>
+    </message>
+    <message>
+        <source>Action on double-clic</source>
+        <translation>Action du double-clic</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Define the action to execute when you double click on an item&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Action du double-clic&lt;/h3&gt;&lt;p&gt;Lorsque vous double-cliquez sur un ordinateur, une action est exécutée. Vous pouvez choisir cette action parmi l&apos;ouverture d&apos;une discussion, la connexion au FTP, ...&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Chat</source>
+        <translation>Discussion</translation>
+    </message>
+    <message>
+        <source>Open FTP</source>
+        <translation>Connection en FTP</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Afficher les colonnes...&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir s&apos;afficher&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Columns layout</source>
+        <translation>Afficher les colonnes</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <source>FTP</source>
+        <translation>FTP</translation>
+    </message>
+    <message>
+        <source>OS</source>
+        <translation>OS</translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <translation>Client</translation>
+    </message>
+    <message>
+        <source>Web</source>
+        <translation>Web</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation>Commentaire</translation>
+    </message>
+    <message>
+        <source>Promotion</source>
+        <translation>Promâl</translation>
+    </message>
+    <message>
+        <source>Same gateway</source>
+        <translation>Même passerelle</translation>
+    </message>
+    <message>
+        <source>IP</source>
+        <translation>IP</translation>
+    </message>
+    <message>
+        <source>Place</source>
+        <translation>Bâtiment</translation>
+    </message>
+    <message>
+        <source>News</source>
+        <translation>News</translation>
+    </message>
+    <message>
+        <source>Samba</source>
+        <translation>Samba</translation>
+    </message>
+    <message>
+        <source>Misc</source>
+        <translation>Divers</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Quitting dialog&lt;/h3&gt;&lt;p&gt;Enable/disable the dialog box which is displayed when you close the qRezix&apos;s main window&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Boite de dialogue à la fermeture&lt;/h3&gt;&lt;p&gt;(Dés)active la boite de dialogue qui est affichée lorsque vous fermez la fenêtre principale de qRezix&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Show dialog when clicking on X</source>
+        <translation>Afficher une boîte de dialogue en cliquant sur X</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;ToolTips are little windows that appears when you </source>
+        <translation>&lt;h3&gt;Boites d&apos;information&lt;/h3&gt;&lt;p&gt;Les Boites d&apos;informations sont des petites fenêtres qui s&apos;affichent lorsque la souris reste au dessus d&apos;un élément&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>ToolTips</source>
+        <translation>Boites d&apos;information</translation>
+    </message>
+    <message>
+        <source>Client version</source>
+        <translation>Version du client</translation>
+    </message>
+    <message>
+        <source>Ip address</source>
+        <translation>Adresse IP</translation>
+    </message>
+    <message>
+        <source>Enable tooltips</source>
+        <translation>Afficher les boites d&apos;infomation</translation>
+    </message>
+    <message>
+        <source>Features</source>
+        <translation>Fonctionnalités</translation>
+    </message>
+    <message>
+        <source>Properties</source>
+        <translation>Propriétés</translation>
+    </message>
+</context>
+<context>
+    <name>RzxNotifierPropUI</name>
+    <message>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Notification Window</source>
+        <translation>Fenêtre de notification</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez qu&apos;une petite fenêtre de notification s&apos;affiche chaque fois qu&apos;un favori se connecte, se déconnecte ou passe sur répondeur.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Show a notification window on favorite&apos;s state modification</source>
+        <translation>Afficher une fenêtre de notification lorsqu&apos;un favoris change d&apos;état</translation>
+    </message>
+    <message>
+        <source>Beep</source>
+        <translation>Bip</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when a favorite get connected&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez que qRezix joue un son à la connexion d&apos;un favori.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Beep on connection of one of your favorites</source>
+        <translation>Bip à la connexion d&apos;un favoris</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Select the sound to play when a favorite get connected&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Choisissez le son à jouer à la connexion d&apos;un favori.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+</context>
+<context>
     <name>RzxPlugInLoader</name>
     <message>
         <source>English</source>
-        <translation>Français</translation>
+        <translation type="obsolete">Français</translation>
     </message>
     <message>
         <source>Unable to load a plug-in</source>
-        <translation>Impossible de charger le plug-in</translation>
+        <translation type="obsolete">Impossible de charger le plug-in</translation>
     </message>
     <message>
         <source>The plug-in named %1 owns a version number which is not supported by this version of qRezix.
 </source>
-        <translation>Le plug-in nommé %1 possède un numéro de version non-supporté par cette version de qRezix.
+        <translation type="obsolete">Le plug-in nommé %1 possède un numéro de version non-supporté par cette version de qRezix.
 </translation>
     </message>
     <message>
         <source>A more recent version of qRezix is certainly available. Update qRezix if you want to use this plug-in.</source>
-        <translation>Une version plus récente de qRezix est certainement disponible. Mettez à jour qRezix pour utiliser ce plug-in.</translation>
+        <translation type="obsolete">Une version plus récente de qRezix est certainement disponible. Mettez à jour qRezix pour utiliser ce plug-in.</translation>
     </message>
     <message>
         <source>A new version of the plug-in may be available. Install it if you want to use this plug-in.</source>
-        <translation>Une nouvelle version de ce plug-in est peut-être disponible. Installez-la pour utiliser ce plug-in.</translation>
+        <translation type="obsolete">Une nouvelle version de ce plug-in est peut-être disponible. Installez-la pour utiliser ce plug-in.</translation>
     </message>
     <message>
         <source>A plug-in file has been found but qRezix can&apos;t extract any plug-in from it. Maybe the plug-in file is corrupted or not up-to-date.
  Try to install the last version of this plug-in (file %1).</source>
-        <translation>Un fichier de plug-in a été trouvé mais qRezix ne peut en extraire de plug-in. Ce fichier est peut-être corrompu ou d&apos;une version non supportée par qRezix.
+        <translation type="obsolete">Un fichier de plug-in a été trouvé mais qRezix ne peut en extraire de plug-in. Ce fichier est peut-être corrompu ou d&apos;une version non supportée par qRezix.
 Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translation>
     </message>
 </context>
@@ -1008,7 +1289,7 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     </message>
     <message>
         <source>All files</source>
-        <translation>Tous les fichiers</translation>
+        <translation type="obsolete">Tous les fichiers</translation>
     </message>
     <message>
         <source>Choose default ftp folder</source>
@@ -1028,7 +1309,7 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     </message>
     <message>
         <source>Sound file selection</source>
-        <translation>Sélection du fichier son</translation>
+        <translation type="obsolete">Sélection du fichier son</translation>
     </message>
     <message>
         <source>standard</source>
@@ -1158,15 +1439,15 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     <name>RzxQuit</name>
     <message>
         <source>Quit now !</source>
-        <translation>Je pars maintenant !</translation>
+        <translation type="obsolete">Je pars maintenant !</translation>
     </message>
     <message>
         <source>Minimize me...</source>
-        <translation>Minimise la fenêtre...</translation>
+        <translation type="obsolete">Minimise la fenêtre...</translation>
     </message>
     <message>
         <source>Abort quitting please</source>
-        <translation>Attend, je reste</translation>
+        <translation type="obsolete">Attend, je reste</translation>
     </message>
 </context>
 <context>
@@ -1499,142 +1780,142 @@ Propriétés envoyées à %2 (%3)</translation>
     <name>RzxRezalModel</name>
     <message>
         <source>Computer name</source>
-        <translation>Nom d&apos;ordinateur</translation>
+        <translation type="obsolete">Nom d&apos;ordinateur</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation>Commentaire</translation>
+        <translation type="obsolete">Commentaire</translation>
     </message>
     <message>
         <source>Samba</source>
-        <translation>Samba</translation>
+        <translation type="obsolete">Samba</translation>
     </message>
     <message>
         <source>FTP</source>
-        <translation>FTP</translation>
+        <translation type="obsolete">FTP</translation>
     </message>
     <message>
         <source>Web</source>
-        <translation>Web</translation>
+        <translation type="obsolete">Web</translation>
     </message>
     <message>
         <source>News</source>
-        <translation>News</translation>
+        <translation type="obsolete">News</translation>
     </message>
     <message>
         <source>OS</source>
-        <translation>OS</translation>
+        <translation type="obsolete">OS</translation>
     </message>
     <message>
         <source>Gateway</source>
-        <translation>Passerelle</translation>
+        <translation type="obsolete">Passerelle</translation>
     </message>
     <message>
         <source>Promo</source>
-        <translation>Promâl</translation>
+        <translation type="obsolete">Promâl</translation>
     </message>
     <message>
         <source>Place</source>
-        <translation>Bâtiment</translation>
+        <translation type="obsolete">Bâtiment</translation>
     </message>
     <message>
         <source>IP</source>
-        <translation>IP</translation>
+        <translation type="obsolete">IP</translation>
     </message>
     <message>
         <source>Client</source>
-        <translation>Client</translation>
+        <translation type="obsolete">Client</translation>
     </message>
     <message>
         <source>Everybody</source>
-        <translation>Tout le monde</translation>
+        <translation type="obsolete">Tout le monde</translation>
     </message>
     <message>
         <source>Category</source>
-        <translation>Catégorie</translation>
+        <translation type="obsolete">Catégorie</translation>
     </message>
     <message>
         <source>Subnet</source>
-        <translation>Sous-réseau</translation>
+        <translation type="obsolete">Sous-réseau</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoris</translation>
+        <translation type="obsolete">Favoris</translation>
     </message>
     <message>
         <source>Banned</source>
-        <translation>Exclus</translation>
+        <translation type="obsolete">Exclus</translation>
     </message>
     <message>
         <source>Others...</source>
-        <translation>Autres...</translation>
+        <translation type="obsolete">Autres...</translation>
     </message>
     <message>
         <source>Jones</source>
-        <translation>Jônes</translation>
+        <translation type="obsolete">Jônes</translation>
     </message>
     <message>
         <source>Roujes</source>
-        <translation>Roujes</translation>
+        <translation type="obsolete">Roujes</translation>
     </message>
     <message>
         <source>Oranjes</source>
-        <translation>Oranjes</translation>
+        <translation type="obsolete">Oranjes</translation>
     </message>
     <message>
         <source>Binet</source>
-        <translation>Binet</translation>
+        <translation type="obsolete">Binet</translation>
     </message>
 </context>
 <context>
     <name>RzxRezalPopup</name>
     <message>
         <source>Samba connect</source>
-        <translation>Connexion en Samba</translation>
+        <translation type="obsolete">Connexion en Samba</translation>
     </message>
     <message>
         <source>FTP connect</source>
-        <translation>Connexion en FTP</translation>
+        <translation type="obsolete">Connexion en FTP</translation>
     </message>
     <message>
         <source>browse Web</source>
-        <translation>Voir le site Web</translation>
+        <translation type="obsolete">Voir le site Web</translation>
     </message>
     <message>
         <source>read News</source>
-        <translation>Lire les News</translation>
+        <translation type="obsolete">Lire les News</translation>
     </message>
     <message>
         <source>Remove from ignore list</source>
-        <translation>Ne plus ignorer l&apos;utilisateur</translation>
+        <translation type="obsolete">Ne plus ignorer l&apos;utilisateur</translation>
     </message>
     <message>
         <source>begin &amp;Chat</source>
-        <translation>Ouvrir une fenêtre &amp;de discussion</translation>
+        <translation type="obsolete">Ouvrir une fenêtre &amp;de discussion</translation>
     </message>
     <message>
         <source>History</source>
-        <translation>Historique</translation>
+        <translation type="obsolete">Historique</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation>Propriétés</translation>
+        <translation type="obsolete">Propriétés</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
-        <translation>Retirer des favoris</translation>
+        <translation type="obsolete">Retirer des favoris</translation>
     </message>
     <message>
         <source>Add to favorites</source>
-        <translation>Ajouter aux favoris</translation>
+        <translation type="obsolete">Ajouter aux favoris</translation>
     </message>
     <message>
         <source>Add to ignore list</source>
-        <translation>Ignorer l&apos;utilisateur</translation>
+        <translation type="obsolete">Ignorer l&apos;utilisateur</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuler</translation>
+        <translation type="obsolete">Annuler</translation>
     </message>
 </context>
 <context>
@@ -1745,34 +2026,53 @@ Erreur DNS
     <name>RzxTrayIcon</name>
     <message>
         <source>&amp;Preference</source>
-        <translation type="unfinished">&amp;Préférences</translation>
+        <translation type="obsolete">&amp;Préférences</translation>
     </message>
     <message>
         <source>&amp;I&apos;m back !</source>
-        <translation type="unfinished">Je suis &amp;revenu !</translation>
+        <translation type="obsolete">Je suis &amp;revenu !</translation>
     </message>
     <message>
         <source>I&apos;m &amp;away !</source>
-        <translation type="unfinished">Je m&apos;en &amp;vais !</translation>
+        <translation type="obsolete">Je m&apos;en &amp;vais !</translation>
     </message>
     <message>
         <source>&amp;Quit</source>
-        <translation type="unfinished">&amp;Quitter</translation>
+        <translation type="obsolete">&amp;Quitter</translation>
+    </message>
+</context>
+<context>
+    <name>RzxTrayPropUI</name>
+    <message>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Systray&lt;/h3&gt;&lt;p&gt;Do you want to have qRezix reduced to an icon in the systray ?&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Icône de la barre des tâches&lt;/h3&gt;&lt;p&gt;Voulez-vous avoir accès à qRezix via une icône dans la barre des tâches ?&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Systray</source>
+        <translation>Systray</translation>
+    </message>
+    <message>
+        <source>Size of tray icon :</source>
+        <translation>Taille de la trayicon :</translation>
     </message>
 </context>
 <context>
     <name>RzxTrayWindow</name>
     <message>
         <source>is now away</source>
-        <translation>est absent</translation>
+        <translation type="obsolete">est absent</translation>
     </message>
     <message>
         <source>is now here</source>
-        <translation>est là</translation>
+        <translation type="obsolete">est là</translation>
     </message>
     <message>
         <source>is now disconnected</source>
-        <translation>vient de se déconnecter</translation>
+        <translation type="obsolete">vient de se déconnecter</translation>
     </message>
 </context>
 <context>
@@ -1847,7 +2147,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>ReziX infos</source>
-        <translation>Informations publiques</translation>
+        <translation type="obsolete">Informations publiques</translation>
     </message>
     <message>
         <source>Computer name:</source>
@@ -1867,11 +2167,11 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <source>Beep on message receiption</source>
-        <translation>Bip à la réception d&apos;un message</translation>
+        <translation type="obsolete">Bip à la réception d&apos;un message</translation>
     </message>
     <message>
         <source>Away:</source>
@@ -2015,11 +2315,11 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Network configuration</source>
-        <translation>Configuration du réseau</translation>
+        <translation type="obsolete">Configuration du réseau</translation>
     </message>
     <message>
         <source>Server:</source>
-        <translation>Serveur:</translation>
+        <translation type="obsolete">Serveur:</translation>
     </message>
     <message>
         <source>xnetserver</source>
@@ -2031,7 +2331,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Peer2peer port:</source>
-        <translation>Port P2P:</translation>
+        <translation type="obsolete">Port P2P:</translation>
     </message>
     <message>
         <source>Reconnection</source>
@@ -2071,19 +2371,19 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Clients</source>
-        <translation>Clients</translation>
+        <translation type="obsolete">Clients</translation>
     </message>
     <message>
         <source>FTP client</source>
-        <translation>Client FTP</translation>
+        <translation type="obsolete">Client FTP</translation>
     </message>
     <message>
         <source>News reader</source>
-        <translation>Lecteur de News</translation>
+        <translation type="obsolete">Lecteur de News</translation>
     </message>
     <message>
         <source>Web browser</source>
-        <translation>Navigateur Web</translation>
+        <translation type="obsolete">Navigateur Web</translation>
     </message>
     <message>
         <source>&amp;Layout</source>
@@ -2091,71 +2391,71 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Columns layout</source>
-        <translation>Afficher les colonnes</translation>
+        <translation type="obsolete">Afficher les colonnes</translation>
     </message>
     <message>
         <source>Icon</source>
-        <translation>Icône</translation>
+        <translation type="obsolete">Icône</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation>Commentaire</translation>
+        <translation type="obsolete">Commentaire</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
     <message>
         <source>Web</source>
-        <translation>Web</translation>
+        <translation type="obsolete">Web</translation>
     </message>
     <message>
         <source>OS</source>
-        <translation>OS</translation>
+        <translation type="obsolete">OS</translation>
     </message>
     <message>
         <source>Same gateway</source>
-        <translation>Même passerelle</translation>
+        <translation type="obsolete">Même passerelle</translation>
     </message>
     <message>
         <source>Promotion</source>
-        <translation>Promâl</translation>
+        <translation type="obsolete">Promâl</translation>
     </message>
     <message>
         <source>Icon details</source>
-        <translation>Affichages des icônes</translation>
+        <translation type="obsolete">Affichages des icônes</translation>
     </message>
     <message>
         <source>32*32</source>
-        <translation>32*32</translation>
+        <translation type="obsolete">32*32</translation>
     </message>
     <message>
         <source>64*64</source>
-        <translation>64*64</translation>
+        <translation type="obsolete">64*64</translation>
     </message>
     <message>
         <source>Themes</source>
-        <translation>Thême d&apos;icônes</translation>
+        <translation type="obsolete">Thême d&apos;icônes</translation>
     </message>
     <message>
         <source>Action on double-clic</source>
-        <translation>Action du double-clic</translation>
+        <translation type="obsolete">Action du double-clic</translation>
     </message>
     <message>
         <source>Icon size</source>
-        <translation>Taille des icônes</translation>
+        <translation type="obsolete">Taille des icônes</translation>
     </message>
     <message>
         <source>Chat</source>
-        <translation>Discussion</translation>
+        <translation type="obsolete">Discussion</translation>
     </message>
     <message>
         <source>Open FTP</source>
-        <translation>Connection en FTP</translation>
+        <translation type="obsolete">Connection en FTP</translation>
     </message>
     <message>
         <source>Misc.</source>
-        <translation>Divers</translation>
+        <translation type="obsolete">Divers</translation>
     </message>
     <message>
         <source>Command to play a sound :</source>
@@ -2171,7 +2471,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Use Systray icon</source>
-        <translation>Icône dans le Systray</translation>
+        <translation type="obsolete">Icône dans le Systray</translation>
     </message>
     <message>
         <source>Apply</source>
@@ -2187,15 +2487,15 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>UI Language :</source>
-        <translation>Langue :</translation>
+        <translation type="obsolete">Langue :</translation>
     </message>
     <message>
         <source>Warn me when properties are being checked</source>
-        <translation>Prévenir quand les propriétés sont envoyées</translation>
+        <translation type="obsolete">Prévenir quand les propriétés sont envoyées</translation>
     </message>
     <message>
         <source>Print hh:mm:ss in chat</source>
-        <translation>Afficher hh:mm:ss dans le chat</translation>
+        <translation type="obsolete">Afficher hh:mm:ss dans le chat</translation>
     </message>
     <message>
         <source>Be in xPlo</source>
@@ -2207,7 +2507,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Plug-ins</source>
-        <translation>Plug-ins</translation>
+        <translation type="obsolete">Plug-ins</translation>
     </message>
     <message>
         <source>Plug-in pr&amp;operties</source>
@@ -2227,11 +2527,11 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Show dialog when clicking on X</source>
-        <translation>Afficher une boîte de dialogue en cliquant sur X</translation>
+        <translation type="obsolete">Afficher une boîte de dialogue en cliquant sur X</translation>
     </message>
     <message>
         <source>Menu</source>
-        <translation>Menu</translation>
+        <translation type="obsolete">Menu</translation>
     </message>
     <message>
         <source>No text</source>
@@ -2275,7 +2575,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Highlight the selection</source>
-        <translation>Démarquer la sélection</translation>
+        <translation type="obsolete">Démarquer la sélection</translation>
     </message>
     <message>
         <source>Change my password ...</source>
@@ -2295,19 +2595,19 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Translation</source>
-        <translation>Traduction</translation>
+        <translation type="obsolete">Traduction</translation>
     </message>
     <message>
         <source>Systray</source>
-        <translation>Systray</translation>
+        <translation type="obsolete">Systray</translation>
     </message>
     <message>
         <source>Other</source>
-        <translation>Autre</translation>
+        <translation type="obsolete">Autre</translation>
     </message>
     <message>
         <source>Plug-in pr&amp;operties ...</source>
-        <translation>Pr&amp;opriétés du plug-in ...</translation>
+        <translation type="obsolete">Pr&amp;opriétés du plug-in ...</translation>
     </message>
     <message>
         <source>Comment:</source>
@@ -2315,19 +2615,19 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Tab</source>
-        <translation>Onglet</translation>
+        <translation type="obsolete">Onglet</translation>
     </message>
     <message>
         <source>Tab to select on start:</source>
-        <translation>Onglet actif au démarrage:</translation>
+        <translation type="obsolete">Onglet actif au démarrage:</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoris</translation>
+        <translation type="obsolete">Favoris</translation>
     </message>
     <message>
         <source>Everybody</source>
-        <translation>Tout le monde</translation>
+        <translation type="obsolete">Tout le monde</translation>
     </message>
     <message>
         <source>Show Search Tab</source>
@@ -2335,7 +2635,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Show Search Tools</source>
-        <translation>Afficher les outils de recherche</translation>
+        <translation type="obsolete">Afficher les outils de recherche</translation>
     </message>
     <message>
         <source>xnetserver.eleves.polytechnique.fr</source>
@@ -2343,31 +2643,31 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>ToolTips</source>
-        <translation>Boites d&apos;information</translation>
+        <translation type="obsolete">Boites d&apos;information</translation>
     </message>
     <message>
         <source>Enable tooltips</source>
-        <translation>Afficher les boites d&apos;infomation</translation>
+        <translation type="obsolete">Afficher les boites d&apos;infomation</translation>
     </message>
     <message>
         <source>Ip address</source>
-        <translation>Adresse IP</translation>
+        <translation type="obsolete">Adresse IP</translation>
     </message>
     <message>
         <source>Client version</source>
-        <translation>Version du client</translation>
+        <translation type="obsolete">Version du client</translation>
     </message>
     <message>
         <source>Beep on connection of one of your favorites</source>
-        <translation>Bip à la connexion d&apos;un favoris</translation>
+        <translation type="obsolete">Bip à la connexion d&apos;un favoris</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation>Notifications</translation>
+        <translation type="obsolete">Notifications</translation>
     </message>
     <message>
         <source>Show a notification window on favorite&apos;s state modification</source>
-        <translation>Afficher une fenêtre de notification lorsqu&apos;un favoris change d&apos;état</translation>
+        <translation type="obsolete">Afficher une fenêtre de notification lorsqu&apos;un favoris change d&apos;état</translation>
     </message>
     <message>
         <source>Refuse messages when away</source>
@@ -2375,7 +2675,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&amp;Reload plug-in</source>
-        <translation>&amp;Recharger le plug-in</translation>
+        <translation type="obsolete">&amp;Recharger le plug-in</translation>
     </message>
     <message>
         <source>Alt+R</source>
@@ -2383,19 +2683,19 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Client</source>
-        <translation>Client</translation>
+        <translation type="obsolete">Client</translation>
     </message>
     <message>
         <source>IP</source>
-        <translation>IP</translation>
+        <translation type="obsolete">IP</translation>
     </message>
     <message>
         <source>Place</source>
-        <translation>Bâtiment</translation>
+        <translation type="obsolete">Bâtiment</translation>
     </message>
     <message>
         <source>Features</source>
-        <translation>Fonctionnalités</translation>
+        <translation type="obsolete">Fonctionnalités</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Menu&lt;/h3&gt;&lt;p&gt;Define the appearance of the menus and butons of the interface&lt;/p&gt;</source>
@@ -2439,19 +2739,19 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Onglet&lt;/h3&gt;&lt;p&gt;Quand vous lancez qRezix, vous pouvez soit affichier vos Favoris, soit afficher Tout le Monde. qRezix sera néanmoins plus rapide à charger la liste des personnes connectées si vous choisissez de démarrer sur la liste des favoris.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Onglet&lt;/h3&gt;&lt;p&gt;Quand vous lancez qRezix, vous pouvez soit affichier vos Favoris, soit afficher Tout le Monde. qRezix sera néanmoins plus rapide à charger la liste des personnes connectées si vous choisissez de démarrer sur la liste des favoris.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Search&lt;/h3&gt;&lt;p&gt;Do you want to see the search tool ?&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Recherche&lt;/h3&gt;&lt;p&gt;Cochez la case si vous voulez voir apparaître l&apos;outil de recherche&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Recherche&lt;/h3&gt;&lt;p&gt;Cochez la case si vous voulez voir apparaître l&apos;outil de recherche&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;ToolTips are little windows that appears when you </source>
-        <translation>&lt;h3&gt;Boites d&apos;information&lt;/h3&gt;&lt;p&gt;Les Boites d&apos;informations sont des petites fenêtres qui s&apos;affichent lorsque la souris reste au dessus d&apos;un élément&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Boites d&apos;information&lt;/h3&gt;&lt;p&gt;Les Boites d&apos;informations sont des petites fenêtres qui s&apos;affichent lorsque la souris reste au dessus d&apos;un élément&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Afficher les colonnes...&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir s&apos;afficher&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Afficher les colonnes...&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir s&apos;afficher&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Themes&lt;/h3&gt;&lt;p&gt;Choose a themes for the icons.&lt;/p&gt;</source>
@@ -2459,15 +2759,15 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Define the action to execute when you double click on an item&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Action du double-clic&lt;/h3&gt;&lt;p&gt;Lorsque vous double-cliquez sur un ordinateur, une action est exécutée. Vous pouvez choisir cette action parmi l&apos;ouverture d&apos;une discussion, la connexion au FTP, ...&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Action du double-clic&lt;/h3&gt;&lt;p&gt;Lorsque vous double-cliquez sur un ordinateur, une action est exécutée. Vous pouvez choisir cette action parmi l&apos;ouverture d&apos;une discussion, la connexion au FTP, ...&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Icon size&lt;/h3&gt;&lt;p&gt;Do you prefer big icons (64x64) or small icons (32x32) for the pictures of the users&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Taille des icônes&lt;/h3&gt;&lt;p&gt;Préférez- ous des grandes (64x64) ou des petites icônes (32x32) ? Les grandes icônes sont plus belles à voir, mais limite le nombre d&apos;utilisateurs affichés simultanément.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Taille des icônes&lt;/h3&gt;&lt;p&gt;Préférez- ous des grandes (64x64) ou des petites icônes (32x32) ? Les grandes icônes sont plus belles à voir, mais limite le nombre d&apos;utilisateurs affichés simultanément.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Highlight&lt;/h3&gt;&lt;p&gt;If you choose to display small icons and check this box then the selected item will be displayed with a big icon.&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Démarquer la sélection&lt;/h3&gt;&lt;p&gt;Si vous avez choisi d&apos;afficher de petite icônes, vous pouvez sélectionnez cette option qui permettra d&apos;afficher une grande icône pour l&apos;ordinateur sélectionné... pratique pour le retrouver :-)&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Démarquer la sélection&lt;/h3&gt;&lt;p&gt;Si vous avez choisi d&apos;afficher de petite icônes, vous pouvez sélectionnez cette option qui permettra d&apos;afficher une grande icône pour l&apos;ordinateur sélectionné... pratique pour le retrouver :-)&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Working directory&lt;/h3&gt;&lt;p&gt;Define the default directory where you want your clients store the files you download&lt;/p&gt;</source>
@@ -2479,7 +2779,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&lt;h3&gt;Peer2peer port&lt;/h3&gt;&lt;p&gt;Define the port of the chat&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Port P2P&lt;/h3&gt;&lt;p&gt;Port à utiliser pour le chat&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir besoin de modifier cette valeur&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Port P2P&lt;/h3&gt;&lt;p&gt;Port à utiliser pour le chat&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir besoin de modifier cette valeur&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Defines the port to connect to on the xnetserver&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
@@ -2495,11 +2795,11 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&lt;h3&gt;Clients&lt;/h3&gt;&lt;p&gt;Choose the program you want to use. You can choose a predefined client, or typed the command line to use&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Clients&lt;/h3&gt;&lt;p&gt;Choisissez les programmes que vous voulez utiliser pour ouvrir les connexions FTP, les pages web ou encore les serveurs de news. Vous avez le choix parmi des clients prédéfinis, mais rien ne vous empêche de taper la ligne de commande qui vous permettra de lancer un client personnalisé.&lt;/h3&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Clients&lt;/h3&gt;&lt;p&gt;Choisissez les programmes que vous voulez utiliser pour ouvrir les connexions FTP, les pages web ou encore les serveurs de news. Vous avez le choix parmi des clients prédéfinis, mais rien ne vous empêche de taper la ligne de commande qui vous permettra de lancer un client personnalisé.&lt;/h3&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Quitting dialog&lt;/h3&gt;&lt;p&gt;Enable/disable the dialog box which is displayed when you close the qRezix&apos;s main window&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Boite de dialogue à la fermeture&lt;/h3&gt;&lt;p&gt;(Dés)active la boite de dialogue qui est affichée lorsque vous fermez la fenêtre principale de qRezix&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Boite de dialogue à la fermeture&lt;/h3&gt;&lt;p&gt;(Dés)active la boite de dialogue qui est affichée lorsque vous fermez la fenêtre principale de qRezix&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Responder mode&lt;/h3&gt;&lt;p&gt;There are 2 kinds of responder&lt;p&gt;&lt;p&gt;&lt;b&gt;Refuse,&lt;/b&gt; in this mode, all the messages you receive while away are lost&lt;/p&gt;&lt;p&gt;&lt;b&gt;Store,&lt;/b&gt; in this mode, you can read you messages as if you were not marked away&lt;/p&gt;</source>
@@ -2507,19 +2807,19 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&lt;h3&gt;warning&lt;/h3&gt;&lt;p&gt;If you check this you will receive an notification each time somebody check you properties&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning :&lt;/b&gt; in some cases, this option can be used to spam you with notification windows&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Propriétés&lt;/h3&gt;&lt;p&gt;Si vous cochez cette case, vous recevrez un message de notification chaque fois que quelqu&apos;un regarde vos propriétés&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt; Dans certaines conditions cette option peut-être utilisée par un utilisateur malveillant faire apparaître une multitude de fenêtre.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Propriétés&lt;/h3&gt;&lt;p&gt;Si vous cochez cette case, vous recevrez un message de notification chaque fois que quelqu&apos;un regarde vos propriétés&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt; Dans certaines conditions cette option peut-être utilisée par un utilisateur malveillant faire apparaître une multitude de fenêtre.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Translation&lt;/h3&gt;&lt;p&gt;Select your language&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Traductions&lt;/h3&gt;&lt;p&gt;Choisissez votre langue&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Traductions&lt;/h3&gt;&lt;p&gt;Choisissez votre langue&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Systray&lt;/h3&gt;&lt;p&gt;Do you want to have qRezix reduced to an icon in the systray ?&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Icône de la barre des tâches&lt;/h3&gt;&lt;p&gt;Voulez-vous avoir accès à qRezix via une icône dans la barre des tâches ?&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Icône de la barre des tâches&lt;/h3&gt;&lt;p&gt;Voulez-vous avoir accès à qRezix via une icône dans la barre des tâches ?&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Select the sound to play when you receive a new message&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Choisissez le son à jouer à la réception d&apos;un nouveau message&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Choisissez le son à jouer à la réception d&apos;un nouveau message&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Sound command&lt;/h3&gt;&lt;p&gt;Select the commant to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p&gt;</source>
@@ -2527,19 +2827,19 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive en message&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez que qRezix joue un son à la réception d&apos;un nouveau message.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez que qRezix joue un son à la réception d&apos;un nouveau message.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Select the sound to play when a favorite get connected&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Choisissez le son à jouer à la connexion d&apos;un favori.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Choisissez le son à jouer à la connexion d&apos;un favori.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when a favorite get connected&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez que qRezix joue un son à la connexion d&apos;un favori.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez que qRezix joue un son à la connexion d&apos;un favori.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez qu&apos;une petite fenêtre de notification s&apos;affiche chaque fois qu&apos;un favori se connecte, se déconnecte ou passe sur répondeur.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez qu&apos;une petite fenêtre de notification s&apos;affiche chaque fois qu&apos;un favori se connecte, se déconnecte ou passe sur répondeur.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Plug-ins&lt;/h3&gt;&lt;p&gt;Shows the detected plug-ins&lt;/p&gt;</source>
@@ -2547,11 +2847,11 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&lt;h3&gt;Reload plug-in&lt;/h3&gt;&lt;p&gt;Click here to reload the selected plug-in&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Recharger le plug-in&lt;/h3&gt;&lt;p&gt;Permet de recharger le plug-in sélectionné.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Recharger le plug-in&lt;/h3&gt;&lt;p&gt;Permet de recharger le plug-in sélectionné.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Plug-in properties&lt;/h3&gt;&lt;p&gt;Displays the properties window of the selected plug-in&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Propriétés du plug-in...&lt;/h3&gt;&lt;p&gt;Affiche les propriétés du plug-in sélectionné.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Propriétés du plug-in...&lt;/h3&gt;&lt;p&gt;Affiche les propriétés du plug-in sélectionné.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h2&gt;New Item&lt;/h2&gt;</source>
@@ -2563,7 +2863,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Layout</source>
-        <translation>Affichage</translation>
+        <translation type="obsolete">Affichage</translation>
     </message>
     <message>
         <source>Network</source>
@@ -2571,11 +2871,11 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Size of tray icon :</source>
-        <translation>Taille de la trayicon :</translation>
+        <translation type="obsolete">Taille de la trayicon :</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation>Propriétés</translation>
+        <translation type="obsolete">Propriétés</translation>
     </message>
     <message>
         <source>Draw icons in menus</source>
@@ -2596,6 +2896,78 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <message>
         <source>2</source>
         <translation>2</translation>
+    </message>
+    <message>
+        <source>Computer infos</source>
+        <translation>Informations sur l&apos;ordinateur</translation>
+    </message>
+    <message>
+        <source>Interface</source>
+        <translation>Interface</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;UI Language:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">Langue :</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Themes:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">Thème :</translation>
+    </message>
+    <message>
+        <source>Commands</source>
+        <translation>Programmes externes</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;News reader:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">Lecteur de news :</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Web browser:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">Navigateur web :</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;FTP client:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">Client FTP :</translation>
+    </message>
+    <message>
+        <source>Modules</source>
+        <translation>Modules</translation>
+    </message>
+    <message>
+        <source>Misc</source>
+        <translation>Divers</translation>
+    </message>
+    <message>
+        <source>Options</source>
+        <translation>Options</translation>
+    </message>
+    <message>
+        <source>UI Language:</source>
+        <translation>Langue :</translation>
+    </message>
+    <message>
+        <source>Themes:</source>
+        <translation>Thèmes :</translation>
+    </message>
+    <message>
+        <source>News reader:</source>
+        <translation>Lecteur de news :</translation>
+    </message>
+    <message>
+        <source>Web browser:</source>
+        <translation>Navigateur web :</translation>
+    </message>
+    <message>
+        <source>FTP client:</source>
+        <translation>Client FTP :</translation>
+    </message>
+    <message>
+        <source>Server identification</source>
+        <translation>Indentification du serveur</translation>
+    </message>
+    <message>
+        <source>Server name:</source>
+        <translation>Nom du serveur :</translation>
     </message>
 </context>
 <context>

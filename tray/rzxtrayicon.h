@@ -21,6 +21,12 @@
 #ifndef CS_TRAYICON_H
 #define CS_TRAYICON_H
 
+#ifdef RZX_TRAYICON_BUILTIN
+#	define RZX_BUILTIN
+#else
+#	define RZX_PLUGIN
+#endif
+
 #include <QObject>
 #include <QImage>
 #include <QMenu>
@@ -57,7 +63,6 @@ public:
 
 	void gotCloseEvent();
 	virtual bool isInitialised() const;
-	virtual QIcon icon() const;
 
 	QPoint getPos();
 

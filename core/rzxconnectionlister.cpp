@@ -20,53 +20,75 @@
 #include <RzxConnectionLister>
 
 #include <RzxMessageBox>
-#include <RzxServerListener>
 #include <RzxIconCollection>
 #include <RzxHostAddress>
 #include <RzxComputer>
 #include <RzxConfig>
 
-#define USER_HASH_TABLE_LENGTH 1663
+#ifdef RZX_XNET_BUILTIN
+#include <RzxServerListener>
+#endif
 
-
-RzxConnectionLister *RzxConnectionLister::object = NULL;
+RZX_GLOBAL_INIT(RzxConnectionLister)
 
 RzxConnectionLister::RzxConnectionLister( QObject *parent)
 		: QObject(parent)
 {
 	Rzx::beginModuleLoading("Connection lister");
 	object = this;
+	connectionNumber = 0;
 
-	server = RzxServerListener::object();
 	delayDisplay.setSingleShot(true);
 
-	connect( server, SIGNAL(login(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&)),
-			 this, SLOT(login(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&)) );
-	connect( server, SIGNAL( logout( const RzxHostAddress& ) ), this, SLOT( logout( const RzxHostAddress& ) ) );
-	connect( server, SIGNAL( rcvIcon( QImage*, const RzxHostAddress& ) ), this, SLOT( recvIcon( QImage*, const RzxHostAddress& ) ) );
-	connect( server, SIGNAL( disconnected() ), this, SLOT( serverDisconnected() ) );
-	connect( server, SIGNAL( status( const QString&, bool ) ), this, SIGNAL( status( const QString&, bool ) ) );
-	connect( server, SIGNAL( connected() ), this, SLOT( serverConnected() ) );
-	connect( server, SIGNAL( connected() ), this, SIGNAL( connectionEtablished()));
-	connect( server, SIGNAL( disconnected() ), this, SIGNAL( socketClosed() ) );
-	connect( server, SIGNAL(receiveAddress(const RzxHostAddress& )), RzxComputer::localhost(), SLOT(setIP(const RzxHostAddress& )));
-	
-	connect(server, SIGNAL(sysmsg(const QString&)), this, SLOT(sysmsg(const QString&)));
-	connect(server, SIGNAL(fatal(const QString&)), this, SLOT(fatal(const QString&)));
-	connect( this, SIGNAL(needIcon(const RzxHostAddress&)), server, SLOT(getIcon(const RzxHostAddress&)));
-	
+	loadModules("net", "rzxnet*", "getNetwork");	
 	connect(&delayDisplay, SIGNAL(timeout()), this, SLOT(login()));
 
-	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), server, SLOT(sendRefresh()));
 	Rzx::endModuleLoading("Connection lister");
 }
 
 RzxConnectionLister::~RzxConnectionLister()
 {
+	Rzx::beginModuleClosing("Connection lister");
+	closeModules();
 	qDeleteAll(computerByIP);
-	if(server)
-		server->deleteLater();
 	object = NULL;
+	Rzx::endModuleClosing("Connection lister");
+}
+
+///Chargement des builtins
+void RzxConnectionLister::loadBuiltins()
+{
+#ifdef RZX_XNET_BUILTIN
+	installModule(new RzxServerListener);
+#endif
+}
+
+///Installation des modules
+bool RzxConnectionLister::installModule(RzxNetwork *network)
+{
+	if(RzxBaseLoader<RzxNetwork>::installModule(network))
+	{
+		connect(network, SIGNAL(login(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&)),
+				this, SLOT(login(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&)) );
+		connect(network, SIGNAL( logout( const RzxHostAddress& ) ), this, SLOT( logout( const RzxHostAddress& ) ) );
+		connect(network, SIGNAL( receivedIcon( QImage*, const RzxHostAddress& ) ),
+				this, SLOT( receivedIcon( QImage*, const RzxHostAddress& )));
+		connect(network, SIGNAL( disconnected() ), this, SLOT( newDisconnection() ) );
+		connect(network, SIGNAL(status(const QString&)), this, SLOT(statusChanged(const QString&)));
+		connect(network, SIGNAL( connected() ), this, SLOT( newConnection() ) );
+		connect(network, SIGNAL( connected() ), this, SIGNAL( connectionEstablished()));
+		connect(network, SIGNAL( disconnected() ), this, SIGNAL( connectionClosed() ) );
+		connect(network, SIGNAL( receiveAddress(const RzxHostAddress& )), RzxComputer::localhost(), SLOT(setIP(const RzxHostAddress& )));
+	
+		connect(network, SIGNAL(info(const QString&)), this, SLOT(info(const QString&)));
+		connect(network, SIGNAL(warning(const QString&)), this, SLOT(warning(const QString&)));
+		connect(network, SIGNAL(fatal(const QString&)), this, SLOT(fatal(const QString&)));
+		connect( this, SIGNAL(wantIcon(const RzxHostAddress&)), network, SLOT(getIcon(const RzxHostAddress&)));
+
+		connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), network, SLOT(refresh()));
+		return true;
+	}
+	return false;
 }
 
 ///Enregistrement de l'arrivée d'un nouveau client
@@ -96,7 +118,7 @@ void RzxConnectionLister::login()
 {
 	if(displayWaiter.isEmpty()) return;
 	RzxComputer *computer = displayWaiter.takeFirst();
-	connect(computer, SIGNAL( needIcon( const RzxHostAddress& ) ), this, SIGNAL( needIcon( const RzxHostAddress& ) ) );
+	connect(computer, SIGNAL(needIcon( const RzxHostAddress& ) ), this, SIGNAL( needIcon( const RzxHostAddress& ) ) );
 	connect(computer, SIGNAL(wantChat(RzxComputer*)), this, SIGNAL(wantChat(RzxComputer* )));
 	connect(computer, SIGNAL(wantProperties(RzxComputer*)), this, SIGNAL(wantProperties(RzxComputer* )));
 	connect(computer, SIGNAL(wantHistorique(RzxComputer*)), this, SIGNAL(wantHistorique(RzxComputer* )));
@@ -145,47 +167,84 @@ QStringList RzxConnectionLister::getIpList(Rzx::Capabilities features)
 	return ips;
 }
 
-
-void RzxConnectionLister::initConnection()
+/** No descriptions */
+void RzxConnectionLister::newDisconnection()
 {
-	server -> setupConnection();
+	if(connectionNumber > 0)
+		connectionNumber--;
+	else
+		qDebug("Invalid disconnection");
 }
 
 /** No descriptions */
-void RzxConnectionLister::serverDisconnected()
-{
-}
-
-/** No descriptions */
-void RzxConnectionLister::serverConnected()
+void RzxConnectionLister::newConnection()
 {
 	qDeleteAll(computerByIP);
 	computerByIP.clear();
 	computerByLogin.clear();
 	displayWaiter.clear();
+	if(connectionNumber < moduleList().count())
+	{
+		connectionNumber++;
+		initialized = false;
+	}
+	else
+		qDebug("Invalid connection");
 	
-	emit clear();
-	initialized = false;
+	if(connectionNumber == 1)
+		emit clear();
 }
 
-/** No descriptions */
-bool RzxConnectionLister::isSocketClosed() const
+///Indique si tous les serveurs sont déconnectés
+bool RzxConnectionLister::isDisconnected() const
 {
-	return server->isSocketClosed();
+	bool connected = false;
+	foreach(RzxNetwork *network, moduleList())
+		connected |= network->isStarted();
+	return connected;
 }
 
-/** No descriptions */
-void RzxConnectionLister::closeSocket()
+///Indique si on est connecté à un serveur
+bool RzxConnectionLister::isConnected() const
 {
-	disconnect(server, SIGNAL(disconnected()), this, SLOT(serverDisconnected()));
-	if(server) server->close();
+	return !isDisconnected();
+}
+
+///Lance toutes les connexions
+void RzxConnectionLister::start()
+{
+	foreach(RzxNetwork *network, moduleList())
+		network->start();
+}
+
+///Arrête toutes les connexions
+void RzxConnectionLister::stop()
+{
+	foreach(RzxNetwork *network, moduleList())
+	{
+		disconnect(network, SIGNAL(disconnected()), this, SLOT(serverDisconnected()));
+		network->stop();
+	}
+}
+
+///Indique à tous les modules qu'il faut rafraîchir les données
+void RzxConnectionLister::refresh()
+{
+	foreach(RzxNetwork *network, moduleList())
+		network->refresh();
 }
 
 /** No descriptions */
-void RzxConnectionLister::sysmsg( const QString& msg )
+void RzxConnectionLister::info( const QString& msg )
 {
 	// Boîte de dialogue non modale, pour que les comms continuent.
 	RzxMessageBox::information(NULL, tr( "XNet Server message:" ), msg );
+}
+/** No descriptions */
+void RzxConnectionLister::warning( const QString& msg )
+{
+	// Boîte de dialogue non modale, pour que les comms continuent.
+	RzxMessageBox::warning(NULL, tr( "XNet Server message:" ), msg );
 }
 /** No descriptions */
 void RzxConnectionLister::fatal( const QString& msg )
@@ -194,8 +253,14 @@ void RzxConnectionLister::fatal( const QString& msg )
 	RzxMessageBox::critical(NULL, tr( "Error" ) + " - " + tr( "XNet Server message" ), msg, true );
 }
 
+///Emet un changement de status en mettant à jour le flag qvb
+void RzxConnectionLister::statusChanged(const QString& msg)
+{
+	emit status(msg, isConnected());
+}
+
 /** No descriptions */
-void RzxConnectionLister::recvIcon(QImage* icon, const RzxHostAddress& ip)
+void RzxConnectionLister::receivedIcon(QImage* icon, const RzxHostAddress& ip)
 {
 	RzxComputer *computer = getComputerByIP(ip);
 	computer->setIcon(RzxIconCollection::global()->setHashedIcon(computer->stamp(), *icon));

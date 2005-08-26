@@ -14,17 +14,17 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <QLibrary>
+#include <QDir>
+
 #include <RzxApplication>
 
 #include <RzxGlobal>
 #include <RzxConfig>
 #include <RzxComputer>
 #include <RzxIconCollection>
-#include <RzxPlugInLoader>
 #include <RzxConnectionLister>
-#include <RzxServerListener>
 #include <RzxProperty>
-#include <RzxModule>
 
 #ifdef RZX_MAINUI_BUILTIN
 #	include "../mainui/rzxui.h"
@@ -70,14 +70,13 @@ RzxApplication::RzxApplication(int argc, char **argv)
 	if(!loadCore())
 		return;
 	//Chargement des modules de qRezix
-	if(!loadModules())
-		return;
+	Rzx::beginModuleLoading("Modules loading");
+	loadModules("plugins", "rzx*", "getModule");
+	Rzx::endModuleLoading("Modules loading");
 
 	//Lancement de l'interface réseau
 	RzxConnectionLister *lister = RzxConnectionLister::global();
-	lister->initConnection();
-	RzxPlugInLoader::global()->init();
-
+	lister->start();
 	wellInit = true;
 }
 
@@ -104,7 +103,7 @@ bool RzxApplication::loadCore()
 	Rzx::beginModuleLoading("qRezix Core");
 
 	//Chargement des configs
-	RzxConfig::global();
+	new RzxConfig();
 	setWindowIcon(RzxIconCollection::qRezixIcon());
 
 	//Initialisation de l'objet représentant localhost
@@ -134,15 +133,9 @@ bool RzxApplication::loadCore()
  * Des connexions sont envisageables entre les modules ou plutôt entre
  * catégories de modules...
  */
-bool RzxApplication::loadModules()
+void RzxApplication::loadBuiltins()
 {
-	//Chargement des différents modules
-	Rzx::beginModuleLoading("Modules loading");
-
-	//Chargement des plugins
-	RzxPlugInLoader::global();
-
-	Rzx::beginModuleLoading("Built-ins");
+	//Chargmenet des builtins
 #define loadBuiltIn(a) installModule(new a)
 #ifdef RZX_MAINUI_BUILTIN
 	loadBuiltIn(RzxUi);
@@ -157,10 +150,16 @@ bool RzxApplication::loadModules()
 	loadBuiltIn(RzxTrayIcon);
 #endif
 #undef loadBuiltIn
-	Rzx::endModuleLoading("Built-ins");
+}
 
+///Création des liens entre les modules
+/** L'application principale nécessite que les modules aient
+ * plusieurs catégories, en particulier pour la trayicon,
+ * fenêtre principale...
+ */
+void RzxApplication::linkModules()
+{
 	//Installation des intéractions entre les modules
-	Rzx::beginModuleLoading("Modules interactions");
 	if(properties)
 		properties->setParent(mainWindow());
 
@@ -177,11 +176,8 @@ bool RzxApplication::loadModules()
 	if(mainui && !hiders.count())
 		mainui->show();
 
-	Rzx::endModuleLoading("Modules interactions");
-
 	//Fin du chargement des modules
-	Rzx::endModuleLoading("Modules loading");
-	return true;
+	return;
 }
 
 ///Installe le module
@@ -189,32 +185,26 @@ bool RzxApplication::loadModules()
  * 	# vérification du module
  * 	# connexion du module
  */
-void RzxApplication::installModule(RzxModule *mod)
+bool RzxApplication::installModule(RzxModule *mod)
 {
-	if(mod)
+	if(RzxBaseLoader<RzxModule>::installModule(mod))
 	{
-		if(!mod->isInitialised())
-		{
-			delete mod;
-			mod = NULL;
-		}
-		else
-		{
-			connect(mod, SIGNAL(wantQuit()), this, SLOT(quit()));
-			connect(mod, SIGNAL(wantPreferences()), this, SLOT(preferences()));
-			connect(mod, SIGNAL(wantToggleResponder()), this, SLOT(toggleResponder()));
-			connect(mod, SIGNAL(wantActivateResponder()), this, SLOT(activateResponder()));
-			connect(mod, SIGNAL(wantDeactivateResponder()), this, SLOT(deactivateResponder()));
-			QFlags<RzxModule::TypeFlags> type = mod->type();
-			modules << mod;
-			if((type & RzxModule::MOD_GUI) && (type & RzxModule::MOD_MAIN) && !mainui)
-				mainui = mod;
-			if((type & RzxModule::MOD_CHAT) && !chat)
-				chat = mod;
-			if(type & RzxModule::MOD_HIDE)
-				hiders << mod;
-		}
+		connect(mod, SIGNAL(wantQuit()), this, SLOT(quit()));
+		connect(mod, SIGNAL(wantPreferences()), this, SLOT(preferences()));
+		connect(mod, SIGNAL(wantToggleResponder()), this, SLOT(toggleResponder()));
+		connect(mod, SIGNAL(wantActivateResponder()), this, SLOT(activateResponder()));
+		connect(mod, SIGNAL(wantDeactivateResponder()), this, SLOT(deactivateResponder()));
+		connect(mod, SIGNAL(haveProperties(RzxComputer*, bool*)), this, SIGNAL(haveProperties(RzxComputer*, bool*)));
+		QFlags<RzxModule::TypeFlags> type = mod->type();
+		if((type & RzxModule::MOD_GUI) && (type & RzxModule::MOD_MAIN) && !mainui)
+			mainui = mod;
+		if((type & RzxModule::MOD_CHAT) && !chat)
+			chat = mod;
+		if(type & RzxModule::MOD_HIDE)
+			hiders << mod;
+		return true;
 	}
+	return false;
 }
 
 ///Sauvegarde des données au moment de la fermeture
@@ -225,23 +215,22 @@ void RzxApplication::installModule(RzxModule *mod)
 void RzxApplication::saveSettings()
 {
 	Rzx::beginModuleClosing("qRezix");
+
 	Rzx::beginModuleClosing("Modules");
+	closeModules();
+	Rzx::endModuleClosing("Modules");
 
-	Rzx::beginModuleClosing("Built-ins");
-	qDeleteAll(modules);
-	Rzx::endModuleClosing("Built-ins");
-
-	delete RzxPlugInLoader::global();
-	Rzx::endModuleClosing("Interfaces");
 	Rzx::beginModuleClosing("qRezix core");
-	qDebug("Closing connection with server");
-	if(!RzxConnectionLister::global() -> isSocketClosed())
-	{
-		RzxConnectionLister::global() -> closeSocket();
-		RzxConnectionLister::global() -> deleteLater();
-	}
-	qDebug("Closing configuration center");
+	if(properties)
+		delete properties;
+
+	//Fermeture des connexions
+	RzxConnectionLister::global()->stop();
+	delete RzxConnectionLister::global();
+
+	//Fermeture et enregistrement de la configuration
 	delete RzxConfig::global();
+
 	Rzx::endModuleClosing("qRezix core");
 	Rzx::endModuleClosing("qRezix");
 	qDebug("Bye Bye\n");
@@ -269,7 +258,7 @@ void RzxApplication::preferences()
 void RzxApplication::toggleResponder()
 {
 	RzxConfig::setAutoResponder(!RzxComputer::localhost()->isOnResponder());
-	RzxServerListener::object()->sendRefresh();
+	RzxConnectionLister::global()->refresh();
 }
 
 ///Active le répondeur
@@ -277,7 +266,7 @@ void RzxApplication::activateResponder()
 {
 	if(RzxComputer::localhost()->isOnResponder()) return;
 	RzxConfig::setAutoResponder(true);
-	RzxServerListener::object()->sendRefresh();
+	RzxConnectionLister::global()->refresh();
 }
 
 ///Désactive le répondeur
@@ -285,7 +274,7 @@ void RzxApplication::deactivateResponder()
 {
 	if(!RzxComputer::localhost()->isOnResponder()) return;
 	RzxConfig::setAutoResponder(false);
-	RzxServerListener::object()->sendRefresh();
+	RzxConnectionLister::global()->refresh();
 }
 
 ///Retourne un pointeur vers la fenêtre principale
@@ -303,5 +292,5 @@ QWidget *RzxApplication::mainWindow()
 ///Retourne la liste des modules chargés
 QList<RzxModule*> RzxApplication::modulesList()
 {
-	return instance()->modules;
+	return instance()->moduleList();
 }

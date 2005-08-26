@@ -20,6 +20,11 @@
 
 class QWidget;
 
+///Surcharge de certaines fonctions de QMessageBox
+/** Le but est de fournir une API simple qui respecte les règles internes
+ * de qRezix en permettant d'afficher des messages sans entraîner des
+ * actions dommageables pour l'exécution du programme.
+ */
 namespace RzxMessageBox
 {
 	int information( QWidget *parent, const QString& caption,

@@ -23,7 +23,7 @@
 #include <QMetaType>
 
 #include <RzxGlobal>
-
+#include <RzxConfig>
 #include <RzxHostAddress>
 
 /**
@@ -41,8 +41,8 @@
 class RzxComputer : public QObject  {
 	Q_OBJECT
 	Q_PROPERTY(QString name READ name WRITE setName)
-	Q_PROPERTY(QFlags<ServerFlags> servers READ servers WRITE setServers)
-	Q_PROPERTY(QFlags<ServerFlags> serverFlags READ serverFlags WRITE setServerFlags)
+	Q_PROPERTY(Servers servers READ servers WRITE setServers)
+	Q_PROPERTY(Servers serverFlags READ serverFlags WRITE setServerFlags)
 	Q_PROPERTY(QString remarque READ remarque WRITE setRemarque)
 	Q_PROPERTY(QPixmap icon READ icon WRITE setIcon)
 	Q_PROPERTY(RzxHostAddress ip READ ip WRITE setIP)
@@ -52,7 +52,7 @@ class RzxComputer : public QObject  {
 	//Q_PROPERTY(Rzx::Promal promo READ promo WRITE setPromo)
 	//Q_PROPERTY(Rzx::ConnectionState state READ state WRITE setState)
 	Q_ENUMS(ServerFlags)
-	Q_FLAGS(Server)
+	Q_FLAGS(Servers)
 	
 #ifndef Q_OS_MAC
 	struct options_t
@@ -108,12 +108,9 @@ public:
 		SERVER_NEWS = 16
 	};
 
-	Q_DECLARE_FLAGS(Server, ServerFlags)
+	Q_DECLARE_FLAGS(Servers, ServerFlags)
 
 private:
-	///Chaînes de caractères représentant les différents sous-réseau
-	static const char *rezalText[Rzx::RZL_NUMBER][2];
-
 	///Chaînes de caractères des promos
 	static const char *promalText[4];
 
@@ -147,8 +144,8 @@ public slots:
 	void setPromo(Rzx::Promal promo);
 	void setState(Rzx::ConnectionState);
 	void setState(bool);
-	void setServers(QFlags<ServerFlags>);
-	void setServerFlags(QFlags<ServerFlags>);
+	void setServers(Servers);
+	void setServerFlags(Servers);
 	void setRemarque(const QString& text);
 	void setIcon(const QPixmap& image);
 	void setIP(const RzxHostAddress&);
@@ -167,8 +164,8 @@ public:
 	Rzx::ConnectionState state() const;
 	Rzx::SysEx sysEx() const;
 	QString sysExText() const;
-	QFlags<ServerFlags> servers() const;
-	QFlags<ServerFlags> serverFlags() const;
+	Servers servers() const;
+	Servers serverFlags() const;
 	bool hasSambaServer() const;
 	bool hasFtpServer() const;
 	bool hasHttpServer() const;
@@ -179,16 +176,13 @@ public:
 	bool can(Rzx::Capabilities) const;
 
 	const RzxHostAddress &ip() const;
-	QString rezal(bool shortname = true) const;
-	Rzx::RezalId rezalId() const;
-	static QString rezalFromId(Rzx::RezalId, bool shortname = true);
+	QString rezalName(bool shortname = true) const;
+	Rzx::RezalId rezal() const;
 	bool isSameGateway(RzxComputer *computer = 0) const;
 	bool isSameGateway(const RzxComputer&) const;
 	bool isLocalhost() const;
 
 	unsigned long flags() const;
-
-	QString tooltipText() const;
 
 	bool isFavorite() const;
 	bool isIgnored() const;
@@ -200,7 +194,7 @@ public:
 	void runScanFtp();
 	void stopScanFtp();
 
-	static QFlags<RzxComputer::ServerFlags> toServerFlags(int);
+	static Servers toServerFlags(int);
 
 signals: // Signals
 	void update(RzxComputer*);
@@ -237,7 +231,7 @@ public slots:
 
 protected:
 	QString m_name;
-	QFlags<ServerFlags> m_serverFlags;
+	Servers m_serverFlags;
 	options_t m_options;
 	version_t m_version;
 	RzxHostAddress m_ip;
@@ -271,20 +265,9 @@ inline void RzxComputer::buildLocalhost()
 
 ///Retourne la version texte du nom du sous-réseau
 /** Ne fait que réaliser la conversion en chaîne de caractères du RezalId */
-inline QString RzxComputer::rezal(bool shortname) const
-{ return tr(rezalText[rezalId()][shortname?1:0]); }
+inline QString RzxComputer::rezalName(bool shortname) const
+{ return m_ip.rezalName(shortname); }
 
-///Retourne le texte associé au rezalId
-/** Uniquement fournit dans le but de simplifier la gestion par d'autre classes... à utiliser avec parcimonie */
-inline QString RzxComputer::rezalFromId(Rzx::RezalId rezalId, bool shortname)
-{
-	if(rezalId < 0 || rezalId >= Rzx::RZL_NUMBER)
-		rezalId = Rzx::RZL_WORLD;
-	return tr(rezalText[rezalId][shortname?1:0]);
-}
-
-#include "rzxconfig.h"
-#ifdef RZXCONFIG_DEFINED_H
 ///Indique si l'objet est dans les favoris
 inline bool RzxComputer::isFavorite() const
 { return RzxConfig::global()->isFavorite(*this); }
@@ -293,7 +276,6 @@ inline bool RzxComputer::isFavorite() const
 inline bool RzxComputer::isIgnored() const
 { return RzxConfig::global()->isBan(*this); }
 
-#endif 
 ///Indique si la machine est sur répondeur
 /** Permet de traduire simplement l'état 'sur répondeur' qui correspond à 2 Rzx::ConnectionState différents
  * et donc qui plus casse pied à tester que here et disconnected
@@ -304,10 +286,10 @@ inline bool RzxComputer::isOnResponder() const
 	return m_state == Rzx::STATE_AWAY || m_state == Rzx::STATE_REFUSE;
 }
 
-///Conversion d'un entier de QFlags<ServerFlags>
-inline QFlags<RzxComputer::ServerFlags> RzxComputer::toServerFlags(int rawServers)
+///Conversion d'un entier en QFlags<ServerFlags> == Servers
+inline RzxComputer::Servers RzxComputer::toServerFlags(int rawServers)
 {
-	QFlags<RzxComputer::ServerFlags> servers;
+	Servers servers;
 	if(rawServers & RzxComputer::SERVER_SAMBA) servers |= RzxComputer::SERVER_SAMBA;
 	if(rawServers & RzxComputer::SERVER_FTP) servers |= RzxComputer::SERVER_FTP;
 	if(rawServers & RzxComputer::SERVER_HTTP) servers |= RzxComputer::SERVER_HTTP;

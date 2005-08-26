@@ -38,14 +38,11 @@ email                : benoit.casoetto@m4x.org
 #include <RzxConfig>
 #include <RzxComputer>
 #include <RzxServerListener>
-#include <RzxPlugInLoader>
 #include <RzxIconCollection>
 #include <RzxApplication>
 #include <RzxModule>
 
-#include "../tray/rzxtrayicon.h"
-
-RzxProperty *RzxProperty::object = NULL;
+RZX_GLOBAL_INIT(RzxProperty)
 
 RzxProperty::RzxProperty(QWidget *parent)
 	:QDialog(parent)
@@ -61,7 +58,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 	connect(btnAboutQt, SIGNAL(clicked()), this, SLOT(aboutQt()));
 	connect( lbMenu, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(changePage(QListWidgetItem*, QListWidgetItem*)));
 
-	connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
+	//connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
 	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTheme()));
 	connect(cmbMenuIcons, SIGNAL(activated(int)), this,SLOT(lockCmbMenuText(int)));
 
@@ -112,7 +109,10 @@ RzxProperty::RzxProperty(QWidget *parent)
 		QList<QWidget*> props = module->propWidgets();
 		QStringList names = module->propWidgetsName();
 		foreach(QWidget *widget, props)
-			prefStack->addWidget(widget);
+		{
+			if(widget)
+				prefStack->addWidget(widget);
+		}
 		foreach(QString name, names)
 		{
 			QListWidgetItem *item = new QListWidgetItem(lbMenu);
@@ -135,7 +135,10 @@ RzxProperty::~RzxProperty()
 {
 	QList<RzxModule*> modules = RzxApplication::modulesList();
 	foreach(RzxModule *module, modules)
-		module->propClose();
+	{
+		if(module)
+			module->propClose();
+	}
 	object = NULL;
 }
 
@@ -150,11 +153,10 @@ void RzxProperty::changeTheme()
 #define setIcon(icon, name) lbMenu->item(name)->setIcon(icon)
 	QPixmap pixmap; //Pour le newItem
 	setIcon(RzxIconCollection::getIcon(Rzx::ICON_PROPRIETES), 0);
-	setIcon(RzxIconCollection::getIcon(Rzx::ICON_LAYOUT), 1);
+	setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES), 1);
 	setIcon(RzxIconCollection::getIcon(Rzx::ICON_NETWORK), 2);
-	setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES), 3);
 
-	int i = 4;
+	int i = 3;
 	QList<RzxModule*> modules = RzxApplication::modulesList();
 	foreach(RzxModule *module, modules)
 	{
@@ -165,10 +167,14 @@ void RzxProperty::changeTheme()
 #undef setIcon
 }
 
+///La page doit changer, on met à jour le titre
 void RzxProperty::changePage(QListWidgetItem *current, QListWidgetItem *)
 {
 	if(current)
+	{
 		lblTitle->setText("<h2>"+current->text()+"</h2>");
+		lblTitleIcon->setPixmap(current->icon().pixmap(22));
+	}
 }
 
 ///Remplissage de la boîte des langues
@@ -189,18 +195,14 @@ void RzxProperty::initThemeCombo() {
 /** No descriptions */
 void RzxProperty::initDlg()
 {
-	QList<RzxModule*> modules = RzxApplication::modulesList();
-	foreach(RzxModule *module, modules)
-		module->propInit();
-
 	RzxConfig * config = RzxConfig::global();
 
 	// iteration sur l'ensemble des objets QLineEdit
 	QList<QLineEdit*> l = findChildren<QLineEdit*>(QRegExp("txt.*"));
 	foreach(QLineEdit *edit, l)
-		edit->setText(config->readEntry(edit->objectName(), ""));
+		edit->setText(config->value(edit->objectName(), "").toString());
 	
-	btnChangePass->setEnabled(!RzxServerListener::object()->isSocketClosed());
+//	btnChangePass->setEnabled(!RzxServerListener::object()->isSocketClosed());
 	
 	initThemeCombo();
 	initLangCombo();
@@ -209,7 +211,6 @@ void RzxProperty::initDlg()
 	remarque->setText( RzxComputer::localhost()->remarque() );
 
 	server_name->setText( RzxConfig::serverName() );
-	chat_port->setValue( RzxConfig::chatPort() );
 	server_port->setValue( RzxConfig::serverPort() );
 	reconnection->setValue( RzxConfig::reconnection() / 1000 );
 	ping_timeout->setValue( RzxConfig::pingTimeout() / 1000 );
@@ -227,20 +228,6 @@ void RzxProperty::initDlg()
 	CbHTTP->setChecked(servers & RzxComputer::SERVER_HTTP);
 	CbNews->setChecked(servers & RzxComputer::SERVER_NEWS);
 	
-	int tooltip = RzxConfig::tooltip();
-	cbTooltips->setChecked(tooltip & RzxConfig::Enable);
-	cbTooltipFtp->setChecked(tooltip & RzxConfig::Ftp);
-	cbTooltipHttp->setChecked(tooltip & RzxConfig::Http);
-	cbTooltipNews->setChecked(tooltip & RzxConfig::News);
-	cbTooltipSamba->setChecked(tooltip & RzxConfig::Samba);
-	cbTooltipPromo->setChecked(tooltip & RzxConfig::Promo);
-	cbTooltipOS->setChecked(tooltip & RzxConfig::OS);
-	cbTooltipVersion->setChecked(tooltip & RzxConfig::Client);
-	cbTooltipIP->setChecked(tooltip & RzxConfig::IP);
-	cbTooltipResal->setChecked(tooltip & RzxConfig::Resal);
-	cbTooltipFeatures->setChecked(tooltip & RzxConfig::Features);
-	cbTooltipProperties->setChecked(tooltip & RzxConfig::Properties);
-
 	clientFtp ->clear();
 	clientHttp ->clear();
 	clientNews ->clear();
@@ -268,6 +255,8 @@ void RzxProperty::initDlg()
 	// commandes a executer sous nux
 	clientFtp->addItem("gftp");
 	clientFtp->addItem("lftp");
+	clientFtp->addItem("konqueror");
+	clientFtp->addItem("firefox");
 
 	clientHttp->addItem("galeon");
 	clientHttp->addItem("konqueror");
@@ -278,6 +267,7 @@ void RzxProperty::initDlg()
 	clientHttp->addItem("opera");
 
 	clientNews->addItem("knode");
+	clientNews->addItem("thunderbird");
 #endif //MAC
 #endif //WIN32
 
@@ -285,21 +275,22 @@ void RzxProperty::initDlg()
 	if(!cb->findText(cmd)) cb->addItem(cmd); \
 	cb->setCurrentIndex(cb->findText(cmd))
 
-	setValue(clientFtp, RzxConfig::global()->ftpCmd());
-	setValue(clientHttp, RzxConfig::global()->httpCmd());
-	setValue(clientNews, RzxConfig::global()->newsCmd());
+	setValue(clientFtp, RzxConfig::ftpCmd());
+	setValue(clientHttp, RzxConfig::httpCmd());
+	setValue(clientNews, RzxConfig::newsCmd());
 //	clientFtp->setItemText(RzxConfig::global()->ftpCmd());
 //	clientHttp->setItemText(RzxConfig::global()->httpCmd());
 //	clientNews->setItemText(RzxConfig::global()->newsCmd());
 #undef setValue
-	txtWorkDir->setText( RzxConfig::global()->FTPPath() );
+	txtWorkDir->setText( RzxConfig::ftpPath() );
 	
 	pxmIcon->setPixmap(RzxIconCollection::global()->localhostPixmap());
 
-	cmbSport->setCurrentIndex( RzxConfig::global() -> numSport() );
-	
-/*	if(((RzxApplication*)RzxApplication::instance())->isInitialised())
-		RzxPlugInLoader::global()->makePropListView(lvPlugInList, btnPlugInProp, btnPlugInReload);*/
+	cmbSport->setCurrentIndex( RzxConfig::numSport() );
+
+	QList<RzxModule*> modules = RzxApplication::modulesList();
+	foreach(RzxModule *module, modules)
+		module->propInit();
 }
 
 ///Met à jour l'objet représentant localhost
@@ -307,7 +298,6 @@ bool RzxProperty::updateLocalHost()
 {
 	bool refresh = (RzxComputer::localhost()->name().toLower() != hostname->text().toLower());
 	RzxComputer::localhost()->setName(hostname->text());
-	if(refresh) RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_DNSNAME, NULL);
 	
 	refresh = refresh || RzxComputer::localhost()->remarque() != remarque->text();
 	RzxComputer::localhost() -> setRemarque(remarque -> text());
@@ -318,7 +308,7 @@ bool RzxProperty::updateLocalHost()
 	
 	refresh = refresh || (RzxConfig::refuseWhenAway() ^ cbRefuseAway->isChecked());
 
-	QFlags<RzxComputer::ServerFlags> servers;
+	RzxComputer::Servers servers;
 	if ( CbSamba->isChecked() )
 		servers |= RzxComputer::SERVER_SAMBA;
 	if ( CbFTP->isChecked() )
@@ -328,16 +318,7 @@ bool RzxProperty::updateLocalHost()
 	if ( CbNews->isChecked() )
 		servers |= RzxComputer::SERVER_NEWS;
 
-	QFlags<RzxComputer::ServerFlags> oldservers = RzxComputer::localhost()->serverFlags();
-	if((servers & RzxComputer::SERVER_SAMBA) ^ (oldservers & RzxComputer::SERVER_SAMBA))
-		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_DISPSMB, NULL);
-	if((servers & RzxComputer::SERVER_NEWS) ^ (oldservers & RzxComputer::SERVER_NEWS))
-		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_DISPNEWS, NULL);
-	if((servers & RzxComputer::SERVER_HTTP) ^ (oldservers & RzxComputer::SERVER_HTTP))
-		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_DISPHTTP, NULL);
-	if((servers & RzxComputer::SERVER_FTP) ^ (oldservers & RzxComputer::SERVER_FTP))
-		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_DISPFTP, NULL);
-	
+	const RzxComputer::Servers oldservers = RzxComputer::localhost()->serverFlags();
 	RzxComputer::localhost()->setServerFlags(servers);
 	return refresh || servers != oldservers;
 }
@@ -371,7 +352,7 @@ bool RzxProperty::miseAJour()
 	// iteration sur l'ensemble des objets QCheckBox
 	QList<QLineEdit*> l = findChildren<QLineEdit*>(QRegExp("txt.*"));
 	foreach(QLineEdit *edit, l)
-		cfgObject->writeEntry(edit->objectName(), edit->text());
+		cfgObject->setValue(edit->objectName(), edit->text());
 	
 //	bool iconSizeChanged = (cfgObject->computerIconSize() != cmbIconSize->currentIndex() || cfgObject->computerIconHighlight() != cbHighlight->isChecked());
 	bool themeChanged = RzxConfig::iconTheme() != cmbIconTheme->currentText();
@@ -380,89 +361,64 @@ bool RzxProperty::miseAJour()
 	//localHostUpdated = true ==> besoin de rafraichir le serveur
 	bool localHostUpdated = updateLocalHost();
 	
-	cfgObject -> writeEntry( "dnsname", RzxComputer::localhost()->name() );
-	cfgObject -> writeEntry( "comment", RzxComputer::localhost()->remarque() );
-	cfgObject -> writeEntry( "promo", RzxComputer::localhost()->promo() );
-	cfgObject -> writeEntry( "repondeur", RzxComputer::localhost()->state() );
-	cfgObject -> writeEntry( "servers", RzxComputer::localhost()->serverFlags() );
+	RzxConfig::setDnsName(RzxComputer::localhost()->name() );
+	RzxConfig::setRemarque(RzxComputer::localhost()->remarque());
+	RzxConfig::setPromo(RzxComputer::localhost()->promo() );
+	RzxConfig::setRepondeur(RzxComputer::localhost()->state() );
+	RzxConfig::setServers(RzxComputer::localhost()->serverFlags());
 
-	cfgObject -> writeEntry( "txtBeepCmd", txtBeepCmd->text());
-	if(server_name->text() != cfgObject->serverName() || server_port->value() != cfgObject->serverPort())
+	RzxConfig::setBeepCmd(txtBeepCmd->text());
+	if(server_name->text() != RzxConfig::serverName() || server_port->value() != RzxConfig::serverPort())
 	{
-		cfgObject -> writeEntry( "server_name", server_name->text() );
-		cfgObject -> writeEntry( "server_port", server_port->value() );
-		RzxServerListener::object()->sendPart();
-		RzxServerListener::object()->setupConnection();
+		RzxConfig::setServerName(server_name->text() );
+		RzxConfig::setServerPort(server_port->value() );
+//		RzxServerListener::object()->sendPart();
+//		RzxServerListener::object()->setupConnection();
 	}
 	else
 	{
-		cfgObject -> writeEntry( "server_name", server_name->text() );
-		cfgObject -> writeEntry( "server_port", server_port->value() );
+		RzxConfig::setServerName(server_name->text() );
+		RzxConfig::setServerPort(server_port->value() );
 	}
 
-	cfgObject -> writeEntry( "chat_port", chat_port->value() );
-	cfgObject -> writeEntry( "reconnection", reconnection->value() * 1000 );
-	cfgObject -> writeEntry( "ping_timeout", ping_timeout->value() * 1000 );
+	RzxConfig::setReconnection(reconnection->value() * 1000 );
+	RzxConfig::setPingTimeout(ping_timeout->value() * 1000 );
 
-	cfgObject -> httpCmd( clientHttp -> currentText() );
-	cfgObject -> ftpCmd( clientFtp -> currentText() );
-	cfgObject -> newsCmd( clientNews -> currentText() );
+	RzxConfig::setHttpCmd( clientHttp -> currentText() );
+	RzxConfig::setFtpCmd( clientFtp -> currentText() );
+	RzxConfig::setNewsCmd( clientNews -> currentText() );
 
-	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_WORKSPACE, NULL);
-	cfgObject -> writeEntry( "FTPPath", txtWorkDir->text() );
-	cfgObject -> writeEntry( "txtSport", cmbSport->currentText() );
-	cfgObject -> writeEntry( "numSport", cmbSport->currentIndex());
-	cfgObject -> writeEntry( "language", languageBox->currentText() );
+	RzxConfig::setFtpPath(txtWorkDir->text() );
+	RzxConfig::setPropSport(cmbSport->currentText() );
+	RzxConfig::setNumSport(cmbSport->currentIndex());
 	
-	cfgObject -> writeEntry( "refuseAway", cbRefuseAway->isChecked());
+	RzxConfig::setRefuseWhenAway(cbRefuseAway->isChecked());
 	RzxConfig::setAutoResponder(RzxConfig::autoResponder());
 
 	if(RzxConfig::menuTextPosition() != cmbMenuText->currentIndex() || RzxConfig::menuIconSize() != cmbMenuIcons->currentIndex())
 	{
-		cfgObject->writeEntry("menuTextPos", cmbMenuText->currentIndex());
-		cfgObject->writeEntry("menuIconSize", cmbMenuIcons->currentIndex());
-
-		emit cfgObject->iconFormatChange();
-		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_ICONSIZE, NULL);
-		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_ICONTEXT, NULL);
+		RzxConfig::setMenuTextPosition(cmbMenuText->currentIndex());
+		RzxConfig::setMenuIconSize(cmbMenuIcons->currentIndex());
+		RzxConfig::emitIconFormatChanged();
 	}
 	
-	unsigned int tooltip = 0;
-	if(cbTooltips->isChecked()) tooltip += RzxConfig::Enable;
-	if(cbTooltipFtp->isChecked()) tooltip += RzxConfig::Ftp;
-	if(cbTooltipHttp->isChecked()) tooltip += RzxConfig::Http;
-	if(cbTooltipNews->isChecked()) tooltip += RzxConfig::News;
-	if(cbTooltipSamba->isChecked()) tooltip += RzxConfig::Samba;
-	if(cbTooltipPromo->isChecked()) tooltip += RzxConfig::Promo;
-	if(cbTooltipOS->isChecked()) tooltip += RzxConfig::OS;
-	if(cbTooltipVersion->isChecked()) tooltip += RzxConfig::Client;
-	if(cbTooltipIP->isChecked()) tooltip += RzxConfig::IP;
-	if(cbTooltipResal->isChecked()) tooltip += RzxConfig::Resal;
-	if(cbTooltipFeatures->isChecked()) tooltip += RzxConfig::Features;
-	if(cbTooltipProperties->isChecked()) tooltip += RzxConfig::Properties;
-	cfgObject->writeEntry( "tooltip", tooltip);
-
 	const QPixmap *localhostIcon = pxmIcon->pixmap();
 	if(RzxIconCollection::global()->localhostPixmap().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
 	{
 		localHostUpdated = true;
 		RzxIconCollection::global()->setLocalhostPixmap(*localhostIcon);
-		if(RzxApplication::instance()->isInitialised() && !RzxServerListener::object() -> isSocketClosed())
-			RzxServerListener::object() -> sendIcon(localhostIcon->toImage());
+/*		if(RzxApplication::instance()->isInitialised() && !RzxServerListener::object() -> isSocketClosed())
+			RzxServerListener::object() -> sendIcon(localhostIcon->toImage());*/
 	}
 
-	if(localHostUpdated)
-		RzxServerListener::object()->sendRefresh();
+/*	if(localHostUpdated)
+		RzxServerListener::object()->sendRefresh();*/
 
 	if(themeChanged)
 	{
 		RzxIconCollection::global()->setTheme(cmbIconTheme->currentText());
-		cfgObject->writeEntry("theme", cmbIconTheme->currentText());
-		RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_THEME, NULL);
+		RzxConfig::setIconTheme(cmbIconTheme->currentText());
 	}
-	
-	/* Mise à jour de l'état des plugins */
-	//RzxPlugInLoader::global()->validPropListView();
 	
 	/* Sauvegarde du fichier du conf */
 	RzxConfig::global()->flush();
@@ -539,9 +495,9 @@ void RzxProperty::chooseIcon() {
 
 void RzxProperty::launchDirSelectDialog() {
 	QString temp;
-	if ( !RzxConfig::global()->FTPPath().isNull() )
+	if ( !RzxConfig::global()->ftpPath().isNull() )
 #ifdef WITH_KDE
-		temp = KFileDialog::getExistingDirectory ( RzxConfig::global() ->FTPPath()
+		temp = KFileDialog::getExistingDirectory ( RzxConfig::global() ->ftpPath()
 		        , 0, tr("Choose default ftp folder") );
 	else
 		temp = KFileDialog::getExistingDirectory ( ".", 
@@ -549,7 +505,7 @@ void RzxProperty::launchDirSelectDialog() {
 #else
 
 		temp = QFileDialog::getExistingDirectory(this, tr("Choose default ftp folder"),
-					 RzxConfig::global()->FTPPath()); 
+					 RzxConfig::global()->ftpPath()); 
 	else
 		temp = QFileDialog::getExistingDirectory(this, tr("Choose default ftp folder"), ".");
 #endif

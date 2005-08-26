@@ -24,6 +24,8 @@
 #include QREZIX_ICON
 #include QREZIX_AWAY_ICON
 
+RZX_GLOBAL_INIT(RzxIconCollection)
+
 ///Données d'information des icônes
 /** Chaque icône est représentée par un IconData qui contient l'identifiant,
  * le nom du fichier correspondant et un flag indiquant si l'icône est ou non
@@ -89,8 +91,6 @@ const RzxIconCollection::IconData RzxIconCollection::data[] = {
 	{ Rzx::ICON_OS6_LARGE, "os_6_large", true }
 };
 
-RzxIconCollection *RzxIconCollection::object = NULL;
-
 ///Construction de la collection d'icône
 RzxIconCollection::RzxIconCollection()
 {
@@ -101,12 +101,10 @@ RzxIconCollection::RzxIconCollection()
 
 	//Recherche des thèmes installés
 	qDebug("Searching icon themes...");
-	QList<QDir> path;
-	path << RzxConfig::userDir() << RzxConfig::systemDir() << RzxConfig::libDir();
+	QList<QDir> path = RzxConfig::dirList(RzxConfig::AllDirsExceptTemp, "themes");
 
 	foreach(QDir dir, path)
 	{
-		dir.cd("themes");
 		QStringList subDirs = dir.entryList(QDir::Dirs, QDir::Name | QDir::IgnoreCase);
 		foreach(QString subDir, subDirs)
 		{

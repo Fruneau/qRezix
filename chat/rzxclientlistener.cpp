@@ -24,8 +24,7 @@
 #include "rzxchatsocket.h"
 #include "rzxchat.h"
 
-
-RzxClientListener * RzxClientListener::object = 0;
+RZX_GLOBAL_INIT(RzxClientListener)
 
 RzxClientListener::RzxClientListener()
 { }

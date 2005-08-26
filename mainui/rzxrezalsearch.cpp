@@ -19,11 +19,15 @@
 #include "rzxrezalsearch.h"
 
 #include "rzxrezalmodel.h"
+#include "qrezix.h"
 
 ///Construction
-RzxRezalSearch::RzxRezalSearch(QAbstractItemView *view, int timeout)
+RzxRezalSearch::RzxRezalSearch(QAbstractItemView *view, int timeout, bool connected)
 	:QObject(view), timeLimit(timeout)
-{ }
+{
+	if(connected)
+		connect(this, SIGNAL(searchPatternChanged(const QString&)), QRezix::global(), SLOT(setSearchPattern(const QString&)));
+}
 
 ///Destruction... rien à faire
 RzxRezalSearch::~RzxRezalSearch()

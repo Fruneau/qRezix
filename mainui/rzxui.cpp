@@ -23,18 +23,17 @@
 
 #include "rzxui.h"
 
-#include "qrezix.h"
-#include "rzxrezalmodel.h"
-#include "ui_rzxmainuipropui.h"
-
-#ifdef RZX_MAINUI_BUILTIN
-#	define RZX_BUILTIN
-#else
-#	define RZX_PLUGIN
-#endif
-
 ///Exporte le module
 RZX_MODULE_EXPORT(RzxUi)
+
+#include "qrezix.h"
+#include "rzxrezalmodel.h"
+#include "rzxrezalview.h"
+#include "rzxmainuiconfig.h"
+#include "ui_rzxmainuipropui.h"
+
+///Initialise la configuration
+RZX_CONFIG_INIT(RzxMainUIConfig)
 
 /** \reimp */
 RzxUi::RzxUi()
@@ -44,10 +43,12 @@ RzxUi::RzxUi()
 	setType(MOD_MAINUI);
 	ui = NULL;
 	propWidget = NULL;
+	new RzxMainUIConfig(this);
 	qrezix = QRezix::global();
 	connect(qrezix, SIGNAL(wantQuit()), this, SIGNAL(wantQuit()));
 	connect(qrezix, SIGNAL(wantPreferences()), this, SIGNAL(wantPreferences()));
 	connect(qrezix, SIGNAL(wantToggleResponder()), this, SIGNAL(wantToggleResponder()));
+	setIcon(Rzx::ICON_SYSTRAYHERE);
 	endLoading();
 }
 
@@ -63,12 +64,6 @@ RzxUi::~RzxUi()
 bool RzxUi::isInitialised() const
 {
 	return qrezix->isInitialised();
-}
-
-/** \reimp */
-QIcon RzxUi::icon() const
-{
-	return RzxIconCollection::getIcon(Rzx::ICON_SYSTRAYHERE);
 }
 
 /** \reimp */
@@ -104,6 +99,8 @@ QList<QWidget*> RzxUi::propWidgets()
 	{
 		propWidget = new QWidget;
 		ui->setupUi(propWidget);
+		ui->rezalList->setIconSize(QSize(16,16));
+		ui->rezalList->setHeaderLabels(QStringList() << tr("Name") << tr("Version") << tr("Description"));
 	}
 	return QList<QWidget*>() << propWidget;
 }
@@ -117,11 +114,11 @@ QStringList RzxUi::propWidgetsName()
 /** \reimp */
 void RzxUi::propInit()
 {
-	ui->cmbIconSize->setCurrentIndex( RzxConfig::computerIconSize() );
-	ui->cmdDoubleClic->setCurrentIndex( RzxConfig::doubleClicRole() );
-	ui->cmbDefaultTab -> setCurrentIndex(RzxConfig::defaultTab());
+	ui->cmbIconSize->setCurrentIndex( RzxMainUIConfig::computerIconSize() );
+	ui->cmdDoubleClic->setCurrentIndex( RzxMainUIConfig::doubleClicRole() );
+	ui->cmbDefaultTab -> setCurrentIndex(RzxMainUIConfig::defaultTab());
 
-	int colonnes = RzxConfig::colonnes();
+	uint colonnes = RzxMainUIConfig::colonnes();
 	ui->cbcNom ->setChecked( colonnes & (1<<RzxRezalModel::ColNom) );
 	ui->cbcRemarque->setChecked( colonnes & (1<<RzxRezalModel::ColRemarque) );
 	ui->cbcSamba ->setChecked( colonnes & (1<<RzxRezalModel::ColSamba) );
@@ -134,10 +131,35 @@ void RzxUi::propInit()
 	ui->cbcResal ->setChecked( colonnes & (1<<RzxRezalModel::ColRezal) );
 	ui->cbcIP ->setChecked( colonnes & (1<<RzxRezalModel::ColIP) );
 	ui->cbcClient ->setChecked( colonnes & (1<<RzxRezalModel::ColClient) );
-	ui->cbQuit->setChecked(RzxConfig::showQuit());
-	ui->cbHighlight->setChecked(RzxConfig::computerIconHighlight());
+	ui->cbQuit->setChecked(RzxMainUIConfig::showQuit());
+	ui->cbHighlight->setChecked(RzxMainUIConfig::computerIconHighlight());
 
-	ui->cbSearch->setChecked( RzxConfig::global() ->useSearch() );
+	uint tooltip = RzxMainUIConfig::tooltip();
+	ui->cbTooltips->setChecked(tooltip & RzxRezalModel::TipEnable);
+	ui->cbTooltipFtp->setChecked(tooltip & RzxRezalModel::TipFtp);
+	ui->cbTooltipHttp->setChecked(tooltip & RzxRezalModel::TipHttp);
+	ui->cbTooltipNews->setChecked(tooltip & RzxRezalModel::TipNews);
+	ui->cbTooltipSamba->setChecked(tooltip & RzxRezalModel::TipSamba);
+	ui->cbTooltipPromo->setChecked(tooltip & RzxRezalModel::TipPromo);
+	ui->cbTooltipOS->setChecked(tooltip & RzxRezalModel::TipOS);
+	ui->cbTooltipVersion->setChecked(tooltip & RzxRezalModel::TipClient);
+	ui->cbTooltipIP->setChecked(tooltip & RzxRezalModel::TipIP);
+	ui->cbTooltipResal->setChecked(tooltip & RzxRezalModel::TipResal);
+	ui->cbTooltipFeatures->setChecked(tooltip & RzxRezalModel::TipFeatures);
+	ui->cbTooltipProperties->setChecked(tooltip & RzxRezalModel::TipProperties);
+
+	ui->cbSearch->setChecked( RzxMainUIConfig::useSearch() );
+
+	QList<RzxRezal*> rezals = qrezix->moduleList();
+	ui->rezalList->clear();
+	foreach(RzxRezal *rezal, rezals)
+	{
+		QTreeWidgetItem *item = new QTreeWidgetItem(ui->rezalList);
+		item->setIcon(0, rezal->icon());
+		item->setText(0, rezal->name());
+		item->setText(1, rezal->versionString());
+		item->setText(2, rezal->description());
+	}
 }
 
 /** \reimp */
@@ -145,13 +167,12 @@ void RzxUi::propUpdate()
 {
 	if(!ui) return;
 
-	RzxConfig *cfgObject = RzxConfig::global();
-	cfgObject->writeEntry( "doubleClic", ui->cmdDoubleClic->currentIndex() );
-	cfgObject->writeEntry( "iconsize", ui->cmbIconSize -> currentIndex() );
-	cfgObject->writeEntry( "iconhighlight", ui->cbHighlight->isChecked());
-	cfgObject->writeEntry( "defaultTab", ui->cmbDefaultTab ->currentIndex() );
-	cfgObject->writeEntry( "useSearch", ui->cbSearch->isChecked() ? 1 : 0 );
-	cfgObject->writeShowQuit(ui->cbQuit->isChecked());
+	RzxMainUIConfig::setDoubleClicRole(ui->cmdDoubleClic->currentIndex());
+	RzxMainUIConfig::setComputerIconSize(ui->cmbIconSize -> currentIndex());
+	RzxMainUIConfig::setComputerIconHighlight(ui->cbHighlight->isChecked());
+	RzxMainUIConfig::setDefaultTab(ui->cmbDefaultTab ->currentIndex());
+	RzxMainUIConfig::setUseSearch(ui->cbSearch->isChecked());
+	RzxMainUIConfig::setShowQuit(ui->cbQuit->isChecked());
 	qrezix->showSearch(ui->cbSearch->isChecked());
 
 	int colonnesAffichees = 0;
@@ -167,11 +188,25 @@ void RzxUi::propUpdate()
 	if ( ui->cbcResal ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColRezal;
 	if ( ui->cbcClient ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColClient;
 	if ( ui->cbcIP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColIP;
-	RzxConfig::global() ->writeEntry( "colonnes", colonnesAffichees );
+	RzxMainUIConfig::setColonnes(colonnesAffichees );
+
+	RzxRezalModel::ToolTip tooltip = 0;
+	if(ui->cbTooltips->isChecked()) tooltip |= RzxRezalModel::TipEnable;
+	if(ui->cbTooltipFtp->isChecked()) tooltip |= RzxRezalModel::TipFtp;
+	if(ui->cbTooltipHttp->isChecked()) tooltip |= RzxRezalModel::TipHttp;
+	if(ui->cbTooltipNews->isChecked()) tooltip |= RzxRezalModel::TipNews;
+	if(ui->cbTooltipSamba->isChecked()) tooltip |= RzxRezalModel::TipSamba;
+	if(ui->cbTooltipPromo->isChecked()) tooltip |= RzxRezalModel::TipPromo;
+	if(ui->cbTooltipOS->isChecked()) tooltip |= RzxRezalModel::TipOS;
+	if(ui->cbTooltipVersion->isChecked()) tooltip |= RzxRezalModel::TipClient;
+	if(ui->cbTooltipIP->isChecked()) tooltip |= RzxRezalModel::TipIP;
+	if(ui->cbTooltipResal->isChecked()) tooltip |= RzxRezalModel::TipResal;
+	if(ui->cbTooltipFeatures->isChecked()) tooltip |= RzxRezalModel::TipFeatures;
+	if(ui->cbTooltipProperties->isChecked()) tooltip |= RzxRezalModel::TipProperties;
+	RzxMainUIConfig::setTooltip(tooltip);
 
 	/* Mise à jour de l'affichage des Rezal */
-	qrezix -> rezal -> afficheColonnes();
-	qrezix -> rezalFavorites -> afficheColonnes();
+	qrezix->updateLayout();
 }
 
 /** \reimp */

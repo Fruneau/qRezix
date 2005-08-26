@@ -22,6 +22,26 @@
 #define DEFAULT_MAIL "Inscris toi sur polytechnique.org"
 #define DEFAULT_THEME "krystal"
 
+#ifdef Q_OS_WIN
+	#define DEFAULT_SAMBACMD "standard"
+	#define DEFAULT_FTPCMD "standard"
+	#define DEFAULT_HTTPCMD "standard"
+	#define DEFAULT_NEWSCMD "standard"
+#else
+#ifdef Q_OS_MAC
+	#define DEFAULT_SAMBACMD "open"
+	#define DEFAULT_FTPCMD "Default"
+	#define DEFAULT_HTTPCMD "Default"
+	#define DEFAULT_NEWSCMD "Default"
+#else
+	#define DEFAULT_SAMBACMD "standard"
+	#define DEFAULT_FTPCMD "gftp"
+	#define DEFAULT_HTTPCMD "firefox"
+	#define DEFAULT_NEWSCMD "knode"
+#endif
+#endif
+
+
 // Version envoyee au serveur
 #define RZX_CLIENT_ID (0x06)
 #define RZX_MAJOR_VERSION (1)
@@ -45,7 +65,7 @@
 	#include "../../config.h"
 #else
 	#ifdef Q_OS_MAC
-		#define QREZIX_DATA_DIR "./qrezix.app/Contents/Resources/"
+		#define QREZIX_DATA_DIR "./qRezix.app/Contents/Resources/"
 	#else
 		#define QREZIX_DATA_DIR "/usr/share/qrezix"
 		#define QREZIX_LIB_DIR "/usr/lib/qrezix"

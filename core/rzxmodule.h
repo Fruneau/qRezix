@@ -19,10 +19,11 @@
 #ifndef RZXMODULE_H
 #define RZXMODULE_H
 
-#include <QObject>
-#include <QString>
 #include <QFlags>
-#include <QIcon>
+
+#include <RzxBaseModule>
+
+class RzxComputer;
 
 /**
  @author Florent Bruneau
@@ -31,7 +32,7 @@
 ///Structure de base à implémenter pour réaliser un plug-in de qRezix
 /** Un plug-in a accès à toutes les fonctions de qRezix, mais il doit tout de
  * même être construit et charger de manière à être reconnu par qRezix.
- * Contrairement à RzxPlugIn qui implémente en plus d'une structure de travail
+ * Contrairement à RzxPlugIn de qRezix 1.6 qui implémente en plus d'une structure de travail
  * tout un système de communication entre le plug-in et qRezix, RzxModule ne
  * réalise aucun travail de connexion pour le transfert de données.
  *
@@ -42,40 +43,69 @@
  * Il est important de noter qu'un module chargé doit implémenter la fonction
  * \ref isInitialised qui permet d'indiquer si l'initialisation c'est bien déroulée
  * un module mal initialisé sera automatiquement déchargé.
+ *
+ * RzxModule constitue une architecture tout à fait nouvelle de qRezix, beaucoup plus
+ * souple et puissante que le RzxPlugIn des version précédentes.
+ *
+ * L'implémentation de cette classe de fait de la forme suivant :
+ * \code
+ * ** Dans mymodule.h **
+ * #define RZX_BUILTIN (ou RZX_PLUGIN selon les options de compilation)
+ *
+ *	#include <RzxModule>
+ *
+ * class MyModule: public RzxModule
+ * {
+ * 	Q_OBJECT
+ * 	public:
+ * 		MyModule();
+ * 		~MyModule();
+ * 		virtual bool isInitialised() const;
+ * };
+ *
+ * ** Dans mymodule.cpp **
+ * #include "mymodule.h"
+ *
+ * RZX_MODULE_EXPORT(MyModule)
+ *
+ * MyModule::MyModule()
+ * {
+ * 	beginLoading();
+ * 	...
+ * 	endLoading();
+ * }
+ *
+ * MyModule::~MyModule()
+ * {
+ * 	beginClosing();
+ * 	...
+ * 	endClosing();
+ * }
+ *
+ * bool MyModule::isInitialised() const
+ * {
+ * 	return true;
+ * }
+ * \endcode
+ *
+ * Ensuite, il faut réaliser un fichier de projet avec des options particulières telles que :
+ * 	- TEMPLATE = lib
+ * 	- CONFIG += plugin
+ * 	- TARGET = sprintf(rzx%1, $$TARGET)
+ * 	- INCLUDEPATH += (path de qRezix core lib includes)
+ * 	- LIBS += -L(path de la lib qrezix) -lqrezix
  */
-class RzxModule:public QObject
+class RzxModule:public QObject, public RzxBaseModule
 {
 	Q_OBJECT
 
-	Q_PROPERTY(bool initialised READ isInitialised)
-	Q_PROPERTY(QString name READ name)
-	Q_PROPERTY(QString description READ description)
-	Q_PROPERTY(Version version READ version)
-	Q_PROPERTY(QString versionString READ versionString)
-	Q_PROPERTY(QIcon icon READ icon)
-	Q_PROPERTY(QFlags<TypeFlags> type READ type)
-
+	Q_PROPERTY(Type type READ type)
 	Q_PROPERTY(QWidget* mainWindow READ mainWindow)
-
 	Q_ENUMS(TypeFlags)
 	Q_FLAGS(Type)
 
 
 	public:
-		///Défini la version d'un module
-		/** La version est simplement définie de la forme
-		 * major.minor.build-tag
-		 *
-		 * comme par exemple 1.7.0-svn
-		 */
-		struct Version
-		{
-			uint major;
-			uint minor;
-			uint build;
-			QString tag;
-		};
-
 		///Définition du type du module
 		/** Tous les modules ne sont pas du même type,
 		 * en effet, ils ont ou non une interface graphique
@@ -102,55 +132,23 @@ class RzxModule:public QObject
 		};
 		Q_DECLARE_FLAGS(Type, TypeFlags)
 
+	private:
+		Type m_type;
 
 	//Chargement du module
 	protected:
 		RzxModule(const QString&, const QString&, int, int, int, const QString& = QString());
-		RzxModule(const QString&, const QString&, const Version&);
+		RzxModule(const QString&, const QString&, const Rzx::Version&);
 		RzxModule(const QString&, const QString&);
-
-		void beginLoading() const;
-		void endLoading() const;
-		void beginClosing() const;
-		void endClosing() const;
 
 	public:
 		~RzxModule();
 		virtual bool isInitialised() const = 0;
-
-
-	//Propriétés du modules
-	private:
-		QString m_name;
-		QString m_description;
-		Version m_version;
-		QFlags<TypeFlags> m_type;
-
-	protected slots:
-		void setType(TypeFlags);
-
-	public:
-		const QString &name() const;
-		const QString &description() const;
-		const Version &version() const;
-		QString versionString() const;
-		const QFlags<TypeFlags> &type() const;
-		virtual QIcon icon() const;
-
+		const Type &type() const;
 		virtual QWidget *mainWindow() const;
 
-
-	//Gestion de propriétés du module
-	public:
-		virtual QList<QWidget*> propWidgets();
-		virtual QStringList propWidgetsName();
-
-	public slots:
-		virtual void propInit();
-		virtual void propUpdate();
-		virtual void propDefault();
-		virtual void propClose();
-
+	protected slots:
+		void setType(const Type&);
 
 	//Communication avec qRezix
 	public slots:
@@ -205,8 +203,17 @@ class RzxModule:public QObject
 		 */
 		void wantHide();
 
-	public:
-		static QString versionToString(const Version&);
+		///Avertis de la réception de nouvelles propriétés pour un RzxComputer
+		/** Ce signal indique que de nouvelles propriétés ont été obtenues pour une
+		 * machine. Chacun devra alors utiliser ce signal pour stocker ou afficher les
+		 * propriétés correspondante.
+		 *
+		 * Ce signal doit être émis après le stockage officiel des propriétés.
+		 *
+		 * \param displayed doit être mis à true si l'information a été interceptée
+		 * et communiquée à l'utilisateur ou autre par un objet.
+		 */
+		void haveProperties(RzxComputer*, bool *displayed);
 };
 
 ///Exportation du module
@@ -214,22 +221,13 @@ class RzxModule:public QObject
  * module. Elle sert à la création d'une entité du module en pour les plug-ins.
  *
  * Il est important de définir RZX_PLUGIN si le module est un plugin et RZX_BUILTIN si
- * le module est un builtin avant l'appel de RZX_EXPORT_MODULE. Cet appel doit
+ * le module est un builtin avant l'inclusion de RzxModule. Cet appel doit
  * impérativement être réalisé un dans un fichier sources et non un fichier d'en-têtes.
+ *
+ * Pas besoin de s'inquiéter de la propagation de RZX_PLUGIN et RZX_BUILTIN. Les deux
+ * variables sont en effet 'undefined' à la fin de rzxmodule.h sauf si RZX_PRESERVE_MODULETYPE
+ * est défini.
  */
-#ifndef RZX_PLUGIN
-#	define RZX_MODULE_EXPORT(MODULE)
-#else
-#	ifdef Q_OS_WIN
-#		define RZX_MODULE_EXPORT(MODULE) \
-			extern "C" __declspec(dllexport) RzxModule *getModule(void) { return (RzxModule*)(new MODULE); }
-#	else
-#		define RZX_MODULE_EXPORT(MODULE) \
-			extern "C" RzxModule *getModule(void) { return (RzxModule*)(new MODULE); }
-#	endif
-#endif
-
-///Prototype de fonction permettant l'importation d'un module
-typedef RzxModule *(*loadModuleProc)(void);
+#define RZX_MODULE_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getModule, RzxModule, MODULE)
 
 #endif

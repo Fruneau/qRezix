@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>592</width>
-    <height>550</height>
+    <width>770</width>
+    <height>560</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -22,26 +22,10 @@
    <property name="spacing" >
     <number>6</number>
    </property>
-   <item row="3" column="0" colspan="2" >
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>451</width>
-       <height>151</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item rowspan="3" row="0" column="0" >
-    <widget class="QGroupBox" name="groupColumn" >
-     <property name="whatsThis" >
-      <string>&lt;h3>Columns layout&lt;/h3>&lt;p>Choose the columns you want to see...&lt;/p></string>
-     </property>
+   <item row="4" column="0" colspan="2" >
+    <widget class="QGroupBox" name="groupRezal" >
      <property name="title" >
-      <string>Columns layout</string>
+      <string>Layout</string>
      </property>
      <layout class="QGridLayout" >
       <property name="margin" >
@@ -50,104 +34,51 @@
       <property name="spacing" >
        <number>6</number>
       </property>
-      <item row="5" column="1" >
-       <widget class="QCheckBox" name="cbcSamba" >
-        <property name="text" >
-         <string>Samba</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1" >
-       <widget class="QCheckBox" name="cbcNews" >
-        <property name="text" >
-         <string>News</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0" >
-       <widget class="QCheckBox" name="cbcResal" >
-        <property name="text" >
-         <string>Place</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" >
-       <widget class="QCheckBox" name="cbcIP" >
-        <property name="text" >
-         <string>IP</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" >
-       <widget class="QCheckBox" name="cbcGateway" >
-        <property name="text" >
-         <string>Same gateway</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" >
-       <widget class="QCheckBox" name="cbcPromo" >
-        <property name="text" >
-         <string>Promotion</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" >
-       <widget class="QCheckBox" name="cbcRemarque" >
-        <property name="text" >
-         <string>Comment</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1" >
-       <widget class="QCheckBox" name="cbcHTTP" >
-        <property name="text" >
-         <string>Web</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" >
-       <widget class="QCheckBox" name="cbcClient" >
-        <property name="text" >
-         <string>Client</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" >
-       <widget class="QCheckBox" name="cbcOS" >
-        <property name="text" >
-         <string>OS</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1" >
-       <widget class="QCheckBox" name="cbcFTP" >
-        <property name="text" >
-         <string>FTP</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="0" >
-       <widget class="QCheckBox" name="cbcNom" >
-        <property name="text" >
-         <string>Name</string>
+       <widget class="QTreeWidget" name="rezalList" >
+        <property name="rootIsDecorated" >
+         <bool>false</bool>
         </property>
+        <property name="uniformRowHeights" >
+         <bool>true</bool>
+        </property>
+        <property name="itemsExpandable" >
+         <bool>false</bool>
+        </property>
+        <property name="columnCount" >
+         <number>3</number>
+        </property>
+        <column>
+         <property name="text" >
+          <string>0</string>
+         </property>
+        </column>
+        <column>
+         <property name="text" >
+          <string>1</string>
+         </property>
+        </column>
+        <column>
+         <property name="text" >
+          <string>2</string>
+         </property>
+        </column>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="2" column="1" >
+   <item rowspan="2" row="1" column="0" >
     <widget class="QGroupBox" name="groupMisc" >
      <property name="title" >
       <string>Misc</string>
      </property>
      <layout class="QGridLayout" >
       <property name="margin" >
-       <number>6</number>
+       <number>8</number>
       </property>
       <property name="spacing" >
-       <number>2</number>
+       <number>6</number>
       </property>
       <item row="0" column="0" >
        <widget class="QCheckBox" name="cbQuit" >
@@ -162,7 +93,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="1" >
+   <item row="3" column="0" >
     <widget class="QGroupBox" name="groupTabs" >
      <property name="title" >
       <string>Tab</string>
@@ -227,7 +158,109 @@
      </layout>
     </widget>
    </item>
-   <item row="0" column="1" >
+   <item row="0" column="0" >
+    <widget class="QGroupBox" name="groupColumn" >
+     <property name="whatsThis" >
+      <string>&lt;h3>Columns layout&lt;/h3>&lt;p>Choose the columns you want to see...&lt;/p></string>
+     </property>
+     <property name="title" >
+      <string>Columns layout</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>8</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="0" >
+       <widget class="QCheckBox" name="cbcNom" >
+        <property name="text" >
+         <string>Name</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" >
+       <widget class="QCheckBox" name="cbcFTP" >
+        <property name="text" >
+         <string>FTP</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="QCheckBox" name="cbcOS" >
+        <property name="text" >
+         <string>OS</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="QCheckBox" name="cbcClient" >
+        <property name="text" >
+         <string>Client</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" >
+       <widget class="QCheckBox" name="cbcHTTP" >
+        <property name="text" >
+         <string>Web</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QCheckBox" name="cbcRemarque" >
+        <property name="text" >
+         <string>Comment</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" >
+       <widget class="QCheckBox" name="cbcPromo" >
+        <property name="text" >
+         <string>Promotion</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QCheckBox" name="cbcGateway" >
+        <property name="text" >
+         <string>Same gateway</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" >
+       <widget class="QCheckBox" name="cbcIP" >
+        <property name="text" >
+         <string>IP</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" >
+       <widget class="QCheckBox" name="cbcResal" >
+        <property name="text" >
+         <string>Place</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1" >
+       <widget class="QCheckBox" name="cbcNews" >
+        <property name="text" >
+         <string>News</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1" >
+       <widget class="QCheckBox" name="cbcSamba" >
+        <property name="text" >
+         <string>Samba</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item rowspan="2" row="2" column="1" >
     <widget class="QGroupBox" name="groupIcons" >
      <property name="title" >
       <string>Computer icons</string>
@@ -329,29 +362,340 @@
      </layout>
     </widget>
    </item>
+   <item rowspan="2" row="0" column="1" >
+    <widget class="QGroupBox" name="grpToolTips" >
+     <property name="whatsThis" >
+      <string>&lt;h3>ToolTips&lt;/h3>&lt;p>ToolTips are little windows that appears when you </string>
+     </property>
+     <property name="title" >
+      <string>ToolTips</string>
+     </property>
+     <property name="flat" >
+      <bool>false</bool>
+     </property>
+     <property name="checkable" >
+      <bool>false</bool>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>8</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="0" colspan="2" >
+       <widget class="QCheckBox" name="cbTooltips" >
+        <property name="text" >
+         <string>Enable tooltips</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1" >
+       <widget class="QCheckBox" name="cbTooltipFeatures" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>Features</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1" >
+       <widget class="QCheckBox" name="cbTooltipResal" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>Place</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2" >
+       <widget class="Line" name="line2" >
+        <property name="frameShape" >
+         <enum>QFrame::HLine</enum>
+        </property>
+        <property name="frameShadow" >
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" >
+       <widget class="QCheckBox" name="cbTooltipFtp" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>FTP</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" >
+       <widget class="QCheckBox" name="cbTooltipOS" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>OS</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QCheckBox" name="cbTooltipHttp" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>Web</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" >
+       <widget class="QCheckBox" name="cbTooltipVersion" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>Client version</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" >
+       <widget class="QCheckBox" name="cbTooltipNews" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>News</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1" >
+       <widget class="QCheckBox" name="cbTooltipIP" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>Ip address</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" >
+       <widget class="QCheckBox" name="cbTooltipSamba" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>Samba</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" >
+       <widget class="QCheckBox" name="cbTooltipPromo" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>Promotion</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0" >
+       <widget class="QCheckBox" name="cbTooltipProperties" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>Properties</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
   </layout>
-  <widget class="QWidget" name="" >
-   <property name="geometry" >
-    <rect>
-     <x>281</x>
-     <y>9</y>
-     <width>302</width>
-     <height>482</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget" >
-   <property name="geometry" >
-    <rect>
-     <x>9</x>
-     <y>9</y>
-     <width>284</width>
-     <height>482</height>
-    </rect>
-   </property>
-  </widget>
  </widget>
  <pixmapfunction></pixmapfunction>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>cbTooltips</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cbTooltipFtp</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>87</x>
+     <y>347</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>53</x>
+     <y>388</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbTooltips</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cbTooltipHttp</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>132</x>
+     <y>358</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>37</x>
+     <y>418</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbTooltips</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cbTooltipNews</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>101</x>
+     <y>348</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>68</x>
+     <y>445</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbTooltips</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cbTooltipSamba</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>169</x>
+     <y>349</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>24</x>
+     <y>467</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbTooltips</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cbTooltipPromo</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>95</x>
+     <y>356</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>40</x>
+     <y>499</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbTooltips</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cbTooltipProperties</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>91</x>
+     <y>355</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>86</x>
+     <y>531</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbTooltips</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cbTooltipOS</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>201</x>
+     <y>354</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>186</x>
+     <y>384</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbTooltips</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cbTooltipVersion</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>207</x>
+     <y>352</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>207</x>
+     <y>419</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbTooltips</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cbTooltipIP</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>222</x>
+     <y>355</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>221</x>
+     <y>433</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbTooltips</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cbTooltipResal</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>101</x>
+     <y>342</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>150</x>
+     <y>472</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbTooltips</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cbTooltipFeatures</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>27</x>
+     <y>356</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>161</x>
+     <y>503</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

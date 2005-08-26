@@ -43,7 +43,7 @@ class RzxRezalSearch:public QObject
 	int timeLimit;
 
 	public:
-		RzxRezalSearch(QAbstractItemView *, int timeout = 5000);
+		RzxRezalSearch(QAbstractItemView *, int timeout = 5000, bool connected = true);
 		~RzxRezalSearch();
 
 		QAbstractItemView *view() const;

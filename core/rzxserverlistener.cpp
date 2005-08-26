@@ -27,13 +27,12 @@
 #include <RzxConfig>
 #include <RzxIconCollection>
 
-
-RzxServerListener * RzxServerListener::globalObject = 0;
+RZX_NETWORK_EXPORT(RzxServerListener)
 
 ///Construction du Socket
 RzxServerListener::RzxServerListener()
 	: RzxProtocole(), socket() {
-	Rzx::beginModuleLoading("Network interface");
+	beginLoading();
 	connect(&reconnection, SIGNAL(timeout()), this, SLOT(waitReconnection()));	
 	
 	connect(this, SIGNAL(ping()), this, SLOT(sendPong()));
@@ -57,14 +56,18 @@ RzxServerListener::RzxServerListener()
 	
 	premiereConnexion = true;
 	hasBeenConnected = true;
-	Rzx::endModuleLoading("Network interface");
+	endLoading();
 }
 
 
-RzxServerListener::~RzxServerListener(){
+RzxServerListener::~RzxServerListener()
+{
+	beginClosing();
+	disconnect(&socket, SIGNAL(disconnected()), 0, 0);
+	endClosing();
 }
 
-void RzxServerListener::setupConnection() {
+void RzxServerListener::start() {
 	connectToXnetserver();
 }
 
@@ -187,7 +190,8 @@ void RzxServerListener::connectToXnetserver()
 	notify(tr("Looking for server %1").arg(serverHostname));
 }
 
-void RzxServerListener::serverFound() {
+void RzxServerListener::serverFound()
+{
 	notify(tr("Server found, trying to connect"));
 }
 
@@ -197,11 +201,6 @@ void RzxServerListener::serverConnected(){
 	hasBeenConnected = true;
 	pingTimer.start(RzxConfig::pingTimeout());
 	emit receiveAddress(getIP());
-}
-
-/** No descriptions */
-void RzxServerListener::beginAuth(){
-	sendAuth(RzxConfig::pass());
 }
 
 void RzxServerListener::serverReceive() {
@@ -229,7 +228,7 @@ void RzxServerListener::serverReceive() {
 					*(line++) = qRgba(r, v, b, a);
 				}
 			}
-			emit rcvIcon(&image, iconHost);
+			emit receivedIcon(&image, iconHost);
 			iconMode = false;
 		}
 		
@@ -321,15 +320,17 @@ void RzxServerListener::serverResetTimer(){
 }
 
 /** No descriptions */
-bool RzxServerListener::isSocketClosed() const{
+bool RzxServerListener::isStarted() const
+{
 	return (socket.state() != QTcpSocket::ConnectedState);
 }
 
 /** No descriptions */
-void RzxServerListener::close(){
+void RzxServerListener::stop()
+{
 	disconnect(&socket, SIGNAL(connectionClosed()), this, SLOT(serverClose()));
 	disconnect(&socket, SIGNAL(error(QTcpSocket::SocketError)), this, SLOT(serverError(QTcpSocker::SocketError)));
-	if (isSocketClosed()) {
+	if (isStarted()) {
 		emit disconnected();
 		return;
 	}

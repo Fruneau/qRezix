@@ -56,13 +56,13 @@
 
 #include <RzxConfig>
 #include <RzxComputer>
-#include <RzxPlugInLoader>
 #include <RzxIconCollection>
 
 #include "rzxchat.h"
 
 #include "rzxchatsocket.h"
 #include "rzxchatlister.h"
+#include "rzxchatconfig.h"
 
 /****************************************************
 * RzxPopup
@@ -153,6 +153,9 @@ void RzxChat::init()
 	glayout->addWidget(splitter);
 	edMsg->setFocus();
 
+	//Restoration des dimensions
+	RzxChatConfig::restoreChatWidget(this);
+
 	/* Définition des raccourcis claviers */
 	new QShortcut(Qt::CTRL + Qt::Key_Return, btnSend, SIGNAL(clicked()));
 	new QShortcut(Qt::CTRL + Qt::Key_Enter, btnSend, SIGNAL(clicked()));
@@ -214,7 +217,7 @@ void RzxChat::init()
 RzxChat::~RzxChat(){
 	QString temp = textHistorique;
 
-	QString filename = RzxConfig::historique(peer.toRezix(), m_hostname);
+	QString filename = RzxChatConfig::historique(peer.toRezix(), m_hostname);
 	if (filename.isNull()) return;
 	
 	QFile file(filename);
@@ -466,7 +469,7 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 		tmpD = QString("<font color=\"%1\"><i>%2 - %3</i></font>").arg(color).arg(tmpD, head);
 		tmpH = ("<font color=\"%1\">"+head+"</font>").arg(color);
 	}
-	if(RzxConfig::global()->printTime())
+	if(RzxChatConfig::printTime())
 		txtHistory->append(tmpH + tmp);
 	else
 		txtHistory->append(tmp);
@@ -480,17 +483,15 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 void RzxChat::receive(const QString& msg)
 {
 	QString message = msg;
-	RzxPlugInLoader::global()->chatChanged(edMsg);
-	RzxPlugInLoader::global()->chatReceived(&message);
-	if(RzxConfig::beep() && !btnSound->isChecked()) {
+	if(RzxChatConfig::beep() && !btnSound->isChecked()) {
 #if defined(WIN32) || defined(Q_OS_MAC)
-		QString file = RzxConfig::beepSound();
+		QString file = RzxChatConfig::beepSound();
 		if( !file.isEmpty() && QFile( file ).exists() )
 			QSound::play( file );
 		else
 			QApplication::beep();
 #else
-		QString cmd = RzxConfig::beepCmd(), file = RzxConfig::beepSound();
+		QString cmd = RzxConfig::beepCmd(), file = RzxChatConfig::beepSound();
 		if (!cmd.isEmpty() && !file.isEmpty()) {
 			QProcess process;
 			process.start(cmd, QStringList(file));
@@ -522,7 +523,7 @@ void RzxChat::info(const QString& msg){
 /// Affiche un message de notification (envoie de prop, ping, pong...)
 void RzxChat::notify(const QString& msg, bool withHostname)
 {
-	if(RzxConfig::global()->warnCheckingProperties()==0)
+	if(!RzxChatConfig::warnWhenChecked())
 		return;
 
 	QString header = "***&nbsp;";
@@ -535,7 +536,6 @@ void RzxChat::notify(const QString& msg, bool withHostname)
 void RzxChat::on_btnSend_clicked()
 {
 	//Pour que les plug-ins qui en on besoin modifie le texte de chat
-	RzxPlugInLoader::global()->chatSending();
 	bool format = cbSendHTML->isChecked();
 
 	typingTimer.stop();
@@ -572,7 +572,6 @@ void RzxChat::on_btnSend_clicked()
 		msg = rawMsg;
 		
 	QString dispMsg = msg;
-	RzxPlugInLoader::global()->chatEmitted(&dispMsg);
 	append("red", ">&nbsp;", dispMsg);
 	sendChat(msg);	//passage par la sous-couche de gestion du m_socket avant d'émettre
 	edMsg -> setPlainText("");
@@ -604,7 +603,7 @@ void RzxChat::on_btnHistorique_toggled(bool on)
 	
 	QString temp = textHistorique;
 
-	QString filename = RzxConfig::historique(peer.toRezix(), m_hostname);
+	QString filename = RzxChatConfig::historique(peer.toRezix(), m_hostname);
 	if (filename.isNull()) return;
 	
 	QFile file(filename);		
@@ -678,7 +677,7 @@ void RzxChat::closeEvent(QCloseEvent * e)
 		hist->close();
 	if(!prop.isNull())
 		prop->close();
-	RzxPlugInLoader::global()->sendQuery(RzxPlugIn::DATA_CHAT, NULL);
+	RzxChatConfig::saveChatWidget(this);
 	e -> accept();
 	emit closed(peer);
 }
@@ -697,7 +696,6 @@ bool RzxChat::event(QEvent *e)
 		if(!hist.isNull()) hist->raise();
 		if(!prop.isNull()) prop->raise();
 #endif
-		RzxPlugInLoader::global()->chatChanged(edMsg);
 	}
 #ifdef WIN32
 	if(isActiveWindow())
@@ -759,7 +757,6 @@ void RzxChat::changeEvent(QEvent *e)
 void RzxChat::on_btnPlugins_clicked()
 {
 	menuPlugins.clear();
-	RzxPlugInLoader::global()->menuChat(menuPlugins);
 	if(!menuPlugins.actions().count())
 		menuPlugins.addAction("<none>");
 	menuPlugins.popup(btnPlugins->mapToGlobal(btnPlugins->rect().bottomLeft()));

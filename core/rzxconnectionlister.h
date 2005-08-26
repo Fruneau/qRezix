@@ -27,33 +27,29 @@
 #include <RzxGlobal>
 
 #include <RzxHostAddress>
+#include <RzxBaseLoader>
+#include <RzxNetwork>
 
 class RzxComputer;
-class RzxChat;
-class RzxServerListener;
-class RzxClientListener;
 class QImage;
 
 ///RzxConnection lister est la classe centrale de l'architecture du programme
 /** Elle est en effet le pivot entre l'architecture réseau et l'interface graphique.
  * RzxRezal est son pendant graphique.
  */
-class RzxConnectionLister : public QObject
+class RzxConnectionLister : public QObject, public RzxBaseLoader<RzxNetwork>
 {
 	Q_OBJECT
 	Q_PROPERTY(bool initialized READ isInitialized)
+	RZX_GLOBAL(RzxConnectionLister)
 
 	bool initialized;
-	
-	static RzxConnectionLister *object;
+	int connectionNumber;
 
 	// Pour le traitement asynchrone (buffered)
 	QTimer delayDisplay;
 	QList<RzxComputer*> displayWaiter;
 	
-	// Sockets actifs
-	RzxServerListener * server;
-
 	// Index des machines connectées
 	QHash<RzxHostAddress, RzxComputer*> computerByIP;
 	QHash<QString, RzxComputer*> computerByLogin;
@@ -61,12 +57,10 @@ class RzxConnectionLister : public QObject
 	public:
 		RzxConnectionLister(QObject *parent = NULL);
 		~RzxConnectionLister();
+
 		bool isInitialized() const;
-		
-		static RzxConnectionLister *global();
-		
-		void initConnection();
-		void closeSocket();
+		bool isDisconnected() const;
+		bool isConnected() const;
 		
 		// Récupération des données des annuaires
 		RzxComputer *getComputerByName(const QString&) const;
@@ -78,45 +72,56 @@ class RzxConnectionLister : public QObject
 		void logout(const RzxHostAddress& ip);
 		QStringList getIpList(Rzx::Capabilities features = Rzx::CAP_NONE);
 		
-		bool isSocketClosed() const;
+		void start();
+		void stop();
+		void refresh();
 		
-		void sysmsg(const QString& msg);
+		void info(const QString& msg);
+		void warning(const QString& msg);
 		void fatal(const QString& msg);
+
+	protected:
+		virtual void loadBuiltins();
+		virtual bool installModule(RzxNetwork*);
 	
 	protected slots:
-		void recvIcon(QImage*, const RzxHostAddress&);
-		void serverDisconnected();
-		void serverConnected();
+		void statusChanged(const QString&);
+		void receivedIcon(QImage*, const RzxHostAddress&);
+		void newDisconnection();
+		void newConnection();
 		
 	signals:
-		void needIcon(const RzxHostAddress&);
 		void login(RzxComputer*);
-		void logout(RzxComputer*);
 		void update(RzxComputer*);
-		void clear();
-		void status(const QString& msg, bool fatal);
+		void logout(RzxComputer*);
 		void countChange(const QString& newCount);
-		void socketClosed();
-		void connectionEtablished();
+
+		void clear();
 		void loginEnd();
+		void connectionClosed();
+		void connectionEstablished();
+		void status(const QString& msg, bool fatal);
+
+		void wantIcon(const RzxHostAddress&);
 
 		void wantChat(RzxComputer*);
 		void wantProperties(RzxComputer*);
 		void wantHistorique(RzxComputer*);
 };
 
-///Indique si l'object est correctement initialisé
-inline bool RzxConnectionLister::isInitialized() const {
-	return initialized;
-}
-
-///Renvoie l'objet global
-/** L'objet est créé si nécessaire */
-inline RzxConnectionLister *RzxConnectionLister::global()
+///Indique si on a fini d'enregistrer tous les connectés d'un serveur
+/** Lorsqu'on se connecte à un nouveau serveur, on peut dans certains
+ * cas recevoir un grand nombre de nouvelle connexion. Celle-ci sont
+ * bufferées, et lorsque toutes ces connexions sont 'assimilés' on 
+ * considère que les connexions sont en état d'être traités comme des
+ * connexions normales et non plus comme un paquet à absorber.
+ *
+ * Lorsque toutes ces connexions sont assimilés, on considère que
+ * le RzxConnectionLister est initialized...
+ */
+inline bool RzxConnectionLister::isInitialized() const
 {
-	if(!object)
-		new RzxConnectionLister(NULL);
-	return object;
+	return initialized;
 }
 
 ///Renvoie l'ordinateur associé à name

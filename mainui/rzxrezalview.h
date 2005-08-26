@@ -24,6 +24,7 @@
 #include <QItemSelectionModel>
 #include <QPoint>
 
+#include "rzxrezal.h"
 #include "rzxrezalsearch.h"
 
 /**
@@ -31,12 +32,13 @@
 */
 
 class QMouseEvent;
+class QPaintEvent;
 
 ///Implémente une visualisation semblable à celle des anciennes version de qRezix
 /** Comme pour les versions jusqu'à 1.6, cette classe affiche les objets comme une liste
  * avec l'icône, le nom, les commentaires, les icônes des services, promo...
  */
-class RzxRezalView : public QTreeView
+class RzxRezalView : public QTreeView, public RzxRezal
 {
 	Q_OBJECT
 
@@ -46,15 +48,22 @@ class RzxRezalView : public QTreeView
 		RzxRezalView(QWidget *parent = 0);
 		~RzxRezalView();
 
+		virtual QAbstractItemView *widget();
+		virtual QDockWidget::DockWidgetFeatures features() const;
+		virtual Qt::DockWidgetAreas allowedAreas() const;
+		virtual void updateLayout();
+
 	public slots:
 		void afficheColonnes();
 		void adapteColonnes();
+		virtual void setRootIndex(const QModelIndex&);
 
 	protected:
 		virtual void resizeEvent(QResizeEvent * e);
 		virtual void mousePressEvent(QMouseEvent *e);
 		virtual void mouseDoubleClickEvent(QMouseEvent *e);
 		virtual void keyPressEvent(QKeyEvent *e);
+		virtual void drawRow(QPainter*, const QStyleOptionViewItem&, const QModelIndex&) const;
 
 	signals:
 		void searchPatternChanged(const QString&);

@@ -23,9 +23,10 @@
 #include <RzxConnectionLister>
 
 #include "rzxrezalmodel.h"
+#include "rzxmainuiconfig.h"
 
 
-RzxRezalModel *RzxRezalModel::object = NULL;
+RZX_GLOBAL_INIT(RzxRezalModel)
 
 const char *RzxRezalModel::colNames[RzxRezalModel::numColonnes] = {
 			QT_TR_NOOP("Computer name"),
@@ -58,9 +59,9 @@ bool sortComputer(RzxComputer *c1, RzxComputer *c2)
 		case RzxRezalModel::ColHTTP: return c1->hasHttpServer() && !c2->hasHttpServer();
 		case RzxRezalModel::ColNews: return c1->hasNewsServer() && !c2->hasNewsServer();
 		case RzxRezalModel::ColOS: return c1->sysEx() < c2->sysEx();
-		case RzxRezalModel::ColGateway: return c1->rezalId() == c2->rezalId();
+		case RzxRezalModel::ColGateway: return c1->isSameGateway(c2);
 		case RzxRezalModel::ColPromo: return c1->promo() < c2->promo();
-		case RzxRezalModel::ColRezal: return c1->rezalId() < c2->rezalId();
+		case RzxRezalModel::ColRezal: return c1->rezal() < c2->rezal();
 		case RzxRezalModel::ColIP: return c1->ip() < c2->ip();
 		case RzxRezalModel::ColClient: return c1->client() < c2->client();
 		default: return false;
@@ -302,6 +303,22 @@ QModelIndex RzxRezalModel::parent(const QModelIndex& parent) const
 	return QModelIndex();
 }
 
+///Indique si le QModelIndex est un objet d'index de l'arbre
+/** C'est à dire que ce n'est pas un élément contenant des RzxComputer ou
+ * un élément correspondant à un RzxComputer
+ */
+bool RzxRezalModel::isIndex(const QModelIndex& index) const
+{
+	if(!index.isValid()) return true;
+	
+	int parentId = index.internalId();
+	int category = parentId & TREE_FLAG_MASK;
+	int value = parentId & TREE_FLAG_VALUE;
+	if(category == TREE_FLAG_BASE && value != TREE_BASE_EVERYBODY)
+		return true;
+	return false;
+}
+
 ///Indique si l'index a des fils
 bool RzxRezalModel::hasChildren(const QModelIndex& parent) const
 {
@@ -409,12 +426,12 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 				case TREE_PROMO_JONE: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_JONE), tr("Jones"));
 				case TREE_PROMO_ROUJE: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_ROUJE), tr("Roujes"));
 				case TREE_PROMO_ORANJE: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_ORANJE), tr("Oranjes"));
-				case TREE_PROMO_BINET: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_FAVORITE), tr("Binet"));
+				case TREE_PROMO_BINET: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_FAVORITE), tr("Binets"));
 			}
 			break;
 
 		case TREE_FLAG_REZAL:
-			return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY), RzxComputer::rezalFromId((Rzx::RezalId)value, false));
+			return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY), RzxHostAddress::rezalName((Rzx::RezalId)value, false));
 
 		case TREE_FLAG_FAVORITE_FAVORITE: return getComputer(role, favorites, value, column);
 		case TREE_FLAG_FAVORITE_IGNORED: return getComputer(role, ignored, value, column);
@@ -452,7 +469,7 @@ QVariant RzxRezalModel::getComputer(int role, const QList<RzxComputer*>& list, i
 			{
 				case ColNom: return computer->name();
 				case ColRemarque: return computer->remarque();
-				case ColRezal: return computer->rezal();
+				case ColRezal: return computer->rezalName();
 				case ColIP: return computer->ip().toString();
 				case ColClient: return computer->client();
 				default: return QVariant();
@@ -472,7 +489,7 @@ QVariant RzxRezalModel::getComputer(int role, const QList<RzxComputer*>& list, i
 				default: return QVariant();
 			}
 
-		case Qt::ToolTipRole: return computer->tooltipText();
+		case Qt::ToolTipRole: return tooltip(computer);
 
 		case Qt::TextAlignmentRole:
 			if(column == ColRemarque) return (int)Qt::AlignLeft | Qt::AlignVCenter;
@@ -486,6 +503,86 @@ QVariant RzxRezalModel::getComputer(int role, const QList<RzxComputer*>& list, i
 		case Qt::UserRole: return QVariant::fromValue<RzxComputer*>(computer);
 		default: return QVariant();
 	}
+}
+
+
+///Génère un tooltip formaté correspondant à l'objet
+/** Le tooltip généré selon les préférences exprimées par l'utilisateur, avec les informations qui constitue le RzxComputer :
+ * 	- NOM
+ * 	- Informations :
+ * 		- serveurs
+ * 		- promo
+ * 		- ip/rezal
+ * 		- client/modules
+ * 	- Propriétés (dernière propriétés en cache pour ce client)
+ */
+QString RzxRezalModel::tooltip(RzxComputer *computer) const
+{
+	int tooltipFlags = RzxMainUIConfig::tooltip();
+	if(!(tooltipFlags & (int)RzxRezalModel::TipEnable) || tooltipFlags==(int)RzxRezalModel::TipEnable) return "";
+	
+	QString tooltip = "<b>"+ computer->name() + " </b>";
+	if(tooltipFlags & (int)RzxRezalModel::TipPromo)
+		tooltip += "<i>(" + computer->promoText() + ")</i>";
+	tooltip += "<br/><br/>";
+ 	tooltip += "<b><i>" + tr("Informations :") + "</b></i><br/>";
+	
+	if(computer->hasFtpServer() && (tooltipFlags & (int)RzxRezalModel::TipFtp))
+		tooltip += "<b>-></b>&nbsp;" + tr("ftp server : ") + tr("<b>on</b>") + "<br/>";
+	if(computer->hasHttpServer() && (tooltipFlags & (int)RzxRezalModel::TipHttp))
+		tooltip += "<b>-></b>&nbsp;" + tr("web server : ") + tr("<b>on</b>") + "<br/>";
+	if(computer->hasNewsServer() && (tooltipFlags & (int)RzxRezalModel::TipNews))
+		tooltip += "<b>-></b>&nbsp;" + tr("news server : ") + tr("<b>on</b>") + "<br/>";
+	if(computer->hasSambaServer() && (tooltipFlags & (int)RzxRezalModel::TipSamba))
+		tooltip += "<b>-></b>&nbsp;" + tr("samba server : ") + tr("<b>on</b>") + "<br/>";
+	if(tooltipFlags & (int)RzxRezalModel::TipOS)
+		tooltip += "<b>-></b>&nbsp;os : " + computer->sysExText() + "<br/>";
+	if(tooltipFlags & (int)RzxRezalModel::TipClient)
+		tooltip += "<b>-></b>&nbsp;" + computer->client() + "<br/>";
+	if(tooltipFlags & (int)RzxRezalModel::TipFeatures)
+	{
+		if(computer->can(Rzx::CAP_ON))
+		{
+			int nb = 0;
+			tooltip += "<b>-></b>&nbsp;" + tr("features : ");
+			if(computer->can(Rzx::CAP_CHAT))
+			{
+				tooltip += tr("chat");
+				nb++;
+			}
+			if(computer->can(Rzx::CAP_XPLO))
+			{
+				tooltip += QString(nb?", ":"") + "Xplo";
+				nb++;
+			}
+			if(!nb) tooltip += tr("none");
+			tooltip += "<br/>";
+		}
+	}
+	if(tooltipFlags & (int)RzxRezalModel::TipIP)
+		tooltip += "<b>-></b>&nbsp;ip : <i>" + computer->ip().toString() + "</i><br/>";
+	if(tooltipFlags & (int)RzxRezalModel::TipResal)
+		tooltip += "<b>-></b>&nbsp;" + tr("place : ") + computer->rezalName(false) + "<br/>";
+	
+	if(tooltipFlags & (int)RzxRezalModel::TipProperties)
+	{
+		tooltip += "<br/>";
+		QString msg = RzxConfig::cache(computer->ip());
+		if(msg.isNull())
+		{
+			tooltip += "<i>" + tr("No properties in cache") + "</i>";
+		}
+		else
+		{
+			QString date = RzxConfig::getCacheDate(computer->ip());
+			tooltip += "<b><i>" + tr("Properties checked on ")  + date + " :</i></b><br/>";
+			QStringList list = msg.split("|");
+			for(int i = 0 ; i < list.size() - 1 ; i+=2)
+				tooltip += "<b>-></b>&nbsp;" + list[i] + " : " + list[i+1] + "<br/>";
+		}
+	}
+
+	return tooltip;
 }
 
 ///Extraction de l'objet pour le menu
@@ -562,7 +659,7 @@ void RzxRezalModel::login(RzxComputer *computer)
 	switch(computer->promo())
 	{
 		case Rzx::PROMAL_UNK: case Rzx::PROMAL_ORANGE:
-			if(computer->rezalId() == Rzx::RZL_BINETS || computer->rezalId() == Rzx::RZL_BR)
+			if(computer->rezal() == Rzx::RZL_BINETS || computer->rezal() == Rzx::RZL_BR)
 				insertObject(binetIndex, binet, binetByName, computer);
 			else
 				insertObject(oranjeIndex, oranje, oranjeByName, computer);
@@ -576,7 +673,7 @@ void RzxRezalModel::login(RzxComputer *computer)
 	}
 
 	//Rangement en rezal
-	Rzx::RezalId rezalId = computer->rezalId();
+	Rzx::RezalId rezalId = computer->rezal();
 	insertObject(rezalIndex[rezalId], rezals[rezalId], rezalsByName[rezalId], computer);
 }
 
@@ -598,7 +695,7 @@ void RzxRezalModel::logout(RzxComputer *computer)
 	switch(computer->promo())
 	{
 		case Rzx::PROMAL_UNK: case Rzx::PROMAL_ORANGE:
-			if(computer->rezalId() == Rzx::RZL_BINETS || computer->rezalId() == Rzx::RZL_BR)
+			if(computer->rezal() == Rzx::RZL_BINETS || computer->rezal() == Rzx::RZL_BR)
 				removeObject(binetIndex, binet, binetByName, computer);
 			else
 				removeObject(oranjeIndex, oranje, oranjeByName, computer);
@@ -612,7 +709,7 @@ void RzxRezalModel::logout(RzxComputer *computer)
 	}
 
 	//Rangement en rezal
-	Rzx::RezalId rezalId = computer->rezalId();
+	Rzx::RezalId rezalId = computer->rezal();
 	removeObject(rezalIndex[rezalId], rezals[rezalId], rezalsByName[rezalId], computer);
 }
 
@@ -660,7 +757,7 @@ void RzxRezalModel::update(RzxComputer *computer)
 	switch(computer->promo())
 	{
 		case Rzx::PROMAL_UNK: case Rzx::PROMAL_ORANGE:
-			if(computer->rezalId() == Rzx::RZL_BINETS || computer->rezalId() == Rzx::RZL_BR)
+			if(computer->rezal() == Rzx::RZL_BINETS || computer->rezal() == Rzx::RZL_BR)
 			{
 				if(!binet.contains(computer))
 				{
@@ -710,7 +807,7 @@ void RzxRezalModel::update(RzxComputer *computer)
 	}
 
 	//Rangement en rezal
-	int rezalId = computer->rezalId();
+	int rezalId = computer->rezal();
 	if(!rezals[rezalId].contains(computer))
 	{
 		for(int i = 0 ; i < Rzx::RZL_NUMBER ; i++)

@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 #include <QLabel>
-#include <QToolButton>
 #include <QLineEdit>
 #include <QToolBox>
 #include <QMenuBar>
@@ -23,25 +22,24 @@
 #include <QRect>
 #include <QPoint>
 #include <QString>
-#include <QFile>
 #include <QIcon>
 #include <QPixmap>
 #include <QBitmap>
 #include <QApplication>
-#include <QProcess>
-#include <QSound>
 #include <QCloseEvent>
 #include <QEvent>
 #include <QShortcut>
 #include <QSizePolicy>
 #include <QToolBar>
 #include <QAction>
+#include <QDockWidget>
+#include <QStatusBar>
+#include <QHeaderView>
 
 #include <RzxApplication>
 #include <RzxGlobal>
 #include <RzxConfig>
 #include <RzxIconCollection>
-#include <RzxPlugInLoader>
 #include <RzxConnectionLister>
 #include <RzxComputer>
 
@@ -50,17 +48,34 @@
 #include "rzxquit.h"
 #include "rzxrezalmodel.h"
 #include "rzxrezalview.h"
+#include "rzxmainuiconfig.h"
+#include "rzxrezaldetail.h"
+#include "rzxrezalindex.h"
 
-QRezix *QRezix::object = NULL;
+RZX_GLOBAL_INIT(QRezix)
 
 QRezix::QRezix(QWidget *parent)
- : QMainWindow(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint), accel(0)
+ : QMainWindow(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint)
 {
 	object = this;
-	setupUi(this);
 	statusFlag = false;
 	wellInit = false;
 	alreadyOpened=false;
+	central = NULL;
+	index = NULL;
+
+	statusui = new Ui::RzxStatusUI();
+	QWidget *widget = new QWidget;
+	statusui->setupUi(widget);
+	statusBar()->addWidget(widget, 1);
+
+	loadModules("rezals", "rezal*", "getRezal");
+	setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+	setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
+	setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
+	setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
+
+	RzxMainUIConfig::restoreMainWidget(this);
 
 	///Chargement des plug-ins
 	buildActions();
@@ -76,8 +91,6 @@ QRezix::QRezix(QWidget *parent)
 	leSearch->setMinimumSize(50, 22);
 	leSearch->setMaximumSize(150, 22);
 	connect(leSearch, SIGNAL(returnPressed()), this, SLOT(launchSearch()));
-//	connect(leSearch, SIGNAL(textChanged(const QString&)), rezal, SLOT(setFilter(const QString&)));
-//	connect(leSearch, SIGNAL(textChanged(const QString&)), rezalFavorites, SLOT(setFilter(const QString&)));
 	
 	//Construction des barres d'outils
 	QToolBar *bar = addToolBar("Main");
@@ -94,46 +107,85 @@ QRezix::QRezix(QWidget *parent)
 	bar->addAction(columnsAction);
 	bar->addAction(prefAction);
 	bar->setMovable(false);
-	
-	rezal->setRootIndex(RzxRezalModel::global()->everybodyGroup);
-	rezalFavorites->setRootIndex(RzxRezalModel::global()->favoriteIndex);
+
 
 	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(toggleAutoResponder()));
 	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTheme()));
-	QString windowSize = RzxConfig::readWindowSize();
-#ifndef Q_OS_MAC
-	if(windowSize.left(1)=="1")
-		statusMax = true;
-	else
-#endif
-	{
-		statusMax = false;
-		int height=windowSize.mid(1,4).toInt();
-		int width =windowSize.mid(5,4).toInt();
-		resize(QSize(width,height));
-		move(RzxConfig::readWindowPosition()); //QPoint(2,24));
-	}
 	
 	// Préparation de l'insterface
 	activateAutoResponder( RzxConfig::autoResponder() != 0 );
 
-	connect(rezal, SIGNAL(searchPatternChanged(const QString&)), leSearch, SLOT(setText(const QString &)));
-	connect(rezalFavorites, SIGNAL(searchPatternChanged(const QString&)), leSearch, SLOT(setText(const QString &)));
-
 	RzxConnectionLister *lister = RzxConnectionLister::global();
 	connect(lister, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
-	connect(lister, SIGNAL(countChange(const QString&)), lblCount, SLOT(setText(const QString&)));
+	connect(lister, SIGNAL(countChange(const QString&)), statusui->lblCount, SLOT(setText(const QString&)));
 	
 	connect(RzxConfig::global(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
 
-	tbRezalContainer->setCurrentIndex(RzxConfig::defaultTab());
-	showSearch(RzxConfig::global()->useSearch());
+	showSearch(RzxMainUIConfig::useSearch());
 	
 	//Raccourcis claviers particuliers
-	accel = new QShortcut(Qt::Key_Tab + Qt::SHIFT, this, SLOT(switchTab()));
 	menuFormatChange();
 
 	wellInit = TRUE;
+}
+
+///Chargement des rezals
+void QRezix::loadBuiltins()
+{
+	installModule(new RzxRezalView());
+	installModule(new RzxRezalDetail());
+	installModule(new RzxRezalIndex());
+}
+
+///Chargement des rezals
+bool QRezix::installModule(RzxRezal *rezal)
+{
+	if(RzxBaseLoader<RzxRezal>::installModule(rezal))
+	{
+		if(!central && (rezal->type() & RzxRezal::TYP_CENTRAL))
+		{
+			setCentralWidget(rezal->widget());
+			central = rezal;
+		}
+		else if(rezal->type() & RzxRezal::TYP_DOCKABLE)
+		{
+			QDockWidget *dock = new QDockWidget(rezal->name());
+			dock->setWidget(rezal->widget());
+			dock->setFeatures(rezal->features());
+			dock->setAllowedAreas(rezal->allowedAreas());
+	//		dock->setFloating(rezal->floating());
+
+			Qt::DockWidgetAreas area = rezal->allowedAreas();
+			if(area & Qt::LeftDockWidgetArea)
+				addDockWidget(Qt::LeftDockWidgetArea, dock);
+			else if(area & Qt::BottomDockWidgetArea)
+				addDockWidget(Qt::BottomDockWidgetArea, dock);
+			else if(area & Qt::TopDockWidgetArea)
+				addDockWidget(Qt::TopDockWidgetArea, dock);
+			else if(area & Qt::RightDockWidgetArea)
+				addDockWidget(Qt::RightDockWidgetArea, dock);
+		}
+
+		if((rezal->type() & RzxRezal::TYP_INDEX) && !index)
+			index = rezal;
+		return true;
+	}
+	return false;
+}
+
+///Crée les liens entres les rézals
+void QRezix::linkModules()
+{
+	foreach(RzxRezal *rezal, moduleList())
+	{
+		if((rezal->type() & RzxRezal::TYP_INDEXED) && index)
+		{
+			rezal->widget()->setRootIndex(RzxRezalModel::global()->everybodyGroup);
+			connect(index->widget(), SIGNAL(clicked(const QModelIndex&)), rezal->widget(), SLOT(setRootIndex(const QModelIndex&)));
+			connect(index->widget(), SIGNAL(activated(const QModelIndex&)), rezal->widget(), SLOT(setRootIndex(const QModelIndex&)));
+		}
+		rezal->widget()->setSelectionModel(moduleList()[0]->widget()->selectionModel());
+	}
 }
 
 ///Construction des actions
@@ -151,8 +203,7 @@ void QRezix::buildActions()
 	connect(prefAction, SIGNAL(triggered()), this, SIGNAL(wantPreferences()));
 	
 	columnsAction = new QAction(tr("Adjust columns"), this);
-	connect(columnsAction, SIGNAL(triggered()), rezal, SLOT(afficheColonnes()));
-	connect(columnsAction, SIGNAL(triggered()), rezalFavorites, SLOT(afficheColonnes()));
+	connect(columnsAction, SIGNAL(triggered()), this, SLOT(updateLayout()));
 	
 	searchAction = new QAction(tr("Search"), this);
 	searchAction->setCheckable(true);
@@ -167,38 +218,28 @@ void QRezix::buildActions()
 ///energistre l'état de la fenêtre et quitte....
 QRezix::~QRezix()
 {
-	QSize s = size();       // store size
-	
-	//Pas très beau, mais c'est juste pour voir si ça améliore le rétablissement de l'état de la fenêtre sur mac
-	QString height = QString("%1").arg(s.height(), 4, 10).replace(' ', '0');
-	QString width =  QString("%1").arg(s.width(), 4, 10).replace(' ', '0');
-	QString windowSize;
-#ifndef Q_OS_MAC
-	if(isMaximized())
-		windowSize = "100000000";
-	else
-#endif
-		windowSize="0"+height+width;
-	RzxConfig::global()->writeWindowSize(windowSize);
-	RzxConfig::global()->writeWindowPosition(pos());
-	if(accel)
-	{
-		delete accel;
-		accel = NULL;
-	}
+	closeModules();
+	RzxMainUIConfig::saveMainWidget(this);
 }
 
 void QRezix::status(const QString& msg, bool fatal)
 {
-	lblStatus -> setText(msg);
+	statusui->lblStatus -> setText(msg);
 	statusFlag = !fatal;
 
 	if(statusFlag)
-		lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_ON));
+		statusui->lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_ON));
 	else
-		lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_OFF));
+		statusui->lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_OFF));
 		
 	qDebug(("Connection status : " + QString(fatal?"disconnected ":"connected ") + "(" + msg + ")").toAscii().constData());
+}
+
+///Met à jour l'affichage des Rezals
+void QRezix::updateLayout()
+{
+	foreach(RzxRezal *rezal, moduleList())
+		rezal->updateLayout();
 }
 
 void QRezix::closeEvent(QCloseEvent * e){
@@ -207,13 +248,13 @@ void QRezix::closeEvent(QCloseEvent * e){
 	if(!isHidden() && !isMinimized())
 	{
 		int i;
-		if(RzxConfig::showQuit())
+		if(RzxMainUIConfig::showQuit())
 		{
 			RzxQuit quitDialog(this);
 			i = quitDialog.exec();
 		}
 		else
-			i = RzxConfig::quitMode();
+			i = RzxMainUIConfig::quitMode();
 		if(i != RzxQuit::selectQuit)
 		{
 			if(i == RzxQuit::selectMinimize)
@@ -234,7 +275,7 @@ void QRezix::closeEvent(QCloseEvent * e){
 bool QRezix::event(QEvent * e){
 	if(e->type()==QEvent::WindowDeactivate)
 	{
-		if(isMinimized() && RzxConfig::global()->useSystray() && RzxApplication::instance()->hasHider())
+		if(isMinimized() && RzxApplication::instance()->hasHider())
 			hide();
 		return true;
 	}
@@ -242,19 +283,6 @@ bool QRezix::event(QEvent * e){
 		statusMax = isMaximized();
 
 	return QWidget::event(e);
-}
-
-void QRezix::switchTab()
-{
-	tbRezalContainer->setCurrentIndex(1 - tbRezalContainer->currentIndex());
-}
-
-void QRezix::delayedInit() {
-	RzxConnectionLister::global()->initConnection();
-}
-
-void QRezix::socketClosed(){
-	close();
 }
 
 void QRezix::toggleAutoResponder()
@@ -299,8 +327,7 @@ void QRezix::toggleVisible()
 		activateWindow();
 		raise();
 		alreadyOpened=true;
-		rezal->afficheColonnes();
-		rezalFavorites->afficheColonnes();
+		updateLayout();
 	}
 }
 
@@ -311,21 +338,18 @@ void QRezix::showSearch(bool state)
 	searchAction->setVisible(state);
 }
 
+///Change le pattern de la recherche
+void QRezix::setSearchPattern(const QString& pattern)
+{
+	leSearch->setText(pattern);
+}
+
 ///Pour prendre en compte le changement de traduction...
 void QRezix::changeEvent(QEvent *e)
 {
 	QMainWindow::changeEvent(e);
 	if(e->type() == QEvent::LanguageChange)
-	{
-		retranslateUi(this);
 		setWindowTitle("qRezix v" + RZX_VERSION);
-
-		//Parce que Qt oublie de traduire les deux noms
-		//Alors faut le faire à la main, mais franchement, c du foutage de gueule
-		//à mon avis ça leur prendrait 5 minutes chez trolltech pour corriger le pb
-		tbRezalContainer->setItemText(0, tr("Favorites"));
-		tbRezalContainer->setItemText(1, tr("Everybody"));
-	}
 }
  
 /// Changement du thème d'icone
@@ -337,14 +361,12 @@ void QRezix::changeTheme()
 	columnsAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_COLUMN));
 	prefAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
 	searchAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_SEARCH));
-	lblCountIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_NOTFAVORITE)
+	statusui->lblCountIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_NOTFAVORITE)
 		.scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-	tbRezalContainer->setItemIcon(1,RzxIconCollection::getPixmap(Rzx::ICON_NOTFAVORITE));
-	tbRezalContainer->setItemIcon(0,RzxIconCollection::getPixmap(Rzx::ICON_FAVORITE));
 	if(statusFlag)
-		lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_ON));
+		statusui->lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_ON));
 	else
-		lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_OFF));
+		statusui->lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_OFF));
 }
 
 ///Changement de format des boutons de la barre d'outils
@@ -373,10 +395,8 @@ void QRezix::menuFormatChange()
 			{
 				QIcon empty;
 				QPixmap emptyIcon;
-				tbRezalContainer->setItemIcon(0,empty);
-				tbRezalContainer->setItemIcon(1,empty);
-				lblStatusIcon->hide();
-				lblCountIcon->hide();
+				statusui->lblStatusIcon->hide();
+				statusui->lblCountIcon->hide();
 			}
 			break;
 		case 1: //petites icônes
@@ -386,8 +406,8 @@ void QRezix::menuFormatChange()
 				int dim = (icons == 2)?32:16;
 				QSize size = QSize(dim,dim);
 				setIconSize(size);
-				lblStatusIcon->show();
-				lblCountIcon->show();
+				statusui->lblStatusIcon->show();
+				statusui->lblCountIcon->show();
 			}
 			break;
 	}
@@ -395,13 +415,13 @@ void QRezix::menuFormatChange()
 	//Mise à jour de la position du texte
 	if(texts)
 	{
-		lblStatus->show();
-		lblCountIcon->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+		statusui->lblStatus->show();
+		statusui->lblCountIcon->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 	}
 	else
 	{
-		lblStatus->hide();
-		lblCountIcon->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+		statusui->lblStatus->hide();
+		statusui->lblCountIcon->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 	}
 }
 
@@ -410,7 +430,6 @@ void QRezix::menuFormatChange()
 void QRezix::pluginsMenu()
 {
 	menuPlugins.clear();
-	RzxPlugInLoader::global()->menuAction(menuPlugins);
 	if(!menuPlugins.actions().count())
 		menuPlugins.addAction("<none>");
 //	menuPlugins.popup(btnPlugins->mapToGlobal(btnPlugins->rect().topRight()));
