@@ -31,6 +31,7 @@
 #include <QList>
 
 #include <RzxGlobal>
+#include <RzxSubnet>
 
 #include <RzxAbstractConfig>
 
@@ -186,9 +187,29 @@ public:
 	RZX_RGBPROP("ignoredBGColor", ignoredBGColor, setIgnoredBGColor, 0xCCCCCC)
 	RZX_RGBPROP("ignoredtext", ignoredText, setIgnoredText, 0xEEEEEE)
 
+	RZX_RGBPROP("error_back", errorBackgroundColor, setErrorBackgroundColor, 0xFF0000)
+	RZX_RGBPROP("error_text", errorTextColor, setErrorTextColor, 0xFFFFFF)
+	
+	static bool infoCompleted();
 	static bool find();
 
-	/** Returns the dir where all system-wide data are saved */
+
+//Gestion des sous-réseaux
+private:
+	QStringList rezalNames;
+	QStringList rezalLongNames;
+	QList< QList<RzxSubnet> > rezalSubnets;
+
+public:
+	void loadRezals();
+	static int rezalNumber();
+	static int rezal(const QHostAddress&);
+	static QString rezalName(int, bool = true);
+	static QString rezalName(const QHostAddress&, bool = true);
+
+
+//Gestion des répertoires et du stockage des données
+public:
 	enum DirFlags {
 		UserDir = 1,
 		SystemDir = 2,
@@ -211,13 +232,9 @@ public:
 	static const QDir &libDir();
 	static QList<QDir> dirList(Dir = AllDirsExceptTemp, const QString& = QString(), bool = false, bool = false);
 	static QDir dir(DirFlags, const QString& = QString(), bool = false, bool = false);
+	static QString findFile(const QString&, Dir = AllDirsExceptTemp, const QString& = QString());
 
-	/** the name of the log's subdirectory */
-	RZX_RGBPROP("error_back", errorBackgroundColor, setErrorBackgroundColor, 0xFF0000)
-	RZX_RGBPROP("error_text", errorTextColor, setErrorTextColor, 0xFFFFFF)
-	
-	static bool infoCompleted();
-
+//Quelques signaux...
 signals:
 	void languageChanged();
 	void updateResponder();

@@ -177,7 +177,7 @@ public:
 
 	const RzxHostAddress &ip() const;
 	QString rezalName(bool shortname = true) const;
-	Rzx::RezalId rezal() const;
+	int rezal() const;
 	bool isSameGateway(RzxComputer *computer = 0) const;
 	bool isSameGateway(const RzxComputer&) const;
 	bool isLocalhost() const;

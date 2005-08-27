@@ -60,47 +60,6 @@ namespace Rzx
 		CAP_XPLO = 4 /**< Supporte le protocole Xplo */
 	};
 
-	///Définition des identifiants des sous réseaux
-	enum RezalId {
-		RZL_WORLD = 0,
-		RZL_BINETS = 1,
-		RZL_BR = 2,
-		RZL_BEMA = 3,
-		RZL_BEMD = 4,
-		RZL_FOCH0 = 5,
-		RZL_FOCH1 = 6,
-		RZL_FOCH2 = 7,
-		RZL_FOCH3 = 8,
-		RZL_FAYOLLE0 = 9,
-		RZL_FAYOLLE1 = 10,
-		RZL_FAYOLLE2 = 11,
-		RZL_FAYOLLE3 = 12,
-		RZL_PEM = 13,
-		RZL_JOFFRE0 = 14,
-		RZL_JOFFRE1 = 15,
-		RZL_JOFFRE2 = 16,
-		RZL_JOFFRE3 = 17,
-		RZL_MAUNOURY0 = 18,
-		RZL_MAUNOURY1 = 19,
-		RZL_MAUNOURY2 = 20,
-		RZL_MAUNOURY3 = 21,
-		RZL_BAT411 = 22,
-		RZL_BAT70 = 23,
-		RZL_BAT71 = 24,
-		RZL_BAT72 = 25,
-		RZL_BAT73 = 26,
-		RZL_BAT74 = 27,
-		RZL_BAT75 = 28,
-		RZL_BAT76 = 29,
-		RZL_BAT77 = 30,
-		RZL_BAT78 = 31,
-		RZL_BAT79 = 32,
-		RZL_BAT80 = 33,
-		RZL_WIFI = 34,
-		RZL_X = 35,
-		RZL_NUMBER = 36
-	};
-
 	///Identifiant des icônes
 	enum Icon {
 		ICON_ACTION = 0,

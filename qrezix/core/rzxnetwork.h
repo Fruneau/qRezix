@@ -14,11 +14,13 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <RzxBaseModule>
+
 #ifndef RZXNETWORK_H
 #define RZXNETWORK_H
 
 #include <QObject>
-#include <RzxBaseModule>
+
 
 class RzxHostAddress;
 
@@ -73,6 +75,9 @@ class RzxNetwork : public QObject, public RzxBaseModule
 		virtual void stop() = 0;
 		virtual void refresh() = 0;
 		virtual void getIcon(const RzxHostAddress&) = 0;
+		virtual void usePass(const QString&) = 0;
+		virtual void changePass(const QString&) = 0;
+		virtual void wantChangePass() = 0;
 
 	signals:
 		void connected();

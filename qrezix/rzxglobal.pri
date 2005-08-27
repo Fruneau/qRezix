@@ -3,9 +3,8 @@ QT *= network
 HEADERS += ../core/RzxGlobal \
 	../core/RzxApplication \
 	../core/RzxHostAddress \
+	../core/RzxSubnet \
 	../core/RzxConnectionLister \
-	../core/RzxServerListener \
-	../core/RzxProtocole \
 	../core/RzxComputer \
 	../core/RzxMessageBox \
 	../core/RzxUtilsLauncher \
@@ -17,5 +16,6 @@ HEADERS += ../core/RzxGlobal \
 	../core/RzxModule \
 	../core/RzxBaseModule \
 	../core/RzxBaseLoader \
-	../core/RzxNetwork
-															
+	../core/RzxNetwork \
+	../core/RzxWrongPass \
+	../core/RzxChangePass 														

@@ -26,7 +26,7 @@
 #include <RzxConfig>
 
 #ifdef RZX_XNET_BUILTIN
-#include <RzxServerListener>
+#include "../xnet/rzxserverlistener.h"
 #endif
 
 RZX_GLOBAL_INIT(RzxConnectionLister)

@@ -10,6 +10,7 @@ SUBDIRS += core main
 !contains(DEFINES, RZX_TRAYICON_BUILTIN):SUBDIRS += tray
 !contains(DEFINES, RZX_NOTIFIER_BUILTIN):SUBDIRS += notifier
 !contains(DEFINES, RZX_CHAT_BUILTIN):SUBDIRS += chat
+!contains(DEFINES, RZX_XNET_BUILTIN):SUBDIRS += xnet
 
 mac {
 	translations.files = translations/*.qm

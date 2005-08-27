@@ -34,9 +34,6 @@
  */
 class RzxHostAddress : public QHostAddress 
 {
-	///Chaînes de caractères représentant les différents sous-réseau
-	static const char *rezalText[Rzx::RZL_NUMBER][2];
-
 	public:
 		RzxHostAddress();
 		RzxHostAddress(const QHostAddress& host);
@@ -48,9 +45,8 @@ class RzxHostAddress : public QHostAddress
 
 		operator quint32() const;
 
-		Rzx::RezalId rezal() const;
+		int rezal() const;
 		QString rezalName(bool = true) const;
-		static QString rezalName(Rzx::RezalId, bool = true);
 		
 		bool isSameGateway(const RzxHostAddress&) const;
 		static bool isSameGateway(const RzxHostAddress&, const RzxHostAddress&);

@@ -14,12 +14,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <RzxBaseModule>
+
 #ifndef RZXREZAL_H
 #define RZXREZAL_H
 
 #include <QDockWidget>
-
-#include <RzxBaseModule>
 
 class QAbstractItemView;
 

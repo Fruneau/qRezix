@@ -23,7 +23,6 @@
 
 #include <RzxHostAddress>
 #include <RzxNetwork>
-#include "ui_rzxchangepassui.h"
 
 /**
 	*Gere le protocole Xnet. Attention, les messages SERVER_ICON sont definis mais
@@ -43,8 +42,6 @@ class RzxProtocole : public RzxNetwork
 	
 	QString m_oldPass;
 	QString m_newPass;
-	Ui::RzxChangePassUI changepassui;
-	QDialog *changepass;
 	
 	///Patron de formatage des objets
 	static const QString serialPattern;
@@ -97,15 +94,10 @@ public slots:
 	virtual void refresh();
 	
 	/** Demande de changement de pass */
-	void changePass(const QString& oldPass = QString::null);
+	virtual void wantChangePass();
+	virtual void changePass(const QString&);
+	virtual void usePass(const QString&);
 	
-protected slots:
-	/** Validation d'un changement de pass */
-	void validChangePass();
-	/** Annulation d'un changement de pass */
-	void cancelChangePass();
-	/** Analyse du texte tapé pour le nouveau pass */
-	void analyseNewPass();
 
 signals: // Signals
 	/** ping() est emit quand on passe une commande PING a @ref parse */
