@@ -164,10 +164,9 @@ void RzxBaseLoader<T>::loadPlugins(const QString& rep, const QString& pattern, c
 		filter << pattern;
 #else
 #ifdef Q_OS_MAC
-		filter << "lib" + pattern + ".dylib";
-#else
-		filter << "lib" + pattern + ".so";
+		filter << "lib" + pattern + ".dylib" << "lib" + pattern + ".bundle";
 #endif
+		filter << "lib" + pattern + ".so";
 #endif
 
 		QStringList plugins = dir.entryList(filter, QDir::Files|QDir::Readable);

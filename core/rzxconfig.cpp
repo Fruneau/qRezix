@@ -25,16 +25,11 @@
 #include <QFontDatabase>
 #include <QStringList>
 #include <QTranslator>
+#include <QApplication>
 
 #ifdef WIN32
 	#include <math.h>
 	#include <windows.h>
-	//Parce que l'abruti de MSVC++ il a du mal avec les includes
-	#define RZXCHAT_IMPL_H
-	#define RZXCLIENTLISTENER_H
-	class RzxChat;
-	class RzxClientListener;
-	class RzxChatSocket;
 #else
 	#include <unistd.h>
 #endif
@@ -44,7 +39,6 @@
 #include <RzxMessageBox>
 #include <RzxHostAddress>
 #include <RzxComputer>
-#include <RzxServerListener>
 #include <RzxIconCollection>
 
 RZX_CONFIG_INIT(RzxConfig)
@@ -68,6 +62,7 @@ void RzxConfig::init()
 	//CHargment de données diverses (icons, traductions)
 	loadTranslators();
 	RzxIconCollection::global();
+	loadRezals();
 	
 	//Chargement des données QVB sur les fontes du système
 	loadFontList();
@@ -388,6 +383,163 @@ void RzxConfig::addDir(QList<QDir> &dirList, QDir dir)
 	if(!dirList.contains(dir))
 		dirList << dir;
 }
+
+///Recherche un fichier existant dans les répertoires indiqués, et retourne son chemin
+QString RzxConfig::findFile(const QString& filename, Dir dir, const QString& subdir)
+{
+	QList<QDir> dirs = dirList(dir, subdir);
+	foreach(QDir dir, dirs)
+	{
+		if(dir.exists(filename))
+			return dir.absoluteFilePath(filename);
+	}
+	return QString();
+}
+
+
+/******************************************************************************
+* FONCTION DE GESTION DES SOUS-RÉSEAUX                                        *
+******************************************************************************/
+///Charge la liste des sous-réseau
+/** La liste des rezals doit être définie dans un fichier nommé subnet.ini placé
+ * soit dans le répertoire d'installation soit dans le répertoire utilisateur et
+ * donc le contenu décrit les différents subnets de façon précise. Ce fichier
+ * est constitué de 2 parties, la première appelée Subnets décrit la liste des
+ * sous réseaux avec un format :
+ * \code
+ * x_shortname = ip1/mask1,ip2/mask2,...
+ * \endcode
+ * où x est un chiffre de priorité (plus il est petit, plus le sous réseau est
+ * prioritaire... c'est à dire plus il est testé rapidement).
+ *
+ * La deuxième partie s'appelle Names et associe à chaque subnet un nom plus
+ * long. Il a un format :
+ * \code
+ * x_shortname = long name
+ * \endcode
+ *
+ * Un exemple de fichier complet serait de la forme suivante :
+ * \code
+ * [Subnets]
+ * 1_Binet = 129.104.201.0/24
+ * 1_Bat70 = 129.104.224.128/25
+ * 2_X = 129.104.0.0/16
+ * 3_Monde = 0.0.0.0/0
+ * 
+ * [Names]
+ * 1_Binet = Binets & Kès
+ * 1_Bat70 = Bâtiment 70
+ * 2_X = X
+ * 3_Monde = Internet
+ * \endcode
+ */
+void RzxConfig::loadRezals()
+{
+	Rzx::beginModuleLoading("Subnets");
+	QString file = findFile("subnet.ini");
+	if(file.isNull())
+	{
+		qDebug("No subnet file found...");
+		Rzx::endModuleLoading("Subnets", false);
+		return;
+	}
+
+	QSettings subnets(file, IniFormat);
+
+	//Récupération des réseaux
+	subnets.beginGroup("Subnets");
+	QStringList keys = subnets.childKeys();
+	foreach(QString key, keys)
+	{
+		QString value = subnets.value(key).toString();
+		QStringList subs = value.split(",", QString::SkipEmptyParts);
+		QList<RzxSubnet> rezal;
+		foreach(QString sub, subs)
+		{
+			RzxSubnet subnet(sub);
+			if(subnet.isValid())
+				rezal << subnet;
+		}
+		if(!rezal.isEmpty())
+		{
+			QRegExp name("\\d_(.+)");
+			if(name.indexIn(key) != -1)
+				rezalNames << name.cap(1);
+			else
+				rezalNames << key;
+			rezalSubnets << rezal;
+		}
+	}
+	subnets.endGroup();
+
+	//Récupération des noms de réseaux
+	subnets.beginGroup("Names");
+	foreach(QString key, keys)
+	{
+		QString longName = subnets.value(key).toString();
+		if(longName.isEmpty())
+		{
+			QRegExp name("\\d_(.+)");
+			if(name.indexIn(key) != -1)
+				rezalLongNames << name.cap(1);
+			else
+				rezalLongNames << key;
+		}
+		else
+			rezalLongNames << longName;
+	}
+	subnets.endGroup();
+	qDebug("Found %d subnets", rezalNumber());
+	Rzx::endModuleLoading("Subnets");
+}
+
+///Retourne le nombre de sous réseaux
+int RzxConfig::rezalNumber()
+{
+	return global()->rezalSubnets.count();
+}
+
+///Retourne le rezal auquel appartient le QHostAddress
+/** Retourne -1 si aucun sous-réseau correspondant n'est trouvé
+ */
+int RzxConfig::rezal(const QHostAddress& addr)
+{
+	int i = 0;
+	foreach(QList<RzxSubnet> rezal, global()->rezalSubnets)
+	{
+		foreach(RzxSubnet subnet, rezal)
+		{
+			if(subnet.contains(addr))
+				return i;
+		}
+		i++;
+	}
+	return -1;
+}
+
+///Retourne le nom du rezal indiqué
+/** Si le rezal n'existe pas, cette fonction renvoie QString(),
+ * dans les autre cas, le nom du rezal est retourné. Si bool = true,
+ * c'est le nom court qui est retourné, sinon c'est le nom long
+ */
+QString RzxConfig::rezalName(int rezalid, bool shortname)
+{
+	if(rezalid >= rezalNumber() || rezalid < 0)
+		return QString();
+
+	if(shortname)
+		return global()->rezalNames[rezalid];
+	else
+		return global()->rezalLongNames[rezalid];
+}
+
+///Retourne le nom du rezal auquel appartient le QHostAddress
+/** \sa rezalName */
+QString RzxConfig::rezalName(const QHostAddress& addr, bool shortname)
+{
+	return rezalName(rezal(addr), shortname);
+}
+
 
 /******************************************************************************
 * FONCTION DE GESTION DES MOTS DE PASSE                                       *

@@ -40,13 +40,14 @@
 
 #include "rzxchatlister.h"
 
+///Exporte le module
+RZX_MODULE_EXPORT(RzxChatLister)
+
 #include "rzxchat.h"
 #include "rzxclientlistener.h"
 #include "ui_rzxchatpropui.h"
 #include "rzxchatconfig.h"
 
-///Exporte le module
-RZX_MODULE_EXPORT(RzxChatLister)
 
 RZX_CONFIG_INIT(RzxChatConfig)
 RZX_GLOBAL_INIT(RzxChatLister)

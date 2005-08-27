@@ -15,13 +15,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <RzxBaseModule>
 
 #ifndef RZXMODULE_H
 #define RZXMODULE_H
 
 #include <QFlags>
-
-#include <RzxBaseModule>
 
 class RzxComputer;
 

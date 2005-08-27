@@ -24,12 +24,13 @@
 #include <QImage>
 #include <QDialog>
 
-#include <RzxProtocole>
 #include <RzxComputer>
 #include <RzxConfig>
 #include <RzxIconCollection>
+#include <RzxWrongPass>
+#include <RzxChangePass>
 
-#include "ui_rzxwrongpassui.h"
+#include "rzxprotocole.h"
 #include "md5.h"
 
 #define MD5_ADD "Vive le BR"
@@ -58,7 +59,6 @@ const QString RzxProtocole::serialPattern = "$nn $xo $xv $xf $rem";
 RzxProtocole::RzxProtocole()
 	: RzxNetwork("xNet 1.7.0-svn", "Native support for the xNet protocole version 4.0")
 {
-	changepass = NULL;
 }
 
 ///Destruction...
@@ -98,7 +98,8 @@ void RzxProtocole::parse(const QString& msg)
 				if(testOldPass && !RzxConfig::oldPass().isNull())
 				{
 					testOldPass = false;
-					changePass(RzxConfig::oldPass());
+					m_oldPass = RzxConfig::oldPass();
+					wantChangePass();
 				}
 				break;
 				
@@ -119,21 +120,8 @@ void RzxProtocole::parse(const QString& msg)
 				}
 				else
 				{
-					Ui::RzxWrongPassUI wp;
-					QDialog wpDialog;
-					wp.setupUi(&wpDialog);
+					new RzxWrongPass(this);
 					RzxConfig::global()->setOldPass();
-					QIcon icon(RzxIconCollection::getIcon(Rzx::ICON_OK));
-					wp.btnOK->setIcon(icon);
-					wpDialog.exec();
-					QString pwd = wp.ledPassword->text();
-					if(pwd.length())
-					{
-						pwd += MD5_ADD;
-						pwd=MD5String(pwd.toLatin1());
-						sendAuth(pwd);
-						RzxConfig::global()->setPass(pwd);
-					}
 				}
 				break;
 
@@ -144,7 +132,8 @@ void RzxProtocole::parse(const QString& msg)
 				
 			case SERVER_PASS:
 				RzxConfig::global()->setOldPass(cmd.cap(1));
-				changePass(cmd.cap(1));
+				m_oldPass = cmd.cap(1);
+				wantChangePass();
 				break;
 			
 			case SERVER_CHANGEPASSOK:
@@ -179,6 +168,21 @@ void RzxProtocole::parse(const QString& msg)
 /*******************************************************************************
 * MESSAGES A ENVOYER AU SERVEUR
 */
+/// Défini le mot de passe à utiliser
+void RzxProtocole::usePass(const QString& pass)
+{
+	QString pwd(pass);
+	if(pwd.length())
+	{
+		pwd += MD5_ADD;
+		pwd=MD5String(pwd.toLatin1());
+		sendAuth(pwd);
+		RzxConfig::global()->setPass(pwd);
+	}
+	else
+		stop();
+}
+
 /** No descriptions */
 void RzxProtocole::beginAuth()
 {
@@ -214,60 +218,14 @@ void RzxProtocole::getIcon(const RzxHostAddress& ip) {
 /****************************************************************************
 * CHANGEMENT DU PASS
 */
-void RzxProtocole::changePass(const QString& oldPass)
+void RzxProtocole::wantChangePass()
 {
-	if(oldPass.isNull())
-		changepass = new QDialog();
-	else
-		changepass = new QDialog(NULL, Qt::Dialog | Qt::WindowStaysOnTopHint);
-	changepassui.setupUi(changepass);
-	
-	//Application du masque pour être sur du formatage du password
-	changepassui.leNewPass->setValidator(new QRegExpValidator(QRegExp(".{6,63}"), this));
-	connect(changepassui.leNewPass, SIGNAL(textChanged(const QString&)), this, SLOT(analyseNewPass()));
-	changepassui.btnOK->setEnabled(false);
-	
-	//Rajout des icônes aux boutons
-	changepassui.btnOK->setIcon(RzxIconCollection::getIcon(Rzx::ICON_OK));
-	changepassui.btnCancel->setIcon(RzxIconCollection::getIcon(Rzx::ICON_CANCEL));
-
-	//Connexion des boutons comme il va bien
-	connect(changepassui.btnOK, SIGNAL(clicked()), this, SLOT(validChangePass()));
-	connect(changepassui.btnCancel, SIGNAL(clicked()), this, SLOT(cancelChangePass()));
-	
-	//Affichage de la fenêtre
-	changepass->raise();
-	changepass->show();
+	new RzxChangePass(this, m_oldPass);
 }
 
-void RzxProtocole::validChangePass()
+void RzxProtocole::changePass(const QString& newPass)
 {
-	if(!changepass) return;
-	
-	//Si le nouveau texte et sa confirmation coincident, on envoie la requête au serveur
-	//et on ferme la fenêtre
-	if(changepassui.leNewPass->text() == changepassui.leReenterNewPass->text())
-	{
-		m_newPass = changepassui.leNewPass->text();
-       //avec hash:
-		m_newPass = m_newPass+MD5_ADD;
-		m_newPass = MD5String(m_newPass.toLatin1());
-		emit send("CHANGEPASS " + m_newPass + "\r\n");
-
-		changepass->deleteLater();
-		changepass = NULL;
-	}
+	m_newPass = newPass + MD5_ADD;
+	m_newPass = MD5String(m_newPass.toLatin1());
+	emit send("CHANGEPASS " + m_newPass + "\r\n");
 }
-
-void RzxProtocole::cancelChangePass()
-{
-	if(!changepass) return;
-	changepass->deleteLater();
-	changepass = NULL;
-}
-
-void RzxProtocole::analyseNewPass()
-{
-	changepassui.btnOK->setEnabled(changepassui.leNewPass->hasAcceptableInput());
-}
-

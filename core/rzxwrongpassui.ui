@@ -56,7 +56,7 @@ If you're sure that you entered the good Computer Name then reenter your passwor
       <string>&amp;OK</string>
      </property>
      <property name="shortcut" >
-      <string>⌥O, Return</string>
+      <string/>
      </property>
      <property name="autoDefault" >
       <bool>false</bool>
@@ -126,12 +126,28 @@ If you're sure that you entered the good Computer Name then reenter your passwor
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>210</x>
-     <y>258</y>
+     <x>320</x>
+     <y>275</y>
     </hint>
     <hint type="destinationlabel" >
      <x>315</x>
      <y>-2</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnOK</sender>
+   <signal>clicked()</signal>
+   <receiver>RzxWrongPassUI</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>275</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>326</x>
+     <y>177</y>
     </hint>
    </hints>
   </connection>

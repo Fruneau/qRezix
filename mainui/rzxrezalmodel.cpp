@@ -93,11 +93,11 @@ RzxRezalModel::RzxRezalModel()
 	binetIndex = QAbstractItemModel::createIndex(TREE_PROMO_BINET, 0, (int)TREE_FLAG_PROMO | TREE_PROMO_BINET);
 
 	//Arborescence par rezal
-	insertRows(0, Rzx::RZL_NUMBER, rezalGroup);
-	rezalIndex = new QPersistentModelIndex[Rzx::RZL_NUMBER];
-	rezals = new QList<RzxComputer*>[Rzx::RZL_NUMBER];
-	rezalsByName = new RzxDict<QString, RzxComputer*>[Rzx::RZL_NUMBER];
-	for(int i = 0 ; i < Rzx::RZL_NUMBER ; i++)
+	insertRows(0, RzxConfig::rezalNumber(), rezalGroup);
+	rezalIndex = new QPersistentModelIndex[RzxConfig::rezalNumber()];
+	rezals = new QList<RzxComputer*>[RzxConfig::rezalNumber()];
+	rezalsByName = new RzxDict<QString, RzxComputer*>[RzxConfig::rezalNumber()];
+	for(int i = 0 ; i < RzxConfig::rezalNumber() ; i++)
 		rezalIndex[i] = QAbstractItemModel::createIndex(i, 0, (int)TREE_FLAG_REZAL | i);
 
 	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
@@ -178,7 +178,7 @@ QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent)
 				//Le père est Rezal, donc row est le rezalId
 				//- Rezal (FLAG_REZAL | rezalId)
 				case TREE_BASE_REZAL:
-					if(row < Rzx::RZL_NUMBER)
+					if(row < RzxConfig::rezalNumber())
 						if(!column) return rezalIndex[row];
 					break;
 			}
@@ -212,7 +212,7 @@ QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent)
 		// - ...  (FLAG_REZAL | ((rezalId + 1) << 16) | row)
 		case TREE_FLAG_REZAL:
 		{
-			if(value >= 0 && value < Rzx::RZL_NUMBER)
+			if(value >= 0 && value < RzxConfig::rezalNumber())
 				return createIndex(row, column, GET_ID_FROM_REZAL(value), rezals[value]);
 		}
 	}
@@ -296,8 +296,8 @@ QModelIndex RzxRezalModel::parent(const QModelIndex& parent) const
 	if(parent.internalId() & TREE_FLAG_MASK != TREE_FLAG_REZAL)
 		return QModelIndex();
 
-	uint rezal = GET_REZAL_FROM_ID(parent.internalId());
-	if(rezal < Rzx::RZL_NUMBER)
+	int rezal = GET_REZAL_FROM_ID(parent.internalId());
+	if(rezal < RzxConfig::rezalNumber())
 		return rezalIndex[rezal];
 
 	return QModelIndex();
@@ -346,7 +346,7 @@ int RzxRezalModel::rowCount(const QModelIndex& parent) const
 				case TREE_BASE_EVERYBODY: return everybody.count();
 				case TREE_BASE_FAVORITE: return TREE_FAVORITE_NUMBER;
 				case TREE_BASE_PROMO: return TREE_PROMO_NUMBER;
-				case TREE_BASE_REZAL: return Rzx::RZL_NUMBER;
+				case TREE_BASE_REZAL: return RzxConfig::rezalNumber();
 			}
 			break;
 
@@ -370,7 +370,7 @@ int RzxRezalModel::rowCount(const QModelIndex& parent) const
 			break;
 
 		case TREE_FLAG_REZAL:
-			if(value >= 0 && value < Rzx::RZL_NUMBER)
+			if(value >= 0 && value < RzxConfig::rezalNumber())
 				return rezals[value].count();
 	}
 
@@ -431,7 +431,7 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 			break;
 
 		case TREE_FLAG_REZAL:
-			return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY), RzxHostAddress::rezalName((Rzx::RezalId)value, false));
+			return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY), RzxConfig::rezalName(value, false));
 
 		case TREE_FLAG_FAVORITE_FAVORITE: return getComputer(role, favorites, value, column);
 		case TREE_FLAG_FAVORITE_IGNORED: return getComputer(role, ignored, value, column);
@@ -446,7 +446,7 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 	if((category & TREE_FLAG_HARDMASK) == TREE_FLAG_REZAL)
 	{
 		int rezalId = GET_REZAL_FROM_ID(parentId);
-		if(rezalId >= 0 && rezalId < Rzx::RZL_NUMBER)
+		if(rezalId >= 0 && rezalId < RzxConfig::rezalNumber())
 			return getComputer(role, rezals[rezalId], value, column);
 	}
 
@@ -659,9 +659,9 @@ void RzxRezalModel::login(RzxComputer *computer)
 	switch(computer->promo())
 	{
 		case Rzx::PROMAL_UNK: case Rzx::PROMAL_ORANGE:
-			if(computer->rezal() == Rzx::RZL_BINETS || computer->rezal() == Rzx::RZL_BR)
+/*			if(computer->rezal() == Rzx::RZL_BINETS || computer->rezal() == Rzx::RZL_BR)
 				insertObject(binetIndex, binet, binetByName, computer);
-			else
+			else*/
 				insertObject(oranjeIndex, oranje, oranjeByName, computer);
 			break;
 		case Rzx::PROMAL_JONE:
@@ -673,7 +673,7 @@ void RzxRezalModel::login(RzxComputer *computer)
 	}
 
 	//Rangement en rezal
-	Rzx::RezalId rezalId = computer->rezal();
+	int rezalId = computer->rezal();
 	insertObject(rezalIndex[rezalId], rezals[rezalId], rezalsByName[rezalId], computer);
 }
 
@@ -695,9 +695,9 @@ void RzxRezalModel::logout(RzxComputer *computer)
 	switch(computer->promo())
 	{
 		case Rzx::PROMAL_UNK: case Rzx::PROMAL_ORANGE:
-			if(computer->rezal() == Rzx::RZL_BINETS || computer->rezal() == Rzx::RZL_BR)
+/*			if(computer->rezal() == Rzx::RZL_BINETS || computer->rezal() == Rzx::RZL_BR)
 				removeObject(binetIndex, binet, binetByName, computer);
-			else
+			else*/
 				removeObject(oranjeIndex, oranje, oranjeByName, computer);
 			break;
 		case Rzx::PROMAL_JONE:
@@ -709,7 +709,7 @@ void RzxRezalModel::logout(RzxComputer *computer)
 	}
 
 	//Rangement en rezal
-	Rzx::RezalId rezalId = computer->rezal();
+	int rezalId = computer->rezal();
 	removeObject(rezalIndex[rezalId], rezals[rezalId], rezalsByName[rezalId], computer);
 }
 
@@ -757,7 +757,7 @@ void RzxRezalModel::update(RzxComputer *computer)
 	switch(computer->promo())
 	{
 		case Rzx::PROMAL_UNK: case Rzx::PROMAL_ORANGE:
-			if(computer->rezal() == Rzx::RZL_BINETS || computer->rezal() == Rzx::RZL_BR)
+/*			if(computer->rezal() == Rzx::RZL_BINETS || computer->rezal() == Rzx::RZL_BR)
 			{
 				if(!binet.contains(computer))
 				{
@@ -769,7 +769,7 @@ void RzxRezalModel::update(RzxComputer *computer)
 				else
 					updateObject(binetIndex, binet, computer);
 			}
-			else
+			else*/
 			{
 				if(!oranje.contains(computer))
 				{
@@ -810,7 +810,7 @@ void RzxRezalModel::update(RzxComputer *computer)
 	int rezalId = computer->rezal();
 	if(!rezals[rezalId].contains(computer))
 	{
-		for(int i = 0 ; i < Rzx::RZL_NUMBER ; i++)
+		for(int i = 0 ; i < RzxConfig::rezalNumber() ; i++)
 			if(i == rezalId)
 				insertObject(rezalIndex[i], rezals[i], rezalsByName[i], computer);
 			else
@@ -837,7 +837,7 @@ void RzxRezalModel::clear()
 	deleteGroup(rouje, roujeIndex);
 	deleteGroup(oranje, oranjeIndex);
 	deleteGroup(binet, binetIndex);
-	for(int i = 0 ; i < Rzx::RZL_NUMBER ; i++)
+	for(int i = 0 ; i < RzxConfig::rezalNumber() ; i++)
 		deleteGroup(rezals[i], rezalIndex[i]);
 }
 
@@ -904,7 +904,7 @@ QModelIndexList RzxRezalModel::selected(const QModelIndex& ref) const
 	insert(rouje, roujeIndex);
 	insert(oranje, oranjeIndex);
 	insert(binet, binetIndex);
-	for(int i = 0 ; i<Rzx::RZL_NUMBER ; i++)
+	for(int i = 0 ; i<RzxConfig::rezalNumber() ; i++)
 		insert(rezals[i], rezalIndex[i]);
 	return indexList;
 }
@@ -932,7 +932,7 @@ void RzxRezalModel::sort(int column, Qt::SortOrder sortSens)
 	sortList(rouje, roujeIndex);
 	sortList(oranje, oranjeIndex);
 	sortList(binet, binetIndex);
-	for(int i=0 ; i < Rzx::RZL_NUMBER ; i++)
+	for(int i=0 ; i < RzxConfig::rezalNumber() ; i++)
 		sortList(rezals[i], rezalIndex[i]);
 #undef sortList
 }

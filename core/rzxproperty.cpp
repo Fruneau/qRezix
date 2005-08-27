@@ -37,7 +37,6 @@ email                : benoit.casoetto@m4x.org
 #include <RzxHostAddress>
 #include <RzxConfig>
 #include <RzxComputer>
-#include <RzxServerListener>
 #include <RzxIconCollection>
 #include <RzxApplication>
 #include <RzxModule>

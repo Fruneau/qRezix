@@ -25,6 +25,7 @@
 #include <RzxIconCollection>
 #include <RzxConnectionLister>
 #include <RzxProperty>
+#include <RzxSubnet>
 
 #ifdef RZX_MAINUI_BUILTIN
 #	include "../mainui/rzxui.h"
@@ -71,7 +72,7 @@ RzxApplication::RzxApplication(int argc, char **argv)
 		return;
 	//Chargement des modules de qRezix
 	Rzx::beginModuleLoading("Modules loading");
-	loadModules("plugins", "rzx*", "getModule");
+	loadModules("modules", "rzx*", "getModule");
 	Rzx::endModuleLoading("Modules loading");
 
 	//Lancement de l'interface réseau

@@ -17,17 +17,18 @@
 #ifndef RZXCHATLISTER_H
 #define RZXCHATLISTER_H
 
+#include <QObject>
+#include <QString>
+#include <QHash>
+
+#include <RzxHostAddress>
+
 #ifdef RZX_CHAT_BUILTIN
 #	define RZX_BUILTIN
 #else
 #	define RZX_PLUGIN
 #endif
 
-#include <QObject>
-#include <QString>
-#include <QHash>
-
-#include <RzxHostAddress>
 #include <RzxModule>
 
 class QPoint;

@@ -415,7 +415,7 @@ bool RzxComputer::isLocalhost() const
 
 ///Permet de retrouver le 'nom' du sous-réseau sur lequel se trouve la machine
 /** Permet de donner un nom au sous-réseau de la machine. A terme cette fonction lira les données à partir d'un fichier qui contiendra les correspondances */
-Rzx::RezalId RzxComputer::rezal() const
+int RzxComputer::rezal() const
 {
 	return m_ip.rezal();
 }
