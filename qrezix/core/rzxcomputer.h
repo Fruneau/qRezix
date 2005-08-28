@@ -194,8 +194,6 @@ public:
 	void runScanFtp();
 	void stopScanFtp();
 
-	static Servers toServerFlags(int);
-
 signals: // Signals
 	void update(RzxComputer*);
 	void needIcon(const RzxHostAddress&);
@@ -284,18 +282,6 @@ inline bool RzxComputer::isOnResponder() const
 {
 	Rzx::ConnectionState m_state = state();
 	return m_state == Rzx::STATE_AWAY || m_state == Rzx::STATE_REFUSE;
-}
-
-///Conversion d'un entier en QFlags<ServerFlags> == Servers
-inline RzxComputer::Servers RzxComputer::toServerFlags(int rawServers)
-{
-	Servers servers;
-	if(rawServers & RzxComputer::SERVER_SAMBA) servers |= RzxComputer::SERVER_SAMBA;
-	if(rawServers & RzxComputer::SERVER_FTP) servers |= RzxComputer::SERVER_FTP;
-	if(rawServers & RzxComputer::SERVER_HTTP) servers |= RzxComputer::SERVER_HTTP;
-	if(rawServers & RzxComputer::SERVER_NEWS) servers |= RzxComputer::SERVER_NEWS;
-	if(rawServers & RzxComputer::SERVER_HOTLINE) servers |= RzxComputer::SERVER_HOTLINE;
-	return servers;
 }
 
 #endif

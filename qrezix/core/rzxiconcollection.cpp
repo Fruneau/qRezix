@@ -119,6 +119,8 @@ RzxIconCollection::RzxIconCollection()
 					qDebug("* %s in %s", subDir.toAscii().constData(), theme->absolutePath().toAscii().constData());
 					themeDir.insert(subDir, theme);
 				}
+				else
+					delete theme;
 			}
 		}
 	}

@@ -225,11 +225,14 @@ QStringList RzxBaseModule::propWidgetsName()
 /** Lorsqu'il faut réinitialiser les valeurs des données de
  * configurations affichées dans les fenêtres du module.
  *
- * \sa propDefault propUpdate propWidgets
+ * Si le booléen est true, on initialise aux valeurs par défaut
+ * et non pas aux dernières valeurs enregistrée (cf \ref propDefault )
+ *
+ * \sa propUpdate propWidgets
  *
  * L'implémentation par défaut ne fait rien
  */
-void RzxBaseModule::propInit()
+void RzxBaseModule::propInit(bool)
 {
 }
 
@@ -253,10 +256,11 @@ void RzxBaseModule::propUpdate()
  *
  * \sa propWidgets propWidgetsName propUpdate
  *
- * L'implémentation par défaut ne fait rien
+ * L'implémentation par défaut appel propInit avec def = true
  */
 void RzxBaseModule::propDefault()
 {
+	propInit(true);
 }
 
 ///Fermeture de la fenêtre de configuration

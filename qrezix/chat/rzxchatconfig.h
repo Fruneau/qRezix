@@ -20,8 +20,9 @@
 #include <QDir>
 
 #include <RzxConfig>
-
 #include <RzxAbstractConfig>
+
+#define DEFAULT_CHATPORT 5050
 
 /**
  @author Florent Bruneau
@@ -45,7 +46,6 @@ class RzxChatConfig:public RzxAbstractConfig
 };
 
 ///Retourne le répertoire où rechercher les logs de conversations...
-/** TODO déplacer dans le module chat */
 inline QDir RzxChatConfig::logDir()
 {
 	return RzxConfig::dir(RzxConfig::UserDir, "log", true, true);

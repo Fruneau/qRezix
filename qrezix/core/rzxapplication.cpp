@@ -230,11 +230,13 @@ void RzxApplication::saveSettings()
 	delete RzxConnectionLister::global();
 
 	//Fermeture et enregistrement de la configuration
+	delete RzxComputer::localhost();
 	delete RzxConfig::global();
 
 	Rzx::endModuleClosing("qRezix core");
 	Rzx::endModuleClosing("qRezix");
 	qDebug("Bye Bye\n");
+	Rzx::closeMsgHandler();
 }
 
 /// Affiche la boite de préférences

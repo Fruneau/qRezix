@@ -1,5 +1,3 @@
-QT *= network
-
 SOURCES += ../chat/rzxchatlister.cpp \
 	../chat/rzxclientlistener.cpp \
 	../chat/rzxchatsocket.cpp \

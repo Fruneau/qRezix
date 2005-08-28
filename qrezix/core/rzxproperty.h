@@ -17,6 +17,9 @@
 #define RZXPROPERTY_H
 
 #include <QDialog>
+#include <QListWidget>
+#include <QTreeWidget>
+#include <QStackedWidget>
 
 #include <RzxGlobal>
 #include "ui_rzxpropertyui.h"
@@ -49,7 +52,7 @@ public slots: // Public slots
 	bool miseAJour();
 	void oK();
 	void annuler();
-	void initDlg();
+	void initDlg(bool def = false);
 	void aboutQt();
 	void changeTheme();
 
@@ -63,11 +66,89 @@ private:
 	bool updateLocalHost();
 	QPixmap localhostIcon;
 
+	template<class T>
+	void buildModules(const QList<T*>&, QTreeWidget*);
+	template<class T>
+	void initModules(const QList<T*>&, bool def = false);
+	template<class T>
+	void updateModules(const QList<T*>&);
+	template<class T>
+	void changeThemeModules(const QList<T*>&, int&);
+	template<class T>
+	void closeModules(const QList<T*>&);
+
 protected slots: // Protected slots
 	void launchDirSelectDialog();
 	void chooseIcon();
 	void lockCmbMenuText(int index);
 	void changePage(QListWidgetItem*, QListWidgetItem*);
 };
+
+///Inclu les modules dans la fenêtre de propriétés
+template<class T>
+void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidget *view)
+{
+	foreach(T *module, modules)
+	{
+		QList<QWidget*> props = module->propWidgets();
+		QStringList names = module->propWidgetsName();
+		foreach(QWidget *widget, props)
+		{
+			if(widget)
+				prefStack->addWidget(widget);
+		}
+		foreach(QString name, names)
+		{
+			QListWidgetItem *item = new QListWidgetItem(lbMenu);
+			item->setText(name);
+			item->setIcon(module->icon());
+		}
+		QTreeWidgetItem *item = new QTreeWidgetItem(view);
+		item->setIcon(0, module->icon());
+		item->setText(0, module->name());
+		item->setText(1, module->versionString());
+		item->setText(2, module->description());
+	}
+}
+
+///Initialise les modules
+template<class T>
+void RzxProperty::initModules(const QList<T*>& modules, bool def)
+{
+	foreach(T *module, modules)
+		module->propInit(def);
+}
+
+///Met à jour les données des modules
+template<class T>
+void RzxProperty::updateModules(const QList<T*>& modules)
+{
+	foreach(T *module, modules)
+		module->propUpdate();
+}
+
+///Change le thème des modules
+template<class T>
+void RzxProperty::changeThemeModules(const QList<T*>& modules, int& i)
+{
+	foreach(T *module, modules)
+	{
+		int nb = module->propWidgets().count();
+		for(int j = 0 ; j < nb ; j++, i++)
+			lbMenu->item(i)->setIcon(module->icon());
+	}
+}
+
+///Ferme les modules
+template<class T>
+void RzxProperty::closeModules(const QList<T*>& modules)
+{
+	foreach(T *module, modules)
+	{
+		if(module)
+			module->propClose();
+	}
+}
+
 
 #endif

@@ -61,8 +61,9 @@ private:
 
 //Gestion des traductions
 private:
-	static QHash<QString,QTranslator*> translations;
-	static QTranslator* currentTranslator;
+	QHash<QString, QString> languageNames;
+	QHash<QString, QList<QTranslator*> > translations;
+	QString lang;
 	void loadTranslators();
 	void loadTranslatorsInDir(const QDir &rep);
 
@@ -126,16 +127,8 @@ public:
 
 
 // Données
-	void setPass(const QString& passcode);
-	void setOldPass(const QString& oldPass = QString::null);
-	
 	RZX_STRINGPROP("theme", iconTheme, setIconTheme, DEFAULT_THEME)
 	RZX_STRINGPROP("txtBeepCmd", beepCmd, setBeepCmd, "play")
-	
-	RZX_UINTPROP("reconnection", reconnection, setReconnection, DEFAULT_RECONNECTION)
-	RZX_UINTPROP("ping_timeout", pingTimeout, setPingTimeout, DEFAULT_TIMEOUT)
-	RZX_INTPROP("server_port", serverPort, setServerPort, DEFAULT_PORT)
-	RZX_STRINGPROP("server_name", serverName, setServerName, DEFAULT_SERVER)
 
 	RZX_STRINGPROP("FTPPath", ftpPath, setFtpPath, QString())
 	RZX_STRINGPROP("samba_cmd", sambaCmd, setSambaCmd, DEFAULT_SAMBACMD)
@@ -162,9 +155,6 @@ public:
 	RZX_STRINGPROP("txtSport", propSport, setPropSport, QString())
 	RZX_UINTPROP("numSport", numSport, setNumSport, 0)
 	static QString propPromo();
-
-	static QString pass();
-	static QString oldPass();
 
 	static void addCache(const RzxHostAddress&, const QString&);
 	static QString cache(const RzxHostAddress&);

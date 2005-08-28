@@ -20,12 +20,13 @@
 #include <QPixmap>
 #include <QMessageBox>
 
-#include <RzxServerListener>
-
 #include <RzxMessageBox>
 #include <RzxComputer>
-#include <RzxConfig>
 #include <RzxIconCollection>
+
+#include "rzxserverlistener.h"
+#include "rzxxnetconfig.h"
+
 
 RZX_NETWORK_EXPORT(RzxServerListener)
 
@@ -33,6 +34,7 @@ RZX_NETWORK_EXPORT(RzxServerListener)
 RzxServerListener::RzxServerListener()
 	: RzxProtocole(), socket() {
 	beginLoading();
+	new RzxXNetConfig(this);
 	connect(&reconnection, SIGNAL(timeout()), this, SLOT(waitReconnection()));	
 	
 	connect(this, SIGNAL(ping()), this, SLOT(sendPong()));
@@ -63,6 +65,7 @@ RzxServerListener::RzxServerListener()
 RzxServerListener::~RzxServerListener()
 {
 	beginClosing();
+	delete RzxXNetConfig::global();
 	disconnect(&socket, SIGNAL(disconnected()), 0, 0);
 	endClosing();
 }
@@ -76,7 +79,7 @@ void RzxServerListener::setupReconnection(const QString& msg) {
 
 	emit disconnected();
 
-	unsigned int time = RzxConfig::reconnection();
+	unsigned int time = RzxXNetConfig::reconnection();
 	QString temp;
 	if(premiereConnexion)
 	{
@@ -130,11 +133,11 @@ void RzxServerListener::serverError(QTcpSocket::SocketError error) {
 			break;
 
 		case QTcpSocket::HostNotFoundError:
-			reconnectionMsg = tr("Cannot find server %1").arg(RzxConfig::serverName());
+			reconnectionMsg = tr("Cannot find server %1").arg(RzxXNetConfig::serverName());
 
 			if(hasBeenConnected)
 				RzxMessageBox::information( NULL, "qRezix",
-					tr("Cannot find server %1:\n\nDNS request failed").arg(RzxConfig::serverName()));
+					tr("Cannot find server %1:\n\nDNS request failed").arg(RzxXNetConfig::serverName()));
 			hasBeenConnected = false;
 			break;
 
@@ -169,7 +172,7 @@ void RzxServerListener::serverClose() {
 	setupReconnection(tr("Connection closed"));
 }
 
-/** Appelée quand il n'y a pas eu de ping depuis plus de RzxConfig::pingTimeout() ms */
+/** Appelée quand il n'y a pas eu de ping depuis plus de RzxXNetConfig::pingTimeout() ms */
 void RzxServerListener::serverTimeout(){
 	setupReconnection(tr("Connection lost"));
 }
@@ -179,8 +182,8 @@ void RzxServerListener::connectToXnetserver()
 	iconMode = false;
 	reconnection.stop();
 	
-	QString serverHostname = RzxConfig::serverName();
-	quint16 serverPort = RzxConfig::serverPort();
+	QString serverHostname = RzxXNetConfig::serverName();
+	quint16 serverPort = RzxXNetConfig::serverPort();
 	if (serverHostname.isEmpty() || !serverPort) {
 		notify(tr("Server name and port are not configured"));
 		return;
@@ -199,7 +202,7 @@ void RzxServerListener::serverFound()
 void RzxServerListener::serverConnected(){
 	notify(tr("Connected"));
 	hasBeenConnected = true;
-	pingTimer.start(RzxConfig::pingTimeout());
+	pingTimer.start(RzxXNetConfig::pingTimeout());
 	emit receiveAddress(getIP());
 }
 
@@ -316,7 +319,7 @@ void RzxServerListener::sendProtocolMsg(const QString& msg){
 /** No descriptions */
 void RzxServerListener::serverResetTimer(){
 	pingTimer.stop();
-	pingTimer.start(RzxConfig::pingTimeout());
+	pingTimer.start(RzxXNetConfig::pingTimeout());
 }
 
 /** No descriptions */

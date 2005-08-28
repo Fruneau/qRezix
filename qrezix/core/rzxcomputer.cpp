@@ -340,7 +340,7 @@ unsigned long RzxComputer::flags() const
 { return m_flags; }
 ///Récupération de la liste des servers présents sur la machine (ou demandés par l'utilisateur dans le cas de localhost)
 RzxComputer::Servers RzxComputer::servers() const
-{ return toServerFlags(m_options.Server); }
+{ return (ServerFlags)m_options.Server; }
 ///Récupération de la liste des serveurs présents (localhost)
 RzxComputer::Servers RzxComputer::serverFlags() const
 { return m_serverFlags; }

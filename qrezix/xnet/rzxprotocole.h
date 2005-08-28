@@ -24,6 +24,8 @@
 #include <RzxHostAddress>
 #include <RzxNetwork>
 
+#include "ui_rzxxnetpropui.h"
+
 /**
 	*Gere le protocole Xnet. Attention, les messages SERVER_ICON sont definis mais
 	* ne sont pas geres - pb de gestion des donnees binaires.
@@ -97,9 +99,24 @@ public slots:
 	virtual void wantChangePass();
 	virtual void changePass(const QString&);
 	virtual void usePass(const QString&);
-	
 
-signals: // Signals
+
+//Gestion de propriétés du module
+private:
+	Ui::RzxXNetPropUI *ui;
+	QWidget *propWidget;
+
+public:
+	virtual QList<QWidget*> propWidgets();
+	virtual QStringList propWidgetsName();
+
+public slots:
+	virtual void propInit(bool def = false);
+	virtual void propUpdate();
+	virtual void propClose();
+
+// Signals
+signals:
 	/** ping() est emit quand on passe une commande PING a @ref parse */
  	void ping();
  	

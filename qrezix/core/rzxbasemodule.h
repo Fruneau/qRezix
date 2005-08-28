@@ -138,7 +138,7 @@ class RzxBaseModule
 		//Gestion de propriétés du module
 		virtual QList<QWidget*> propWidgets();
 		virtual QStringList propWidgetsName();
-		virtual void propInit();
+		virtual void propInit(bool = false);
 		virtual void propUpdate();
 		virtual void propDefault();
 		virtual void propClose();

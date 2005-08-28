@@ -25,12 +25,12 @@
 #include <QDialog>
 
 #include <RzxComputer>
-#include <RzxConfig>
 #include <RzxIconCollection>
 #include <RzxWrongPass>
 #include <RzxChangePass>
 
 #include "rzxprotocole.h"
+#include "rzxxnetconfig.h"
 #include "md5.h"
 
 #define MD5_ADD "Vive le BR"
@@ -57,8 +57,9 @@ const QString RzxProtocole::serialPattern = "$nn $xo $xv $xf $rem";
 
 ///Construction... RAS
 RzxProtocole::RzxProtocole()
-	: RzxNetwork("xNet 1.7.0-svn", "Native support for the xNet protocole version 4.0")
+	: RzxNetwork("xNet 1.7.0-svn", "Native support for the xNet protocole version 4.0"), ui(NULL), propWidget(NULL)
 {
+	setIcon(RzxThemedIcon(Rzx::ICON_NETWORK));
 }
 
 ///Destruction...
@@ -95,10 +96,10 @@ void RzxProtocole::parse(const QString& msg)
 						   cmd.cap(7)); //Remarque
 				
 				//Si le pass donné par le serveur est encore valide, alors, on demande le changement de pass
-				if(testOldPass && !RzxConfig::oldPass().isNull())
+				if(testOldPass && !RzxXNetConfig::oldPass().isNull())
 				{
 					testOldPass = false;
-					m_oldPass = RzxConfig::oldPass();
+					m_oldPass = RzxXNetConfig::oldPass();
 					wantChangePass();
 				}
 				break;
@@ -113,15 +114,15 @@ void RzxProtocole::parse(const QString& msg)
 				break;
 
 			case SERVER_WRONGPASS:
-				if(!RzxConfig::oldPass().isNull() && !testOldPass)
+				if(!RzxXNetConfig::oldPass().isNull() && !testOldPass)
 				{
-					sendAuth(RzxConfig::oldPass());
+					sendAuth(RzxXNetConfig::oldPass());
 					testOldPass = true;
 				}
 				else
 				{
 					new RzxWrongPass(this);
-					RzxConfig::global()->setOldPass();
+					RzxXNetConfig::global()->setOldPass();
 				}
 				break;
 
@@ -131,21 +132,20 @@ void RzxProtocole::parse(const QString& msg)
 				break;
 				
 			case SERVER_PASS:
-				RzxConfig::global()->setOldPass(cmd.cap(1));
+				RzxXNetConfig::global()->setOldPass(cmd.cap(1));
 				m_oldPass = cmd.cap(1);
 				wantChangePass();
 				break;
 			
 			case SERVER_CHANGEPASSOK:
 				emit info(tr("Your pass has been successfully changed by the server. Keep it well because it can be useful."));
-				if(!RzxConfig::oldPass().isNull()) RzxConfig::global()->setOldPass();
-				RzxConfig::global()->setPass(m_newPass);
-				RzxConfig::global()->flush();
+				if(!RzxXNetConfig::oldPass().isNull()) RzxXNetConfig::setOldPass();
+				RzxXNetConfig::setPass(m_newPass);
 				break;
 			
 			case SERVER_CHANGEPASSFAILED:
 				emit info(tr("Server can't change your pass :\n") + cmd.cap(1));
-				RzxConfig::global()->setPass(m_oldPass);
+				RzxXNetConfig::setPass(m_oldPass);
 				break;
 				
 			case SERVER_PART:
@@ -177,7 +177,7 @@ void RzxProtocole::usePass(const QString& pass)
 		pwd += MD5_ADD;
 		pwd=MD5String(pwd.toLatin1());
 		sendAuth(pwd);
-		RzxConfig::global()->setPass(pwd);
+		RzxXNetConfig::setPass(pwd);
 	}
 	else
 		stop();
@@ -186,7 +186,7 @@ void RzxProtocole::usePass(const QString& pass)
 /** No descriptions */
 void RzxProtocole::beginAuth()
 {
-	sendAuth(RzxConfig::pass());
+	sendAuth(RzxXNetConfig::pass());
 }
 
 void RzxProtocole::sendAuth(const QString& passcode)
@@ -228,4 +228,75 @@ void RzxProtocole::changePass(const QString& newPass)
 	m_newPass = newPass + MD5_ADD;
 	m_newPass = MD5String(m_newPass.toLatin1());
 	emit send("CHANGEPASS " + m_newPass + "\r\n");
+}
+
+
+/****************************************************************************
+* FENÊTRE DE PROPRIÉTÉS
+*/
+
+/** \reimp */
+QList<QWidget*> RzxProtocole::propWidgets()
+{
+	if(!ui)
+		ui = new Ui::RzxXNetPropUI;
+	if(!propWidget)
+	{
+		propWidget = new QWidget;
+		ui->setupUi(propWidget);
+		connect(ui->btnChangePass, SIGNAL(clicked()), this, SLOT(wantChangePass()));
+	}
+	return QList<QWidget*>() << propWidget;
+}
+
+/** \reimp */
+QStringList RzxProtocole::propWidgetsName()
+{
+	return QStringList() << name();
+}
+
+/** \reimp */
+void RzxProtocole::propInit(bool def)
+{
+	ui->server_name->setText( RzxXNetConfig::serverName(def) );
+	ui->server_port->setValue( RzxXNetConfig::serverPort(def) );
+	ui->reconnection->setValue( RzxXNetConfig::reconnection(def) / 1000 );
+	ui->ping_timeout->setValue( RzxXNetConfig::pingTimeout(def) / 1000 );
+}
+
+/** \reimp */
+void RzxProtocole::propUpdate()
+{
+	if(!ui) return;
+
+	if(ui->server_name->text() != RzxXNetConfig::serverName() || ui->server_port->value() != RzxXNetConfig::serverPort())
+	{
+		RzxXNetConfig::setServerName(ui->server_name->text() );
+		RzxXNetConfig::setServerPort(ui->server_port->value() );
+		stop();
+		start();
+	}
+	else
+	{
+		RzxXNetConfig::setServerName(ui->server_name->text() );
+		RzxXNetConfig::setServerPort(ui->server_port->value() );
+	}
+
+	RzxXNetConfig::setReconnection(ui->reconnection->value() * 1000 );
+	RzxXNetConfig::setPingTimeout(ui->ping_timeout->value() * 1000 );
+}
+
+/** \reimp */
+void RzxProtocole::propClose()
+{
+	if(propWidget)
+	{
+		delete propWidget;
+		propWidget = NULL;
+	}
+	if(ui)
+	{
+		delete ui;
+		ui = NULL;
+	}
 }

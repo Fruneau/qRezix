@@ -19,6 +19,8 @@
 
 #include <RzxAbstractConfig>
 
+#define DEFAULT_WINDOWSIZE "100000000"
+
 /**
  @author Florent Bruneau
  */

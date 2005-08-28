@@ -77,6 +77,7 @@ class RzxRezal:public RzxBaseModule
 	
 	private:
 		Type m_type;
+		QDockWidget *dock;
 
 	public:
 		RzxRezal(const QString&, const QString&, int, int, int, const QString& = QString());
@@ -85,18 +86,24 @@ class RzxRezal:public RzxBaseModule
 		virtual ~RzxRezal();
 		virtual bool isInitialised() const;
 
-		const Type& type() const;
-	protected:
-		void setType(const Type&);
+		QDockWidget *dockWidget() const;
+		void setDockWidget(QDockWidget *);
 
-	public:
 		///Retourne une fenêtre utilisable pour l'affichage.
 		virtual QAbstractItemView *widget() = 0;
 		///Retourne les caractéristiques du rezal en tant que dock
 		virtual QDockWidget::DockWidgetFeatures features() const = 0;
 		///Retourne les positions autorisées du rezal en tant que dock
 		virtual Qt::DockWidgetAreas allowedAreas() const = 0;
+		///Indique l'état de préférence
+		virtual bool floating() const = 0;
+		///Indique la position de préférence
+		virtual Qt::DockWidgetArea area() const = 0;
 		virtual void updateLayout();
+
+		const Type& type() const;
+	protected:
+		void setType(const Type&);
 };
 
 #define RZX_REZAL_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getRezal, RzxRezal, MODULE)

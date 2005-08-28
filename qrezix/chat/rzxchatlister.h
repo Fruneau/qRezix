@@ -87,7 +87,7 @@ class RzxChatLister:public RzxModule
 		virtual QStringList propWidgetsName();
 
 	public slots:
-		virtual void propInit();
+		virtual void propInit(bool def = false);
 		virtual void propUpdate();
 		virtual void propClose();
 

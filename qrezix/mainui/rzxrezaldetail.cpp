@@ -273,6 +273,18 @@ Qt::DockWidgetAreas RzxRezalDetail::allowedAreas() const
 	return Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea;
 }
 
+///Retourne la position par défaut du rezal en tant que dock
+Qt::DockWidgetArea RzxRezalDetail::area() const
+{
+	return Qt::BottomDockWidgetArea;
+}
+
+///Retourne l'état par défaut du rezal
+bool RzxRezalDetail::floating() const
+{
+	return false;
+}
+
 /** \reimp */
 void RzxRezalDetail::updateLayout()
 {

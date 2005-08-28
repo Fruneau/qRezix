@@ -1,3 +1,4 @@
+CONFIG *= debug
 QT *= network
 
 HEADERS += ../core/RzxGlobal \

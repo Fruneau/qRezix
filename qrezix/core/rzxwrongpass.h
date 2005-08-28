@@ -31,6 +31,8 @@ class RzxNetwork;
  */
 class RzxWrongPass: public QDialog, private Ui::RzxWrongPassUI
 {
+	Q_OBJECT
+
 	RzxNetwork *network;
 
 	public:

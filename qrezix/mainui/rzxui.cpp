@@ -57,6 +57,7 @@ RzxUi::~RzxUi()
 {
 	beginClosing();
 	delete qrezix;
+	delete RzxMainUIConfig::global();
 	endClosing();
 }
 
@@ -112,13 +113,13 @@ QStringList RzxUi::propWidgetsName()
 }
 
 /** \reimp */
-void RzxUi::propInit()
+void RzxUi::propInit(bool def)
 {
-	ui->cmbIconSize->setCurrentIndex( RzxMainUIConfig::computerIconSize() );
-	ui->cmdDoubleClic->setCurrentIndex( RzxMainUIConfig::doubleClicRole() );
-	ui->cmbDefaultTab -> setCurrentIndex(RzxMainUIConfig::defaultTab());
+	ui->cmbIconSize->setCurrentIndex( RzxMainUIConfig::computerIconSize(def) );
+	ui->cmdDoubleClic->setCurrentIndex( RzxMainUIConfig::doubleClicRole(def) );
+	ui->cmbDefaultTab -> setCurrentIndex(RzxMainUIConfig::defaultTab(def));
 
-	uint colonnes = RzxMainUIConfig::colonnes();
+	uint colonnes = RzxMainUIConfig::colonnes(def);
 	ui->cbcNom ->setChecked( colonnes & (1<<RzxRezalModel::ColNom) );
 	ui->cbcRemarque->setChecked( colonnes & (1<<RzxRezalModel::ColRemarque) );
 	ui->cbcSamba ->setChecked( colonnes & (1<<RzxRezalModel::ColSamba) );
@@ -134,7 +135,7 @@ void RzxUi::propInit()
 	ui->cbQuit->setChecked(RzxMainUIConfig::showQuit());
 	ui->cbHighlight->setChecked(RzxMainUIConfig::computerIconHighlight());
 
-	uint tooltip = RzxMainUIConfig::tooltip();
+	uint tooltip = RzxMainUIConfig::tooltip(def);
 	ui->cbTooltips->setChecked(tooltip & RzxRezalModel::TipEnable);
 	ui->cbTooltipFtp->setChecked(tooltip & RzxRezalModel::TipFtp);
 	ui->cbTooltipHttp->setChecked(tooltip & RzxRezalModel::TipHttp);
@@ -148,7 +149,7 @@ void RzxUi::propInit()
 	ui->cbTooltipFeatures->setChecked(tooltip & RzxRezalModel::TipFeatures);
 	ui->cbTooltipProperties->setChecked(tooltip & RzxRezalModel::TipProperties);
 
-	ui->cbSearch->setChecked( RzxMainUIConfig::useSearch() );
+	ui->cbSearch->setChecked( RzxMainUIConfig::useSearch(def) );
 
 	QList<RzxRezal*> rezals = qrezix->moduleList();
 	ui->rezalList->clear();

@@ -21,6 +21,12 @@
 
 #include "rzxchangepass.h"
 
+///Fenêtre de changement de mot de passe
+/** Si un module réseau est indiqué, la fenêtre mourra en envoyant les
+ * données au module lorsque celle-ci.
+ *
+ * \sa init
+ */
 RzxChangePass::RzxChangePass(RzxNetwork *net, const QString &oldpass)
 	:network(net)
 {
@@ -29,18 +35,24 @@ RzxChangePass::RzxChangePass(RzxNetwork *net, const QString &oldpass)
 		setAttribute(Qt::WA_DeleteOnClose);
 }
 
+///Crée une fenêtre de changement de mot de passe
+/** \sa init */
 RzxChangePass::RzxChangePass(const QString &oldpass)
 	:network(NULL)
 {
 	init(oldpass);
 }
 
-
+///Destruction de la fenêtre
 RzxChangePass::~RzxChangePass()
 {
 }
 
-
+///Initialise la fenêtre
+/** Si l'ancien mot de passe est nul, la fenêtre force la demande d'un nouveau
+ * mot de passe, et n'acceptera pas de quitter avant que ce nouveau mot de passe
+ * soit défini.
+ */
 void RzxChangePass::init(const QString& oldPass)
 {
 	if(!oldPass.isNull())
@@ -68,12 +80,13 @@ void RzxChangePass::init(const QString& oldPass)
 	show();
 }
 
+///Retourne le nouveau mot de passe
 QString RzxChangePass::newPass() const
 {
 	return leNewPass->text();
 }
 
-
+///Redirection de l'acceptation
 void RzxChangePass::accept()
 {
 	if(network)
@@ -81,6 +94,10 @@ void RzxChangePass::accept()
 	QDialog::accept();
 }
 
+///Vérifie que le nouveau mot de passe est valide
+/** Un mot de passe est valide si sa taille respecte les conditions (6 caractères)
+ * et si les deux entrées sont identiques.
+ */
 void RzxChangePass::analyseNewPass()
 {
 	btnOK->setEnabled(leNewPass->hasAcceptableInput() && leNewPass->text() == leReenterNewPass->text());
