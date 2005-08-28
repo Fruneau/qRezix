@@ -76,7 +76,11 @@ void RzxConfig::destroy()
 	writeFavorites();
 	writeIgnoreList();
 	fontProperties.clear();
+	languageNames.clear();
+	foreach(QList<QTranslator*> lst, translations)
+		qDeleteAll(lst);
 	translations.clear();
+	delete RzxIconCollection::global();
 	Rzx::endModuleClosing("Config");
 }
 
@@ -99,13 +103,9 @@ void RzxConfig::loadTranslators()
 {
 	Rzx::beginModuleLoading("Translations");
 
-	if(currentTranslator)
-		qApp->removeTranslator(currentTranslator);
-	currentTranslator = NULL;
-	translations.clear();
-
 	qDebug("Searching for translations...");
-	translations.insert("English", NULL);
+	languageNames.insert("en", "English");
+	lang = "en";
 	QList<QDir> dirs = dirList(AllDirsExceptTemp, "translations", true);
 	foreach(QDir dir, dirs)
 		loadTranslatorsInDir(dir);
@@ -120,24 +120,41 @@ void RzxConfig::loadTranslatorsInDir(const QDir &rep)
 {
 	QDir sourceDir(rep);
 
-	QStringList trans=sourceDir.entryList(QStringList() << "*.qm", QDir::Files|QDir::Readable);
+	QStringList trans=sourceDir.entryList(QStringList() << "qrezix_*.qm", QDir::Files|QDir::Readable);
 	foreach(QString it, trans)
 	{
+		QRegExp mask("qrezix_(.+)\\.qm");
+		mask.indexIn(it);
+		QString langId = mask.cap(1);
+
 		QTranslator *cur = new QTranslator;
 		cur->load(it, sourceDir.path());
 		QString lang = cur->translate("RzxConfig", "English");
-		if(!lang.isEmpty() && (!translations.keys().contains(lang) || translations[lang]))
+		
+		if(!lang.isEmpty() && !translations.keys().contains(langId))
 		{
-			translations.insert(lang, cur);
-			qDebug("* %s in %s", lang.toAscii().constData(), sourceDir.absolutePath().toAscii().constData());
+			languageNames.insert(langId, lang);
+			QStringList transMods = sourceDir.entryList(QStringList() << "*_" + langId + ".qm", QDir::Files|QDir::Readable);
+			QList<QTranslator*> transList;
+			transList << cur;
+			foreach(QString mod, transMods)
+			{
+				QTranslator *modTrans = new QTranslator;
+				modTrans->load(mod, sourceDir.path());
+				transList << modTrans;
+			}
+			translations.insert(langId, transList);
+			qDebug("* %s (%s) in %s", lang.toAscii().constData(), langId.toAscii().constData(), sourceDir.absolutePath().toAscii().constData());
 		}
+		else
+			delete cur;
 	}
 }
 
 ///Retourne la liste des traductions disponibles
 QStringList RzxConfig::translationsList()
 {
-	QStringList list = translations.keys();
+	QStringList list = global()->languageNames.values();
 	qSort(list);
 	return list;
 }
@@ -155,12 +172,15 @@ QString RzxConfig::translation()
 ///Sélection de la langue à utiliser
 void RzxConfig::setLanguage(const QString& language)
 {
-	if(language != translation() && translations.keys().contains(language))
+	QString newLang = global()->languageNames.keys(language)[0];
+	if(language != global()->translation() && global()->translations.keys().contains(newLang))
 	{
 		global()->setValue("language", language);
-		QApplication::removeTranslator(currentTranslator);
-		currentTranslator = translations[language];
-		QApplication::installTranslator(currentTranslator);
+		foreach(QTranslator *trans, global()->translations[global()->lang])
+			QApplication::removeTranslator(trans);
+		global()->lang = newLang;
+		foreach(QTranslator *trans, global()->translations[global()->lang])
+			QApplication::installTranslator(trans);
 		emit global()->languageChanged();
 	}
 	qDebug("Language set to %s", tr("English").toLatin1().constData());
@@ -176,12 +196,6 @@ QString RzxConfig::language()
 /*****************************************************************************
 * GESTION DES POLICES DE CARACTÈRES                                          *
 *****************************************************************************/
-///Liste des traduction
-QHash<QString,QTranslator*> RzxConfig::translations;
-
-///Traduction actuelle
-QTranslator *RzxConfig::currentTranslator=NULL;
-
 RzxConfig::FontProperty::FontProperty(bool b, bool i, const QList<int> &pS)
 	: bold(b), italic(i), sizes(pS)
 { }
@@ -292,6 +306,7 @@ void RzxConfig::loadDirs()
 		m_libDir = m_systemDir;
 #endif //WIN32
 
+	qDebug("Current path is %s", QDir::current().path().toAscii().constData());
 	qDebug("Personnal path set to %s", m_userDir.path().toAscii().constData());
 	qDebug("System path set to %s", m_systemDir.path().toAscii().constData());
 	qDebug("Libraries path set to %s", m_libDir.path().toAscii().constData());
@@ -544,39 +559,6 @@ QString RzxConfig::rezalName(const QHostAddress& addr, bool shortname)
 /******************************************************************************
 * FONCTION DE GESTION DES MOTS DE PASSE                                       *
 ******************************************************************************/
-///Change le mot de passe de connexion actuel
-void RzxConfig::setPass(const QString& passcode)
-{
-//	global() -> setValue(RzxServerListener::object()->getServerIP().toString() + "/pass", passcode);
-	global() -> setValue("pass", passcode);
-	global() -> flush();
-}
-
-///Renvoie le password xnet
-QString RzxConfig::pass()
-{
-	QString i = global() -> value(/*RzxServerListener::object()->getServerIP().toString() +*/ "/pass").toString();
-	if(i.isNull()) //Pour la compatibilité avec les anciennes formes de stockage sous nux
-		i = global() -> value("pass").toString();
-	return i;
-}
-
-///Change l'ancien mot de passe de connexion
-void RzxConfig::setOldPass(const QString& oldPass)
-{
-	global() -> setValue(/*RzxServerListener::object()->getServerIP().toString() + */"/oldpass", oldPass);
-	global() -> flush();
-}
-
-///Renvoie l'ancien mot de passe xnet
-QString RzxConfig::oldPass()
-{
-	QString i = global() -> value(/*RzxServerListener::object()->getServerIP().toString() + */"/oldpass").toString();
-	if(i.isEmpty()) i = QString::null;
-	return i;
-}
-
-
 ///Emet un signal pour informer du changement de format des icônes
 void RzxConfig::emitIconFormatChanged()
 {

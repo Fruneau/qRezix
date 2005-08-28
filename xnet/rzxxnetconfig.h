@@ -1,7 +1,7 @@
 /***************************************************************************
-                          rzxnotifier  -  description
+                          rzxxnetconfig  -  description
                              -------------------
-    begin                : Sun Jul 31 2005
+    begin                : Sun Aug 28 2005
     copyright            : (C) 2005 by Florent Bruneau
     email                : florent.bruneau@m4x.org
  ***************************************************************************/
@@ -14,55 +14,35 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef RZXNOTIFIER_H
-#define RZXNOTIFIER_H
+#ifndef RZXXNETCONFIG_H
+#define RZXXNETCONFIG_H
 
-#ifdef RZX_NOTIFIER_BUILTIN
-#	define RZX_BUILTIN
-#else
-#	define RZX_PLUGIN
-#endif
+#include <RzxAbstractConfig>
 
-#include <RzxModule>
-
-class RzxComputer;
-namespace Ui { class RzxNotifierPropUI; }
+#define DEFAULT_SERVER "xnetserver.eleves.polytechnique.fr"
+#define DEFAULT_PORT 5053
+#define DEFAULT_RECONNECTION 60000
+#define DEFAULT_TIMEOUT 120000
 
 /**
 @author Florent Bruneau
 */
 
-///Notification de connexion des favoris
-class RzxNotifier : public RzxModule
+///Données de configuration du protocole xNet
+class RzxXNetConfig : public RzxAbstractConfig
 {
-	Q_OBJECT
-
-	bool favoriteWarn;
-
-	Ui::RzxNotifierPropUI *ui;
-	QWidget *propWidget;
+	RZX_CONFIG(RzxXNetConfig)
 
 	public:
-		RzxNotifier();
-		~RzxNotifier();
-		virtual bool isInitialised() const;
+		RZX_UINTPROP("reconnection", reconnection, setReconnection, DEFAULT_RECONNECTION)
+		RZX_UINTPROP("ping_timeout", pingTimeout, setPingTimeout, DEFAULT_TIMEOUT)
+		RZX_INTPROP("server_port", serverPort, setServerPort, DEFAULT_PORT)
+		RZX_STRINGPROP("server_name", serverName, setServerName, DEFAULT_SERVER)
 
-	public slots:
-		void favoriteUpdated(RzxComputer *);
-		void login(RzxComputer *);
-		void loginEnd();
-
-	public:
-		virtual QList<QWidget*> propWidgets();
-		virtual QStringList propWidgetsName();
-
-	public slots:
-		virtual void propInit(bool def = false);
-		virtual void propUpdate();
-		virtual void propClose();
-
-	protected slots:
-		void chooseBeepConnection();
+		static QString pass();
+		static void setPass(const QString& passcode);
+		static QString oldPass();
+		static void setOldPass(const QString& oldPass = QString::null);
 };
 
 #endif

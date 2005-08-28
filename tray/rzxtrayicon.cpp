@@ -86,6 +86,7 @@ RzxTrayIcon::RzxTrayIcon()
 RzxTrayIcon::~RzxTrayIcon()
 {
 	beginClosing();
+	delete RzxTrayConfig::global();
 	sysRemove();
 	endClosing();
 }
@@ -1028,9 +1029,9 @@ QStringList RzxTrayIcon::propWidgetsName()
 }
 
 /** \reimp */
-void RzxTrayIcon::propInit()
+void RzxTrayIcon::propInit(bool def)
 {
-	ui->sbTraySize->setValue(RzxTrayConfig::traySize());	
+	ui->sbTraySize->setValue(RzxTrayConfig::traySize(def));	
 }
 
 /** \reimp */

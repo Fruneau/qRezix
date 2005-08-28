@@ -55,6 +55,7 @@ RzxNotifier::RzxNotifier()
 RzxNotifier::~RzxNotifier()
 {
 	beginClosing();
+	delete RzxNotifierConfig::global();
 	endClosing();
 }
 
@@ -129,11 +130,11 @@ QStringList RzxNotifier::propWidgetsName()
 }
 
 /** \reimp */
-void RzxNotifier::propInit()
+void RzxNotifier::propInit(bool def)
 {
-	ui->cbWarnFavorite->setChecked(RzxNotifierConfig::showConnection());
-	ui->chkBeepFavorites->setChecked(RzxNotifierConfig::beepConnection());
-	ui->txtBeepFavorites->setText(RzxNotifierConfig::beepSound());
+	ui->cbWarnFavorite->setChecked(RzxNotifierConfig::showConnection(def));
+	ui->chkBeepFavorites->setChecked(RzxNotifierConfig::beepConnection(def));
+	ui->txtBeepFavorites->setText(RzxNotifierConfig::beepSound(def));
 }
 
 /** \reimp */

@@ -22,7 +22,9 @@
 #include <QPoint>
 #include <QSize>
 
-class RzxModule;
+#include <RzxGlobal>
+
+class RzxBaseModule;
 
 /**
  @author Florent Bruneau
@@ -37,13 +39,16 @@ class RzxAbstractConfig: public QSettings
 {
 	Q_OBJECT
 
+	protected:
+		RzxBaseModule *module;
+
 	public:
-		RzxAbstractConfig(RzxModule * = NULL);
+		RzxAbstractConfig(RzxBaseModule * = NULL);
 		~RzxAbstractConfig();
 
 		void flush();
 		void saveWidget(const QString&, QWidget*);
-		void restoreWidget(const QString&, QWidget*, const QPoint&, const QSize&);
+		void restoreWidget(const QString&, QWidget*, const QPoint&, const QSize&, bool def = false);
 };
 
 ///Surcharge pour être plus naturel
@@ -54,10 +59,10 @@ inline void RzxAbstractConfig::flush()
 
 ///Macro générale pour définir et renvoyer un été d'un certain type
 #define RZX_PROP(type, name, read, write, default) \
-	static type read() { return global()->value(name, default).value<type>(); } \
+	static type read(bool def = false) { return def?default:global()->value(name, default).value<type>(); } \
 	static void write(const type& value) { global()->setValue(name, value); }
 #define RZX_ENUMPROP(type, name, read, write, default) \
-	static type read() { return (type)global()->value(name, default).toInt(); } \
+	static type read(bool def = false) { return def?default:(type)global()->value(name, default).toInt(); } \
 	static void write(const type& value) { global()->setValue(name, value); }
 
 ///Macro permettant de définir et de renvoyer un objet
@@ -72,16 +77,16 @@ inline void RzxAbstractConfig::flush()
 #define RZX_STRINGLISTPROP(name, read, write, default) \
 	RZX_PROP(QStringList, name, read, write, default)
 #define RZX_RGBPROP(name, read, write, default) \
-	static QColor read() { \
+	static QColor read(bool def = false) { \
 		QColor ret; \
-		ret.setRgba(global()->value(name, default).toUInt()); \
+		ret.setRgba(def?default:global()->value(name, default).toUInt()); \
 		return ret; \
 	} \
 	static void write(const QColor& value) { global()->setValue(name, value.rgba()); }
 
 ///Macro définissant la fonction statique d'enregistrement d'une fenêtre particulière
 #define RZX_WIDGETPROP(name, read, write, pos, size) \
-	static void read(QWidget *widget) { global()->restoreWidget(name, widget, pos, size); } \
+	static void read(QWidget *widget, bool def = false) { global()->restoreWidget(name, widget, pos, size, def); } \
 	static void write(QWidget *widget) { global()->saveWidget(name, widget); }
 
 ///Macro qui permet d'initialiser un objet de configuration
@@ -121,14 +126,14 @@ inline void RzxAbstractConfig::flush()
 #define RZX_CONFIG(myclass) \
 	RZX_GLOBAL(myclass) \
 	public: \
-		myclass(RzxModule *module = NULL):RzxAbstractConfig(module) { object = this; } \
+		myclass(RzxBaseModule *module = NULL):RzxAbstractConfig(module) { object = this; } \
 		~myclass() { object = NULL; } \
 
 /** \ref RZX_CONFIG */
 #define RZX_CONFIG_EXPANDED(myclass) \
 	RZX_GLOBAL(myclass) \
 	public: \
-		myclass(RzxModule *module = NULL):RzxAbstractConfig(module) { object = this; init(); } \
+		myclass(RzxBaseModule *module = NULL):RzxAbstractConfig(module) { object = this; init(); } \
 		~myclass() { destroy(); object = NULL; } \
 	protected: \
 		void init(); \

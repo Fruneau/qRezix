@@ -34,7 +34,6 @@
 #include <QAction>
 #include <QDockWidget>
 #include <QStatusBar>
-#include <QHeaderView>
 
 #include <RzxApplication>
 #include <RzxGlobal>
@@ -54,8 +53,9 @@
 
 RZX_GLOBAL_INIT(QRezix)
 
+///Construction de la fenêtre principale
 QRezix::QRezix(QWidget *parent)
- : QMainWindow(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint)
+	: QMainWindow(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint)
 {
 	object = this;
 	statusFlag = false;
@@ -142,7 +142,14 @@ bool QRezix::installModule(RzxRezal *rezal)
 {
 	if(RzxBaseLoader<RzxRezal>::installModule(rezal))
 	{
-		if(!central && (rezal->type() & RzxRezal::TYP_CENTRAL))
+		RzxMainUIConfig *conf = RzxMainUIConfig::global();
+		conf->beginGroup(rezal->name());
+
+		bool isCentral = conf->value("isCentral", (bool)(rezal->type() & RzxRezal::TYP_CENTRAL)).toBool();
+		bool isFloating = conf->value("isFloating", rezal->floating()).toBool();
+		Qt::DockWidgetArea area = (Qt::DockWidgetArea)conf->value("area", rezal->area()).toInt();
+
+		if(!central && isCentral)
 		{
 			setCentralWidget(rezal->widget());
 			central = rezal;
@@ -150,24 +157,26 @@ bool QRezix::installModule(RzxRezal *rezal)
 		else if(rezal->type() & RzxRezal::TYP_DOCKABLE)
 		{
 			QDockWidget *dock = new QDockWidget(rezal->name());
+			if(isFloating)
+				dock->setParent(this);
 			dock->setWidget(rezal->widget());
 			dock->setFeatures(rezal->features());
 			dock->setAllowedAreas(rezal->allowedAreas());
-	//		dock->setFloating(rezal->floating());
-
-			Qt::DockWidgetAreas area = rezal->allowedAreas();
-			if(area & Qt::LeftDockWidgetArea)
-				addDockWidget(Qt::LeftDockWidgetArea, dock);
-			else if(area & Qt::BottomDockWidgetArea)
-				addDockWidget(Qt::BottomDockWidgetArea, dock);
-			else if(area & Qt::TopDockWidgetArea)
-				addDockWidget(Qt::TopDockWidgetArea, dock);
-			else if(area & Qt::RightDockWidgetArea)
-				addDockWidget(Qt::RightDockWidgetArea, dock);
+			dock->setFloating(isFloating);
+			rezal->setDockWidget(dock);
+			if(!isFloating)
+				addDockWidget(area, dock);
 		}
 
 		if((rezal->type() & RzxRezal::TYP_INDEX) && !index)
 			index = rezal;
+		conf->endGroup();
+		if(rezal->dockWidget() && isFloating)
+		{
+			QDockWidget *dock = rezal->dockWidget();
+			conf->restoreWidget(rezal->name(), dock, dock->pos(), dock->size());
+		}
+
 		return true;
 	}
 	return false;
@@ -218,21 +227,39 @@ void QRezix::buildActions()
 ///energistre l'état de la fenêtre et quitte....
 QRezix::~QRezix()
 {
+	RzxMainUIConfig *conf = RzxMainUIConfig::global();
+	QList<RzxRezal*> rezals = moduleList();
+	foreach(RzxRezal *rezal, rezals)
+	{
+		conf->beginGroup(rezal->name());
+
+		conf->setValue("isCentral", rezal == central);
+		QDockWidget *dock = rezal->dockWidget();
+		if(dock)
+		{
+			conf->setValue("isFloating", dock->isFloating());
+			conf->setValue("area", dockWidgetArea(dock));
+		}
+		conf->endGroup();
+		if(dock && dock->isFloating())
+			conf->saveWidget(rezal->name(), dock);
+	}
 	closeModules();
 	RzxMainUIConfig::saveMainWidget(this);
 }
 
-void QRezix::status(const QString& msg, bool fatal)
+///Change l'information d'état
+void QRezix::status(const QString& msg, bool connected)
 {
 	statusui->lblStatus -> setText(msg);
-	statusFlag = !fatal;
+	statusFlag = connected;
 
 	if(statusFlag)
 		statusui->lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_ON));
 	else
 		statusui->lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_OFF));
 		
-	qDebug(("Connection status : " + QString(fatal?"disconnected ":"connected ") + "(" + msg + ")").toAscii().constData());
+	qDebug(("Connection status : " + QString(connected?"connected ":"disconnected ") + "(" + msg + ")").toAscii().constData());
 }
 
 ///Met à jour l'affichage des Rezals
@@ -311,6 +338,7 @@ void QRezix::launchSearch()
 	else searchAction->setChecked(true);
 }
 
+///Change l'état d'affichage de la fenêtre...
 void QRezix::toggleVisible()
 {
 	if(isVisible())

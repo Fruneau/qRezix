@@ -18,13 +18,14 @@
 #define RZXAPPLICATION_H
 
 #include <QApplication>
+#include <QPointer>
 #include <QList>
 
 #include <RzxBaseLoader>
 #include <RzxModule>
+#include <RzxProperty>
 
 class RzxComputer;
-class RzxProperty;
 
 /**
 @author Florent Bruneau
@@ -38,7 +39,7 @@ class RzxApplication:public QApplication, public RzxBaseLoader<RzxModule>
 	Q_OBJECT
 	Q_PROPERTY(bool initialised READ isInitialised)
 
-	RzxProperty *properties;
+	QPointer<RzxProperty> properties;
 
 	QList<RzxModule*> hiders;
 	RzxModule *mainui;

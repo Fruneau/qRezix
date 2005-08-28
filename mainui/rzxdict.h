@@ -2,7 +2,7 @@
                          rzxdict.h  -  description
                             -------------------
    begin                : March 20 2005
-   copyright            : (C) 2005 by Julien Trollet
+   copyright            : (C) 2005 by Julien Trolet
    email                : julien.trollet@m4x.org
 ***************************************************************************/
 

@@ -15,7 +15,6 @@ email                : sylvain.joyeux@m4x.org
 *                                                                         *
 ***************************************************************************/
 
-#include <RzxGlobal>
 #include <RzxApplication>
 
 
@@ -77,6 +76,5 @@ int main(int argc, char *argv[])
 	int returnCode = 0;
 	if(a.isInitialised())
 		a.exec();
-	Rzx::closeMsgHandler();
 	return returnCode;
 }

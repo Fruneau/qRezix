@@ -1,6 +1,6 @@
 TEMPLATE = app
 LANGUAGE = C++
-CONFIG	+= qt warn_on debug
+CONFIG	+= qt warn_on
 DEFINES += QT_DLL
 
 include(../rzxglobal.pri)
@@ -13,9 +13,9 @@ SOURCES	+= main.cpp
 TRANSLATIONS	= translations/qrezix_fr.ts
 RC_FILE		= icone.rc
 
+DESTDIR = ..
 mac {
-	TARGET = ../qRezix
+	TARGET = qRezix
 } else {
-	TARGET = ../qrezix
+	TARGET = qrezix
 }
-

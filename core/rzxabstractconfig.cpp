@@ -19,7 +19,7 @@
 #include <QSplitter>
 
 #include <RzxAbstractConfig>
-#include <RzxModule>
+#include <RzxBaseModule>
 
 ///Construction d'un RzxAbstractConfig
 /** Cette construction initialise le QSettings pour lui donner la configuration
@@ -27,8 +27,8 @@
  *
  * Ce constructeur teste également la version du module.
  */
-RzxAbstractConfig::RzxAbstractConfig(RzxModule *module)
-	:QSettings("BR", "qRezix")
+RzxAbstractConfig::RzxAbstractConfig(RzxBaseModule *m_module)
+	:QSettings("BR", "qRezix"), module(m_module)
 {
 	if(module)
 	{
@@ -79,31 +79,34 @@ void RzxAbstractConfig::saveWidget(const QString& name, QWidget *widget)
 }
 
 ///Restore l'état de la fenêtre
-void RzxAbstractConfig::restoreWidget(const QString& name, QWidget *widget, const QPoint& pos, const QSize& size)
+void RzxAbstractConfig::restoreWidget(const QString& name, QWidget *widget, const QPoint& pos, const QSize& size, bool def)
 {
 	beginGroup(name);
-	widget->resize(value("size", size).toSize());
-	widget->move(value("pos", pos).toPoint());
+	widget->resize(def?size:value("size", size).toSize());
+	widget->move(def?pos:value("pos", pos).toPoint());
 	if(value("maximized", false).toBool())
 		widget->setWindowState(widget->windowState() | Qt::WindowMaximized);
 	else if(value("minimized", false).toBool())
 		widget->setWindowState(widget->windowState() | Qt::WindowMinimized);
 	widget->setVisible(value("visible", false).toBool());
 
-	QList<QSplitter*> ls = widget->findChildren<QSplitter*>();
-	int i = 0;
-	foreach(QSplitter *splitter, ls)
+	if(!def)
 	{
-		beginGroup(QString("splitter%1").arg(i++));
-		if(!value("sizes").isNull())
+		QList<QSplitter*> ls = widget->findChildren<QSplitter*>();
+		int i = 0;
+		foreach(QSplitter *splitter, ls)
 		{
-			QList<QVariant> variants = value("sizes").toList();
-			QList<int> sizes;
-			foreach(QVariant variant, variants)
-				sizes << variant.toInt();
-			splitter->setSizes(sizes);
+			beginGroup(QString("splitter%1").arg(i++));
+			if(!value("sizes").isNull())
+			{
+				QList<QVariant> variants = value("sizes").toList();
+				QList<int> sizes;
+				foreach(QVariant variant, variants)
+					sizes << variant.toInt();
+				splitter->setSizes(sizes);
+			}
+			endGroup();
 		}
-		endGroup();
 	}
 
 	endGroup();

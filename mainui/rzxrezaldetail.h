@@ -43,6 +43,9 @@ class RzxRezalDetail:public QAbstractItemView, private Ui::RzxItemUI, public Rzx
 		virtual QAbstractItemView *widget();
 		virtual QDockWidget::DockWidgetFeatures features() const;
 		virtual Qt::DockWidgetAreas allowedAreas() const;
+		virtual Qt::DockWidgetArea area() const;
+		virtual bool floating() const;
+		
 		virtual void updateLayout();
 
 	public slots:

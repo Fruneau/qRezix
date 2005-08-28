@@ -93,6 +93,7 @@ RzxChatLister::~RzxChatLister()
 	beginClosing();
 	closeChats();
 	client->deleteLater();
+	delete RzxChatConfig::global();
 	endClosing();
 }
 
@@ -404,13 +405,13 @@ QStringList RzxChatLister::propWidgetsName()
 }
 
 /** \reimp */
-void RzxChatLister::propInit()
+void RzxChatLister::propInit(bool def)
 {
-	ui->chkBeep->setChecked(RzxChatConfig::beep());
-	ui->beepSound->setText(RzxChatConfig::beepSound());
-	ui->cbPropertiesWarning->setChecked(RzxChatConfig::warnWhenChecked());
-	ui->cbPrintTime->setChecked(RzxChatConfig::printTime());
-	ui->chat_port->setValue(RzxChatConfig::chatPort());
+	ui->chkBeep->setChecked(RzxChatConfig::beep(def));
+	ui->beepSound->setText(RzxChatConfig::beepSound(def));
+	ui->cbPropertiesWarning->setChecked(RzxChatConfig::warnWhenChecked(def));
+	ui->cbPrintTime->setChecked(RzxChatConfig::printTime(def));
+	ui->chat_port->setValue(RzxChatConfig::chatPort(def));
 }
 
 /** \reimp */

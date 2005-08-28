@@ -28,7 +28,7 @@
 #	define RZX_PLUGIN
 #endif
 
-#include <RzxProtocole>
+#include "rzxprotocole.h"
 
 
 /**

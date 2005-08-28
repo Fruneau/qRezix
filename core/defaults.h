@@ -13,12 +13,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#define DEFAULT_SERVER "xnetserver.eleves.polytechnique.fr"
-#define DEFAULT_PORT 5053
-#define DEFAULT_CHATPORT 5050
-#define DEFAULT_WINDOWSIZE "100000000"
-#define DEFAULT_RECONNECTION 60000
-#define DEFAULT_TIMEOUT 120000
 #define DEFAULT_MAIL "Inscris toi sur polytechnique.org"
 #define DEFAULT_THEME "krystal"
 

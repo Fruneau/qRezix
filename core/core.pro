@@ -1,8 +1,7 @@
 TEMPLATE = lib
 
-TARGET = ../qrezix
 VERSION = 1.7.0
-CONFIG += debug
+DESTDIR = ..
 
 INCLUDEPATH += ..
 

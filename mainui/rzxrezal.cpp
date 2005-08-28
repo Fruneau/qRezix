@@ -16,6 +16,8 @@
  ***************************************************************************/
 #include "rzxrezal.h"
 
+#include "rzxmainuiconfig.h"
+
 ///Construction du rezal à partir des différentes informations
 /** Les informations à fournir sont le nom du module et sa version :
  * 	- nom sous la forme d'une QString doit être le nom identifiant le module
@@ -23,7 +25,7 @@
  * 	- numéro de version major.minor.build-tag
  */
 RzxRezal::RzxRezal(const QString& name, const QString& description, int major, int minor, int build, const QString& tag)
-	:RzxBaseModule(name, description, major, minor, build, tag)
+	:RzxBaseModule(name, description, major, minor, build, tag), dock(NULL)
 {
 }
 
@@ -31,7 +33,7 @@ RzxRezal::RzxRezal(const QString& name, const QString& description, int major, i
 /** Fonction surchargée
  */
 RzxRezal::RzxRezal(const QString& name, const QString& description, const Rzx::Version& version)
-	:RzxBaseModule(name, description, version)
+	:RzxBaseModule(name, description, version), dock(NULL)
 {
 }
 
@@ -44,7 +46,7 @@ RzxRezal::RzxRezal(const QString& name, const QString& description, const Rzx::V
  * "nom major.minor.build-tag"
  */
 RzxRezal::RzxRezal(const QString& name, const QString& description)
-	:RzxBaseModule(name, description)
+	:RzxBaseModule(name, description), dock(NULL)
 {
 }
 
@@ -72,6 +74,23 @@ void RzxRezal::setType(const Type& flag)
 const RzxRezal::Type& RzxRezal::type() const
 {
 	return m_type;
+}
+
+///Défini la DockWidget associée au module
+/** Contrairement aux autres données du module, le DockWidget
+ * est utilisé pour stockée une information qui n'est pas gérée
+ * directement par le module mais par QRezix.
+ */
+void RzxRezal::setDockWidget(QDockWidget *dck)
+{
+	dock = dck;
+}
+
+///Retourne la DockWidget associée au module
+/** \sa setDockWidget */
+QDockWidget *RzxRezal::dockWidget() const
+{
+	return dock;
 }
 
 ///Met à jour l'affichage

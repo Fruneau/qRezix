@@ -3,562 +3,565 @@
     <name>QRezix</name>
     <message>
         <source>Plug-ins</source>
-        <translation type="unfinished"></translation>
+        <translation>Plug-ins</translation>
     </message>
     <message>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Préférences</translation>
     </message>
     <message>
         <source>Adjust columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajuster les colonnes</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher</translation>
     </message>
     <message>
         <source>Away</source>
-        <translation type="unfinished"></translation>
+        <translation>Absent</translation>
     </message>
 </context>
 <context>
     <name>RzxItemUI</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <source>0</source>
-        <translation type="unfinished"></translation>
+        <translation>0</translation>
     </message>
     <message>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <source>Get Now !</source>
-        <translation type="unfinished"></translation>
+        <translation>Récupérer maintenant !</translation>
     </message>
 </context>
 <context>
     <name>RzxMainuiPropUI</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Form</translation>
     </message>
     <message>
         <source>Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>Affichage</translation>
     </message>
     <message>
         <source>0</source>
-        <translation type="unfinished"></translation>
+        <translation>0</translation>
     </message>
     <message>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <source>Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Divers</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Quitting dialog&lt;/h3&gt;&lt;p&gt;Enable/disable the dialog box which is displayed when you close the qRezix&apos;s main window&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h3&gt;Boîte de dialogue de fermetue&lt;/h3&gt;&lt;p&gt;Active/Désactive la boîte de dialogue qui s&apos;affiche à la fermeture de qRezix via la fenêtre principale&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Show dialog when clicking on X</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher la boîte de dialogue en cliquant sur X</translation>
     </message>
     <message>
         <source>Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Tab</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Search&lt;/h3&gt;&lt;p&gt;Do you want to see the search tool ?&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h3&gt;Recherche&lt;/h3&gt;&lt;p&gt;Voulez-vous avoir accès à l&apos;utilitaire de rechercher ?&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Show Search Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Affiche la recherche</translation>
     </message>
     <message>
         <source>Tab to select on start:</source>
-        <translation type="unfinished"></translation>
+        <translation>Onglet au démarrage :</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h3&gt;Onglet&lt;/h3&gt;&lt;p&gt;Défini l&apos;onglet affiché au démarrage de qRezix&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Favoris</translation>
     </message>
     <message>
         <source>Everybody</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout le monde</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h3&gt;Colonnes affichées&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir...&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Columns layout</source>
-        <translation type="unfinished"></translation>
+        <translation>Colonnes à afficher</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <source>FTP</source>
-        <translation type="unfinished"></translation>
+        <translation>FTP</translation>
     </message>
     <message>
         <source>OS</source>
-        <translation type="unfinished"></translation>
+        <translation>Système d&apos;exploitation</translation>
     </message>
     <message>
         <source>Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Client</translation>
     </message>
     <message>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation>Web</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Remarque</translation>
     </message>
     <message>
         <source>Promotion</source>
-        <translation type="unfinished"></translation>
+        <translation>Promotion</translation>
     </message>
     <message>
         <source>Same gateway</source>
-        <translation type="unfinished"></translation>
+        <translation>Même passerelle</translation>
     </message>
     <message>
         <source>IP</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse IP</translation>
     </message>
     <message>
         <source>Place</source>
-        <translation type="unfinished"></translation>
+        <translation>Bâtiment</translation>
     </message>
     <message>
         <source>News</source>
-        <translation type="unfinished"></translation>
+        <translation>News</translation>
     </message>
     <message>
         <source>Samba</source>
-        <translation type="unfinished"></translation>
+        <translation>Samba (Partage Windows)</translation>
     </message>
     <message>
         <source>Computer icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Icône de l&apos;ordinateur</translation>
     </message>
     <message>
         <source>Icon size</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille des icônes</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Icon size&lt;/h3&gt;&lt;p&gt;Do you prefer big icons (64x64) or small icons (32x32) for the pictures of the users&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h3&gt;Taille des icônes&lt;/h3&gt;&lt;p&gt;Est-ce que vous préférez des grandes (64x64) ou de petites (32x32) icônes ?&lt;/p&gt;</translation>
     </message>
     <message>
         <source>32*32</source>
-        <translation type="unfinished"></translation>
+        <translation>32x32</translation>
     </message>
     <message>
         <source>64*64</source>
-        <translation type="unfinished"></translation>
+        <translation>64x64</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Highlight&lt;/h3&gt;&lt;p&gt;If you choose to display small icons and check this box then the selected item will be displayed with a big icon.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h3&gt;Démarquage de la sélection&lt;/h3&gt;&lt;p&gt;Si vous choisissez d&apos;afficher de petites icônes, ceci vous permet d&apos;avoir l&apos;item sélectionné en plus grand.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Highlight the selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarque la sélection</translation>
     </message>
     <message>
         <source>Action on double-clic</source>
-        <translation type="unfinished"></translation>
+        <translation>Action du double-clic</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Define the action to execute when you double click on an item&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Défini l&apos;action réalisée lors d&apos;un double clique sur un item&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Discussion</translation>
     </message>
     <message>
         <source>Open FTP</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion en FTP</translation>
     </message>
     <message>
         <source>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;ToolTips are little windows that appears when you </source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h3&gt;Détails&lt;/h3&gt;&lt;p&gt;Les détails sont de petites fenêtres qui apparaissent lorsque vous restés sur un objet pour décrire son contenu.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>ToolTips</source>
-        <translation type="unfinished"></translation>
+        <translation>Détails</translation>
     </message>
     <message>
         <source>Enable tooltips</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer les fenêtres de détail</translation>
     </message>
     <message>
         <source>Features</source>
-        <translation type="unfinished"></translation>
+        <translation>Fonctionnalités</translation>
     </message>
     <message>
         <source>Client version</source>
-        <translation type="unfinished"></translation>
+        <translation>Version du client</translation>
     </message>
     <message>
         <source>Ip address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse IP</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Propriétés</translation>
     </message>
 </context>
 <context>
     <name>RzxQuit</name>
     <message>
         <source>Quit now !</source>
-        <translation type="unfinished"></translation>
+        <translation>Quitter maintenant !</translation>
     </message>
     <message>
         <source>Minimize me...</source>
-        <translation type="unfinished"></translation>
+        <translation>Miniser la fenêtre...</translation>
     </message>
     <message>
         <source>Abort quitting please</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne rien faire</translation>
     </message>
 </context>
 <context>
     <name>RzxQuitUI</name>
     <message>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Quitter</translation>
     </message>
     <message>
         <source>yes, I want to &amp;Leave qRezix</source>
-        <translation type="unfinished"></translation>
+        <translation>oui, je veux &amp;quitter qRezix</translation>
     </message>
     <message encoding="UTF-8">
         <source>⌥L</source>
-        <translation type="unfinished"></translation>
+        <translation>L</translation>
     </message>
     <message>
         <source>no, I want to &amp;Minimize qRezix</source>
-        <translation type="unfinished"></translation>
+        <translation>non, je veux &amp;minimiser qRezix</translation>
     </message>
     <message encoding="UTF-8">
         <source>⌥M</source>
-        <translation type="unfinished"></translation>
+        <translation>M</translation>
     </message>
     <message>
         <source>Oops, do nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>Oups, ne rien faire</translation>
     </message>
     <message>
         <source>Are you sure you want to &lt;b&gt;Quit qRezix &lt;/b&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Etes-vous sûr de vouloir &lt;b&gt;Quitter qRezix &lt;/b&gt;?</translation>
     </message>
     <message>
         <source>Return</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>&amp;Always do like that</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Se souvenir de ce choix</translation>
     </message>
     <message encoding="UTF-8">
         <source>⌥A</source>
-        <translation type="unfinished"></translation>
+        <translation>S</translation>
     </message>
 </context>
 <context>
     <name>RzxRezalDetail</name>
     <message>
         <source>Property</source>
-        <translation type="unfinished"></translation>
+        <translation>Propriétés</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur</translation>
     </message>
     <message>
         <source>away</source>
-        <translation type="unfinished"></translation>
+        <translation>absent</translation>
     </message>
     <message>
         <source>connected</source>
-        <translation type="unfinished"></translation>
+        <translation>connecté</translation>
     </message>
     <message>
         <source>Never checked</source>
-        <translation type="unfinished"></translation>
+        <translation>Jamais demandées</translation>
     </message>
 </context>
 <context>
     <name>RzxRezalModel</name>
     <message>
         <source>Computer name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de la machine</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Remarque</translation>
     </message>
     <message>
         <source>Samba</source>
-        <translation type="unfinished"></translation>
+        <translation>Samba (partage Windows)</translation>
     </message>
     <message>
         <source>FTP</source>
-        <translation type="unfinished"></translation>
+        <translation>FTP</translation>
     </message>
     <message>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation>Web</translation>
     </message>
     <message>
         <source>News</source>
-        <translation type="unfinished"></translation>
+        <translation>News</translation>
     </message>
     <message>
         <source>OS</source>
-        <translation type="unfinished"></translation>
+        <translation>Système d&apos;exploitation</translation>
     </message>
     <message>
         <source>Gateway</source>
-        <translation type="unfinished"></translation>
+        <translation>Passerelle</translation>
     </message>
     <message>
         <source>Promo</source>
-        <translation type="unfinished"></translation>
+        <translation>Promo</translation>
     </message>
     <message>
         <source>Place</source>
-        <translation type="unfinished"></translation>
+        <translation>Bâtiment</translation>
     </message>
     <message>
         <source>IP</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse IP</translation>
     </message>
     <message>
         <source>Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Client</translation>
     </message>
     <message>
         <source>Everybody</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout le monde</translation>
     </message>
     <message>
         <source>Category</source>
-        <translation type="unfinished"></translation>
+        <translation>Catégorie</translation>
     </message>
     <message>
         <source>Subnet</source>
-        <translation type="unfinished"></translation>
+        <translation>Sous-réseau</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Favoris</translation>
     </message>
     <message>
         <source>Banned</source>
-        <translation type="unfinished"></translation>
+        <translation>Exclus</translation>
     </message>
     <message>
         <source>Others...</source>
-        <translation type="unfinished"></translation>
+        <translation>Autres...</translation>
     </message>
     <message>
         <source>Jones</source>
-        <translation type="unfinished"></translation>
+        <translation>Jônes</translation>
     </message>
     <message>
         <source>Roujes</source>
-        <translation type="unfinished"></translation>
+        <translation>Roujes</translation>
     </message>
     <message>
         <source>Oranjes</source>
-        <translation type="unfinished"></translation>
+        <translation>Oranjes</translation>
     </message>
     <message>
         <source>Binets</source>
-        <translation type="unfinished"></translation>
+        <translation>Binets</translation>
     </message>
     <message>
         <source>Informations :</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations :</translation>
     </message>
     <message>
         <source>ftp server : </source>
-        <translation type="unfinished"></translation>
+        <translation>serveur FTP :</translation>
     </message>
     <message>
         <source>&lt;b&gt;on&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;ouvert&lt;/b&gt;</translation>
     </message>
     <message>
         <source>web server : </source>
-        <translation type="unfinished"></translation>
+        <translation>serveur Web :</translation>
     </message>
     <message>
         <source>news server : </source>
-        <translation type="unfinished"></translation>
+        <translation>serveur de News :</translation>
     </message>
     <message>
         <source>samba server : </source>
-        <translation type="unfinished"></translation>
+        <translation>serveur Samba :</translation>
     </message>
     <message>
         <source>features : </source>
-        <translation type="unfinished"></translation>
+        <translation>fonctionnalités :</translation>
     </message>
     <message>
         <source>chat</source>
-        <translation type="unfinished"></translation>
+        <translation>discussion</translation>
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"></translation>
+        <translation>none</translation>
     </message>
     <message>
         <source>place : </source>
-        <translation type="unfinished"></translation>
+        <translation>bâtiment :</translation>
     </message>
     <message>
         <source>No properties in cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Pas de propriétés en mémoire</translation>
     </message>
     <message>
         <source>Properties checked on </source>
-        <translation type="unfinished"></translation>
+        <translation>Propriétés récupérées le</translation>
     </message>
 </context>
 <context>
     <name>RzxRezalPopup</name>
     <message>
         <source>Samba connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Se connecter en Samba</translation>
     </message>
     <message>
         <source>FTP connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Se connecter en FTP</translation>
     </message>
     <message>
         <source>browse Web</source>
-        <translation type="unfinished"></translation>
+        <translation>Se connecter au site Web</translation>
     </message>
     <message>
         <source>read News</source>
-        <translation type="unfinished"></translation>
+        <translation>Lire les News</translation>
     </message>
     <message>
         <source>Remove from ignore list</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne plus ignorer</translation>
     </message>
     <message>
         <source>begin &amp;Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Discutter</translation>
     </message>
     <message>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Historique</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Propriétés</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Retirer des favoris</translation>
     </message>
     <message>
         <source>Add to favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter aux favoris</translation>
     </message>
     <message>
         <source>Add to ignore list</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorer</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
 </context>
 <context>
     <name>RzxStatusUI</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Status bar&lt;/h3&gt;
 &lt;p&gt;Shows the status of your connection with the xnetserver&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h3&gt;Barre d&apos;état&lt;/h3&gt;
+&lt;p&gt;Affiche le status de vos connexions&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Status bar&lt;/h3&gt;
 &lt;p&gt;Shows the number of clients connected&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h3&gt;Barre d&apos;état&lt;/h3&gt;
+&lt;p&gt;Affiche le nombre de personnes connectées&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
     <name>RzxUi</name>
     <message>
         <source>Main UI for qRezix</source>
-        <translation type="unfinished"></translation>
+        <translation>Interface principale de qRezix</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Version</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
     </message>
 </context>
 <context>
     <name>qRezixUI</name>
     <message>
         <source>qRezix</source>
-        <translation type="unfinished"></translation>
+        <translation>qRezix</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Main view&lt;/h3&gt;
 &lt;p&gt;You can choose if you want to see Everybody or only your favorites.&lt;br&gt;
 Each item have a menu (right click)&lt;/p&gt;
 &lt;p&gt;To switch you can use &lt;b&gt;Shift+Tab&lt;/b&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h3&gt;Vue principale&lt;/h3&gt;
+&lt;p&gt;Vous pouvez choisir ce que vous voulez afficher&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Favoris</translation>
     </message>
     <message>
         <source>Everybody</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout le monde</translation>
     </message>
 </context>
 </TS>
