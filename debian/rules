@@ -4,51 +4,53 @@
 
 package=qrezix
 
-ifeq ($(DEB_BUILD_GNU_TYPE),i386-linux)
-  # Uncomment the following 2 lines to enable i686 optimziation
-  # You may want to tweak the settings to your likings
-  #export CFLAGS=-march=pentium3 -O3 -pipe -ffast-math -fomit-frame-pointer -z combreloc -fno-strict-aliasing -mpreferred-stack-boundary=4 -falign-functions=4 -falign-jumps=4 -falign-loops=4 -fforce-addr -fprefetch-loop-arrays -maccumulate-outgoing-args -fPIC
-  #export CXXFLAGS=-march=pentium3 -O3 -pipe -ffast-math -fomit-frame-pointer -z combreloc -fno-strict-aliasing -mpreferred-stack-boundary=4 -falign-functions=4 -falign-jumps=4 -falign-loops=4 -fforce-addr -fprefetch-loop-arrays -maccumulate-outgoing-args -fPIC
-  export CFLAGS=-O2 -pipe
-  export CXXFLAGS=-O2 -pipe
-  FAST_MALLOC=--enable-fast-malloc=full
-endif
-
-build: qt_only.stamp
-	touch build
-	
-qt_only.stamp: checkdir configure
+build: 	checkdir configure
 	# On commence par compiler pour Qt seul
-	QTDIR=/usr/share/qt3 ./configure --prefix=/usr --disable-rpath --datadir=/usr/share
-	$(MAKE) 
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/qrezix-bin
+	cd qrezix && qmake -o Makefile qrezix.pro
+	cd qrezix/chat && make compiler_uic_make_all
+	cd qrezix && $(MAKE) 
+	
+	#Installation des libs
+	mkdir -p $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/modules
+	mkdir -p $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/net
+	#Core lib
+	cp -a qrezix/lib*.so* $(CURDIR)/debian/qrezix-bin/usr/lib
+	#Modules reseau
+	mv $(CURDIR)/debian/qrezix-bin/usr/lib/librzxnet* $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/net
+	#Modules
+	mv $(CURDIR)/debian/qrezix-bin/usr/lib/librzx*.so*  $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/modules
+	
+	#Installation des binaires
+	mkdir -p $(CURDIR)/debian/qrezix-bin/usr/bin
+	cp -a qrezix/qrezix $(CURDIR)/debian/qrezix-bin/usr/bin
+	
 	# Paquets séparés pour les Traductions
+	cd qrezix && lrelease translations/*.ts
 	mkdir -p $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
-	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/translations/qrezix_fr.qm $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
-	mkdir -p $(CURDIR)/debian/qrezix-translations-us/usr/share/qrezix/translations/
-	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/translations/qrezix.qm $(CURDIR)/debian/qrezix-translations-us/usr/share/qrezix/translations/	
+	cp -a $(CURDIR)/qrezix/translations/*.qm $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
+	
 	# Paquets séparés pour les thèmes
-	mkdir -p $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/
-	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/themes/ms $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/
-	mkdir -p $(CURDIR)/debian/qrezix-theme-classic/usr/share/qrezix/themes/
-	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/themes/classic $(CURDIR)/debian/qrezix-theme-classic/usr/share/qrezix/themes/
-	mkdir -p $(CURDIR)/debian/qrezix-theme-noia-warm/usr/share/qrezix/themes/
-	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/themes/NoiaWarmKDE $(CURDIR)/debian/qrezix-theme-noia-warm/usr/share/qrezix/themes/
-	mkdir -p $(CURDIR)/debian/qrezix-theme-krystal/usr/share/qrezix/themes/
-	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/themes/krystal $(CURDIR)/debian/qrezix-theme-krystal/usr/share/qrezix/themes/
-	mkdir -p $(CURDIR)/debian/qrezix-theme-macosx/usr/share/qrezix/themes/
-	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/themes/MacOSX $(CURDIR)/debian/qrezix-theme-macosx/usr/share/qrezix/themes/
-	mkdir -p $(CURDIR)/debian/qrezix-theme-kids/usr/share/qrezix/themes/
-	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/themes/Kids $(CURDIR)/debian/qrezix-theme-kids/usr/share/qrezix/themes/
-     
-	touch qt_only.stamp
+	mkdir -p $(CURDIR)/debian/qrezix-theme-noia-warm/usr/share/qrezix/themes/NoiaWarmKDE
+	cp -a $(CURDIR)/icons/themes/NoiaWarmKDE/*.png $(CURDIR)/debian/qrezix-theme-noia-warm/usr/share/qrezix/themes/NoiaWarmKDE
+	mkdir -p $(CURDIR)/debian/qrezix-theme-krystal/usr/share/qrezix/themes/krystal
+	cp -a $(CURDIR)/icons/themes/krystal/*.png $(CURDIR)/debian/qrezix-theme-krystal/usr/share/qrezix/themes/krystal
+	mkdir -p $(CURDIR)/debian/qrezix-theme-macosx/usr/share/qrezix/themes/MacOSX
+	cp -a $(CURDIR)/icons/themes/MacOSX/*.png $(CURDIR)/debian/qrezix-theme-macosx/usr/share/qrezix/themes/MacOSX
+	mkdir -p $(CURDIR)/debian/qrezix-theme-kids/usr/share/qrezix/themes/Kids
+	cp -a $(CURDIR)/icons/themes/Kids/*.png $(CURDIR)/debian/qrezix-theme-kids/usr/share/qrezix/themes/Kids
+	mkdir -p $(CURDIR)/debian/qrezix-theme-classic/usr/share/qrezix/themes/classic
+	cp -a $(CURDIR)/icons/themes/classic/*.png $(CURDIR)/debian/qrezix-theme-classic/usr/share/qrezix/themes/classic
+	mkdir -p $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/ms
+	cp -a $(CURDIR)/icons/themes/ms/*.png $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/ms
+	
+	touch build
 
 checkdir:
 	$(checkdir)
 	touch checkdir
 
 configure:	
-	make -f Makefile.dist
+	cd qrezix && qmake -o Makefile qrezix.pro
 
 
 clean:
@@ -62,7 +64,7 @@ clean:
 binary-indep: checkroot build
 	$(checkdir)
 
-	dh_install -i --list-missing
+	#dh_install 
 # There are no architecture-independent files to be uploaded
 # generated by this package.  If there were any they would be
 # made here.
@@ -91,17 +93,14 @@ binary-arch: checkroot build
 	dh_makeshlibs -V
 	dh_installdeb
 	#dh_perl
-	dh_shlibdeps -ldebian/ark/usr/lib:debian/ksim/usr/lib:debian/klaptopdaemon/usr/lib:debian/kmilo/usr/lib
+	dh_shlibdeps -ldebian/ark/usr/lib:debian/ksim/usr/lib:debian/klaptopdaemon/usr/lib:debian/kmilo/usr/lib:debian/qrezix-bin/usr/lib
 	dh_undocumented -A qrezix.1
 	dh_gencontrol
 	dh_md5sums
+	chmod 755 debian/qrezix-bin/usr/lib/libqrezix*
+	chmod 755 debian/qrezix-bin/usr/lib/qrezix/*
 	dh_builddeb
 
-
-
-
-
-	
 	
 define checkdir
 	test -f debian/rules
