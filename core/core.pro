@@ -2,6 +2,7 @@ TEMPLATE = lib
 
 VERSION = 1.7.0
 DESTDIR = ..
+TARGET = qrezix
 
 INCLUDEPATH += ..
 
