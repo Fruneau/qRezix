@@ -93,16 +93,6 @@ RzxProperty::RzxProperty(QWidget *parent)
 	lblWorkDir_2->hide();
 	txtBeepCmd->hide();
 #endif
-
-#ifdef Q_OS_MAC
-	groupSystray->hide();
-#endif
-
-#ifndef Q_OS_UNIX
-	sbTraySize->hide();
-	lblTraySize->hide();
-#endif
-
 	buildModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), lvNetworks);
 	buildModules<RzxModule>(RzxApplication::modulesList(), lvPlugInList);
 
