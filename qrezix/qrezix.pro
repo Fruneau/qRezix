@@ -13,6 +13,16 @@ SUBDIRS += core main
 !contains(DEFINES, RZX_XNET_BUILTIN):SUBDIRS += xnet
 
 mac {
+	mainlib.files = libqrezix*
+	mainlib.path = qRezix.app/Contents/MacOS
+	networks.files = librzxnet*
+	networks.path = qRezix.app/Contents/Resources/net
+	modules.files = librzx*
+	modules.path = qRezix.app/Contents/Resources/modules
+	rezal.path = librezal*
+	rezal.files = qRezix.app/Contents/Resources/rezals
+	subnets.files = subnets.ini
+	subnets.path = qRezix.app/Contents/Resources
 	translations.files = translations/*.qm
 	translations.path = qRezix.app/Contents/Resources/translations
 	themes.files = ../icons/themes/*
@@ -23,7 +33,12 @@ mac {
 	info.path = qRezix.app/Contents
 	qrezix.files = qRezix.app
 	qrezix.path = ../macosx/root/Applications
-	INSTALLS += translations \
+	INSTALLS += mainlib \
+		networks \
+		modules \
+		rezal \
+		subnets \
+		translations \
 		themes \
 		icone \
 		info \

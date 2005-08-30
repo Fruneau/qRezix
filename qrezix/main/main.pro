@@ -11,7 +11,7 @@ INCLUDEPATH += .. ../core
 SOURCES	+= main.cpp
 
 TRANSLATIONS	= translations/qrezix_fr.ts
-RC_FILE		= icone.rc
+RC_FILE		= ../icone.rc
 
 DESTDIR = ..
 mac {
