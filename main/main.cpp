@@ -18,12 +18,11 @@ email                : sylvain.joyeux@m4x.org
 #include <RzxApplication>
 
 
-#ifdef Q_OS_LINUX
+#ifdef Q_OS_UNIX
 /* for signal handling */
 #include <signal.h>
 #include <stdio.h>
 
-#include <execinfo.h>
 typedef void ( *sighandler_t ) ( int );
 
 sighandler_t default_segv_handler, default_pipe_handler, default_term_handler, default_int_handler;
@@ -34,6 +33,8 @@ void nonfatalHandler( int signum )
 	qWarning( "Received a %i signal, continuing", signum );
 }
 
+#ifdef Q_OS_LINUX
+#include <execinfo.h>
 void fatalHandler( int signum )
 {
 	void * array[ 128 ];
@@ -55,6 +56,7 @@ void fatalHandler( int signum )
 
 	QApplication::exit( 1 );
 }
+#endif
 
 void sigTermHandler(int)
 {
@@ -64,7 +66,11 @@ void sigTermHandler(int)
 
 int main(int argc, char *argv[])
 {
+#ifdef Q_OS_LINUX
 	default_segv_handler = signal( SIGSEGV, fatalHandler );
+#else
+	default_segv_handler = signal( SIGSEGV, sigTermHandler );
+#endif
 	default_pipe_handler = signal( SIGPIPE, SIG_IGN );
 	default_term_handler = signal( SIGTERM, sigTermHandler );
 	default_int_handler = signal( SIGINT, sigTermHandler );
