@@ -66,6 +66,7 @@ RzxApplication::RzxApplication(int argc, char **argv)
 	//faire des qDebug...
 	Rzx::installMsgHandler();
 	qDebug("qRezix %s%s\n", VERSION.toAscii().constData(), RZX_TAG_VERSION);
+	qRegisterMetaType<RzxComputer*>("RzxComputer*");	
 
 	//Chargement du coeur de qRezix
 	if(!loadCore())

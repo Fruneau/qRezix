@@ -68,8 +68,8 @@ bool RzxConnectionLister::installModule(RzxNetwork *network)
 {
 	if(RzxBaseLoader<RzxNetwork>::installModule(network))
 	{
-		connect(network, SIGNAL(login(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&)),
-				this, SLOT(login(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&)) );
+		connect(network, SIGNAL(login(RzxNetwork*, const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&)),
+				this, SLOT(login(RzxNetwork*, const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&)) );
 		connect(network, SIGNAL( logout( const RzxHostAddress& ) ), this, SLOT( logout( const RzxHostAddress& ) ) );
 		connect(network, SIGNAL( receivedIcon( QImage*, const RzxHostAddress& ) ),
 				this, SLOT( receivedIcon( QImage*, const RzxHostAddress& )));
@@ -92,12 +92,12 @@ bool RzxConnectionLister::installModule(RzxNetwork *network)
 }
 
 ///Enregistrement de l'arrivée d'un nouveau client
-void RzxConnectionLister::login(const RzxHostAddress& ip, const QString& name, quint32 options, quint32 version, quint32 stamp, quint32 flags, const QString& comment)
+void RzxConnectionLister::login(RzxNetwork* network, const RzxHostAddress& ip, const QString& name, quint32 options, quint32 version, quint32 stamp, quint32 flags, const QString& comment)
 {
 	RzxComputer *computer = getComputerByIP(ip);
 	if(!computer)
 	{
-		computer = new RzxComputer(ip, name, options, version, stamp, flags, comment);
+		computer = new RzxComputer(network, ip, name, options, version, stamp, flags, comment);
 		computerByIP.insert(ip, computer);
 		displayWaiter << computer;
 	

@@ -64,6 +64,7 @@ QRezix::QRezix(QWidget *parent)
 	central = NULL;
 	index = NULL;
 
+	setAttribute(Qt::WA_MacMetalStyle);
 	statusui = new Ui::RzxStatusUI();
 	QWidget *widget = new QWidget;
 	statusui->setupUi(widget);

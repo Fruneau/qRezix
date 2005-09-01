@@ -67,7 +67,7 @@ class RzxConnectionLister : public QObject, public RzxBaseLoader<RzxNetwork>
 		RzxComputer *getComputerByIP(const RzxHostAddress&) const;
 		
 	public slots:
-		void login(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
+		void login(RzxNetwork*, const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
 		void login();
 		void logout(const RzxHostAddress& ip);
 		QStringList getIpList(Rzx::Capabilities features = Rzx::CAP_NONE);

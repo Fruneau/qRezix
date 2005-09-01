@@ -25,6 +25,7 @@
 #include <RzxGlobal>
 #include <RzxConfig>
 #include <RzxHostAddress>
+#include <RzxNetwork>
 
 /**
   *@author Sylvain Joyeux
@@ -46,6 +47,7 @@ class RzxComputer : public QObject  {
 	Q_PROPERTY(QString remarque READ remarque WRITE setRemarque)
 	Q_PROPERTY(QPixmap icon READ icon WRITE setIcon)
 	Q_PROPERTY(RzxHostAddress ip READ ip WRITE setIP)
+	Q_PROPERTY(RzxNetwork* network READ network)
 	Q_PROPERTY(quint32 stamp READ stamp)
 	//Commentés parce que Rzx est un namespace et donc ça marche pas :/
 	//pourtant Qt est aussi un namespace...
@@ -126,7 +128,7 @@ public:
 	static RzxComputer *localhost();
 	static void buildLocalhost();
 
-	RzxComputer(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
+	RzxComputer(RzxNetwork *, const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
 	~RzxComputer();
 
 	QString serialize(const QString& pattern) const;
@@ -178,6 +180,7 @@ public:
 	const RzxHostAddress &ip() const;
 	QString rezalName(bool shortname = true) const;
 	int rezal() const;
+	RzxNetwork *network() const;
 	bool isSameGateway(RzxComputer *computer = 0) const;
 	bool isSameGateway(const RzxComputer&) const;
 	bool isLocalhost() const;
@@ -237,6 +240,7 @@ protected:
 	unsigned long m_stamp;
 	QString m_remarque;
 	QPixmap m_icon;
+	RzxNetwork *m_network;
 	QTimer *delayScan;
 	bool connected;
 };

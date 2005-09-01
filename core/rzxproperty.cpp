@@ -46,6 +46,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 {
 	object = this;
 	setupUi(this);
+	setAttribute(Qt::WA_MacMetalStyle);
 	
 	connect( btnBrowseWorkDir, SIGNAL( clicked() ), this, SLOT( launchDirSelectDialog() ) );
 	connect( btnMiseAJour, SIGNAL( clicked() ), this, SLOT( miseAJour() ) );
