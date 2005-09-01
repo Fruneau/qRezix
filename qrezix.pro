@@ -6,11 +6,11 @@ INCLUDEPATH += core
 
 SUBDIRS += core main
 
-!contains(DEFINES, RZX_MAINUI_BUILTIN):SUBDIRS += mainui
-!contains(DEFINES, RZX_TRAYICON_BUILTIN):SUBDIRS += tray
-!contains(DEFINES, RZX_NOTIFIER_BUILTIN):SUBDIRS += notifier
-!contains(DEFINES, RZX_CHAT_BUILTIN):SUBDIRS += chat
-!contains(DEFINES, RZX_XNET_BUILTIN):SUBDIRS += xnet
+!contains(DEFINES, RZX_MAINUI_BUILTIN):!contains(DEFINES, NO_MAINUI):SUBDIRS += mainui
+!contains(DEFINES, RZX_TRAYICON_BUILTIN):!contains(DEFINES, NO_TRAYICON):SUBDIRS += tray
+!contains(DEFINES, RZX_NOTIFIER_BUILTIN):!contains(DEFINES, NO_NOTIFIER):SUBDIRS += notifier
+!contains(DEFINES, RZX_CHAT_BUILTIN):!contains(DEFINES, NO_CHAT):SUBDIRS += chat
+!contains(DEFINES, RZX_XNET_BUILTIN):!contains(DEFINES, NO_XNET):SUBDIRS += xnet
 
 mac {
 	mainlib.files = libqrezix*

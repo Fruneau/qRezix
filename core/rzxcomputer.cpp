@@ -140,7 +140,7 @@ void RzxComputer::autoSetOs()
 {
 	m_options.SysEx = Rzx::SYSEX_UNKNOWN;
 #ifdef WIN32
-	if (QApplication::winVersion() & Qt::WV_NT_based)
+	if (QSysInfo::WindowsVersion & QSysInfo::WV_NT_based)
 		m_options.SysEx = Rzx::SYSEX_WINNT;
 	else
 		m_options.SysEx = Rzx::SYSEX_WIN9X;
