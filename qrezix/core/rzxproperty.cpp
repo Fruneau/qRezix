@@ -106,7 +106,7 @@ RzxProperty::~RzxProperty()
 {
 	closeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList());
 	closeModules<RzxModule>(RzxApplication::modulesList());
-	object = NULL;
+	RZX_GLOBAL_CLOSE
 }
 
 /// Change le thème d'icône de la fenêtre de préférence

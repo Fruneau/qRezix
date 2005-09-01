@@ -14,7 +14,7 @@ SUBDIRS += core main
 
 mac {
 	mainlib.files = libqrezix*
-	mainlib.path = qRezix.app/Contents/MacOS
+	mainlib.path = qRezix.app/Contents/Frameworks
 	networks.files = librzxnet*
 	networks.path = qRezix.app/Contents/Resources/net
 	modules.files = librzx*

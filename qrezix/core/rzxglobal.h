@@ -173,6 +173,11 @@ namespace Rzx
  *
  * *** dans myclass.cpp ***
  * RZX_GLOBAL_INIT(MyClass)
+ *
+ * MyClass::~MyClass()
+ * {
+ * 	RZX_GLOBAL_CLOSE
+ * }
  * \endcode
  * \sa RZX_GLOBAL_INIT
  */
@@ -185,5 +190,9 @@ namespace Rzx
 ///Initialise la définition globale
 /** \sa RZX_GLOBAL */
 #define RZX_GLOBAL_INIT(type) type *type::object = NULL;
+
+///Vire le pointeur vers l'objet global
+/** \sa RZX_GLOBAL */
+#define RZX_GLOBAL_CLOSE if(object == this) object = NULL;
 
 #endif

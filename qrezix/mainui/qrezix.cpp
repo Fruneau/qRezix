@@ -247,6 +247,7 @@ QRezix::~QRezix()
 	}
 	closeModules();
 	RzxMainUIConfig::saveMainWidget(this);
+	RZX_GLOBAL_CLOSE
 }
 
 ///Change l'information d'état

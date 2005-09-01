@@ -5,7 +5,6 @@ DESTDIR = ..
 TARGET = qrezix
 
 INCLUDEPATH += ..
-
 contains(DEFINES, RZX_MAINUI_BUILTIN):include(../mainui/mainui.pri)
 contains(DEFINES, RZX_TRAYICON_BUILTIN):include(../tray/tray.pri)
 contains(DEFINES, RZX_NOTIFIER_BUILTIN):include(../notifier/notifier.pri)

@@ -95,6 +95,7 @@ RzxChatLister::~RzxChatLister()
 	client->deleteLater();
 	delete RzxChatConfig::global();
 	endClosing();
+	RZX_GLOBAL_CLOSE
 }
 
 /** Sert aussi au raffraichissement des données*/
