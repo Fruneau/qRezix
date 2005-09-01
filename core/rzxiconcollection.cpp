@@ -139,6 +139,7 @@ RzxIconCollection::~RzxIconCollection()
 	themeDir.clear();
 	icons.clear();
 	userIcons.clear();
+	RZX_GLOBAL_CLOSE
 }
 
 ///Teste si le répertoire contient un thème valide

@@ -107,6 +107,7 @@ RzxRezalModel::RzxRezalModel()
 ///Détruit le modèle
 RzxRezalModel::~RzxRezalModel()
 {
+	RZX_GLOBAL_CLOSE
 }
 
 ///Retourne l'index correspondant à l'objet indiqué

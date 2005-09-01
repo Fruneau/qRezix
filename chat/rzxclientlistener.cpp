@@ -32,6 +32,7 @@ RzxClientListener::RzxClientListener()
 RzxClientListener::~ RzxClientListener()
 {
 	close();
+	RZX_GLOBAL_CLOSE
 }
 
 ///Connexion d'un RzxChatSocket au reste du programme

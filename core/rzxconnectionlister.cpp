@@ -51,8 +51,8 @@ RzxConnectionLister::~RzxConnectionLister()
 	Rzx::beginModuleClosing("Connection lister");
 	closeModules();
 	qDeleteAll(computerByIP);
-	object = NULL;
 	Rzx::endModuleClosing("Connection lister");
+	RZX_GLOBAL_CLOSE
 }
 
 ///Chargement des builtins

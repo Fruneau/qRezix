@@ -3,6 +3,7 @@ LANGUAGE = C++
 CONFIG	+= qt warn_on
 DEFINES += QT_DLL
 
+
 include(../rzxglobal.pri)
 
 LIBS += -L.. -lqrezix
