@@ -509,9 +509,9 @@ void RzxConfig::loadRezals()
 }
 
 ///Retourne le nombre de sous réseaux
-int RzxConfig::rezalNumber()
+uint RzxConfig::rezalNumber()
 {
-	return global()->rezalSubnets.count();
+	return (uint)global()->rezalSubnets.count();
 }
 
 ///Retourne le rezal auquel appartient le QHostAddress
@@ -539,7 +539,7 @@ int RzxConfig::rezal(const QHostAddress& addr)
  */
 QString RzxConfig::rezalName(int rezalid, bool shortname)
 {
-	if(rezalid >= rezalNumber() || rezalid < 0)
+	if(rezalid >= (int)rezalNumber() || rezalid < 0)
 		return QString();
 
 	if(shortname)

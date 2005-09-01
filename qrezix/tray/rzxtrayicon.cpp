@@ -63,7 +63,9 @@ RzxTrayIcon::RzxTrayIcon()
 {
 	beginLoading();
 	setType(MOD_GUI);
+#ifndef Q_WS_MAC
 	setType(MOD_HIDE);
+#endif
 	setIcon(Rzx::ICON_SYSTRAYAWAY);
 	new RzxTrayConfig(this);
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)

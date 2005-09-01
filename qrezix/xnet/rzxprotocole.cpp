@@ -87,7 +87,7 @@ void RzxProtocole::parse(const QString& msg)
 		{
 			case SERVER_JOIN:
 			case SERVER_REFRESH:
-				emit login(RzxHostAddress::fromRezix(cmd.cap(1).toUInt(0, 16)), //IP
+				emit login(this, RzxHostAddress::fromRezix(cmd.cap(1).toUInt(0, 16)), //IP
 						   cmd.cap(2), //Nom de la machine 
 						   cmd.cap(3).toUInt(0, 16), //Options
 						   cmd.cap(4).toUInt(0, 16), //Version du client

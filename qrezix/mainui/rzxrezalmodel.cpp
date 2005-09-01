@@ -71,34 +71,32 @@ bool sortComputer(RzxComputer *c1, RzxComputer *c2)
 ///Construction du Model
 RzxRezalModel::RzxRezalModel()
 {
-	qRegisterMetaType<RzxComputer*>("RzxComputer*");
-
 	//Base de l'arbre
 	insertRows(0, 4);
-	everybodyGroup = QAbstractItemModel::createIndex(TREE_BASE_EVERYBODY, 0, (int)TREE_FLAG_BASE | TREE_BASE_EVERYBODY);
-	favoritesGroup = QAbstractItemModel::createIndex(TREE_BASE_FAVORITE, 0, (int)TREE_FLAG_BASE | TREE_BASE_FAVORITE);
-	promoGroup = QAbstractItemModel::createIndex(TREE_BASE_PROMO, 0, (int)TREE_FLAG_BASE | TREE_BASE_PROMO);
-	rezalGroup = QAbstractItemModel::createIndex(TREE_BASE_REZAL, 0, (int)TREE_FLAG_BASE | TREE_BASE_REZAL);
+	everybodyGroup = QAbstractItemModel::createIndex(TREE_BASE_EVERYBODY, 0, (int)TREE_FLAG_BASE);
+	favoritesGroup = QAbstractItemModel::createIndex(TREE_BASE_FAVORITE, 0, (int)TREE_FLAG_BASE);
+	promoGroup = QAbstractItemModel::createIndex(TREE_BASE_PROMO, 0, (int)TREE_FLAG_BASE);
+	rezalGroup = QAbstractItemModel::createIndex(TREE_BASE_REZAL, 0, (int)TREE_FLAG_BASE);
 
 	//Arborescence favoris/ignoré
-	favoriteIndex = QAbstractItemModel::createIndex(TREE_FAVORITE_FAVORITE, 0, (int)TREE_FLAG_FAVORITE | TREE_FAVORITE_FAVORITE);
-	ignoredIndex = QAbstractItemModel::createIndex(TREE_FAVORITE_IGNORED, 0, (int)TREE_FLAG_FAVORITE | TREE_FAVORITE_IGNORED);
-	neutralIndex = QAbstractItemModel::createIndex(TREE_FAVORITE_NEUTRAL, 0, (int)TREE_FLAG_FAVORITE | TREE_FAVORITE_NEUTRAL);
+	favoriteIndex = QAbstractItemModel::createIndex(TREE_FAVORITE_FAVORITE, 0, (int)TREE_FLAG_FAVORITE);
+	ignoredIndex = QAbstractItemModel::createIndex(TREE_FAVORITE_IGNORED, 0, (int)TREE_FLAG_FAVORITE);
+	neutralIndex = QAbstractItemModel::createIndex(TREE_FAVORITE_NEUTRAL, 0, (int)TREE_FLAG_FAVORITE);
 
 	//Arborescence par promo
 	insertRows(0, 4, promoGroup);
-	joneIndex = QAbstractItemModel::createIndex(TREE_PROMO_JONE, 0, (int)TREE_FLAG_PROMO | TREE_PROMO_JONE);
-	roujeIndex = QAbstractItemModel::createIndex(TREE_PROMO_ROUJE, 0, (int)TREE_FLAG_PROMO | TREE_PROMO_ROUJE);
-	oranjeIndex = QAbstractItemModel::createIndex(TREE_PROMO_ORANJE, 0, (int)TREE_FLAG_PROMO | TREE_PROMO_ORANJE);
-	binetIndex = QAbstractItemModel::createIndex(TREE_PROMO_BINET, 0, (int)TREE_FLAG_PROMO | TREE_PROMO_BINET);
+	joneIndex = QAbstractItemModel::createIndex(TREE_PROMO_JONE, 0, (int)TREE_FLAG_PROMO);
+	roujeIndex = QAbstractItemModel::createIndex(TREE_PROMO_ROUJE, 0, (int)TREE_FLAG_PROMO);
+	oranjeIndex = QAbstractItemModel::createIndex(TREE_PROMO_ORANJE, 0, (int)TREE_FLAG_PROMO);
+	binetIndex = QAbstractItemModel::createIndex(TREE_PROMO_BINET, 0, (int)TREE_FLAG_PROMO);
 
 	//Arborescence par rezal
 	insertRows(0, RzxConfig::rezalNumber(), rezalGroup);
 	rezalIndex = new QPersistentModelIndex[RzxConfig::rezalNumber()];
 	rezals = new QList<RzxComputer*>[RzxConfig::rezalNumber()];
 	rezalsByName = new RzxDict<QString, RzxComputer*>[RzxConfig::rezalNumber()];
-	for(int i = 0 ; i < RzxConfig::rezalNumber() ; i++)
-		rezalIndex[i] = QAbstractItemModel::createIndex(i, 0, (int)TREE_FLAG_REZAL | i);
+	for(uint i = 0 ; i < RzxConfig::rezalNumber() ; i++)
+		rezalIndex[i] = QAbstractItemModel::createIndex(i, 0, (int)TREE_FLAG_REZAL);
 
 	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(RzxConnectionLister::global(), SIGNAL(logout(RzxComputer* )), this, SLOT(logout(RzxComputer* )));
@@ -123,19 +121,18 @@ QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent)
 	if(!parent.isValid())
 		switch(row)
 		{
-			case TREE_BASE_EVERYBODY: if(!column) return everybodyGroup;
-			case TREE_BASE_FAVORITE: if(!column) return favoritesGroup;
-			case TREE_BASE_PROMO: if(!column) return promoGroup;
-			case TREE_BASE_REZAL: if(!column) return rezalGroup;
+			case TREE_BASE_EVERYBODY: if(!column) return everybodyGroup; break;
+			case TREE_BASE_FAVORITE: if(!column) return favoritesGroup; break;
+			case TREE_BASE_PROMO: if(!column) return promoGroup; break;
+			case TREE_BASE_REZAL: if(!column) return rezalGroup; break;
 			default: return QModelIndex();
 		}
 
 	//Si le parent est valide, on filtre sur la catégorie
 	//Comme dans la plupart des autres fonctions de cette classe, le seul cas
 	//vraiment particulier est le filtrage sur les rezal
-	int parentId = parent.internalId();
-	int category = parentId & TREE_FLAG_MASK;
-	int value = parentId & TREE_FLAG_VALUE;
+	const uint category = parent.internalId();
+	const uint value = parent.row();
 	switch(category)
 	{
 		//Le parent est un élément de la base
@@ -154,9 +151,9 @@ QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent)
 				case TREE_BASE_FAVORITE:
 					switch(row)
 					{
-						case TREE_FAVORITE_FAVORITE: if(!column) return favoriteIndex;
-						case TREE_FAVORITE_IGNORED: if(!column) return ignoredIndex;
-						case TREE_FAVORITE_NEUTRAL: if(!column) return neutralIndex;
+						case TREE_FAVORITE_FAVORITE: if(!column) return favoriteIndex; break;
+						case TREE_FAVORITE_IGNORED: if(!column) return ignoredIndex; break;
+						case TREE_FAVORITE_NEUTRAL: if(!column) return neutralIndex; break;
 					}
 					break;
 
@@ -168,17 +165,17 @@ QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent)
 				case TREE_BASE_PROMO:
 					switch(row)
 					{
-						case TREE_PROMO_JONE: if(!column) return joneIndex;
-						case TREE_PROMO_ROUJE: if(!column) return roujeIndex;
-						case TREE_PROMO_ORANJE: if(!column) return oranjeIndex;
-						case TREE_PROMO_BINET: if(!column) return binetIndex;
+						case TREE_PROMO_JONE: if(!column) return joneIndex; break;
+						case TREE_PROMO_ROUJE: if(!column) return roujeIndex; break;
+						case TREE_PROMO_ORANJE: if(!column) return oranjeIndex; break;
+						case TREE_PROMO_BINET: if(!column) return binetIndex; break;
 					}
 					break;
 
 				//Le père est Rezal, donc row est le rezalId
 				//- Rezal (FLAG_REZAL | rezalId)
 				case TREE_BASE_REZAL:
-					if(row < RzxConfig::rezalNumber())
+					if(row < (int)RzxConfig::rezalNumber())
 						if(!column) return rezalIndex[row];
 					break;
 			}
@@ -211,10 +208,9 @@ QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent)
 		//Le père est un élément du group Rezal
 		// - ...  (FLAG_REZAL | ((rezalId + 1) << 16) | row)
 		case TREE_FLAG_REZAL:
-		{
-			if(value >= 0 && value < RzxConfig::rezalNumber())
+			if(value < RzxConfig::rezalNumber())
 				return createIndex(row, column, GET_ID_FROM_REZAL(value), rezals[value]);
-		}
+			break;
 	}
 
 	return QModelIndex();
@@ -227,56 +223,83 @@ QModelIndex RzxRezalModel::index(RzxComputer *computer, const QModelIndex& paren
 	const QList<RzxComputer*> *list = NULL;
 	switch(parent.internalId())
 	{
-		case TREE_FLAG_BASE | TREE_BASE_EVERYBODY: list = &everybody; break;
-		case TREE_FLAG_FAVORITE | TREE_FAVORITE_FAVORITE: list = &favorites; break;
-		case TREE_FLAG_FAVORITE | TREE_FAVORITE_IGNORED: list = &ignored; break;
-		case TREE_FLAG_FAVORITE | TREE_FAVORITE_NEUTRAL: list = &neutral; break;
-		case TREE_FLAG_PROMO | TREE_PROMO_JONE: list = &jone; break;
-		case TREE_FLAG_PROMO | TREE_PROMO_ROUJE: list = &rouje; break;
-		case TREE_FLAG_PROMO | TREE_PROMO_ORANJE: list = &oranje; break;
-		case TREE_FLAG_PROMO | TREE_PROMO_BINET: list = &binet; break;
+		case TREE_FLAG_BASE:
+			if(parent.row() == TREE_BASE_EVERYBODY) list = &everybody;
+			break;
+			
+		case TREE_FLAG_FAVORITE:
+			switch(parent.row())
+			{
+				case TREE_FAVORITE_FAVORITE: list = &favorites; break;
+				case TREE_FAVORITE_IGNORED: list = &ignored; break;
+				case TREE_FAVORITE_NEUTRAL: list = &neutral; break;
+			}
+			break;
+			
+		case TREE_FLAG_PROMO:
+			switch(parent.row())
+			{
+				case TREE_PROMO_JONE: list = &jone; break;
+				case TREE_PROMO_ROUJE: list = &rouje; break;
+				case TREE_PROMO_ORANJE: list = &oranje; break;
+				case TREE_PROMO_BINET: list = &binet; break;
+			}
+			break;
+			
+		case TREE_FLAG_REZAL:
+			list = &rezals[parent.row()];
+			break;
+			
 		default:
-			if((parent.internalId() & TREE_FLAG_MASK) != TREE_FLAG_REZAL) 
-				return QModelIndex();
+			return QModelIndex();
 	}
-	if((parent.internalId() & TREE_FLAG_MASK) == TREE_FLAG_REZAL)
-	{
-		int value = parent.internalId() & TREE_FLAG_VALUE;
-		list = &rezals[value];
-	}
-	return index(list->indexOf(computer), 0, parent);
+
+	if(list)
+		return index(list->indexOf(computer), 0, parent);
+	else
+		return QModelIndex();
 }
 
 ///Retourne l'arbre des fils
-const RzxRezalSearchTree *RzxRezalModel::childrenByName(const QModelIndex& parent) const
+const RzxRezalSearchTree *RzxRezalModel::childrenByName(const QModelIndex& index) const
 {
-	if(!parent.isValid()) return NULL;
-	switch(parent.internalId())
+	if(!index.isValid()) return NULL;
+	switch(index.internalId())
 	{
-		case TREE_FLAG_BASE | TREE_BASE_EVERYBODY: return &everybodyByName;
-		case TREE_FLAG_FAVORITE | TREE_FAVORITE_FAVORITE: return &favoritesByName;
-		case TREE_FLAG_FAVORITE | TREE_FAVORITE_IGNORED: return &ignoredByName;
-		case TREE_FLAG_FAVORITE | TREE_FAVORITE_NEUTRAL: return &neutralByName;
-		case TREE_FLAG_PROMO | TREE_PROMO_JONE: return &joneByName;
-		case TREE_FLAG_PROMO | TREE_PROMO_ROUJE: return &roujeByName;
-		case TREE_FLAG_PROMO | TREE_PROMO_ORANJE: return &oranjeByName;
-		case TREE_FLAG_PROMO | TREE_PROMO_BINET: return &binetByName;
-		default:
-			if((parent.internalId() & TREE_FLAG_MASK) != TREE_FLAG_REZAL) return NULL;
-	}
-	if((parent.internalId() & TREE_FLAG_MASK) == TREE_FLAG_REZAL)
-	{
-		int value = parent.internalId() & TREE_FLAG_VALUE;
-		return &rezalsByName[value];
+		case TREE_FLAG_BASE:
+			if(index.row() == TREE_BASE_EVERYBODY) return &everybodyByName;
+			break;
+			
+		case TREE_FLAG_FAVORITE:
+			switch(index.row())
+			{
+				case TREE_FAVORITE_FAVORITE: return &favoritesByName;
+				case TREE_FAVORITE_IGNORED: return &ignoredByName;
+				case TREE_FAVORITE_NEUTRAL: return &neutralByName;
+			}
+			break;
+			
+		case TREE_FLAG_PROMO:
+			switch(index.row())
+			{
+				case TREE_PROMO_JONE: return &joneByName;
+				case TREE_PROMO_ROUJE: return &roujeByName;
+				case TREE_PROMO_ORANJE: return &oranjeByName;
+				case TREE_PROMO_BINET: return &binetByName;
+			}
+			break;
+			
+		case TREE_FLAG_REZAL:
+			return &rezalsByName[index.row()];
 	}
 	return NULL;
 }
 
 ///Retourne le parent
-QModelIndex RzxRezalModel::parent(const QModelIndex& parent) const
+QModelIndex RzxRezalModel::parent(const QModelIndex& index) const
 {
-	if(!parent.isValid()) return QModelIndex();
-	switch(parent.internalId() & TREE_FLAG_MASK)
+	if(!index.isValid()) return QModelIndex();
+	switch(index.internalId())
 	{
 		case TREE_FLAG_BASE: return QModelIndex();
 		case TREE_FLAG_EVERYBODY: return everybodyGroup;
@@ -293,12 +316,12 @@ QModelIndex RzxRezalModel::parent(const QModelIndex& parent) const
 	}
 
 	//Cas Particulier : les rezal
-	if(parent.internalId() & TREE_FLAG_MASK != TREE_FLAG_REZAL)
-		return QModelIndex();
-
-	int rezal = GET_REZAL_FROM_ID(parent.internalId());
-	if(rezal < RzxConfig::rezalNumber())
-		return rezalIndex[rezal];
+	if((index.internalId() & TREE_FLAG_HARDMASK) == TREE_FLAG_REZAL)
+	{
+		uint rezal = GET_REZAL_FROM_ID(index.internalId());
+		if(rezal < RzxConfig::rezalNumber())
+			return rezalIndex[rezal];
+	}
 
 	return QModelIndex();
 }
@@ -311,33 +334,31 @@ bool RzxRezalModel::isIndex(const QModelIndex& index) const
 {
 	if(!index.isValid()) return true;
 	
-	int parentId = index.internalId();
-	int category = parentId & TREE_FLAG_MASK;
-	int value = parentId & TREE_FLAG_VALUE;
+	const int category = index.internalId();
+	const int value = index.row();
 	if(category == TREE_FLAG_BASE && value != TREE_BASE_EVERYBODY)
 		return true;
 	return false;
 }
 
 ///Indique si l'index a des fils
-bool RzxRezalModel::hasChildren(const QModelIndex& parent) const
+bool RzxRezalModel::hasChildren(const QModelIndex& index) const
 {
-	if(rowCount(parent))
+	if(rowCount(index))
 		return true;
 	return false;
 }
 
 ///Retourne le nombre de fils de l'index
-int RzxRezalModel::rowCount(const QModelIndex& parent) const
+int RzxRezalModel::rowCount(const QModelIndex& index) const
 {
 	//Les fils de la racine sont BASE_NUMBER
-	if(!parent.isValid())
+	if(!index.isValid())
 		return TREE_BASE_NUMBER;
 
 	//On extrait de l'identifiant l'indicateur d'arborescence
-	int parentId = parent.internalId();
-	int category = parentId & TREE_FLAG_MASK;
-	int value = parentId & TREE_FLAG_VALUE;
+	const uint category = index.internalId();
+	const uint value = index.row();
 	switch(category)
 	{
 		case TREE_FLAG_BASE:
@@ -370,7 +391,7 @@ int RzxRezalModel::rowCount(const QModelIndex& parent) const
 			break;
 
 		case TREE_FLAG_REZAL:
-			if(value >= 0 && value < RzxConfig::rezalNumber())
+			if(value < RzxConfig::rezalNumber())
 				return rezals[value].count();
 	}
 
@@ -393,10 +414,9 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 	if(!index.isValid())
 		return QVariant();
 
-	int parentId = index.internalId();
-	int value = parentId & TREE_FLAG_VALUE;
-	int column = index.column();
-	int category = parentId & TREE_FLAG_MASK;
+	const uint column = index.column();
+	const uint value = index.row();
+	const uint category = index.internalId();
 	
 	switch(category)
 	{
@@ -445,12 +465,12 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 
 	if((category & TREE_FLAG_HARDMASK) == TREE_FLAG_REZAL)
 	{
-		int rezalId = GET_REZAL_FROM_ID(parentId);
-		if(rezalId >= 0 && rezalId < RzxConfig::rezalNumber())
+		const uint rezalId = index.parent().row(); //GET_REZAL_FROM_ID(category);
+		if(rezalId < RzxConfig::rezalNumber())
 			return getComputer(role, rezals[rezalId], value, column);
 	}
 
-	return QString::number(parentId, 16);
+	return QString::number(category, 16);
 }
 
 ///Extraction du computer
@@ -516,9 +536,9 @@ QVariant RzxRezalModel::getComputer(int role, const QList<RzxComputer*>& list, i
  * 		- client/modules
  * 	- Propriétés (dernière propriétés en cache pour ce client)
  */
-QString RzxRezalModel::tooltip(RzxComputer *computer) const
+QString RzxRezalModel::tooltip(const RzxComputer *computer) const
 {
-	int tooltipFlags = RzxMainUIConfig::tooltip();
+	const int tooltipFlags = RzxMainUIConfig::tooltip();
 	if(!(tooltipFlags & (int)RzxRezalModel::TipEnable) || tooltipFlags==(int)RzxRezalModel::TipEnable) return "";
 	
 	QString tooltip = "<b>"+ computer->name() + " </b>";
@@ -590,7 +610,7 @@ QString RzxRezalModel::tooltip(RzxComputer *computer) const
  * les menus doivent être définis à la main par l'utilisateur... */
 QVariant RzxRezalModel::getMenuItem(int role, const QIcon& icon, const QString& name, const QString& desc) const
 {
-	QString description = (desc.isNull()?name:desc);
+	const QString description = (desc.isNull()?name:desc);
 
 	switch(role)
 	{
@@ -807,10 +827,10 @@ void RzxRezalModel::update(RzxComputer *computer)
 	}
 
 	//Rangement en rezal
-	int rezalId = computer->rezal();
+	uint rezalId = computer->rezal();
 	if(!rezals[rezalId].contains(computer))
 	{
-		for(int i = 0 ; i < RzxConfig::rezalNumber() ; i++)
+		for(uint i = 0 ; i < RzxConfig::rezalNumber() ; i++)
 			if(i == rezalId)
 				insertObject(rezalIndex[i], rezals[i], rezalsByName[i], computer);
 			else
@@ -837,7 +857,7 @@ void RzxRezalModel::clear()
 	deleteGroup(rouje, roujeIndex);
 	deleteGroup(oranje, oranjeIndex);
 	deleteGroup(binet, binetIndex);
-	for(int i = 0 ; i < RzxConfig::rezalNumber() ; i++)
+	for(uint i = 0 ; i < RzxConfig::rezalNumber() ; i++)
 		deleteGroup(rezals[i], rezalIndex[i]);
 }
 
@@ -845,7 +865,7 @@ void RzxRezalModel::clear()
 ///Insertion d'un objet dans la liste et le groupe correspondant
 void RzxRezalModel::insertObject(const QModelIndex& parent, QList<RzxComputer*>& list, RzxRezalSearchTree& tree, RzxComputer *computer)
 {
-	int row = list.count();
+	const int row = list.count();
 	beginInsertRows(parent, row, row);
 	list << computer;
 	tree.insert(computer->name().toLower(), new RzxComputer*(computer));
@@ -855,7 +875,7 @@ void RzxRezalModel::insertObject(const QModelIndex& parent, QList<RzxComputer*>&
 ///Suppression d'un objet de la liste et du groupe correspondant
 void RzxRezalModel::removeObject(const QModelIndex& parent, QList<RzxComputer*>& list, RzxRezalSearchTree& tree, RzxComputer *computer)
 {
-	int row = list.indexOf(computer);
+	const int row = list.indexOf(computer);
 	if(row == -1) return;
 	beginRemoveRows(parent, row, row);
 	list.removeAll(computer);
@@ -866,7 +886,7 @@ void RzxRezalModel::removeObject(const QModelIndex& parent, QList<RzxComputer*>&
 ///Mise à jours des données concernant un object
 void RzxRezalModel::updateObject(const QModelIndex& parent, const QList<RzxComputer*>& list, RzxComputer *computer)
 {
-	int row = list.indexOf(computer);
+	const int row = list.indexOf(computer);
 	if(row == -1) return;
 	QModelIndex baseIndex = index(row, 0, parent);
 	QModelIndex endIndex = index(row, numColonnes-1, parent);
@@ -888,11 +908,9 @@ QModelIndexList RzxRezalModel::selected(const QModelIndex& ref) const
 			indexList << index(offset, 0, model); \
 	}
 
-	QVariant value = data(ref, Qt::UserRole);
-#ifndef Q_OS_MAC
+	const QVariant value = data(ref, Qt::UserRole);
 	if(!value.canConvert<RzxComputer*>())
 		return QModelIndexList() << ref;
-#endif
 
 	QModelIndexList indexList;
 	RzxComputer *computer = value.value<RzxComputer*>();
@@ -904,7 +922,7 @@ QModelIndexList RzxRezalModel::selected(const QModelIndex& ref) const
 	insert(rouje, roujeIndex);
 	insert(oranje, oranjeIndex);
 	insert(binet, binetIndex);
-	for(int i = 0 ; i<RzxConfig::rezalNumber() ; i++)
+	for(uint i = 0 ; i<RzxConfig::rezalNumber() ; i++)
 		insert(rezals[i], rezalIndex[i]);
 	return indexList;
 }
@@ -932,7 +950,7 @@ void RzxRezalModel::sort(int column, Qt::SortOrder sortSens)
 	sortList(rouje, roujeIndex);
 	sortList(oranje, oranjeIndex);
 	sortList(binet, binetIndex);
-	for(int i=0 ; i < RzxConfig::rezalNumber() ; i++)
+	for(uint i=0 ; i < RzxConfig::rezalNumber() ; i++)
 		sortList(rezals[i], rezalIndex[i]);
 #undef sortList
 }

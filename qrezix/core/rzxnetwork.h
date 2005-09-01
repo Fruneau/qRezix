@@ -84,7 +84,7 @@ class RzxNetwork : public QObject, public RzxBaseModule
 		void disconnected();
 		void receiveAddress(const RzxHostAddress&);
 		
-		void login(const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
+		void login(RzxNetwork*, const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
 		void logout(const RzxHostAddress&);
 
 		void fatal(const QString&);

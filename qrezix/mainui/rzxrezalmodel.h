@@ -176,25 +176,23 @@ class RzxRezalModel:public QAbstractItemModel
 		///Flags permettant d'identifier les identifiant des objets
 		enum TreeFlags {
 			TREE_FLAG_BASE 		= 0x00000000, 	/**< Flag permettant d'identifier les objets du groupe base */
-			TREE_FLAG_EVERYBODY	= 0x01000000,	/**< Flag permettant d'identifier les objets du groupe Tout le monde */
-			TREE_FLAG_FAVORITE 	= 0x02000000, 	/**< Flag permettant d'identifier les objets du groupe Favoris */
-			TREE_FLAG_FAVORITE_FAVORITE	= 0x02010000,
-			TREE_FLAG_FAVORITE_IGNORED		= 0x02020000,
-			TREE_FLAG_FAVORITE_NEUTRAL		= 0x02030000,
-			TREE_FLAG_PROMO 		= 0x03000000, 	/**< Flag permettant d'identifier les objets du groupe Promo */
-			TREE_FLAG_PROMO_JONE		= 0x03010000,
-			TREE_FLAG_PROMO_ROUJE	= 0x03020000,
-			TREE_FLAG_PROMO_ORANJE	= 0x03030000,
-			TREE_FLAG_PROMO_BINET	= 0x03040000,
-			TREE_FLAG_REZAL 		= 0x04000000, 	/**< Flag permettant d'identifier les objets du groupe Rezal */
-			TREE_FLAG_MASK 		= 0xffff0000, 	/**< Masque permettant d'extraire le flag de catégorie */
-			TREE_FLAG_HARDMASK	= 0xff000000,	/**< Masque qui isole la catégorie et la sous-catérogie */
-			TREE_FLAG_SOFTMASK	= 0x00ff0000,	/**< Masque qui isole la sous-catégorie de la catégorie */
-			TREE_FLAG_VALUE		= 0x0000ffff	/**< Masque permettant d'extraire la valeur de l'identifiant*/
+			TREE_FLAG_EVERYBODY	= 0x00010000,	/**< Flag permettant d'identifier les objets du groupe Tout le monde */
+			TREE_FLAG_FAVORITE 	= 0x00020000, 	/**< Flag permettant d'identifier les objets du groupe Favoris */
+			TREE_FLAG_FAVORITE_FAVORITE	= 0x00020001,
+			TREE_FLAG_FAVORITE_IGNORED		= 0x00020002,
+			TREE_FLAG_FAVORITE_NEUTRAL		= 0x00020003,
+			TREE_FLAG_PROMO 		= 0x00030000, 	/**< Flag permettant d'identifier les objets du groupe Promo */
+			TREE_FLAG_PROMO_JONE		= 0x00030001,
+			TREE_FLAG_PROMO_ROUJE	= 0x00030002,
+			TREE_FLAG_PROMO_ORANJE	= 0x00030003,
+			TREE_FLAG_PROMO_BINET	= 0x00030004,
+			TREE_FLAG_REZAL 		= 0x00040000, 	/**< Flag permettant d'identifier les objets du groupe Rezal */
+			TREE_FLAG_HARDMASK	= 0xffff0000,	/**< Masque qui isole la catégorie et la sous-catérogie */
+			TREE_FLAG_SOFTMASK	= 0x0000ffff,	/**< Masque qui isole la sous-catégorie de la catégorie */
 		};
 
-#define GET_REZAL_FROM_ID(id) (((id & TREE_FLAG_SOFTMASK) >> 16) - 1)
-#define GET_ID_FROM_REZAL(rezal) (((rezal + 1) << 16) | TREE_FLAG_REZAL)
+#define GET_REZAL_FROM_ID(id) ((id & TREE_FLAG_SOFTMASK) - 1)
+#define GET_ID_FROM_REZAL(rezal) (int)(TREE_FLAG_REZAL | ((uint)(rezal + 1) & TREE_FLAG_SOFTMASK))
 
 		///Insertion d'un objet dans le groupe et la liste donnée
 		void insertObject(const QModelIndex&, QList<RzxComputer*>&, RzxRezalSearchTree&, RzxComputer*);
@@ -251,7 +249,7 @@ class RzxRezalModel:public QAbstractItemModel
 		virtual void clear();
 
 	protected:
-		virtual QString tooltip(RzxComputer *) const;
+		virtual QString tooltip(const RzxComputer *) const;
 };
 
 ///Création d'un index associé à un objet
@@ -266,7 +264,7 @@ inline QModelIndex RzxRezalModel::createIndex(int row, int column, int flag, con
 	if(row < 0 || row >= list.count())
 		return QModelIndex();
 	
-	return QAbstractItemModel::createIndex(row, column, (int)flag | row);
+	return QAbstractItemModel::createIndex(row, column, flag);
 }
 
 #endif

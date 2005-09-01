@@ -58,8 +58,8 @@ RzxComputer::RzxComputer():delayScan(NULL) { }
  * Cette construction est suffisante uniquement pour un computer distant
  * et n'est pas adapté à la construction de localhost
  */
-RzxComputer::RzxComputer(const RzxHostAddress& c_ip, const QString& c_name, quint32 c_options, quint32 c_version, quint32 c_stamp, quint32 c_flags, const QString& c_remarque)
-	:m_name(c_name), m_ip(c_ip), m_flags(c_flags), m_stamp(c_stamp), m_remarque(c_remarque), delayScan(NULL)
+RzxComputer::RzxComputer(RzxNetwork *network, const RzxHostAddress& c_ip, const QString& c_name, quint32 c_options, quint32 c_version, quint32 c_stamp, quint32 c_flags, const QString& c_remarque)
+	:m_name(c_name), m_ip(c_ip), m_flags(c_flags), m_stamp(c_stamp), m_remarque(c_remarque), m_network(network), delayScan(NULL)
 {
 	*((quint32 *) &m_options) = c_options;
 	*((quint32 *) &m_version) = c_version;
@@ -85,6 +85,7 @@ void RzxComputer::initLocalhost()
 {
 	Rzx::beginModuleLoading("Local computer image");
 	delayScan = new QTimer();
+	m_network = NULL;
 	connect(delayScan, SIGNAL(timeout()), this, SLOT(scanServers()));
 
 	//Ip mise à jour par RzxServerListener
@@ -324,6 +325,10 @@ QPixmap RzxComputer::icon() const
 quint32 RzxComputer::stamp() const
 { return m_stamp; }
 
+///Récupération du module auquel est ataché l'entrée
+RzxNetwork *RzxComputer::network() const
+{ return m_network; }
+
 ///Récupération des options (OS, Servers, Promo, Répondeur)
 RzxComputer::options_t RzxComputer::options() const 
 { return m_options; }
@@ -426,8 +431,8 @@ void RzxComputer::loadIcon()
 	QPixmap temp = RzxIconCollection::global()->hashedIcon(m_stamp);
 	if(temp.isNull())
 	{
-		if(m_stamp)
-			emit needIcon(ip());
+		if(m_stamp && m_network)
+			m_network->getIcon(ip());
 		setIcon(RzxIconCollection::global()->osPixmap(sysEx(), true));
 	}
 	else

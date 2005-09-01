@@ -192,7 +192,7 @@ private:
 
 public:
 	void loadRezals();
-	static int rezalNumber();
+	static uint rezalNumber();
 	static int rezal(const QHostAddress&);
 	static QString rezalName(int, bool = true);
 	static QString rezalName(const QHostAddress&, bool = true);
