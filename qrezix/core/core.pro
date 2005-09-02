@@ -1,5 +1,6 @@
 TEMPLATE = lib
 
+mac:QMAKE_LFLAGS_SONAME = -Wl,-install_name,@executable_path/../Frameworks/
 VERSION = 1.7.0
 DESTDIR = ..
 TARGET = qrezix
