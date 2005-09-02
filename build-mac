@@ -3,8 +3,4 @@
 qmake qrezix.pro
 make
 make install
-install_name_tool -change libqrezix.dylib '@executable_path/../Frameworks/libqrezix.dylib' ./qRezix.app/Contents/MacOS/qRezix
-install_name_tool -change libqrezix.1.dylib '@executable_path/../Frameworks/libqrezix.1.dylib' ./qRezix.app/Contents/MacOS/qRezix
-install_name_tool -change libqrezix.1.7.dylib '@executable_path/../Frameworks/libqrezix.1.7.dylib' ./qRezix.app/Contents/MacOS/qRezix
-install_name_tool -change libqrezix.1.7.0.dylib '@executable_path/../Frameworks/libqrezix.1.7.0.dylib' ./qRezix.app/Contents/MacOS/qRezix
 rm libr*
