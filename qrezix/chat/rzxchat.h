@@ -154,7 +154,7 @@ protected:
 	ListText *history;
 	ListText *curLine;
 	QFont *defFont;
-	RzxChatSocket *m_socket;
+	QPointer<RzxChatSocket> m_socket;
 	QColor curColor;
 	bool typing, peerTyping;
 	QTimer typingTimer;

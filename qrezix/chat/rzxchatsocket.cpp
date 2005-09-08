@@ -93,7 +93,7 @@ void RzxChatSocket::close()
 	QTcpSocket::close();
 	if(chatWindow)
 		chatWindow->setSocket(NULL);
-	chatWindow = NULL;
+	setChat(NULL);
 	deleteLater();
 }
 
