@@ -56,7 +56,7 @@ class RzxApplication:public QApplication, public RzxBaseLoader<RzxModule>
 		static RzxApplication *instance();
 		static QWidget *mainWindow();
 		static QList<RzxModule*> modulesList();
-
+		
 	protected:
 		bool loadCore();
 		
