@@ -24,7 +24,6 @@
 #include <RzxHostAddress>
 #include <RzxNetwork>
 
-#include "ui_rzxxnetpropui.h"
 
 /**
 	*Gere le protocole Xnet. Attention, les messages SERVER_ICON sont definis mais
@@ -37,6 +36,7 @@
 
 class QStringList;
 class RzxComputer;
+namespace Ui { class RzxXNetPropUI; };
 
 class RzxProtocole : public RzxNetwork
 {

@@ -65,6 +65,17 @@ inline void RzxAbstractConfig::flush()
 	static type read(bool def = false) { return def?default:(type)global()->value(name, default).toInt(); } \
 	static void write(const type& value) { global()->setValue(name, value); }
 
+///Macro qui déclare une fonction de lecture et une fonction d'écriture pour le une propriété.
+/** les fonctions ont les prototype suivants :
+ * \code
+ * static type read(bool def, const type& defValue);
+ * static void write(const type& value);
+ * \endcode
+ */
+#define RZX_PROP_DECLARE(type, read, write, default) \
+	static type read(bool def = false, const type& defValue = default); \
+	static void write(const type& value);
+
 ///Macro permettant de définir et de renvoyer un objet
 #define RZX_STRINGPROP(name, read, write, default) \
 	RZX_PROP(QString, name, read, write, default)

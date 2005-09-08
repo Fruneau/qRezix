@@ -123,6 +123,7 @@ RzxChat::RzxChat(const RzxHostAddress& peerAddress)
 void RzxChat::init()
 {
 	setAttribute(Qt::WA_DeleteOnClose);
+	RzxConfig::useStyleOnWindow(this);
 
 	/**** Construction de l'UI ****/
 	/* Splitter avec 2 partie dont une est l'ui */

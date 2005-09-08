@@ -46,7 +46,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 {
 	object = this;
 	setupUi(this);
-	setAttribute(Qt::WA_MacMetalStyle);
+	RzxConfig::useStyleOnWindow(this);
 	
 	connect( btnBrowseWorkDir, SIGNAL( clicked() ), this, SLOT( launchDirSelectDialog() ) );
 	connect( btnMiseAJour, SIGNAL( clicked() ), this, SLOT( miseAJour() ) );
@@ -87,6 +87,9 @@ RzxProperty::RzxProperty(QWidget *parent)
 	lvNetworks->setUniformRowHeights(false);
 	lvNetworks->setHeaderLabels(QStringList() << tr("Name") << tr("Version") << tr("Description"));
 
+#ifndef Q_OS_MAC
+	grpStyle->hide();
+#endif
 #ifndef WIN32
 	btnAboutQt->hide();
 #endif
@@ -185,7 +188,7 @@ void RzxProperty::initDlg(bool def)
 	CbFTP->setChecked(servers & RzxComputer::SERVER_FTP);
 	CbHTTP->setChecked(servers & RzxComputer::SERVER_HTTP);
 	CbNews->setChecked(servers & RzxComputer::SERVER_NEWS);
-	
+
 	clientFtp ->clear();
 	clientHttp ->clear();
 	clientNews ->clear();
@@ -242,6 +245,7 @@ void RzxProperty::initDlg(bool def)
 #undef setValue
 	txtWorkDir->setText( RzxConfig::ftpPath(def) );
 	
+	cbMacMetal->setChecked(RzxConfig::macMetalStyle(def));
 	pxmIcon->setPixmap(RzxIconCollection::global()->localhostPixmap());
 
 	cmbSport->setCurrentIndex( RzxConfig::numSport(def) );
@@ -341,6 +345,8 @@ bool RzxProperty::miseAJour()
 		RzxConfig::setMenuIconSize(cmbMenuIcons->currentIndex());
 		RzxConfig::emitIconFormatChanged();
 	}
+	
+	RzxConfig::setMacMetalStyle(cbMacMetal->isChecked());
 	
 	const QPixmap *localhostIcon = pxmIcon->pixmap();
 	if(RzxIconCollection::global()->localhostPixmap().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
