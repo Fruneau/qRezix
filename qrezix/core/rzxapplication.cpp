@@ -217,15 +217,14 @@ bool RzxApplication::installModule(RzxModule *mod)
 void RzxApplication::saveSettings()
 {
 	Rzx::beginModuleClosing("qRezix");
+	if(properties)
+		delete properties;
 
 	Rzx::beginModuleClosing("Modules");
 	closeModules();
 	Rzx::endModuleClosing("Modules");
 
 	Rzx::beginModuleClosing("qRezix core");
-	if(properties)
-		delete properties;
-
 	//Fermeture des connexions
 	RzxConnectionLister::global()->stop();
 	delete RzxConnectionLister::global();

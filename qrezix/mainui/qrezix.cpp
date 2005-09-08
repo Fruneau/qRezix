@@ -84,7 +84,7 @@ QRezix::QRezix(QWidget *parent)
 #ifdef Q_OS_MAC
 	QMenuBar *menu = new QMenuBar();
 	QMenu *popup = menu->addMenu("Tools");
-	popup->addAction("Preferences", this, SLOT(boitePreferences()));
+	popup->addAction("Preferences", this, SIGNAL(wantPreferences()));
 #endif
 
 	//Construction de la ligne d'édtion des recherche
@@ -301,7 +301,8 @@ void QRezix::closeEvent(QCloseEvent * e){
 	emit wantQuit();
 }
 
-bool QRezix::event(QEvent * e){
+bool QRezix::event(QEvent * e)
+{
 	if(e->type()==QEvent::WindowDeactivate)
 	{
 		if(isMinimized() && RzxApplication::instance()->hasHider())
