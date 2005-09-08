@@ -329,7 +329,7 @@ RzxChatSocket *RzxChat::getSocket()
 
 void RzxChat::setSocket(RzxChatSocket* sock)
 {
-	if(!sock && socket->state() == QSocket::Connected)
+	if(!sock && (!socket || socket->state() == QSocket::Connected))
 		return;
 
 	if(socket && sock && socket->state() == QSocket::Connected && sock->socket() != socket->socket())
