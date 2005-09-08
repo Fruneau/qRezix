@@ -25,8 +25,8 @@
 #include <RzxHostAddress>
 
 class QPoint;
-class RzxComputer;
 class RzxChat;
+class RzxComputer;
 class RzxClientListener;
 
 /**

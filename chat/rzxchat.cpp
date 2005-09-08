@@ -215,7 +215,8 @@ void RzxChat::init()
 }
 
 ///Bye bye
-RzxChat::~RzxChat(){
+RzxChat::~RzxChat()
+{
 	QString temp = textHistorique;
 
 	QString filename = RzxChatConfig::historique(peer.toRezix(), m_hostname);
@@ -248,9 +249,14 @@ RzxChat::~RzxChat(){
 ///Installation/Remplacement du m_socket de chat
 void RzxChat::setSocket(RzxChatSocket* sock)
 {
-	if(m_socket != NULL && m_socket->isConnected() && *sock != *m_socket)
+	if(!sock && (!m_socket || m_socket->isConnected()))
+		return;
+
+	if(m_socket && sock && m_socket->isConnected() && *sock != *m_socket)
 	{
 		qDebug("Un nouveau m_socket différent a été proposé à %s", m_hostname.toAscii().constData());
+		disconnect(m_socket);
+		m_socket->disconnect(this);
 		m_socket->close();
 	}
 	
@@ -258,7 +264,7 @@ void RzxChat::setSocket(RzxChatSocket* sock)
 
 	if(m_socket)
 	{
-		m_socket->setParent(this);
+		m_socket->setChat(this);
 		connect(this, SIGNAL(send(const QString& )), m_socket, SLOT(sendChat(const QString& )));
 		connect(m_socket, SIGNAL(chat(const QString& )), this, SLOT(receive(const QString& )));
 		connect(m_socket, SIGNAL(info(const QString& )), this, SLOT(info(const QString& )));
