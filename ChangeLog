@@ -1,8 +1,9 @@
 [v1.6.4] 2005-05 <br2003@frankiz.polytechnique.fr>
+    * Meilleur intégration à MacOS X [Fruneau]
     * Cache des propriétés [Fruneau]
     * Passage au protocole xNet 4.0 [Fruneau]
     * Intégration du menu préférences [Fruneau]
-    * Bugfixes
+    * Bugfixes [Fruneau]
 
 [v1.6.3] 2005-05 <br2003@frankiz.polytechnique.fr>
     * Fenêtre de préférence listbox/windowsstack [Fruneau]

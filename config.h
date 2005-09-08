@@ -104,6 +104,9 @@
 /* Chemin vers le répertoire d'installation des plug-ins de qrezix */
 #define QREZIX_LIB_DIR "/usr/lib/qrezix"
 
+/* disable signal handler if host is bsd */
+/* #undef Q_OS_BSD */
+
 /* The size of a `char', as computed by sizeof. */
 #define SIZEOF_CHAR 1
 
@@ -120,7 +123,7 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.6.2"
+#define VERSION "1.6.4"
 
 /*
  * jpeg.h needs HAVE_BOOLEAN, when the system uses boolean in system

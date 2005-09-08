@@ -36,7 +36,7 @@ dnl Perform program name transformation
 AC_ARG_PROGRAM
 
 dnl Automake doc recommends to do this only here. (Janos)
-AM_INIT_AUTOMAKE(qrezix, "1.6.3") dnl searches for some needed programs
+AM_INIT_AUTOMAKE(qrezix, "1.6.4") dnl searches for some needed programs
 
 KDE_SET_PREFIX
 
@@ -60,6 +60,8 @@ dnl AC_PATH_KDE
 KDE_PROG_LIBTOOL
 AC_PATH_QT(3, 3, 0)
 
+echo "plouf"
+echo $host
 case $host in
         bsd)
                 AC_DEFINE_UNQUOTED([Q_OS_BSD],1,[disable signal handler if host is bsd])

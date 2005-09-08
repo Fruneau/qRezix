@@ -69,7 +69,7 @@ m4trace:configure.in:34: -1- AC_SUBST([target], [$ac_cv_target])
 m4trace:configure.in:34: -1- AC_SUBST([target_cpu], [`echo $ac_cv_target | sed 's/^\([[^-]]*\)-\([[^-]]*\)-\(.*\)$/\1/'`])
 m4trace:configure.in:34: -1- AC_SUBST([target_vendor], [`echo $ac_cv_target | sed 's/^\([[^-]]*\)-\([[^-]]*\)-\(.*\)$/\2/'`])
 m4trace:configure.in:34: -1- AC_SUBST([target_os], [`echo $ac_cv_target | sed 's/^\([[^-]]*\)-\([[^-]]*\)-\(.*\)$/\3/'`])
-m4trace:configure.in:39: -1- AM_INIT_AUTOMAKE([qrezix], ["1.6"])
+m4trace:configure.in:39: -1- AM_INIT_AUTOMAKE([qrezix], ["1.6.4"])
 m4trace:configure.in:39: -1- AC_PROG_INSTALL
 m4trace:configure.in:39: -1- AC_PROG_INSTALL
 m4trace:configure.in:39: -1- AC_SUBST([INSTALL_PROGRAM])
@@ -2159,64 +2159,67 @@ configure.in:61: the top level])
 m4trace:configure.in:61: -1- AC_SUBST([LIB_QT])
 m4trace:configure.in:61: -1- AC_SUBST([LIB_QPE])
 m4trace:configure.in:61: -1- AC_SUBST([kde_qtver])
-m4trace:configure.in:69: -1- AC_SUBST([MSGFMT])
-m4trace:configure.in:69: -1- AC_SUBST([GMSGFMT], [$ac_cv_path_GMSGFMT])
-m4trace:configure.in:69: -1- AC_SUBST([GMSGFMT])
-m4trace:configure.in:69: -1- AC_SUBST([MSGFMT])
-m4trace:configure.in:69: -1- AC_SUBST([XGETTEXT])
-m4trace:configure.in:69: -1- AC_SUBST([XGETTEXT])
-m4trace:configure.in:70: -1- AC_SUBST([KDE_EXTRA_RPATH])
-m4trace:configure.in:70: -1- AC_SUBST([KDE_RPATH])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
+m4trace:configure.in:67: -1- AC_DEFINE_TRACE_LITERAL([Q_OS_BSD])
+m4trace:configure.in:67: -1- AH_OUTPUT([Q_OS_BSD], [/* disable signal handler if host is bsd */
+#undef Q_OS_BSD])
+m4trace:configure.in:78: -1- AC_SUBST([MSGFMT])
+m4trace:configure.in:78: -1- AC_SUBST([GMSGFMT], [$ac_cv_path_GMSGFMT])
+m4trace:configure.in:78: -1- AC_SUBST([GMSGFMT])
+m4trace:configure.in:78: -1- AC_SUBST([MSGFMT])
+m4trace:configure.in:78: -1- AC_SUBST([XGETTEXT])
+m4trace:configure.in:78: -1- AC_SUBST([XGETTEXT])
+m4trace:configure.in:79: -1- AC_SUBST([KDE_EXTRA_RPATH])
+m4trace:configure.in:79: -1- AC_SUBST([KDE_RPATH])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
 You should run autoupdate.], [autoconf/general.m4:376: AC_FD_CC is expanded from...
 aclocal.m4:196: AC_FIND_FILE is expanded from...
 autoconf/general.m4:1799: AC_CACHE_VAL is expanded from...
 aclocal.m4:1733: AC_BASE_PATH_KDE is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
 You should run autoupdate.], [autoconf/general.m4:376: AC_FD_CC is expanded from...
 aclocal.m4:196: AC_FIND_FILE is expanded from...
 autoconf/general.m4:1799: AC_CACHE_VAL is expanded from...
 aclocal.m4:1733: AC_BASE_PATH_KDE is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
 You should run autoupdate.], [autoconf/general.m4:376: AC_FD_CC is expanded from...
 aclocal.m4:196: AC_FIND_FILE is expanded from...
 autoconf/general.m4:1799: AC_CACHE_VAL is expanded from...
 aclocal.m4:1733: AC_BASE_PATH_KDE is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
 You should run autoupdate.], [autoconf/general.m4:376: AC_FD_CC is expanded from...
 aclocal.m4:196: AC_FIND_FILE is expanded from...
 autoconf/general.m4:1799: AC_CACHE_VAL is expanded from...
 aclocal.m4:1733: AC_BASE_PATH_KDE is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
 You should run autoupdate.], [autoconf/general.m4:376: AC_FD_CC is expanded from...
 aclocal.m4:196: AC_FIND_FILE is expanded from...
 autoconf/general.m4:1799: AC_CACHE_VAL is expanded from...
 aclocal.m4:1733: AC_BASE_PATH_KDE is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
 You should run autoupdate.], [autoconf/general.m4:376: AC_FD_CC is expanded from...
 aclocal.m4:196: AC_FIND_FILE is expanded from...
 autoconf/general.m4:1799: AC_CACHE_VAL is expanded from...
 aclocal.m4:1733: AC_BASE_PATH_KDE is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- AC_SUBST([kde_libraries])
-m4trace:configure.in:70: -1- AC_SUBST([kde_includes])
-m4trace:configure.in:70: -1- AC_SUBST([KDE_LDFLAGS])
-m4trace:configure.in:70: -1- AC_SUBST([KDE_INCLUDES])
-m4trace:configure.in:70: -1- AC_SUBST([all_includes])
-m4trace:configure.in:70: -1- AC_SUBST([all_libraries])
-m4trace:configure.in:70: -1- AC_SUBST([AUTODIRS])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_LANG_SAVE' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- AC_SUBST([kde_libraries])
+m4trace:configure.in:79: -1- AC_SUBST([kde_includes])
+m4trace:configure.in:79: -1- AC_SUBST([KDE_LDFLAGS])
+m4trace:configure.in:79: -1- AC_SUBST([KDE_INCLUDES])
+m4trace:configure.in:79: -1- AC_SUBST([all_includes])
+m4trace:configure.in:79: -1- AC_SUBST([all_libraries])
+m4trace:configure.in:79: -1- AC_SUBST([AUTODIRS])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_LANG_SAVE' is obsolete.
 You should run autoupdate.], [autoconf/lang.m4:166: AC_LANG_SAVE is expanded from...
 aclocal.m4:1837: KDE_1_CHECK_PATH_HEADERS is expanded from...
 aclocal.m4:402: KDE_1_CHECK_PATHS is expanded from...
@@ -2224,8 +2227,8 @@ aclocal.m4:503: KDE_SET_DEFAULT_PATHS is expanded from...
 autoconf/general.m4:1799: AC_CACHE_VAL is expanded from...
 aclocal.m4:638: AC_CREATE_KFSSTND is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [instead of using `AC_LANG', `AC_LANG_SAVE',
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [instead of using `AC_LANG', `AC_LANG_SAVE',
 and `AC_LANG_RESTORE', you should use `AC_LANG_PUSH' and `AC_LANG_POP'.], [autoconf/lang.m4:166: AC_LANG_SAVE is expanded from...
 aclocal.m4:1837: KDE_1_CHECK_PATH_HEADERS is expanded from...
 aclocal.m4:402: KDE_1_CHECK_PATHS is expanded from...
@@ -2233,8 +2236,8 @@ aclocal.m4:503: KDE_SET_DEFAULT_PATHS is expanded from...
 autoconf/general.m4:1799: AC_CACHE_VAL is expanded from...
 aclocal.m4:638: AC_CREATE_KFSSTND is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_LANG_CPLUSPLUS' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_LANG_CPLUSPLUS' is obsolete.
 You should run autoupdate.], [autoconf/c.m4:103: AC_LANG_CPLUSPLUS is expanded from...
 aclocal.m4:4565: KDE_LANG_CPLUSPLUS is expanded from...
 aclocal.m4:1837: KDE_1_CHECK_PATH_HEADERS is expanded from...
@@ -2243,8 +2246,8 @@ aclocal.m4:503: KDE_SET_DEFAULT_PATHS is expanded from...
 autoconf/general.m4:1799: AC_CACHE_VAL is expanded from...
 aclocal.m4:638: AC_CREATE_KFSSTND is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
 You should run autoupdate.], [autoconf/general.m4:376: AC_FD_CC is expanded from...
 aclocal.m4:4565: KDE_LANG_CPLUSPLUS is expanded from...
 aclocal.m4:1837: KDE_1_CHECK_PATH_HEADERS is expanded from...
@@ -2253,8 +2256,8 @@ aclocal.m4:503: KDE_SET_DEFAULT_PATHS is expanded from...
 autoconf/general.m4:1799: AC_CACHE_VAL is expanded from...
 aclocal.m4:638: AC_CREATE_KFSSTND is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_LANG_RESTORE' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_LANG_RESTORE' is obsolete.
 You should run autoupdate.], [autoconf/lang.m4:172: AC_LANG_RESTORE is expanded from...
 aclocal.m4:1837: KDE_1_CHECK_PATH_HEADERS is expanded from...
 aclocal.m4:402: KDE_1_CHECK_PATHS is expanded from...
@@ -2262,24 +2265,24 @@ aclocal.m4:503: KDE_SET_DEFAULT_PATHS is expanded from...
 autoconf/general.m4:1799: AC_CACHE_VAL is expanded from...
 aclocal.m4:638: AC_CREATE_KFSSTND is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_LANG_SAVE' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_LANG_SAVE' is obsolete.
 You should run autoupdate.], [autoconf/lang.m4:166: AC_LANG_SAVE is expanded from...
 aclocal.m4:1837: KDE_1_CHECK_PATH_HEADERS is expanded from...
 aclocal.m4:402: KDE_1_CHECK_PATHS is expanded from...
 aclocal.m4:503: KDE_SET_DEFAULT_PATHS is expanded from...
 aclocal.m4:638: AC_CREATE_KFSSTND is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [instead of using `AC_LANG', `AC_LANG_SAVE',
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [instead of using `AC_LANG', `AC_LANG_SAVE',
 and `AC_LANG_RESTORE', you should use `AC_LANG_PUSH' and `AC_LANG_POP'.], [autoconf/lang.m4:166: AC_LANG_SAVE is expanded from...
 aclocal.m4:1837: KDE_1_CHECK_PATH_HEADERS is expanded from...
 aclocal.m4:402: KDE_1_CHECK_PATHS is expanded from...
 aclocal.m4:503: KDE_SET_DEFAULT_PATHS is expanded from...
 aclocal.m4:638: AC_CREATE_KFSSTND is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_LANG_CPLUSPLUS' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_LANG_CPLUSPLUS' is obsolete.
 You should run autoupdate.], [autoconf/c.m4:103: AC_LANG_CPLUSPLUS is expanded from...
 aclocal.m4:4565: KDE_LANG_CPLUSPLUS is expanded from...
 aclocal.m4:1837: KDE_1_CHECK_PATH_HEADERS is expanded from...
@@ -2287,8 +2290,8 @@ aclocal.m4:402: KDE_1_CHECK_PATHS is expanded from...
 aclocal.m4:503: KDE_SET_DEFAULT_PATHS is expanded from...
 aclocal.m4:638: AC_CREATE_KFSSTND is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
 You should run autoupdate.], [autoconf/general.m4:376: AC_FD_CC is expanded from...
 aclocal.m4:4565: KDE_LANG_CPLUSPLUS is expanded from...
 aclocal.m4:1837: KDE_1_CHECK_PATH_HEADERS is expanded from...
@@ -2296,99 +2299,104 @@ aclocal.m4:402: KDE_1_CHECK_PATHS is expanded from...
 aclocal.m4:503: KDE_SET_DEFAULT_PATHS is expanded from...
 aclocal.m4:638: AC_CREATE_KFSSTND is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_LANG_RESTORE' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_LANG_RESTORE' is obsolete.
 You should run autoupdate.], [autoconf/lang.m4:172: AC_LANG_RESTORE is expanded from...
 aclocal.m4:1837: KDE_1_CHECK_PATH_HEADERS is expanded from...
 aclocal.m4:402: KDE_1_CHECK_PATHS is expanded from...
 aclocal.m4:503: KDE_SET_DEFAULT_PATHS is expanded from...
 aclocal.m4:638: AC_CREATE_KFSSTND is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
 You should run autoupdate.], [autoconf/general.m4:376: AC_FD_CC is expanded from...
 aclocal.m4:196: AC_FIND_FILE is expanded from...
 aclocal.m4:591: KDE_SUBST_PROGRAMS is expanded from...
 aclocal.m4:638: AC_CREATE_KFSSTND is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
 You should run autoupdate.], [autoconf/general.m4:376: AC_FD_CC is expanded from...
 aclocal.m4:196: AC_FIND_FILE is expanded from...
 aclocal.m4:591: KDE_SUBST_PROGRAMS is expanded from...
 aclocal.m4:638: AC_CREATE_KFSSTND is expanded from...
 aclocal.m4:1967: AC_PATH_KDE is expanded from...
-configure.in:70: the top level])
-m4trace:configure.in:70: -1- AC_SUBST([DCOPIDL])
-m4trace:configure.in:70: -1- AC_SUBST([DCOPIDL2CPP])
-m4trace:configure.in:70: -1- AC_SUBST([DCOP_DEPENDENCIES])
-m4trace:configure.in:70: -1- AC_SUBST([MCOPIDL])
-m4trace:configure.in:70: -1- AC_SUBST([ARTSCCONFIG])
-m4trace:configure.in:70: -1- AC_SUBST([KDECONFIG])
-m4trace:configure.in:70: -1- AC_SUBST([MEINPROC])
-m4trace:configure.in:70: -1- AC_SUBST([KDE_XSL_STYLESHEET])
-m4trace:configure.in:70: -1- AC_SUBST([kde_libs_prefix])
-m4trace:configure.in:70: -1- AC_SUBST([kde_libs_htmldir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_htmldir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_appsdir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_icondir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_sounddir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_datadir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_locale])
-m4trace:configure.in:70: -1- AC_SUBST([kde_confdir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_mimedir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_wallpaperdir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_bindir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_templatesdir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_servicesdir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_servicetypesdir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_moduledir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_styledir])
-m4trace:configure.in:70: -1- AC_SUBST([kde_widgetdir])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KDECORE], ["-lkdecore"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KDEUI], ["-lkdeui"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KIO], ["-lkio"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_SMB], ["-lsmb"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KAB], ["-lkab"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KHTML], ["-lkhtml"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KSPELL], ["-lkspell"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KPARTS], ["-lkparts"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KDEPRINT], ["-lkdeprint"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KSYCOCA], ["-lkio"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KFILE], ["-lkio"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KDECORE], ["-lkdecore"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KDEUI], ["-lkdeui"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KIO], ["-lkio"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KSYCOCA], ["-lksycoca"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_SMB], ["-lsmb"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KFILE], ["-lkfile"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KAB], ["-lkab"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KHTML], ["-lkhtml"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KSPELL], ["-lkspell"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KPARTS], ["-lkparts"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KDEPRINT], ["-lkdeprint"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KDECORE], ["-lkdecore -lXext $(LIB_QT)"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KDEUI], ["-lkdeui $(LIB_KDECORE)"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KFM], ["-lkfm $(LIB_KDECORE)"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KFILE], ["-lkfile $(LIB_KFM) $(LIB_KDEUI)"])
-m4trace:configure.in:70: -1- AC_SUBST([LIB_KAB], ["-lkab $(LIB_KIMGIO) $(LIB_KDECORE)"])
-m4trace:configure.in:76: -1- AC_DEFINE_TRACE_LITERAL([QREZIX_DATA_DIR])
-m4trace:configure.in:76: -1- AH_OUTPUT([QREZIX_DATA_DIR], [/* Chemin vers le repertoire d\'installation des icones qrezix */
+configure.in:79: the top level])
+m4trace:configure.in:79: -1- AC_SUBST([DCOPIDL])
+m4trace:configure.in:79: -1- AC_SUBST([DCOPIDL2CPP])
+m4trace:configure.in:79: -1- AC_SUBST([DCOP_DEPENDENCIES])
+m4trace:configure.in:79: -1- AC_SUBST([MCOPIDL])
+m4trace:configure.in:79: -1- AC_SUBST([ARTSCCONFIG])
+m4trace:configure.in:79: -1- AC_SUBST([KDECONFIG])
+m4trace:configure.in:79: -1- AC_SUBST([MEINPROC])
+m4trace:configure.in:79: -1- AC_SUBST([KDE_XSL_STYLESHEET])
+m4trace:configure.in:79: -1- AC_SUBST([kde_libs_prefix])
+m4trace:configure.in:79: -1- AC_SUBST([kde_libs_htmldir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_htmldir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_appsdir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_icondir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_sounddir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_datadir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_locale])
+m4trace:configure.in:79: -1- AC_SUBST([kde_confdir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_mimedir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_wallpaperdir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_bindir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_templatesdir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_servicesdir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_servicetypesdir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_moduledir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_styledir])
+m4trace:configure.in:79: -1- AC_SUBST([kde_widgetdir])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KDECORE], ["-lkdecore"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KDEUI], ["-lkdeui"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KIO], ["-lkio"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_SMB], ["-lsmb"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KAB], ["-lkab"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KHTML], ["-lkhtml"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KSPELL], ["-lkspell"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KPARTS], ["-lkparts"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KDEPRINT], ["-lkdeprint"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KSYCOCA], ["-lkio"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KFILE], ["-lkio"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KDECORE], ["-lkdecore"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KDEUI], ["-lkdeui"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KIO], ["-lkio"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KSYCOCA], ["-lksycoca"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_SMB], ["-lsmb"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KFILE], ["-lkfile"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KAB], ["-lkab"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KHTML], ["-lkhtml"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KSPELL], ["-lkspell"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KPARTS], ["-lkparts"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KDEPRINT], ["-lkdeprint"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KDECORE], ["-lkdecore -lXext $(LIB_QT)"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KDEUI], ["-lkdeui $(LIB_KDECORE)"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KFM], ["-lkfm $(LIB_KDECORE)"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KFILE], ["-lkfile $(LIB_KFM) $(LIB_KDEUI)"])
+m4trace:configure.in:79: -1- AC_SUBST([LIB_KAB], ["-lkab $(LIB_KIMGIO) $(LIB_KDECORE)"])
+m4trace:configure.in:86: -1- AC_DEFINE_TRACE_LITERAL([QREZIX_DATA_DIR])
+m4trace:configure.in:86: -1- AH_OUTPUT([QREZIX_DATA_DIR], [/* Chemin vers le repertoire d\'installation des icones qrezix */
 #undef QREZIX_DATA_DIR])
-m4trace:configure.in:78: -1- AC_SUBST([TOPSUBDIRS])
-m4trace:configure.in:79: -1- AC_CONFIG_FILES([ Makefile ])
-m4trace:configure.in:80: -1- AC_CONFIG_FILES([ doc/Makefile ])
-m4trace:configure.in:81: -1- AC_CONFIG_FILES([ doc/en/Makefile ])
-m4trace:configure.in:82: -1- AC_CONFIG_FILES([ icons/Makefile ])
-m4trace:configure.in:83: -1- AC_CONFIG_FILES([ icons/themes/Makefile ])
-m4trace:configure.in:84: -1- AC_CONFIG_FILES([ icons/themes/NoiaWarmKDE/Makefile ])
-m4trace:configure.in:85: -1- AC_CONFIG_FILES([ icons/themes/classic/Makefile ])
-m4trace:configure.in:86: -1- AC_CONFIG_FILES([ icons/themes/krystal/Makefile ])
-m4trace:configure.in:87: -1- AC_CONFIG_FILES([ icons/themes/ms/Makefile ])
-m4trace:configure.in:88: -1- AC_CONFIG_FILES([ po/Makefile ])
-m4trace:configure.in:89: -1- AC_CONFIG_FILES([ qrezix/Makefile ])
-m4trace:configure.in:90: -1- AC_CONFIG_FILES([ qrezix/translations/Makefile ])
-m4trace:configure.in:91: -1- AC_SUBST([LIB@&t@OBJS], [$ac_libobjs])
-m4trace:configure.in:91: -1- AC_SUBST([LTLIBOBJS], [$ac_ltlibobjs])
-m4trace:configure.in:91: -3- _m4_warn([syntax], [do not use m4_regexp: use regexp or m4_bregexp], [aclocal.m4:11169: _AM_DIRNAME is expanded from...
-configure.in:91: the top level])
+m4trace:configure.in:87: -1- AC_DEFINE_TRACE_LITERAL([QREZIX_LIB_DIR])
+m4trace:configure.in:87: -1- AH_OUTPUT([QREZIX_LIB_DIR], [/* Chemin vers le répertoire d\'installation des plug-ins de qrezix */
+#undef QREZIX_LIB_DIR])
+m4trace:configure.in:89: -1- AC_SUBST([TOPSUBDIRS])
+m4trace:configure.in:90: -1- AC_CONFIG_FILES([ Makefile ])
+m4trace:configure.in:91: -1- AC_CONFIG_FILES([ doc/Makefile ])
+m4trace:configure.in:92: -1- AC_CONFIG_FILES([ doc/en/Makefile ])
+m4trace:configure.in:93: -1- AC_CONFIG_FILES([ icons/Makefile ])
+m4trace:configure.in:94: -1- AC_CONFIG_FILES([ icons/themes/Makefile ])
+m4trace:configure.in:95: -1- AC_CONFIG_FILES([ icons/themes/Kids/Makefile ])
+m4trace:configure.in:96: -1- AC_CONFIG_FILES([ icons/themes/MacOSX/Makefile ])
+m4trace:configure.in:97: -1- AC_CONFIG_FILES([ icons/themes/NoiaWarmKDE/Makefile ])
+m4trace:configure.in:98: -1- AC_CONFIG_FILES([ icons/themes/classic/Makefile ])
+m4trace:configure.in:99: -1- AC_CONFIG_FILES([ icons/themes/krystal/Makefile ])
+m4trace:configure.in:100: -1- AC_CONFIG_FILES([ icons/themes/ms/Makefile ])
+m4trace:configure.in:101: -1- AC_CONFIG_FILES([ po/Makefile ])
+m4trace:configure.in:102: -1- AC_CONFIG_FILES([ qrezix/Makefile ])
+m4trace:configure.in:103: -1- AC_CONFIG_FILES([ qrezix/translations/Makefile ])
+m4trace:configure.in:104: -1- AC_SUBST([LIB@&t@OBJS], [$ac_libobjs])
+m4trace:configure.in:104: -1- AC_SUBST([LTLIBOBJS], [$ac_ltlibobjs])
+m4trace:configure.in:104: -3- _m4_warn([syntax], [do not use m4_regexp: use regexp or m4_bregexp], [aclocal.m4:11169: _AM_DIRNAME is expanded from...
+configure.in:104: the top level])

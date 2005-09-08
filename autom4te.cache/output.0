@@ -1913,7 +1913,7 @@ fi
 
 # Define the identity of the package.
 PACKAGE=qrezix
-VERSION="1.6"
+VERSION="1.6.4"
 
 cat >>confdefs.h <<_ACEOF
 @%:@define PACKAGE "$PACKAGE"
@@ -23890,9 +23890,22 @@ test -z "$KDE_MT_LIBS" || LIB_QT="$LIB_QT $KDE_MT_LIBS"
 
 
 
+echo "plouf"
+echo $host
+case $host in
+        bsd)
+                
+cat >>confdefs.h <<_ACEOF
+@%:@define Q_OS_BSD 1
+_ACEOF
+
+        ;;
+esac
+				
 if test "x$enable_kde" = "xno" || test "x$enable_kde" = "x"; then
 	cp -f klocale.h.qtonly qrezix/klocale.h
 	qrezix_dir="/usr/share/qrezix"
+        plugin_dir="/usr/lib/qrezix"
 fi
 
 if test "x$enable_kde" = "xyes"; then
@@ -25410,11 +25423,17 @@ fi
 	
 	rm -f qrezix/klocale.h
 	qrezix_dir="/usr/share/apps/qrezix"
+        plugin_dir="/usr/lib/qrezix"
 fi
 
 
 cat >>confdefs.h <<_ACEOF
 @%:@define QREZIX_DATA_DIR "$qrezix_dir"
+_ACEOF
+
+
+cat >>confdefs.h <<_ACEOF
+@%:@define QREZIX_LIB_DIR "$plugin_dir"
 _ACEOF
 
 
@@ -25472,6 +25491,10 @@ done
           ac_config_files="$ac_config_files icons/Makefile"
 
           ac_config_files="$ac_config_files icons/themes/Makefile"
+
+          ac_config_files="$ac_config_files icons/themes/Kids/Makefile"
+
+          ac_config_files="$ac_config_files icons/themes/MacOSX/Makefile"
 
           ac_config_files="$ac_config_files icons/themes/NoiaWarmKDE/Makefile"
 
@@ -26028,6 +26051,8 @@ do
   "doc/en/Makefile" ) CONFIG_FILES="$CONFIG_FILES doc/en/Makefile" ;;
   "icons/Makefile" ) CONFIG_FILES="$CONFIG_FILES icons/Makefile" ;;
   "icons/themes/Makefile" ) CONFIG_FILES="$CONFIG_FILES icons/themes/Makefile" ;;
+  "icons/themes/Kids/Makefile" ) CONFIG_FILES="$CONFIG_FILES icons/themes/Kids/Makefile" ;;
+  "icons/themes/MacOSX/Makefile" ) CONFIG_FILES="$CONFIG_FILES icons/themes/MacOSX/Makefile" ;;
   "icons/themes/NoiaWarmKDE/Makefile" ) CONFIG_FILES="$CONFIG_FILES icons/themes/NoiaWarmKDE/Makefile" ;;
   "icons/themes/classic/Makefile" ) CONFIG_FILES="$CONFIG_FILES icons/themes/classic/Makefile" ;;
   "icons/themes/krystal/Makefile" ) CONFIG_FILES="$CONFIG_FILES icons/themes/krystal/Makefile" ;;

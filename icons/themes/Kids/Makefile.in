@@ -297,7 +297,7 @@ TAGS:
 
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=agt_virussafe.png pref.png orange.png plugin.png os_0_large.png systrayAway.png haut_parleur1.png favorite.png news.png chat.png ban.png action.png historique.png samba.png os_4_large.png column.png os_2.png here.png cancel.png os_0.png on.png apply.png os_4.png os_3_large.png os_5.png os_1_large.png not_favorite.png search.png os_2_large.png ftp.png ok.png rouje.png same_gateway.png os_3.png prop.png os_5_large.png jone.png away.png quit.png off.png http.png send.png os_1.png haut_parleur2.png unban.png systray.png 
+KDE_DIST=agt_virussafe.png pref.png orange.png os_0_large.png plugin.png systrayAway.png haut_parleur1.png favorite.png news.png action.png chat.png ban.png historique.png os_4_large.png samba.png column.png os_2.png layout.png here.png cancel.png os_0.png on.png apply.png os_3_large.png os_4.png os_5.png os_6.png os_1_large.png not_favorite.png search.png os_2_large.png ftp.png ok.png rouje.png same_gateway.png os_3.png network.png prop.png os_5_large.png jone.png away.png quit.png os_6_large.png off.png send.png http.png os_1.png haut_parleur2.png unban.png systray.png 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 

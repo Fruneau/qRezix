@@ -103,6 +103,9 @@
 /* Chemin vers le répertoire d'installation des plug-ins de qrezix */
 #undef QREZIX_LIB_DIR
 
+/* disable signal handler if host is bsd */
+#undef Q_OS_BSD
+
 /* The size of a `char', as computed by sizeof. */
 #undef SIZEOF_CHAR
 

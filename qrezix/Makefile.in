@@ -289,7 +289,7 @@ qrezix_nofinal_OBJECTS = rzxtraywindow.$(OBJEXT) md5.$(OBJEXT) \
 	rzxhostaddress.$(OBJEXT) rzxconfig.$(OBJEXT) \
 	rzxcomputer.$(OBJEXT) rzxclientlistener.$(OBJEXT) \
 	qrezix.$(OBJEXT) main.$(OBJEXT) rzxmessagebox.$(OBJEXT) rzxchangepassui.$(OBJEXT) rzxwrongpassui.$(OBJEXT) rzxchatui.$(OBJEXT) qrezixui.$(OBJEXT) rzxquitui.$(OBJEXT) rzxpropertyui.$(OBJEXT)\
-rzxcomputer.moc.o rzxclientlistener.moc.o trayicon.moc.o rzxserverlistener.moc.o rzxproperty.moc.o rzxrezal.moc.o rzxprotocole.moc.o rzxitem.moc.o qrezix.moc.o rzxplugin.moc.o rzxquit.moc.o rzxpluginloader.moc.o rzxconfig.moc.o rzxchat.moc.o rzxtraywindow.moc.o rzxconnectionlister.moc.o 
+rzxclientlistener.moc.o rzxcomputer.moc.o trayicon.moc.o rzxserverlistener.moc.o rzxproperty.moc.o rzxrezal.moc.o rzxprotocole.moc.o rzxitem.moc.o qrezix.moc.o rzxplugin.moc.o rzxquit.moc.o rzxpluginloader.moc.o rzxconfig.moc.o rzxchat.moc.o rzxtraywindow.moc.o rzxconnectionlister.moc.o 
 @KDE_USE_FINAL_FALSE@qrezix_OBJECTS = $(qrezix_nofinal_OBJECTS)
 @KDE_USE_FINAL_TRUE@qrezix_OBJECTS = $(qrezix_final_OBJECTS)
 qrezix_DEPENDENCIES =
@@ -314,7 +314,7 @@ depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 #>- @AMDEP_TRUE@	$(DEPDIR)/rzxtraywindow.Po \
 #>- @AMDEP_TRUE@	$(DEPDIR)/rzxutilslauncher.Po $(DEPDIR)/trayicon.Po
 #>+ 27
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =  $(DEPDIR)/rzxchangepassui.P $(DEPDIR)/rzxwrongpassui.P $(DEPDIR)/rzxchatui.P $(DEPDIR)/qrezixui.P $(DEPDIR)/rzxquitui.P $(DEPDIR)/rzxpropertyui.P $(DEPDIR)/rzxcomputer.moc.P $(DEPDIR)/rzxclientlistener.moc.P $(DEPDIR)/trayicon.moc.P $(DEPDIR)/rzxserverlistener.moc.P $(DEPDIR)/rzxproperty.moc.P $(DEPDIR)/rzxrezal.moc.P $(DEPDIR)/rzxprotocole.moc.P $(DEPDIR)/rzxitem.moc.P $(DEPDIR)/qrezix.moc.P $(DEPDIR)/rzxplugin.moc.P $(DEPDIR)/rzxquit.moc.P $(DEPDIR)/rzxpluginloader.moc.P $(DEPDIR)/rzxconfig.moc.P $(DEPDIR)/rzxchat.moc.P $(DEPDIR)/rzxtraywindow.moc.P $(DEPDIR)/rzxconnectionlister.moc.P  $(DEPDIR)/qrezix.all_cpp.P  $(DEPDIR)/main.Po $(DEPDIR)/md5.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =  $(DEPDIR)/rzxchangepassui.P $(DEPDIR)/rzxwrongpassui.P $(DEPDIR)/rzxchatui.P $(DEPDIR)/qrezixui.P $(DEPDIR)/rzxquitui.P $(DEPDIR)/rzxpropertyui.P $(DEPDIR)/rzxclientlistener.moc.P $(DEPDIR)/rzxcomputer.moc.P $(DEPDIR)/trayicon.moc.P $(DEPDIR)/rzxserverlistener.moc.P $(DEPDIR)/rzxproperty.moc.P $(DEPDIR)/rzxrezal.moc.P $(DEPDIR)/rzxprotocole.moc.P $(DEPDIR)/rzxitem.moc.P $(DEPDIR)/qrezix.moc.P $(DEPDIR)/rzxplugin.moc.P $(DEPDIR)/rzxquit.moc.P $(DEPDIR)/rzxpluginloader.moc.P $(DEPDIR)/rzxconfig.moc.P $(DEPDIR)/rzxchat.moc.P $(DEPDIR)/rzxtraywindow.moc.P $(DEPDIR)/rzxconnectionlister.moc.P  $(DEPDIR)/qrezix.all_cpp.P  $(DEPDIR)/main.Po $(DEPDIR)/md5.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/qrezix.Po $(DEPDIR)/rzxchat.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/rzxclientlistener.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/rzxcomputer.Po $(DEPDIR)/rzxconfig.Po \
@@ -327,7 +327,7 @@ depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/rzxserverlistener.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/rzxtraywindow.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/rzxutilslauncher.Po $(DEPDIR)/trayicon.Po
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  $(DEPDIR)/rzxchangepassui.P $(DEPDIR)/rzxwrongpassui.P $(DEPDIR)/rzxchatui.P $(DEPDIR)/qrezixui.P $(DEPDIR)/rzxquitui.P $(DEPDIR)/rzxpropertyui.P $(DEPDIR)/rzxcomputer.moc.P $(DEPDIR)/rzxclientlistener.moc.P $(DEPDIR)/trayicon.moc.P $(DEPDIR)/rzxserverlistener.moc.P $(DEPDIR)/rzxproperty.moc.P $(DEPDIR)/rzxrezal.moc.P $(DEPDIR)/rzxprotocole.moc.P $(DEPDIR)/rzxitem.moc.P $(DEPDIR)/qrezix.moc.P $(DEPDIR)/rzxplugin.moc.P $(DEPDIR)/rzxquit.moc.P $(DEPDIR)/rzxpluginloader.moc.P $(DEPDIR)/rzxconfig.moc.P $(DEPDIR)/rzxchat.moc.P $(DEPDIR)/rzxtraywindow.moc.P $(DEPDIR)/rzxconnectionlister.moc.P  $(DEPDIR)/main.Po $(DEPDIR)/md5.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  $(DEPDIR)/rzxchangepassui.P $(DEPDIR)/rzxwrongpassui.P $(DEPDIR)/rzxchatui.P $(DEPDIR)/qrezixui.P $(DEPDIR)/rzxquitui.P $(DEPDIR)/rzxpropertyui.P $(DEPDIR)/rzxclientlistener.moc.P $(DEPDIR)/rzxcomputer.moc.P $(DEPDIR)/trayicon.moc.P $(DEPDIR)/rzxserverlistener.moc.P $(DEPDIR)/rzxproperty.moc.P $(DEPDIR)/rzxrezal.moc.P $(DEPDIR)/rzxprotocole.moc.P $(DEPDIR)/rzxitem.moc.P $(DEPDIR)/qrezix.moc.P $(DEPDIR)/rzxplugin.moc.P $(DEPDIR)/rzxquit.moc.P $(DEPDIR)/rzxpluginloader.moc.P $(DEPDIR)/rzxconfig.moc.P $(DEPDIR)/rzxchat.moc.P $(DEPDIR)/rzxtraywindow.moc.P $(DEPDIR)/rzxconnectionlister.moc.P  $(DEPDIR)/main.Po $(DEPDIR)/md5.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/qrezix.Po $(DEPDIR)/rzxchat.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/rzxclientlistener.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/rzxcomputer.Po $(DEPDIR)/rzxconfig.Po \
@@ -577,7 +577,7 @@ distclean-tags:
 
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=qrezixui_mac.ui t.xpm klocale.h icone.rc rzxchatui_mac.ui qrezixlog qrezix.pro rzxpropertyui.h qrezix.png application.icns qrezix.ico Makefile.in.rej qrezixui.h web-200533120410-diff.txt rzxquitui.h qrezix2.ico Makefile.w32 qrezix.dsp qrezix_meta_unload.cpp Info.plist rzxdict.h qrezix rzxchatui.h q.xpm 
+KDE_DIST=qrezixui_mac.ui t.xpm klocale.h icone.rc rzxchatui_mac.ui qrezix.pro rzxpropertyui.h qrezix.png qrezix.ico application.icns qrezixui.h rzxquitui.h qrezix2.ico Makefile.w32 qrezix.dsp qrezix_meta_unload.cpp Info.plist rzxdict.h qrezix rzxchatui.h q.xpm 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 
@@ -797,12 +797,12 @@ rzxpropertyui.moc: rzxpropertyui.h
 	$(MOC) rzxpropertyui.h -o rzxpropertyui.moc
 
 #>+ 3
-rzxcomputer.moc.cpp: $(srcdir)/rzxcomputer.h
-	$(MOC) $(srcdir)/rzxcomputer.h -o rzxcomputer.moc.cpp
-
-#>+ 3
 rzxclientlistener.moc.cpp: $(srcdir)/rzxclientlistener.h
 	$(MOC) $(srcdir)/rzxclientlistener.h -o rzxclientlistener.moc.cpp
+
+#>+ 3
+rzxcomputer.moc.cpp: $(srcdir)/rzxcomputer.h
+	$(MOC) $(srcdir)/rzxcomputer.h -o rzxcomputer.moc.cpp
 
 #>+ 3
 trayicon.moc.cpp: $(srcdir)/trayicon.h
@@ -862,7 +862,7 @@ rzxconnectionlister.moc.cpp: $(srcdir)/rzxconnectionlister.h
 
 #>+ 3
 clean-metasources:
-	-rm -f  rzxcomputer.moc.cpp rzxclientlistener.moc.cpp trayicon.moc.cpp rzxserverlistener.moc.cpp rzxproperty.moc.cpp rzxrezal.moc.cpp rzxprotocole.moc.cpp rzxitem.moc.cpp qrezix.moc.cpp rzxplugin.moc.cpp rzxquit.moc.cpp rzxpluginloader.moc.cpp rzxconfig.moc.cpp rzxchat.moc.cpp rzxtraywindow.moc.cpp rzxconnectionlister.moc.cpp
+	-rm -f  rzxclientlistener.moc.cpp rzxcomputer.moc.cpp trayicon.moc.cpp rzxserverlistener.moc.cpp rzxproperty.moc.cpp rzxrezal.moc.cpp rzxprotocole.moc.cpp rzxitem.moc.cpp qrezix.moc.cpp rzxplugin.moc.cpp rzxquit.moc.cpp rzxpluginloader.moc.cpp rzxconfig.moc.cpp rzxchat.moc.cpp rzxtraywindow.moc.cpp rzxconnectionlister.moc.cpp
 
 #>+ 9
 clean-ui:
@@ -885,11 +885,11 @@ force-reedit:
 
 
 #>+ 11
-qrezix.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/rzxtraywindow.cpp $(srcdir)/md5.cpp $(srcdir)/rzxconnectionlister.cpp $(srcdir)/rzxutilslauncher.cpp $(srcdir)/rzxpluginloader.cpp $(srcdir)/rzxplugin.cpp $(srcdir)/rzxquit.cpp $(srcdir)/trayicon.cpp $(srcdir)/rzxchat.cpp $(srcdir)/rzxproperty.cpp $(srcdir)/rzxserverlistener.cpp $(srcdir)/rzxrezal.cpp $(srcdir)/rzxprotocole.cpp $(srcdir)/rzxitem.cpp $(srcdir)/rzxhostaddress.cpp $(srcdir)/rzxconfig.cpp $(srcdir)/rzxcomputer.cpp $(srcdir)/rzxclientlistener.cpp $(srcdir)/qrezix.cpp $(srcdir)/main.cpp $(srcdir)/rzxmessagebox.cpp $(srcdir)/rzxchangepassui.cpp $(srcdir)/rzxwrongpassui.cpp $(srcdir)/rzxchatui.cpp $(srcdir)/qrezixui.cpp $(srcdir)/rzxquitui.cpp $(srcdir)/rzxpropertyui.cpp $(srcdir)/rzxclientlistener.moc.cpp $(srcdir)/rzxcomputer.moc.cpp $(srcdir)/trayicon.moc.cpp $(srcdir)/rzxserverlistener.moc.cpp $(srcdir)/rzxproperty.moc.cpp $(srcdir)/rzxrezal.moc.cpp $(srcdir)/rzxprotocole.moc.cpp $(srcdir)/rzxitem.moc.cpp $(srcdir)/qrezix.moc.cpp $(srcdir)/rzxplugin.moc.cpp $(srcdir)/rzxquit.moc.cpp $(srcdir)/rzxpluginloader.moc.cpp $(srcdir)/rzxconfig.moc.cpp $(srcdir)/rzxtraywindow.moc.cpp $(srcdir)/rzxchat.moc.cpp $(srcdir)/rzxconnectionlister.moc.cpp  rzxchangepassui.moc rzxwrongpassui.moc rzxchatui.moc rzxquitui.moc rzxpropertyui.moc qrezixui.moc
+qrezix.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/rzxtraywindow.cpp $(srcdir)/md5.cpp $(srcdir)/rzxconnectionlister.cpp $(srcdir)/rzxutilslauncher.cpp $(srcdir)/rzxpluginloader.cpp $(srcdir)/rzxplugin.cpp $(srcdir)/rzxquit.cpp $(srcdir)/trayicon.cpp $(srcdir)/rzxchat.cpp $(srcdir)/rzxproperty.cpp $(srcdir)/rzxserverlistener.cpp $(srcdir)/rzxrezal.cpp $(srcdir)/rzxprotocole.cpp $(srcdir)/rzxitem.cpp $(srcdir)/rzxhostaddress.cpp $(srcdir)/rzxconfig.cpp $(srcdir)/rzxcomputer.cpp $(srcdir)/rzxclientlistener.cpp $(srcdir)/qrezix.cpp $(srcdir)/main.cpp $(srcdir)/rzxmessagebox.cpp $(srcdir)/rzxchangepassui.cpp $(srcdir)/rzxwrongpassui.cpp $(srcdir)/rzxchatui.cpp $(srcdir)/qrezixui.cpp $(srcdir)/rzxquitui.cpp $(srcdir)/rzxpropertyui.cpp $(srcdir)/rzxcomputer.moc.cpp $(srcdir)/rzxclientlistener.moc.cpp $(srcdir)/trayicon.moc.cpp $(srcdir)/rzxserverlistener.moc.cpp $(srcdir)/rzxproperty.moc.cpp $(srcdir)/rzxrezal.moc.cpp $(srcdir)/rzxprotocole.moc.cpp $(srcdir)/rzxitem.moc.cpp $(srcdir)/qrezix.moc.cpp $(srcdir)/rzxplugin.moc.cpp $(srcdir)/rzxquit.moc.cpp $(srcdir)/rzxpluginloader.moc.cpp $(srcdir)/rzxconfig.moc.cpp $(srcdir)/rzxtraywindow.moc.cpp $(srcdir)/rzxchat.moc.cpp $(srcdir)/rzxconnectionlister.moc.cpp  rzxchangepassui.moc rzxwrongpassui.moc rzxchatui.moc rzxquitui.moc rzxpropertyui.moc qrezixui.moc
 	@echo 'creating qrezix.all_cpp.cpp ...'; \
 	rm -f qrezix.all_cpp.files qrezix.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> qrezix.all_cpp.final; \
-	for file in rzxtraywindow.cpp md5.cpp rzxconnectionlister.cpp rzxutilslauncher.cpp rzxpluginloader.cpp rzxplugin.cpp rzxquit.cpp trayicon.cpp rzxchat.cpp rzxproperty.cpp rzxserverlistener.cpp rzxrezal.cpp rzxprotocole.cpp rzxitem.cpp rzxhostaddress.cpp rzxconfig.cpp rzxcomputer.cpp rzxclientlistener.cpp qrezix.cpp main.cpp rzxmessagebox.cpp rzxchangepassui.cpp rzxwrongpassui.cpp rzxchatui.cpp qrezixui.cpp rzxquitui.cpp rzxpropertyui.cpp rzxclientlistener.moc.cpp rzxcomputer.moc.cpp trayicon.moc.cpp rzxserverlistener.moc.cpp rzxproperty.moc.cpp rzxrezal.moc.cpp rzxprotocole.moc.cpp rzxitem.moc.cpp qrezix.moc.cpp rzxplugin.moc.cpp rzxquit.moc.cpp rzxpluginloader.moc.cpp rzxconfig.moc.cpp rzxtraywindow.moc.cpp rzxchat.moc.cpp rzxconnectionlister.moc.cpp ; do \
+	for file in rzxtraywindow.cpp md5.cpp rzxconnectionlister.cpp rzxutilslauncher.cpp rzxpluginloader.cpp rzxplugin.cpp rzxquit.cpp trayicon.cpp rzxchat.cpp rzxproperty.cpp rzxserverlistener.cpp rzxrezal.cpp rzxprotocole.cpp rzxitem.cpp rzxhostaddress.cpp rzxconfig.cpp rzxcomputer.cpp rzxclientlistener.cpp qrezix.cpp main.cpp rzxmessagebox.cpp rzxchangepassui.cpp rzxwrongpassui.cpp rzxchatui.cpp qrezixui.cpp rzxquitui.cpp rzxpropertyui.cpp rzxcomputer.moc.cpp rzxclientlistener.moc.cpp trayicon.moc.cpp rzxserverlistener.moc.cpp rzxproperty.moc.cpp rzxrezal.moc.cpp rzxprotocole.moc.cpp rzxitem.moc.cpp qrezix.moc.cpp rzxplugin.moc.cpp rzxquit.moc.cpp rzxpluginloader.moc.cpp rzxconfig.moc.cpp rzxtraywindow.moc.cpp rzxchat.moc.cpp rzxconnectionlister.moc.cpp ; do \
 	  echo "#include \"$$file\"" >> qrezix.all_cpp.files; \
 	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> qrezix.all_cpp.final; \
 	done; \
