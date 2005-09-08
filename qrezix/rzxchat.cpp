@@ -329,9 +329,14 @@ RzxChatSocket *RzxChat::getSocket()
 
 void RzxChat::setSocket(RzxChatSocket* sock)
 {
-	if(socket != NULL && socket->state() == QSocket::Connected && sock->socket() != socket->socket())
+	if(!sock && socket->state() == QSocket::Connected)
+		return;
+
+	if(socket && sock && socket->state() == QSocket::Connected && sock->socket() != socket->socket())
 	{
 		qDebug("Un nouveau socket différent a été proposé à " + hostname);
+		disconnect(socket);
+		socket->disconnect(this);
 		socket->close();
 	}
 	
