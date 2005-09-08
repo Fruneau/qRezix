@@ -92,9 +92,9 @@ inline void RzxTextEdit::setChat(RzxChat *m_chat)
 
 
 #ifdef Q_OS_MAC
-    #include "ui_rzxchatui_mac.h"
+#	include "ui_rzxchatui_mac.h"
 #else
-    #include "ui_rzxchatui.h"
+#	include "ui_rzxchatui.h"
 #endif
 
 ///Fenêtre de dialogue
