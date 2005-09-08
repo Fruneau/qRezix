@@ -556,13 +556,19 @@ QString RzxConfig::rezalName(const QHostAddress& addr, bool shortname)
 }
 
 
-/******************************************************************************
-* FONCTION DE GESTION DES MOTS DE PASSE                                       *
-******************************************************************************/
+/*******************************************************************************
+* EMISSION DE MESSAGES                                                         *
+*******************************************************************************/
 ///Emet un signal pour informer du changement de format des icônes
 void RzxConfig::emitIconFormatChanged()
 {
 	emit global()->iconFormatChange();
+}
+
+///Emet un signal pour informer du changement de style
+void RzxConfig::emitUseMacMetalStyle()
+{
+	emit global()->useMacMetalStyle(macMetalStyle());
 }
 
 
@@ -570,9 +576,9 @@ void RzxConfig::emitIconFormatChanged()
 * INFORMATIONS CONCERNANT LA MACHINE                                          *
 ******************************************************************************/
 ///Commentaire de l'ordinateur
-QString RzxConfig::remarque()
+QString RzxConfig::remarque(bool def, const QString& defValue)
 {
-	QString comment = global()->value("comment", "$#x").toString();
+	QString comment = def?QString(defValue):global()->value("comment", "$#x").toString();
 
 	if(comment == "$#x")
 	{
@@ -596,15 +602,15 @@ QString RzxConfig::propPromo()
 }
 
 ///Change le mode du répondeur
-void RzxConfig::setAutoResponder(bool val)
+void RzxConfig::setAutoResponder(const bool& val)
 {
 	RzxComputer::localhost()->setState(val);
 }
 
 ///Lit le mode du répondeur
-bool RzxConfig::autoResponder()
+bool RzxConfig::autoResponder(bool def, const bool& defValue)
 {
-	return RzxComputer::localhost()->isOnResponder();
+	return def?defValue:RzxComputer::localhost()->isOnResponder();
 }
 
 ///Indique si la totalité des informations sont enregistrées
@@ -612,6 +618,56 @@ bool RzxConfig::infoCompleted()
 {
 	return propLastName() != "" && propName() != "" && propCasert() != "" 
 		&& propMail() != DEFAULT_MAIL && propTel() != "";
+}
+
+
+/******************************************************************************
+* GESTION DU STYLE DES FENÊTRES                                               *
+******************************************************************************/
+///Lit le style à utiliser
+bool RzxConfig::macMetalStyle(bool def, const bool& defValue)
+{
+	return def?defValue:global()->value("macmetalstyle", defValue).toBool();
+}
+
+///Défini le style à utiliser
+void RzxConfig::setMacMetalStyle(const bool& style)
+{
+	bool isChanged = style ^ macMetalStyle();
+	if(isChanged)
+	{
+		global()->setValue("macmetalstyle", style);
+		global()->applyStyle();
+		emitUseMacMetalStyle();
+	}
+}
+
+///Ajoute la fenêtre à la liste des fenêtres qui utilisent le style de qRezix
+/** Les fenêtres ajoutées sont automatiquement stylisée. Mais pour qu'une fenêtre
+ * soit valide, il faut que ce soit une window
+ */
+void RzxConfig::useStyleOnWindow(QWidget *window)
+{
+	if(window && window->isWindow())
+	{
+		global()->styledWidgets << window;
+		global()->applyStyle(window);
+	}
+}
+
+///Applique le style courant sur une fenêtre
+void RzxConfig::applyStyle(QWidget *widget)
+{
+	if(widget)
+		widget->setAttribute(Qt::WA_MacMetalStyle, macMetalStyle());
+}
+
+///Applique le style sur toutes les fenêtres enregistrées
+void RzxConfig::applyStyle()
+{
+	styledWidgets.removeAll(NULL);
+	foreach(QWidget *widget, styledWidgets)
+		applyStyle(widget);
 }
 
 

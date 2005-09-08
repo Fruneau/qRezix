@@ -2,5 +2,6 @@
 
 qmake qrezix.pro
 make
+qmake qrezix.pro
 make install
 rm libr*

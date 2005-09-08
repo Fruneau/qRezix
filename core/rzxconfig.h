@@ -29,6 +29,7 @@
 #include <QSettings>
 #include <QPoint>
 #include <QList>
+#include <QPointer>
 
 #include <RzxGlobal>
 #include <RzxSubnet>
@@ -126,7 +127,7 @@ public:
 	bool isBoldSupported(const QString&) const;
 
 
-// Données
+	// Données
 	RZX_STRINGPROP("theme", iconTheme, setIconTheme, DEFAULT_THEME)
 	RZX_STRINGPROP("txtBeepCmd", beepCmd, setBeepCmd, "play")
 
@@ -141,8 +142,7 @@ public:
 	RZX_ENUMPROP(Rzx::Promal, "promo", promo, setPromo, Rzx::PROMAL_UNK)
 	RZX_ENUMPROP(Rzx::ConnectionState, "repondeur", repondeur, setRepondeur, Rzx::STATE_HERE)
 	RZX_INTPROP("servers", servers, setServers, 0)
-	static QString remarque();
-	static void setRemarque(const QString&);
+	RZX_PROP_DECLARE(QString, remarque, setRemarque, QString())
 
 	// proprietes de l'ordinateur
 	RZX_STRINGPROP("txtFirstname", propLastName, setPropLastName, QString())
@@ -163,27 +163,39 @@ public:
 	static void emitIconFormatChanged();
 	RZX_INTPROP("menuTextPos", menuTextPosition, setMenuTextPosition, 2)
 	RZX_INTPROP("menuIconSize", menuIconSize, setMenuIconSize, 2)
-	
+
 	//Etat du répondeur
 	RZX_BOOLPROP("refuseAway", refuseWhenAway, setRefuseWhenAway, true)
-	static bool autoResponder();
-	static void setAutoResponder(bool val);
+	RZX_PROP_DECLARE(bool, autoResponder, setAutoResponder, false)
 	RZX_STRINGPROP("txtAutoResponderMsg", autoResponderMsg, setAutoResponderMsg, "Répondeur automatique")
-	
+		
 	RZX_RGBPROP("repondeur_highlight", repondeurHighlight, setRepondeurHighlight, 0xFD3D3D)
 	RZX_RGBPROP("repondeur_base", repondeurBase, setRepondeurBase, 0xFFEE7C)
 	RZX_RGBPROP("repondeur_highlightedtext", repondeurHighlightedText, setRepondeurHighlightedText, 0xFFFFFF)
 	RZX_RGBPROP("repondeur_normaltext", repondeurNormalText, setRepondeurNormalText, 0x000000)
 	RZX_RGBPROP("ignoredBGColor", ignoredBGColor, setIgnoredBGColor, 0xCCCCCC)
 	RZX_RGBPROP("ignoredtext", ignoredText, setIgnoredText, 0xEEEEEE)
-
+		
 	RZX_RGBPROP("error_back", errorBackgroundColor, setErrorBackgroundColor, 0xFF0000)
 	RZX_RGBPROP("error_text", errorTextColor, setErrorTextColor, 0xFFFFFF)
-	
+		
 	static bool infoCompleted();
 	static bool find();
 
+	
+//Gestion du style des fenêtres
+protected:
+	QList< QPointer<QWidget> > styledWidgets;
+	void applyStyle();
 
+public:
+	static void applyStyle(QWidget *);
+	static void useStyleOnWindow(QWidget*);
+
+	RZX_PROP_DECLARE(bool, macMetalStyle, setMacMetalStyle, true)
+	static void emitUseMacMetalStyle();
+
+	
 //Gestion des sous-réseaux
 private:
 	QStringList rezalNames;
@@ -229,6 +241,7 @@ signals:
 	void languageChanged();
 	void updateResponder();
 	void iconFormatChange();
+	void useMacMetalStyle(bool);
 };
 
 #endif

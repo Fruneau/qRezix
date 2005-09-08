@@ -33,6 +33,8 @@
 #include "rzxxnetconfig.h"
 #include "md5.h"
 
+#include "ui_rzxxnetpropui.h"
+
 #define MD5_ADD "Vive le BR"
 
 ///Masques pour les messages du protocole xNet
