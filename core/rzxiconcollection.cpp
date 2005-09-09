@@ -16,6 +16,7 @@
  ***************************************************************************/
 #include <QDir>
 #include <QList>
+#include <QBitMap>
 
 #include <RzxIconCollection>
 
@@ -98,6 +99,10 @@ RzxIconCollection::RzxIconCollection()
 	//Définition de l'icône de l'application
 	hereIcon = QPixmap(q);
 	awayIcon = QPixmap(t);
+#ifdef Q_OS_MAC
+	hereIcon.setMask(hereIcon.createHeuristicMask());
+	awayIcon.setMask(awayIcon.createHeuristicMask());
+#endif
 
 	//Recherche des thèmes installés
 	qDebug("Searching icon themes...");

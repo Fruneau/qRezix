@@ -44,7 +44,9 @@ class RzxMainUIConfig: public RzxAbstractConfig
 		RZX_INTPROP("quitmode", quitMode, setQuitMode, 1)
 		RZX_UINTPROP("colonnes", colonnes, setColonnes, 0x37b)
 		RZX_UINTPROP("tooltip", tooltip, setTooltip, 0)
-
+		RZX_ENUMPROP(Qt::SortOrder, "sortOrder", sortOrder, setSortOrder, Qt::AscendingOrder)
+		RZX_INTPROP("sortColumn", sortColumn, setSortColumn, 0)
+	
 		RZX_WIDGETPROP("main", restoreMainWidget, saveMainWidget, QPoint(2,24), QSize(400, 300))
 };
 
