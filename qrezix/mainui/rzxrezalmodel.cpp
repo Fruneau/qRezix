@@ -89,6 +89,10 @@ RzxRezalModel::RzxRezalModel()
 	roujeIndex = QAbstractItemModel::createIndex(TREE_PROMO_ROUJE, 0, (int)TREE_FLAG_PROMO);
 	oranjeIndex = QAbstractItemModel::createIndex(TREE_PROMO_ORANJE, 0, (int)TREE_FLAG_PROMO);
 	binetIndex = QAbstractItemModel::createIndex(TREE_PROMO_BINET, 0, (int)TREE_FLAG_PROMO);
+	
+	//Initialisation de l'ordre de tri
+	order = (NumColonne)RzxMainUIConfig::sortColumn();
+	sens = RzxMainUIConfig::sortOrder();
 
 	//Arborescence par rezal
 	insertRows(0, RzxConfig::rezalNumber(), rezalGroup);
@@ -108,6 +112,8 @@ RzxRezalModel::RzxRezalModel()
 RzxRezalModel::~RzxRezalModel()
 {
 	RZX_GLOBAL_CLOSE
+	RzxMainUIConfig::setSortColumn(order);
+	RzxMainUIConfig::setSortOrder(sens);
 }
 
 ///Retourne l'index correspondant à l'objet indiqué
@@ -839,6 +845,7 @@ void RzxRezalModel::update(RzxComputer *computer)
 	}
 	else
 		updateObject(rezalIndex[rezalId], rezals[rezalId], computer);
+	sort(order, sens);
 }
 
 ///Vide complètement la liste des objets connus
@@ -866,9 +873,10 @@ void RzxRezalModel::clear()
 ///Insertion d'un objet dans la liste et le groupe correspondant
 void RzxRezalModel::insertObject(const QModelIndex& parent, QList<RzxComputer*>& list, RzxRezalSearchTree& tree, RzxComputer *computer)
 {
-	const int row = list.count();
-	beginInsertRows(parent, row, row);
 	list << computer;
+	qSort(list.begin(), list.end(), sortComputer);
+	const int row = list.indexOf(computer);
+	beginInsertRows(parent, row, row);
 	tree.insert(computer->name().toLower(), new RzxComputer*(computer));
 	endInsertRows();
 }
