@@ -149,6 +149,8 @@ bool QRezix::installModule(RzxRezal *rezal)
 		bool isCentral = conf->value("isCentral", (bool)(rezal->type() & RzxRezal::TYP_CENTRAL)).toBool();
 		bool isFloating = conf->value("isFloating", rezal->floating()).toBool();
 		Qt::DockWidgetArea area = (Qt::DockWidgetArea)conf->value("area", rezal->area()).toInt();
+		bool isVisible = conf->value("isVisible", true).toBool();
+		QDockWidget *dock = NULL;
 
 		if(!central && isCentral)
 		{
@@ -157,7 +159,7 @@ bool QRezix::installModule(RzxRezal *rezal)
 		}
 		else if(rezal->type() & RzxRezal::TYP_DOCKABLE)
 		{
-			QDockWidget *dock = new QDockWidget(rezal->name());
+			dock = new QDockWidget(rezal->name());
 			if(isFloating)
 				dock->setParent(this);
 			dock->setWidget(rezal->widget());
@@ -172,12 +174,12 @@ bool QRezix::installModule(RzxRezal *rezal)
 		if((rezal->type() & RzxRezal::TYP_INDEX) && !index)
 			index = rezal;
 		conf->endGroup();
-		if(rezal->dockWidget() && isFloating)
-		{
-			QDockWidget *dock = rezal->dockWidget();
-			conf->restoreWidget(rezal->name(), dock, dock->pos(), dock->size());
-		}
 
+		//Après endGroup, car contient un changement de répertoire...
+		if(dock && isFloating)
+			conf->restoreWidget(rezal->name(), dock, dock->pos(), dock->size());
+		if(!isVisible)
+			dock->hide();
 		return true;
 	}
 	return false;
@@ -228,26 +230,32 @@ void QRezix::buildActions()
 ///energistre l'état de la fenêtre et quitte....
 QRezix::~QRezix()
 {
+	closeModules();
+	RZX_GLOBAL_CLOSE
+}
+
+///Sauvegarde l'état de la fenêtre et des modules
+void QRezix::saveState()
+{
 	RzxMainUIConfig *conf = RzxMainUIConfig::global();
 	QList<RzxRezal*> rezals = moduleList();
 	foreach(RzxRezal *rezal, rezals)
 	{
 		conf->beginGroup(rezal->name());
-
+		
 		conf->setValue("isCentral", rezal == central);
 		QDockWidget *dock = rezal->dockWidget();
 		if(dock)
 		{
 			conf->setValue("isFloating", dock->isFloating());
 			conf->setValue("area", dockWidgetArea(dock));
+			conf->setValue("isVisible", dock->isVisible());
 		}
 		conf->endGroup();
 		if(dock && dock->isFloating())
 			conf->saveWidget(rezal->name(), dock);
 	}
-	closeModules();
 	RzxMainUIConfig::saveMainWidget(this);
-	RZX_GLOBAL_CLOSE
 }
 
 ///Change l'information d'état
@@ -298,6 +306,9 @@ void QRezix::closeEvent(QCloseEvent * e){
 		}
 	}
 
+	//On enregistre l'état avant que le destructeur soit lancé pour éviter que l'affichage des fenêtre soit modifié
+	//Il semble en tout cas que ce soit le cas sous OS X
+	saveState();
 	emit wantQuit();
 }
 
