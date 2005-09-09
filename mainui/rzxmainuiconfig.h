@@ -46,6 +46,7 @@ class RzxMainUIConfig: public RzxAbstractConfig
 		RZX_UINTPROP("tooltip", tooltip, setTooltip, 0)
 		RZX_ENUMPROP(Qt::SortOrder, "sortOrder", sortOrder, setSortOrder, Qt::AscendingOrder)
 		RZX_INTPROP("sortColumn", sortColumn, setSortColumn, 0)
+		RZX_LISTPROP(int, "columnpositions", columnPositions, setColumnPositions)
 	
 		RZX_WIDGETPROP("main", restoreMainWidget, saveMainWidget, QPoint(2,24), QSize(400, 300))
 };

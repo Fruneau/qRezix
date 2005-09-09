@@ -46,11 +46,17 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 	header()->setSortIndicatorShown(true);
 	header()->setClickable(true);
 	header()->setHighlightSections(false);
+	header()->setSortIndicator(RzxMainUIConfig::sortColumn(), RzxMainUIConfig::sortOrder());
 	setRootIndex( RzxRezalModel::global()->everybodyGroup );
 
 	setUniformRowHeights(false);
 	setAlternatingRowColors(true);
 
+	//Columns stocke les colonnes avec columns[i] == logical index placé en visual index i
+	QList<int> columns = RzxMainUIConfig::columnPositions();
+	for(int i = 0 ; i < columns.count() && i < RzxRezalModel::numColonnes ; i++)
+		header()->moveSection(header()->visualIndex(columns[i]), i);
+	
 	afficheColonnes();
 
 	connect(&search, SIGNAL(findItem(const QModelIndex& )), this, SLOT(setCurrentIndex(const QModelIndex&)));
@@ -62,6 +68,17 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 RzxRezalView::~RzxRezalView()
 {
 	beginClosing();
+	QList<int> columns;
+	for(int i = 0 ; i < RzxRezalModel::numColonnes ; i++)
+	{
+		int log = header()->logicalIndex(i);
+		if(log != -1)
+			columns << log;
+		else
+			break;
+	}
+	RzxMainUIConfig::setColumnPositions(columns);
+		
 	endClosing();
 }
 

@@ -48,7 +48,7 @@ const char *RzxRezalModel::colNames[RzxRezalModel::numColonnes] = {
 bool sortComputer(RzxComputer *c1, RzxComputer *c2)
 {
 	RzxRezalModel::NumColonne order = RzxRezalModel::global()->order;
-	if(RzxRezalModel::global()->sens == Qt::AscendingOrder)
+	if(RzxRezalModel::global()->sens != Qt::AscendingOrder)
 		qSwap(c1, c2);
 	switch(order)
 	{

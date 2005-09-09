@@ -21,6 +21,7 @@
 #include <QWidget>
 #include <QPoint>
 #include <QSize>
+#include <QList>
 
 #include <RzxGlobal>
 
@@ -64,6 +65,20 @@ inline void RzxAbstractConfig::flush()
 #define RZX_ENUMPROP(type, name, read, write, default) \
 	static type read(bool def = false) { return def?default:(type)global()->value(name, default).toInt(); } \
 	static void write(const type& value) { global()->setValue(name, value); }
+#define RZX_LISTPROP(type, name, read, write) \
+	static QList<type> read(bool def = false) { \
+		if(def) return QList<type>(); \
+		QList<QVariant> list; \
+		list = global()->value(name, list).toList(); \
+		QList<type> ret; \
+		foreach(QVariant v, list) ret << v.value<type>(); \
+		return ret; \
+	} \
+	static void write(const QList<type>& value) { \
+		QList<QVariant> list; \
+		foreach(type t, value) list << t; \
+		global()->setValue(name, list); \
+	}
 
 ///Macro qui déclare une fonction de lecture et une fonction d'écriture pour le une propriété.
 /** les fonctions ont les prototype suivants :
