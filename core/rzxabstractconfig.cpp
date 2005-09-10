@@ -20,6 +20,7 @@
 
 #include <RzxAbstractConfig>
 #include <RzxBaseModule>
+#include <RzxApplication>
 
 ///Construction d'un RzxAbstractConfig
 /** Cette construction initialise le QSettings pour lui donner la configuration
@@ -38,7 +39,7 @@ RzxAbstractConfig::RzxAbstractConfig(RzxBaseModule *m_module)
 	else
 	{
 		beginGroup("general");
-		setValue("version", VERSION + RZX_TAG_VERSION);
+		setValue("version", Rzx::versionToString(RzxApplication::version()));
 	}
 }
 

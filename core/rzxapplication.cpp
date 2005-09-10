@@ -41,7 +41,36 @@
 #endif
 
 ///Définition de la version de qRezix
-Rzx::Version RzxApplication::m_version = { RZX_MAJOR_VERSION, RZX_MINOR_VERSION, RZX_FUNNY_VERSION, RZX_TAG_VERSION };
+/** La version est générée automatiquement grâce aux informations fournies
+ * à la compilation. Pour plus d'information, il suffit de se reporter au
+ * code qui suit.
+ */
+Rzx::Version RzxApplication::m_version = {
+	RZX_MAJOR_VERSION,
+	RZX_MINOR_VERSION,
+	RZX_FUNNY_VERSION,
+#ifdef RZX_SVNVERSION
+	"-svn"
+#endif
+#ifdef RZX_RELEASEVERSION
+	QString()
+#endif
+#ifdef RZX_ALPHAVERSION
+	QString("_alpha%1").arg(RZX_ALPHAVERSION)
+#endif
+#ifdef RZX_BETAVERSION
+	QString("_beta%1").arg(RZX_BETAVERSION)
+#endif
+#ifdef RZX_RCVERSION
+	QString("_rc%1").arg(RZX_RCVERSION)
+#endif
+#ifdef RZX_PREVERSION
+	QString("_pre%1").arg(RZX_PREVERSION)
+#endif
+#ifdef RZX_RVERSION
+	QString("-r%1").arg(RZX_RVERSION)
+#endif
+};
 
 ///Chargement de qRezix et de ses différents modules
 RzxApplication::RzxApplication(int argc, char **argv)

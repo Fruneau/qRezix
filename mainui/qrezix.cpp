@@ -387,14 +387,6 @@ void QRezix::setSearchPattern(const QString& pattern)
 	leSearch->setText(pattern);
 }
 
-///Pour prendre en compte le changement de traduction...
-void QRezix::changeEvent(QEvent *e)
-{
-	QMainWindow::changeEvent(e);
-	if(e->type() == QEvent::LanguageChange)
-		setWindowTitle("qRezix v" + RZX_VERSION);
-}
- 
 /// Changement du thème d'icone
 /** Cette méthode met à jour les icônes de l'interface principale (menu), mais aussi celles des listes de connectés */
 void QRezix::changeTheme()

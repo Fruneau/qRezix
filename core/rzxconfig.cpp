@@ -36,6 +36,7 @@
 
 #include <RzxConfig>
 
+#include <RzxApplication>
 #include <RzxMessageBox>
 #include <RzxHostAddress>
 #include <RzxComputer>

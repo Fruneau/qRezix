@@ -77,7 +77,6 @@ signals:
 protected:
 	void saveState();
 	virtual void closeEvent(QCloseEvent * e);
-	virtual void changeEvent(QEvent *e);
 	virtual bool event(QEvent * e);
 
 	virtual void loadBuiltins();
