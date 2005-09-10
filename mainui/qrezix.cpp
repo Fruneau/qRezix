@@ -69,6 +69,7 @@ QRezix::QRezix(QWidget *parent)
 	QWidget *widget = new QWidget;
 	statusui->setupUi(widget);
 	statusBar()->addWidget(widget, 1);
+	setWindowTitle("qRezix v" + Rzx::versionToString(RzxApplication::version(), Rzx::ShortVersion));
 
 	loadModules("rezals", "rezal*", "getRezal");
 	setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);

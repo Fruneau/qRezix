@@ -40,6 +40,9 @@
 #	include "../notifier/rzxnotifier.h"
 #endif
 
+///Définition de la version de qRezix
+Rzx::Version RzxApplication::m_version = { RZX_MAJOR_VERSION, RZX_MINOR_VERSION, RZX_FUNNY_VERSION, RZX_TAG_VERSION };
+
 ///Chargement de qRezix et de ses différents modules
 RzxApplication::RzxApplication(int argc, char **argv)
 	:QApplication(argc, argv)
@@ -65,7 +68,7 @@ RzxApplication::RzxApplication(int argc, char **argv)
 	//Installation du message handler... à partir de maintenant, on peut
 	//faire des qDebug...
 	Rzx::installMsgHandler();
-	qDebug("qRezix %s%s\n", VERSION.toAscii().constData(), RZX_TAG_VERSION);
+	qDebug("qRezix %s\n", Rzx::versionToString(version()).toAscii().constData());
 	qRegisterMetaType<RzxComputer*>("RzxComputer*");	
 
 	//Chargement du coeur de qRezix

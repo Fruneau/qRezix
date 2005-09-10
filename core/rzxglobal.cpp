@@ -133,11 +133,23 @@ bool Rzx::caseInsensitiveLessThan(const QString &s1, const QString &s2)
  * major.minor.build[-tag],
  * le tag étant ignoré si et seulement si la chaîne est nulle
  */
-QString Rzx::versionToString(const Rzx::Version& version)
+QString Rzx::versionToString(const Rzx::Version& version, Rzx::VersionParts parts)
 {
-	QString value = QString("%1.%2.%3").arg(version.major).arg(version.minor).arg(version.build);
-	if(!version.tag.isNull())
-		value += "-" + version.tag;
+	QString value;
+	if(parts & MajorVersion)
+		value += QString::number(version.major);
+	if(parts & MinorVersion)
+	{
+		if(!value.isEmpty()) value += ".";
+		value += QString::number(version.minor);
+	}
+	if(parts & BuildVersion)
+	{
+		if(!value.isEmpty()) value += ".";
+		value += QString::number(version.build);
+	}
+	if(parts & TagVersion && !version.tag.isNull())
+		value += version.tag;
 	return value;
 }
 
