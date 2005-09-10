@@ -38,7 +38,7 @@ class RzxApplication:public QApplication, public RzxBaseLoader<RzxModule>
 {
 	Q_OBJECT
 	Q_PROPERTY(bool initialised READ isInitialised)
-
+	
 	QPointer<RzxProperty> properties;
 
 	QList<RzxModule*> hiders;
@@ -46,6 +46,7 @@ class RzxApplication:public QApplication, public RzxBaseLoader<RzxModule>
 	RzxModule *chat;
 
 	bool wellInit;
+	static Rzx::Version m_version;
 
 	public:
 		RzxApplication(int argc, char **argv);
@@ -53,6 +54,8 @@ class RzxApplication:public QApplication, public RzxBaseLoader<RzxModule>
 		bool isInitialised() const;
 		bool hasHider() const;
 		bool hasMainWindow() const;
+		static Rzx::Version version();
+		
 		static RzxApplication *instance();
 		static QWidget *mainWindow();
 		static QList<RzxModule*> modulesList();
@@ -77,6 +80,12 @@ class RzxApplication:public QApplication, public RzxBaseLoader<RzxModule>
 		///Simple relais pour RzxModule::haveProperties
 		void haveProperties(RzxComputer*, bool *);
 };
+
+///Retourne la version de qRezix
+inline Rzx::Version RzxApplication::version()
+{
+	return m_version;
+}
 
 ///Indique si l'application a été initialisée sans encombre
 /** Si le flags est faux, l'application est reconnue comme n'étant

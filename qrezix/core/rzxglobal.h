@@ -18,6 +18,7 @@
 #define RZXGLOBAL_H
 
 #include <QtGlobal>
+#include <QtDebug>
 #include <QString>
 
 #include <stdio.h>
@@ -134,7 +135,21 @@ namespace Rzx
 		uint build;
 		QString tag;
 	};
-	QString versionToString(const Rzx::Version&);
+	
+	///Flags pour retrouver les parties du numéro de version
+	enum VersionPartFlags
+	{
+		NoVersion = 0,
+		MajorVersion = 1,
+		MinorVersion = 2,
+		BuildVersion = 4,
+		TagVersion = 8,
+		ShortVersion = MajorVersion | MinorVersion,
+		LongVersion = ShortVersion | BuildVersion,
+		CompleteVersion = LongVersion | TagVersion
+	};
+	Q_DECLARE_FLAGS(VersionParts, VersionPartFlags)
+	QString versionToString(const Rzx::Version&, VersionParts = CompleteVersion);
 
 	///Définition de la fonction d'output surchargée
 	void installMsgHandler();
