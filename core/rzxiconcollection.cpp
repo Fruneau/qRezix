@@ -16,7 +16,7 @@
  ***************************************************************************/
 #include <QDir>
 #include <QList>
-#include <QBitMap>
+#include <QBitmap>
 
 #include <RzxIconCollection>
 

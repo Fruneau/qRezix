@@ -50,6 +50,8 @@ bool sortComputer(RzxComputer *c1, RzxComputer *c2)
 	RzxRezalModel::NumColonne order = RzxRezalModel::global()->order;
 	if(RzxRezalModel::global()->sens != Qt::AscendingOrder)
 		qSwap(c1, c2);
+	if(!c1) return false;
+	if(!c2) return true;
 	switch(order)
 	{
 		case RzxRezalModel::ColNom: return c1->name().toLower() < c2->name().toLower();

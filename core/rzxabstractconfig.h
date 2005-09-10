@@ -152,15 +152,15 @@ inline void RzxAbstractConfig::flush()
 #define RZX_CONFIG(myclass) \
 	RZX_GLOBAL(myclass) \
 	public: \
-		myclass(RzxBaseModule *module = NULL):RzxAbstractConfig(module) { object = this; } \
-		~myclass() { object = NULL; } \
+		myclass(RzxBaseModule *module = NULL):RzxAbstractConfig(module) { if(!object) object = this; } \
+		~myclass() { RZX_GLOBAL_CLOSE } \
 
 /** \ref RZX_CONFIG */
 #define RZX_CONFIG_EXPANDED(myclass) \
 	RZX_GLOBAL(myclass) \
 	public: \
-		myclass(RzxBaseModule *module = NULL):RzxAbstractConfig(module) { object = this; init(); } \
-		~myclass() { destroy(); object = NULL; } \
+		myclass(RzxBaseModule *module = NULL):RzxAbstractConfig(module) { if(!object) object = this; init(); } \
+		~myclass() { destroy(); RZX_GLOBAL_CLOSE } \
 	protected: \
 		void init(); \
 		void destroy(); \
