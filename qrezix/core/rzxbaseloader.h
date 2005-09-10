@@ -156,7 +156,11 @@ void RzxBaseLoader<T>::loadBuiltins()
 template <class T>
 void RzxBaseLoader<T>::loadPlugins(const QString& rep, const QString& pattern, const char* symbol)
 {
-	QList<QDir> path = RzxConfig::dirList(RzxConfig::DefSearchDirs, rep);
+	QList<QDir> path = RzxConfig::dirList(RzxConfig::DefSearchDirs, rep
+#ifndef Q_OS_MAC
+		, true
+#endif
+			);
 	foreach(QDir dir, path)
 	{
 		QStringList filter;
