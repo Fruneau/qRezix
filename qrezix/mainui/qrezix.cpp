@@ -178,7 +178,7 @@ bool QRezix::installModule(RzxRezal *rezal)
 		//Après endGroup, car contient un changement de répertoire...
 		if(dock && isFloating)
 			conf->restoreWidget(rezal->name(), dock, dock->pos(), dock->size());
-		if(!isVisible)
+		if(dock && !isVisible)
 			dock->hide();
 		return true;
 	}

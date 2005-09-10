@@ -218,8 +218,14 @@ public:
 		LibDir = 4,
 		CurrentDir = 8,
 		TempDir = 16,
-		AllDirsExceptTemp = UserDir | SystemDir | LibDir | CurrentDir,
-		AllDirs = UserDir | SystemDir | LibDir | CurrentDir | TempDir
+		ProgramDirs = UserDir | SystemDir | LibDir,
+		AllDirsExceptTemp = ProgramDirs | CurrentDir,
+		AllDirs = AllDirsExceptTemp | TempDir,
+#ifdef Q_OS_MAC
+		DefSearchDirs = ProgramDirs
+#else
+		DefSearchDirs = AllDirsExceptTemp
+#endif
 	};
 	Q_DECLARE_FLAGS(Dir, DirFlags);
 
@@ -232,9 +238,9 @@ public:
 	static const QDir &userDir();
 	static const QDir &systemDir();
 	static const QDir &libDir();
-	static QList<QDir> dirList(Dir = AllDirsExceptTemp, const QString& = QString(), bool = false, bool = false);
+	static QList<QDir> dirList(Dir = DefSearchDirs, const QString& = QString(), bool = false, bool = false);
 	static QDir dir(DirFlags, const QString& = QString(), bool = false, bool = false);
-	static QString findFile(const QString&, Dir = AllDirsExceptTemp, const QString& = QString());
+	static QString findFile(const QString&, Dir = DefSearchDirs, const QString& = QString());
 
 //Quelques signaux...
 signals:
