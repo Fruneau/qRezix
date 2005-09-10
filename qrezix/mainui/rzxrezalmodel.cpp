@@ -703,7 +703,7 @@ void RzxRezalModel::login(RzxComputer *computer)
 
 	//Rangement en rezal
 	int rezalId = computer->rezal();
-	if(rezalId >= 0 && rezalId < RzxConfig::rezalNumber())
+	if(rezalId >= 0 && rezalId < (int)RzxConfig::rezalNumber())
 		insertObject(rezalIndex[rezalId], rezals[rezalId], rezalsByName[rezalId], computer);
 }
 
@@ -740,7 +740,7 @@ void RzxRezalModel::logout(RzxComputer *computer)
 
 	//Rangement en rezal
 	int rezalId = computer->rezal();
-	if(rezalId >= 0 && rezalId < RzxConfig::rezalNumber())
+	if(rezalId >= 0 && rezalId < (int)RzxConfig::rezalNumber())
 		removeObject(rezalIndex[rezalId], rezals[rezalId], rezalsByName[rezalId], computer);
 }
 
@@ -839,7 +839,7 @@ void RzxRezalModel::update(RzxComputer *computer)
 
 	//Rangement en rezal
 	uint rezalId = computer->rezal();
-	if(rezalId >= 0 && rezalId < RzxConfig::rezalNumber() && !rezals[rezalId].contains(computer))
+	if(rezalId < RzxConfig::rezalNumber() && !rezals[rezalId].contains(computer))
 	{
 		for(uint i = 0 ; i < RzxConfig::rezalNumber() ; i++)
 			if(i == rezalId)
@@ -847,7 +847,7 @@ void RzxRezalModel::update(RzxComputer *computer)
 			else
 				removeObject(rezalIndex[i], rezals[i], rezalsByName[i], computer);
 	}
-	else if(rezalId >= 0 && rezalId < RzxConfig::rezalNumber())
+	else if(rezalId < RzxConfig::rezalNumber())
 		updateObject(rezalIndex[rezalId], rezals[rezalId], computer);
 	sort(order, sens);
 }

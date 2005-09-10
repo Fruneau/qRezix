@@ -38,15 +38,10 @@
 
 // Version envoyee au serveur
 #define RZX_CLIENT_ID (0x06)
-#define RZX_MAJOR_VERSION (1)
-#define RZX_MINOR_VERSION (7)
-#define RZX_FUNNY_VERSION (0)
-#define RZX_TAG_VERSION   "-svn"
-
-#define RZX_VERSION QString("%1.%2").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION)
-#ifndef HAVE_CONFIG_H
-#	define VERSION QString("%1.%2.%3").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION).arg(RZX_FUNNY_VERSION)
-#endif
+//#define RZX_MAJOR_VERSION (1)
+//#define RZX_MINOR_VERSION (7)
+//#define RZX_FUNNY_VERSION (0)
+//#define RZX_TAG_VERSION   "-svn"
 
 #ifdef Q_OS_MAC
 #	define QREZIX_ICON "../resources/q_mac.xpm"
@@ -88,6 +83,6 @@
 	"Pan ! Pan ! Pan ! Pan ! Pan ! Pan ! Pan ! PAN ! PAAANNN !\n" \
 	"Chaque jour est veille pour les uns, lendemain pour d'autres, mais aujourd'hui pour bien peu. -+- Gilbert Cesbron (1913-1979), de petites choses. -+-\n" \
 	"> cwd     /home/celine euh, c'est pas plutôt cwd /femme/celine ? -+- MS in GFA : homme, sweet homme -+-\n" \
-	"qRezix v" + RZX_VERSION + " is running... oupa\n" \
-	"qRezix v" + RZX_VERSION + " la nouvelle version de qRezix...\n" \
+	"qRezix v" + Rzx::versionToString(RzxApplication::version()) + " is running... oupa\n" \
+	"qRezix v" + Rzx::versionToString(RzxApplication::version()) + " la nouvelle version de qRezix...\n" \
 	"Je suis un boulet sans imagination, et donc j'ai laissé la phrase par défaut de qRezix (which is running...)\n"
