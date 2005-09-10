@@ -18,6 +18,12 @@
 
 #include <RzxSubnet>
 
+///Sous réseau repréntant 0.0.0.0/8
+/** Cette plage d'ip qui normalement est réservée, est utilisée ici pour stocker
+ * les id des clients dont on ne peux pas obtenir l'ip.
+ */
+RzxSubnet RzxSubnet::unknown = RzxSubnet("0.0.0.0/8");
+
 ///Construit un sous réseau à partir d'une ip du réseau et du masque
 /** Cette fonction ne vérifie pas que les deux adresses sont compatibles.
  * Il faudra faire \ref isValid pour s'assurer que le RzxSubnet est proprement

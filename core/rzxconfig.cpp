@@ -265,9 +265,9 @@ void RzxConfig::loadDirs()
 	Rzx::beginModuleLoading("Config Path");
 
 #ifdef Q_OS_MAC
-	m_systemDir.setPath(QREZIX_DATA_DIR);
+	m_systemDir.setPath(QREZIX_SYSTEM_DIR);
 	m_userDir.setPath(QREZIX_DATA_DIR);
-	m_libDir.setPath(QREZIX_DATA_DIR);
+	m_libDir.setPath(QREZIX_LIB_DIR);
 #else
 	QString userSubdir;
 	m_userDir = QDir::home();
@@ -347,6 +347,7 @@ QDir RzxConfig::computerIconsDir()
 QDir RzxConfig::dir(DirFlags dir, const QString &subDir, bool force, bool create)
 {
 	QDir rep;
+	QDir invalid("/invalid/forder/");
 	switch(dir)
 	{
 		case UserDir: rep = userDir(); break;
@@ -354,17 +355,17 @@ QDir RzxConfig::dir(DirFlags dir, const QString &subDir, bool force, bool create
 		case LibDir: rep = libDir(); break;
 		case CurrentDir: rep = QDir::current(); break;
 		case TempDir: rep = QDir::temp(); break;
-		default: qDebug("RzxConfig::dir : invalid directory"); return QDir();
+		default: qDebug("RzxConfig::dir : invalid directory"); return invalid;
 	}
-	if(!rep.exists()) return QDir();
+	if(!rep.exists()) return invalid;
 	if(!subDir.isEmpty() && !rep.cd(subDir))
 	{
 		if(create && rep.mkdir(subDir))
 		{
-			if(!rep.cd(subDir) && !force) return QDir();
+			if(!rep.cd(subDir) && !force) return invalid;
 		}
 		else if(!force)
-			return QDir();
+			return invalid;
 	}
 	return rep;
 }
@@ -450,6 +451,12 @@ QString RzxConfig::findFile(const QString& filename, Dir dir, const QString& sub
  */
 void RzxConfig::loadRezals()
 {
+	//On place le subnet inconnu par défaut
+	rezalSubnets << (QList<RzxSubnet>() << RzxSubnet::unknown);
+	rezalNames << "Unknown";
+	rezalLongNames << "Unknown";
+	
+	//On lit le fichier de conf
 	Rzx::beginModuleLoading("Subnets");
 	QString file = findFile("subnet.ini");
 	if(file.isNull())

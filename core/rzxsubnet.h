@@ -38,6 +38,8 @@ class RzxSubnet
 		friend QHostAddress operator&(const QHostAddress&, const QHostAddress&);
 
 	public:
+		static RzxSubnet unknown;
+
 		RzxSubnet(const QHostAddress&, const QHostAddress&);
 		RzxSubnet(const QHostAddress&, int);
 		RzxSubnet(const QString&);

@@ -17,21 +17,21 @@
 #define DEFAULT_THEME "krystal"
 
 #ifdef Q_OS_WIN
-	#define DEFAULT_SAMBACMD "standard"
-	#define DEFAULT_FTPCMD "standard"
-	#define DEFAULT_HTTPCMD "standard"
-	#define DEFAULT_NEWSCMD "standard"
+#	define DEFAULT_SAMBACMD "standard"
+#	define DEFAULT_FTPCMD "standard"
+#	define DEFAULT_HTTPCMD "standard"
+#	define DEFAULT_NEWSCMD "standard"
 #else
 #ifdef Q_OS_MAC
-	#define DEFAULT_SAMBACMD "open"
-	#define DEFAULT_FTPCMD "Default"
-	#define DEFAULT_HTTPCMD "Default"
-	#define DEFAULT_NEWSCMD "Default"
+#	define DEFAULT_SAMBACMD "open"
+#	define DEFAULT_FTPCMD "Default"
+#	define DEFAULT_HTTPCMD "Default"
+#	define DEFAULT_NEWSCMD "Default"
 #else
-	#define DEFAULT_SAMBACMD "standard"
-	#define DEFAULT_FTPCMD "gftp"
-	#define DEFAULT_HTTPCMD "firefox"
-	#define DEFAULT_NEWSCMD "knode"
+#	define DEFAULT_SAMBACMD "standard"
+#	define DEFAULT_FTPCMD "gftp"
+#	define DEFAULT_HTTPCMD "firefox"
+#	define DEFAULT_NEWSCMD "knode"
 #endif
 #endif
 
@@ -45,25 +45,27 @@
 
 #define RZX_VERSION QString("%1.%2").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION)
 #ifndef HAVE_CONFIG_H
-	#define VERSION QString("%1.%2.%3").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION).arg(RZX_FUNNY_VERSION)
+#	define VERSION QString("%1.%2.%3").arg(RZX_MAJOR_VERSION).arg(RZX_MINOR_VERSION).arg(RZX_FUNNY_VERSION)
 #endif
 
 #ifdef Q_OS_MAC
-	#define QREZIX_ICON "../resources/q_mac.xpm"
+#	define QREZIX_ICON "../resources/q_mac.xpm"
 #else
-	#define QREZIX_ICON "../resources/q.xpm"
+#	define QREZIX_ICON "../resources/q.xpm"
 #endif
 #define QREZIX_AWAY_ICON "../resources/t.xpm"
 
 #ifdef HAVE_CONFIG_H
-	#include "../../config.h"
+#	include "../../config.h"
 #else
-	#ifdef Q_OS_MAC
-		#define QREZIX_DATA_DIR "./qRezix.app/Contents/Resources/"
-	#else
-		#define QREZIX_DATA_DIR "/usr/share/qrezix"
-		#define QREZIX_LIB_DIR "/usr/lib/qrezix"
-	#endif
+#	ifdef Q_OS_MAC
+#		define QREZIX_DATA_DIR "./qRezix.app/Contents/Resources/"
+#		define QREZIX_LIB_DIR "./qRezix.app/Contents/Frameworks/"
+#		define QREZIX_SYSTEM_DIR "./qRezix.app/Contents/MacOS/"
+#	else
+#		define QREZIX_DATA_DIR "/usr/share/qrezix"
+#		define QREZIX_LIB_DIR "/usr/lib/qrezix"
+#	endif
 #endif
 
 //Obsolete, seulement pour la compatibilité avec qRezix < 1.5

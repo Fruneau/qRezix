@@ -21,7 +21,7 @@ mac {
 	modules.path = qRezix.app/Contents/Resources/modules
 	rezal.path = librezal*
 	rezal.files = qRezix.app/Contents/Resources/rezals
-	subnets.files = subnets.ini
+	subnets.files = subnet.ini
 	subnets.path = qRezix.app/Contents/Resources
 	translations.files = translations/*.qm
 	translations.path = qRezix.app/Contents/Resources/translations

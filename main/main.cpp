@@ -60,8 +60,11 @@ void fatalHandler( int signum )
 
 void sigTermHandler(int)
 {
+	static bool test = true;
 	QApplication::exit( 255 );
-	qDebug( "Terminated" );
+	if(test)
+		qDebug( "Terminated" );
+	test = false;
 }
 
 int main(int argc, char *argv[])
