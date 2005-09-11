@@ -38,11 +38,8 @@ class RzxXNetConfig : public RzxAbstractConfig
 		RZX_UINTPROP("ping_timeout", pingTimeout, setPingTimeout, DEFAULT_TIMEOUT)
 		RZX_INTPROP("server_port", serverPort, setServerPort, DEFAULT_PORT)
 		RZX_STRINGPROP("server_name", serverName, setServerName, DEFAULT_SERVER)
-
-		static QString pass();
-		static void setPass(const QString& passcode);
-		static QString oldPass();
-		static void setOldPass(const QString& oldPass = QString::null);
+		RZX_PROP_DECLARE(QString, pass, setPass, QString::null)
+		RZX_PROP_DECLARE(QString, oldPass, setOldPass, QString::null)
 };
 
 #endif
