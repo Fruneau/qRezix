@@ -121,7 +121,7 @@ RzxIconCollection::RzxIconCollection()
 				theme->cd(subDir);
 				if(isValid(*theme))
 				{
-					qDebug("* %s in %s", subDir.toAscii().constData(), theme->absolutePath().toAscii().constData());
+					qDebug() << "*" << subDir << "in" << theme->path();
 					themeDir.insert(subDir, theme);
 				}
 				else

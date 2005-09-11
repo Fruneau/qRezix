@@ -7,6 +7,7 @@ SOURCES += ../mainui/rzxui.cpp \
 	../mainui/rzxrezalsearch.cpp \
 	../mainui/rzxrezaldetail.cpp \
 	../mainui/rzxrezalindex.cpp \
+	../mainui/rzxrezalmap.cpp \
 	../mainui/rzxquit.cpp
 
 HEADERS += ../mainui/rzxui.h \
@@ -18,6 +19,7 @@ HEADERS += ../mainui/rzxui.h \
 	../mainui/rzxrezalsearch.h \
 	../mainui/rzxrezaldetail.h \
 	../mainui/rzxrezalindex.h \
+	../mainui/rzxrezalmap.h \
 	../mainui/rzxdict.h \
 	../mainui/rzxquit.h \
 	../mainui/rzxmainuiconfig.h
