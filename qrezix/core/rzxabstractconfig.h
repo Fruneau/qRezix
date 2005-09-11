@@ -61,10 +61,10 @@ inline void RzxAbstractConfig::flush()
 ///Macro générale pour définir et renvoyer un été d'un certain type
 #define RZX_PROP(type, name, read, write, default) \
 	static type read(bool def = false) { return def?default:global()->value(name, default).value<type>(); } \
-	static void write(const type& value) { global()->setValue(name, value); }
+	static void write(const type& value = default) { global()->setValue(name, value); }
 #define RZX_ENUMPROP(type, name, read, write, default) \
 	static type read(bool def = false) { return def?default:(type)global()->value(name, default).toInt(); } \
-	static void write(const type& value) { global()->setValue(name, value); }
+	static void write(const type& value = default) { global()->setValue(name, value); }
 #define RZX_LISTPROP(type, name, read, write) \
 	static QList<type> read(bool def = false) { \
 		if(def) return QList<type>(); \
@@ -74,7 +74,7 @@ inline void RzxAbstractConfig::flush()
 		foreach(QVariant v, list) ret << v.value<type>(); \
 		return ret; \
 	} \
-	static void write(const QList<type>& value) { \
+	static void write(const QList<type>& value = default) { \
 		QList<QVariant> list; \
 		foreach(type t, value) list << t; \
 		global()->setValue(name, list); \
@@ -83,13 +83,13 @@ inline void RzxAbstractConfig::flush()
 ///Macro qui déclare une fonction de lecture et une fonction d'écriture pour le une propriété.
 /** les fonctions ont les prototype suivants :
  * \code
- * static type read(bool def, const type& defValue);
- * static void write(const type& value);
+ * static type read(bool def = false, const type& defValue = default);
+ * static void write(const type& value = default);
  * \endcode
  */
 #define RZX_PROP_DECLARE(type, read, write, default) \
 	static type read(bool def = false, const type& defValue = default); \
-	static void write(const type& value);
+	static void write(const type& value = default);
 
 ///Macro permettant de définir et de renvoyer un objet
 #define RZX_STRINGPROP(name, read, write, default) \
@@ -108,7 +108,7 @@ inline void RzxAbstractConfig::flush()
 		ret.setRgba(def?default:global()->value(name, default).toUInt()); \
 		return ret; \
 	} \
-	static void write(const QColor& value) { global()->setValue(name, value.rgba()); }
+	static void write(const QColor& value = default) { global()->setValue(name, value.rgba()); }
 
 ///Macro définissant la fonction statique d'enregistrement d'une fenêtre particulière
 #define RZX_WIDGETPROP(name, read, write, pos, size) \

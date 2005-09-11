@@ -29,11 +29,12 @@ void RzxXNetConfig::setPass(const QString& passcode)
 }
 
 ///Renvoie le password xnet
-QString RzxXNetConfig::pass()
+QString RzxXNetConfig::pass(bool def, const QString& defValue)
 {
-	QString i = global() -> value(((RzxServerListener*)global()->module)->getServerIP().toString() + "/pass").toString();
+	if(def) return defValue;
+	QString i = global() -> value(((RzxServerListener*)global()->module)->getServerIP().toString() + "/pass", defValue).toString();
 	if(i.isNull()) //Pour la compatibilité avec les anciennes formes de stockage sous nux
-		i = global() -> value("pass").toString();
+		i = global() -> value("pass", defValue).toString();
 	return i;
 }
 
@@ -45,9 +46,10 @@ void RzxXNetConfig::setOldPass(const QString& oldPass)
 }
 
 ///Renvoie l'ancien mot de passe xnet
-QString RzxXNetConfig::oldPass()
+QString RzxXNetConfig::oldPass(bool def, const QString& defValue)
 {
-	QString i = global() -> value(((RzxServerListener*)global()->module)->getServerIP().toString() + "/oldpass").toString();
-	if(i.isEmpty()) i = QString::null;
+	if(def) return defValue;
+	QString i = global() -> value(((RzxServerListener*)global()->module)->getServerIP().toString() + "/oldpass", defValue).toString();
+	if(i.isEmpty()) i = defValue;
 	return i;
 }
