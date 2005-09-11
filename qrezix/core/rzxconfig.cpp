@@ -28,10 +28,10 @@
 #include <QApplication>
 
 #ifdef WIN32
-	#include <math.h>
-	#include <windows.h>
+#	include <math.h>
+#	include <windows.h>
 #else
-	#include <unistd.h>
+#	include <unistd.h>
 #endif
 
 #include <RzxConfig>
@@ -145,7 +145,7 @@ void RzxConfig::loadTranslatorsInDir(const QDir &rep)
 				transList << modTrans;
 			}
 			translations.insert(langId, transList);
-			qDebug("* %s (%s) in %s", lang.toAscii().constData(), langId.toAscii().constData(), sourceDir.absolutePath().toAscii().constData());
+			qDebug() << "*" << lang << "(" << langId << ") in" << sourceDir.path();
 		}
 		else
 			delete cur;
@@ -184,7 +184,7 @@ void RzxConfig::setLanguage(const QString& language)
 			QApplication::installTranslator(trans);
 		emit global()->languageChanged();
 	}
-	qDebug("Language set to %s", tr("English").toLatin1().constData());
+	qDebug() << "Language set to" << tr("English");
 }
 
 ///Retourne le language actuel
@@ -307,10 +307,10 @@ void RzxConfig::loadDirs()
 		m_libDir = m_systemDir;
 #endif //WIN32
 
-	qDebug("Current path is %s", QDir::current().path().toAscii().constData());
-	qDebug("Personnal path set to %s", m_userDir.path().toAscii().constData());
-	qDebug("System path set to %s", m_systemDir.path().toAscii().constData());
-	qDebug("Libraries path set to %s", m_libDir.path().toAscii().constData());
+	qDebug() << "Current path is" << QDir::current().path();
+	qDebug() << "Personnal path set to" << m_userDir.path();
+	qDebug() << "System path set to" << m_systemDir.path();
+	qDebug() << "Libraries path set to" << m_libDir.path();
 	Rzx::endModuleLoading("Config Path");
 }
 
