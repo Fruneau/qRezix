@@ -23,6 +23,7 @@
 #include <QHash>
 #include <QString>
 #include <QStringList>
+#include <QPointer>
 
 #include <RzxGlobal>
 
@@ -48,7 +49,7 @@ class RzxConnectionLister : public QObject, public RzxBaseLoader<RzxNetwork>
 
 	// Pour le traitement asynchrone (buffered)
 	QTimer delayDisplay;
-	QList<RzxComputer*> displayWaiter;
+	QList< QPointer<RzxComputer> > displayWaiter;
 	
 	// Index des machines connectées
 	QHash<RzxHostAddress, RzxComputer*> computerByIP;

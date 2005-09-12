@@ -28,7 +28,7 @@
 ///Afficheur des items sous forme de plan
 /**
  * Ce Rezal offre l'affichage des items sous d'un plan qui permet de situer les
- * personnes sÃ©lectionnÃ©es.
+ * personnes sélectionnées.
  */
 class RzxRezalMap:public QAbstractItemView, public RzxRezal
 {
