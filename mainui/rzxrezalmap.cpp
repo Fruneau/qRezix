@@ -36,31 +36,31 @@ RzxRezalMap::~RzxRezalMap()
 	endClosing();
 }
 
-///Retourne une fenÃªtre utilisable pour l'affichage.
+///Retourne une fenêtre utilisable pour l'affichage.
 QAbstractItemView *RzxRezalMap::widget()
 {
 	return this;
 }
 
-///Retourne les caractÃ©ristiques du rezal en tant que dock
+///Retourne les caractéristiques du rezal en tant que dock
 QDockWidget::DockWidgetFeatures RzxRezalMap::features() const
 {
 	return QDockWidget::AllDockWidgetFeatures;
 }
 
-///Retourne les positions autorisÃ©es du rezal en tant que dock
+///Retourne les positions autorisées du rezal en tant que dock
 Qt::DockWidgetAreas RzxRezalMap::allowedAreas() const
 {
 	return Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea;
 }
 
-///Retourne la position par dÃ©faut du rezal en tant que dock
+///Retourne la position par défaut du rezal en tant que dock
 Qt::DockWidgetArea RzxRezalMap::area() const
 {
 	return Qt::BottomDockWidgetArea;
 }
 
-///Retourne l'Ã©tat par dÃ©faut du rezal
+///Retourne l'état par défaut du rezal
 bool RzxRezalMap::floating() const
 {
 	return false;

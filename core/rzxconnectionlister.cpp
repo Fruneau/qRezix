@@ -118,20 +118,27 @@ void RzxConnectionLister::login()
 {
 	if(displayWaiter.isEmpty()) return;
 	RzxComputer *computer = displayWaiter.takeFirst();
-	connect(computer, SIGNAL(needIcon( const RzxHostAddress& ) ), this, SIGNAL( needIcon( const RzxHostAddress& ) ) );
-	connect(computer, SIGNAL(wantChat(RzxComputer*)), this, SIGNAL(wantChat(RzxComputer* )));
-	connect(computer, SIGNAL(wantProperties(RzxComputer*)), this, SIGNAL(wantProperties(RzxComputer* )));
-	connect(computer, SIGNAL(wantHistorique(RzxComputer*)), this, SIGNAL(wantHistorique(RzxComputer* )));
 
-	// Recherche si cet ordinateur était déjà présent (refresh ou login)
-	QString tempIP = computer->ip().toString();
-	computer->login();
-	emit login(computer);
+	//Le RzxComputer peut être nul si la machine s'est déconnecté entre l'enregistrement de sa connexion
+	//et le traitement de cette connexion.
+	if(computer)
+	{
+		connect(computer, SIGNAL(needIcon( const RzxHostAddress& ) ), this, SIGNAL( needIcon( const RzxHostAddress& ) ) );
+		connect(computer, SIGNAL(wantChat(RzxComputer*)), this, SIGNAL(wantChat(RzxComputer* )));
+		connect(computer, SIGNAL(wantProperties(RzxComputer*)), this, SIGNAL(wantProperties(RzxComputer* )));
+		connect(computer, SIGNAL(wantHistorique(RzxComputer*)), this, SIGNAL(wantHistorique(RzxComputer* )));
+
+		// Recherche si cet ordinateur était déjà présent (refresh ou login)
+		QString tempIP = computer->ip().toString();
+		computer->login();
+		emit login(computer);
 	
-	//Ajout du nouvel ordinateur dans les qdict
-	computerByLogin.insert(computer->name(), computer);
-	emit countChange( tr("%1 clients connected").arg(computerByIP.count()) );
+		//Ajout du nouvel ordinateur dans les qdict
+		computerByLogin.insert(computer->name(), computer);
+		emit countChange( tr("%1 clients connected").arg(computerByIP.count()) );
+	}
 	
+	//Pour passer aux suivants
 	if(!displayWaiter.isEmpty()) delayDisplay.start(5);
 	else
 	{
