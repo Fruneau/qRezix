@@ -74,7 +74,7 @@ inline void RzxAbstractConfig::flush()
 		foreach(QVariant v, list) ret << v.value<type>(); \
 		return ret; \
 	} \
-	static void write(const QList<type>& value = default) { \
+	static void write(const QList<type>& value = QList<type>()) { \
 		QList<QVariant> list; \
 		foreach(type t, value) list << t; \
 		global()->setValue(name, list); \

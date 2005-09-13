@@ -102,7 +102,7 @@ void RzxRezalView::keyPressEvent( QKeyEvent *e )
 	}
 
 	//Cas normal... rien action par défaut
-	if(e->text().isNull() && e->key() != Qt::Key_Backspace)
+	if(e->text().isEmpty() && e->key() != Qt::Key_Backspace)
 	{
 		search.resetPattern();
 		QTreeView::keyPressEvent(e);
