@@ -95,12 +95,11 @@ QRezix::QRezix(QWidget *parent)
 	connect(leSearch, SIGNAL(returnPressed()), this, SLOT(launchSearch()));
 	
 	//Construction des barres d'outils
-	QToolBar *bar = addToolBar("Main");
+	QToolBar *bar = addToolBar(tr("Main"));
 	bar->addAction(pluginsAction);
 	bar->addSeparator();
 	bar->addWidget(leSearch);
 	bar->addAction(searchAction);
-	bar->setMovable(false);
 
 	QLabel *spacer = new QLabel(); //CRAAAAAAAAAAAAAAAAAAAADE
 	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -324,7 +323,7 @@ bool QRezix::event(QEvent * e)
 	else if( e->type() == QEvent::Resize && alreadyOpened && !isMinimized())
 		statusMax = isMaximized();
 
-	return QWidget::event(e);
+	return QMainWindow::event(e);
 }
 
 void QRezix::toggleAutoResponder()
