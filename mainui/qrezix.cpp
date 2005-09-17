@@ -18,7 +18,6 @@
 #include <QLineEdit>
 #include <QToolBox>
 #include <QMenuBar>
-#include <QMenu>
 #include <QRect>
 #include <QPoint>
 #include <QString>
@@ -83,9 +82,12 @@ QRezix::QRezix(QWidget *parent)
 	buildActions();
 	
 #ifdef Q_OS_MAC
-	QMenuBar *menu = new QMenuBar();
-	QMenu *popup = menu->addMenu("Tools");
-	popup->addAction("Preferences", this, SIGNAL(wantPreferences()));
+	QMenuBar *menu = menuBar();
+	QMenu *tool = menu->addMenu("qRezix");
+	tool->addAction("Preferences", this, SIGNAL(wantPreferences()));
+	tool->addAction("Quit", this, SIGNAL(wantQuit()));
+	popup = NULL;
+	setMenu();
 #endif
 
 	//Construction de la ligne d'édtion des recherche
@@ -198,6 +200,10 @@ void QRezix::linkModules()
 		}
 		rezal->widget()->setSelectionModel(moduleList()[0]->widget()->selectionModel());
 	}
+#ifdef Q_OS_MAC
+	connect(moduleList()[0]->widget()->selectionModel(), SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)),
+			this, SLOT(setMenu(const QModelIndex&, const QModelIndex&)));
+#endif
 }
 
 ///Construction des actions
@@ -257,6 +263,23 @@ void QRezix::saveState()
 	}
 	RzxMainUIConfig::saveMainWidget(this);
 }
+
+#ifdef Q_OS_MAC
+///Construit le menu de qRezix
+/** Cette fonctionnalité n'est disponible que sous Mac OS et a pour but de permettre
+ * l'utilisation de qRezix via le menu de Mac OS
+ */
+void QRezix::setMenu(const QModelIndex& current, const QModelIndex&)
+{	
+	if(current.isValid() && !RzxRezalModel::global()->isIndex(current))
+	{
+		if(!popup)
+			popup = new RzxRezalPopup(current, menuBar());
+		else
+			popup->change(current);
+	}
+}	
+#endif
 
 ///Change l'information d'état
 void QRezix::status(const QString& msg, bool connected)
