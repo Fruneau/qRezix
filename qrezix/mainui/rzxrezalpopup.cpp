@@ -17,12 +17,33 @@
 #include <QKeyEvent>
 #include <QString>
 #include <QPixmap>
+#include <QMenuBar>
 
 #include <RzxComputer>
 #include <RzxConfig>
 #include <RzxIconCollection>
 
 #include "rzxrezalpopup.h"
+
+///Construit un RezalPopup attaché à une barre de menu
+/** Cette fonction est surtout utilise sous Mac OS
+ */
+RzxRezalPopup::RzxRezalPopup(const QModelIndex& index, QMenuBar *menu)
+{
+	if(!index.isValid())
+	{
+		deleteLater();
+		return;
+	}
+	QVariant value = index.model()->data(index, Qt::UserRole);
+	if(!value.canConvert<RzxComputer*>())
+	{
+		deleteLater();
+		return;
+	}
+	init(value.value<RzxComputer*>(), QPoint());
+	menu->addMenu(this);
+}
 
 
 ///Constructeur on ne peut plus simple...
@@ -43,13 +64,11 @@ RzxRezalPopup::RzxRezalPopup(const QModelIndex& index, const QPoint& point, QWid
 		return;
 	}
 	QVariant value = index.model()->data(index, Qt::UserRole);
-#ifndef Q_OS_MAC
 	if(!value.canConvert<RzxComputer*>())
 	{
 		deleteLater();
 		return;
 	}
-#endif
 	init(value.value<RzxComputer*>(), point);
 	
 }
@@ -58,8 +77,10 @@ RzxRezalPopup::RzxRezalPopup(const QModelIndex& index, const QPoint& point, QWid
 /** Le popup contient toutes les interactions envisageables avec l'ordinateur indiqué. */
 void RzxRezalPopup::init(RzxComputer *computer, const QPoint& point)
 {
-	setAttribute(Qt::WA_DeleteOnClose);
+	if(!point.isNull()) setAttribute(Qt::WA_DeleteOnClose);
 
+	setTitle(computer->name());;
+	
 #define newItem(name, trad, receiver, slot) addAction(RzxIconCollection::getIcon(name), trad, receiver, slot)
 	if(computer->isIgnored())
 	{
@@ -91,10 +112,31 @@ void RzxRezalPopup::init(RzxComputer *computer, const QPoint& point)
 			newItem(Rzx::ICON_BAN, tr("Add to ignore list"), computer, SLOT(ban()));
 		}
 	}
-	addSeparator();
-	newItem(Rzx::ICON_CANCEL, tr("Cancel"), this, SLOT(close()));
-	popup(point);
+	if(!point.isNull())
+	{
+		addSeparator();
+		newItem(Rzx::ICON_CANCEL, tr("Cancel"), this, SLOT(close()));
+		popup(point);
+	}
 #undef newItem
+}
+
+///Change l'ordinateur concerné
+void RzxRezalPopup::change(const QModelIndex& index)
+{
+	clear();
+	if(!index.isValid())
+	{
+		setTitle("");
+		return;
+	}
+	QVariant value = index.model()->data(index, Qt::UserRole);
+	if(!value.canConvert<RzxComputer*>())
+	{
+		setTitle("");
+		return;
+	}
+	init(value.value<RzxComputer*>(), QPoint());
 }
 
 ///Interception des entrées clavier

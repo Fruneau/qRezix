@@ -24,18 +24,21 @@
 
 #include <QWidget>
 #include <QMainWindow>
-#include <QMenu>
+#include <QModelIndex>
+#include <QPointer>
 
 #include <RzxBaseLoader>
 
 #include "rzxrezal.h"
 #include "ui_rzxstatusui.h"
+#include "rzxrezalpopup.h"
 
 class RzxComputer;
 class QEvent;
 class QCloseEvent;
 class QAction;
 class QLineEdit;
+class RzxRezalPopup;
 
 /** QRezix is the base class of the project */
 class QRezix : public QMainWindow, public RzxBaseLoader<RzxRezal>
@@ -97,6 +100,14 @@ public slots: // Public slots
 
 protected slots: // Protected slots
 	void pluginsMenu();
+
+#ifdef Q_OS_MAC
+	private:
+		QPointer<RzxRezalPopup> popup;
+
+	protected slots:
+		void setMenu(const QModelIndex& = QModelIndex(), const QModelIndex& = QModelIndex());
+#endif
 };
 
 ///Indique si l'objet est bien initialisé

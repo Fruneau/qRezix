@@ -26,6 +26,7 @@
 */
 
 class QKeyEvent;
+class QMenuBar;
 class RzxComputer;
 
 ///Popup simple qui intercepte le clavier
@@ -37,8 +38,11 @@ class RzxRezalPopup : public QMenu
 	void init(RzxComputer*, const QPoint&);
 
 	public:
+		RzxRezalPopup(const QModelIndex&, QMenuBar*);
 		RzxRezalPopup(RzxComputer*, const QPoint&, QWidget *parent = 0);
 		RzxRezalPopup(const QModelIndex&, const QPoint&, QWidget *parent = 0);
+
+		void change(const QModelIndex&);
 
 	protected:
 		void keyPressEvent(QKeyEvent *e);
