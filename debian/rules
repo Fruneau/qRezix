@@ -6,8 +6,8 @@ package=qrezix
 
 build: 	checkdir configure
 	# On commence par compiler pour Qt seul
-	cd qrezix && qmake -o Makefile qrezix.pro
-	cd qrezix/chat && make compiler_uic_make_all
+	cd qrezix && qmake-qt4 -o Makefile qrezix.pro
+	#cd qrezix/chat && make compiler_uic_make_all
 	cd qrezix && $(MAKE) 
 	
 	#Installation des libs
@@ -33,13 +33,13 @@ build: 	checkdir configure
 	mkdir -p $(CURDIR)/debian/qrezix-theme-noia-warm/usr/share/qrezix/themes/NoiaWarmKDE
 	cp -a $(CURDIR)/icons/themes/NoiaWarmKDE/*.png $(CURDIR)/debian/qrezix-theme-noia-warm/usr/share/qrezix/themes/NoiaWarmKDE
 	mkdir -p $(CURDIR)/debian/qrezix-theme-krystal/usr/share/qrezix/themes/krystal
-	cp -a $(CURDIR)/icons/themes/krystal/*.png $(CURDIR)/debian/qrezix-theme-krystal/usr/share/qrezix/themes/krystal
+	cp -a $(CURDIR)/icons/themes/Krystal/*.png $(CURDIR)/debian/qrezix-theme-krystal/usr/share/qrezix/themes/krystal
 	mkdir -p $(CURDIR)/debian/qrezix-theme-macosx/usr/share/qrezix/themes/MacOSX
 	cp -a $(CURDIR)/icons/themes/MacOSX/*.png $(CURDIR)/debian/qrezix-theme-macosx/usr/share/qrezix/themes/MacOSX
 	mkdir -p $(CURDIR)/debian/qrezix-theme-kids/usr/share/qrezix/themes/Kids
 	cp -a $(CURDIR)/icons/themes/Kids/*.png $(CURDIR)/debian/qrezix-theme-kids/usr/share/qrezix/themes/Kids
 	mkdir -p $(CURDIR)/debian/qrezix-theme-classic/usr/share/qrezix/themes/classic
-	cp -a $(CURDIR)/icons/themes/classic/*.png $(CURDIR)/debian/qrezix-theme-classic/usr/share/qrezix/themes/classic
+	cp -a $(CURDIR)/icons/themes/Classic/*.png $(CURDIR)/debian/qrezix-theme-classic/usr/share/qrezix/themes/classic
 	mkdir -p $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/ms
 	cp -a $(CURDIR)/icons/themes/ms/*.png $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/ms
 	
