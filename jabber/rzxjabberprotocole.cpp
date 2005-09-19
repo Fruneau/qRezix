@@ -135,7 +135,7 @@ void RzxJabberProtocole::propClose()
 
 bool RzxJabberProtocole::isStarted() const
 {
-	return true;
+	return client->isRunning();
 }
 
 void RzxJabberProtocole::start() {
@@ -144,6 +144,7 @@ void RzxJabberProtocole::start() {
 
 void RzxJabberProtocole::stop() {
 	client->stop();
+	while(!client->isFinished());
 }
 
 
