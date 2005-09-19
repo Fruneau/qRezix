@@ -72,7 +72,6 @@ QList<QWidget*> RzxJabberProtocole::propWidgets()
 	{
 		propWidget = new QWidget;
 		ui->setupUi(propWidget);
-		connect(ui->btnChangePass, SIGNAL(clicked()), this, SLOT(wantChangePass()));
 	}
 	return QList<QWidget*>() << propWidget;
 }
