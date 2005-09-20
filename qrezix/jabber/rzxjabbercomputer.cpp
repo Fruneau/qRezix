@@ -16,9 +16,14 @@
  ***************************************************************************/
 #include "rzxjabbercomputer.h"
 
+
 RzxJabberComputer::RzxJabberComputer(QString name, uint id)
 {
-	jid = name;
+	QStringList list = name.split("/");
+	jid_name = list[0];
+	if(list.count() > 0){
+	resource_list << list[1];
+	}
 	uint subnet = id / 255;
 	uint nb = id % 255;
 	ip_addr = new QHostAddress("0.0." + QString::number(subnet) + "." + QString::number(nb));

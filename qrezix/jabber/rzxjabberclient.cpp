@@ -13,7 +13,7 @@ using namespace gloox;
 
 #include <stdio.h>
 #include <string>
-#include <QTimer>
+
 
 RzxJabberClient::RzxJabberClient(std::string server) {
 	j = new Client( server);
@@ -28,6 +28,13 @@ RzxJabberClient::RzxJabberClient(std::string server) {
 	j->disco()->setIdentity( "client", "qRezix" );
 }
 
+RzxJabberClient::~RzxJabberClient() {
+	if(j)
+		delete j;
+	if(timer)
+		delete timer;
+};
+
 void RzxJabberClient::run()
 {
 	j->jid().setJID(RzxJabberConfig::user().toStdString());
@@ -36,7 +43,7 @@ void RzxJabberClient::run()
 	j->setServer(RzxJabberConfig::serverName().toStdString());
 	j->setPort(RzxJabberConfig::serverPort());
 	j->connect(false);
-	QTimer *timer = new QTimer(this);
+	timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(readData()));
 	timer->start(100);
 	exec();
