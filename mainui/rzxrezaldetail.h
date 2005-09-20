@@ -18,6 +18,7 @@
 #define RZXITEM_H
 
 #include <QAbstractItemView>
+#include <QPointer>
 
 #include "rzxrezal.h"
 #include "ui_rzxitemui.h"
@@ -29,8 +30,8 @@ class RzxRezalDetail:public QAbstractItemView, private Ui::RzxItemUI, public Rzx
 {
 	Q_OBJECT
 
-	RzxComputer *computer;
-	RzxComputer *waitProp;
+	QPointer<RzxComputer> computer;
+	QPointer<RzxComputer> waitProp;
 
 	public:
 		RzxRezalDetail(QWidget* = NULL);
@@ -64,6 +65,7 @@ class RzxRezalDetail:public QAbstractItemView, private Ui::RzxItemUI, public Rzx
 	protected slots:
 		virtual void currentChanged(const QModelIndex&, const QModelIndex&);
 		virtual void dataChanged( const QModelIndex & topLeft, const QModelIndex & bottomRight);
+		virtual void rowsAboutToBeRemoved(const QModelIndex&, int, int);
 		void propChanged(RzxComputer*, bool*);
 		void checkProp();
 };

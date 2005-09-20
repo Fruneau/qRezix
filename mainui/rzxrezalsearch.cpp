@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <QAbstractItemView>
+#include <RzxComputer>
 
 #include "rzxrezalsearch.h"
 
@@ -72,7 +73,7 @@ void RzxRezalSearch::setPattern(const QString& pattern)
 	const RzxRezalSearchTree *itemByName = model()->childrenByName(view()->rootIndex());
 	if(!itemByName) return;
 
-	RzxComputer **item;
+	QPointer<RzxComputer> *item;
 	QString lower, higher;
 	if(!itemByName->find_nearest(searchPattern, lower, higher ))
 	{

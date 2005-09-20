@@ -99,8 +99,8 @@ RzxRezalModel::RzxRezalModel()
 	//Arborescence par rezal
 	insertRows(0, RzxConfig::rezalNumber(), rezalGroup);
 	rezalIndex = new QPersistentModelIndex[RzxConfig::rezalNumber()];
-	rezals = new QList<RzxComputer*>[RzxConfig::rezalNumber()];
-	rezalsByName = new RzxDict<QString, RzxComputer*>[RzxConfig::rezalNumber()];
+	rezals = new RzxRezalSearchList[RzxConfig::rezalNumber()];
+	rezalsByName = new RzxRezalSearchTree[RzxConfig::rezalNumber()];
 	for(uint i = 0 ; i < RzxConfig::rezalNumber() ; i++)
 		rezalIndex[i] = QAbstractItemModel::createIndex(i, 0, (int)TREE_FLAG_REZAL);
 
@@ -229,7 +229,7 @@ QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent)
 QModelIndex RzxRezalModel::index(RzxComputer *computer, const QModelIndex& parent) const
 {
 	if(!parent.isValid()) return QModelIndex();
-	const QList<RzxComputer*> *list = NULL;
+	const RzxRezalSearchList *list = NULL;
 	switch(parent.internalId())
 	{
 		case TREE_FLAG_BASE:
@@ -485,7 +485,7 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 ///Extraction du computer
 /** L'extraction se fait après vérification des indexes... c'est d'ailleurs le seul intérêt de cette fonction ;)
  */
-QVariant RzxRezalModel::getComputer(int role, const QList<RzxComputer*>& list, int pos, int column) const
+QVariant RzxRezalModel::getComputer(int role, const RzxRezalSearchList& list, int pos, int column) const
 {
 	
 	if(pos < 0 || pos >= list.count())
@@ -875,18 +875,18 @@ void RzxRezalModel::clear()
 
 
 ///Insertion d'un objet dans la liste et le groupe correspondant
-void RzxRezalModel::insertObject(const QModelIndex& parent, QList<RzxComputer*>& list, RzxRezalSearchTree& tree, RzxComputer *computer)
+void RzxRezalModel::insertObject(const QModelIndex& parent, RzxRezalSearchList& list, RzxRezalSearchTree& tree, RzxComputer *computer)
 {
 	list << computer;
 	qSort(list.begin(), list.end(), sortComputer);
 	const int row = list.indexOf(computer);
 	beginInsertRows(parent, row, row);
-	tree.insert(computer->name().toLower(), new RzxComputer*(computer));
+	tree.insert(computer->name().toLower(), new QPointer<RzxComputer>(computer));
 	endInsertRows();
 }
 
 ///Suppression d'un objet de la liste et du groupe correspondant
-void RzxRezalModel::removeObject(const QModelIndex& parent, QList<RzxComputer*>& list, RzxRezalSearchTree& tree, RzxComputer *computer)
+void RzxRezalModel::removeObject(const QModelIndex& parent, RzxRezalSearchList& list, RzxRezalSearchTree& tree, RzxComputer *computer)
 {
 	const int row = list.indexOf(computer);
 	if(row == -1) return;
@@ -897,7 +897,7 @@ void RzxRezalModel::removeObject(const QModelIndex& parent, QList<RzxComputer*>&
 }
 
 ///Mise à jours des données concernant un object
-void RzxRezalModel::updateObject(const QModelIndex& parent, const QList<RzxComputer*>& list, RzxComputer *computer)
+void RzxRezalModel::updateObject(const QModelIndex& parent, const RzxRezalSearchList& list, RzxComputer *computer)
 {
 	const int row = list.indexOf(computer);
 	if(row == -1) return;

@@ -136,6 +136,18 @@ void RzxRezalDetail::dataChanged(const QModelIndex & topLeft, const QModelIndex 
 		drawComputer(computer);
 }
 
+///Prend en compte le fait que la ligne actuelle va disparaître
+/** On efface donc le contenu */
+void RzxRezalDetail::rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end)
+{
+	int row = currentIndex().row();
+	if(currentIndex().parent() == parent && row >= start && row <= end)
+	{
+		computer = NULL;
+		clear();
+	}
+}
+
 ///Vide l'affichage
 void RzxRezalDetail::clear()
 {
