@@ -78,7 +78,7 @@
 /* #undef HAVE_XINERAMA */
 
 /* Suffix for lib directories */
-#define KDELIBSUFF ""
+#define KDELIBSUFF "\"64\""
 
 /* Name of package */
 #define PACKAGE "qrezix"
@@ -111,13 +111,13 @@
 #define SIZEOF_CHAR 1
 
 /* The size of a `char *', as computed by sizeof. */
-#define SIZEOF_CHAR_P 4
+#define SIZEOF_CHAR_P 8
 
 /* The size of a `int', as computed by sizeof. */
 #define SIZEOF_INT 4
 
 /* The size of a `long', as computed by sizeof. */
-#define SIZEOF_LONG 4
+#define SIZEOF_LONG 8
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1

@@ -25,8 +25,6 @@ qt_only.stamp: checkdir configure
 	# Paquets séparés pour les Traductions
 	mkdir -p $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
 	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/translations/qrezix_fr.qm $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
-	mkdir -p $(CURDIR)/debian/qrezix-translations-us/usr/share/qrezix/translations/
-	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/translations/qrezix.qm $(CURDIR)/debian/qrezix-translations-us/usr/share/qrezix/translations/	
 	# Paquets séparés pour les thèmes
 	mkdir -p $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/
 	mv $(CURDIR)/debian/qrezix-bin/usr/share/qrezix/themes/ms $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/
