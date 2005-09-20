@@ -1,3 +1,8 @@
+[v1.7.0] 2005-09 <br2003@frankiz.polytechnique.fr>
+    * Migration en Qt4 [Fruneau]
+    * Restructuration et modularisation du programme [Fruneau]
+    * Interface jabber [pico]
+
 [v1.6.4] 2005-05 <br2003@frankiz.polytechnique.fr>
     * Cache des propriétés [Fruneau]
     * Passage au protocole xNet 4.0 [Fruneau]
