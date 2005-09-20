@@ -17,6 +17,7 @@ using namespace gloox;
 
 RzxJabberClient::RzxJabberClient(std::string server) {
 	j = new Client( server);
+//	j->setForceNonSasl( true );
 	j->setAutoPresence( true );
 	j->setInitialPriority( 5 );
 	j->registerConnectionListener( this );
