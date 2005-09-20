@@ -14,6 +14,7 @@ SUBDIRS += core main
 !contains(DEFINES, RZX_JABBER_BUILTIN):!contains(DEFINES, NO_JABBER):SUBDIRS += jabber
 system(cd translations && lrelease *.ts && cd ..)
 
+include(rzxinstall.pri)
 mainlib.files = libqrezix*
 networks.files = librzxnet*
 modules.files = librzx*
@@ -43,7 +44,6 @@ mac {
 		info
 
 } else:unix {
-	isEmpty(PREFIX):PREFIX = /usr
 	mainlib.path = $$PREFIX/lib
 	networks.path = $$PREFIX/lib/qrezix/net
 	modules.path = $$PREFIX/lib/qrezix/modules

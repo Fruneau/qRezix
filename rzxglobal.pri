@@ -1,6 +1,8 @@
 CONFIG *= debug
 QT *= network
 
+include(rzxinstall.pri)
+
 HEADERS += ../core/RzxGlobal \
 	../core/RzxApplication \
 	../core/RzxHostAddress \
