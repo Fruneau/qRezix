@@ -31,6 +31,7 @@ RzxJabberClient::RzxJabberClient(std::string server) {
 void RzxJabberClient::run()
 {
 	j->jid().setJID(RzxJabberConfig::user().toStdString());
+	j->jid().setResource("qRezix");
 	j->setPassword(RzxJabberConfig::pass().toStdString());
 	j->setServer(RzxJabberConfig::serverName().toStdString());
 	j->setPort(RzxJabberConfig::serverPort());
@@ -104,11 +105,11 @@ void RzxJabberClient::handleMessage( Stanza *stanza )
 
 void RzxJabberClient::handlePresence( Stanza *stanza ){
 	if(stanza->show()==PRESENCE_UNAVAILABLE)
-		emit login(QString::fromStdString(stanza->from().bare()), 0); /** @todo G�er d�onnexion */
+		emit login(QString::fromStdString(stanza->from().full()), 0); /** @todo G�er d�onnexion */
 	else if(stanza->show()==PRESENCE_AWAY || stanza->show()==PRESENCE_DND || stanza->show()==PRESENCE_XA)
-		emit login(QString::fromStdString(stanza->from().bare()), 1);
+		emit login(QString::fromStdString(stanza->from().full()), 1);
 	else
-		emit login(QString::fromStdString(stanza->from().bare()), 2);
+		emit login(QString::fromStdString(stanza->from().full()), 2);
 	if(stanza->show()==PRESENCE_UNKNOWN)
 		printf("Unknown presence type");
 	
