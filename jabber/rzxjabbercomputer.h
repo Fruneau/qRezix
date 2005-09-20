@@ -19,18 +19,22 @@
 
 #include <QHostAddress>
 #include <QString>
+#include <QStringList>
 
 class RzxJabberComputer{
 	public:
+		RzxJabberComputer(){ jid_name = ""; };
 		RzxJabberComputer(QString name, uint id);
 		QHostAddress ip(){return *ip_addr;}
+		QString jid(){return jid_name;}
 		uint nbClients;
-		bool operator==(const RzxJabberComputer& a){ return a.jid == jid; }
-	
+		bool operator==(const RzxJabberComputer& a){ return a.jid_name == jid_name; }
+		QStringList* resource(){return &resource_list;}
+
 	private:
 		QHostAddress *ip_addr;
-		QString jid;
-		
+		QString jid_name;
+		QStringList resource_list;
 };
 
 #endif

@@ -17,6 +17,7 @@
 #ifndef RZXJABBERCLIENT_H
 #define RZXJABBERCLIENT_H
 
+#include <QTimer>
 #include <QThread>
 #include <gloox/client.h>
 #include <gloox/disco.h>
@@ -36,7 +37,7 @@ class RzxJabberClient : public QThread, DiscoHandler, MessageHandler, Connection
 
 	public:
 		RzxJabberClient(std::string server);
-		~RzxJabberClient() {};
+		~RzxJabberClient();
 		virtual void onConnect();
 		virtual void onDisconnect( ConnectionError e );
 		virtual bool onTLSConnect( const CertInfo& info );
@@ -50,6 +51,7 @@ class RzxJabberClient : public QThread, DiscoHandler, MessageHandler, Connection
 		Client *j;
 	private:
 		bool isStarted;
+		QTimer *timer;
 	signals:
 		void login(QString str, int type);
 		void connected();

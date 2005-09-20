@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QHash>
 
 #include <RzxHostAddress>
 #include <RzxNetwork>
@@ -57,7 +58,7 @@ private:
 	Ui::RzxJabberPropUI *ui;
 	QWidget *propWidget;
 	RzxJabberClient *client;
-	QList<RzxJabberComputer> computerList;
+	QHash<QString,RzxJabberComputer> computerList;
 
 public:
 	virtual QList<QWidget*> propWidgets();

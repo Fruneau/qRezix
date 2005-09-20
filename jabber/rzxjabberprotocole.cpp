@@ -45,7 +45,7 @@ RzxJabberProtocole::RzxJabberProtocole()
 	new RzxJabberConfig(this);
 
 	client = new RzxJabberClient ("test");
-	connect(client, SIGNAL(login(QString, int)), this, SLOT(presenceRequest(QString, int)));
+	connect(client, SIGNAL(login(QString, int)), this, SLOT(presenceRequest(QString, int)),Qt::QueuedConnection);
 	setIcon(RzxThemedIcon(Rzx::ICON_NETWORK));
 	endLoading();
 }
@@ -160,40 +160,44 @@ void RzxJabberProtocole::presenceRequest(QString str, int type) {
 	};
 	options_t opt;
 	RzxJabberComputer newComputer(str, computerList.size());
-	if(computerList.indexOf(newComputer)>=0){
-		newComputer = computerList.at(computerList.indexOf(newComputer));
-		newComputer.nbClients++;
+	QString resource = newComputer.resource()->at(0);
+	if(computerList.contains(newComputer.jid())){
+		newComputer = computerList.value(newComputer.jid());
+		if(!newComputer.resource()->contains(resource))
+			newComputer.resource()->append(resource);
 	}else
-		computerList << newComputer;
+		computerList.insert(newComputer.jid(),newComputer);
+
+	qDebug() << resource << newComputer.resource()->count() << newComputer.resource()->join(" ") << "Type:" <<type;
 	switch(type){
 		case 0: // Hors ligne
-			newComputer.nbClients--;
-			if(newComputer.nbClients<=0){
+			newComputer.resource()->removeAll(resource);
+			if(newComputer.resource()->isEmpty()){
 				emit logout(newComputer.ip());
-				computerList.removeAll(newComputer);
+				computerList.remove(newComputer.jid());
+				break;
 			}
-			break;
 		case 1: // Away
 			opt.Repondeur=1;
 			emit login( this, 
 			RzxHostAddress(newComputer.ip()), //IP
-			str, //Nom de la machine 
+			newComputer.jid(), //Nom de la machine 
 			*((quint32*) &opt), //Options
 			0, //Version du client
 			0, //Hash de l'ic�e
 			0, //Flags ?????
-			"Client Jabber"); //Remarque
+			"Client Jabber: " + newComputer.resource()->join(" , ")); //Remarque
 			break;
 		case 2: // En ligne
 			opt.Repondeur=0;
 			emit login(  this, 
 			RzxHostAddress(newComputer.ip()), //IP
-			str, //Nom de la machine 
+			newComputer.jid(), //Nom de la machine 
 			*((quint32*) &opt), //Options
 			0, //Version du client
 			0, //Hash de l'ic�e
 			0, //Flags ?????
-			"Client Jabber"); //Remarque
+			"Client Jabber: " + newComputer.resource()->join(" , ")); //Remarque
 			break;
 	}
 }
