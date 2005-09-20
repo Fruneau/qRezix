@@ -1,7 +1,7 @@
 /***************************************************************************
                           parser  -  description
                              -------------------
-    begin                : mar aoû 30 2005
+    begin                : mar ao 30 2005
     copyright            : (C) 2005 by Guillaume Porcher
     email                : pico@m4x.org
  ***************************************************************************/
@@ -47,13 +47,15 @@ class RzxJabberClient : public QThread, DiscoHandler, MessageHandler, Connection
 		virtual void handleLog( const std::string& xml, bool incoming );
 		void run();
 		void stop();
-	private:
 		Client *j;
+	private:
 		bool isStarted;
 	signals:
 		void login(QString str, int type);
 		void connected();
 		void disconnected();
+	private slots:
+		void readData();
 };
 
 

@@ -13,11 +13,10 @@ using namespace gloox;
 
 #include <stdio.h>
 #include <string>
-
+#include <QTimer>
 
 RzxJabberClient::RzxJabberClient(std::string server) {
 	j = new Client( server);
-//	j->setForceNonSasl( true );
 	j->setAutoPresence( true );
 	j->setInitialPriority( 5 );
 	j->registerConnectionListener( this );
@@ -35,16 +34,20 @@ void RzxJabberClient::run()
 	j->setPassword(RzxJabberConfig::pass().toStdString());
 	j->setServer(RzxJabberConfig::serverName().toStdString());
 	j->setPort(RzxJabberConfig::serverPort());
-	isStarted=true;
-	while(isStarted){
-		j->connect();
-		sleep(10); // Pause à la reconnection
-	}
+	j->connect(false);
+	QTimer *timer = new QTimer(this);
+	connect(timer, SIGNAL(timeout()), this, SLOT(readData()));
+	timer->start(100);
+	exec();
+}
+
+void RzxJabberClient::readData(){
+	j->recv(0);
 }
 
 void RzxJabberClient::stop(){
-	isStarted=false;
 	j->disconnect();
+	quit();
 }
 
 void RzxJabberClient::onConnect()
@@ -101,7 +104,7 @@ void RzxJabberClient::handleMessage( Stanza *stanza )
 
 void RzxJabberClient::handlePresence( Stanza *stanza ){
 	if(stanza->show()==PRESENCE_UNAVAILABLE)
-		emit login(QString::fromStdString(stanza->from().bare()), 0); /** @todo Gérer déconnexion */
+		emit login(QString::fromStdString(stanza->from().bare()), 0); /** @todo Gï¿½er dï¿½onnexion */
 	else if(stanza->show()==PRESENCE_AWAY || stanza->show()==PRESENCE_DND || stanza->show()==PRESENCE_XA)
 		emit login(QString::fromStdString(stanza->from().bare()), 1);
 	else
@@ -112,5 +115,5 @@ void RzxJabberClient::handlePresence( Stanza *stanza ){
 }
 
 void RzxJabberClient::handleLog( const std::string& xml, bool incoming ){
-	/// @todo gérer les logs
+	/// @todo gï¿½er les logs
 };

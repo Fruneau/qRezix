@@ -60,7 +60,7 @@ RzxJabberProtocole::~RzxJabberProtocole(){
 
 
 /****************************************************************************
-* FENÊTRE DE PROPRIÉTÉS
+* FENï¿½RE DE PROPRIï¿½ï¿½
 */
 
 /** \reimp */
@@ -144,7 +144,7 @@ void RzxJabberProtocole::start() {
 
 void RzxJabberProtocole::stop() {
 	client->stop();
-	while(!client->isFinished());
+	client->wait(1000);
 }
 
 
@@ -153,7 +153,7 @@ void RzxJabberProtocole::presenceRequest(QString str, int type) {
 	{
 	unsigned Server                 :6;
 	unsigned SysEx                          :3;     //0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X, 6=BSD
-	unsigned Promo                          :2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje ! <== bah nan, à la jône !!!)
+	unsigned Promo                          :2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje ! <== bah nan, ï¿½la jï¿½e !!!)
 	unsigned Repondeur              :2; //0=accepter, 1= repondeur, 2=refuser les messages, 3= unused
 	// total 13 bits / 32
 	unsigned Capabilities   :19;
@@ -169,9 +169,9 @@ void RzxJabberProtocole::presenceRequest(QString str, int type) {
 			RzxHostAddress(rand()), //IP
 			str, //Nom de la machine 
 			*((quint32*) &opt), //Options
-			rand(), //Version du client
-			rand(), //Hash de l'icône
-			rand(), //Flags ?????
+			0, //Version du client
+			0, //Hash de l'icï¿½e
+			0, //Flags ?????
 			"Client Jabber"); //Remarque
 			break;
 		case 2: // En ligne
@@ -180,9 +180,9 @@ void RzxJabberProtocole::presenceRequest(QString str, int type) {
 			RzxHostAddress(rand()), //IP
 			str, //Nom de la machine 
 			*((quint32*) &opt), //Options
-			rand(), //Version du client
-			rand(), //Hash de l'icône
-			rand(), //Flags ?????
+			0, //Version du client
+			0, //Hash de l'icï¿½e
+			0, //Flags ?????
 			"Client Jabber"); //Remarque
 			break;
 	}
