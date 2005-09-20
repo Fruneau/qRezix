@@ -12,6 +12,7 @@ contains(DEFINES, RZX_TRAYICON_BUILTIN):include(../tray/tray.pri)
 contains(DEFINES, RZX_NOTIFIER_BUILTIN):include(../notifier/notifier.pri)
 contains(DEFINES, RZX_CHAT_BUILTIN):include(../chat/chat.pri)
 contains(DEFINES, RZX_XNET_BUILTIN):include(../xnet/xnet.pri)
+contains(DEFINES, RZX_JABBER_BUILTIN):include(../jabber/jabber.pri)
 include(../rzxglobal.pri)
 
 SOURCES += rzxglobal.cpp \
