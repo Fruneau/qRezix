@@ -159,14 +159,24 @@ void RzxJabberProtocole::presenceRequest(QString str, int type) {
 	unsigned Capabilities   :19;
 	};
 	options_t opt;
+	RzxJabberComputer newComputer(str, computerList.size());
+	if(computerList.indexOf(newComputer)>=0){
+		newComputer = computerList.at(computerList.indexOf(newComputer));
+		newComputer.nbClients++;
+	}else
+		computerList << newComputer;
 	switch(type){
 		case 0: // Hors ligne
-			emit logout(RzxHostAddress(rand()));
+			newComputer.nbClients--;
+			if(newComputer.nbClients<=0){
+				emit logout(newComputer.ip());
+				computerList.removeAll(newComputer);
+			}
 			break;
 		case 1: // Away
 			opt.Repondeur=1;
 			emit login( this, 
-			RzxHostAddress(rand()), //IP
+			RzxHostAddress(newComputer.ip()), //IP
 			str, //Nom de la machine 
 			*((quint32*) &opt), //Options
 			0, //Version du client
@@ -177,7 +187,7 @@ void RzxJabberProtocole::presenceRequest(QString str, int type) {
 		case 2: // En ligne
 			opt.Repondeur=0;
 			emit login(  this, 
-			RzxHostAddress(rand()), //IP
+			RzxHostAddress(newComputer.ip()), //IP
 			str, //Nom de la machine 
 			*((quint32*) &opt), //Options
 			0, //Version du client
