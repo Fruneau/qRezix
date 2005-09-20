@@ -28,6 +28,9 @@
 #ifdef RZX_XNET_BUILTIN
 #include "../xnet/rzxserverlistener.h"
 #endif
+#ifdef RZX_JABBER_BUILTIN
+#include "../jabber/rzxjabberprotocole.h"
+#endif
 
 RZX_GLOBAL_INIT(RzxConnectionLister)
 
@@ -60,6 +63,9 @@ void RzxConnectionLister::loadBuiltins()
 {
 #ifdef RZX_XNET_BUILTIN
 	installModule(new RzxServerListener);
+#endif
+#ifdef RZX_JABBER_BUILTIN
+	installModule(new RzxJabberProtocole);
 #endif
 }
 
