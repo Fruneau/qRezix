@@ -177,6 +177,7 @@ void RzxJabberProtocole::presenceRequest(QString str, int type) {
 				computerList.remove(newComputer.jid());
 				break;
 			}
+			/// @todo: chercher l'etat des resources restantes
 		case 1: // Away
 			opt.Repondeur=1;
 			emit login( this, 
