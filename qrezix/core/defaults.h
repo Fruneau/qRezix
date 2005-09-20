@@ -50,6 +50,9 @@
 #endif
 #define QREZIX_AWAY_ICON "../resources/t.xpm"
 
+#define CONCAT(p1, p2) str(p1) p2
+#define str(x) #x
+
 #ifdef HAVE_CONFIG_H
 #	include "../../config.h"
 #else
@@ -58,8 +61,8 @@
 #		define QREZIX_LIB_DIR "./qRezix.app/Contents/Frameworks/"
 #		define QREZIX_SYSTEM_DIR "./qRezix.app/Contents/MacOS/"
 #	else
-#		define QREZIX_DATA_DIR "/usr/share/qrezix"
-#		define QREZIX_LIB_DIR "/usr/lib/qrezix"
+#		define QREZIX_DATA_DIR CONCAT(PREFIX, "/share/qrezix")
+#		define QREZIX_LIB_DIR CONCAT(PREFIX, "/lib/qrezix")
 #	endif
 #endif
 
