@@ -26,6 +26,8 @@ RzxJabberClient::RzxJabberClient(std::string server) {
 	j->disco()->registerDiscoHandler( this );
 	j->disco()->setVersion( "qRezix Jabber", "0.0.1-svn");
 	j->disco()->setIdentity( "client", "qRezix" );
+	timer = new QTimer(this);
+	connect(timer, SIGNAL(timeout()), this, SLOT(readData()));
 }
 
 RzxJabberClient::~RzxJabberClient() {
@@ -43,8 +45,6 @@ void RzxJabberClient::run()
 	j->setServer(RzxJabberConfig::serverName().toStdString());
 	j->setPort(RzxJabberConfig::serverPort());
 	j->connect(false);
-	timer = new QTimer(this);
-	connect(timer, SIGNAL(timeout()), this, SLOT(readData()));
 	timer->start(100);
 	exec();
 }
