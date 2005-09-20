@@ -23,13 +23,15 @@
 #include <QList>
 #include <QIcon>
 #include <QString>
+#include <QPointer>
 
 #include <RzxGlobal>
 
 #include "rzxdict.h"
 
 class RzxComputer;
-typedef class RzxDict<QString, RzxComputer*> RzxRezalSearchTree;
+typedef class RzxDict<QString, QPointer<RzxComputer> > RzxRezalSearchTree;
+typedef class QList< QPointer<RzxComputer> > RzxRezalSearchList;
 /**
  *@author Florent Bruneau
  */
@@ -120,15 +122,15 @@ class RzxRezalModel:public QAbstractItemModel
 		static const char *colNames[numColonnes];
 
 		//Stockage des objets
-		QList<RzxComputer*> everybody;
-		QList<RzxComputer*> favorites;
-		QList<RzxComputer*> ignored;
-		QList<RzxComputer*> neutral;
-		QList<RzxComputer*> jone;
-		QList<RzxComputer*> rouje;
-		QList<RzxComputer*> oranje;
-		QList<RzxComputer*> binet;
-		QList<RzxComputer*> *rezals;
+		RzxRezalSearchList everybody;
+		RzxRezalSearchList favorites;
+		RzxRezalSearchList ignored;
+		RzxRezalSearchList neutral;
+		RzxRezalSearchList jone;
+		RzxRezalSearchList rouje;
+		RzxRezalSearchList oranje;
+		RzxRezalSearchList binet;
+		RzxRezalSearchList *rezals;
 
 		RzxRezalSearchTree everybodyByName;
 		RzxRezalSearchTree favoritesByName;
@@ -195,17 +197,17 @@ class RzxRezalModel:public QAbstractItemModel
 #define GET_ID_FROM_REZAL(rezal) (int)(TREE_FLAG_REZAL | ((uint)(rezal + 1) & TREE_FLAG_SOFTMASK))
 
 		///Insertion d'un objet dans le groupe et la liste donnée
-		void insertObject(const QModelIndex&, QList<RzxComputer*>&, RzxRezalSearchTree&, RzxComputer*);
+		void insertObject(const QModelIndex&, RzxRezalSearchList&, RzxRezalSearchTree&, RzxComputer*);
 		///Suppression d'un objet d'un groupe et de la liste donnée
-		void removeObject(const QModelIndex&, QList<RzxComputer*>&, RzxRezalSearchTree&, RzxComputer*);
+		void removeObject(const QModelIndex&, RzxRezalSearchList&, RzxRezalSearchTree&, RzxComputer*);
 		///Indication de modification d'un objet
-		void updateObject(const QModelIndex&, const QList<RzxComputer*>&, RzxComputer*);
+		void updateObject(const QModelIndex&, const RzxRezalSearchList&, RzxComputer*);
 
 		///Construction d'un index associé à l'objet
-		QModelIndex createIndex(int, int, int, const QList<RzxComputer*>&) const;
+		QModelIndex createIndex(int, int, int, const RzxRezalSearchList&) const;
 
 		///Extrait le RzxComputer qui correspond
-		virtual QVariant getComputer(int, const QList<RzxComputer*>&, int, int) const;
+		virtual QVariant getComputer(int, const RzxRezalSearchList&, int, int) const;
 
 		///Extrait l'item d'un menu
 		virtual QVariant getMenuItem(int, const QIcon&, const QString&, const QString& desc = QString()) const;
@@ -259,7 +261,7 @@ class RzxRezalModel:public QAbstractItemModel
  *
  * On peut donc vérifier que l'objet existe, générer sont index (flag | row) et retourner l'index correspondant.
  */
-inline QModelIndex RzxRezalModel::createIndex(int row, int column, int flag, const QList<RzxComputer*>& list) const
+inline QModelIndex RzxRezalModel::createIndex(int row, int column, int flag, const RzxRezalSearchList& list) const
 {
 	if(row < 0 || row >= list.count())
 		return QModelIndex();
