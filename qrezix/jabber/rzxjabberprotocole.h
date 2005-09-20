@@ -28,7 +28,7 @@
 
 #include "ui_rzxjabberpropui.h"
 #include "rzxjabberclient.h"
-
+#include "rzxjabbercomputer.h"
 
 /**
 	*Gere le protocole Jabber.
@@ -52,11 +52,13 @@ public slots:
 	virtual void start();
 	virtual void stop();
 
-//Gestion de propriétés du module
+//Gestion de propriï¿½ï¿½ du module
 private:
 	Ui::RzxJabberPropUI *ui;
 	QWidget *propWidget;
 	RzxJabberClient *client;
+	QList<RzxJabberComputer> computerList;
+
 public:
 	virtual QList<QWidget*> propWidgets();
 	virtual QStringList propWidgetsName();
