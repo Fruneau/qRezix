@@ -36,7 +36,7 @@ class RzxJabberClient : public QThread, DiscoHandler, MessageHandler, Connection
 	Q_OBJECT
 
 	public:
-		RzxJabberClient(std::string server);
+		RzxJabberClient(QObject *parent=0);
 		~RzxJabberClient();
 		virtual void onConnect();
 		virtual void onDisconnect( ConnectionError e );
@@ -48,16 +48,18 @@ class RzxJabberClient : public QThread, DiscoHandler, MessageHandler, Connection
 		virtual void handleLog( const std::string& xml, bool incoming );
 		void run();
 		void stop();
-		Client *j;
+		Client* client(){ return j; }
 	private:
+		Client *j;
 		bool isStarted;
 		QTimer *timer;
 	signals:
-		void login(QString str, int type);
+		void presence(QString str, int type);
 		void connected();
 		void disconnected();
 	private slots:
 		void readData();
+		
 };
 
 

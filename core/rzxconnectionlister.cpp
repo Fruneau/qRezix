@@ -79,11 +79,11 @@ bool RzxConnectionLister::installModule(RzxNetwork *network)
 		connect(network, SIGNAL( logout( const RzxHostAddress& ) ), this, SLOT( logout( const RzxHostAddress& ) ) );
 		connect(network, SIGNAL( receivedIcon( QImage*, const RzxHostAddress& ) ),
 				this, SLOT( receivedIcon( QImage*, const RzxHostAddress& )));
-		connect(network, SIGNAL( disconnected() ), this, SLOT( newDisconnection() ) );
+		connect(network, SIGNAL( disconnected(RzxNetwork*) ), this, SLOT( newDisconnection() ) );
 		connect(network, SIGNAL(status(const QString&)), this, SLOT(statusChanged(const QString&)));
-		connect(network, SIGNAL( connected() ), this, SLOT( newConnection() ) );
-		connect(network, SIGNAL( connected() ), this, SIGNAL( connectionEstablished()));
-		connect(network, SIGNAL( disconnected() ), this, SIGNAL( connectionClosed() ) );
+		connect(network, SIGNAL( connected(RzxNetwork*) ), this, SLOT( newConnection(RzxNetwork*) ) );
+		connect(network, SIGNAL( connected(RzxNetwork*) ), this, SIGNAL( connectionEstablished(RzxNetwork*)));
+		connect(network, SIGNAL( disconnected(RzxNetwork*) ), this, SIGNAL( connectionClosed(RzxNetwork*) ) );
 		connect(network, SIGNAL( receiveAddress(const RzxHostAddress& )), RzxComputer::localhost(), SLOT(setIP(const RzxHostAddress& )));
 	
 		connect(network, SIGNAL(info(const QString&)), this, SLOT(info(const QString&)));
@@ -97,7 +97,7 @@ bool RzxConnectionLister::installModule(RzxNetwork *network)
 	return false;
 }
 
-///Enregistrement de l'arrivée d'un nouveau client
+///Enregistrement de l'arrivï¿½ d'un nouveau client
 void RzxConnectionLister::login(RzxNetwork* network, const RzxHostAddress& ip, const QString& name, quint32 options, quint32 version, quint32 stamp, quint32 flags, const QString& comment)
 {
 	RzxComputer *computer = getComputerByIP(ip);
@@ -119,13 +119,13 @@ void RzxConnectionLister::login(RzxNetwork* network, const RzxHostAddress& ip, c
 	}
 }
 
-/** Sert aussi au raffraichissement des données*/
+/** Sert aussi au raffraichissement des donnï¿½s*/
 void RzxConnectionLister::login()
 {
 	if(displayWaiter.isEmpty()) return;
 	RzxComputer *computer = displayWaiter.takeFirst();
 
-	//Le RzxComputer peut être nul si la machine s'est déconnecté entre l'enregistrement de sa connexion
+	//Le RzxComputer peut ï¿½re nul si la machine s'est dï¿½onnectï¿½entre l'enregistrement de sa connexion
 	//et le traitement de cette connexion.
 	if(computer)
 	{
@@ -134,7 +134,7 @@ void RzxConnectionLister::login()
 		connect(computer, SIGNAL(wantProperties(RzxComputer*)), this, SIGNAL(wantProperties(RzxComputer* )));
 		connect(computer, SIGNAL(wantHistorique(RzxComputer*)), this, SIGNAL(wantHistorique(RzxComputer* )));
 
-		// Recherche si cet ordinateur était déjà présent (refresh ou login)
+		// Recherche si cet ordinateur ï¿½ait dï¿½ï¿½prï¿½ent (refresh ou login)
 		QString tempIP = computer->ip().toString();
 		computer->login();
 		emit login(computer);
@@ -153,7 +153,7 @@ void RzxConnectionLister::login()
 	}
 }
 
-///Enregistre la déconnexion d'un client
+///Enregistre la dï¿½onnexion d'un client
 void RzxConnectionLister::logout( const RzxHostAddress& ip )
 {
 	RzxComputer *computer = getComputerByIP(ip);
@@ -169,8 +169,8 @@ void RzxConnectionLister::logout( const RzxHostAddress& ip )
 }
 
 
-///Retourne la liste des IP des gens connectés
-/** Permet pour les plug-ins d'obtenir facilement la liste les ip connectées */
+///Retourne la liste des IP des gens connectï¿½
+/** Permet pour les plug-ins d'obtenir facilement la liste les ip connectï¿½s */
 QStringList RzxConnectionLister::getIpList(Rzx::Capabilities features)
 {
 	QStringList ips;
@@ -181,7 +181,7 @@ QStringList RzxConnectionLister::getIpList(Rzx::Capabilities features)
 }
 
 /** No descriptions */
-void RzxConnectionLister::newDisconnection()
+void RzxConnectionLister::newDisconnection(RzxNetwork*)
 {
 	if(connectionNumber > 0)
 		connectionNumber--;
@@ -190,12 +190,32 @@ void RzxConnectionLister::newDisconnection()
 }
 
 /** No descriptions */
-void RzxConnectionLister::newConnection()
+void RzxConnectionLister::newConnection(RzxNetwork* network)
 {
-	qDeleteAll(computerByIP);
-	computerByIP.clear();
-	computerByLogin.clear();
-	displayWaiter.clear();
+	QListIterator< QPointer<RzxComputer> >  j(displayWaiter);
+	QPointer<RzxComputer> p;
+	while(j.hasNext()){
+		p = j.next();
+		if(!p ||(p->network()==network)){
+			displayWaiter.removeAll(p);
+		}
+	}
+	QHashIterator<QString, RzxComputer*> i(computerByLogin);
+	while(i.hasNext()){
+		i.next();
+		if(!i.value()||(i.value()->network()==network)){
+			computerByLogin.remove(i.key());
+		}
+	}
+	
+	QHashIterator<RzxHostAddress, RzxComputer*> k(computerByIP);
+	while(k.hasNext()){
+		k.next();
+		if(!k.value()||(k.value()->network()==network)){
+			if(k.value()) delete k.value();
+			computerByIP.remove(k.key());
+		}
+	}
 	if(connectionNumber < moduleList().count())
 	{
 		connectionNumber++;
@@ -208,7 +228,7 @@ void RzxConnectionLister::newConnection()
 		emit clear();
 }
 
-///Indique si tous les serveurs sont déconnectés
+///Indique si tous les serveurs sont dï¿½onnectï¿½
 bool RzxConnectionLister::isDisconnected() const
 {
 	bool connected = false;
@@ -217,7 +237,7 @@ bool RzxConnectionLister::isDisconnected() const
 	return connected;
 }
 
-///Indique si on est connecté à un serveur
+///Indique si on est connectï¿½ï¿½un serveur
 bool RzxConnectionLister::isConnected() const
 {
 	return !isDisconnected();
@@ -230,7 +250,7 @@ void RzxConnectionLister::start()
 		network->start();
 }
 
-///Arrête toutes les connexions
+///Arrï¿½e toutes les connexions
 void RzxConnectionLister::stop()
 {
 	foreach(RzxNetwork *network, moduleList())
@@ -240,7 +260,7 @@ void RzxConnectionLister::stop()
 	}
 }
 
-///Indique à tous les modules qu'il faut rafraîchir les données
+///Indique ï¿½tous les modules qu'il faut rafraï¿½hir les donnï¿½s
 void RzxConnectionLister::refresh()
 {
 	foreach(RzxNetwork *network, moduleList())
@@ -250,23 +270,23 @@ void RzxConnectionLister::refresh()
 /** No descriptions */
 void RzxConnectionLister::info( const QString& msg )
 {
-	// Boîte de dialogue non modale, pour que les comms continuent.
+	// Boï¿½e de dialogue non modale, pour que les comms continuent.
 	RzxMessageBox::information(NULL, tr( "XNet Server message:" ), msg );
 }
 /** No descriptions */
 void RzxConnectionLister::warning( const QString& msg )
 {
-	// Boîte de dialogue non modale, pour que les comms continuent.
+	// Boï¿½e de dialogue non modale, pour que les comms continuent.
 	RzxMessageBox::warning(NULL, tr( "XNet Server message:" ), msg );
 }
 /** No descriptions */
 void RzxConnectionLister::fatal( const QString& msg )
 {
-	// Boîte de dialogue modale
+	// Boï¿½e de dialogue modale
 	RzxMessageBox::critical(NULL, tr( "Error" ) + " - " + tr( "XNet Server message" ), msg, true );
 }
 
-///Emet un changement de status en mettant à jour le flag qvb
+///Emet un changement de status en mettant ï¿½jour le flag qvb
 void RzxConnectionLister::statusChanged(const QString& msg)
 {
 	emit status(msg, isConnected());

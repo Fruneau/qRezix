@@ -42,10 +42,13 @@ RzxJabberProtocole::RzxJabberProtocole()
 	beginLoading();
 	ui = NULL;
 	propWidget = NULL;
+	
 	new RzxJabberConfig(this);
-
-	client = new RzxJabberClient ("test");
-	connect(client, SIGNAL(login(QString, int)), this, SLOT(presenceRequest(QString, int)),Qt::QueuedConnection);
+	
+	client = new RzxJabberClient(this);
+	connect(client, SIGNAL(presence(QString, int)), this, SLOT(presenceRequest(QString, int)),Qt::QueuedConnection);
+	connect(client, SIGNAL(connected()), this, SLOT(connection()),Qt::QueuedConnection);
+	connect(client, SIGNAL(disconnected()), this, SLOT(deconnection()),Qt::QueuedConnection);
 	setIcon(RzxThemedIcon(Rzx::ICON_NETWORK));
 	endLoading();
 }
@@ -58,6 +61,13 @@ RzxJabberProtocole::~RzxJabberProtocole(){
 	endClosing();
 }
 
+void RzxJabberProtocole::connection(){
+	emit connected(this);
+}
+
+void RzxJabberProtocole::deconnection(){
+	emit disconnected(this);
+}
 
 /****************************************************************************
 * FEN�RE DE PROPRI��

@@ -49,8 +49,8 @@ RzxServerListener::RzxServerListener()
 	
 	connect(&socket, SIGNAL(hostFound()), this, SLOT(serverFound()));
 	
-	connect(&socket, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
-	connect(&socket, SIGNAL(connected()), this, SIGNAL(connected()));
+	connect(&socket, SIGNAL(disconnected()), this, SIGNAL(disconnected(this)));
+	connect(&socket, SIGNAL(connected()), this, SIGNAL(connected(this)));
 	connect(&socket, SIGNAL(connected()), this, SLOT(serverConnected()));
 	connect(&socket, SIGNAL(connected()), this, SLOT(beginAuth()));
 
@@ -77,7 +77,7 @@ void RzxServerListener::start() {
 void RzxServerListener::setupReconnection(const QString& msg) {
 	if(reconnection.isActive()) return;
 
-	emit disconnected();
+	emit disconnected(this);
 
 	unsigned int time = RzxXNetConfig::reconnection();
 	QString temp;
@@ -105,7 +105,7 @@ void RzxServerListener::setupReconnection(const QString& msg) {
 	}
 }
 
-///Pour afficher le décompte avant la tentative de reconnexion
+///Pour afficher le dï¿½ompte avant la tentative de reconnexion
 void RzxServerListener::waitReconnection()
 {
 	timeToConnection -= 1000;
@@ -118,7 +118,7 @@ void RzxServerListener::waitReconnection()
 		notify(message + "... " + tr("will try to reconnect in %1 seconds").arg(timeToConnection/1000));
 }
 
-/** Erreur à la conenction au serveur. On rï¿½ssaie en SERVER_RECONNECTION ms */
+/** Erreur ï¿½la conenction au serveur. On rï¿½ssaie en SERVER_RECONNECTION ms */
 void RzxServerListener::serverError(QTcpSocket::SocketError error) {
 	pingTimer.stop();
 	QString reconnectionMsg;
@@ -172,7 +172,7 @@ void RzxServerListener::serverClose() {
 	setupReconnection(tr("Connection closed"));
 }
 
-/** Appelée quand il n'y a pas eu de ping depuis plus de RzxXNetConfig::pingTimeout() ms */
+/** Appelï¿½ quand il n'y a pas eu de ping depuis plus de RzxXNetConfig::pingTimeout() ms */
 void RzxServerListener::serverTimeout(){
 	setupReconnection(tr("Connection lost"));
 }
@@ -243,13 +243,13 @@ void RzxServerListener::serverReceive() {
 	}
 }
 
-///Parsage des données reçes du serveur
-/** Permet de répartir entre les données brutes (icônes) et les données 'protocolaires' qui elles sont gérées par RzxProtocole */
+///Parsage des donnï¿½s reï¿½s du serveur
+/** Permet de rï¿½artir entre les donnï¿½s brutes (icï¿½es) et les donnï¿½s 'protocolaires' qui elles sont gï¿½ï¿½s par RzxProtocole */
 void RzxServerListener::parse(const QString& msg)
 {
 	QRegExp cmd;
 	
-	/* Réception d'une icône... passe l'écute en mode attente de données brutes */
+	/* Rï¿½eption d'une icï¿½e... passe l'ï¿½ute en mode attente de donnï¿½s brutes */
 	cmd.setPattern(RzxProtocole::ServerFormat[RzxProtocole::SERVER_ICON]);
 	if(cmd.indexIn(msg, 0) >= 0)
 	{
@@ -269,7 +269,7 @@ void RzxServerListener::parse(const QString& msg)
 		return;
 	}
 	
-	/* Envoie de l'icône suite à la requête du serveur */
+	/* Envoie de l'icï¿½e suite ï¿½la requï¿½e du serveur */
 	cmd.setPattern(RzxProtocole::ServerFormat[RzxProtocole::SERVER_UPLOAD]);
 	if(cmd.indexIn(msg) != -1)
 	{
@@ -334,7 +334,7 @@ void RzxServerListener::stop()
 	disconnect(&socket, SIGNAL(connectionClosed()), this, SLOT(serverClose()));
 	disconnect(&socket, SIGNAL(error(QTcpSocket::SocketError)), this, SLOT(serverError(QTcpSocker::SocketError)));
 	if (isStarted()) {
-		emit disconnected();
+		emit disconnected(this);
 		return;
 	}
 	
@@ -349,7 +349,7 @@ void RzxServerListener::stop()
 
 /** No descriptions */
 void RzxServerListener::closeWaitFlush(){
-	emit disconnected();
+	emit disconnected(this);
 }
 
 /** No descriptions */
@@ -361,6 +361,6 @@ RzxHostAddress RzxServerListener::getServerIP() const
 /** No descriptions */
 RzxHostAddress RzxServerListener::getIP() const{
 	return RzxHostAddress(socket.localAddress());
-	//TODO récupérer cette adresse du serveur
+	//TODO rï¿½upï¿½er cette adresse du serveur
 }
 
