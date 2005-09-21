@@ -1,0 +1,5 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+	<file alias="notifier_fond.png">../resources/notifier_fond.png</file>
+</qresource>
+</RCC>

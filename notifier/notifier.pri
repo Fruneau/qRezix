@@ -6,3 +6,5 @@ HEADERS += ../notifier/rzxnotifier.h \
 	../notifier/rzxnotifierconfig.h
 
 FORMS += ../notifier/rzxnotifierpropui.ui
+
+RESOURCES += ../notifier/rzxnotifier.qrc

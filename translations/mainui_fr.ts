@@ -476,7 +476,7 @@
     </message>
     <message>
         <source>begin &amp;Chat</source>
-        <translation>&amp;Discutter</translation>
+        <translation type="unfinished">&amp;Discuter</translation>
     </message>
     <message>
         <source>History</source>
