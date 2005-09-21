@@ -73,7 +73,11 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
 			px = 43; py = 10;
 			break;
 	}
+#ifdef Q_OS_MAC
 	symbolPixmap.setMask(symbolPixmap.createMaskFromColor(Qt::white));
+#else
+	symbolPixmap.setMask(symbolPixmap.createMaskFromColor(Qt::black));
+#endif
 	symbol = symbolPixmap.toImage();
 	QImage computerIcon = computer->icon().toImage();
 	//CRRRRRRRRRRRRRRRRRRRRRRRRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADE
@@ -110,6 +114,7 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
 
 	//Timer pour déclencher la destruction de le fenêtre
 	connect( &timer, SIGNAL( timeout() ), this, SLOT( close() ) );
+	timer.setSingleShot(true);
 	timer.start( time * 1000 );
 }
 
