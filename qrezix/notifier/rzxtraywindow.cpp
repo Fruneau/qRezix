@@ -17,9 +17,12 @@
  ***************************************************************************/
 #include <QLabel>
 #include <QPixmap>
+#include <QBitmap>
 #include <QColor>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QApplication>
+#include <QDesktopWidget>
 
 #include <RzxComputer>
 #include <RzxConfig>
@@ -36,11 +39,10 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
 	setMinimumWidth( 150 );
 	setMinimumHeight( 70 );
 	setWindowOpacity( 0.70 );
-#ifndef Q_OS_MAC
-	setFrameStyle( Panel | Plain );
-#else
-	setFrameStyle( Panel | Raised );
-#endif
+	setFrameStyle( NoFrame );
+	QPixmap fond(":/notifier_fond.png");
+	setMask(fond.createHeuristicMask());
+	resize(fond.size());
 
 	//Construction des items à insérer dans la fenêtre :
 	// - l'icône
@@ -50,27 +52,30 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
 	// - le pseudo
 	QLabel *name = new QLabel();
 	name->setTextFormat( Qt::RichText );
-	name->setText( "<h2>" + computer->name() + "</h2>" );
+	name->setText( "<h2><font color=\"white\">" + computer->name() + "</font></h2>" );
 
 	// - la description de l'état de connexion
 	QLabel *description = new QLabel();
-	QPalette palette;
+	QPalette palette ;
 	switch(computer->state())
 	{
 		case Rzx::STATE_DISCONNECTED:
 			description->setText( tr( "is now disconnected" ) );
-			palette.setColor( backgroundRole(), QColor( 0xff, 0x20, 0x20 ) );
+			palette.setColor( foregroundRole(), QColor( 0xff, 0x20, 0x20 ) );
 			break;
 		case Rzx::STATE_AWAY: case Rzx::STATE_REFUSE:
 			description->setText(tr( "is now away" ));
-			palette.setColor( backgroundRole(), RzxConfig::repondeurBase() );
+			palette.setColor( foregroundRole(), RzxConfig::repondeurBase() );
 			break;
 		case Rzx::STATE_HERE:
 			description->setText(tr( "is now here" ));
-			palette.setColor( backgroundRole(), QColor( 0xff, 0xff, 0xff ) );
+			palette.setColor( foregroundRole(), QColor( 0xff, 0xff, 0xff ) );
 			break;
 	}
+	palette.setColor( backgroundRole(), QColor( 0xc0, 0xc0, 0xc0 ) );
 	setPalette( palette );
+	name->setPalette(palette);
+	description->setPalette(palette);
 
 	//Insertion des éléments dans les layout qui corresponend
 	// - disposition du texte verticalement
@@ -85,11 +90,14 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
 	setLayout( layout );
 
 	//Affichage de la fenêtre
-#ifdef Q_OS_MAC
-	QPoint point( 0, 21 );
-#else
-	QPoint point( 0, 0 );
-#endif
+	int x = QApplication::desktop()->width();
+	int y = QApplication::desktop()->height();
+	x -= width();
+	x >>= 1;
+	y -= height();
+	y <<= 1;
+	y /= 3;
+	QPoint point( x, y );
 
 	move( point );
 	setFocusPolicy( Qt::NoFocus );
