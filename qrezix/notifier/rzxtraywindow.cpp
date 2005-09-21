@@ -18,6 +18,7 @@
 #include <QLabel>
 #include <QPixmap>
 #include <QBitmap>
+#include <QImage>
 #include <QColor>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -47,7 +48,6 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
 	//Construction des items à insérer dans la fenêtre :
 	// - l'icône
 	QLabel *icone = new QLabel();
-	icone->setPixmap( computer->icon() );
 
 	// - le pseudo
 	QLabel *name = new QLabel();
@@ -55,40 +55,45 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
 	name->setText( "<h2><font color=\"white\">" + computer->name() + "</font></h2>" );
 
 	// - la description de l'état de connexion
-	QLabel *description = new QLabel();
-	QPalette palette ;
+	QImage symbol;
+	QPixmap symbolPixmap;
+	int px, py;
 	switch(computer->state())
 	{
 		case Rzx::STATE_DISCONNECTED:
-			description->setText( tr( "is now disconnected" ) );
-			palette.setColor( foregroundRole(), QColor( 0xff, 0x20, 0x20 ) );
+			symbolPixmap = QPixmap(":/notifier_quit.bmp");
+			px = 29; py = 27;
 			break;
 		case Rzx::STATE_AWAY: case Rzx::STATE_REFUSE:
-			description->setText(tr( "is now away" ));
-			palette.setColor( foregroundRole(), RzxConfig::repondeurBase() );
+			symbolPixmap = QPixmap(":/notifier_away.bmp");
+			px = 19; py = 27;
 			break;
 		case Rzx::STATE_HERE:
-			description->setText(tr( "is now here" ));
-			palette.setColor( foregroundRole(), QColor( 0xff, 0xff, 0xff ) );
+			symbolPixmap = QPixmap(":/notifier_here.bmp");
+			px = 43; py = 10;
 			break;
 	}
+	symbolPixmap.setMask(symbolPixmap.createMaskFromColor(Qt::white));
+	symbol = symbolPixmap.toImage();
+	QImage computerIcon = computer->icon().toImage();
+	//CRRRRRRRRRRRRRRRRRRRRRRRRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADE
+	for(int x = 0 ; x < 64 ; x++)
+		for(int y = 0 ; y < 64 ; y++)
+			if(!qAlpha(symbol.pixel(px+x, py+y)))
+				symbol.setPixel(px+x, py+y, computerIcon.pixel(x, y));
+	icone->setPixmap( QPixmap::fromImage(symbol));
+
+	QPalette palette ;
 	palette.setColor( backgroundRole(), QColor( 0xc0, 0xc0, 0xc0 ) );
 	setPalette( palette );
-	name->setPalette(palette);
-	description->setPalette(palette);
 
 	//Insertion des éléments dans les layout qui corresponend
 	// - disposition du texte verticalement
 	QVBoxLayout *textLayout = new QVBoxLayout();
-	textLayout->addWidget( name, 0, Qt::AlignTop | Qt::AlignLeft );
-	textLayout->addWidget( description, 0, Qt::AlignVCenter | Qt::AlignLeft );
-
-	// - insertion de l'icône à côté du texte
-	QHBoxLayout *layout = new QHBoxLayout();
-	layout->addWidget( icone, 0, Qt::AlignVCenter | Qt::AlignLeft );
-	layout->addLayout( textLayout, 1 );
-	setLayout( layout );
-
+	textLayout->addWidget( name, 0, Qt::AlignTop | Qt::AlignHCenter );
+	textLayout->addWidget( icone, 0, Qt::AlignVCenter | Qt::AlignHCenter );
+	setLayout(textLayout);
+	
 	//Affichage de la fenêtre
 	int x = QApplication::desktop()->width();
 	int y = QApplication::desktop()->height();
