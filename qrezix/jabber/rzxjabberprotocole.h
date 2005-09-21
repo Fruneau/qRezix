@@ -45,13 +45,10 @@ class RzxJabberProtocole : public RzxNetwork
 public: 
 	RzxJabberProtocole();
 	~RzxJabberProtocole();
-	
+	virtual QList<QWidget*> propWidgets();
+	virtual QStringList propWidgetsName();
 	virtual bool isStarted() const;
 
-
-public slots:
-	virtual void start();
-	virtual void stop();
 
 //Gestion de propri�� du module
 private:
@@ -60,9 +57,6 @@ private:
 	RzxJabberClient *client;
 	QHash<QString,RzxJabberComputer> computerList;
 
-public:
-	virtual QList<QWidget*> propWidgets();
-	virtual QStringList propWidgetsName();
 
 public slots:
 	/** Demande un envoi d'icone
@@ -72,6 +66,9 @@ public slots:
 	virtual void propUpdate();
 	virtual void propClose();
 	
+	virtual void start();
+	virtual void stop();
+
 	virtual void refresh(){};
 	void presenceRequest(QString str, int type);
 	
@@ -79,8 +76,8 @@ public slots:
 	virtual void wantChangePass(){};
 	virtual void changePass(const QString&){};
 	virtual void usePass(const QString&){};
-	void connection(){ emit connected(); };
-	void deconnection(){ emit disconnected(); };
+	void connection();
+	void deconnection();
 // Signals
 signals:
 	/** ping() est emit quand on passe une commande PING a @ref parse */
@@ -90,8 +87,8 @@ signals:
  	*typiquement lors d'appel aux fonctions @ref sendAuth, @ref sendRefresh,
  	*@ref sendPart, @ref sendPong et @ref getIcon */
 	void send(const QString& msg);
-	void connected();
-	void disconnected();
+	void connected(RzxJabberProtocole*);
+	void disconnected(RzxJabberProtocole*);
 };
 
 

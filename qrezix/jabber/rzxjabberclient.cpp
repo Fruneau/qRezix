@@ -15,17 +15,9 @@ using namespace gloox;
 #include <string>
 
 
-RzxJabberClient::RzxJabberClient(std::string server) {
-	j = new Client( server);
-	j->setAutoPresence( true );
-	j->setInitialPriority( 5 );
-	j->registerConnectionListener( this );
-	j->registerMessageHandler( this );
-	j->registerPresenceHandler( this );
-	j->registerLogHandler( this );
-	j->disco()->registerDiscoHandler( this );
-	j->disco()->setVersion( "qRezix Jabber", "0.0.1-svn");
-	j->disco()->setIdentity( "client", "qRezix" );
+RzxJabberClient::RzxJabberClient(QObject *parent)
+	:QThread(parent)
+{
 	timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(readData()));
 }
@@ -39,11 +31,20 @@ RzxJabberClient::~RzxJabberClient() {
 
 void RzxJabberClient::run()
 {
-	j->jid().setJID(RzxJabberConfig::user().toStdString());
-	j->jid().setResource("qRezix");
-	j->setPassword(RzxJabberConfig::pass().toStdString());
+	j = new Client(RzxJabberConfig::user().append("/qRezix").toStdString(),
+			RzxJabberConfig::pass().toStdString(), 
+			RzxJabberConfig::serverPort()
+		);
 	j->setServer(RzxJabberConfig::serverName().toStdString());
-	j->setPort(RzxJabberConfig::serverPort());
+	j->setAutoPresence( true );
+	j->setInitialPriority( 5 );
+	j->registerConnectionListener( this );
+	j->registerMessageHandler( this );
+	j->registerPresenceHandler( this );
+	j->registerLogHandler( this );
+	j->disco()->registerDiscoHandler( this );
+	j->disco()->setVersion( "qRezix Jabber", "0.0.1-svn");
+	j->disco()->setIdentity( "client", "qRezix" );
 	j->connect(false);
 	timer->start(100);
 	exec();
@@ -112,11 +113,11 @@ void RzxJabberClient::handleMessage( Stanza *stanza )
 
 void RzxJabberClient::handlePresence( Stanza *stanza ){
 	if(stanza->show()==PRESENCE_UNAVAILABLE)
-		emit login(QString::fromStdString(stanza->from().full()), 0); /** @todo G�er d�onnexion */
+		emit presence(QString::fromStdString(stanza->from().full()), 0); /** @todo G�er d�onnexion */
 	else if(stanza->show()==PRESENCE_AWAY || stanza->show()==PRESENCE_DND || stanza->show()==PRESENCE_XA)
-		emit login(QString::fromStdString(stanza->from().full()), 1);
+		emit presence(QString::fromStdString(stanza->from().full()), 1);
 	else
-		emit login(QString::fromStdString(stanza->from().full()), 2);
+		emit presence(QString::fromStdString(stanza->from().full()), 2);
 	if(stanza->show()==PRESENCE_UNKNOWN)
 		printf("Unknown presence type");
 	

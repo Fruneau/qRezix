@@ -22,6 +22,189 @@
    <property name="spacing" >
     <number>6</number>
    </property>
+   <item row="3" column="0" colspan="2" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>642</width>
+       <height>121</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="0" colspan="2" >
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string>Roster Management</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>8</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="2" column="1" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>261</width>
+          <height>51</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="1" >
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item row="0" column="1" >
+         <widget class="QLineEdit" name="lineEdit" />
+        </item>
+        <item row="0" column="0" >
+         <widget class="QLabel" name="label" >
+          <property name="text" >
+           <string>JID:</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="1" >
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item row="0" column="1" >
+         <widget class="QPushButton" name="rosterDeleteButton" >
+          <property name="text" >
+           <string>Delete</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" >
+         <widget class="QPushButton" name="rosterAddButton" >
+          <property name="text" >
+           <string>Add</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item rowspan="3" row="0" column="0" >
+       <widget class="QListView" name="rosterView" />
+      </item>
+     </layout>
+     <widget class="QWidget" name="" >
+      <property name="geometry" >
+       <rect>
+        <x>324</x>
+        <y>28</y>
+        <width>307</width>
+        <height>191</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item row="0" column="0" >
+    <widget class="QLabel" name="lblInfo" >
+     <property name="text" >
+      <string>Jabber protocole.</string>
+     </property>
+     <property name="wordWrap" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" >
+    <widget class="QGroupBox" name="grpReconnect" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>3</hsizetype>
+       <vsizetype>5</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="whatsThis" >
+      <string>&lt;h3>Reconnection&lt;/h3>&lt;p>Defines the parameters of the reconnection.&lt;p>&lt;p>You shouldn't have to modify this values&lt;/p></string>
+     </property>
+     <property name="title" >
+      <string>Reconnection</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>6</number>
+      </property>
+      <property name="spacing" >
+       <number>2</number>
+      </property>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="lblReconnection" >
+        <property name="text" >
+         <string>Auto-reconnect delay:</string>
+        </property>
+        <property name="textFormat" >
+         <enum>Qt::PlainText</enum>
+        </property>
+        <property name="buddy" >
+         <cstring>reconnection</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="lblPingTimeout" >
+        <property name="text" >
+         <string>Ping timeout (sec):</string>
+        </property>
+        <property name="textFormat" >
+         <enum>Qt::PlainText</enum>
+        </property>
+        <property name="buddy" >
+         <cstring>ping_timeout</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="QSpinBox" name="reconnection" >
+        <property name="maximum" >
+         <number>32768</number>
+        </property>
+        <property name="minimum" >
+         <number>30</number>
+        </property>
+        <property name="value" >
+         <number>60</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="QSpinBox" name="ping_timeout" >
+        <property name="maximum" >
+         <number>32768</number>
+        </property>
+        <property name="value" >
+         <number>120</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item row="1" column="0" >
     <widget class="QGroupBox" name="grpComm" >
      <property name="sizePolicy" >
@@ -183,104 +366,6 @@
       </item>
      </layout>
     </widget>
-   </item>
-   <item row="1" column="1" >
-    <widget class="QGroupBox" name="grpReconnect" >
-     <property name="sizePolicy" >
-      <sizepolicy>
-       <hsizetype>3</hsizetype>
-       <vsizetype>5</vsizetype>
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="whatsThis" >
-      <string>&lt;h3>Reconnection&lt;/h3>&lt;p>Defines the parameters of the reconnection.&lt;p>&lt;p>You shouldn't have to modify this values&lt;/p></string>
-     </property>
-     <property name="title" >
-      <string>Reconnection</string>
-     </property>
-     <layout class="QGridLayout" >
-      <property name="margin" >
-       <number>6</number>
-      </property>
-      <property name="spacing" >
-       <number>2</number>
-      </property>
-      <item row="1" column="0" >
-       <widget class="QLabel" name="lblReconnection" >
-        <property name="text" >
-         <string>Auto-reconnect delay:</string>
-        </property>
-        <property name="textFormat" >
-         <enum>Qt::PlainText</enum>
-        </property>
-        <property name="buddy" >
-         <cstring>reconnection</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="lblPingTimeout" >
-        <property name="text" >
-         <string>Ping timeout (sec):</string>
-        </property>
-        <property name="textFormat" >
-         <enum>Qt::PlainText</enum>
-        </property>
-        <property name="buddy" >
-         <cstring>ping_timeout</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" >
-       <widget class="QSpinBox" name="reconnection" >
-        <property name="maximum" >
-         <number>32768</number>
-        </property>
-        <property name="minimum" >
-         <number>30</number>
-        </property>
-        <property name="value" >
-         <number>60</number>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" >
-       <widget class="QSpinBox" name="ping_timeout" >
-        <property name="maximum" >
-         <number>32768</number>
-        </property>
-        <property name="value" >
-         <number>120</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="0" >
-    <widget class="QLabel" name="lblInfo" >
-     <property name="text" >
-      <string>Jabber protocole.</string>
-     </property>
-     <property name="wordWrap" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2" >
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>642</width>
-       <height>121</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
  </widget>
