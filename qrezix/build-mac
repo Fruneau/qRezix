@@ -1,11 +1,11 @@
 #!/bin/sh
 
 # Génère le Makefile et le compile
-qmake qrezix.pro
+qmake "DEFINES+=NO_JABBER" qrezix.pro
 make
 
 # Recrée le Makefile pour qu'il mette à jour la liste des fichiers à installer
-qmake qrezix.pro
+qmake "DEFINES+=NO_JABBER" qrezix.pro
 
 # Intéragration des composants dans le Bundle
 make install
