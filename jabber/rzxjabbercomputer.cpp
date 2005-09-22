@@ -17,16 +17,11 @@
 #include "rzxjabbercomputer.h"
 
 
-RzxJabberComputer::RzxJabberComputer(QString name, uint id)
+RzxJabberComputer::RzxJabberComputer(QString jid, QString name, uint id)
 {
-	QStringList list = name.split("/");
-	jid_name = list[0];
-	if(list.count() > 0){
-	resource_list << list[1];
-	}
-	uint subnet = id / 255;
-	uint nb = id % 255;
-	ip_addr = new QHostAddress("0.0." + QString::number(subnet) + "." + QString::number(nb));
+	jid_name = jid;
+	name_name = name.isEmpty() ? jid : name;
+	ip_addr = new QHostAddress("0.0." + QString::number(id / 255) + "." + QString::number(id % 255));
 	nbClients = 1;
 }
 

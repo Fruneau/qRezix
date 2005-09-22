@@ -7,6 +7,7 @@
 #include <gloox/connectionlistener.h>
 #include <gloox/discohandler.h>
 #include <gloox/presencehandler.h>
+#include <gloox/rostermanager.h>
 #include <gloox/loghandler.h>
 #include <gloox/gloox.h>
 using namespace gloox;
@@ -46,10 +47,30 @@ void RzxJabberClient::run()
 	j->disco()->registerDiscoHandler( this );
 	j->disco()->setVersion( "qRezix Jabber", "0.0.1-svn");
 	j->disco()->setIdentity( "client", "qRezix" );
+	j->rosterManager()->registerRosterListener(this);
 	j->connect(false);
 	timer->start(100);
 	exec();
 }
+
+// bool gloox::RosterListener::unsubscriptionRequest(const std::string&, const std::string&)’:
+
+void RzxJabberClient::itemAvailable(RosterItem & item, const std::string &msg){
+	qDebug() << QString::fromStdString(item.jid()) << QString::fromStdString(msg) << "available";
+	emit presence(QString::fromStdString(item.jid()), QString::fromStdString(item.name()) , 2);
+};
+
+
+void RzxJabberClient::itemUnavailable(RosterItem & item, const std::string &msg){
+	qDebug() << QString::fromStdString(item.jid()) << QString::fromStdString(msg) << "unavailable";
+	emit presence(QString::fromStdString(item.jid()), QString::fromStdString(item.name()) , 0);
+};
+
+
+void RzxJabberClient::itemChanged(RosterItem & item, const std::string &msg){
+	qDebug() << QString::fromStdString(item.jid()) << QString::fromStdString(msg) << "changed";
+	emit presence(QString::fromStdString(item.jid()), QString::fromStdString(item.name()) , 1);
+};
 
 void RzxJabberClient::readData(){
 	j->recv(0);
@@ -118,15 +139,7 @@ void RzxJabberClient::handleMessage( Stanza *stanza )
 }
 
 void RzxJabberClient::handlePresence( Stanza *stanza ){
-	if(stanza->show()==PRESENCE_UNAVAILABLE)
-		emit presence(QString::fromStdString(stanza->from().full()), 0); /** @todo G�er d�onnexion */
-	else if(stanza->show()==PRESENCE_AWAY || stanza->show()==PRESENCE_DND || stanza->show()==PRESENCE_XA)
-		emit presence(QString::fromStdString(stanza->from().full()), 1);
-	else
-		emit presence(QString::fromStdString(stanza->from().full()), 2);
-	if(stanza->show()==PRESENCE_UNKNOWN)
-		printf("Unknown presence type");
-	
+
 }
 
 void RzxJabberClient::handleLog( const std::string& xml, bool incoming ){
