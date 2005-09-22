@@ -14,7 +14,7 @@ Description: Qrezix (meta-package)
 Package: qrezix-bin
 Architecture: any
 Depends: ${shlibs:Depends},qrezix-theme
-Recommands: qrezix-translations,qrezix-plugin-xplo,qrezix-plugin-smiley
+Recommends: qrezix-translations,qrezix-plugin-xplo,qrezix-plugin-smiley
 Description: QRezix programme principal
  
 Package: qrezix-theme-noia-warm
