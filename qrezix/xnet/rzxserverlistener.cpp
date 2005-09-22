@@ -325,7 +325,7 @@ void RzxServerListener::serverResetTimer(){
 /** No descriptions */
 bool RzxServerListener::isStarted() const
 {
-	return (socket.state() != QTcpSocket::ConnectedState);
+	return (socket.state() == QTcpSocket::ConnectedState);
 }
 
 /** No descriptions */
