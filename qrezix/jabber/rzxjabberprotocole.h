@@ -23,6 +23,8 @@
 #include <QObject>
 #include <QString>
 #include <QHash>
+#include <QMutex>
+#include <QMutexLocker>
 
 #include <RzxHostAddress>
 #include <RzxNetwork>
@@ -56,7 +58,7 @@ private:
 	QWidget *propWidget;
 	RzxJabberClient *client;
 	QHash<QString,RzxJabberComputer> computerList;
-
+	QMutex mutex;
 
 public slots:
 	/** Demande un envoi d'icone
@@ -70,7 +72,7 @@ public slots:
 	virtual void stop();
 
 	virtual void refresh(){};
-	void presenceRequest(QString str, int type);
+	void presenceRequest(QString jid,QString name, int type);
 	
 	/** Demande de changement de pass */
 	virtual void wantChangePass(){};

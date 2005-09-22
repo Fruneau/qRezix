@@ -46,7 +46,7 @@ RzxJabberProtocole::RzxJabberProtocole()
 	new RzxJabberConfig(this);
 	
 	client = new RzxJabberClient(this);
-	connect(client, SIGNAL(presence(QString, int)), this, SLOT(presenceRequest(QString, int)),Qt::QueuedConnection);
+	connect(client, SIGNAL(presence(QString, QString, int)), this, SLOT(presenceRequest(QString, QString, int)),Qt::QueuedConnection);
 	connect(client, SIGNAL(connected()), this, SLOT(connection()),Qt::QueuedConnection);
 	connect(client, SIGNAL(disconnected()), this, SLOT(deconnection()),Qt::QueuedConnection);
 	setIcon(RzxThemedIcon(Rzx::ICON_NETWORK));
@@ -160,7 +160,8 @@ void RzxJabberProtocole::stop() {
 }
 
 
-void RzxJabberProtocole::presenceRequest(QString str, int type) {
+void RzxJabberProtocole::presenceRequest(QString jid, QString name, int type) {
+
 	struct options_t
 	{
 	unsigned Server                 :6;
@@ -171,20 +172,18 @@ void RzxJabberProtocole::presenceRequest(QString str, int type) {
 	unsigned Capabilities   :19;
 	};
 	options_t opt;
-	RzxJabberComputer newComputer(str, computerList.size());
-	QString resource = newComputer.resource()->at(0);
-	if(computerList.contains(newComputer.jid())){
-		newComputer = computerList.value(newComputer.jid());
-		if(!newComputer.resource()->contains(resource))
-			newComputer.resource()->append(resource);
-	}else
-		computerList.insert(newComputer.jid(),newComputer);
 
-	qDebug() << resource << newComputer.resource()->count() << newComputer.resource()->join(" ") << "Type:" <<type;
+	RzxJabberComputer newComputer(jid, name, computerList.size());
+
+	if(type > 0 && computerList.contains(newComputer.jid())){
+		newComputer.setIp(computerList[newComputer.jid()].ip());
+		newComputer.nbClients += computerList[newComputer.jid()].nbClients;
+	}
+	computerList[newComputer.jid()] = newComputer;
 	switch(type){
 		case 0: // Hors ligne
-			newComputer.resource()->removeAll(resource);
-			if(newComputer.resource()->isEmpty()){
+			newComputer.nbClients--;
+			if(newComputer.nbClients==0){
 				emit logout(newComputer.ip());
 				computerList.remove(newComputer.jid());
 				break;
@@ -194,23 +193,23 @@ void RzxJabberProtocole::presenceRequest(QString str, int type) {
 			opt.Repondeur=1;
 			emit login( this, 
 			RzxHostAddress(newComputer.ip()), //IP
-			newComputer.jid(), //Nom de la machine 
+			newComputer.name(), //Nom de la machine 
 			*((quint32*) &opt), //Options
 			0, //Version du client
 			0, //Hash de l'ic�e
 			0, //Flags ?????
-			"Client Jabber: " + newComputer.resource()->join(" , ")); //Remarque
+			"Client Jabber"); //Remarque
 			break;
 		case 2: // En ligne
 			opt.Repondeur=0;
 			emit login(  this, 
 			RzxHostAddress(newComputer.ip()), //IP
-			newComputer.jid(), //Nom de la machine 
+			newComputer.name(), //Nom de la machine 
 			*((quint32*) &opt), //Options
 			0, //Version du client
 			0, //Hash de l'ic�e
 			0, //Flags ?????
-			"Client Jabber: " + newComputer.resource()->join(" , ")); //Remarque
+			"Client Jabber"); //Remarque
 			break;
 	}
 }
