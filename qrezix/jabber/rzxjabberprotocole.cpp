@@ -23,6 +23,7 @@
 #include <QPixmap>
 #include <QImage>
 #include <QDialog>
+#include <QListWidget>
 
 #include <RzxComputer>
 #include <RzxIconCollection>
@@ -31,6 +32,7 @@
 
 #include "rzxjabberprotocole.h"
 #include "rzxjabberconfig.h"
+using namespace gloox;
 
 RZX_NETWORK_EXPORT(RzxJabberProtocole)
 RZX_CONFIG_INIT(RzxJabberConfig)
@@ -47,8 +49,9 @@ RzxJabberProtocole::RzxJabberProtocole()
 	
 	client = new RzxJabberClient(this);
 	connect(client, SIGNAL(presence(QString, QString, int)), this, SLOT(presenceRequest(QString, QString, int)),Qt::QueuedConnection);
-	connect(client, SIGNAL(connected()), this, SLOT(connection()),Qt::QueuedConnection);
-	connect(client, SIGNAL(disconnected()), this, SLOT(deconnection()),Qt::QueuedConnection);
+	connect(client, SIGNAL(connected()), this, SLOT(connection()));
+	connect(client, SIGNAL(disconnected()), this, SLOT(deconnection()));
+	connect(client, SIGNAL(rosterUpdated()), this, SLOT(buildRosterList()));
 	setIcon(RzxThemedIcon(Rzx::ICON_NETWORK));
 	endLoading();
 }
@@ -84,9 +87,41 @@ QList<QWidget*> RzxJabberProtocole::propWidgets()
 	{
 		propWidget = new QWidget;
 		ui->setupUi(propWidget);
+		connect(ui->rosterList,SIGNAL(currentItemChanged(QListWidgetItem *,QListWidgetItem *)),this, SLOT(changeRosterText(QListWidgetItem *,QListWidgetItem *)));
+		connect(ui->rosterAddButton,SIGNAL(clicked()),this, SLOT(addRosterItem()));
+		connect(ui->rosterDeleteButton,SIGNAL(clicked()),this, SLOT(removeRosterItem()));
 	}
 	return QList<QWidget*>() << propWidget;
 }
+
+void RzxJabberProtocole::changeRosterText(QListWidgetItem *cur,QListWidgetItem *old){
+	if(cur)
+		ui->rosterEdit->setText(cur->text());
+};
+
+void RzxJabberProtocole::addRosterItem(){
+	StringList l;
+	if(!ui->rosterEdit->text().isEmpty()){
+		client->client()->rosterManager()->subscribe(ui->rosterEdit->text().toStdString()," ",l,"User added");
+	}
+};
+
+void RzxJabberProtocole::removeRosterItem(){
+	if(!ui->rosterEdit->text().isEmpty()){
+		client->client()->rosterManager()->unsubscribe(ui->rosterEdit->text().toStdString(),"User removed",true);
+	}
+};
+
+void RzxJabberProtocole::buildRosterList(){
+	// remplissage de la liste des Roster
+	ui->rosterList->clear();
+	ui->rosterEdit->setText("");
+	std::map<std::string, RosterItem*>::const_iterator i;
+	for( i = client->client()->rosterManager()->roster()->begin() ; i !=client->client()->rosterManager()->roster()->end() ; i++){
+		ui->rosterList->addItem(QString::fromStdString((*i).first));
+	}
+	ui->rosterList->sortItems();
+};
 
 /** \reimp */
 QStringList RzxJabberProtocole::propWidgetsName()
@@ -103,6 +138,8 @@ void RzxJabberProtocole::propInit(bool def)
 	ui->server_port->setValue( RzxJabberConfig::serverPort() );
 	ui->reconnection->setValue( RzxJabberConfig::reconnection() / 1000 );
 	ui->ping_timeout->setValue( RzxJabberConfig::pingTimeout() / 1000 );
+	
+	buildRosterList();
 }
 
 /** \reimp */
@@ -161,7 +198,6 @@ void RzxJabberProtocole::stop() {
 
 
 void RzxJabberProtocole::presenceRequest(QString jid, QString name, int type) {
-
 	struct options_t
 	{
 	unsigned Server                 :6;
