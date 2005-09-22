@@ -18,6 +18,7 @@
 
 #include <RzxConfig>
 #include <RzxHostAddress>
+#include <RzxConnectionLister>
 
 
 ///Création d'un RzxHostAddress à partir de la donnée fournie par le protocole xNet
@@ -57,6 +58,16 @@ quint32 RzxHostAddress::toRezix() const
 RzxHostAddress::operator quint32() const
 {
 	return toIPv4Address();
+}
+
+///Converti l'objet en un RzxComputer*
+/** Simple utilisation de RzxConnectionLister::global()->getComputerByIP()...
+ * Cette fonction est surtout pratique pour simplifier éviter d'avoir à faire des
+ * conversion à longueur de temps dans certains modules (le chat entre autre.
+ */
+RzxHostAddress::operator RzxComputer*() const
+{
+	return RzxConnectionLister::global()->getComputerByIP(*this);
 }
 
 ///Permet de retrouver le 'nom' du sous-réseau sur lequel se trouve la machine

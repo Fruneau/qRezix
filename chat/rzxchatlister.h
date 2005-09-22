@@ -70,13 +70,10 @@ class RzxChatLister:public RzxModule
 
 		void warnProperties(const RzxHostAddress&);
 
-		QWidget *historique(const RzxHostAddress&, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL);
 		QWidget *historique(RzxComputer*, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL);
-		QWidget *showProperties(const RzxHostAddress&, const QString&, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL);
 		QWidget *showProperties(RzxComputer*, const QString&, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL);
 		void proprietes(RzxComputer*);
 		RzxChat *createChat(RzxComputer*);
-		RzxChat *createChat(const RzxHostAddress&);
 
 		void deleteChat(const RzxHostAddress&);
 		void closeChat(const QString& login);

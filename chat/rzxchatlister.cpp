@@ -144,12 +144,6 @@ RzxChat *RzxChatLister::createChat(RzxComputer *computer)
 	return chat;
 }
 
-///Création d'une fenêtre associée à une addresse
-RzxChat *RzxChatLister::createChat(const RzxHostAddress& ip)
-{
-	return createChat(RzxConnectionLister::global()->getComputerByIP(ip));
-}
-
 ///Fermeture du chat (si il existe) associé au login
 void RzxChatLister::closeChat( const QString& login )
 {
@@ -193,7 +187,7 @@ void RzxChatLister::proprietes(RzxComputer *computer)
 void RzxChatLister::warnProperties( const RzxHostAddress& peer )
 {
 	RzxChat *chat = getChatByIP(peer);
-	RzxComputer *computer = RzxConnectionLister::global()->getComputerByIP(peer);
+	RzxComputer *computer = peer;
 	if (!computer)
 		return ;
 	QTime cur = QTime::currentTime();
@@ -305,12 +299,6 @@ QWidget *RzxChatLister::showProperties(RzxComputer *computer, const QString& msg
 	return propertiesDialog;
 }
 
-///Idem avec un RzxHostAddress
-QWidget *RzxChatLister::showProperties(const RzxHostAddress& peer, const QString& msg, bool withFrame, QWidget *parent, QPoint *pos )
-{
-	return showProperties(RzxConnectionLister::global()->getComputerByIP(peer), msg, withFrame, parent, pos);
-}
-
 ///Affichage de la fenêtre de favoris
 QWidget *RzxChatLister::historique(RzxComputer *computer, bool withFrame, QWidget *parent, QPoint *pos )
 {
@@ -377,13 +365,6 @@ QWidget *RzxChatLister::historique(RzxComputer *computer, bool withFrame, QWidge
 		histoDialog->show();
 	return histoDialog;
 }
-
-///Idem avec un RzxHostAddress
-QWidget *RzxChatLister::historique(const RzxHostAddress& peer, bool withFrame, QWidget *parent, QPoint *pos )
-{
-	return historique(RzxConnectionLister::global()->getComputerByIP(peer), withFrame, parent, pos);
-}
-
 
 /** \reimp */
 QList<QWidget*> RzxChatLister::propWidgets()

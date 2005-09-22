@@ -22,6 +22,8 @@
 
 #include <RzxGlobal>
 
+class RzxComputer;
+
 /**
   *@author Sylvain Joyeux
   */
@@ -44,6 +46,7 @@ class RzxHostAddress : public QHostAddress
 		quint32 toRezix() const;
 
 		operator quint32() const;
+		operator RzxComputer*() const;
 
 		int rezal() const;
 		QString rezalName(bool = true) const;

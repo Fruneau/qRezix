@@ -163,7 +163,7 @@ int RzxChatSocket::parse(const QString& msg)
 					}
 					if(!chatWindow)
 					{
-						chatWindow = RzxChatLister::global()->createChat(this->peerAddress());
+						chatWindow = RzxChatLister::global()->createChat(host);
 						if(!chatWindow) return DCC_CHAT;
 						chatWindow->setSocket(this);
 					}
@@ -224,8 +224,6 @@ void RzxChatSocket::sendTyping(bool state)
 ///Formatage des propriétés de l'utilisateur
 void RzxChatSocket::sendProperties()
 {
-	RzxHostAddress peer = peerAddress();
-	
 	QStringList strList;
 	strList << tr("Surname") << RzxConfig::propName();
 	strList << tr("First name") << RzxConfig::propLastName();
@@ -239,7 +237,7 @@ void RzxChatSocket::sendProperties()
 
 	QString msg = strList.join("|");
 	send("PROPANSWER " + msg + "\r\n\0");
-	emit propertiesSent(peer);
+	emit propertiesSent(host);
 }
 
 ///Emission d'un message de chat
@@ -331,6 +329,7 @@ void RzxChatSocket::chatConnexionEtablished()
 		tmpChat = QString::null;
 	}
 	timeOut.stop();
+	host = peerAddress();
 }
 
 /**La connexion a été fermée (sans doute par fermeture de la fenêtre de chat) on l'indique à l'utilisateur */
