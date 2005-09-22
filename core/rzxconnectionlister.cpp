@@ -228,8 +228,8 @@ void RzxConnectionLister::newConnection(RzxNetwork* network)
 		emit clear();
 }
 
-///Indique si tous les serveurs sont dï¿½onnectï¿½
-bool RzxConnectionLister::isDisconnected() const
+///Indique si on a au moins une connexion avec un serveur
+bool RzxConnectionLister::isConnected() const
 {
 	bool connected = false;
 	foreach(RzxNetwork *network, moduleList())
@@ -237,10 +237,10 @@ bool RzxConnectionLister::isDisconnected() const
 	return connected;
 }
 
-///Indique si on est connectï¿½ï¿½un serveur
-bool RzxConnectionLister::isConnected() const
+///Indique si toutes les connections avec les serveurs sont coupées
+bool RzxConnectionLister::isDisconnected() const
 {
-	return !isDisconnected();
+	return !isConnected();
 }
 
 ///Lance toutes les connexions
