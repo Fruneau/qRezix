@@ -130,7 +130,7 @@ RzxChat *RzxChatLister::createChat(RzxComputer *computer)
 	RzxChat *chat = getChatByIP(peer);
 	if(!chat)
 	{
-		RzxChat *chat = new RzxChat(peer);
+		chat = new RzxChat(peer);
 		chat->setHostname( computer->name() );
 
 		connect(chat, SIGNAL(send(const QString&)), this, SIGNAL(wantDeactivateResponder()));
