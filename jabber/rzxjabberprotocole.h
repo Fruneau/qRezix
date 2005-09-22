@@ -60,6 +60,7 @@ private:
 	QHash<QString,RzxJabberComputer> computerList;
 	QMutex mutex;
 
+
 public slots:
 	/** Demande un envoi d'icone
 	*@param ip ip de l'hote dont on veut l'icone */
@@ -73,7 +74,10 @@ public slots:
 
 	virtual void refresh(){};
 	void presenceRequest(QString jid,QString name, int type);
-	
+	void buildRosterList();	
+	void addRosterItem();
+	void removeRosterItem();
+	void changeRosterText(QListWidgetItem *cur,QListWidgetItem *old);
 	/** Demande de changement de pass */
 	virtual void wantChangePass(){};
 	virtual void changePass(const QString&){};

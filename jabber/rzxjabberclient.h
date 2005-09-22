@@ -24,6 +24,7 @@
 #include <gloox/messagehandler.h>
 #include <gloox/connectionlistener.h>
 #include <gloox/rosterlistener.h>
+#include <gloox/rostermanager.h>
 #include <gloox/discohandler.h>
 #include <gloox/presencehandler.h>
 #include <gloox/loghandler.h>
@@ -57,6 +58,8 @@ class RzxJabberClient : public QThread, DiscoHandler, MessageHandler, Connection
 		void itemAvailable(RosterItem & item, const std::string &msg);
 		void itemUnavailable(RosterItem & item, const std::string &msg);
 		void itemChanged(RosterItem & item, const std::string &msg);
+		void itemUpdated(const std::string &jid);
+		void itemRemoved(const std::string &jid);
 		bool unsubscriptionRequest(const std::string&, const std::string&){return true;}
 		bool subscriptionRequest(const std::string&, const std::string&){return true;}
 
@@ -64,6 +67,7 @@ class RzxJabberClient : public QThread, DiscoHandler, MessageHandler, Connection
 		void presence(QString jid, QString name, int type);
 		void connected();
 		void disconnected();
+		void rosterUpdated();
 	private slots:
 		void readData();
 		

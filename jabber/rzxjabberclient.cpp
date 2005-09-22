@@ -7,7 +7,6 @@
 #include <gloox/connectionlistener.h>
 #include <gloox/discohandler.h>
 #include <gloox/presencehandler.h>
-#include <gloox/rostermanager.h>
 #include <gloox/loghandler.h>
 #include <gloox/gloox.h>
 using namespace gloox;
@@ -70,6 +69,14 @@ void RzxJabberClient::itemUnavailable(RosterItem & item, const std::string &msg)
 void RzxJabberClient::itemChanged(RosterItem & item, const std::string &msg){
 	qDebug() << QString::fromStdString(item.jid()) << QString::fromStdString(msg) << "changed";
 	emit presence(QString::fromStdString(item.jid()), QString::fromStdString(item.name()) , 1);
+};
+
+void RzxJabberClient::itemUpdated(const std::string &jid){
+	emit rosterUpdated();
+};
+
+void RzxJabberClient::itemRemoved(const std::string &jid){
+	emit rosterUpdated();
 };
 
 void RzxJabberClient::readData(){
