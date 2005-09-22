@@ -15,3 +15,12 @@ Notes
 -----
 
 Ce plugin est hautement expérimental. (en plus il a été codé avec les pieds)
+
+-----
+TODO
+-----
+
+Correction de bugs sur lib gloox:
+- envoyer un evenement notifyOnDisconnect( reason ) à la fin de disconnect(reason) dans ClientBase
+- bug sur l'état online/away
+

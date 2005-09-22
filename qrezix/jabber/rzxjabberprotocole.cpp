@@ -63,10 +63,12 @@ RzxJabberProtocole::~RzxJabberProtocole(){
 
 void RzxJabberProtocole::connection(){
 	emit connected(this);
+	emit status("Connection jabber");
 }
 
 void RzxJabberProtocole::deconnection(){
 	emit disconnected(this);
+	emit status("deconnection jabber");
 }
 
 /****************************************************************************
@@ -145,7 +147,7 @@ void RzxJabberProtocole::propClose()
 
 bool RzxJabberProtocole::isStarted() const
 {
-	return client->isRunning();
+	return client->isRunning() && client->isStarted();
 }
 
 void RzxJabberProtocole::start() {

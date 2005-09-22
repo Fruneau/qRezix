@@ -18,6 +18,7 @@ using namespace gloox;
 RzxJabberClient::RzxJabberClient(QObject *parent)
 	:QThread(parent)
 {
+	j = 0;
 	timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(readData()));
 }
@@ -62,6 +63,11 @@ void RzxJabberClient::stop(){
 void RzxJabberClient::onConnect()
 {
 	emit connected();
+};
+
+bool RzxJabberClient::isStarted()
+{
+	return j ?j->authed():false;
 };
 
 void RzxJabberClient::onDisconnect( ConnectionError e )
