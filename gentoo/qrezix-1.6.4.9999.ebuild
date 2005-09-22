@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 
-inherit kde-functions svn
+inherit kde-functions subversion
 need-qt 3.3
 
 DESCRIPTION="qRezix : a xNet client made in Qt"
