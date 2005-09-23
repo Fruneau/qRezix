@@ -65,6 +65,7 @@ class RzxJabberClient : public QThread, DiscoHandler, MessageHandler, Connection
 
 	signals:
 		void presence(QString jid, QString name, int type);
+		void msgReceived(QString from, QString msg);
 		void connected();
 		void disconnected();
 		void rosterUpdated();

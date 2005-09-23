@@ -21,6 +21,6 @@ TODO
 -----
 
 Correction de bugs sur lib gloox:
-- envoyer un evenement notifyOnDisconnect( reason ) à la fin de disconnect(reason) dans ClientBase
-- bug sur l'état online/away
+- envoyer un evenement notifyOnDisconnect( reason ) à la fin de disconnect(reason) dans ClientBase.cpp line 153
+- bug sur l'état online/away (stanza.cpp line 157 - 176)
 

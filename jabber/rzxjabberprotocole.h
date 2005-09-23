@@ -84,6 +84,9 @@ public slots:
 	virtual void usePass(const QString&){};
 	void connection();
 	void deconnection();
+
+	void sendMsg(QString to, QString msg);
+
 // Signals
 signals:
 	/** ping() est emit quand on passe une commande PING a @ref parse */
