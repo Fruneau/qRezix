@@ -55,19 +55,16 @@ void RzxJabberClient::run()
 // bool gloox::RosterListener::unsubscriptionRequest(const std::string&, const std::string&)’:
 
 void RzxJabberClient::itemAvailable(RosterItem & item, const std::string &msg){
-	qDebug() << QString::fromStdString(item.jid()) << QString::fromStdString(msg) << "available";
 	emit presence(QString::fromStdString(item.jid()), QString::fromStdString(item.name()) , 2);
 };
 
 
 void RzxJabberClient::itemUnavailable(RosterItem & item, const std::string &msg){
-	qDebug() << QString::fromStdString(item.jid()) << QString::fromStdString(msg) << "unavailable";
 	emit presence(QString::fromStdString(item.jid()), QString::fromStdString(item.name()) , 0);
 };
 
 
 void RzxJabberClient::itemChanged(RosterItem & item, const std::string &msg){
-	qDebug() << QString::fromStdString(item.jid()) << QString::fromStdString(msg) << "changed";
 	emit presence(QString::fromStdString(item.jid()), QString::fromStdString(item.name()) , 1);
 };
 
@@ -127,23 +124,9 @@ void RzxJabberClient::handleDiscoItemsResult( const std::string& id, const Stanz
 
 void RzxJabberClient::handleMessage( Stanza *stanza )
 {
-	if(!stanza->body().empty()){
-		printf( "type: %d, subject: %s, message: %s, thread id: %s\n", stanza->subtype(),
-			stanza->subject().c_str(), stanza->body().c_str(), stanza->thread().c_str() );
-		Tag *m = new Tag( "message" );
-		m->addAttrib( "from", j->jid().full() );
-		m->addAttrib( "to", stanza->from().full() );
-		m->addAttrib( "type", "chat" );
-		Tag *b = new Tag( "body", "Vous avez dit:\n> " + stanza->body() );
-		m->addChild( b );
-		if( !stanza->subject().empty() )
-		{
-			Tag *s = new Tag( "subject", "Re:" +  stanza->subject() );
-			m->addChild( s );
-		}
-		j->send( m );
-	}
+	emit msgReceived(QString::fromStdString(stanza->from().full()) , QString::fromStdString(stanza->body()) );
 }
+
 
 void RzxJabberClient::handlePresence( Stanza *stanza ){
 

@@ -48,7 +48,8 @@ RzxJabberProtocole::RzxJabberProtocole()
 	new RzxJabberConfig(this);
 	
 	client = new RzxJabberClient(this);
-	connect(client, SIGNAL(presence(QString, QString, int)), this, SLOT(presenceRequest(QString, QString, int)),Qt::QueuedConnection);
+	connect(client, SIGNAL(presence(QString, QString, int)), this, SLOT(presenceRequest(QString, QString, int)));
+	connect(client, SIGNAL(msgReceived(QString, QString)), this, SLOT(sendMsg(QString,QString))); /// @todo gérer l'envoi à la fenetre de chat quand ce sera en place)
 	connect(client, SIGNAL(connected()), this, SLOT(connection()));
 	connect(client, SIGNAL(disconnected()), this, SLOT(deconnection()));
 	connect(client, SIGNAL(rosterUpdated()), this, SLOT(buildRosterList()));
@@ -249,3 +250,14 @@ void RzxJabberProtocole::presenceRequest(QString jid, QString name, int type) {
 			break;
 	}
 }
+
+void RzxJabberProtocole::sendMsg(QString to, QString msg) {
+		Tag *m = new Tag( "message" );
+		m->addAttrib( "from", client->client()->jid().full() );
+		m->addAttrib( "to", to.toStdString() );
+		m->addAttrib( "type", "chat" );
+		Tag *b = new Tag( "body", msg.toStdString() );
+		m->addChild( b );
+		client->client()->send( m );
+}
+
