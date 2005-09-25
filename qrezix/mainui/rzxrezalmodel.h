@@ -210,7 +210,7 @@ class RzxRezalModel:public QAbstractItemModel
 		virtual QVariant getComputer(int, const RzxRezalSearchList&, int, int) const;
 
 		///Extrait l'item d'un menu
-		virtual QVariant getMenuItem(int, const QIcon&, const QString&, const QString& desc = QString()) const;
+		virtual QVariant getMenuItem(int, int, const QIcon&, const QString&, const QString& desc = QString()) const;
 
 	public:
 		//Modèles qui servent de repère pour les entrées
