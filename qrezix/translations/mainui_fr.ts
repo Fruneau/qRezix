@@ -21,6 +21,10 @@
         <source>Away</source>
         <translation>Absent</translation>
     </message>
+    <message>
+        <source>Main</source>
+        <translation>Principal</translation>
+    </message>
 </context>
 <context>
     <name>RzxItemUI</name>
@@ -441,15 +445,23 @@
     </message>
     <message>
         <source>place : </source>
-        <translation>bâtiment :</translation>
+        <translation type="obsolete">bâtiment :</translation>
     </message>
     <message>
         <source>No properties in cache</source>
-        <translation>Pas de propriétés en mémoire</translation>
+        <translation type="obsolete">Pas de propriétés en mémoire</translation>
     </message>
     <message>
         <source>Properties checked on </source>
         <translation>Propriétés récupérées le</translation>
+    </message>
+    <message>
+        <source>Location : </source>
+        <translation>Bâtiment :</translation>
+    </message>
+    <message>
+        <source>No properties cached</source>
+        <translation>Pas de propriétés en cache</translation>
     </message>
 </context>
 <context>
@@ -476,7 +488,7 @@
     </message>
     <message>
         <source>begin &amp;Chat</source>
-        <translation type="unfinished">&amp;Discuter</translation>
+        <translation>&amp;Discuter</translation>
     </message>
     <message>
         <source>History</source>

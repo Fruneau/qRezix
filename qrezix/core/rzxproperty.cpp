@@ -290,19 +290,19 @@ bool RzxProperty::miseAJour()
 	updateModules<RzxNetwork>(RzxConnectionLister::global()->moduleList());
 	updateModules<RzxModule>(RzxApplication::modulesList());
 
-	//Vérification que les données sont correctes
+	//Vérification de validité des données
 	if(!hostname->hasAcceptableInput())
 	{
-		RzxMessageBox::information(this, tr("Bad properties"),
+		RzxMessageBox::information(this, tr("Incorrect properties"),
 			tr("Your computer name is not valid...<br>"
-				"A computer name can only contains letters, numbers and '-'"));
+				"It can only contain letters, numbers and '-' signs."));
 		return false;
 	}
 	else if(!remarque->hasAcceptableInput())
 	{
-		RzxMessageBox::information(this, tr("Bad properties"),
+		RzxMessageBox::information(this, tr("Incorrect properties"),
 			tr("Your comment is not valid...<br>"
-				"It can't contain linebreaks or other 'special' character"));
+				"It cannot contain linebreaks or other special characters"));
 		return false;
 	}
 	
@@ -380,13 +380,13 @@ QString RzxProperty::infoNeeded()
 {
 	QString msg = "";
 	if(RzxConfig::propLastName() == "")
-		msg += "\t" + tr("Surname:").remove(':') + "\n";
+		msg += "\t" + tr("Last name:").remove(':') + "\n";
 	if(RzxConfig::propName() == "")
-		msg += "\t" + tr("First name:").remove(':') + "\n";
+		msg += "\t" + tr("Name:").remove(':') + "\n";
 	if(RzxConfig::propCasert() == "")
 		msg += "\t" + tr("Room:").remove(':') + "\n";
 	if(RzxConfig::propMail() == "")
-		msg += "\t" + tr("e-mail:").remove(':') + "\n";
+		msg += "\t" + tr("E-mail:").remove(':') + "\n";
 	if(RzxConfig::propTel() == "")
 		msg += "\t" + tr("Phone number:").remove(':') + "\n";
 	return msg;
@@ -394,9 +394,9 @@ QString RzxProperty::infoNeeded()
 
 int RzxProperty::infoCompleteMessage()
 {
-	return QMessageBox::question(this, tr("Incomplete datas"), tr("In order to use qRezix, you have to complete all the following informations :\n")
+	return QMessageBox::question(this, tr("Incomplete Data"), tr("In order to use qRezix, you must fill in the following information :\n")
 			+ infoNeeded()
-			+ tr("Press OK to reenter these informations, or Cancel to quit qRezix"),
+			+ tr("Press OK to do so, or Cancel to quit qRezix"),
 			QMessageBox::Ok, QMessageBox::Cancel);
 }
 
@@ -433,7 +433,7 @@ void RzxProperty::chooseIcon() {
 	if (!icon.load(file)) {
 		RzxMessageBox::warning( this,
 		                      tr("Error !"),
-		                      tr("Selected file is not valid"));
+		                      tr("Invalid File Selected."));
 		return ;
 	}
 
