@@ -64,7 +64,7 @@ bool sortComputer(RzxComputer *c1, RzxComputer *c2)
 		case RzxRezalModel::ColGateway: return c1->isSameGateway(c2);
 		case RzxRezalModel::ColPromo: return c1->promo() < c2->promo();
 		case RzxRezalModel::ColRezal: return c1->rezal() < c2->rezal();
-		case RzxRezalModel::ColIP: return c1->ip() < c2->ip();
+		case RzxRezalModel::ColIP: return (qint32)c1->ip() < (qint32)c2->ip();
 		case RzxRezalModel::ColClient: return c1->client() < c2->client();
 		default: return false;
 	}
@@ -426,16 +426,17 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 	const uint column = index.column();
 	const uint value = index.row();
 	const uint category = index.internalId();
-	
+	int child = rowCount(index);
+			
 	switch(category)
 	{
 		case TREE_FLAG_BASE:
 			switch(value)
 			{
-				case TREE_BASE_EVERYBODY: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_NOTFAVORITE), tr("Everybody"));;
-				case TREE_BASE_FAVORITE: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_NOTFAVORITE), tr("Category"));
-				case TREE_BASE_PROMO: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_ORANJE), tr("Promo"));
-				case TREE_BASE_REZAL: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY), tr("Subnet"));
+				case TREE_BASE_EVERYBODY: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_NOTFAVORITE), tr("Everybody"));
+				case TREE_BASE_FAVORITE: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_NOTFAVORITE), tr("Category"));
+				case TREE_BASE_PROMO: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_ORANJE), tr("Promo"));
+				case TREE_BASE_REZAL: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY), tr("Subnet"));
 			}
 			break;
 
@@ -443,24 +444,24 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 		case TREE_FLAG_FAVORITE:
 			switch(value)
 			{
-				case TREE_FAVORITE_FAVORITE: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_FAVORITE), tr("Favorites"));
-				case TREE_FAVORITE_IGNORED: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_BAN), tr("Banned"));
-				case TREE_FAVORITE_NEUTRAL: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_NOTFAVORITE), tr("Others..."));
+				case TREE_FAVORITE_FAVORITE: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_FAVORITE), tr("Favorites"));
+				case TREE_FAVORITE_IGNORED: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_BAN), tr("Banned"));
+				case TREE_FAVORITE_NEUTRAL: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_NOTFAVORITE), tr("Others..."));
 			}
 			break;
 
 		case TREE_FLAG_PROMO:
 			switch(value)
 			{
-				case TREE_PROMO_JONE: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_JONE), tr("Jones"));
-				case TREE_PROMO_ROUJE: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_ROUJE), tr("Roujes"));
-				case TREE_PROMO_ORANJE: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_ORANJE), tr("Oranjes"));
-				case TREE_PROMO_BINET: return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_FAVORITE), tr("Binets"));
+				case TREE_PROMO_JONE: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_JONE), tr("Jones"));
+				case TREE_PROMO_ROUJE: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_ROUJE), tr("Roujes"));
+				case TREE_PROMO_ORANJE: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_ORANJE), tr("Oranjes"));
+				case TREE_PROMO_BINET: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_FAVORITE), tr("Binets"));
 			}
 			break;
 
 		case TREE_FLAG_REZAL:
-			return getMenuItem(role, RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY), RzxConfig::rezalName(value, false));
+			return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY), RzxConfig::rezalName(value, false));
 
 		case TREE_FLAG_FAVORITE_FAVORITE: return getComputer(role, favorites, value, column);
 		case TREE_FLAG_FAVORITE_IGNORED: return getComputer(role, ignored, value, column);
@@ -617,7 +618,7 @@ QString RzxRezalModel::tooltip(const RzxComputer *computer) const
 ///Extraction de l'objet pour le menu
 /** Contrairement aux items pour lesquels le RzxComputer contient la totalité des informations importantes,
  * les menus doivent être définis à la main par l'utilisateur... */
-QVariant RzxRezalModel::getMenuItem(int role, const QIcon& icon, const QString& name, const QString& desc) const
+QVariant RzxRezalModel::getMenuItem(int role, int children, const QIcon& icon, const QString& name, const QString& desc) const
 {
 	const QString description = (desc.isNull()?name:desc);
 
@@ -625,7 +626,7 @@ QVariant RzxRezalModel::getMenuItem(int role, const QIcon& icon, const QString& 
 	{
 		case Qt::DisplayRole: return name;
 		case Qt::DecorationRole: return icon;
-		case Qt::ToolTipRole: return description;
+		case Qt::ToolTipRole: return description + " (" + QString::number(children) + ")";
 		default: return QVariant();
 	}
 }

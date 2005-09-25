@@ -56,7 +56,7 @@ class RzxComputer : public QObject  {
 	Q_ENUMS(ServerFlags)
 	Q_FLAGS(Servers)
 	
-#ifndef __BIG_ENDIAN
+#if __BYTE_ORDER == __LITTLE_ENDIAN
 	struct options_t
 	{
 		unsigned Server			:6;
@@ -85,7 +85,7 @@ class RzxComputer : public QObject  {
 	};	
 	
 public: 
-#ifndef __BIG_ENDIAN
+#if __BYTE_ORDER == __LITTLE_ENDIAN
 	struct version_t
 	{
 		unsigned FunnyVersion	:14;
