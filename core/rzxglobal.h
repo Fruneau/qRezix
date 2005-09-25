@@ -210,4 +210,16 @@ namespace Rzx
 /** \sa RZX_GLOBAL */
 #define RZX_GLOBAL_CLOSE if(object == this) object = NULL;
 
+///Little Endian - Big Endian
+#ifndef __BYTE_ORDER
+#ifdef BYTE_ORDER
+#define __BYTE_ORDER BYTE_ORDER
+#define __LITTLE_ENDIAN LITTLE_ENDIAN
+#define __BIG_ENDIAN BIG_ENDIAN
+#else
+#define __LITTLE_ENDIAN
+#define __BYTE_ORDER __LITTLE_ENDIAN
+#endif
+#endif
+
 #endif
