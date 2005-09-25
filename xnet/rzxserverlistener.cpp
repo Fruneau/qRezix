@@ -129,11 +129,11 @@ void RzxServerListener::serverError(QTcpSocket::SocketError error) {
 			break;
 		
 		case QTcpSocket::RemoteHostClosedError:
-			reconnectionMsg = tr("Connectiion reset by peer");
+			reconnectionMsg = tr("Connection reset by peer");
 			break;
 
 		case QTcpSocket::HostNotFoundError:
-			reconnectionMsg = tr("Cannot find server %1").arg(RzxXNetConfig::serverName());
+			reconnectionMsg = tr("Unable to find server %1").arg(RzxXNetConfig::serverName());
 
 			if(hasBeenConnected)
 				RzxMessageBox::information( NULL, "qRezix",
@@ -154,11 +154,11 @@ void RzxServerListener::serverError(QTcpSocket::SocketError error) {
 			break;
 
 		case QTcpSocket::NetworkError:
-			reconnectionMsg = tr("Link down");
+			reconnectionMsg = tr("Network down");
 			break;
 
 		case QTcpSocket::UnsupportedSocketOperationError:
-			reconnectionMsg = tr("Unspported operation");
+			reconnectionMsg = tr("Unsupported operation");
 			break;
 
 		default:

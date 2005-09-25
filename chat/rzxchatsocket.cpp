@@ -225,15 +225,15 @@ void RzxChatSocket::sendTyping(bool state)
 void RzxChatSocket::sendProperties()
 {
 	QStringList strList;
-	strList << tr("Surname") << RzxConfig::propName();
-	strList << tr("First name") << RzxConfig::propLastName();
+	strList << tr("Name") << RzxConfig::propName();
+	strList << tr("Last name") << RzxConfig::propLastName();
 	strList << tr("Nick") << RzxConfig::propSurname();
 	strList << tr("Phone") << RzxConfig::propTel();
 	strList << tr("E-Mail") << RzxConfig::propMail();
-	strList << tr("Web") << RzxConfig::propWebPage();
+	strList << tr("Web Page") << RzxConfig::propWebPage();
 	strList << tr("Room") << RzxConfig::propCasert();
 	strList << tr("Sport") << RzxConfig::propSport();
-	strList << tr("Promo") << RzxConfig::propPromo();
+	strList << tr("Class") << RzxConfig::propPromo();
 
 	QString msg = strList.join("|");
 	send("PROPANSWER " + msg + "\r\n\0");
@@ -346,7 +346,7 @@ void RzxChatSocket::chatConnexionError(SocketError error)
 	switch(error)
 	{
 		case ConnectionRefusedError:
-			emit info(tr("can't be contact, check his firewall... CONNECTION ERROR"));
+			emit info(tr("can't be contacted, check his firewall... CONNECTION ERROR"));
 			qDebug("Connexion has been refused by the client");
 			close();
 			break;
@@ -359,7 +359,7 @@ void RzxChatSocket::chatConnexionError(SocketError error)
 			break;
 //		case SocketRead:
 		default:
-			emit info(tr("has sent datas which can't be read... CONNECTION ERROR"));
+			emit info(tr("has sent corrupt data... CONNECTION ERROR"));
 			qDebug("Error while reading datas %d", error);
 			break;
 	}

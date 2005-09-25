@@ -140,13 +140,13 @@ void RzxProtocole::parse(const QString& msg)
 				break;
 			
 			case SERVER_CHANGEPASSOK:
-				emit info(tr("Your pass has been successfully changed by the server. Keep it well because it can be useful."));
+				emit info(tr("Your password has been successfully changed on the server. Remember it carefully, it can be useful."));
 				if(!RzxXNetConfig::oldPass().isNull()) RzxXNetConfig::setOldPass();
 				RzxXNetConfig::setPass(m_newPass);
 				break;
 			
 			case SERVER_CHANGEPASSFAILED:
-				emit info(tr("Server can't change your pass :\n") + cmd.cap(1));
+				emit info(tr("Server was unable to change your pass :\n") + cmd.cap(1));
 				RzxXNetConfig::setPass(m_oldPass);
 				break;
 				

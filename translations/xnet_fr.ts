@@ -3,12 +3,22 @@
     <name>RzxProtocole</name>
     <message>
         <source>Your pass has been successfully changed by the server. Keep it well because it can be useful.</source>
-        <translation>Votre mot de passe a été changé avec succès par le serveur. Notez le bien.</translation>
+        <translation type="obsolete">Votre mot de passe a été changé avec succès par le serveur. Notez le bien.</translation>
     </message>
     <message>
         <source>Server can&apos;t change your pass :
 </source>
-        <translation>Le serveur ne peut pas changer le mot passe :
+        <translation type="obsolete">Le serveur ne peut pas changer le mot passe :
+</translation>
+    </message>
+    <message>
+        <source>Your password has been successfully changed on the server. Remember it carefully, it can be useful.</source>
+        <translation>Votre mot de passe a été changé correctement sur le serveur. Souvenez-vous en, il pourra vous être utile.</translation>
+    </message>
+    <message>
+        <source>Server was unable to change your pass :
+</source>
+        <translation>Le serveur n&apos;a pas pu changer votre mot de passe :
 </translation>
     </message>
 </context>
@@ -24,11 +34,11 @@
     </message>
     <message>
         <source>Connectiion reset by peer</source>
-        <translation>Connexion réinitialisée par l&apos;hôte distant</translation>
+        <translation type="obsolete">Connexion réinitialisée par l&apos;hôte distant</translation>
     </message>
     <message>
         <source>Cannot find server %1</source>
-        <translation>Impossible de trouver %1</translation>
+        <translation type="obsolete">Impossible de trouver %1</translation>
     </message>
     <message>
         <source>Cannot find server %1:
@@ -50,11 +60,11 @@ DNS request failed</source>
     </message>
     <message>
         <source>Link down</source>
-        <translation>Câble débranché</translation>
+        <translation type="obsolete">Câble débranché</translation>
     </message>
     <message>
         <source>Unspported operation</source>
-        <translation>Opération non supportée</translation>
+        <translation type="obsolete">Opération non supportée</translation>
     </message>
     <message>
         <source>Unknown QSocket error: %1</source>
@@ -87,6 +97,22 @@ DNS request failed</source>
     <message>
         <source>Socket error, cannot write</source>
         <translation>Erreur de socket, écriture impossible</translation>
+    </message>
+    <message>
+        <source>Connection reset by peer</source>
+        <translation>Connexion réinitalisée par le client distant</translation>
+    </message>
+    <message>
+        <source>Unable to find server %1</source>
+        <translation>Impossible de trouver le serveur %1</translation>
+    </message>
+    <message>
+        <source>Network down</source>
+        <translation>Pas de réseau</translation>
+    </message>
+    <message>
+        <source>Unsupported operation</source>
+        <translation>Opération non supportée</translation>
     </message>
 </context>
 <context>

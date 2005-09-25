@@ -592,7 +592,7 @@ QString RzxRezalModel::tooltip(const RzxComputer *computer) const
 	if(tooltipFlags & (int)RzxRezalModel::TipIP)
 		tooltip += "<b>-></b>&nbsp;ip : <i>" + computer->ip().toString() + "</i><br/>";
 	if(tooltipFlags & (int)RzxRezalModel::TipResal)
-		tooltip += "<b>-></b>&nbsp;" + tr("place : ") + computer->rezalName(false) + "<br/>";
+		tooltip += "<b>-></b>&nbsp;" + tr("Location : ") + computer->rezalName(false) + "<br/>";
 	
 	if(tooltipFlags & (int)RzxRezalModel::TipProperties)
 	{
@@ -600,7 +600,7 @@ QString RzxRezalModel::tooltip(const RzxComputer *computer) const
 		QString msg = RzxConfig::cache(computer->ip());
 		if(msg.isNull())
 		{
-			tooltip += "<i>" + tr("No properties in cache") + "</i>";
+			tooltip += "<i>" + tr("No properties cached") + "</i>";
 		}
 		else
 		{

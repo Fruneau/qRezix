@@ -7,5 +7,5 @@ make
 # Recrée le Makefile pour qu'il mette à jour la liste des fichiers à installer
 qmake "DEFINES+=NO_JABBER" qrezix.pro
 
-# Intéragration des composants dans le Bundle
+# Int�gration des composants dans le Bundle
 make install

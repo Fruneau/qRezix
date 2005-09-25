@@ -7,11 +7,11 @@
     </message>
     <message>
         <source>Pong received within %1 msecs</source>
-        <translation>Réponses reçue en %1 ms</translation>
+        <translation>Réponse reçue en %1 ms</translation>
     </message>
     <message>
         <source>Chat</source>
-        <translation>Discussion</translation>
+        <translation>Conversation</translation>
     </message>
     <message>
         <source>Is typing a message</source>
@@ -56,7 +56,7 @@ Chat and properties browsing are disabled</source>
     </message>
     <message>
         <source>has checked your properties</source>
-        <translation>a demandé vos propriétés</translation>
+        <translation>a regardé vos propriétés</translation>
     </message>
     <message>
         <source>%1&apos;s properties</source>
@@ -103,7 +103,7 @@ Chat and properties browsing are disabled</source>
     </message>
     <message>
         <source>Beep on message receiption</source>
-        <translation>Bip à la réception des messages</translation>
+        <translation type="obsolete">Bip à la réception des messages</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Select the sound to play when you receive a new message&lt;/p&gt;</source>
@@ -127,7 +127,7 @@ Chat and properties browsing are disabled</source>
     </message>
     <message>
         <source>Chat</source>
-        <translation>Discussion</translation>
+        <translation>Conversation</translation>
     </message>
     <message>
         <source>Print hh:mm:ss in chat</source>
@@ -139,7 +139,11 @@ Chat and properties browsing are disabled</source>
     </message>
     <message>
         <source>Warn me when properties are being checked</source>
-        <translation>Me prévenir lorsque mes propriétés sont demandées</translation>
+        <translation>Me prévenir lorsque mes propriétés sont regardées</translation>
+    </message>
+    <message>
+        <source>Beep on message reception</source>
+        <translation>Bip à la réception des messages</translation>
     </message>
 </context>
 <context>
@@ -154,11 +158,11 @@ Chat and properties browsing are disabled</source>
     </message>
     <message>
         <source>Surname</source>
-        <translation>Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
     <message>
         <source>First name</source>
-        <translation>Prénom</translation>
+        <translation type="obsolete">Prénom</translation>
     </message>
     <message>
         <source>Nick</source>
@@ -174,7 +178,7 @@ Chat and properties browsing are disabled</source>
     </message>
     <message>
         <source>Web</source>
-        <translation>Web</translation>
+        <translation type="obsolete">Web</translation>
     </message>
     <message>
         <source>Room</source>
@@ -186,7 +190,7 @@ Chat and properties browsing are disabled</source>
     </message>
     <message>
         <source>Promo</source>
-        <translation>Promo</translation>
+        <translation type="obsolete">Promo</translation>
     </message>
     <message>
         <source>Unable to send data... writeBlock returns -1</source>
@@ -198,7 +202,7 @@ Chat and properties browsing are disabled</source>
     </message>
     <message>
         <source>can&apos;t be contact, check his firewall... CONNECTION ERROR</source>
-        <translation>ne peut pas être contacté... son firewall est peut-être mal configuré</translation>
+        <translation type="obsolete">ne peut pas être contacté... son firewall est peut-être mal configuré</translation>
     </message>
     <message>
         <source>can&apos;t be found... CONNECTION ERROR</source>
@@ -206,7 +210,31 @@ Chat and properties browsing are disabled</source>
     </message>
     <message>
         <source>has sent datas which can&apos;t be read... CONNECTION ERROR</source>
-        <translation>a envoyé des données qui ne peuvent pas être lues</translation>
+        <translation type="obsolete">a envoyé des données qui ne peuvent pas être lues</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Prénom</translation>
+    </message>
+    <message>
+        <source>Last name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <source>Web Page</source>
+        <translation>Page Web</translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation>Promo</translation>
+    </message>
+    <message>
+        <source>can&apos;t be contacted, check his firewall... CONNECTION ERROR</source>
+        <translation>ne peut pas être contacté, son firewall est peut-être mal configuré</translation>
+    </message>
+    <message>
+        <source>has sent corrupt data... CONNECTION ERROR</source>
+        <translation>a envoyé des données corrompues</translation>
     </message>
 </context>
 <context>

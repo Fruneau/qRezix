@@ -261,27 +261,27 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Ping emitted</source>
-        <translation>Ping envoyé</translation>
+        <translation type="obsolete">Ping envoyé</translation>
     </message>
     <message>
         <source>Pong received within %1 msecs</source>
-        <translation>Pong reçu après %1 ms</translation>
+        <translation type="obsolete">Pong reçu après %1 ms</translation>
     </message>
     <message>
         <source>Chat</source>
-        <translation>Discussion</translation>
+        <translation type="obsolete">Discussion</translation>
     </message>
     <message>
         <source>Custom colours...</source>
-        <translation>Personnaliser...</translation>
+        <translation type="obsolete">Personnaliser...</translation>
     </message>
     <message>
         <source>Is typing a message</source>
-        <translation>Tape un message</translation>
+        <translation type="obsolete">Tape un message</translation>
     </message>
     <message>
         <source>unread</source>
-        <translation>non-lu(s)</translation>
+        <translation type="obsolete">non-lu(s)</translation>
     </message>
     <message>
         <source>Plug-ins</source>
@@ -306,61 +306,61 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <source>Cannot create peer to peer socket !
 
 Chat and properties browsing are disabled</source>
-        <translation>Impossible de créer les communications client à client!
+        <translation type="obsolete">Impossible de créer les communications client à client!
 
 Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>reconnected</source>
-        <translation>reconnecté</translation>
+        <translation type="obsolete">reconnecté</translation>
     </message>
     <message>
         <source>disconnected</source>
-        <translation>déconnecté</translation>
+        <translation type="obsolete">déconnecté</translation>
     </message>
     <message>
         <source>Properties sent to %1</source>
-        <translation>Propriétés envoyées à %1</translation>
+        <translation type="obsolete">Propriétés envoyées à %1</translation>
     </message>
     <message>
         <source>name : &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;address : &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;client : &lt;i&gt;%3&lt;/i&gt;&lt;br&gt;time : &lt;i&gt;%4&lt;/i&gt;</source>
-        <translation>nom : &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;adresse : &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;client : &lt;i&gt;%3&lt;/i&gt;&lt;br&gt;heure : &lt;i&gt;%4&lt;/i&gt;</translation>
+        <translation type="obsolete">nom : &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;adresse : &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;client : &lt;i&gt;%3&lt;/i&gt;&lt;br&gt;heure : &lt;i&gt;%4&lt;/i&gt;</translation>
     </message>
     <message>
         <source>has checked your properties</source>
-        <translation>a demandé vos propriétés</translation>
+        <translation type="obsolete">a demandé vos propriétés</translation>
     </message>
     <message>
         <source>%1&apos;s properties</source>
-        <translation>Propriétés de %1</translation>
+        <translation type="obsolete">Propriétés de %1</translation>
     </message>
     <message>
         <source>xNet client : %1</source>
-        <translation>Client xNet : %1</translation>
+        <translation type="obsolete">Client xNet : %1</translation>
     </message>
     <message>
         <source>Property</source>
-        <translation>Propriété</translation>
+        <translation type="obsolete">Propriété</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation>Valeur</translation>
+        <translation type="obsolete">Valeur</translation>
     </message>
     <message>
         <source>History - %1</source>
-        <translation>Historique - %1</translation>
+        <translation type="obsolete">Historique - %1</translation>
     </message>
     <message>
         <source>qRezix graphical chat interface</source>
-        <translation>Interface graphique de qRezix</translation>
+        <translation type="obsolete">Interface graphique de qRezix</translation>
     </message>
     <message>
         <source>All files</source>
-        <translation>Tous les fichiers</translation>
+        <translation type="obsolete">Tous les fichiers</translation>
     </message>
     <message>
         <source>Sound file selection</source>
-        <translation>Sélection du fichier son</translation>
+        <translation type="obsolete">Sélection du fichier son</translation>
     </message>
 </context>
 <context>
@@ -403,7 +403,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Beep on message receiption</source>
-        <translation>Bip à la réception d&apos;un message</translation>
+        <translation type="obsolete">Bip à la réception d&apos;un message</translation>
     </message>
     <message>
         <source>Network</source>
@@ -417,68 +417,72 @@ Les discussions et les propriétés sont désactivées</translation>
         <source>Port:</source>
         <translation>Port:</translation>
     </message>
+    <message>
+        <source>Beep on message reception</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxChatSocket</name>
     <message>
         <source>Surname</source>
-        <translation>Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
     <message>
         <source>First name</source>
-        <translation>Prénom</translation>
+        <translation type="obsolete">Prénom</translation>
     </message>
     <message>
         <source>Nick</source>
-        <translation>Surnom</translation>
+        <translation type="obsolete">Surnom</translation>
     </message>
     <message>
         <source>Phone</source>
-        <translation>Téléphone</translation>
+        <translation type="obsolete">Téléphone</translation>
     </message>
     <message>
         <source>E-Mail</source>
-        <translation>Courriel</translation>
+        <translation type="obsolete">Courriel</translation>
     </message>
     <message>
         <source>Web</source>
-        <translation>Web</translation>
+        <translation type="obsolete">Web</translation>
     </message>
     <message>
         <source>Room</source>
-        <translation>Kazert</translation>
+        <translation type="obsolete">Kazert</translation>
     </message>
     <message>
         <source>Sport</source>
-        <translation>Sport</translation>
+        <translation type="obsolete">Sport</translation>
     </message>
     <message>
         <source>Promo</source>
-        <translation>Promâl</translation>
+        <translation type="obsolete">Promâl</translation>
     </message>
     <message>
         <source>ends the chat</source>
-        <translation>a mis fin à la discussion</translation>
+        <translation type="obsolete">a mis fin à la discussion</translation>
     </message>
     <message>
         <source>can&apos;t be contact, check his firewall... CONNECTION ERROR</source>
-        <translation>ne peut être contacté, vérifiez son firewall... Erreur lors de la connexion</translation>
+        <translation type="obsolete">ne peut être contacté, vérifiez son firewall... Erreur lors de la connexion</translation>
     </message>
     <message>
         <source>can&apos;t be found... CONNECTION ERROR</source>
-        <translation>n&apos;a pas été trouvé... Erreur lors de la connexion</translation>
+        <translation type="obsolete">n&apos;a pas été trouvé... Erreur lors de la connexion</translation>
     </message>
     <message>
         <source>has sent datas which can&apos;t be read... CONNECTION ERROR</source>
-        <translation>a envoyé des données qui ne peuvent pas être lues... Erreur de connexion</translation>
+        <translation type="obsolete">a envoyé des données qui ne peuvent pas être lues... Erreur de connexion</translation>
     </message>
     <message>
         <source>has send empty properties</source>
-        <translation>a envoyé ses propriétés mais elles sont vides</translation>
+        <translation type="obsolete">a envoyé ses propriétés mais elles sont vides</translation>
     </message>
     <message>
         <source>Ping received</source>
-        <translation>Ping reçu</translation>
+        <translation type="obsolete">Ping reçu</translation>
     </message>
     <message>
         <source>Computer properties</source>
@@ -498,7 +502,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Unable to send data... writeBlock returns -1</source>
-        <translation>Impossible d&apos;envoyer des données... writeBlock a renvoyé -1</translation>
+        <translation type="obsolete">Impossible d&apos;envoyer des données... writeBlock a renvoyé -1</translation>
     </message>
     <message>
         <source>%1&apos;s properties</source>
@@ -742,12 +746,12 @@ Vérifiez que votre correspondant a bien ouvert le port de chat dans son firewal
     </message>
     <message>
         <source>Connection error</source>
-        <translation>Erreur de connexion</translation>
+        <translation type="obsolete">Erreur de connexion</translation>
     </message>
     <message>
         <source>An error occured while checking properties :
 </source>
-        <translation>Une erreur est survenue pendant la demande des propriétés :
+        <translation type="obsolete">Une erreur est survenue pendant la demande des propriétés :
 </translation>
     </message>
 </context>
@@ -1005,6 +1009,77 @@ dans lequel il enregistre sa configuration</translation>
     <message>
         <source>Get Now !</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>RzxJabberPropUI</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulaire</translation>
+    </message>
+    <message>
+        <source>Server identification</source>
+        <translation>Indentification du serveur</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>Port :</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Server&lt;/h3&gt;&lt;p&gt;Define the address of the xnetserver&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Serveur&lt;/h3&gt;&lt;p&gt;Adresse du serveur xnet.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation>Mot de passe :</translation>
+    </message>
+    <message>
+        <source>User name:</source>
+        <translation>Pseudo :</translation>
+    </message>
+    <message>
+        <source>Server name:</source>
+        <translation>Nom du serveur :</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Defines the port to connect to on the xnetserver&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Port de connection au serveur xnet&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir à modifer cette valeur.&lt;p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Reconnection&lt;/h3&gt;&lt;p&gt;Defines the parameters of the reconnection.&lt;p&gt;&lt;p&gt;You shouldn&apos;t have to modify this values&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Reconnexion&lt;/h3&gt;&lt;p&gt;Paramètres de connexion au serveur xnet.&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir à modifier ces valeurs.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Reconnection</source>
+        <translation>Reconnexion</translation>
+    </message>
+    <message>
+        <source>Auto-reconnect delay:</source>
+        <translation>Délai avant reconnexion:</translation>
+    </message>
+    <message>
+        <source>Ping timeout (sec):</source>
+        <translation>Délai d&apos;inactivité (sec):</translation>
+    </message>
+    <message>
+        <source>Jabber protocole.</source>
+        <translation>Protocole Jabber.</translation>
+    </message>
+    <message>
+        <source>Roster Management</source>
+        <translation>Gestion des Contacts</translation>
+    </message>
+    <message>
+        <source>JID:</source>
+        <translation>JID :</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Effacer</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Ajouter</translation>
     </message>
 </context>
 <context>
@@ -1348,7 +1423,7 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     </message>
     <message>
         <source>Selected file is not valid</source>
-        <translation>Fichier sélectionné invalide</translation>
+        <translation type="obsolete">Fichier sélectionné invalide</translation>
     </message>
     <message>
         <source>lftp</source>
@@ -1372,7 +1447,7 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     </message>
     <message>
         <source>Incomplete datas</source>
-        <translation>Données incomplètes</translation>
+        <translation type="obsolete">Données incomplètes</translation>
     </message>
     <message>
         <source>In order to use qRezix, you have to complete all the following information :
@@ -1382,7 +1457,7 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     </message>
     <message>
         <source>First name:</source>
-        <translation>Prénom:</translation>
+        <translation type="obsolete">Prénom:</translation>
     </message>
     <message>
         <source>Nick:</source>
@@ -1390,7 +1465,7 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     </message>
     <message>
         <source>Surname:</source>
-        <translation>Nom:</translation>
+        <translation type="obsolete">Nom:</translation>
     </message>
     <message>
         <source>Sport:</source>
@@ -1406,29 +1481,29 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     </message>
     <message>
         <source>e-mail:</source>
-        <translation>Courriel:</translation>
+        <translation type="obsolete">Courriel:</translation>
     </message>
     <message>
         <source>Press OK to reenter these informations, or Cancel to quit qRezix</source>
-        <translation>Cliquez sur OK pour réentrer ces informations, ou cliquez sur Annuler pour quitter qRezix</translation>
+        <translation type="obsolete">Cliquez sur OK pour réentrer ces informations, ou cliquez sur Annuler pour quitter qRezix</translation>
     </message>
     <message>
         <source>In order to use qRezix, you have to complete all the following informations :
 </source>
-        <translation>Pour pouvoir utiliser qRezix, vous devez avoir renseignés les champs suivants :
+        <translation type="obsolete">Pour pouvoir utiliser qRezix, vous devez avoir renseignés les champs suivants :
 </translation>
     </message>
     <message>
         <source>Bad properties</source>
-        <translation>Propréiétés invalides</translation>
+        <translation type="obsolete">Propréiétés invalides</translation>
     </message>
     <message>
         <source>Your computer name is not valid...&lt;br&gt;A computer name can only contains letters, numbers and &apos;-&apos;</source>
-        <translation>Votre nom d&apos;ordinateur n&apos;est pas valide...&lt;br&gt;Un nom d&apos;ordinateur peut seulement contenir des chiffres, des lettres et &apos;-&apos;</translation>
+        <translation type="obsolete">Votre nom d&apos;ordinateur n&apos;est pas valide...&lt;br&gt;Un nom d&apos;ordinateur peut seulement contenir des chiffres, des lettres et &apos;-&apos;</translation>
     </message>
     <message>
         <source>Your comment is not valid...&lt;br&gt;It can&apos;t contain linebreaks or other &apos;special&apos; character</source>
-        <translation>Votre commentaire n&apos;est pas valide...&lt;br&gt;Il ne doit pas contenir de sauts de ligne ou d&apos;autres caractères spéciaux</translation>
+        <translation type="obsolete">Votre commentaire n&apos;est pas valide...&lt;br&gt;Il ne doit pas contenir de sauts de ligne ou d&apos;autres caractères spéciaux</translation>
     </message>
     <message>
         <source>Infos</source>
@@ -1462,6 +1537,48 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
         <source>Version</source>
         <translation>Version</translation>
     </message>
+    <message>
+        <source>Incorrect properties</source>
+        <translation>Propriétés incorrectes</translation>
+    </message>
+    <message>
+        <source>Your computer name is not valid...&lt;br&gt;It can only contain letters, numbers and &apos;-&apos; signs.</source>
+        <translation>Le nom de votre ordinateur est invalide...&lt;br&gt;Il ne peux conteir que des lettres, des chiffres et des signes &apos;-&apos;.</translation>
+    </message>
+    <message>
+        <source>Your comment is not valid...&lt;br&gt;It cannot contain linebreaks or other special characters</source>
+        <translation>Votre commentaire n&apos;estpas valide...&lt;br&gt;Il ne peut pas contenir de retours à la ligne ou de caractères spéciaux</translation>
+    </message>
+    <message>
+        <source>Last name:</source>
+        <translation>Nom :</translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation>Prénom :</translation>
+    </message>
+    <message>
+        <source>E-mail:</source>
+        <translation>E-mail :</translation>
+    </message>
+    <message>
+        <source>Incomplete Data</source>
+        <translation>Données incomplètes</translation>
+    </message>
+    <message>
+        <source>In order to use qRezix, you must fill in the following information :
+</source>
+        <translation>Vous devez remplir les informations suivantes pour pouvoir utiliser qRezix :
+</translation>
+    </message>
+    <message>
+        <source>Press OK to do so, or Cancel to quit qRezix</source>
+        <translation>Appuyez sur OK pour continuer, ou Annuler pour quitter qRezix</translation>
+    </message>
+    <message>
+        <source>Invalid File Selected.</source>
+        <translation>Fichier invalide sélectionné.</translation>
+    </message>
 </context>
 <context>
     <name>RzxProtocole</name>
@@ -1477,12 +1594,22 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>Your pass has been successfully changed by the server. Keep it well because it can be useful.</source>
-        <translation>Votre mot de passe a été changé avec succès par le serveur. Gardez le précieusement, car il pourra vous être redemandé.</translation>
+        <translation type="obsolete">Votre mot de passe a été changé avec succès par le serveur. Gardez le précieusement, car il pourra vous être redemandé.</translation>
     </message>
     <message>
         <source>Server can&apos;t change your pass :
 </source>
-        <translation>Le serveur ne peut pas changer votre pass :
+        <translation type="obsolete">Le serveur ne peut pas changer votre pass :
+</translation>
+    </message>
+    <message>
+        <source>Your password has been successfully changed on the server. Remember it carefully, it can be useful.</source>
+        <translation>Votre mot de passe a bien été changé sur le serveur. Mémorisez le bien, il pourra vous être utile. </translation>
+    </message>
+    <message>
+        <source>Server was unable to change your pass :
+</source>
+        <translation>Le serveur n&apos;a pas pu changer votre mot de passe :
 </translation>
     </message>
 </context>
@@ -1985,7 +2112,7 @@ Propriétés envoyées à %2 (%3)</translation>
     </message>
     <message>
         <source>Cannot find server %1</source>
-        <translation>Impossible de trouver le serveur %1</translation>
+        <translation type="obsolete">Impossible de trouver le serveur %1</translation>
     </message>
     <message>
         <source>Cannot find server %1:
@@ -2050,7 +2177,7 @@ Erreur DNS
     </message>
     <message>
         <source>Connectiion reset by peer</source>
-        <translation>Connexion réinitialisé par l&apos;hôte distant</translation>
+        <translation type="obsolete">Connexion réinitialisé par l&apos;hôte distant</translation>
     </message>
     <message>
         <source>Socket access denied</source>
@@ -2066,10 +2193,26 @@ Erreur DNS
     </message>
     <message>
         <source>Link down</source>
-        <translation>Pas de connexion réseau</translation>
+        <translation type="obsolete">Pas de connexion réseau</translation>
     </message>
     <message>
         <source>Unspported operation</source>
+        <translation type="obsolete">Opération non supportée</translation>
+    </message>
+    <message>
+        <source>Connection reset by peer</source>
+        <translation>Connexion réinitialisée par le client distant </translation>
+    </message>
+    <message>
+        <source>Unable to find server %1</source>
+        <translation>Impossible de trouver le serveur %1</translation>
+    </message>
+    <message>
+        <source>Network down</source>
+        <translation>Pas de réseau</translation>
+    </message>
+    <message>
+        <source>Unsupported operation</source>
         <translation>Opération non supportée</translation>
     </message>
 </context>
@@ -3093,6 +3236,14 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <message>
         <source>Network protocols</source>
         <translation>Protocoles réseau</translation>
+    </message>
+    <message>
+        <source>Style</source>
+        <translation>Style</translation>
+    </message>
+    <message>
+        <source>Use Brushed Metal Style</source>
+        <translation>Utiliser le style Métal Brossé</translation>
     </message>
 </context>
 <context>

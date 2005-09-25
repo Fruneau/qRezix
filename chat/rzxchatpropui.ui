@@ -40,7 +40,7 @@
          <string>&lt;h3>Beep on message&lt;/h3>&lt;p>Check this if you want qRezix to play a sound when you receive en message&lt;/p></string>
         </property>
         <property name="text" >
-         <string>Beep on message receiption</string>
+         <string>Beep on message reception</string>
         </property>
        </widget>
       </item>
