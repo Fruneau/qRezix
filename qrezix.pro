@@ -44,15 +44,15 @@ mac {
 		info
 
 } else:unix {
-	mainlib.path = $$PREFIX/lib
-	networks.path = $$PREFIX/lib/qrezix/net
-	modules.path = $$PREFIX/lib/qrezix/modules
-	rezal.path = $$PREFIX/lib/qrezix/rezals
-	subnets.path = $$PREFIX/share/qrezix
-	themes.path = $$PREFIX/share/qrezix/themes
-	translations.path = $$PREFIX/share/qrezix/translations
+	mainlib.path = $$DEST/lib
+	networks.path = $$DEST/lib/qrezix/net
+	modules.path = $$DEST/lib/qrezix/modules
+	rezal.path = $$DEST/lib/qrezix/rezals
+	subnets.path = $$DEST/share/qrezix
+	themes.path = $$DEST/share/qrezix/themes
+	translations.path = $$DEST/share/qrezix/translations
 	qrezix.files = qrezix
-	qrezix.path = $$PREFIX/bin
+	qrezix.path = $$DEST/bin
 }
 
 INSTALLS += mainlib \
