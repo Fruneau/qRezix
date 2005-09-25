@@ -82,7 +82,7 @@ class RzxComputer : public QObject  {
 		REP_ACCEPT = 0,
 		REP_ON = 1,
 		REP_REFUSE = 2
-	};	
+	};
 	
 public: 
 #if __BYTE_ORDER == __LITTLE_ENDIAN
