@@ -86,7 +86,8 @@ EXCLUDE                =
 EXCLUDE_SYMLINKS       = YES
 EXCLUDE_PATTERNS       = moc_* \
                          ui_* \
-                         *.svn*
+                         *.svn* \
+			 qrc_*
 EXAMPLE_PATH           = 
 EXAMPLE_PATTERNS       = 
 EXAMPLE_RECURSIVE      = NO
