@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 
-inherit kde-functions cvs
+inherit kde-functions subversion
 need-qt 3.3
 
 DESCRIPTION="qRezix : a xNet client made in Qt"
@@ -20,13 +20,7 @@ DEPEND=">=x11-libs/qt-3.3.3
 	xplo? ( =x11-plugins/qrezix-xplo-9999 )
 	smilix? ( =x11-plugins/qrezix-smilix-9999 )"
 
-S=${WORKDIR}/${PN}
-
-ECVS_SERVER="gwennoz:/home/anoncvs/"
-ECVS_MODULE="qrezix"
-ECVS_BRANCH="qrezix-tcp"
-ECVS_USER="anoncvs"
-ECVS_PASS=""
+ESVN_REPO_URI="svn://skinwel/qrezix/trunk/"
 
 src_compile() {
 	econf || die "econf failed"
