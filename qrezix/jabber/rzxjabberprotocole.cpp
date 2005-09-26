@@ -252,12 +252,34 @@ void RzxJabberProtocole::presenceRequest(QString jid, QString name, int type) {
 }
 
 void RzxJabberProtocole::sendMsg(QString to, QString msg) {
-		Tag *m = new Tag( "message" );
-		m->addAttrib( "from", client->client()->jid().full() );
-		m->addAttrib( "to", to.toStdString() );
-		m->addAttrib( "type", "chat" );
-		Tag *b = new Tag( "body", msg.toStdString() );
-		m->addChild( b );
-		client->client()->send( m );
+	Tag *m = new Tag( "message" );
+	m->addAttrib( "from", client->client()->jid().full() );
+	m->addAttrib( "to", to.toStdString() );
+	m->addAttrib( "type", "chat" );
+	Tag *b = new Tag( "body", msg.toStdString() );
+	m->addChild( b );
+	client->client()->send( m );
 }
 
+void RzxJabberProtocole::refresh(){
+	Tag *m,*b;
+	m = new Tag( "presence" );
+	switch(RzxComputer::localhost()->state()){
+		case Rzx::STATE_AWAY:
+			b = new Tag( "show", "away" );
+			m->addChild( b );
+			break;
+		case Rzx::STATE_HERE:
+			break;
+		case Rzx::STATE_DISCONNECTED:
+			m->addAttrib( "type", "unavailable" );
+			break;
+		case Rzx::STATE_REFUSE:
+			b = new Tag( "show", "dnd" );
+			m->addChild( b );
+			break;
+	}
+	b = new Tag( "priority", "5" );
+	m->addChild( b );
+	client->client()->send( m );
+}

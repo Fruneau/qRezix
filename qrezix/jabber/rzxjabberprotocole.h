@@ -72,7 +72,7 @@ public slots:
 	virtual void start();
 	virtual void stop();
 
-	virtual void refresh(){};
+	virtual void refresh();
 	void presenceRequest(QString jid,QString name, int type);
 	void buildRosterList();	
 	void addRosterItem();
@@ -89,9 +89,6 @@ public slots:
 
 // Signals
 signals:
-	/** ping() est emit quand on passe une commande PING a @ref parse */
- 	void ping();
- 	
  	/** emit quand l'objet RzxJabberProtocole a besoin d'envoyer une commande au serveur,
  	*typiquement lors d'appel aux fonctions @ref sendAuth, @ref sendRefresh,
  	*@ref sendPart, @ref sendPong et @ref getIcon */
