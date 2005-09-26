@@ -40,9 +40,9 @@
 #	include "../notifier/rzxnotifier.h"
 #endif
 
-///Définition de la version de qRezix
-/** La version est générée automatiquement grâce aux informations fournies
- * à la compilation. Pour plus d'information, il suffit de se reporter au
+///Dï¿½inition de la version de qRezix
+/** La version est gï¿½ï¿½ï¿½ automatiquement grï¿½e aux informations fournies
+ * ï¿½la compilation. Pour plus d'information, il suffit de se reporter au
  * code qui suit.
  */
 Rzx::Version RzxApplication::m_version = {
@@ -72,7 +72,7 @@ Rzx::Version RzxApplication::m_version = {
 #endif
 };
 
-///Chargement de qRezix et de ses différents modules
+///Chargement de qRezix et de ses diffï¿½ents modules
 RzxApplication::RzxApplication(int argc, char **argv)
 	:QApplication(argc, argv)
 {
@@ -94,7 +94,7 @@ RzxApplication::RzxApplication(int argc, char **argv)
 			break;
 		}
 
-	//Installation du message handler... à partir de maintenant, on peut
+	//Installation du message handler... ï¿½partir de maintenant, on peut
 	//faire des qDebug...
 	Rzx::installMsgHandler();
 	qDebug("qRezix %s\n", Rzx::versionToString(version()).toAscii().constData());
@@ -108,7 +108,7 @@ RzxApplication::RzxApplication(int argc, char **argv)
 	loadModules("modules", "rzx*", "getModule");
 	Rzx::endModuleLoading("Modules loading");
 
-	//Lancement de l'interface réseau
+	//Lancement de l'interface rï¿½eau
 	RzxConnectionLister *lister = RzxConnectionLister::global();
 	lister->start();
 	wellInit = true;
@@ -126,24 +126,24 @@ RzxApplication::~RzxApplication()
  * 	- la config
  * 	- l'objet RzxComputer global
  * 	- la gestion de la liste des connexion
- * 	- par extension du précédent, les interfaces réseaux client
+ * 	- par extension du prï¿½ï¿½ent, les interfaces rï¿½eaux client
  *
  * Tout le reste (interface graphique, chat, trayicon, plugins...)
  * ne fait pas partie de qRezix Core.
  */
 bool RzxApplication::loadCore()
 {
-	//Début du chargement
+	//Dï¿½ut du chargement
 	Rzx::beginModuleLoading("qRezix Core");
 
 	//Chargement des configs
 	new RzxConfig();
 	setWindowIcon(RzxIconCollection::qRezixIcon());
 
-	//Initialisation de l'objet représentant localhost
+	//Initialisation de l'objet reprï¿½entant localhost
 	RzxComputer::localhost();
 
-	//Vérification du remplissage des propriétés
+	//Vï¿½ification du remplissage des propriï¿½ï¿½
 	connect(this, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
 	if(!RzxConfig::global()->find() || !RzxConfig::infoCompleted())
 	{
@@ -154,7 +154,7 @@ bool RzxApplication::loadCore()
 			return false;
 	}
 
-	//Chargement de la base réseau de qRezix
+	//Chargement de la base rï¿½eau de qRezix
 	RzxConnectionLister::global();
 	Rzx::endModuleLoading("qRezix Core");
 	return true;
@@ -162,10 +162,10 @@ bool RzxApplication::loadCore()
 
 ///Chargement des modules
 /** Charge les modules de qRezix. Les modules doivent absolument
- * être désactivable par suppression tout bonnement de son chargement
- * qui doit se résumer à 1 ligne...
- * Des connexions sont envisageables entre les modules ou plutôt entre
- * catégories de modules...
+ * ï¿½re dï¿½activable par suppression tout bonnement de son chargement
+ * qui doit se rï¿½umer ï¿½1 ligne...
+ * Des connexions sont envisageables entre les modules ou plutï¿½ entre
+ * catï¿½ories de modules...
  */
 void RzxApplication::loadBuiltins()
 {
@@ -186,14 +186,14 @@ void RzxApplication::loadBuiltins()
 #undef loadBuiltIn
 }
 
-///Création des liens entre les modules
-/** L'application principale nécessite que les modules aient
- * plusieurs catégories, en particulier pour la trayicon,
- * fenêtre principale...
+///Crï¿½tion des liens entre les modules
+/** L'application principale nï¿½essite que les modules aient
+ * plusieurs catï¿½ories, en particulier pour la trayicon,
+ * fenï¿½re principale...
  */
 void RzxApplication::linkModules()
 {
-	//Installation des intéractions entre les modules
+	//Installation des intï¿½actions entre les modules
 	if(properties)
 		properties->setParent(mainWindow());
 
@@ -215,8 +215,8 @@ void RzxApplication::linkModules()
 }
 
 ///Installe le module
-/** L'installation correspond à :
- * 	# vérification du module
+/** L'installation correspond ï¿½:
+ * 	# vï¿½ification du module
  * 	# connexion du module
  */
 bool RzxApplication::installModule(RzxModule *mod)
@@ -241,9 +241,9 @@ bool RzxApplication::installModule(RzxModule *mod)
 	return false;
 }
 
-///Sauvegarde des données au moment de la fermeture
-/** Lance la sauvegarde des données principales lors de la fermeture de rezix.
- * Cette méthode est censée permettre l'enregistrement des données lors de la
+///Sauvegarde des donnï¿½s au moment de la fermeture
+/** Lance la sauvegarde des donnï¿½s principales lors de la fermeture de rezix.
+ * Cette mï¿½hode est censï¿½ permettre l'enregistrement des donnï¿½s lors de la
  * fermeture de l'environnement graphique...
  */
 void RzxApplication::saveSettings()
@@ -271,7 +271,7 @@ void RzxApplication::saveSettings()
 	Rzx::closeMsgHandler();
 }
 
-/// Affiche la boite de préférences
+/// Affiche la boite de prï¿½ï¿½ences
 void RzxApplication::preferences()
 {
 	if(properties)
@@ -289,32 +289,29 @@ void RzxApplication::preferences()
 	}
 }
 
-///Change l'état du répondeur
+///Change l'ï¿½at du rï¿½ondeur
 void RzxApplication::toggleResponder()
 {
 	RzxConfig::setAutoResponder(!RzxComputer::localhost()->isOnResponder());
-	RzxConnectionLister::global()->refresh();
 }
 
-///Active le répondeur
+///Active le rï¿½ondeur
 void RzxApplication::activateResponder()
 {
 	if(RzxComputer::localhost()->isOnResponder()) return;
 	RzxConfig::setAutoResponder(true);
-	RzxConnectionLister::global()->refresh();
 }
 
-///Désactive le répondeur
+///Dï¿½active le rï¿½ondeur
 void RzxApplication::deactivateResponder()
 {
 	if(!RzxComputer::localhost()->isOnResponder()) return;
 	RzxConfig::setAutoResponder(false);
-	RzxConnectionLister::global()->refresh();
 }
 
-///Retourne un pointeur vers la fenêtre principale
-/** L'intérêt de cette fonction est de fournir un moyen simple
- * de connaître la fenêtre principale pour avoir par un parent...
+///Retourne un pointeur vers la fenï¿½re principale
+/** L'intï¿½ï¿½ de cette fonction est de fournir un moyen simple
+ * de connaï¿½re la fenï¿½re principale pour avoir par un parent...
  */
 QWidget *RzxApplication::mainWindow()
 {
@@ -324,7 +321,7 @@ QWidget *RzxApplication::mainWindow()
 		return NULL;
 }
 
-///Retourne la liste des modules chargés
+///Retourne la liste des modules chargï¿½
 QList<RzxModule*> RzxApplication::modulesList()
 {
 	return instance()->moduleList();
