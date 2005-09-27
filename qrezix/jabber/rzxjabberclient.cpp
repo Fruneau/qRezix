@@ -135,3 +135,11 @@ void RzxJabberClient::handlePresence( Stanza *stanza ){
 void RzxJabberClient::handleLog( const std::string& xml, bool incoming ){
 	/// @todo g�er les logs
 };
+
+bool RzxJabberClient::send(Tag* t){
+	if(j && isStarted()){
+		j->send(t);
+		return true;
+	}
+	return false;
+};

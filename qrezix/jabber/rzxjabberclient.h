@@ -52,6 +52,8 @@ class RzxJabberClient : public QThread, DiscoHandler, MessageHandler, Connection
 		void stop();
 		Client* client(){ return j; }
 		bool isStarted();
+		bool send(Tag* t);
+		
 	private:
 		Client *j;
 		QTimer *timer;
