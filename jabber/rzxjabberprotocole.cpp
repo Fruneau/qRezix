@@ -258,7 +258,7 @@ void RzxJabberProtocole::sendMsg(QString to, QString msg) {
 	m->addAttrib( "type", "chat" );
 	Tag *b = new Tag( "body", msg.toStdString() );
 	m->addChild( b );
-	client->client()->send( m );
+	client->send( m );
 }
 
 void RzxJabberProtocole::refresh(){
@@ -281,5 +281,22 @@ void RzxJabberProtocole::refresh(){
 	}
 	b = new Tag( "priority", "5" );
 	m->addChild( b );
-	client->client()->send( m );
+	client->send( m );
 }
+
+/** Début d'implémentation de la recherche des propriétés
+ *  Il faut gérer les retours.
+ * Pour cela, il faudrait faire une classe à part, ou ajouter un truc à la lib
+ * La structure à utiliser est définie dans le JEP 0054
+ */
+// void RzxJabberProtocole::getProps(QString jid){
+// 	const std::string id = client->client()->getID();
+// 	Tag *t = new Tag( "iq" );
+// 	t->addAttrib( "type", "get" );
+// 	t->addAttrib( "id", id );
+// 	t->addAttrib( "to", jid.toStdString() );
+// 	Tag *q = new Tag( t, "vcard" );
+// 	q->addAttrib( "xmlns", "vcard-temp" );
+// 	client->client()->trackID( client->client()->disco(), id, 0 );
+// 	client->send( t );
+// };

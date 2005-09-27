@@ -84,7 +84,9 @@ public slots:
 	virtual void usePass(const QString&){};
 	void connection();
 	void deconnection();
-
+	
+	void getProps(QString jid);
+	
 	void sendMsg(QString to, QString msg);
 
 // Signals
