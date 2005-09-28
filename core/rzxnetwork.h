@@ -28,15 +28,15 @@ class RzxHostAddress;
  @author Florent Bruneau
  */
 
-///Classe de base d'un module rï¿½eau
-/** Cette classe implï¿½ente la base d'un module rï¿½eau. La construction
- * ne doit pas lancer les connexions. Celle-ci ne doivent ne doivent ï¿½re lancï¿½s que
- * par start. L'appel ï¿½stop entraï¿½e la fermeture de la connexion.
+///Classe de base d'un module réseau
+/** Cette classe implémente la base d'un module réseau. La construction
+ * ne doit pas lancer les connexions. Celle-ci ne doivent ne doivent être lancées que
+ * par start. L'appel à stop entraine la fermeture de la connexion.
  *
- * Une fois la connexion ï¿½ablie, le module communique via diffï¿½ents messages :
- * 	- login pour indiquer une nouvelle connexion, ou une mise ï¿½jour
- * 	- logout pour indiquer une dï¿½onnexion
- * 	- refresh pour envoyer les mises ï¿½jour des informations du client
+ * Une fois la connexion établie, le module communique via différents messages :
+ * 	- login pour indiquer une nouvelle connexion, ou une mise à jour
+ * 	- logout pour indiquer une déconnexion
+ * 	- refresh pour envoyer les mises à jour des informations du client
  */
 class RzxNetwork : public QObject, public RzxBaseModule
 {
@@ -50,7 +50,7 @@ class RzxNetwork : public QObject, public RzxBaseModule
 		enum TypeFlags {
 			TYP_NONE = 0,
 			TYP_CHAT = 1,
-			TYP_PREFERENCES = 2
+			TYP_PROPERTIES = 2
 		};
 		Q_DECLARE_FLAGS(Type, TypeFlags)
 
@@ -95,13 +95,13 @@ class RzxNetwork : public QObject, public RzxBaseModule
 		void receivedIcon(QImage*, const RzxHostAddress&);
 };
 
-///Le module est initialisï¿½par dï¿½aut
+///Le module est initialisé par défaut
 inline bool RzxNetwork::isInitialised() const
 {
 	return true;
 }
 
-///Dï¿½inition de la fonction d'export d'un module network
+///Définition de la fonction d'export d'un module network
 #define RZX_NETWORK_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getNetwork, RzxNetwork, MODULE)
 
 #endif
