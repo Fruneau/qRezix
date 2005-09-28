@@ -201,15 +201,29 @@ void RzxJabberProtocole::stop() {
 void RzxJabberProtocole::presenceRequest(QString jid, QString name, int type) {
 	struct options_t
 	{
-	unsigned Server                 :6;
-	unsigned SysEx                          :3;     //0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X, 6=BSD
-	unsigned Promo                          :2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje ! <== bah nan, �la j�e !!!)
-	unsigned Repondeur              :2; //0=accepter, 1= repondeur, 2=refuser les messages, 3= unused
+	unsigned Server :6;
+	unsigned SysEx  :3;     //0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X, 6=BSD
+	unsigned Promo  :2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje ! <== bah nan, �la j�e !!!)
+	unsigned Repondeur :2; //0=accepter, 1= repondeur, 2=refuser les messages, 3= unused
 	// total 13 bits / 32
-	unsigned Capabilities   :19;
-	};
-	options_t opt;
-
+	unsigned Capabilities :19;
+	} opt;
+	opt.Capabilities=2; 
+	opt.Promo=0;
+	opt.SysEx=0;
+	opt.Server=0;
+	struct version_t
+	{
+		unsigned FunnyVersion	:14;
+		unsigned MinorVersion	:7;
+		unsigned MajorVersion	:3;
+		unsigned Client		:8;	//1 = ReziX; 2 = XNet, 3 = MacXNet, 4 = CPANet 5 = CocoaXNet 6 = qrezix 7 = mxnet
+	} version;
+	version.Client = 4;
+	version.MajorVersion = 0;
+	version.MinorVersion = 0;
+	version.FunnyVersion = 1;
+	
 	RzxJabberComputer newComputer(jid, name, computerList.size());
 
 	if(type > 0 && computerList.contains(newComputer.jid())){
@@ -232,8 +246,8 @@ void RzxJabberProtocole::presenceRequest(QString jid, QString name, int type) {
 			RzxHostAddress(newComputer.ip()), //IP
 			newComputer.name(), //Nom de la machine 
 			*((quint32*) &opt), //Options
-			0, //Version du client
-			0, //Hash de l'ic�e
+			*((quint32*) &version), //Version du client
+			0xffffffff, //Hash de l'ic�e
 			0, //Flags ?????
 			"Client Jabber"); //Remarque
 			break;
@@ -243,13 +257,14 @@ void RzxJabberProtocole::presenceRequest(QString jid, QString name, int type) {
 			RzxHostAddress(newComputer.ip()), //IP
 			newComputer.name(), //Nom de la machine 
 			*((quint32*) &opt), //Options
-			0, //Version du client
-			0, //Hash de l'ic�e
+			*((quint32*) &version), //Version du client
+			0xffffffff, //Hash de l'ic�e
 			0, //Flags ?????
 			"Client Jabber"); //Remarque
 			break;
 	}
 }
+
 
 void RzxJabberProtocole::sendMsg(QString to, QString msg) {
 	Tag *m = new Tag( "message" );
