@@ -20,6 +20,8 @@ Ce plugin est hautement expérimental. (en plus il a été codé avec les pieds)
 TODO
 -----
 
+- Inclure une icone Jabber à installer (nommée ffffffff.png en 64*64)
+
 Correction de bugs sur lib gloox:
 - envoyer un evenement notifyOnDisconnect( reason ) à la fin de disconnect(reason) dans ClientBase.cpp line 153
 - bug sur l'état online/away (stanza.cpp line 157 - 176)
