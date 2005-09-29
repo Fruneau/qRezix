@@ -8,12 +8,14 @@ warning("")
 HEADERS += ../jabber/rzxjabberprotocole.h \
 	../jabber/rzxjabberconfig.h \
 	../jabber/rzxjabberclient.h \
-	../jabber/rzxjabbercomputer.h
+	../jabber/rzxjabbercomputer.h \
+	../jabber/rzxjabberproperty.h
 
 SOURCES += ../jabber/rzxjabberprotocole.cpp \
 	../jabber/rzxjabberconfig.cpp \
 	../jabber/rzxjabberclient.cpp \
-	../jabber/rzxjabbercomputer.cpp
+	../jabber/rzxjabbercomputer.cpp \
+	../jabber/rzxjabberproperty.cpp
 
 FORMS += ../jabber/rzxjabberpropui.ui
 

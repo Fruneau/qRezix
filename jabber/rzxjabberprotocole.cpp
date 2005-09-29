@@ -32,6 +32,8 @@
 
 #include "rzxjabberprotocole.h"
 #include "rzxjabberconfig.h"
+#include "rzxjabberproperty.h"
+
 using namespace gloox;
 
 RZX_NETWORK_EXPORT(RzxJabberProtocole)
@@ -41,6 +43,8 @@ RZX_CONFIG_INIT(RzxJabberConfig)
 RzxJabberProtocole::RzxJabberProtocole()
 	: RzxNetwork("Jabber", "Native support for the jabber protocole",0,0,1,"svn")
 {
+	setType(RzxNetwork::TYP_CHAT);
+	setType(RzxNetwork::TYP_PROPERTIES);
 	beginLoading();
 	ui = NULL;
 	propWidget = NULL;
@@ -274,6 +278,7 @@ void RzxJabberProtocole::sendMsg(QString to, QString msg) {
 	Tag *b = new Tag( "body", msg.toStdString() );
 	m->addChild( b );
 	client->send( m );
+	getProps(to); /// @todo: virer ça c'est juste pour tester les demandes de proprietes, implémenter le slot qui va bien quand ce sera défini.
 }
 
 void RzxJabberProtocole::refresh(){
@@ -304,14 +309,14 @@ void RzxJabberProtocole::refresh(){
  * Pour cela, il faudrait faire une classe à part, ou ajouter un truc à la lib
  * La structure à utiliser est définie dans le JEP 0054
  */
-// void RzxJabberProtocole::getProps(QString jid){
-// 	const std::string id = client->client()->getID();
-// 	Tag *t = new Tag( "iq" );
-// 	t->addAttrib( "type", "get" );
-// 	t->addAttrib( "id", id );
-// 	t->addAttrib( "to", jid.toStdString() );
-// 	Tag *q = new Tag( t, "vcard" );
-// 	q->addAttrib( "xmlns", "vcard-temp" );
-// 	client->client()->trackID( client->client()->disco(), id, 0 );
-// 	client->send( t );
-// };
+void RzxJabberProtocole::getProps(QString jid){
+	const std::string id = client->client()->getID();
+	Tag *t = new Tag( "iq" );
+	t->addAttrib( "type", "get" );
+	t->addAttrib( "id", id );
+	t->addAttrib( "to", jid.toStdString() );
+	Tag *q = new Tag( t, "vcard" );
+	q->addAttrib( "xmlns", "vcard-temp" );
+	client->client()->trackID( new RzxJabberProperty(), id, 0 );
+	client->send( t );
+};
