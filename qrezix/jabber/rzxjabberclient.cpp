@@ -24,10 +24,17 @@ RzxJabberClient::RzxJabberClient(QObject *parent)
 }
 
 RzxJabberClient::~RzxJabberClient() {
-	if(j)
-		delete j;
 	if(timer)
 		delete timer;
+	if(j){
+		//j->removeConnectionListener( this );
+		j->removeMessageHandler( this );
+		j->removePresenceHandler( this );
+		j->removeLogHandler( this );
+		j->disco()->removeDiscoHandler( this );
+		j->rosterManager()->removeRosterListener();
+		delete j;
+	}
 };
 
 void RzxJabberClient::run()
@@ -133,7 +140,7 @@ void RzxJabberClient::handlePresence( Stanza *stanza ){
 }
 
 void RzxJabberClient::handleLog( const std::string& xml, bool incoming ){
-	/// @todo g�er les logs
+	/// @todo gérer les logs
 };
 
 bool RzxJabberClient::send(Tag* t){
