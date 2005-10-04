@@ -32,7 +32,7 @@
 
 #include "rzxjabberprotocole.h"
 #include "rzxjabberconfig.h"
-#include "rzxjabberproperty.h"
+#include "ui_rzxjabberpropui.h"
 
 using namespace gloox;
 
@@ -278,7 +278,6 @@ void RzxJabberProtocole::sendMsg(QString to, QString msg) {
 	Tag *b = new Tag( "body", msg.toStdString() );
 	m->addChild( b );
 	client->send( m );
-	getProps(to); /// @todo: virer ça c'est juste pour tester les demandes de proprietes, implémenter le slot qui va bien quand ce sera défini.
 }
 
 void RzxJabberProtocole::refresh(){
@@ -309,7 +308,8 @@ void RzxJabberProtocole::refresh(){
  * Pour cela, il faudrait faire une classe à part, ou ajouter un truc à la lib
  * La structure à utiliser est définie dans le JEP 0054
  */
-void RzxJabberProtocole::getProps(QString jid){
+void RzxJabberProtocole::properties(RzxComputer* comp){
+	QString jid = comp->name();
 	const std::string id = client->client()->getID();
 	Tag *t = new Tag( "iq" );
 	t->addAttrib( "type", "get" );
@@ -317,6 +317,18 @@ void RzxJabberProtocole::getProps(QString jid){
 	t->addAttrib( "to", jid.toStdString() );
 	Tag *q = new Tag( t, "vcard" );
 	q->addAttrib( "xmlns", "vcard-temp" );
-	client->client()->trackID( new RzxJabberProperty(), id, 0 );
+	RzxJabberProperty * tmp = new RzxJabberProperty(comp);
+	connect(tmp, SIGNAL(receivedProperties(QString,RzxJabberProperty*)), this, SLOT(receivedProperties(QString,RzxJabberProperty*)));
+	client->client()->trackID( tmp, id, 0 );
 	client->send( t );
+};
+
+void RzxJabberProtocole::receivedProperties(QString msg,RzxJabberProperty* from){
+	RzxConfig::addCache(from->computer->ip(), msg);
+	bool used = false;
+	emit haveProperties(from->computer, &used);
+	delete from;	
+}
+
+void RzxJabberProtocole::chat(RzxComputer* comp){
 };

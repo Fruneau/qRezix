@@ -19,8 +19,9 @@
 #include <QtDebug>
 using namespace gloox;
 
-RzxJabberProperty::RzxJabberProperty()
+RzxJabberProperty::RzxJabberProperty(RzxComputer* c)
 {
+	computer = c;
 }
 
 
@@ -41,5 +42,5 @@ bool RzxJabberProperty::handleIqID (Stanza *stanza, int context){
 		props += QString::fromStdString(tag->name()) + "|" + QString::fromStdString(tag->cdata())  + "|";
 	}
 	props.chop(1);
-	qDebug() << props; /// @todo: Emettre un vrai signal 
+	emit receivedProperties(props,this);
 };

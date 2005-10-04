@@ -25,13 +25,15 @@
 #include <QHash>
 #include <QMutex>
 #include <QMutexLocker>
+#include <QListWidgetItem>
 
 #include <RzxHostAddress>
 #include <RzxNetwork>
 
-#include "ui_rzxjabberpropui.h"
+
 #include "rzxjabberclient.h"
 #include "rzxjabbercomputer.h"
+#include "rzxjabberproperty.h"
 
 /**
 	*Gere le protocole Jabber.
@@ -39,6 +41,7 @@
 
 class QStringList;
 class RzxComputer;
+namespace Ui { class RzxJabberPropUI; };
 
 class RzxJabberProtocole : public RzxNetwork
 {
@@ -85,9 +88,12 @@ public slots:
 	void connection();
 	void deconnection();
 	
-	void getProps(QString jid);
-	
 	void sendMsg(QString to, QString msg);
+	
+        virtual void chat(RzxComputer*);
+        virtual void properties(RzxComputer*);
+	
+	void receivedProperties(QString,RzxJabberProperty*);
 
 // Signals
 signals:
@@ -97,6 +103,7 @@ signals:
 	void send(const QString& msg);
 	void connected(RzxJabberProtocole*);
 	void disconnected(RzxJabberProtocole*);
+	void haveProperties(RzxComputer*, bool*);
 };
 
 
