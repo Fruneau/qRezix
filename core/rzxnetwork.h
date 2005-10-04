@@ -84,19 +84,51 @@ class RzxNetwork : public QObject, public RzxBaseModule
 		virtual void properties(RzxComputer*);
 
 	signals:
+		///Le module vient de connecter
+		/** Ce message doit être émis une seule et unique fois à la connexion !!!
+		 */
 		void connected(RzxNetwork*);
+
+		///Le module vient de se déconnecter
+		/** Ce message doit être émis une seule et unique fois à la déconnexion !!!
+		 */
 		void disconnected(RzxNetwork*);
+
+		///On a reçu l'adresse IP du client d'après les informations de connexion avec le serveur
 		void receiveAddress(const RzxHostAddress&);
 		
+		///La machine a l'adresse indiquée vient de se connecter ou de mettre à jour les information la concernant
 		void login(RzxNetwork*, const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
+
+		///La machine à l'adresse indiquée s'est déconnectée
 		void logout(const RzxHostAddress&);
 
+		///Le protocole demande l'affichage d'un message d'erreur
 		void fatal(const QString&);
+
+		///Le protocole demande l'affichage d'un message d'avertissement
 		void warning(const QString&);
+
+		///Le protocole demande l'affichage d'un message d'information
 		void info(const QString&);
+
+		///L'état de connexion a changé
 		void status(const QString&);
 
+		///Indique qu'on a reçu l'icône pour l'adresse indiquée
 		void receivedIcon(QImage*, const RzxHostAddress&);
+
+		///Avertis de la réception de nouvelles propriétés pour un RzxComputer
+		/** Ce signal indique que de nouvelles propriétés ont été obtenues pour une
+		 * machine. Chacun devra alors utiliser ce signal pour stocker ou afficher les
+		 * propriétés correspondante.
+		 *
+		 * Ce signal doit être émis après le stockage officiel des propriétés.
+		 *
+		 * \param displayed doit être mis à true si l'information a été interceptée
+		 * et communiquée à l'utilisateur ou autre par un objet.
+		 */
+		void haveProperties(RzxComputer*, bool *displayed);
 };
 
 ///Le module est initialisé par défaut
