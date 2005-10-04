@@ -28,6 +28,7 @@
 #include <RzxUtilsLauncher>
 #include <RzxConnectionLister>
 #include <RzxIconCollection>
+#include <RzxApplication>
 
 const char *RzxComputer::promalText[4] = {
     "?",
@@ -530,19 +531,30 @@ void RzxComputer::emitStateChanged()
 ///Affichage de l'historique des communications
 void RzxComputer::historique()
 {
-	emit wantHistorique(this);
+	if(RzxApplication::chatUiModule())
+		RzxApplication::chatUiModule()->history(this);
 }
 
 ///Check des propriétés
 void RzxComputer::proprietes()
 {
-	emit wantProperties(this);
+	if(network()->type() & RzxNetwork::TYP_PROPERTIES)
+		network()->properties(this);
+	else if(RzxApplication::propertiesModule())
+		RzxApplication::propertiesModule()->properties(this);
 }
 
 ///Lance un chat avec la machine correspondante
 void RzxComputer::chat()
 {
-	emit wantChat(this);
+	if(!RzxApplication::chatUiModule()) return;
+
+	if(network()->type() & RzxNetwork::TYP_CHAT)
+		network()->chat(this);
+	else if(RzxApplication::chatModule())
+		RzxApplication::chatModule()->chat(this);
+
+	RzxApplication::chatUiModule()->chat(this);
 }
 
 /****************** Analyse de la machine ********************/

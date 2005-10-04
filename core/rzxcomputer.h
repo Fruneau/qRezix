@@ -203,10 +203,6 @@ signals: // Signals
 	void favoriteStateChanged(RzxComputer*);
 	void stateChanged(RzxComputer*);
 
-	void wantChat(RzxComputer*);
-	void wantProperties(RzxComputer*);
-	void wantHistorique(RzxComputer*);
-
 protected:
 	void emitStateChanged();
 

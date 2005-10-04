@@ -72,7 +72,10 @@ class RzxChatLister:public RzxModule
 
 		QWidget *historique(RzxComputer*, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL);
 		QWidget *showProperties(RzxComputer*, const QString&, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL);
-		void proprietes(RzxComputer*);
+
+		virtual void history(RzxComputer*);
+		virtual void properties(RzxComputer*);
+		virtual void chat(RzxComputer*);
 		RzxChat *createChat(RzxComputer*);
 
 		void deleteChat(const RzxHostAddress&);

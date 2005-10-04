@@ -47,6 +47,7 @@ class RzxHostAddress : public QHostAddress
 
 		operator quint32() const;
 		operator RzxComputer*() const;
+		RzxComputer* computer() const;
 
 		int rezal() const;
 		QString rezalName(bool = true) const;

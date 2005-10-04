@@ -40,7 +40,7 @@ RzxUi::RzxUi()
 	:RzxModule("Main UI 1.7.0-svn", QT_TR_NOOP("Main UI for qRezix"))
 {
 	beginLoading();
-	setType(MOD_MAINUI);
+	setType(MOD_MAINGUI);
 	ui = NULL;
 	propWidget = NULL;
 	new RzxMainUIConfig(this);

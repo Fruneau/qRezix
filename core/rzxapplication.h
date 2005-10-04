@@ -43,7 +43,9 @@ class RzxApplication:public QApplication, public RzxBaseLoader<RzxModule>
 
 	QList<RzxModule*> hiders;
 	RzxModule *mainui;
-	RzxModule *chat;
+	RzxModule *chatProto;
+	RzxModule *chatui;
+	RzxModule *propertiesProto;
 
 	bool wellInit;
 	static Rzx::Version m_version;
@@ -59,6 +61,10 @@ class RzxApplication:public QApplication, public RzxBaseLoader<RzxModule>
 		static RzxApplication *instance();
 		static QWidget *mainWindow();
 		static QList<RzxModule*> modulesList();
+
+		static RzxModule *chatModule();
+		static RzxModule *propertiesModule();
+		static RzxModule *chatUiModule();
 		
 	protected:
 		bool loadCore();
@@ -119,6 +125,31 @@ inline bool RzxApplication::hasHider() const
 inline bool RzxApplication::hasMainWindow() const
 {
 	return mainui != NULL;
+}
+
+///Retourne le module de chat
+/** Le module retourné ici est un module à utiliser par défaut pour le chat si
+ * l'ordinateur utilise un protocole qui ne gère pas le chat.
+ */
+inline RzxModule *RzxApplication::chatModule()
+{
+	return instance()->chatProto;
+}
+
+///Retourne le module des propriétés
+/** Le module retourné ici est un module à utiliser par défaut pour le check des
+ * propriétés de l'utilisateur distant si le protocole réseau via lequel il est connecté
+ * ne le permet pas.
+ */
+inline RzxModule *RzxApplication::propertiesModule()
+{
+	return instance()->propertiesProto;
+}
+
+///Retourne le module de l'interface utilisateur pour le chat
+inline RzxModule *RzxApplication::chatUiModule()
+{
+	return instance()->chatui;
 }
 
 #endif

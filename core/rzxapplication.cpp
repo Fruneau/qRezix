@@ -76,9 +76,8 @@ Rzx::Version RzxApplication::m_version = {
 RzxApplication::RzxApplication(int argc, char **argv)
 	:QApplication(argc, argv)
 {
-	mainui = NULL;
 	properties = NULL;
-	chat = NULL;
+	mainui = chatui = propertiesProto = chatProto = NULL;
 	wellInit = false;
 
 	//Analyse des arguments
@@ -230,10 +229,14 @@ bool RzxApplication::installModule(RzxModule *mod)
 		connect(mod, SIGNAL(wantDeactivateResponder()), this, SLOT(deactivateResponder()));
 		connect(mod, SIGNAL(haveProperties(RzxComputer*, bool*)), this, SIGNAL(haveProperties(RzxComputer*, bool*)));
 		QFlags<RzxModule::TypeFlags> type = mod->type();
-		if((type & RzxModule::MOD_GUI) && (type & RzxModule::MOD_MAIN) && !mainui)
+		if((type & RzxModule::MOD_GUI) && (type & RzxModule::MOD_MAINUI) && !mainui)
 			mainui = mod;
-		if((type & RzxModule::MOD_CHAT) && !chat)
-			chat = mod;
+		if((type & RzxModule::MOD_CHAT) && !chatProto)
+			chatProto = mod;
+		if((type & RzxModule::MOD_CHATUI) && !chatui)
+			chatui = mod;
+		if((type & RzxModule::MOD_PROPERTIES) && !propertiesProto)
+			propertiesProto = mod;
 		if(type & RzxModule::MOD_HIDE)
 			hiders << mod;
 		return true;

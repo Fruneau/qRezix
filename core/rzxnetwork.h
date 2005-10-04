@@ -23,6 +23,7 @@
 
 
 class RzxHostAddress;
+class RzxComputer;
 
 /**
  @author Florent Bruneau
@@ -78,6 +79,9 @@ class RzxNetwork : public QObject, public RzxBaseModule
 		virtual void usePass(const QString&) = 0;
 		virtual void changePass(const QString&) = 0;
 		virtual void wantChangePass() = 0;
+
+		virtual void chat(RzxComputer*);
+		virtual void properties(RzxComputer*);
 
 	signals:
 		void connected(RzxNetwork*);
