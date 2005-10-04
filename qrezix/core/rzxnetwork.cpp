@@ -64,3 +64,25 @@ const RzxNetwork::Type& RzxNetwork::type() const
 {
 	return m_type;
 }
+
+
+///Lance le chat avec l'ordinateur distant
+/** Cette fonction est appelée dans différents cas :
+ * - pour un MOD_CHATUI, lorsque l'utilisateur ou le protocole CHAT indique le début d'un chat
+ * - pour un MOD_CHAT, lorsque l'utilisateur demande un chat
+ *
+ * L'implémentation par défaut ne fait rien
+ */
+void RzxNetwork::chat(RzxComputer*)
+{
+}
+
+///Lance la demande de propriétés de l'ordinateur distant
+/** Cette fonction est appelée lorsque l'utilisateur demande que les propriétés
+ * de l'ordinateur soient checkées et que MOD_PROPERTIES est déclaré
+ *
+ * L'implémentation par défaut ne fait rien
+ */
+void RzxNetwork::properties(RzxComputer*)
+{
+}

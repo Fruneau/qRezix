@@ -109,3 +109,34 @@ QWidget *RzxModule::mainWindow() const
 {
 	return NULL;
 }
+
+
+///Lance le chat avec l'ordinateur distant
+/** Cette fonction est appelée dans différents cas :
+ * - pour un MOD_CHATUI, lorsque l'utilisateur ou le protocole CHAT indique le début d'un chat
+ * - pour un MOD_CHAT, lorsque l'utilisateur demande un chat
+ *
+ * L'implémentation par défaut ne fait rien
+ */
+void RzxModule::chat(RzxComputer*)
+{
+}
+
+///Lance la demande de propriétés de l'ordinateur distant
+/** Cette fonction est appelée lorsque l'utilisateur demande que les propriétés
+ * de l'ordinateur soient checkées et que MOD_PROPERTIES est déclaré
+ *
+ * L'implémentation par défaut ne fait rien
+ */
+void RzxModule::properties(RzxComputer*)
+{
+}
+
+///Lance l'affichage de l'historique des communication avec l'ordinateur distant
+/** Cette fonction n'a besoin d'être réimplémentée que dans les MOD_CHATUI
+ *
+ * L'implémentation par défaut ne fait rien
+ */
+void RzxModule::history(RzxComputer*)
+{
+}

@@ -113,8 +113,9 @@ class RzxModule:public QObject, public RzxBaseModule
 		 */
 		enum TypeFlags
 		{
+			MOD_NONE = 0,
 			MOD_GUI = 1, 	/**< Le module utilise une interface graphique. */
-			MOD_MAIN = 2, 	/**< Le module est une interface principale d'intéraction et d'observation pour l'utilisateur.
+			MOD_MAINUI = 2, 	/**< Le module est une interface principale d'intéraction et d'observation pour l'utilisateur.
 								 *
 								 * Ceci n'inclus pas les modules qui implémente une nouvelle fonctionnalité se basant sur les
 								 * données de qRezix, mais uniquement ceux qui établissent une interface permettant d'observer
@@ -122,12 +123,16 @@ class RzxModule:public QObject, public RzxBaseModule
 								 *
 								 * Le module doit implémenter les slots \ref toggleVisible, \ref show et \ref hide
 								 */
-			MOD_CHAT = 4, 	/**< Le module implémente le chat. */
-			MOD_HIDE = 8, 	/**< Le module a la faculté de demander à cacher l'interface graphique 
+
+			MOD_CHAT = 4, 	/**< Le module implémente un protocole par défaut de chat utilisable */
+			MOD_CHATUI = 8, 	/**< Le module implémentante une interface de chat */
+			MOD_PROPERTIES = 16, /**< Le module implémente un protocole par défaut pour obtenir les propriétés */
+
+			MOD_HIDE = 32, 	/**< Le module a la faculté de demander à cacher l'interface graphique 
 								 * Le module dans ce cas doit émettre \ref wantToggleVisible, \ref wantShow et \ref wantHide
 								 */
-			MOD_MAINUI = MOD_MAIN | MOD_GUI, /**< Simple surcharge pour une interface graphique principale */
-			MOD_CHATUI = MOD_CHAT | MOD_GUI 	/**< Simple surcharge pour une interface graphique de chat */
+			MOD_MAINGUI = MOD_MAINUI | MOD_GUI, /**< Simple surcharge pour une interface graphique principale */
+			MOD_CHATGUI = MOD_CHATUI | MOD_GUI /**< Simple surcharge pour une interface graphique de chat */
 		};
 		Q_DECLARE_FLAGS(Type, TypeFlags)
 
@@ -154,6 +159,10 @@ class RzxModule:public QObject, public RzxBaseModule
 		virtual void show();
 		virtual void hide();
 		virtual void toggleVisible();
+		
+		virtual void chat(RzxComputer*);
+		virtual void properties(RzxComputer*);
+		virtual void history(RzxComputer*);
 
 	signals:
 		///Demande de fermeture de qRezix

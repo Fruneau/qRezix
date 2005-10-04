@@ -60,7 +60,9 @@ RzxChatLister::RzxChatLister()
 	ui = NULL;
 	wellInit = false;
 	object = this;
-	setType(MOD_CHATUI);
+	setType(MOD_CHATGUI);
+	setType(MOD_CHAT);
+	setType(MOD_PROPERTIES);
 	setIcon(Rzx::ICON_CHAT);
 	new RzxChatConfig(this);
 	client = RzxClientListener::global();
@@ -70,10 +72,6 @@ RzxChatLister::RzxChatLister()
 	connect(lister, SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(lister, SIGNAL(update(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(lister, SIGNAL(logout(RzxComputer* )), this, SLOT(logout(RzxComputer* )));
-
-	connect(lister, SIGNAL(wantChat(RzxComputer* )), this, SLOT(createChat(RzxComputer* )));
-	connect(lister, SIGNAL(wantHistorique(RzxComputer* )), this, SLOT(historique(RzxComputer* )));
-	connect(lister, SIGNAL(wantProperties(RzxComputer* )), this, SLOT(proprietes(RzxComputer* )));
 
 	if(!client->listen(RzxChatConfig::chatPort()) )
 	{
@@ -118,6 +116,12 @@ void RzxChatLister::logout(RzxComputer *computer)
 	RzxChat *chat = getChatByIP(computer->ip());
 	if ( chat )
 		chat->info( tr("disconnected") );
+}
+
+///Lancement du chat
+void RzxChatLister::chat(RzxComputer *computer)
+{
+	createChat(computer);
 }
 
 ///Création d'une fenêtre de chat associée à l'ordinateur
@@ -168,8 +172,14 @@ void RzxChatLister::closeChats()
 		chat->close();
 }
 
+///Demande l'affichage de l'historique
+void RzxChatLister::history(RzxComputer *c)
+{
+	historique(c);
+}
+
 ///Demande le check des proiétés de \a peer
-void RzxChatLister::proprietes(RzxComputer *computer)
+void RzxChatLister::properties(RzxComputer *computer)
 {
 	RzxChat *object = getChatByIP(computer->ip());
 	if(!object)

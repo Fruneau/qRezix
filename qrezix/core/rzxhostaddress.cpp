@@ -60,6 +60,15 @@ RzxHostAddress::operator quint32() const
 	return toIPv4Address();
 }
 
+///Retrouve l'ordinateur associé à l'adresse donnée
+/** Cette fonction a pour but de simplifier les transitions entre les IP et machinie
+ * qui peuvent parfois allourdir le code inutilement.
+ */
+RzxComputer *RzxHostAddress::computer() const
+{
+	return RzxConnectionLister::global()->getComputerByIP(*this);
+}
+
 ///Converti l'objet en un RzxComputer*
 /** Simple utilisation de RzxConnectionLister::global()->getComputerByIP()...
  * Cette fonction est surtout pratique pour simplifier éviter d'avoir à faire des
@@ -67,7 +76,7 @@ RzxHostAddress::operator quint32() const
  */
 RzxHostAddress::operator RzxComputer*() const
 {
-	return RzxConnectionLister::global()->getComputerByIP(*this);
+	return computer();
 }
 
 ///Permet de retrouver le 'nom' du sous-réseau sur lequel se trouve la machine
