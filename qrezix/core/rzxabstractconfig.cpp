@@ -21,6 +21,7 @@
 #include <RzxAbstractConfig>
 #include <RzxBaseModule>
 #include <RzxApplication>
+#include <QDesktopWidget>
 
 ///Construction d'un RzxAbstractConfig
 /** Cette construction initialise le QSettings pour lui donner la configuration
@@ -83,13 +84,21 @@ void RzxAbstractConfig::saveWidget(const QString& name, QWidget *widget)
 void RzxAbstractConfig::restoreWidget(const QString& name, QWidget *widget, const QPoint& pos, const QSize& size, bool def)
 {
 	beginGroup(name);
-	widget->resize(def?size:value("size", size).toSize());
-	widget->move(def?pos:value("pos", pos).toPoint());
+
+	QSize s = def?size:value("size", size).toSize();
+	widget->resize(s);
+
+	QPoint p = def?pos:value("pos", pos).toPoint();
+	if(p.x() > QApplication::desktop()->width() || p.y() > QApplication::desktop()->height())
+		p -= QPoint(s.width(), s.height());
+	widget->move(p);
+
 	if(value("maximized", false).toBool())
 		widget->setWindowState(widget->windowState() | Qt::WindowMaximized);
 	else if(value("minimized", false).toBool())
 		widget->setWindowState(widget->windowState() | Qt::WindowMinimized);
 	widget->setVisible(value("visible", false).toBool());
+
 
 	if(!def)
 	{
