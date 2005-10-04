@@ -327,7 +327,7 @@ void RzxJabberProtocole::receivedProperties(QString msg,RzxJabberProperty* from)
 	RzxConfig::addCache(from->computer->ip(), msg);
 	bool used = false;
 	emit haveProperties(from->computer, &used);
-	delete from;	
+	delete from;
 }
 
 void RzxJabberProtocole::chat(RzxComputer* comp){
