@@ -90,7 +90,7 @@ void RzxAbstractConfig::restoreWidget(const QString& name, QWidget *widget, cons
 
 	QPoint p = def?pos:value("pos", pos).toPoint();
 	if(p.x() > QApplication::desktop()->width() || p.y() > QApplication::desktop()->height())
-		p -= QPoint(s.width(), s.height());
+		p = QPoint(QApplication::desktop()->width() - s.width(), QApplication::desktop()->height() - s.height());
 	widget->move(p);
 
 	if(value("maximized", false).toBool())
