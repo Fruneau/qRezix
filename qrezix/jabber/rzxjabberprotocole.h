@@ -1,9 +1,9 @@
 /***************************************************************************
-                          rzxprotocole.h  -  description
+                          rzxjabberprotocole.h  -  description
                              -------------------
-    begin                : Fri Jan 25 2002
-    copyright            : (C) 2002 by Sylvain Joyeux
-    email                : sylvain.joyeux@m4x.org
+    begin                : Fri Sept 25 2005
+    copyright            : (C) 2002 by Guillaume Porcher
+    email                : pico@m4x.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -23,8 +23,6 @@
 #include <QObject>
 #include <QString>
 #include <QHash>
-#include <QMutex>
-#include <QMutexLocker>
 #include <QListWidgetItem>
 
 #include <RzxHostAddress>
@@ -53,15 +51,15 @@ public:
 	virtual QList<QWidget*> propWidgets();
 	virtual QStringList propWidgetsName();
 	virtual bool isStarted() const;
-
-
+	void sendProperties();
+	
 //Gestion de propri�� du module
 private:
 	Ui::RzxJabberPropUI *ui;
 	QWidget *propWidget;
 	RzxJabberClient *client;
-	QHash<QString,RzxJabberComputer> computerList;
-	QMutex mutex;
+	QHash<QString,RzxJabberComputer*> computerList;
+	void getProperties(QString jid, QString comp);
 
 
 public slots:
@@ -92,9 +90,11 @@ public slots:
 	
         virtual void chat(RzxComputer*);
         virtual void properties(RzxComputer*);
-	
-	void receivedProperties(QString,RzxJabberProperty*);
+	void receivedProperties(RzxJabberComputer*);
 
+private slots:
+	void updateLocalhost();
+	
 // Signals
 signals:
  	/** emit quand l'objet RzxJabberProtocole a besoin d'envoyer une commande au serveur,

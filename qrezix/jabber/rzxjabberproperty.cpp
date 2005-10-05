@@ -15,11 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 #include "rzxjabberproperty.h"
+#include "rzxjabbercomputer.h"
 #include <QString>
 #include <QtDebug>
 using namespace gloox;
 
-RzxJabberProperty::RzxJabberProperty(RzxComputer* c)
+RzxJabberProperty::RzxJabberProperty(RzxJabberComputer* c)
 {
 	computer = c;
 }
@@ -32,7 +33,6 @@ RzxJabberProperty::~RzxJabberProperty()
 bool RzxJabberProperty::handleIq (Stanza *stanza){};
 
 bool RzxJabberProperty::handleIqID (Stanza *stanza, int context){
-	QString props;
 	Tag *q = stanza->findChild( "vCard" );
 	Tag::TagList l = q->children();
 	Tag::TagList::const_iterator it;
@@ -40,26 +40,81 @@ bool RzxJabberProperty::handleIqID (Stanza *stanza, int context){
 	{
 		Tag *tag = (*it);
 		if(tag->name()=="EMAIL")
-			props += tr("Email") + "|" + QString::fromStdString(tag->findChild("USERID")->cdata())  + "|";
+			email = QString::fromStdString(tag->findChild("USERID")->cdata());
 		else if(tag->name()=="TEL")
-			props += tr("Phone") + "|" + QString::fromStdString(tag->findChild("NUMBER")->cdata())  + "|";
+			phone = QString::fromStdString(tag->findChild("NUMBER")->cdata());
 		else if(tag->name()=="URL")
-			props += tr("Website") + "|" + QString::fromStdString(tag->cdata())  + "|";
+			website = QString::fromStdString(tag->cdata());
 		else if(tag->name()=="NICKNAME")
-			props += tr("Nickname") + "|" + QString::fromStdString(tag->cdata())  + "|";
+			nick = QString::fromStdString(tag->cdata());
 		else if(tag->name()=="FN")
-			props += tr("Name") + "|" + QString::fromStdString(tag->cdata())  + "|";
+			name = QString::fromStdString(tag->cdata());
 		else if(tag->name()=="BDAY")
-			props += tr("Birthday") + "|" + QString::fromStdString(tag->cdata())  + "|";
+			birthday = QString::fromStdString(tag->cdata());
 		else if(tag->name()=="DESC")
-			props += tr("Description") + "|" + QString::fromStdString(tag->cdata())  + "|";
+			description = QString::fromStdString(tag->cdata());
 		else if(tag->name()=="ADR")
-			props += tr("Address") + "|" + QString::fromStdString(tag->findChild("STREET")->cdata()) + "\n" + QString::fromStdString(tag->findChild("PCODE")->cdata()) + " " + QString::fromStdString(tag->findChild("LOCALITY")->cdata()) + "\n" + QString::fromStdString(tag->findChild("REGION")->cdata()) + "\n" +  QString::fromStdString(tag->findChild("CTRY")->cdata()) + "|";
+			address = QString::fromStdString(tag->findChild("STREET")->cdata()) + "\n" + QString::fromStdString(tag->findChild("PCODE")->cdata()) + " " + QString::fromStdString(tag->findChild("LOCALITY")->cdata()) + "\n" + QString::fromStdString(tag->findChild("REGION")->cdata()) + "\n" +  QString::fromStdString(tag->findChild("CTRY")->cdata());
 		else if(tag->name()=="ORG")
-			props += tr("Organisation") + "|" + QString::fromStdString(tag->findChild("ORGNAME")->cdata()) + " - " + QString::fromStdString(tag->findChild("ORGUNIT")->cdata()) + "|";
-		else
-			props += QString::fromStdString(tag->name()) + "|" + QString::fromStdString(tag->cdata())  + "|";
+			organisation = QString::fromStdString(tag->findChild("ORGNAME")->cdata()) + " - " + QString::fromStdString(tag->findChild("ORGUNIT")->cdata());
 	}
-	props.chop(1);
-	emit receivedProperties(props,this);
+	emit receivedProperties(computer);
 };
+
+QString RzxJabberProperty::toMsg(){
+	QString props;
+	if(!email.isNull())
+		props += tr("Email") + "|" + email  + "|";
+	if(!phone.isNull())
+		props += tr("Phone") + "|" + phone + "|";
+	if(!website.isNull())
+		props += tr("Website") + "|" + website + "|";
+	if(!nick.isNull())
+		props += tr("Nickname") + "|" + nick  + "|";
+	if(!name.isNull())
+		props += tr("Name") + "|" + name + "|";
+	if(!birthday.isNull())
+		props += tr("Birthday") + "|" + birthday + "|";
+	if(description.isNull())
+		props += tr("Description") + "|" + description + "|";
+	if(!address.isNull ())
+		props += tr("Address") + "|" + address + "|";
+	if(!organisation.isNull())
+		props += tr("Organisation") + "|" + organisation + "|";
+	props.chop(1);
+	return props;
+}
+
+Tag * RzxJabberProperty::toIq(){
+	Tag *tag,*sub,*subsub;
+	tag = new Tag( "iq" );
+	tag->addAttrib( "type", "set" );
+	sub = new Tag( tag, "vcard" );
+	sub->addAttrib( "xmlns", "vcard-temp" );
+	if(email.isNull()){
+		sub = new Tag( tag , "EMAIL");
+		subsub = new Tag( sub, "INTERNET");
+		subsub = new Tag ( sub, "USERID", email.toStdString());
+	}
+	if(phone.isNull()){
+		sub = new Tag( tag , "TEL");
+		subsub = new Tag( sub, "HOME");
+		subsub = new Tag( sub, "VOICE");
+		subsub = new Tag ( sub, "NUMBER", phone.toStdString());
+	}
+	if(website.isNull())
+		sub = new Tag(tag, "URL", website.toStdString());
+	if(nick.isNull())
+		sub = new Tag(tag, "NICKNAME", nick.toStdString());
+	if(name.isNull())
+		sub = new Tag(tag, "FN", name.toStdString());
+	if(birthday.isNull())
+		sub = new Tag(tag, "BDAY", birthday.toStdString());
+	if(description.isNull())
+		sub = new Tag(tag, "DESC", description.toStdString());
+// 	if(address.isNull ())
+// 		props += tr("Address") + "|" + address + "|";
+// 	if(organisation.isNull())
+// 		props += tr("Organisation") + "|" + organisation + "|";
+	return tag;
+}

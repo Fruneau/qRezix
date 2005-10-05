@@ -20,21 +20,28 @@
 #include <QHostAddress>
 #include <QString>
 #include <QStringList>
+#include <RzxComputer>
 
-class RzxJabberComputer{
+#include "rzxjabberproperty.h"
+
+class RzxJabberComputer
+{
 	public:
 		RzxJabberComputer(){ jid_name = ""; name_name =""; };
 		RzxJabberComputer(QString jid, QString name, uint id);
-		QHostAddress ip(){return *ip_addr;}
-		void setIp(QHostAddress ip){ ip_addr = new QHostAddress(ip); }
-		QString jid(){return jid_name;}
-		QString name(){return name_name;}
+		const QHostAddress &ip() const{return ip_addr;}
+		void setIp(QHostAddress ip){ ip_addr = ip; }
+		const QString &jid(){return jid_name;}
+		void setJid(QString jid){ jid_name=jid;}
+		const QString name(){return name_name;}
+		void setName(QString name){ name_name=name;}
+		RzxJabberProperty* props(){return properties;}
 		uint nbClients;
-		bool operator==(const RzxJabberComputer& a){ return a.jid_name == jid_name; }
 
 	private:
-		QHostAddress *ip_addr;
+		QHostAddress ip_addr;
 		QString jid_name, name_name;
+		RzxJabberProperty* properties;
 };
 
 #endif

@@ -21,9 +21,8 @@
 #include <gloox/iqhandler.h>
 #include <qobject.h>
 
-#include <RzxComputer>
-
 using namespace gloox;
+class RzxJabberComputer;
 /**
 @author Guillaume Porcher
 */
@@ -31,13 +30,17 @@ class RzxJabberProperty : public QObject, public IqHandler
 {
 	Q_OBJECT
 public:
-	RzxJabberProperty(RzxComputer* );
-	RzxComputer* computer;
+	RzxJabberProperty(RzxJabberComputer*);
+	RzxJabberComputer* computer;
 	~RzxJabberProperty();
 	virtual bool handleIq (Stanza *stanza);
 	virtual bool handleIqID (Stanza *stanza, int context);
+	QString email, phone, website, nick, name, birthday, description, address, organisation;
+	QString toMsg();
+	Tag * toIq();
+
 signals:
-	void receivedProperties(QString props, RzxJabberProperty*);
+	void receivedProperties(RzxJabberComputer*);
 };
 
 #endif
