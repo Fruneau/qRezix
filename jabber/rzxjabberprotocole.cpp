@@ -1,9 +1,9 @@
 /***************************************************************************
-                          rzxprotocole.cpp  -  description
+                          rzxjabberprotocole.cpp  -  description
                              -------------------
-    begin                : Fri Jan 25 2002
-    copyright            : (C) 2002 by Sylvain Joyeux
-    email                : sylvain.joyeux@m4x.org
+    begin                : Fri Sept 25 2005
+    copyright            : (C) 2002 by Guillaume Porcher
+    email                : pico@m4x.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -29,6 +29,7 @@
 #include <RzxIconCollection>
 #include <RzxWrongPass>
 #include <RzxChangePass>
+#include <RzxConnectionLister>
 
 #include "rzxjabberprotocole.h"
 #include "rzxjabberconfig.h"
@@ -55,9 +56,11 @@ RzxJabberProtocole::RzxJabberProtocole()
 	connect(client, SIGNAL(presence(QString, QString, int)), this, SLOT(presenceRequest(QString, QString, int)));
 	connect(client, SIGNAL(msgReceived(QString, QString)), this, SLOT(sendMsg(QString,QString))); /// @todo gérer l'envoi à la fenetre de chat quand ce sera en place)
 	connect(client, SIGNAL(connected()), this, SLOT(connection()));
+	connect(client, SIGNAL(connected()), this, SLOT(updateLocalhost()));
 	connect(client, SIGNAL(disconnected()), this, SLOT(deconnection()));
 	connect(client, SIGNAL(rosterUpdated()), this, SLOT(buildRosterList()));
 	setIcon(RzxThemedIcon(Rzx::ICON_NETWORK));
+	
 	endLoading();
 }
 
@@ -193,6 +196,9 @@ bool RzxJabberProtocole::isStarted() const
 }
 
 void RzxJabberProtocole::start() {
+	RzxJabberComputer *newComputer = new RzxJabberComputer("myself", "myself", 0);
+	connect(newComputer->props(), SIGNAL(receivedProperties(RzxJabberComputer*)), this, SLOT(receivedProperties(RzxJabberComputer*)));
+	computerList.insert("myself", newComputer);
 	client->start();
 }
 
@@ -203,6 +209,9 @@ void RzxJabberProtocole::stop() {
 
 
 void RzxJabberProtocole::presenceRequest(QString jid, QString name, int type) {
+	QString localhost = QString::fromStdString(client->client()->jid().bare());
+	if(jid == localhost)
+		return;
 	struct options_t
 	{
 	unsigned Server :6;
@@ -228,27 +237,27 @@ void RzxJabberProtocole::presenceRequest(QString jid, QString name, int type) {
 	version.MinorVersion = 0;
 	version.FunnyVersion = 1;
 	
-	RzxJabberComputer newComputer(jid, name, computerList.size());
-
-	if(type > 0 && computerList.contains(newComputer.jid())){
-		newComputer.setIp(computerList[newComputer.jid()].ip());
-		newComputer.nbClients += computerList[newComputer.jid()].nbClients;
+	RzxJabberComputer *newComputer = new RzxJabberComputer(jid, name, computerList.size());
+	if(type > 0 && computerList.contains(newComputer->jid())){
+		newComputer = computerList[newComputer->jid()];
+		newComputer->nbClients++;
 	}
-	computerList[newComputer.jid()] = newComputer;
+	computerList[newComputer->jid()] = newComputer;
+	connect(newComputer->props(), SIGNAL(receivedProperties(RzxJabberComputer*)), this, SLOT(receivedProperties(RzxJabberComputer*)));
 	switch(type){
 		case 0: // Hors ligne
-			newComputer.nbClients--;
-			if(newComputer.nbClients==0){
-				emit logout(newComputer.ip());
-				computerList.remove(newComputer.jid());
+			newComputer->nbClients--;
+			if(newComputer->nbClients==0){
+				emit logout(newComputer->ip());
+				computerList.remove(newComputer->jid());
 				break;
 			}
 			/// @todo: chercher l'etat des resources restantes
 		case 1: // Away
 			opt.Repondeur=1;
 			emit login( this, 
-			RzxHostAddress(newComputer.ip()), //IP
-			newComputer.name(), //Nom de la machine 
+			RzxHostAddress(newComputer->ip()), //IP
+			newComputer->name(), //Nom de la machine 
 			*((quint32*) &opt), //Options
 			*((quint32*) &version), //Version du client
 			0xffffffff, //Hash de l'ic�e
@@ -258,8 +267,8 @@ void RzxJabberProtocole::presenceRequest(QString jid, QString name, int type) {
 		case 2: // En ligne
 			opt.Repondeur=0;
 			emit login(  this, 
-			RzxHostAddress(newComputer.ip()), //IP
-			newComputer.name(), //Nom de la machine 
+			RzxHostAddress(newComputer->ip()), //IP
+			newComputer->name(), //Nom de la machine 
 			*((quint32*) &opt), //Options
 			*((quint32*) &version), //Version du client
 			0xffffffff, //Hash de l'ic�e
@@ -309,7 +318,10 @@ void RzxJabberProtocole::refresh(){
  * La structure à utiliser est définie dans le JEP 0054
  */
 void RzxJabberProtocole::properties(RzxComputer* comp){
-	QString jid = comp->name();
+	getProperties(comp->name(), comp->name());
+}
+
+void RzxJabberProtocole::getProperties(QString jid, QString comp){
 	const std::string id = client->client()->getID();
 	Tag *t = new Tag( "iq" );
 	t->addAttrib( "type", "get" );
@@ -317,18 +329,32 @@ void RzxJabberProtocole::properties(RzxComputer* comp){
 	t->addAttrib( "to", jid.toStdString() );
 	Tag *q = new Tag( t, "vcard" );
 	q->addAttrib( "xmlns", "vcard-temp" );
-	RzxJabberProperty * tmp = new RzxJabberProperty(comp);
-	connect(tmp, SIGNAL(receivedProperties(QString,RzxJabberProperty*)), this, SLOT(receivedProperties(QString,RzxJabberProperty*)));
-	client->client()->trackID( tmp, id, 0 );
+	client->client()->trackID( computerList[comp]->props(), id, 0 );
 	client->send( t );
 };
 
-void RzxJabberProtocole::receivedProperties(QString msg,RzxJabberProperty* from){
-	RzxConfig::addCache(from->computer->ip(), msg);
-	bool used = false;
-	emit haveProperties(from->computer, &used);
-	delete from;
+void RzxJabberProtocole::receivedProperties(RzxJabberComputer* from)
+{
+	if(from->name()!="myself"){
+		RzxConfig::addCache(from->ip(), from->props()->toMsg());
+		bool used = false;
+		emit haveProperties(RzxConnectionLister::global()->getComputerByIP(from->ip()), &used);
+	}
 }
 
 void RzxJabberProtocole::chat(RzxComputer* comp){
 };
+
+void RzxJabberProtocole::sendProperties()
+{
+	const std::string id = client->client()->getID();
+	Tag *t = computerList["myself"]->props()->toIq();
+	t->addAttrib( "id", id );
+	client->send( t );
+}
+
+void RzxJabberProtocole::updateLocalhost()
+{
+	QString jid = QString::fromStdString(client->client()->jid().bare());
+	getProperties(jid,"myself");
+}

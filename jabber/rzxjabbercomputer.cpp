@@ -21,8 +21,9 @@ RzxJabberComputer::RzxJabberComputer(QString jid, QString name, uint id)
 {
 	jid_name = jid;
 	name_name = name.isEmpty() ? jid : name;
-	ip_addr = new QHostAddress("0.0." + QString::number(id / 255) + "." + QString::number(id % 255));
+	ip_addr = QHostAddress("0.0." + QString::number(id / 255) + "." + QString::number(id % 255));
 	nbClients = 1;
+	properties = new RzxJabberProperty(this);
 }
 
 
