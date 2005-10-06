@@ -91,7 +91,7 @@ bool RzxConnectionLister::installModule(RzxNetwork *network)
 		connect(network, SIGNAL(warning(const QString&)), this, SLOT(warning(const QString&)));
 		connect(network, SIGNAL(fatal(const QString&)), this, SLOT(fatal(const QString&)));
 		connect( this, SIGNAL(wantIcon(const RzxHostAddress&)), network, SLOT(getIcon(const RzxHostAddress&)));
-		connect(network, SIGNAL(haveProperties(RzxComputer*, bool*)), RzxApplication::instance(), SIGNAL(haveProperties(RzxComputer*, bool*)));
+		connect(network, SIGNAL(haveProperties(RzxComputer*)), RzxApplication::instance(), SLOT(relayProperties(RzxComputer*)));
 
 		connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), network, SLOT(refresh()));
 		return true;
