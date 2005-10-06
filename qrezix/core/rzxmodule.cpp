@@ -140,3 +140,12 @@ void RzxModule::properties(RzxComputer*)
 void RzxModule::history(RzxComputer*)
 {
 }
+
+///Force l'affichage des propriétés par le module en question
+/** Cette fonction est n'a besoin d'être réimplémentée que dans les MOD_PROPERTIESUI
+ *
+ * L'implémentation par défaut ne faire rien
+ */
+void RzxModule::showProperties(RzxComputer*)
+{
+}

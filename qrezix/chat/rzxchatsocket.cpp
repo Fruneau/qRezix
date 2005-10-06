@@ -138,16 +138,14 @@ int RzxChatSocket::parse(const QString& msg)
 					return DCC_PROPQUERY;
 					break;
 				case DCC_PROPANSWER:
-					qDebug("Parsing PROPANSWER: %s", cmd.cap(2).toAscii().constData());
+					qDebug() << "Parsing PROPANSWER:" << cmd.cap(2);
 					if(cmd.cap(2).isEmpty())					// si il n'y a pas les donnees necessaires 
 					{
 						emit notify(tr("has send empty properties"));
 						return DCC_PROPANSWER;		// ou que l'on n'a rien demande on s'arrete
 					}
-					if(!chatWindow)
-						RzxChatLister::global()->showProperties(host, cmd.cap(2));
-					else
-						chatWindow->receiveProperties(cmd.cap(2));
+					RzxConfig::addCache(host, cmd.cap(2));
+					emit haveProperties(host);
 					if(alone)
 						close();
 					return DCC_PROPANSWER;

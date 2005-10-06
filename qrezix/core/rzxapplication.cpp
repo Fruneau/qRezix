@@ -77,7 +77,7 @@ RzxApplication::RzxApplication(int argc, char **argv)
 	:QApplication(argc, argv)
 {
 	properties = NULL;
-	mainui = chatui = propertiesProto = chatProto = NULL;
+	mainui = chatui = propertiesUi = propertiesProto = chatProto = NULL;
 	wellInit = false;
 
 	//Analyse des arguments
@@ -227,7 +227,7 @@ bool RzxApplication::installModule(RzxModule *mod)
 		connect(mod, SIGNAL(wantToggleResponder()), this, SLOT(toggleResponder()));
 		connect(mod, SIGNAL(wantActivateResponder()), this, SLOT(activateResponder()));
 		connect(mod, SIGNAL(wantDeactivateResponder()), this, SLOT(deactivateResponder()));
-		connect(mod, SIGNAL(haveProperties(RzxComputer*, bool*)), this, SIGNAL(haveProperties(RzxComputer*, bool*)));
+		connect(mod, SIGNAL(haveProperties(RzxComputer*)), this, SLOT(relayProperties(RzxComputer*)));
 		QFlags<RzxModule::TypeFlags> type = mod->type();
 		if((type & RzxModule::MOD_GUI) && (type & RzxModule::MOD_MAINUI) && !mainui)
 			mainui = mod;
@@ -237,6 +237,8 @@ bool RzxApplication::installModule(RzxModule *mod)
 			chatui = mod;
 		if((type & RzxModule::MOD_PROPERTIES) && !propertiesProto)
 			propertiesProto = mod;
+		if((type & RzxModule::MOD_PROPERTIESUI) && !propertiesUi)
+			propertiesUi = mod;
 		if(type & RzxModule::MOD_HIDE)
 			hiders << mod;
 		return true;
@@ -328,4 +330,13 @@ QWidget *RzxApplication::mainWindow()
 QList<RzxModule*> RzxApplication::modulesList()
 {
 	return instance()->moduleList();
+}
+
+///Relai l'information que des propriétés sont arrivées
+void RzxApplication::relayProperties(RzxComputer *c)
+{
+	bool used = false;
+	emit haveProperties(c, &used);
+	if(!used && propertiesUi)
+		propertiesUi->showProperties(c);
 }

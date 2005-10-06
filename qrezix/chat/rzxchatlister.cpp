@@ -63,10 +63,12 @@ RzxChatLister::RzxChatLister()
 	setType(MOD_CHATGUI);
 	setType(MOD_CHAT);
 	setType(MOD_PROPERTIES);
+	setType(MOD_PROPGUI);
 	setIcon(Rzx::ICON_CHAT);
 	new RzxChatConfig(this);
 	client = RzxClientListener::global();
 	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), this, SLOT(warnProperties(const RzxHostAddress&)));
+	connect(client, SIGNAL(haveProperties(RzxComputer*)), this, SIGNAL(haveProperties(RzxComputer*)));
 
 	RzxConnectionLister *lister = RzxConnectionLister::global();
 	connect(lister, SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
@@ -222,6 +224,17 @@ void RzxChatLister::warnProperties( const RzxHostAddress& peer )
 	chat->notify( tr( "has checked your properties" ), true );
 }
 
+///Demande l'affichage des propriétés
+void RzxChatLister::showProperties(RzxComputer *c)
+{
+	if(!c) return;
+
+	RzxChat *chat = getChatByIP(c->ip());
+	if(!chat)
+		showProperties(c->ip(), RzxConfig::cache(c->ip()));
+	else
+		chat->receiveProperties(RzxConfig::cache(c->ip()));
+}
 
 ///Affichage des proprietes d'un ordinateur
 QWidget *RzxChatLister::showProperties(RzxComputer *computer, const QString& msg, bool withFrame, QWidget *parent, QPoint *pos )
@@ -229,11 +242,6 @@ QWidget *RzxChatLister::showProperties(RzxComputer *computer, const QString& msg
 	if(!computer)
 		return NULL;
 
-	RzxConfig::addCache(computer->ip(), msg);
-	bool used = false;
-	emit haveProperties(computer, &used);
-	if(used) return NULL;	
-	
 	QWidget *propertiesDialog;
 
 	if(withFrame)

@@ -128,7 +128,7 @@ class RzxNetwork : public QObject, public RzxBaseModule
 		 * \param displayed doit être mis à true si l'information a été interceptée
 		 * et communiquée à l'utilisateur ou autre par un objet.
 		 */
-		void haveProperties(RzxComputer*, bool *displayed);
+		void haveProperties(RzxComputer*);
 };
 
 ///Le module est initialisé par défaut
