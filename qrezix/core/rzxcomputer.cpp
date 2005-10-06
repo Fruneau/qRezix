@@ -481,6 +481,19 @@ void RzxComputer::news(const QString& path) const
 		RzxUtilsLauncher::news(ip(), path);
 }
 
+/********** Gestion des propriétés ***************************/
+///Définition des propriétés
+void RzxComputer::setProperties(const QString& prop)
+{
+	RzxConfig::addCache(ip(), prop);
+}
+
+///Récupère les propriétés
+QString RzxComputer::properties() const
+{
+	return RzxConfig::cache(ip());
+}
+
 /********** Modification de l'état de préférence *************/
 ///Ban l'ordinateur
 void RzxComputer::ban()
@@ -529,14 +542,14 @@ void RzxComputer::emitStateChanged()
 
 /*********** Lancement des données liées au chat *************/
 ///Affichage de l'historique des communications
-void RzxComputer::historique()
+void RzxComputer::history()
 {
 	if(RzxApplication::chatUiModule())
 		RzxApplication::chatUiModule()->history(this);
 }
 
 ///Check des propriétés
-void RzxComputer::proprietes()
+void RzxComputer::checkProperties()
 {
 	if(network()->type() & RzxNetwork::TYP_PROPERTIES)
 		network()->properties(this);

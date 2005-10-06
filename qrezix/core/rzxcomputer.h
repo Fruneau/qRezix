@@ -45,6 +45,7 @@ class RzxComputer : public QObject  {
 	Q_PROPERTY(Servers servers READ servers WRITE setServers)
 	Q_PROPERTY(Servers serverFlags READ serverFlags WRITE setServerFlags)
 	Q_PROPERTY(QString remarque READ remarque WRITE setRemarque)
+	Q_PROPERTY(QString properties READ properties WRITE setProperties)
 	Q_PROPERTY(QPixmap icon READ icon WRITE setIcon)
 	Q_PROPERTY(RzxHostAddress ip READ ip WRITE setIP)
 	Q_PROPERTY(RzxNetwork* network READ network)
@@ -156,6 +157,7 @@ public slots:
 public:
 	const QString &name() const;
 	const QString &remarque() const;
+	QString properties() const;
 
 	QPixmap icon() const;
 	quint32 stamp() const;
@@ -222,8 +224,9 @@ public slots:
 	void addToFavorites();
 	void removeFromFavorites();
 	//Chat, historique, propriétés
-	void historique();
-	void proprietes();
+	void history();
+	void checkProperties();
+	void setProperties(const QString&);
 	void chat();
 
 protected:

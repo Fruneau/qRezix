@@ -18,6 +18,7 @@
 #include <QRegExp>
 
 #include <RzxConfig>
+#include <RzxComputer>
 #include <RzxApplication>
 
 #include "rzxchatsocket.h"
@@ -144,7 +145,7 @@ int RzxChatSocket::parse(const QString& msg)
 						emit notify(tr("has send empty properties"));
 						return DCC_PROPANSWER;		// ou que l'on n'a rien demande on s'arrete
 					}
-					RzxConfig::addCache(host, cmd.cap(2));
+					host.computer()->setProperties(cmd.cap(2));
 					emit haveProperties(host);
 					if(alone)
 						close();

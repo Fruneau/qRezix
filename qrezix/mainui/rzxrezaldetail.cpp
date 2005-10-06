@@ -201,7 +201,7 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	// Remplissage
 	propsView->clear();
 	btnProperties->setEnabled(true);
-	QStringList props = RzxConfig::cache(computer->ip()).split('|');
+	QStringList props = computer->properties().split('|');
 	if(props.size())
 	{
 		item = NULL;
@@ -223,7 +223,7 @@ void RzxRezalDetail::checkProp()
 {
 	waitProp = computer;
 	if(computer)	
-		computer->proprietes();
+		computer->checkProperties();
 }
 
 ///Notification de la modification des propriétés de l'ordinateur
