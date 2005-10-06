@@ -30,7 +30,7 @@ RzxJabberProperty::~RzxJabberProperty()
 {
 }
 
-bool RzxJabberProperty::handleIq (Stanza *stanza){};
+bool RzxJabberProperty::handleIq (Stanza *stanza){return false;};
 
 bool RzxJabberProperty::handleIqID (Stanza *stanza, int context){
 	Tag *q = stanza->findChild( "vCard" );
@@ -53,12 +53,19 @@ bool RzxJabberProperty::handleIqID (Stanza *stanza, int context){
 			birthday = QString::fromStdString(tag->cdata());
 		else if(tag->name()=="DESC")
 			description = QString::fromStdString(tag->cdata());
-		else if(tag->name()=="ADR")
-			address = QString::fromStdString(tag->findChild("STREET")->cdata()) + "\n" + QString::fromStdString(tag->findChild("PCODE")->cdata()) + " " + QString::fromStdString(tag->findChild("LOCALITY")->cdata()) + "\n" + QString::fromStdString(tag->findChild("REGION")->cdata()) + "\n" +  QString::fromStdString(tag->findChild("CTRY")->cdata());
-		else if(tag->name()=="ORG")
-			organisation = QString::fromStdString(tag->findChild("ORGNAME")->cdata()) + " - " + QString::fromStdString(tag->findChild("ORGUNIT")->cdata());
+		else if(tag->name()=="ADR"){
+			street = QString::fromStdString(tag->findChild("STREET")->cdata());
+			postCode = QString::fromStdString(tag->findChild("PCODE")->cdata());
+			city = QString::fromStdString(tag->findChild("LOCALITY")->cdata());
+			region = QString::fromStdString(tag->findChild("REGION")->cdata());
+			country = QString::fromStdString(tag->findChild("CTRY")->cdata());
+		}else if(tag->name()=="ORG"){
+			orgName = QString::fromStdString(tag->findChild("ORGNAME")->cdata());
+			orgUnit = QString::fromStdString(tag->findChild("ORGUNIT")->cdata());
+		}
 	}
 	emit receivedProperties(computer);
+	return true;
 };
 
 QString RzxJabberProperty::toMsg(){
@@ -77,10 +84,21 @@ QString RzxJabberProperty::toMsg(){
 		props += tr("Birthday") + "|" + birthday + "|";
 	if(description.isNull())
 		props += tr("Description") + "|" + description + "|";
-	if(!address.isNull ())
-		props += tr("Address") + "|" + address + "|";
-	if(!organisation.isNull())
-		props += tr("Organisation") + "|" + organisation + "|";
+	if(! ( street.isNull() && postCode.isNull() && city.isNull() && region.isNull() && country.isNull() ) ){
+		props += tr("Address") + "|";
+		if(!street.isNull()) props += street + "\n";
+		if(!postCode.isNull()) props += postCode + " ";
+		if(!city.isNull()) props += city + "\n";
+		if(!region.isNull()) props += region + "\n";
+		if(!country.isNull()) props += country;
+		props += "|";
+	}
+	if(!orgName.isNull()||!orgUnit.isNull()){
+		props += tr("Organisation") + "|";
+		if(!orgName.isNull()) props += orgName + " ";
+		if(!orgUnit.isNull()) props += orgUnit;
+		props += "|";
+	}
 	props.chop(1);
 	return props;
 }
@@ -112,9 +130,18 @@ Tag * RzxJabberProperty::toIq(){
 		sub = new Tag(tag, "BDAY", birthday.toStdString());
 	if(description.isNull())
 		sub = new Tag(tag, "DESC", description.toStdString());
-// 	if(address.isNull ())
-// 		props += tr("Address") + "|" + address + "|";
-// 	if(organisation.isNull())
-// 		props += tr("Organisation") + "|" + organisation + "|";
+	if(! ( street.isNull() && postCode.isNull() && city.isNull() && region.isNull() && country.isNull() ) ){
+		sub = new Tag( tag , "ADDRESS");
+		if(!street.isNull()) subsub = new Tag ( sub, "STREET", street.toStdString());
+		if(!postCode.isNull()) subsub = new Tag ( sub, "PCODE", postCode.toStdString());
+		if(!city.isNull()) subsub = new Tag ( sub, "LOCALITY", city.toStdString());
+		if(!region.isNull()) subsub = new Tag ( sub, "REGION", region.toStdString());
+		if(!country.isNull()) subsub = new Tag ( sub, "CTRY", country.toStdString());
+	}
+	if(!orgName.isNull()||!orgUnit.isNull()){
+		sub = new Tag( tag , "ORG");
+		if(!orgName.isNull()) subsub = new Tag ( sub, "ORGNAME", orgName.toStdString());
+		if(!orgUnit.isNull()) subsub = new Tag ( sub, "ORGUNIT", orgUnit.toStdString());
+	}
 	return tag;
 }

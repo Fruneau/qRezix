@@ -103,7 +103,7 @@ signals:
 	void send(const QString& msg);
 	void connected(RzxJabberProtocole*);
 	void disconnected(RzxJabberProtocole*);
-	void haveProperties(RzxComputer*, bool*);
+	void haveProperties(RzxComputer*);
 };
 
 
