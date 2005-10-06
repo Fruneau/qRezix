@@ -70,33 +70,33 @@ bool RzxJabberProperty::handleIqID (Stanza *stanza, int context){
 
 QString RzxJabberProperty::toMsg(){
 	QString props;
-	if(!email.isNull())
+	if(!email.isEmpty())
 		props += tr("Email") + "|" + email  + "|";
-	if(!phone.isNull())
+	if(!phone.isEmpty())
 		props += tr("Phone") + "|" + phone + "|";
-	if(!website.isNull())
+	if(!website.isEmpty())
 		props += tr("Website") + "|" + website + "|";
-	if(!nick.isNull())
+	if(!nick.isEmpty())
 		props += tr("Nickname") + "|" + nick  + "|";
-	if(!name.isNull())
+	if(!name.isEmpty())
 		props += tr("Name") + "|" + name + "|";
-	if(!birthday.isNull())
+	if(!birthday.isEmpty())
 		props += tr("Birthday") + "|" + birthday + "|";
-	if(description.isNull())
+	if(description.isEmpty())
 		props += tr("Description") + "|" + description + "|";
-	if(! ( street.isNull() && postCode.isNull() && city.isNull() && region.isNull() && country.isNull() ) ){
+	if(! ( street.isEmpty() && postCode.isEmpty() && city.isEmpty() && region.isEmpty() && country.isEmpty() ) ){
 		props += tr("Address") + "|";
-		if(!street.isNull()) props += street + "\n";
-		if(!postCode.isNull()) props += postCode + " ";
-		if(!city.isNull()) props += city + "\n";
-		if(!region.isNull()) props += region + "\n";
-		if(!country.isNull()) props += country;
+		if(!street.isEmpty()) props += street + "\n";
+		if(!postCode.isEmpty()) props += postCode + " ";
+		if(!city.isEmpty()) props += city + "\n";
+		if(!region.isEmpty()) props += region + "\n";
+		if(!country.isEmpty()) props += country;
 		props += "|";
 	}
-	if(!orgName.isNull()||!orgUnit.isNull()){
+	if(!orgName.isEmpty()||!orgUnit.isEmpty()){
 		props += tr("Organisation") + "|";
-		if(!orgName.isNull()) props += orgName + " ";
-		if(!orgUnit.isNull()) props += orgUnit;
+		if(!orgName.isEmpty()) props += orgName + " ";
+		if(!orgUnit.isEmpty()) props += orgUnit;
 		props += "|";
 	}
 	props.chop(1);
@@ -104,44 +104,46 @@ QString RzxJabberProperty::toMsg(){
 }
 
 Tag * RzxJabberProperty::toIq(){
-	Tag *tag,*sub,*subsub;
-	tag = new Tag( "iq" );
-	tag->addAttrib( "type", "set" );
-	sub = new Tag( tag, "vcard" );
-	sub->addAttrib( "xmlns", "vcard-temp" );
-	if(email.isNull()){
+	Tag *top,*tag,*sub,*subsub;
+	top = new Tag( "iq" );
+	top->addAttrib( "type", "set" );
+	tag = new Tag( top, "vcard" );
+	tag->addAttrib( "xmlns", "vcard-temp" );
+// 	tag->addAttrib( "prodid", "-//HandGen//NONSGML vGen v1.0//EN");
+// 	tag->addAttrib( "version", "2.0" );
+	if(!email.isEmpty()){
 		sub = new Tag( tag , "EMAIL");
 		subsub = new Tag( sub, "INTERNET");
 		subsub = new Tag ( sub, "USERID", email.toStdString());
 	}
-	if(phone.isNull()){
+	if(!phone.isEmpty()){
 		sub = new Tag( tag , "TEL");
 		subsub = new Tag( sub, "HOME");
 		subsub = new Tag( sub, "VOICE");
 		subsub = new Tag ( sub, "NUMBER", phone.toStdString());
 	}
-	if(website.isNull())
+	if(!website.isEmpty())
 		sub = new Tag(tag, "URL", website.toStdString());
-	if(nick.isNull())
+	if(!nick.isEmpty())
 		sub = new Tag(tag, "NICKNAME", nick.toStdString());
-	if(name.isNull())
+	if(!name.isEmpty())
 		sub = new Tag(tag, "FN", name.toStdString());
-	if(birthday.isNull())
+	if(!birthday.isEmpty())
 		sub = new Tag(tag, "BDAY", birthday.toStdString());
-	if(description.isNull())
+	if(!description.isEmpty())
 		sub = new Tag(tag, "DESC", description.toStdString());
-	if(! ( street.isNull() && postCode.isNull() && city.isNull() && region.isNull() && country.isNull() ) ){
+	if(! ( street.isEmpty() && postCode.isEmpty() && city.isEmpty() && region.isEmpty() && country.isEmpty() ) ){
 		sub = new Tag( tag , "ADDRESS");
-		if(!street.isNull()) subsub = new Tag ( sub, "STREET", street.toStdString());
-		if(!postCode.isNull()) subsub = new Tag ( sub, "PCODE", postCode.toStdString());
-		if(!city.isNull()) subsub = new Tag ( sub, "LOCALITY", city.toStdString());
-		if(!region.isNull()) subsub = new Tag ( sub, "REGION", region.toStdString());
-		if(!country.isNull()) subsub = new Tag ( sub, "CTRY", country.toStdString());
+		if(!street.isEmpty()) subsub = new Tag ( sub, "STREET", street.toStdString());
+		if(!postCode.isEmpty()) subsub = new Tag ( sub, "PCODE", postCode.toStdString());
+		if(!city.isEmpty()) subsub = new Tag ( sub, "LOCALITY", city.toStdString());
+		if(!region.isEmpty()) subsub = new Tag ( sub, "REGION", region.toStdString());
+		if(!country.isEmpty()) subsub = new Tag ( sub, "CTRY", country.toStdString());
 	}
-	if(!orgName.isNull()||!orgUnit.isNull()){
+	if(!orgName.isEmpty()||!orgUnit.isEmpty()){
 		sub = new Tag( tag , "ORG");
-		if(!orgName.isNull()) subsub = new Tag ( sub, "ORGNAME", orgName.toStdString());
-		if(!orgUnit.isNull()) subsub = new Tag ( sub, "ORGUNIT", orgUnit.toStdString());
+		if(!orgName.isEmpty()) subsub = new Tag ( sub, "ORGNAME", orgName.toStdString());
+		if(!orgUnit.isEmpty()) subsub = new Tag ( sub, "ORGUNIT", orgUnit.toStdString());
 	}
-	return tag;
+	return top;
 }

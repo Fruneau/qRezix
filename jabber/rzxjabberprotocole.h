@@ -51,7 +51,7 @@ public:
 	virtual QList<QWidget*> propWidgets();
 	virtual QStringList propWidgetsName();
 	virtual bool isStarted() const;
-	void sendProperties();
+	
 	
 //Gestion de propri�� du module
 private:
@@ -60,7 +60,7 @@ private:
 	RzxJabberClient *client;
 	QHash<QString,RzxJabberComputer*> computerList;
 	void getProperties(QString jid, QString comp);
-
+	
 
 public slots:
 	/** Demande un envoi d'icone
@@ -94,6 +94,7 @@ public slots:
 
 private slots:
 	void updateLocalhost();
+	void sendProperties();
 	
 // Signals
 signals:

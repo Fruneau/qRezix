@@ -75,6 +75,7 @@ RzxJabberProtocole::~RzxJabberProtocole(){
 void RzxJabberProtocole::connection(){
 	emit connected(this);
 	emit status("Connection jabber");
+	updateLocalhost();
 }
 
 void RzxJabberProtocole::deconnection(){
@@ -83,7 +84,7 @@ void RzxJabberProtocole::deconnection(){
 }
 
 /****************************************************************************
-* FEN�RE DE PROPRI��
+* FENETRE DE PROPRIETES
 */
 
 /** \reimp */
@@ -98,6 +99,8 @@ QList<QWidget*> RzxJabberProtocole::propWidgets()
 		connect(ui->rosterList,SIGNAL(currentItemChanged(QListWidgetItem *,QListWidgetItem *)),this, SLOT(changeRosterText(QListWidgetItem *,QListWidgetItem *)));
 		connect(ui->rosterAddButton,SIGNAL(clicked()),this, SLOT(addRosterItem()));
 		connect(ui->rosterDeleteButton,SIGNAL(clicked()),this, SLOT(removeRosterItem()));
+		connect(ui->getButton,SIGNAL(clicked()),this, SLOT(updateLocalhost()));
+		connect(ui->setButton,SIGNAL(clicked()),this, SLOT(sendProperties()));
 	}
 	return QList<QWidget*>() << propWidget;
 }
@@ -131,13 +134,13 @@ void RzxJabberProtocole::buildRosterList(){
 	ui->rosterList->sortItems();
 };
 
-/** \reimp */
+
 QStringList RzxJabberProtocole::propWidgetsName()
 {
 	return QStringList() << name();
 }
 
-/** \reimp */
+
 void RzxJabberProtocole::propInit(bool def)
 {
 	ui->server_name->setText( RzxJabberConfig::serverName() );
@@ -147,8 +150,22 @@ void RzxJabberProtocole::propInit(bool def)
 	ui->reconnection->setValue( RzxJabberConfig::reconnection() / 1000 );
 	ui->ping_timeout->setValue( RzxJabberConfig::pingTimeout() / 1000 );
 	
-	if(isStarted())
+	if(isStarted()){
 		buildRosterList();
+		ui->propName->setText(computerList["myself"]->props()->name);
+		ui->propNick->setText(computerList["myself"]->props()->nick);
+		ui->propEmail->setText(computerList["myself"]->props()->email);
+		ui->propBirthday->setText(computerList["myself"]->props()->birthday);
+		ui->propWebsite->setText(computerList["myself"]->props()->website);
+		ui->propPhone->setText(computerList["myself"]->props()->phone);
+		ui->propStreet->setText(computerList["myself"]->props()->street);
+		ui->propPostCode->setText(computerList["myself"]->props()->postCode);
+		ui->propCity->setText(computerList["myself"]->props()->city);
+		ui->propRegion->setText(computerList["myself"]->props()->region);
+		ui->propCountry->setText(computerList["myself"]->props()->country);
+		ui->propOrgName->setText(computerList["myself"]->props()->orgName);
+		ui->propOrgUnit->setText(computerList["myself"]->props()->orgUnit);
+	}
 }
 
 /** \reimp */
@@ -199,13 +216,15 @@ bool RzxJabberProtocole::isStarted() const
 void RzxJabberProtocole::start() {
 	RzxJabberComputer *newComputer = new RzxJabberComputer("myself", "myself", 0);
 	connect(newComputer->props(), SIGNAL(receivedProperties(RzxJabberComputer*)), this, SLOT(receivedProperties(RzxJabberComputer*)));
-	computerList.insert("myself", newComputer);
+	computerList["myself"] = newComputer;
 	client->start();
 }
 
 void RzxJabberProtocole::stop() {
-	client->stop();
-	client->wait(1000);
+	if(isStarted()){
+		client->stop();
+		client->wait(1000);
+	}
 }
 
 
@@ -347,10 +366,24 @@ void RzxJabberProtocole::chat(RzxComputer* comp){
 
 void RzxJabberProtocole::sendProperties()
 {
+	computerList["myself"]->props()->name    = ui->propName->text();
+	computerList["myself"]->props()->nick    = ui->propNick->text();
+	computerList["myself"]->props()->email   = ui->propEmail->text();
+	computerList["myself"]->props()->birthday= ui->propBirthday->text();
+	computerList["myself"]->props()->website = ui->propWebsite->text();
+	computerList["myself"]->props()->phone   = ui->propPhone->text();
+	computerList["myself"]->props()->street  = ui->propStreet->text();
+	computerList["myself"]->props()->postCode= ui->propPostCode->text();
+	computerList["myself"]->props()->city    = ui->propCity->text();
+	computerList["myself"]->props()->region  = ui->propRegion->text();
+	computerList["myself"]->props()->country = ui->propCountry->text();
+	computerList["myself"]->props()->orgName = ui->propOrgName->text();
+	computerList["myself"]->props()->orgUnit = ui->propOrgUnit->text();
 	const std::string id = client->client()->getID();
 	Tag *t = computerList["myself"]->props()->toIq();
 	t->addAttrib( "id", id );
 	client->send( t );
+	qDebug() << "properties sent";
 }
 
 void RzxJabberProtocole::updateLocalhost()
