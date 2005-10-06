@@ -147,7 +147,8 @@ void RzxJabberProtocole::propInit(bool def)
 	ui->reconnection->setValue( RzxJabberConfig::reconnection() / 1000 );
 	ui->ping_timeout->setValue( RzxJabberConfig::pingTimeout() / 1000 );
 	
-	buildRosterList();
+	if(isStarted())
+		buildRosterList();
 }
 
 /** \reimp */
@@ -337,8 +338,7 @@ void RzxJabberProtocole::receivedProperties(RzxJabberComputer* from)
 {
 	if(from->name()!="myself"){
 		RzxConfig::addCache(from->ip(), from->props()->toMsg());
-		bool used = false;
-		emit haveProperties(RzxConnectionLister::global()->getComputerByIP(from->ip()), &used);
+		emit haveProperties(RzxConnectionLister::global()->getComputerByIP(from->ip()));
 	}
 }
 

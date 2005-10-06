@@ -35,7 +35,7 @@ public:
 	~RzxJabberProperty();
 	virtual bool handleIq (Stanza *stanza);
 	virtual bool handleIqID (Stanza *stanza, int context);
-	QString email, phone, website, nick, name, birthday, description, address, organisation;
+	QString email, phone, website, nick, name, birthday, description, street, city, postCode, region, country, orgName, orgUnit;
 	QString toMsg();
 	Tag * toIq();
 
