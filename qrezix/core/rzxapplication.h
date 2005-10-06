@@ -78,12 +78,12 @@ class RzxApplication:public QApplication, public RzxBaseLoader<RzxModule>
 		void saveSettings();
 		void preferences();
 
+		void relayProperties(RzxComputer*);
+
 	protected slots:
 		void toggleResponder();
 		void activateResponder();
 		void deactivateResponder();
-
-		void relayProperties(RzxComputer*);
 
 	signals:
 		///Simple relais pour RzxModule::haveProperties
