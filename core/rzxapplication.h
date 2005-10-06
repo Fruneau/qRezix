@@ -46,6 +46,7 @@ class RzxApplication:public QApplication, public RzxBaseLoader<RzxModule>
 	RzxModule *chatProto;
 	RzxModule *chatui;
 	RzxModule *propertiesProto;
+	RzxModule *propertiesUi;
 
 	bool wellInit;
 	static Rzx::Version m_version;
@@ -81,6 +82,8 @@ class RzxApplication:public QApplication, public RzxBaseLoader<RzxModule>
 		void toggleResponder();
 		void activateResponder();
 		void deactivateResponder();
+
+		void relayProperties(RzxComputer*);
 
 	signals:
 		///Simple relais pour RzxModule::haveProperties

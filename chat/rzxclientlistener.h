@@ -50,6 +50,7 @@ class RzxClientListener : public QTcpServer  {
 	signals:
 		void propertiesSent(const RzxHostAddress&);
 		void chatSent();
+		void haveProperties(RzxComputer*);
 };
 
 ///Surcharge pour simplifier l'appel

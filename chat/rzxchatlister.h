@@ -75,6 +75,7 @@ class RzxChatLister:public RzxModule
 
 		virtual void history(RzxComputer*);
 		virtual void properties(RzxComputer*);
+		virtual void showProperties(RzxComputer*);
 		virtual void chat(RzxComputer*);
 		RzxChat *createChat(RzxComputer*);
 

@@ -121,6 +121,8 @@ class RzxChatSocket : public QTcpSocket
 		void pongReceived(int time);
 		void info(const QString& msg);
 		void notify(const QString& msg, bool withHostname = false);
+
+		void haveProperties(RzxComputer*);
 };
 
 ///Retourne la fenêtre de chat associée au socket

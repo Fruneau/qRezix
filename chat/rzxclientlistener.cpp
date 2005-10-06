@@ -40,6 +40,7 @@ void RzxClientListener::attach(RzxChatSocket *sock)
 {
 	connect(sock, SIGNAL(propertiesSent(const RzxHostAddress& )), this, SIGNAL(propertiesSent(const RzxHostAddress& )));
 	connect(sock, SIGNAL(chatSent()), this, SIGNAL(chatSent()));
+	connect(sock, SIGNAL(haveProperties(RzxComputer*)), this, SIGNAL(haveProperties(RzxComputer*)));
 }
 
 ///Réception d'une connexion entrante

@@ -127,12 +127,14 @@ class RzxModule:public QObject, public RzxBaseModule
 			MOD_CHAT = 4, 	/**< Le module implémente un protocole par défaut de chat utilisable */
 			MOD_CHATUI = 8, 	/**< Le module implémentante une interface de chat */
 			MOD_PROPERTIES = 16, /**< Le module implémente un protocole par défaut pour obtenir les propriétés */
+			MOD_PROPERTIESUI = 32, /**< Le module implémente une interface par défaut pour afficher les propriétés */
 
-			MOD_HIDE = 32, 	/**< Le module a la faculté de demander à cacher l'interface graphique 
+			MOD_HIDE = 64, 	/**< Le module a la faculté de demander à cacher l'interface graphique 
 								 * Le module dans ce cas doit émettre \ref wantToggleVisible, \ref wantShow et \ref wantHide
 								 */
 			MOD_MAINGUI = MOD_MAINUI | MOD_GUI, /**< Simple surcharge pour une interface graphique principale */
-			MOD_CHATGUI = MOD_CHATUI | MOD_GUI /**< Simple surcharge pour une interface graphique de chat */
+			MOD_CHATGUI = MOD_CHATUI | MOD_GUI, /**< Simple surcharge pour une interface graphique de chat */
+			MOD_PROPGUI = MOD_PROPERTIESUI | MOD_GUI
 		};
 		Q_DECLARE_FLAGS(Type, TypeFlags)
 
@@ -163,6 +165,8 @@ class RzxModule:public QObject, public RzxBaseModule
 		virtual void chat(RzxComputer*);
 		virtual void properties(RzxComputer*);
 		virtual void history(RzxComputer*);
+
+		virtual void showProperties(RzxComputer*);
 
 	signals:
 		///Demande de fermeture de qRezix
@@ -221,7 +225,7 @@ class RzxModule:public QObject, public RzxBaseModule
 		 * \param displayed doit être mis à true si l'information a été interceptée
 		 * et communiquée à l'utilisateur ou autre par un objet.
 		 */
-		void haveProperties(RzxComputer*, bool *displayed);
+		void haveProperties(RzxComputer*);
 };
 
 ///Exportation du module
