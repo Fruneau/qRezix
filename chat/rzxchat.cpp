@@ -635,7 +635,7 @@ void RzxChat::on_btnProperties_toggled(bool on)
 	
 	if(prop) return;
 	btnHistorique->setChecked(false);
-	validSocket()->sendPropQuery();
+	peer.computer()->checkProperties();
 }
 
 ///Demande l'affichage des propriétés
