@@ -176,10 +176,8 @@ void RzxChatLister::receiveChatMessage(RzxComputer *computer, Rzx::ChatMessageTy
 
 	RzxChat *chat = getChatByIP(computer->ip());
 	if(!chat && type == Rzx::Chat)
-	{
 		chat = createChat(computer);
-		if(!chat) return;
-	}
+	if(!chat) return;
 	chat->receiveChatMessage(type, msg);
 }
 
@@ -222,7 +220,7 @@ void RzxChatLister::warnProperties(RzxComputer *computer)
 	               cur.minute(),
 	               cur.second() );
 
-	if (!chat)
+	if(!chat)
 	{
 		if(!RzxChatConfig::warnWhenChecked())
 			return ;
