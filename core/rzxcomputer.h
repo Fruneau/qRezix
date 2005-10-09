@@ -228,6 +228,8 @@ public slots:
 	void checkProperties();
 	void setProperties(const QString&);
 	void chat();
+	void sendChat(Rzx::ChatMessageType, const QString& = QString());
+	void receiveChat(Rzx::ChatMessageType, const QString& = QString());
 
 protected:
 	QString m_name;

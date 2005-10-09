@@ -86,3 +86,7 @@ void RzxNetwork::chat(RzxComputer*)
 void RzxNetwork::properties(RzxComputer*)
 {
 }
+
+void RzxNetwork::sendChatMessage(RzxComputer*, Rzx::ChatMessageType, const QString&)
+{
+}

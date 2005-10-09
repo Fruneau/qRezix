@@ -68,7 +68,7 @@ class RzxChatLister:public RzxModule
 		void login(RzxComputer*);
 		void logout(RzxComputer*);
 
-		void warnProperties(const RzxHostAddress&);
+		void warnProperties(RzxComputer*);
 
 		QWidget *historique(RzxComputer*, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL);
 		QWidget *showProperties(RzxComputer*, const QString&, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL);
@@ -79,9 +79,12 @@ class RzxChatLister:public RzxModule
 		virtual void chat(RzxComputer*);
 		RzxChat *createChat(RzxComputer*);
 
-		void deleteChat(const RzxHostAddress&);
+		void deleteChat(RzxComputer*);
 		void closeChat(const QString& login);
 		void closeChats();
+
+		virtual void sendChatMessage(RzxComputer *, Rzx::ChatMessageType, const QString& = QString());
+		virtual void receiveChatMessage(RzxComputer *, Rzx::ChatMessageType, const QString& = QString());
 
 	public:
 		virtual QList<QWidget*> propWidgets();

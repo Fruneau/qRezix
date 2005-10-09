@@ -55,12 +55,10 @@
 #include <QApplication>
 
 #include <RzxConfig>
-#include <RzxComputer>
 #include <RzxIconCollection>
 
 #include "rzxchat.h"
 
-#include "rzxchatsocket.h"
 #include "rzxchatlister.h"
 #include "rzxchatconfig.h"
 
@@ -102,19 +100,18 @@ const QColor RzxChat::preDefinedColors[16] = {Qt::black, Qt::red, Qt::darkRed,
 
 /*************** Création/Destruction de la fenêtre *****************/
 //On crée la fenêtre soit avec un m_socket d'une connection déjà établie
-RzxChat::RzxChat(RzxChatSocket* sock)
+/* RzxChat::RzxChat(RzxChatSocket* sock)
 	:QWidget(NULL, Qt::WindowContextHelpButtonHint), RzxChatUI()
 {
 	setSocket(sock);
 	init();
-}
+} */
 
 //Soit sans m_socket, celui-ci sera initialisé de par la suite
-RzxChat::RzxChat(const RzxHostAddress& peerAddress)
+RzxChat::RzxChat(RzxComputer *c)
 	:QWidget(NULL, Qt::WindowContextHelpButtonHint), RzxChatUI()
 {
-	peer = peerAddress;
-	m_socket = NULL;
+	setComputer(c);
 	init();
 }
 
@@ -217,28 +214,22 @@ void RzxChat::init()
 ///Bye bye
 RzxChat::~RzxChat()
 {
-	QString temp = textHistorique;
+/*	QString temp = textHistorique;
 
-	QString filename = RzxChatConfig::historique(peer.toRezix(), m_hostname);
-	if (filename.isNull()) return;
+	QString filename = RzxChatConfig::historique(computer()->ip().toRezix(), computer()->name());
+	if(filename.isNull()) return;
 	
 	QFile file(filename);
 	file.open(QIODevice::ReadWrite |QIODevice::Append);
 	QTextStream stream(&file);
 	stream.setCodec("UTF-8");
 	stream << temp;
-	file.close();
+	file.close();*/
 	
 #ifdef WIN32
 	if(timer) delete timer;
-#endif
-	
+#endif	
 	if(defFont) delete defFont;
-	if(m_socket)
-	{
-		m_socket->close();
-		qDebug("Connection with %s has been closed by killing the chat window", m_hostname.toAscii().constData());
-	}
 }
 
 /********************* Gestion de la connexion au réseau ***********************/
@@ -246,7 +237,7 @@ RzxChat::~RzxChat()
 //	 - RzxChatSocket *RzxChatSocket::getSocket();
 //	 - RzxChatSocket *RzxChatSocket::validSocket();
 
-///Installation/Remplacement du m_socket de chat
+/*///Installation/Remplacement du m_socket de chat
 void RzxChat::setSocket(RzxChatSocket* sock)
 {
 	if(!sock && (!m_socket || m_socket->isConnected()))
@@ -273,6 +264,12 @@ void RzxChat::setSocket(RzxChatSocket* sock)
 		connect(&typingTimer, SIGNAL(timeout()), m_socket, SLOT(sendTyping()));
 		connect(m_socket, SIGNAL(typing(bool)), this, SLOT(peerTypingStateChanged(bool)));
 	}
+}*/
+
+void RzxChat::setComputer(RzxComputer* c)
+{
+	m_computer = c;
+	updateTitle();
 }
 
 ///Réception d'un message pong
@@ -289,21 +286,13 @@ void RzxChat::peerTypingStateChanged(bool state)
 	updateTitle();
 }
 
-
-///Changement du nom de la machine avec laquelle on discute
-void RzxChat::setHostname(const QString& name)
-{
-	m_hostname = name;
-	updateTitle();
-}
-
 ///Changement du titre de la fenêtre
 /** Le titre est de la forme :
  * Chat - remoteHostName( - Is typing a message)?( - \d+ unread)
  */ 
 void RzxChat::updateTitle()
 {
-	QString title = tr("Chat") + " - " + m_hostname;
+	QString title = tr("Chat") + " - " + computer()->name();
 	
 	if(peerTyping && isActiveWindow()) title += " - " + tr("Is typing a message");
 	if(unread) title += " - " + QString::number(unread) + " " + tr("unread");
@@ -427,17 +416,17 @@ void RzxChat::onTextChanged()
 	if(!typing && edMsg->toPlainText().length())
 	{
 		typing = true;
+		if(computer())
+			computer()->sendChat(Rzx::Typing);
 		//On ne crée pas de m_socket pour envoyer typing
-		if(m_socket)
-			m_socket->sendTyping(true);
 		typingTimer.setSingleShot(true);
 		typingTimer.start(10*1000);
 	}
 	if(typing && !edMsg->toPlainText().length())
 	{
 		typing = false;
-		if(m_socket)
-			m_socket->sendTyping(false);
+		if(computer())
+			computer()->sendChat(Rzx::StopTyping);
 		typingTimer.stop();
 	}
 }
@@ -508,9 +497,9 @@ void RzxChat::receive(const QString& msg)
 	}
 	
 	if(RzxConfig::autoResponder())
-		append("darkgray", m_hostname + ">&nbsp;", message);
+		append("darkgray", computer()->name() + ">&nbsp;", message);
 	else
-		append("blue", m_hostname + ">&nbsp;", message);
+		append("blue", computer()->name() + ">&nbsp;", message);
 	if(!isActiveWindow())
 	{
 		unread++;
@@ -524,7 +513,7 @@ void RzxChat::receive(const QString& msg)
 
 /** Affiche une info de status (deconnexion, reconnexion) */
 void RzxChat::info(const QString& msg){
-	append( "darkgreen", m_hostname + " ", msg );
+	append( "darkgreen", computer()->name() + " ", msg );
 }
 
 /// Affiche un message de notification (envoie de prop, ping, pong...)
@@ -534,9 +523,25 @@ void RzxChat::notify(const QString& msg, bool withHostname)
 		return;
 
 	QString header = "***&nbsp;";
-	if(withHostname) header += m_hostname + "&nbsp;";
+	if(withHostname) header += computer()->name() + "&nbsp;";
 	append("gray", header, msg);
 }
+
+///Reception d'un message ou autre
+void RzxChat::receiveChatMessage(Rzx::ChatMessageType type, const QString& msg)
+{
+	switch(type)
+	{
+		case Rzx::Responder: case Rzx::Chat: receive(msg); break;
+		case Rzx::Ping: notify(tr("Ping request received")); break;
+		case Rzx::Pong: notify(tr("Pong answer received")); break;
+		case Rzx::Typing:  peerTypingStateChanged(true); break;
+		case Rzx::StopTyping:  peerTypingStateChanged(false); break;
+		case Rzx::InfoMessage: info(msg); break;
+		case Rzx::Closed: info(tr("Chat closed")); break;
+	}
+}
+
 
 
 /** No descriptions */
@@ -558,7 +563,8 @@ void RzxChat::on_btnSend_clicked()
 
 	if(rawMsg == "/ping" || rawMsg.left(6) == "/ping ")
 	{
-		validSocket()->sendPing();
+		if(computer())
+			computer()->sendChat(Rzx::Ping);
 		edMsg->setPlainText("");
 		notify(tr("Ping emitted"));
 		return;
@@ -610,7 +616,7 @@ void RzxChat::on_btnHistorique_toggled(bool on)
 	
 	QString temp = textHistorique;
 
-	QString filename = RzxChatConfig::historique(peer.toRezix(), m_hostname);
+	QString filename = RzxChatConfig::historique(computer()->ip().toRezix(), computer()->name());
 	if (filename.isNull()) return;
 	
 	QFile file(filename);		
@@ -618,7 +624,7 @@ void RzxChat::on_btnHistorique_toggled(bool on)
 	file.write(temp.toUtf8());
 	file.close();
 	QPoint *pos = new QPoint(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
-	hist = (RzxPopup*)RzxChatLister::global()->historique(peer, false, this, pos);
+	hist = (RzxPopup*)RzxChatLister::global()->historique(computer()->ip(), false, this, pos);
 	delete pos;
 	hist->show();
 }
@@ -635,14 +641,14 @@ void RzxChat::on_btnProperties_toggled(bool on)
 	
 	if(prop) return;
 	btnHistorique->setChecked(false);
-	peer.computer()->checkProperties();
+	computer()->checkProperties();
 }
 
 ///Demande l'affichage des propriétés
 void RzxChat::receiveProperties(const QString& msg)
 {
 	QPoint *pos = new QPoint(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
-	prop = (RzxPopup*)RzxChatLister::global()->showProperties(peer, msg, false, this, pos);
+	prop = (RzxPopup*)RzxChatLister::global()->showProperties(computer()->ip(), msg, false, this, pos);
 	delete pos;
 	if(prop.isNull())
 	{
@@ -667,7 +673,8 @@ void RzxChat::moveEvent(QMoveEvent *)
  */
 void RzxChat::sendChat(const QString& msg)
 {
-	validSocket()->sendChat(msg);
+	if(computer())
+		computer()->sendChat(Rzx::Chat, msg);
 }
 
 /******************* Gestion des événements ***************************/
@@ -686,7 +693,10 @@ void RzxChat::closeEvent(QCloseEvent * e)
 		prop->close();
 	RzxChatConfig::saveChatWidget(this);
 	e -> accept();
-	emit closed(peer);
+
+	if(computer())
+		computer()->sendChat(Rzx::Closed);
+	emit closed(computer());
 }
 
 ///Pour récupérer quelques événements (genre activation de la fenêtre)
@@ -847,7 +857,7 @@ bool RzxTextEdit::nickAutocompletion()
 	
 	//Juste pour se souvenir des pseudos possibles
 	QString localName = RzxComputer::localhost()->name();
-	QString remoteName = chat->hostname();
+	QString remoteName = chat->computer()->name();
 	
 	for(int i = 1 ; i <= index && (localName.length() > i || remoteName.length() > i) ; i++)
 	{

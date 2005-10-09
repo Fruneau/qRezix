@@ -561,14 +561,25 @@ void RzxComputer::checkProperties()
 void RzxComputer::chat()
 {
 	if(!RzxApplication::chatUiModule()) return;
-
-	if(network()->type() & RzxNetwork::TYP_CHAT)
-		network()->chat(this);
-	else if(RzxApplication::chatModule())
-		RzxApplication::chatModule()->chat(this);
-
 	RzxApplication::chatUiModule()->chat(this);
 }
+
+///Envoie un message à la machine
+void RzxComputer::sendChat(Rzx::ChatMessageType type, const QString& msg)
+{
+	if(network()->type() & RzxNetwork::TYP_CHAT)
+		network()->sendChatMessage(this, type, msg);
+	else if(RzxApplication::chatModule())
+		RzxApplication::chatModule()->sendChatMessage(this, type, msg);
+}
+
+///Reçoit un message depuis la machine
+void RzxComputer::receiveChat(Rzx::ChatMessageType type, const QString& msg)
+{
+	if(!RzxApplication::chatUiModule()) return;
+	RzxApplication::chatUiModule()->receiveChatMessage(this, type, msg);
+}
+
 
 /****************** Analyse de la machine ********************/
 ///Scan des servers ouverts

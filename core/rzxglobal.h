@@ -122,6 +122,18 @@ namespace Rzx
 		ICON_NUMBER = 56
 	};
 
+	///Types de messages auxquel on peut s'attendre dans un protocole de chat
+	enum ChatMessageType {
+		Chat = 0,
+		Responder = 1,
+		Ping = 2,
+		Pong = 3,
+		Typing = 4,
+		StopTyping = 5,
+		InfoMessage = 6,
+		Closed = 7
+	};
+
 	///Défini une version
 	/** La version est simplement définie de la forme
 	 * major.minor.build-tag

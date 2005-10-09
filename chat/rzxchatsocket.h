@@ -43,12 +43,9 @@ class RzxClientListener;
 class RzxChatSocket : public QTcpSocket
 {
 	Q_OBJECT
-	Q_PROPERTY(RzxChat* chat READ chat WRITE setChat)
 
-	friend class RzxChat;
 	friend class RzxClientListener;
 
-	RzxChat *chatWindow;
 	QTimer timeOut;
 	QTime pongTime;
 	RzxHostAddress host;
@@ -70,13 +67,11 @@ class RzxChatSocket : public QTcpSocket
 	
 	public:
 		RzxChatSocket();
-		RzxChatSocket(const RzxHostAddress& shost, RzxChat *parent = NULL);
-		RzxChatSocket(const RzxHostAddress& shost, bool salone);
+		RzxChatSocket(RzxComputer*, bool salone);
 		~RzxChatSocket();
 		
 		void close();
 		void connectToHost();
-		RzxChat *chat() const;
 
 		virtual void setSocketDescriptor(int socket);
 		virtual bool operator==(const RzxChatSocket *socket) const;
@@ -93,7 +88,6 @@ class RzxChatSocket : public QTcpSocket
 		void sendPing();
 		void sendPong();
 		void sendTyping(bool state = false);
-		void setChat(RzxChat *parent);
 		
 	protected slots:
 		void chatConnexionEtablished();
@@ -108,26 +102,20 @@ class RzxChatSocket : public QTcpSocket
 		void sendDccChat(const QString& msg);
 		
 	public:
+		RzxHostAddress peer() const;
 
 	signals: // Signals
 		void propQuery();
-		
-		void chat(const QString& msg);
-		
-		void typing(bool state);
-		
+
 		void chatSent();
 		void propertiesSent(const RzxHostAddress& host);
 		void pongReceived(int time);
+
 		void info(const QString& msg);
 		void notify(const QString& msg, bool withHostname = false);
 
 		void haveProperties(RzxComputer*);
 };
-
-///Retourne la fenêtre de chat associée au socket
-inline RzxChat* RzxChatSocket::chat() const
-{ return chatWindow; }
 
 ///Test l'égalité à un autre socket
 inline bool RzxChatSocket::operator==(const RzxChatSocket *socket) const
@@ -148,5 +136,9 @@ inline bool RzxChatSocket::operator!=(const RzxChatSocket &socket) const
 ///Indique si la connexion est établie
 inline bool RzxChatSocket::isConnected() const
 { return state() == QAbstractSocket::ConnectedState; }
+
+///Retourne l'adresse de l'host distant
+inline RzxHostAddress RzxChatSocket::peer() const
+{ return host; }
 
 #endif

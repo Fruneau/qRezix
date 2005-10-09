@@ -55,7 +55,7 @@ HEADERS += rzxglobal.h \
 	rzxnetwork.h \
 	rzxwrongpass.h \
 	rzxchangepass.h
-	
+		
 FORMS += rzxpropertyui.ui \
 	rzxwrongpassui.ui \
 	rzxchangepassui.ui

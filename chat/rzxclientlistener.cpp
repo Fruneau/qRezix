@@ -38,6 +38,7 @@ RzxClientListener::~ RzxClientListener()
 ///Connexion d'un RzxChatSocket au reste du programme
 void RzxClientListener::attach(RzxChatSocket *sock)
 {
+	sockets.insert(sock->peer(), sock);
 	connect(sock, SIGNAL(propertiesSent(const RzxHostAddress& )), this, SIGNAL(propertiesSent(const RzxHostAddress& )));
 	connect(sock, SIGNAL(chatSent()), this, SIGNAL(chatSent()));
 	connect(sock, SIGNAL(haveProperties(RzxComputer*)), this, SIGNAL(haveProperties(RzxComputer*)));
@@ -51,7 +52,7 @@ void RzxClientListener::attach(RzxChatSocket *sock)
  */
 void RzxClientListener::incomingConnection(int socketDescriptor) {
 	//Récupération de la connexion
-	RzxChatSocket *sock = new RzxChatSocket(socketDescriptor);
+	RzxChatSocket *sock = new RzxChatSocket();
 	sock->setSocketDescriptor(socketDescriptor);
 
 	// On vérifie au passage que la connexion est valide
@@ -78,4 +79,27 @@ void RzxClientListener::checkProperty(const RzxHostAddress& host)
 void RzxClientListener::info(const QString& msg)
 {
 	RzxMessageBox::information(RzxApplication::mainWindow(), tr("Connection error"), tr("An error occured while checking properties :\n") + msg);
+}
+
+///Envoie d'un message
+void RzxClientListener::sendChatMessage(RzxComputer* computer, Rzx::ChatMessageType type, const QString& msg)
+{
+	if(!computer) return;
+
+	RzxChatSocket *socket = sockets[computer->ip()];
+	if(!socket && type != Rzx::Typing && type != Rzx::StopTyping && type != Rzx::Closed)
+		socket = new RzxChatSocket(computer, false);
+
+	if(!socket) return;
+
+	switch(type)
+	{
+		case Rzx::Chat: socket->sendChat(msg); break;
+		case Rzx::Responder: socket->sendResponder(msg); break;
+		case Rzx::Ping: socket->sendPing(); break;
+		case Rzx::Typing: socket->sendTyping(true); break;
+		case Rzx::StopTyping: socket->sendTyping(false); break;
+		case Rzx::Closed: socket->close(); break;
+		default: break;
+	}
 }
