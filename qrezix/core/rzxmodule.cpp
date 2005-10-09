@@ -112,9 +112,7 @@ QWidget *RzxModule::mainWindow() const
 
 
 ///Lance le chat avec l'ordinateur distant
-/** Cette fonction est appelée dans différents cas :
- * - pour un MOD_CHATUI, lorsque l'utilisateur ou le protocole CHAT indique le début d'un chat
- * - pour un MOD_CHAT, lorsque l'utilisateur demande un chat
+/** Pour un MOD_CHATUI, lorsque l'utilisateur ou le protocole CHAT indique le début d'un chat
  *
  * L'implémentation par défaut ne fait rien
  */
@@ -147,5 +145,13 @@ void RzxModule::history(RzxComputer*)
  * L'implémentation par défaut ne faire rien
  */
 void RzxModule::showProperties(RzxComputer*)
+{
+}
+
+void RzxModule::sendChatMessage(RzxComputer*, Rzx::ChatMessageType, const QString&)
+{
+}
+
+void RzxModule::receiveChatMessage(RzxComputer*, Rzx::ChatMessageType, const QString&)
 {
 }

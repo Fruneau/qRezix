@@ -83,6 +83,11 @@ class RzxNetwork : public QObject, public RzxBaseModule
 		virtual void chat(RzxComputer*);
 		virtual void properties(RzxComputer*);
 
+		///Averti que le module a reçu un message de type Chat
+		/** Ce message ne doit être envoyé que par les objets de type \ref MOD_CHAT
+		 */
+		virtual void sendChatMessage(RzxComputer*, Rzx::ChatMessageType, const QString& = QString());
+
 	signals:
 		///Le module vient de connecter
 		/** Ce message doit être émis une seule et unique fois à la connexion !!!

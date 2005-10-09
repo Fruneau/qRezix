@@ -29,6 +29,8 @@
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 
+#include <QTime>
+
 #include <RzxGlobal>
 #include <RzxConfig>
 #include <RzxIconCollection>
@@ -67,7 +69,7 @@ RzxChatLister::RzxChatLister()
 	setIcon(Rzx::ICON_CHAT);
 	new RzxChatConfig(this);
 	client = RzxClientListener::global();
-	connect(client, SIGNAL(propertiesSent(const RzxHostAddress&)), this, SLOT(warnProperties(const RzxHostAddress&)));
+	connect(client, SIGNAL(propertiesSent(RzxComputer*)), this, SLOT(warnProperties(RzxComputer*)));
 	connect(client, SIGNAL(haveProperties(RzxComputer*)), this, SIGNAL(haveProperties(RzxComputer*)));
 
 	RzxConnectionLister *lister = RzxConnectionLister::global();
@@ -108,7 +110,7 @@ void RzxChatLister::login(RzxComputer *computer)
 		if (!computer)
 			chat->info( tr("reconnected") );
 		chatByLogin.insert(computer->name(), chat);
-		chat->setHostname(computer->name());
+		chat->updateTitle();
 	}
 }
 
@@ -136,11 +138,10 @@ RzxChat *RzxChatLister::createChat(RzxComputer *computer)
 	RzxChat *chat = getChatByIP(peer);
 	if(!chat)
 	{
-		chat = new RzxChat(peer);
-		chat->setHostname( computer->name() );
+		chat = new RzxChat(computer);
 
 		connect(chat, SIGNAL(send(const QString&)), this, SIGNAL(wantDeactivateResponder()));
-		connect( chat, SIGNAL( closed( const RzxHostAddress& ) ), this, SLOT( deleteChat( const RzxHostAddress& ) ) );
+		connect( chat, SIGNAL( closed(RzxComputer*) ), this, SLOT( deleteChat(RzxComputer*) ) );
 		connect( RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), chat, SLOT( changeTheme() ) );
 		connect( RzxConfig::global(), SIGNAL( iconFormatChange() ), chat, SLOT( changeIconFormat() ) );
 		chatByIP.insert(peer, chat);
@@ -159,11 +160,33 @@ void RzxChatLister::closeChat( const QString& login )
 }
 
 /** No descriptions */
-void RzxChatLister::deleteChat( const RzxHostAddress& peerAddress )
+void RzxChatLister::deleteChat(RzxComputer *c)
 {
-	RzxChat *chat = chatByIP.take(peerAddress);
-	chatByLogin.remove(chat->hostname());
+	if(!c) return;
+
+	RzxChat *chat = chatByIP.take(c->ip());
+	chatByLogin.remove(c->name());
 	delete chat;
+}
+
+///Réception d'un chat...
+void RzxChatLister::receiveChatMessage(RzxComputer *computer, Rzx::ChatMessageType type, const QString& msg)
+{
+	if(!computer) return;
+
+	RzxChat *chat = getChatByIP(computer->ip());
+	if(!chat && type == Rzx::Chat)
+	{
+		chat = createChat(computer);
+		if(!chat) return;
+	}
+	chat->receiveChatMessage(type, msg);
+}
+
+///Envoie d'un chat
+void RzxChatLister::sendChatMessage(RzxComputer *computer, Rzx::ChatMessageType type, const QString& msg)
+{
+	client->sendChatMessage(computer, type, msg);
 }
 
 ///Fermeture des chats en cours
@@ -183,25 +206,15 @@ void RzxChatLister::history(RzxComputer *c)
 ///Demande le check des proiétés de \a peer
 void RzxChatLister::properties(RzxComputer *computer)
 {
-	RzxChat *object = getChatByIP(computer->ip());
-	if(!object)
-		client->checkProperty(computer->ip());
-	else
-	{
-		if(object->socket())
-			object->socket()->sendPropQuery();
-		else
-			client->checkProperty(computer->ip());
-	}
+	client->checkProperty(computer->ip());
 }
 
 ///Indique que les propriétés ont été checkées par \a peer
-void RzxChatLister::warnProperties( const RzxHostAddress& peer )
+void RzxChatLister::warnProperties(RzxComputer *computer)
 {
-	RzxChat *chat = getChatByIP(peer);
-	RzxComputer *computer = peer;
-	if (!computer)
-		return ;
+	if(!computer) return;
+
+	RzxChat *chat = getChatByIP(computer->ip());
 	QTime cur = QTime::currentTime();
 	QString heure;
 	heure.sprintf( "%2i:%.2i:%.2i",
@@ -218,7 +231,7 @@ void RzxChatLister::warnProperties( const RzxHostAddress& peer )
 				"address : <i>%2</i><br>"
 				"client : <i>%3</i><br>"
 				"time : <i>%4</i>")
-				.arg(computer->name()).arg(peer.toString()).arg(computer->client()).arg(heure));
+				.arg(computer->name()).arg(computer->ip().toString()).arg(computer->client()).arg(heure));
 		return ;
 	}
 	chat->notify( tr( "has checked your properties" ), true );

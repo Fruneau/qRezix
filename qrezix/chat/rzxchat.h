@@ -22,10 +22,9 @@
 #include <QFrame>
 #include <QTextEdit>
 #include <QPointer>
+#include <QTimer>
 
-#include <RzxHostAddress>
-
-#include "rzxchatsocket.h"
+#include <RzxComputer>
 
 /**
   *@author Sylvain Joyeux
@@ -36,7 +35,6 @@ class QShowEvent;
 class QMoveEvent;
 class QKeyEvent;
 class QEvent;
-class QTimer;
 class QSplitter;
 
 ///Classe pour les fenêtre propriété et historique du chat
@@ -106,8 +104,7 @@ inline void RzxTextEdit::setChat(RzxChat *m_chat)
 class RzxChat : public QWidget, private Ui::RzxChatUI
 {
 	Q_OBJECT
-	Q_PROPERTY(QString hostname READ hostname WRITE setHostname)
-	Q_PROPERTY(RzxChatSocket* socket READ socket WRITE setSocket)
+	Q_PROPERTY(RzxComputer* computer READ computer WRITE setComputer)
 	
 	friend class RzxRezal;
 	
@@ -130,14 +127,11 @@ class RzxChat : public QWidget, private Ui::RzxChatUI
 	QSplitter *splitter;
 
 public: 
-	RzxChat(const RzxHostAddress& peerAddress);
-	RzxChat(RzxChatSocket* sock);
+	RzxChat(RzxComputer *);
+//	RzxChat(RzxChatSocket* sock);
 	virtual ~RzxChat();
-	RzxChatSocket *socket();
+//	RzxChatSocket *socket();
 	void sendChat(const QString& msg);
-
-protected:
-	RzxChatSocket *validSocket();
 
 private:
 	void init();
@@ -147,39 +141,38 @@ private:
 	QPointer<RzxPopup> prop;
 	
 protected:
-	RzxHostAddress peer;
-	QString m_hostname;
+	QPointer<RzxComputer> m_computer;
+
 	QString textHistorique;
 	QTimer *timer;
 	ListText *history;
 	ListText *curLine;
 	QFont *defFont;
-	QPointer<RzxChatSocket> m_socket;
 	QColor curColor;
 	bool typing, peerTyping;
 	QTimer typingTimer;
 	int unread;
 	
 signals: // Signals
-	void send(const QString& message);
-	void sendResponder(const QString& message);
-	void closed(const RzxHostAddress& peer);
-	void showHistorique(const RzxHostAddress&, const QString& hostname, bool, QWidget*, QPoint*);
-	void showProperties(const RzxHostAddress&, const QString&, bool, QWidget*, QPoint*);
+	void closed(RzxComputer *);
+	void showHistorique(RzxComputer *, const QString& hostname, bool, QWidget*, QPoint*);
+	void showProperties(RzxComputer *, const QString&, bool, QWidget*, QPoint*);
 
 public slots: // Public slots
 	void receive(const QString&);
 	void info(const QString&);
 	void notify(const QString&, bool withHostname = false);
-	void setHostname(const QString&);
 	void changeTheme();
 	void changeIconFormat();
 	void receiveProperties(const QString&);
 	void peerTypingStateChanged(bool);
-	void setSocket(RzxChatSocket* sock);
+	void setComputer(RzxComputer* computer);
+	void updateTitle();
+
+	void receiveChatMessage(Rzx::ChatMessageType, const QString& = QString());
 	
 public:
-	const QString &hostname() const;
+	RzxComputer *computer() const;
 
 protected slots:
 	void pong(int ms);
@@ -195,7 +188,6 @@ protected slots:
 	void onTextChanged();
 	bool event(QEvent *e);
 	void on_btnPlugins_clicked();
-	void updateTitle();
 
 protected: // Protected methods
 	void append(const QString& color, const QString& host, const QString& msg);
@@ -207,23 +199,8 @@ protected: // Protected methods
 	virtual void changeEvent(QEvent *e);
 };
 
-inline const QString &RzxChat::hostname() const
-{ return m_hostname; }
+inline RzxComputer *RzxChat::computer() const
+{ return m_computer; }
 
-/// Retourne un socket valide
-/** Cette méthode permet d'obtenir à coup sur un socket valide pour le chat. C'est à dire que si le socket n'existe pas, il est créé */
-inline RzxChatSocket *RzxChat::validSocket()
-{
-	if(!m_socket)
-		setSocket(new RzxChatSocket(peer, this));
-	return m_socket;
-}
-
-///Retourne du socket de chat
-/** N'assure pas le retour d'un socket valide. Retourne null si aucun socket n'existe pour ce chat */
-inline RzxChatSocket *RzxChat::socket()
-{
-	return m_socket;
-}
 
 #endif

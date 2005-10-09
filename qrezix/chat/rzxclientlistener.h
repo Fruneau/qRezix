@@ -20,10 +20,12 @@
 
 #include <QTcpServer>
 #include <QString>
+#include <QPointer>
+#include <QHash>
 
 #include <RzxHostAddress>
 
-class RzxChatSocket;
+#include "rzxchatsocket.h"
 
 /**
   *@author Sylvain Joyeux
@@ -32,6 +34,8 @@ class RzxChatSocket;
 class RzxClientListener : public QTcpServer  {
 	Q_OBJECT
 	RZX_GLOBAL(RzxClientListener)
+
+	QHash< RzxHostAddress, QPointer<RzxChatSocket> > sockets;
 
 	RzxClientListener();
 	public:
@@ -42,6 +46,7 @@ class RzxClientListener : public QTcpServer  {
 		
 	public slots:
 		void checkProperty(const RzxHostAddress&);
+		void sendChatMessage(RzxComputer *, Rzx::ChatMessageType, const QString& = QString());
 
 	protected slots: // Protected slots
 		virtual void incomingConnection(int);

@@ -168,6 +168,24 @@ class RzxModule:public QObject, public RzxBaseModule
 
 		virtual void showProperties(RzxComputer*);
 
+		///Demande l'envoie d'un message
+		/** Ce message n'a pour but d'être utilisé par que les objets de type \ref MOD_CHAT
+		 *
+		 * \sa receiveChatMessage
+		 *
+		 * L'implémentation par défaut ne fait rien
+		 */
+		virtual void sendChatMessage(RzxComputer*, Rzx::ChatMessageType, const QString& = QString());
+
+		///Averti que le module a reçu un message de type Chat
+		/** Ce message ne doit être envoyé qu'aux objets de type \ref MOD_CHATUI
+		 *
+		 * \sa sendChatMessage
+		 *
+		 * L'implémentation par défaut ne fait rien
+		 */
+		virtual void receiveChatMessage(RzxComputer*, Rzx::ChatMessageType, const QString& = QString());
+
 	signals:
 		///Demande de fermeture de qRezix
 		/** Passer par ce signal permet de réaliser l'arrêt de qRezix proprement

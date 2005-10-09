@@ -44,34 +44,17 @@ RzxChatSocket::RzxChatSocket()
 	:QTcpSocket(), host()
 {
 	alone = false;
-	chatWindow = NULL;
 	connect(this, SIGNAL(disconnected()), this, SLOT(chatConnexionClosed()));
 	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
 	connect(this, SIGNAL(error(SocketError)), this, SLOT(chatConnexionError(SocketError)));
 	connect(this, SIGNAL(connected()), this, SLOT(chatConnexionEtablished()));
 	connect(&timeOut, SIGNAL(timeout()), this, SLOT(chatConnexionTimeout()));
-	RzxClientListener::global()->attach(this);
-}
-
-///Construction d'un socket de chat lié à une fenêtre
-RzxChatSocket::RzxChatSocket(const RzxHostAddress& shost, RzxChat *parent)
-	:QTcpSocket(), host(shost)
-{
-	chatWindow = parent;
-	alone = false;
-	connect(this, SIGNAL(disconnected()), this, SLOT(chatConnexionClosed()));
-	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
-	connect(this, SIGNAL(error(SocketError)), this, SLOT(chatConnexionError(SocketError)));
-	connect(this, SIGNAL(connected()), this, SLOT(chatConnexionEtablished()));
-	connect(&timeOut, SIGNAL(timeout()), this, SLOT(chatConnexionTimeout()));
-	RzxClientListener::global()->attach(this);
 }
 
 ///Construction d'un socket de chat sans liaison
-RzxChatSocket::RzxChatSocket(const RzxHostAddress& shost, bool salone)
-	:QTcpSocket(), host(shost)
+RzxChatSocket::RzxChatSocket(RzxComputer *c, bool salone)
+	:QTcpSocket(), host(c->ip())
 {
-	chatWindow = NULL;
 	alone = salone;
 	connect(this, SIGNAL(disconnected()), this, SLOT(chatConnexionClosed()));
 	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
@@ -92,16 +75,7 @@ RzxChatSocket::~RzxChatSocket()
 void RzxChatSocket::close()
 {
 	QTcpSocket::close();
-	if(chatWindow)
-		chatWindow->setSocket(NULL);
-	setChat(NULL);
 	deleteLater();
-}
-
-///Liaison du socket à un chat
-void RzxChatSocket::setChat(RzxChat *parent)
-{
-	chatWindow = parent;
 }
 
 ///Connexion à l'hôte
@@ -116,6 +90,7 @@ void RzxChatSocket::setSocketDescriptor(int socket)
 {
 	QTcpSocket::setSocketDescriptor(socket);
 	host = peerAddress();
+	RzxClientListener::global()->attach(this);
 }
 
 ////Parser des messages
@@ -138,6 +113,7 @@ int RzxChatSocket::parse(const QString& msg)
 					sendProperties();
 					return DCC_PROPQUERY;
 					break;
+
 				case DCC_PROPANSWER:
 					qDebug() << "Parsing PROPANSWER:" << cmd.cap(2);
 					if(cmd.cap(2).isEmpty())					// si il n'y a pas les donnees necessaires 
@@ -151,38 +127,33 @@ int RzxChatSocket::parse(const QString& msg)
 						close();
 					return DCC_PROPANSWER;
 					break;
+
 				case DCC_CHAT:
 					qDebug("Parsing CHAT : %s", cmd.cap(2).toAscii().constData());
 					if(RzxConfig::autoResponder())
 						sendResponder(RzxConfig::autoResponderMsg());
 					if(RzxConfig::autoResponder() == Rzx::STATE_REFUSE)
-					{
-						if(!chatWindow) deleteLater();
 						return DCC_CHAT;
-					}
-					if(!chatWindow)
-					{
-						chatWindow = RzxChatLister::global()->createChat(host);
-						if(!chatWindow) return DCC_CHAT;
-						chatWindow->setSocket(this);
-					}
-					emit chat(cmd.cap(2));
-					emit typing(false);
+					host.computer()->receiveChat(Rzx::Chat, cmd.cap(2));
+					host.computer()->receiveChat(Rzx::StopTyping);
 					return DCC_CHAT;
 					break;
+
 				case DCC_PING:
 					sendPong();
 					qDebug("Parsing PING");
-					emit notify(tr("Ping received"));
+					host.computer()->receiveChat(Rzx::Ping);
 					return DCC_PING;
 					break;
+
 				case DCC_PONG:
-					emit pongReceived(pongTime.msecsTo(QTime::currentTime()));
+					host.computer()->receiveChat(Rzx::Pong);
 					qDebug("Parsing PONG");
 					return DCC_PONG;
 					break;
+
 				case DCC_TYPING:
-					emit typing(cmd.cap(2)=="1");
+					host.computer()->receiveChat(cmd.cap(2)=="1" ? Rzx::Typing: Rzx::StopTyping);
 					qDebug("Parsing TYPING");
 					return DCC_TYPING;
 					break;
@@ -245,7 +216,6 @@ void RzxChatSocket::sendProperties()
  */
 void RzxChatSocket::sendChat(const QString& msg)
 {
-	emit chatSent();
 	sendDccChat(msg);
 	sendTyping(false);
 }
@@ -264,8 +234,6 @@ void RzxChatSocket::sendResponder(const QString& msg)
  * <br>Il faut utiliser \ref sendChat() pour envoyer un chat.
  */
 void RzxChatSocket::sendDccChat(const QString& msg) {
-//	if( !valid ) return;
-
 	send(QString("CHAT " + msg + "\r\n\0"));
 }
 
@@ -279,7 +247,7 @@ void RzxChatSocket::send(const QString& msg)
 			if(write(msg.toLatin1()) == -1)
 			{
 				qDebug("Impossible d'émettre les données vers ");
-				emit info(tr("Unable to send data... writeBlock returns -1"));
+				host.computer()->receiveChat(Rzx::InfoMessage, tr("Unable to send data... writeBlock returns -1"));
 			}
 			else
 			{
@@ -334,7 +302,7 @@ void RzxChatSocket::chatConnexionEtablished()
 /**La connexion a été fermée (sans doute par fermeture de la fenêtre de chat) on l'indique à l'utilisateur */
 void RzxChatSocket::chatConnexionClosed()
 {
-	if(!alone) emit info(tr("ends the chat"));
+	if(!alone) host.computer()->receiveChat(Rzx::Closed);
 	qDebug("Connection with %s closed by peer", host.toString().toAscii().constData());
 	close();
 }
@@ -345,12 +313,12 @@ void RzxChatSocket::chatConnexionError(SocketError error)
 	switch(error)
 	{
 		case ConnectionRefusedError:
-			emit info(tr("can't be contacted, check his firewall... CONNECTION ERROR"));
+			host.computer()->receiveChat(Rzx::InfoMessage, tr("can't be contacted, check his firewall... CONNECTION ERROR"));
 			qDebug("Connexion has been refused by the client");
 			close();
 			break;
 		case HostNotFoundError:
-			emit info(tr("can't be found... CONNECTION ERROR"));
+			host.computer()->receiveChat(Rzx::InfoMessage, tr("can't be found... CONNECTION ERROR"));
 			qDebug("Can't find client");
 			close();
 			break;
@@ -358,7 +326,7 @@ void RzxChatSocket::chatConnexionError(SocketError error)
 			break;
 //		case SocketRead:
 		default:
-			emit info(tr("has sent corrupt data... CONNECTION ERROR"));
+			host.computer()->receiveChat(Rzx::InfoMessage, tr("has sent corrupt data... CONNECTION ERROR"));
 			qDebug("Error while reading datas %d", error);
 			break;
 	}
