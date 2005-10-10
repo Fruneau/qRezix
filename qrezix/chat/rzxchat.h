@@ -36,10 +36,11 @@ class QMoveEvent;
 class QKeyEvent;
 class QEvent;
 class QSplitter;
+
 class RzxChat;
 
-///Classe pour les fenï¿½re propriï¿½ï¿½et historique du chat
-/** Affiche une frame qui permet de contenir les donnï¿½s des propriï¿½ï¿½ et de l'historique.<br>
+///Classe pour les fenêtre propriété et historique du chat
+/** Affiche une frame qui permet de contenir les données des propriétés et de l'historique.<br>
   * Cette classe permet simplement une abstraction de la chose, sans pour autant apporter quoi que ce soit de vraiment nouveau
   */
 class RzxPopup : public QFrame
@@ -59,8 +60,8 @@ inline void RzxPopup::forceVisible(bool pos)
 	else hide();
 }
 
-///Pour customiser la boï¿½e d'ï¿½ition
-/** Rajout de Stï¿½hane Lescuyer 2004/05/27 */
+///Pour customiser la boîte d'édition
+/** Rajout de Stéphane Lescuyer 2004/05/27 */
 class RzxTextEdit : public QTextEdit 
 {
 	Q_OBJECT
@@ -96,8 +97,8 @@ inline void RzxTextEdit::setChat(RzxChat *m_chat)
 #	include "ui_rzxchatui.h"
 #endif
 
-///Fenï¿½re de dialogue
-/** (et pas boï¿½e de dialogue ;)... gere la totalitï¿½de l'interface de chat.
+///Fenêtre de dialogue
+/** (et pas boîte de dialogue ;)... gere la totalité de l'interface de chat.
  *
  * Cette classe s'interface directement sur un RzxChatSocket pour permettre
  * une gestion des communications totalement autonome.
