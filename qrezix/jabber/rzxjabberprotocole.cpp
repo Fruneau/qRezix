@@ -113,13 +113,13 @@ void RzxJabberProtocole::changeRosterText(QListWidgetItem *cur,QListWidgetItem *
 void RzxJabberProtocole::addRosterItem(){
 	StringList l;
 	if(!ui->rosterEdit->text().isEmpty()){
-		client->client()->rosterManager()->subscribe(ui->rosterEdit->text().toStdString()," ",l,"User added");
+		client->client()->rosterManager()->subscribe(ui->rosterEdit->text().toUtf8().data()," ",l,"User added");
 	}
 };
 
 void RzxJabberProtocole::removeRosterItem(){
 	if(!ui->rosterEdit->text().isEmpty()){
-		client->client()->rosterManager()->unsubscribe(ui->rosterEdit->text().toStdString(),"User removed",true);
+		client->client()->rosterManager()->unsubscribe(ui->rosterEdit->text().toUtf8().data(),"User removed",true);
 	}
 };
 
@@ -129,7 +129,7 @@ void RzxJabberProtocole::buildRosterList(){
 	ui->rosterEdit->setText("");
 	std::map<std::string, RosterItem*>::const_iterator i;
 	for( i = client->client()->rosterManager()->roster()->begin() ; i !=client->client()->rosterManager()->roster()->end() ; i++){
-		ui->rosterList->addItem(QString::fromStdString((*i).first));
+		ui->rosterList->addItem(QString::fromUtf8(((*i).first).data()));
 	}
 	ui->rosterList->sortItems();
 };
@@ -229,7 +229,7 @@ void RzxJabberProtocole::stop() {
 
 
 void RzxJabberProtocole::presenceRequest(QString jid, QString name, int type) {
-	QString localhost = QString::fromStdString(client->client()->jid().bare());
+	QString localhost = QString::fromUtf8(client->client()->jid().bare().data());
 	if(jid == localhost)
 		return;
 	struct options_t
@@ -302,9 +302,9 @@ void RzxJabberProtocole::presenceRequest(QString jid, QString name, int type) {
 void RzxJabberProtocole::sendMsg(QString to, QString msg) {
 	Tag *m = new Tag( "message" );
 	m->addAttrib( "from", client->client()->jid().full() );
-	m->addAttrib( "to", to.toStdString() );
+	m->addAttrib( "to", to.toUtf8().data() );
 	m->addAttrib( "type", "chat" );
-	Tag *b = new Tag( "body", msg.toStdString() );
+	Tag *b = new Tag( "body", msg.toUtf8().data() );
 	m->addChild( b );
 	client->send( m );
 }
@@ -354,7 +354,7 @@ void RzxJabberProtocole::getProperties(QString jid, QString comp){
 	Tag *t = new Tag( "iq" );
 	t->addAttrib( "type", "get" );
 	t->addAttrib( "id", id );
-	t->addAttrib( "to", jid.toStdString() );
+	t->addAttrib( "to", jid.toUtf8().data() );
 	Tag *q = new Tag( t, "vcard" );
 	q->addAttrib( "xmlns", "vcard-temp" );
 	client->client()->trackID( computerList[comp]->props(), id, 0 );
@@ -396,6 +396,6 @@ void RzxJabberProtocole::sendProperties()
 
 void RzxJabberProtocole::updateLocalhost()
 {
-	QString jid = QString::fromStdString(client->client()->jid().bare());
+	QString jid = QString::fromUtf8(client->client()->jid().bare().data());
 	getProperties(jid,"myself");
 }
