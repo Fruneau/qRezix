@@ -39,11 +39,11 @@ RzxJabberClient::~RzxJabberClient() {
 
 void RzxJabberClient::run()
 {
-	j = new Client(RzxJabberConfig::user().append("/qRezix").toStdString(),
-			RzxJabberConfig::pass().toStdString(), 
+	j = new Client(std::string(RzxJabberConfig::user().append("/qRezix").toUtf8().data()),
+		       std::string(RzxJabberConfig::pass().toUtf8().data()), 
 			RzxJabberConfig::serverPort()
 		);
-	j->setServer(RzxJabberConfig::serverName().toStdString());
+	j->setServer(RzxJabberConfig::serverName().toUtf8().data());
 	j->setAutoPresence( true );
 	j->setInitialPriority( 5 );
 	j->registerConnectionListener( this );
@@ -62,17 +62,17 @@ void RzxJabberClient::run()
 // bool gloox::RosterListener::unsubscriptionRequest(const std::string&, const std::string&)’:
 
 void RzxJabberClient::itemAvailable(RosterItem & item, const std::string &msg){
-	emit presence(QString::fromStdString(item.jid()), QString::fromStdString(item.name()) , 2);
+	emit presence(QString::fromUtf8(item.jid().data()), QString::fromUtf8(item.name().data()) , 2);
 };
 
 
 void RzxJabberClient::itemUnavailable(RosterItem & item, const std::string &msg){
-	emit presence(QString::fromStdString(item.jid()), QString::fromStdString(item.name()) , 0);
+	emit presence(QString::fromUtf8(item.jid().data()), QString::fromUtf8(item.name().data()) , 0);
 };
 
 
 void RzxJabberClient::itemChanged(RosterItem & item, const std::string &msg){
-	emit presence(QString::fromStdString(item.jid()), QString::fromStdString(item.name()) , 1);
+	emit presence(QString::fromUtf8(item.jid().data()), QString::fromUtf8(item.name().data()) , 1);
 };
 
 void RzxJabberClient::itemUpdated(const std::string &jid){
@@ -131,7 +131,7 @@ void RzxJabberClient::handleDiscoItemsResult( const std::string& id, const Stanz
 
 void RzxJabberClient::handleMessage( Stanza *stanza )
 {
-	emit msgReceived(QString::fromStdString(stanza->from().bare()) , QString::fromStdString(stanza->body()) );
+	emit msgReceived(QString::fromUtf8(stanza->from().bare().data()) , QString::fromUtf8(stanza->body().data()) );
 }
 
 

@@ -40,28 +40,28 @@ bool RzxJabberProperty::handleIqID (Stanza *stanza, int context){
 	{
 		Tag *tag = (*it);
 		if(tag->name()=="EMAIL")
-			email = QString::fromStdString(tag->findChild("USERID")->cdata());
+			email = QString::fromUtf8(tag->findChild("USERID")->cdata().data());
 		else if(tag->name()=="TEL")
-			phone = QString::fromStdString(tag->findChild("NUMBER")->cdata());
+			phone = QString::fromUtf8(tag->findChild("NUMBER")->cdata().data());
 		else if(tag->name()=="URL")
-			website = QString::fromStdString(tag->cdata());
+			website = QString::fromUtf8(tag->cdata().data());
 		else if(tag->name()=="NICKNAME")
-			nick = QString::fromStdString(tag->cdata());
+			nick = QString::fromUtf8(tag->cdata().data());
 		else if(tag->name()=="FN")
-			name = QString::fromStdString(tag->cdata());
+			name = QString::fromUtf8(tag->cdata().data());
 		else if(tag->name()=="BDAY")
-			birthday = QString::fromStdString(tag->cdata());
+			birthday = QString::fromUtf8(tag->cdata().data());
 		else if(tag->name()=="DESC")
-			description = QString::fromStdString(tag->cdata());
+			description = QString::fromUtf8(tag->cdata().data());
 		else if(tag->name()=="ADR"){
-			street = QString::fromStdString(tag->findChild("STREET")->cdata());
-			postCode = QString::fromStdString(tag->findChild("PCODE")->cdata());
-			city = QString::fromStdString(tag->findChild("LOCALITY")->cdata());
-			region = QString::fromStdString(tag->findChild("REGION")->cdata());
-			country = QString::fromStdString(tag->findChild("CTRY")->cdata());
+			street = QString::fromUtf8(tag->findChild("STREET")->cdata().data());
+			postCode = QString::fromUtf8(tag->findChild("PCODE")->cdata().data());
+			city = QString::fromUtf8(tag->findChild("LOCALITY")->cdata().data());
+			region = QString::fromUtf8(tag->findChild("REGION")->cdata().data());
+			country = QString::fromUtf8(tag->findChild("CTRY")->cdata().data());
 		}else if(tag->name()=="ORG"){
-			orgName = QString::fromStdString(tag->findChild("ORGNAME")->cdata());
-			orgUnit = QString::fromStdString(tag->findChild("ORGUNIT")->cdata());
+			orgName = QString::fromUtf8(tag->findChild("ORGNAME")->cdata().data());
+			orgUnit = QString::fromUtf8(tag->findChild("ORGUNIT")->cdata().data());
 		}
 	}
 	emit receivedProperties(computer);
@@ -112,36 +112,36 @@ Tag * RzxJabberProperty::toIq(){
 	if(!email.isEmpty()){
 		sub = new Tag( tag , "EMAIL");
 		subsub = new Tag( sub, "INTERNET");
-		subsub = new Tag ( sub, "USERID", email.toStdString());
+		subsub = new Tag ( sub, "USERID", email.toUtf8().data());
 	}
 	if(!phone.isEmpty()){
 		sub = new Tag( tag , "TEL");
 		subsub = new Tag( sub, "HOME");
 		subsub = new Tag( sub, "VOICE");
-		subsub = new Tag ( sub, "NUMBER", phone.toStdString());
+		subsub = new Tag ( sub, "NUMBER", phone.toUtf8().data());
 	}
 	if(!website.isEmpty())
-		sub = new Tag(tag, "URL", website.toStdString());
+		sub = new Tag(tag, "URL", website.toUtf8().data());
 	if(!nick.isEmpty())
-		sub = new Tag(tag, "NICKNAME", nick.toStdString());
+		sub = new Tag(tag, "NICKNAME", nick.toUtf8().data());
 	if(!name.isEmpty())
-		sub = new Tag(tag, "FN", name.toStdString());
+		sub = new Tag(tag, "FN", name.toUtf8().data());
 	if(!birthday.isEmpty())
-		sub = new Tag(tag, "BDAY", birthday.toStdString());
+		sub = new Tag(tag, "BDAY", birthday.toUtf8().data());
 	if(!description.isEmpty())
-		sub = new Tag(tag, "DESC", description.toStdString());
+		sub = new Tag(tag, "DESC", description.toUtf8().data());
 	if(! ( street.isEmpty() && postCode.isEmpty() && city.isEmpty() && region.isEmpty() && country.isEmpty() ) ){
 		sub = new Tag( tag , "ADDRESS");
-		if(!street.isEmpty()) subsub = new Tag ( sub, "STREET", street.toStdString());
-		if(!postCode.isEmpty()) subsub = new Tag ( sub, "PCODE", postCode.toStdString());
-		if(!city.isEmpty()) subsub = new Tag ( sub, "LOCALITY", city.toStdString());
-		if(!region.isEmpty()) subsub = new Tag ( sub, "REGION", region.toStdString());
-		if(!country.isEmpty()) subsub = new Tag ( sub, "CTRY", country.toStdString());
+		if(!street.isEmpty()) subsub = new Tag ( sub, "STREET", street.toUtf8().data());
+		if(!postCode.isEmpty()) subsub = new Tag ( sub, "PCODE", postCode.toUtf8().data());
+		if(!city.isEmpty()) subsub = new Tag ( sub, "LOCALITY", city.toUtf8().data());
+		if(!region.isEmpty()) subsub = new Tag ( sub, "REGION", region.toUtf8().data());
+		if(!country.isEmpty()) subsub = new Tag ( sub, "CTRY", country.toUtf8().data());
 	}
 	if(!orgName.isEmpty()||!orgUnit.isEmpty()){
 		sub = new Tag( tag , "ORG");
-		if(!orgName.isEmpty()) subsub = new Tag ( sub, "ORGNAME", orgName.toStdString());
-		if(!orgUnit.isEmpty()) subsub = new Tag ( sub, "ORGUNIT", orgUnit.toStdString());
+		if(!orgName.isEmpty()) subsub = new Tag ( sub, "ORGNAME", orgName.toUtf8().data());
+		if(!orgUnit.isEmpty()) subsub = new Tag ( sub, "ORGUNIT", orgUnit.toUtf8().data());
 	}
 	return top;
 }
