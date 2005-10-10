@@ -109,8 +109,6 @@ Tag * RzxJabberProperty::toIq(){
 	top->addAttrib( "type", "set" );
 	tag = new Tag( top, "vcard" );
 	tag->addAttrib( "xmlns", "vcard-temp" );
-// 	tag->addAttrib( "prodid", "-//HandGen//NONSGML vGen v1.0//EN");
-// 	tag->addAttrib( "version", "2.0" );
 	if(!email.isEmpty()){
 		sub = new Tag( tag , "EMAIL");
 		subsub = new Tag( sub, "INTERNET");

@@ -54,7 +54,7 @@ RzxJabberProtocole::RzxJabberProtocole()
 	
 	client = new RzxJabberClient(this);
 	connect(client, SIGNAL(presence(QString, QString, int)), this, SLOT(presenceRequest(QString, QString, int)));
-	connect(client, SIGNAL(msgReceived(QString, QString)), this, SLOT(sendMsg(QString,QString))); /// @todo gérer l'envoi à la fenetre de chat quand ce sera en place)
+	connect(client, SIGNAL(msgReceived(QString, QString)), this, SLOT(recvMsg(QString,QString))); 
 	connect(client, SIGNAL(connected()), this, SLOT(connection()));
 	connect(client, SIGNAL(connected()), this, SLOT(updateLocalhost()));
 	connect(client, SIGNAL(disconnected()), this, SLOT(deconnection()));
@@ -307,6 +307,14 @@ void RzxJabberProtocole::sendMsg(QString to, QString msg) {
 	Tag *b = new Tag( "body", msg.toStdString() );
 	m->addChild( b );
 	client->send( m );
+}
+
+void RzxJabberProtocole::recvMsg(QString to, QString msg) {
+	RzxConnectionLister::global()->getComputerByName(to)->receiveChat(Rzx::Chat, msg);
+}
+
+void RzxJabberProtocole::sendChatMessage(RzxComputer* comp, Rzx::ChatMessageType type, const QString& msg){
+	sendMsg(comp->name(),msg);
 }
 
 void RzxJabberProtocole::refresh(){
