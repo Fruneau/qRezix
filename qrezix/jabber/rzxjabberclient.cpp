@@ -131,7 +131,7 @@ void RzxJabberClient::handleDiscoItemsResult( const std::string& id, const Stanz
 
 void RzxJabberClient::handleMessage( Stanza *stanza )
 {
-	emit msgReceived(QString::fromStdString(stanza->from().full()) , QString::fromStdString(stanza->body()) );
+	emit msgReceived(QString::fromStdString(stanza->from().bare()) , QString::fromStdString(stanza->body()) );
 }
 
 
@@ -140,7 +140,6 @@ void RzxJabberClient::handlePresence( Stanza *stanza ){
 }
 
 void RzxJabberClient::handleLog( const std::string& xml, bool incoming ){
-	/// @todo gérer les logs
 };
 
 bool RzxJabberClient::send(Tag* t){

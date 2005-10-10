@@ -87,8 +87,10 @@ public slots:
 	void deconnection();
 	
 	void sendMsg(QString to, QString msg);
+	void recvMsg(QString to, QString msg);
 	
         virtual void chat(RzxComputer*);
+	virtual void sendChatMessage(RzxComputer*, Rzx::ChatMessageType, const QString& = QString());
         virtual void properties(RzxComputer*);
 	void receivedProperties(RzxJabberComputer*);
 
