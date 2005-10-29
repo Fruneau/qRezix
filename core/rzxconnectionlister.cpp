@@ -194,30 +194,29 @@ void RzxConnectionLister::newDisconnection(RzxNetwork*)
 /** No descriptions */
 void RzxConnectionLister::newConnection(RzxNetwork* network)
 {
-	QListIterator< QPointer<RzxComputer> >  j(displayWaiter);
-	QPointer<RzxComputer> p;
-	while(j.hasNext()){
-		p = j.next();
-		if(!p ||(p->network()==network)){
-			displayWaiter.removeAll(p);
-		}
+	foreach(RzxComputer *computer, displayWaiter)
+	{
+		if(!computer || (computer->network() == network))
+			displayWaiter.removeAll(computer);
 	}
-	QHashIterator<QString, RzxComputer*> i(computerByLogin);
-	while(i.hasNext()){
-		i.next();
-		if(!i.value()||(i.value()->network()==network)){
-			computerByLogin.remove(i.key());
-		}
+
+	foreach(QString key, computerByLogin.keys())
+	{
+		RzxComputer *computer = computerByLogin[key];
+		if(!computer || computer->network()==network)
+			computerByLogin.remove(key);
 	}
 	
-	QHashIterator<RzxHostAddress, RzxComputer*> k(computerByIP);
-	while(k.hasNext()){
-		k.next();
-		if(!k.value()||(k.value()->network()==network)){
-			if(k.value()) delete k.value();
-			computerByIP.remove(k.key());
+	foreach(RzxHostAddress key, computerByIP.keys())
+	{
+		RzxComputer *computer = computerByIP[key];
+		if(computer || computer->network()==network)
+		{
+			if(computer) delete computer;
+			computerByIP.remove(key);
 		}
 	}
+
 	if(connectionNumber < moduleList().count())
 	{
 		connectionNumber++;

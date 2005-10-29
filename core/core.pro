@@ -15,7 +15,7 @@ contains(DEFINES, RZX_XNET_BUILTIN):include(../xnet/xnet.pri)
 contains(DEFINES, RZX_JABBER_BUILTIN):include(../jabber/jabber.pri)
 include(../rzxglobal.pri)
 
-DEFINES += PREFIX=$$PREFIX
+DEFINES += PREFIX=\"$$PREFIX\"
 
 SOURCES += rzxglobal.cpp \
 	rzxapplication.cpp \
