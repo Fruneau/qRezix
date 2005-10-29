@@ -43,12 +43,13 @@
 
 #include "qrezix.h"
 
+#include "rzxmainuiconfig.h"
 #include "rzxquit.h"
 #include "rzxrezalmodel.h"
 #include "rzxrezalview.h"
-#include "rzxmainuiconfig.h"
 #include "rzxrezaldetail.h"
 #include "rzxrezalindex.h"
+#include "rzxrezalmap.h"
 
 RZX_GLOBAL_INIT(QRezix)
 
@@ -138,6 +139,7 @@ void QRezix::loadBuiltins()
 	installModule(new RzxRezalView());
 	installModule(new RzxRezalDetail());
 	installModule(new RzxRezalIndex());
+	installModule(new RzxRezalMap());
 }
 
 ///Chargement des rezals

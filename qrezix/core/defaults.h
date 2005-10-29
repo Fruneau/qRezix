@@ -61,8 +61,8 @@
 #		define QREZIX_LIB_DIR "./qRezix.app/Contents/Frameworks/"
 #		define QREZIX_SYSTEM_DIR "./qRezix.app/Contents/MacOS/"
 #	else
-#		define QREZIX_DATA_DIR CONCAT(PREFIX, "/share/qrezix")
-#		define QREZIX_LIB_DIR CONCAT(PREFIX, "/lib/qrezix")
+#		define QREZIX_DATA_DIR PREFIX "/share/qrezix"
+#		define QREZIX_LIB_DIR PREFIX "/lib/qrezix"
 #	endif
 #endif
 
