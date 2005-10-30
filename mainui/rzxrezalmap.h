@@ -24,6 +24,7 @@
 #include "rzxrezal.h"
 
 #include <RzxHostAddress>
+#include <RzxSubnet>
 
 class QPainter;
 class QComboBox;
@@ -47,8 +48,10 @@ class QSettings;
  * 		- x_map_human_name = nom humainement compréhensible de la carte
  * 	- une section [Attrib_nnnn] par carte, où nnnn est le nom interne de la carte. Cette section est composée d'une série d'entrées
  * qui comportent chacune 2 parties :
- * 		- une liste d'ip séparées par des virgules comme nom de la clé
- * 		- une liste de point de la forme XXXxYYY séparés par des espaces comme valeur
+ * 		- une liste d'ip ou de subnets (ip-masque) séparées par des virgules comme nom de la clé
+ * 		- une liste de point de la forme XXXxYYY séparés par des espaces comme valeur. Si l'objet est décrit par des subnets les
+ * valeurs peuvent également contenir une entrée goto_nnnn qui renvoie vers une autre carte. La sélection de l'objet renverra vers une
+ * carte détaillée de l'objet sélectionné.
  */
 class RzxRezalMap:public QAbstractItemView, public RzxRezal
 {
@@ -59,13 +62,17 @@ class RzxRezalMap:public QAbstractItemView, public RzxRezal
 		QPixmap pixmap;
 		QString name;
 		QString humanName;
+		bool useSubnets;
+		QList<RzxSubnet> subnets;
 		QHash<RzxHostAddress, QPolygon> polygons;
+		QHash<RzxHostAddress, QString> links;
 	};
 
 	QVector<Map*> mapTable;
 	Map *currentMap;
 
 	QComboBox *mapChooser;
+	bool initialised;
 
 	private:
 		QStringList loadMaps();
@@ -74,7 +81,9 @@ class RzxRezalMap:public QAbstractItemView, public RzxRezal
 	public:
 		RzxRezalMap(QWidget *parent = 0);
 		~RzxRezalMap();
-	
+
+		virtual bool isInitialised() const;
+
 		virtual QAbstractItemView *widget();
 		virtual QDockWidget::DockWidgetFeatures features() const;
 		virtual Qt::DockWidgetAreas allowedAreas() const;
@@ -94,14 +103,22 @@ class RzxRezalMap:public QAbstractItemView, public RzxRezal
 		virtual void setSelection(const QRect&, QItemSelectionModel::SelectionFlags);
 		virtual QRegion visualRegionForSelection(const QItemSelection&) const;
 
+		virtual void mouseDoubleClickEvent(QMouseEvent *e);
 		virtual void paintEvent(QPaintEvent*);
 		void drawSelection(QPainter&);
 
 		QPolygon polygon(const QModelIndex&) const;
+		QPolygon polygon(const RzxHostAddress&) const;
 
 	protected slots:
 		virtual void currentChanged(const QModelIndex&, const QModelIndex&);
 		void setMap(int);
+		void setMap(const QString&);
 };
+
+inline bool RzxRezalMap::isInitialised() const
+{
+	return initialised;
+}
 
 #endif
