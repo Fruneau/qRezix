@@ -22,6 +22,7 @@
 #include <QStackedWidget>
 
 #include <RzxGlobal>
+#include <RzxBaseModule>
 #include "ui_rzxpropertyui.h"
 
 #define NB_COL 10
@@ -67,7 +68,7 @@ private:
 	QPixmap localhostIcon;
 
 	template<class T>
-	void buildModules(const QList<T*>&, QTreeWidget*);
+	void buildModules(const QList<T*>&, QTreeWidget* = NULL, QTreeWidgetItem* = NULL);
 	template<class T>
 	void initModules(const QList<T*>&, bool def = false);
 	template<class T>
@@ -86,7 +87,7 @@ protected slots: // Protected slots
 
 ///Inclu les modules dans la fenêtre de propriétés
 template<class T>
-void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidget *view)
+void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidget *view, QTreeWidgetItem *parent)
 {
 	foreach(T *module, modules)
 	{
@@ -103,11 +104,18 @@ void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidget *view)
 			item->setText(name);
 			item->setIcon(module->icon());
 		}
-		QTreeWidgetItem *item = new QTreeWidgetItem(view);
-		item->setIcon(0, module->icon());
-		item->setText(0, module->name());
-		item->setText(1, module->versionString());
-		item->setText(2, module->description());
+
+		if(view)
+		{
+			QTreeWidgetItem *item = new QTreeWidgetItem(view);
+			item->setIcon(0, module->icon());
+			item->setText(0, module->name());
+			item->setText(1, module->versionString());
+			item->setText(2, module->description());
+		}
+
+		QList<RzxBaseModule*> children = module->childModules();
+		buildModules<RzxBaseModule>(children);
 	}
 }
 
@@ -116,7 +124,12 @@ template<class T>
 void RzxProperty::initModules(const QList<T*>& modules, bool def)
 {
 	foreach(T *module, modules)
+	{
 		module->propInit(def);
+
+		QList<RzxBaseModule*> children = module->childModules();
+		initModules<RzxBaseModule>(children, def);
+	}
 }
 
 ///Met à jour les données des modules
@@ -124,7 +137,12 @@ template<class T>
 void RzxProperty::updateModules(const QList<T*>& modules)
 {
 	foreach(T *module, modules)
+	{
 		module->propUpdate();
+
+		QList<RzxBaseModule*> children = module->childModules();
+		updateModules<RzxBaseModule>(children);
+	}
 }
 
 ///Change le thème des modules
@@ -136,6 +154,9 @@ void RzxProperty::changeThemeModules(const QList<T*>& modules, int& i)
 		int nb = module->propWidgets().count();
 		for(int j = 0 ; j < nb ; j++, i++)
 			lbMenu->item(i)->setIcon(module->icon());
+
+		QList<RzxBaseModule*> children = module->childModules();
+		changeThemeModules<RzxBaseModule>(children, i);
 	}
 }
 
@@ -147,6 +168,9 @@ void RzxProperty::closeModules(const QList<T*>& modules)
 	{
 		if(module)
 			module->propClose();
+
+		QList<RzxBaseModule*> children = module->childModules();
+		closeModules<RzxBaseModule>(children);
 	}
 }
 

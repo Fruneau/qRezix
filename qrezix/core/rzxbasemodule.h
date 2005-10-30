@@ -135,6 +135,9 @@ class RzxBaseModule
 		const QString& author() const;
 		const QString& copyright() const;
 
+		//Gestion des sous-modules
+		virtual QList<RzxBaseModule*> childModules() const;
+
 		//Gestion de propriétés du module
 		virtual QList<QWidget*> propWidgets();
 		virtual QStringList propWidgetsName();
