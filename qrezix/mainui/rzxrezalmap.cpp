@@ -19,7 +19,7 @@
 #include <QRegExp>
 #include <QList>
 #include <QComboBox>
-
+#include <QScrollBar>
 #include <QSettings>
 
 #include <RzxConfig>
@@ -47,9 +47,16 @@ RzxRezalMap::RzxRezalMap(QWidget *widget)
 	mapChooser = new QComboBox(this);
 	mapChooser->move(3, 3);
 	connect(mapChooser, SIGNAL(activated(int)), this, SLOT(setMap(int)));
-	mapChooser->addItems(loadMaps());
-	
-	setMap(0);
+
+	QStringList mapNames = loadMaps();
+	if(mapNames.size())
+	{
+		mapChooser->addItems(mapNames);
+		setMap(0);
+		initialised = true;
+	}
+	else
+		initialised = false;
 	endLoading();
 }
 
@@ -82,6 +89,7 @@ QStringList RzxRezalMap::loadMaps()
 		qDebug() << "No map found in the file" << file;
 		return QStringList();
 	}
+//	qDebug() << "Loading" << mapNb << "maps...";
 
 	//Récupération de la liste des cartes disponibles
 	mapTable.resize(mapNb);
@@ -99,7 +107,12 @@ QStringList RzxRezalMap::loadMaps()
 
 	//Récupération des cartes
 	for(int i = 0 ; i < mapNb ; i++)
+	{
 		loadMap(maps, mapTable[i]);
+/*		qDebug() << "*" << mapTable[i]->name + " (" + mapTable[i]->humanName + ")"
+			 << ":" << mapTable[i]->polygons.size() << "polygons -" 
+			<< (mapTable[i]->useSubnets?"subnets map":"detailed map");*/
+	}
 
 	return mapNames;
 }
@@ -114,23 +127,56 @@ void RzxRezalMap::loadMap(QSettings &maps, Map *map)
 	QStringList keys = maps.childKeys();
 	foreach(QString key, keys)
 	{
+		//Analyse des valeurs...
+		//Ceci inclus la définition des polygones et des liens
 		QString value = maps.value(key).toString();
 		QStringList subs = value.split(" ", QString::SkipEmptyParts);
-		QVector<QPoint> points(subs.size());
+		int size = subs.size();
+		if(value.contains("goto"))
+			size--;
+		QVector<QPoint> points(size);
+		QString linkedMap;
 		int i = 0;
 		foreach(QString sub, subs)
 		{
-			QRegExp point("(\\d+)x(\\d+)");
+			static QRegExp point("(\\d+)x(\\d+)");
+			static QRegExp link("goto_(.+)");
 			if(point.indexIn(sub) != -1)
 				points[i] = QPoint(point.cap(1).toInt(), point.cap(2).toInt());
+			else if(link.indexIn(sub) != -1)
+			{
+				i--;
+				linkedMap = link.cap(1);
+			}
 			else
+			{
+				qDebug() << "* invalid point(" << i << ")" << sub << "in" << map->name + "/" + key;
 				points[i] = QPoint();
+			}
 			i++;
 		}
 	
+		//Analyse des adresses
+		//Ce qui inclus la gestion des adresses et des sous-réseaux
 		QStringList ipStrings = key.split(",");
+		map->useSubnets = false;
 		foreach(QString ip, ipStrings)
-			map->polygons.insert(RzxHostAddress(QHostAddress(ip)), QPolygon(points));
+		{
+			RzxHostAddress base;
+			if(ip.contains("-"))
+			{
+				ip.replace('-', '/');
+				RzxSubnet subnet(ip);
+				map->useSubnets = true;
+				map->subnets << subnet;
+				base = subnet.network();
+			}
+			else
+				base = RzxHostAddress(QHostAddress(ip));
+			map->polygons.insert(base, QPolygon(points));
+			if(map->useSubnets)
+				map->links.insert(base, linkedMap);
+		}
 	}
 	maps.endGroup();
 }
@@ -140,7 +186,24 @@ void RzxRezalMap::setMap(int map)
 {
 	if(map < mapTable.size() && map >= 0)
 		currentMap = mapTable[map];
+	scrollTo(currentIndex());
+	horizontalScrollBar()->setRange(0, currentMap->pixmap.width() - viewport()->width());
+	verticalScrollBar()->setRange(0, currentMap->pixmap.height() - viewport()->height());
 	viewport()->update();
+}
+
+///Change la carte active vers la carte indiquée
+void RzxRezalMap::setMap(const QString& name)
+{
+	for(int i = 0 ; i < mapTable.size() ; i++)
+	{
+		if(mapTable[i]->name == name)
+		{
+			setMap(i);
+			mapChooser->setCurrentIndex(i);
+			return;
+		}
+	}
 }
 
 ///Retourne une fenêtre utilisable pour l'affichage.
@@ -176,13 +239,15 @@ bool RzxRezalMap::floating() const
 /** \reimp */
 void RzxRezalMap::updateLayout()
 {
+	viewport()->update();
 }
 
+///Recherche l'objet visible au point indiqué
 QModelIndex RzxRezalMap::indexAt(const QPoint &point) const
 {
 	foreach(RzxHostAddress ip, currentMap->polygons.keys())
 	{
-		if(QRegion(currentMap->polygons[ip]).contains(point))
+		if(QRegion(polygon(ip)).contains(point))
 		{
 			RzxComputer *computer = ip.computer();
 			if(computer)
@@ -195,39 +260,84 @@ QModelIndex RzxRezalMap::indexAt(const QPoint &point) const
 	return QModelIndex();
 }
 
-void RzxRezalMap::scrollTo(const QModelIndex&, ScrollHint)
+///Déplace la vue pour rendre l'objet visible
+void RzxRezalMap::scrollTo(const QModelIndex& index, ScrollHint hint)
 {
+	QRect rect = visualRect(index);
+	if(rect.isNull()) return;
+
+	rect.translate(horizontalOffset(), verticalOffset());
+	int width = viewport()->width();
+	int height = viewport()->height();
+	int xOffset = verticalOffset();
+	int yOffset = verticalOffset();
+
+	switch(hint)
+	{
+		case EnsureVisible:
+			if(rect.top() < yOffset)
+				yOffset = rect.top();
+			else if(rect.bottom() > yOffset + height)
+				yOffset = rect.bottom() - height;
+
+			if(rect.left() < xOffset)
+				xOffset = rect.left();
+			else if(rect.right() > xOffset + width)
+				xOffset = rect.right() - width;
+			break;
+
+		case PositionAtTop:
+			yOffset = rect.top();
+			break;
+
+		case PositionAtBottom:
+			xOffset = rect.bottom() - width;
+			break;
+	}
+	horizontalScrollBar()->setValue(xOffset);
+	verticalScrollBar()->setValue(yOffset);
 }
 
+///Retourne le rectangle dans lequel se trouve l'index
 QRect RzxRezalMap::visualRect(const QModelIndex& index) const
 {
 	return polygon(index).boundingRect();
 }
 
+///Retourne la position horizontale de la vue
 int RzxRezalMap::horizontalOffset() const
 {
-	return 0;
+	return horizontalScrollBar()->value();
 }
 
+///Retourne la postion verticale de la vue
 int RzxRezalMap::verticalOffset() const
 {
-	return 0;
+	return verticalScrollBar()->value();
 }
 
+///Indique si l'index spécifié est caché ou non
 bool RzxRezalMap::isIndexHidden(const QModelIndex& index) const
 {
 	return !index.isValid();
 }
 
+///Déplace la sélection avec le clavier
+/** Pour l'instant non implémenté... à voir si nécessaire */
 QModelIndex RzxRezalMap::moveCursor(CursorAction, Qt::KeyboardModifiers)
 {
 	return QModelIndex();
 }
 
+///Défini la sélection correspondante au rectangle indiqué
 void RzxRezalMap::setSelection(const QRect&, QItemSelectionModel::SelectionFlags)
 {
 }
 
+///Retourne la région correspondante à la liste des objets sélectionnés
+/** L'implémentation est faite proprement... mais normalement il n'y a jamais plus d'un
+ * objet sélectionné à la fois
+ */
 QRegion RzxRezalMap::visualRegionForSelection(const QItemSelection& sel) const
 {
 	QModelIndexList indexes = sel.indexes();
@@ -238,6 +348,8 @@ QRegion RzxRezalMap::visualRegionForSelection(const QItemSelection& sel) const
 }
 
 ///Retourne le polygone associé à un index
+/** Le polygon prend en compte la position de l'affichage...
+ */
 QPolygon RzxRezalMap::polygon(const QModelIndex& index) const
 {
 	if(!index.isValid() || !currentMap)
@@ -249,9 +361,36 @@ QPolygon RzxRezalMap::polygon(const QModelIndex& index) const
 
 	RzxComputer *computer = value.value<RzxComputer*>();
 	if(computer)
-		return currentMap->polygons[computer->ip()];
+		return polygon(computer->ip());
 	else
 		return QPolygon();
+}
+
+///Retourne le polygone associé à l'adresse
+/** Le polygon prend en compte la position de l'affichage...
+ */
+QPolygon RzxRezalMap::polygon(const RzxHostAddress& ip) const
+{
+	if(!currentMap)
+		return QPolygon();
+
+	if(!currentMap->useSubnets)
+	{
+		QPolygon poly = currentMap->polygons[ip];
+		poly.translate(-horizontalOffset(), -verticalOffset());
+		return poly;
+	}
+
+	foreach(RzxSubnet net, currentMap->subnets)
+	{
+		if(net.contains(ip))
+		{
+			QPolygon poly = currentMap->polygons[net.network()];
+			poly.translate(-horizontalOffset(), -verticalOffset());
+			return poly;
+		}
+	}
+	return QPolygon();
 }
 
 ///Affichage... réalise simplement le dessin
@@ -260,13 +399,19 @@ void RzxRezalMap::paintEvent(QPaintEvent*)
 	if(!currentMap) return;
 
 	QPainter painter(viewport());
-	painter.drawPixmap(0,0, currentMap->pixmap);
+	painter.drawPixmap(-horizontalOffset(),-verticalOffset(), currentMap->pixmap);
 	drawSelection(painter);
 }
 
 ///Dessin de la sélection
 void RzxRezalMap::drawSelection(QPainter& painter)
 {
+	painter.setPen(Qt::NoPen);
+
+	painter.setBrush(QColor(00, 0xa0, 00, 0xd0));
+	painter.drawPolygon(polygon(RzxComputer::localhost()->ip()));
+
+	painter.setBrush(QColor(00, 00, 0xa0, 0xc0));
 	painter.drawPolygon(polygon(currentIndex()));
 }
 
@@ -274,5 +419,23 @@ void RzxRezalMap::drawSelection(QPainter& painter)
 void RzxRezalMap::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
 	QAbstractItemView::currentChanged(current, previous);
+	scrollTo(current);
 	viewport()->update();
+}
+
+///On clique sur un objet...
+void RzxRezalMap::mouseDoubleClickEvent(QMouseEvent *e)
+{
+	QAbstractItemView::mouseDoubleClickEvent(e);
+	if(!currentMap->useSubnets)
+		return;
+
+	foreach(RzxHostAddress host, currentMap->polygons.keys())
+	{
+		if(QRegion(polygon(host)).contains(e->pos()))
+		{
+			setMap(currentMap->links[host]);
+			return;
+		}
+	}
 }
