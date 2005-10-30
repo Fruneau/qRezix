@@ -195,6 +195,18 @@ const QString &RzxBaseModule::copyright() const
 	return m_copyright;
 }
 
+///Retourne la liste des modules fils
+/** Chaque module bénéficie de la possibilité de fournir au programme
+ * une liste de sous-modules. La seul chose importante est que ces sous-
+ * modules dérivent de RzxBaseModule.
+ *
+ * L'implémentation par défaut retourne une liste vide
+ */
+QList<RzxBaseModule*> RzxBaseModule::childModules() const
+{
+	return QList<RzxBaseModule*>();
+}
+
 ///Retourne la liste des fenêtres de configuration du plugin
 /** Chaque module bénéficie de la possibilité de fournir plusieurs
  * fenêtre de configuration. Ces fenêtres possèdent alors un nom chacune

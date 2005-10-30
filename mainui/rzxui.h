@@ -59,6 +59,7 @@ class RzxUi:public RzxModule
 		virtual void toggleVisible();
 
 	public:
+		virtual QList<RzxBaseModule*> childModules() const;
 		virtual QWidget *mainWindow() const;
 		virtual QList<QWidget*> propWidgets();
 		virtual QStringList propWidgetsName();

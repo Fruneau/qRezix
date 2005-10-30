@@ -174,7 +174,7 @@ void RzxRezalMap::loadMap(QSettings &maps, Map *map)
 			else
 				base = RzxHostAddress(QHostAddress(ip));
 			map->polygons.insert(base, QPolygon(points));
-			if(map->useSubnets)
+			if(!linkedMap.isEmpty())
 				map->links.insert(base, linkedMap);
 		}
 	}
@@ -252,9 +252,6 @@ QModelIndex RzxRezalMap::indexAt(const QPoint &point) const
 			RzxComputer *computer = ip.computer();
 			if(computer)
 				return RzxRezalModel::global()->index(computer, RzxRezalModel::global()->everybodyGroup);
-
-			//On pourrait quitter immédiatement, mais un même lieu peut avoir plusieurs IPs...
-			//return QModelIndex();
 		}
 	}
 	return QModelIndex();
@@ -374,23 +371,22 @@ QPolygon RzxRezalMap::polygon(const RzxHostAddress& ip) const
 	if(!currentMap)
 		return QPolygon();
 
-	if(!currentMap->useSubnets)
+	if(currentMap->useSubnets)
 	{
-		QPolygon poly = currentMap->polygons[ip];
-		poly.translate(-horizontalOffset(), -verticalOffset());
-		return poly;
-	}
-
-	foreach(RzxSubnet net, currentMap->subnets)
-	{
-		if(net.contains(ip))
+		foreach(RzxSubnet net, currentMap->subnets)
 		{
-			QPolygon poly = currentMap->polygons[net.network()];
-			poly.translate(-horizontalOffset(), -verticalOffset());
-			return poly;
+			if(net.contains(ip))
+			{
+				QPolygon poly = currentMap->polygons[net.network()];
+				poly.translate(-horizontalOffset(), -verticalOffset());
+				return poly;
+			}
 		}
 	}
-	return QPolygon();
+
+	QPolygon poly = currentMap->polygons[ip];
+	poly.translate(-horizontalOffset(), -verticalOffset());
+	return poly;
 }
 
 ///Affichage... réalise simplement le dessin
@@ -423,12 +419,12 @@ void RzxRezalMap::currentChanged(const QModelIndex &current, const QModelIndex &
 	viewport()->update();
 }
 
-///On clique sur un objet...
+///On double clique sur un objet...
+/** Le double clic active les liens entre les cartes
+ */
 void RzxRezalMap::mouseDoubleClickEvent(QMouseEvent *e)
 {
 	QAbstractItemView::mouseDoubleClickEvent(e);
-	if(!currentMap->useSubnets)
-		return;
 
 	foreach(RzxHostAddress host, currentMap->polygons.keys())
 	{

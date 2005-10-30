@@ -86,6 +86,16 @@ void RzxUi::toggleVisible()
 }
 
 /** \reimp */
+QList<RzxBaseModule*> RzxUi::childModules() const
+{
+	QList<RzxRezal*> rezals = qrezix->moduleList();
+	QList<RzxBaseModule*> modules;
+	foreach(RzxRezal *rezal, rezals)
+		modules << rezal;
+	return modules;
+}
+
+/** \reimp */
 QWidget *RzxUi::mainWindow() const
 {
 	return qrezix;
