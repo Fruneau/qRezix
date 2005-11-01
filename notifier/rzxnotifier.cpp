@@ -75,6 +75,8 @@ void RzxNotifier::loginEnd()
 void RzxNotifier::login(RzxComputer *computer)
 {
 	connect(computer, SIGNAL(favoriteStateChanged(RzxComputer*)), this, SLOT(favoriteUpdated(RzxComputer* )));
+	if(computer && computer->isFavorite())
+		favoriteUpdated(computer);
 }
 
 /// Pour l'affichage d'une notification lors de la connexion d'un favoris
