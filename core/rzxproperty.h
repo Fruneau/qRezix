@@ -36,6 +36,10 @@ class RzxProperty : public QDialog, public Ui::frmPref
 	Q_OBJECT
 	RZX_GLOBAL(RzxProperty)
 
+	QTreeWidgetItem *generalItem;
+	QTreeWidgetItem *networkItem ;
+	QTreeWidgetItem *confItem;
+
 public: 
 	RzxProperty(QWidget *parent = NULL);
 	~RzxProperty();
@@ -82,7 +86,7 @@ protected slots: // Protected slots
 	void launchDirSelectDialog();
 	void chooseIcon();
 	void lockCmbMenuText(int index);
-	void changePage(QListWidgetItem*, QListWidgetItem*);
+	void changePage(QTreeWidgetItem*, QTreeWidgetItem*);
 };
 
 ///Inclu les modules dans la fenêtre de propriétés
@@ -93,16 +97,19 @@ void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidget *view, QTre
 	{
 		QList<QWidget*> props = module->propWidgets();
 		QStringList names = module->propWidgetsName();
-		foreach(QWidget *widget, props)
+		QTreeWidgetItem *item = parent;
+		int i = 0;
+		for(int i = 0 ; i < props.size(); i++)
 		{
+			QWidget *widget = props[i];
 			if(widget)
+			{
 				prefStack->addWidget(widget);
-		}
-		foreach(QString name, names)
-		{
-			QListWidgetItem *item = new QListWidgetItem(lbMenu);
-			item->setText(name);
-			item->setIcon(module->icon());
+				item = new QTreeWidgetItem(parent);
+				item->setText(0, names[i]);
+				item->setIcon(0, module->icon());
+				item->setData(0, Qt::UserRole, prefStack->indexOf(widget));
+			}
 		}
 
 		if(view)
@@ -115,7 +122,7 @@ void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidget *view, QTre
 		}
 
 		QList<RzxBaseModule*> children = module->childModules();
-		buildModules<RzxBaseModule>(children);
+		buildModules<RzxBaseModule>(children, NULL, item);
 	}
 }
 
@@ -152,8 +159,8 @@ void RzxProperty::changeThemeModules(const QList<T*>& modules, int& i)
 	foreach(T *module, modules)
 	{
 		int nb = module->propWidgets().count();
-		for(int j = 0 ; j < nb ; j++, i++)
-			lbMenu->item(i)->setIcon(module->icon());
+//		for(int j = 0 ; j < nb ; j++, i++)
+//			lbMenu->item(i)->setIcon(module->icon());
 
 		QList<RzxBaseModule*> children = module->childModules();
 		changeThemeModules<RzxBaseModule>(children, i);
