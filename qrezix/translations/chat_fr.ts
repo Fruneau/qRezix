@@ -25,6 +25,18 @@
         <source>Ping emitted</source>
         <translation>Ping émis</translation>
     </message>
+    <message>
+        <source>Ping request received</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pong answer received</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chat closed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxChatLister</name>
@@ -154,7 +166,7 @@ Chat and properties browsing are disabled</source>
     </message>
     <message>
         <source>Ping received</source>
-        <translation>Ping reçu</translation>
+        <translation type="obsolete">Ping reçu</translation>
     </message>
     <message>
         <source>Surname</source>
@@ -198,7 +210,7 @@ Chat and properties browsing are disabled</source>
     </message>
     <message>
         <source>ends the chat</source>
-        <translation>a mis fin à la discussion</translation>
+        <translation type="obsolete">a mis fin à la discussion</translation>
     </message>
     <message>
         <source>can&apos;t be contact, check his firewall... CONNECTION ERROR</source>

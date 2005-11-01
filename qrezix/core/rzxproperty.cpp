@@ -20,6 +20,7 @@ email                : benoit.casoetto@m4x.org
 #include <QRegExpValidator>
 #include <QPixmap>
 #include <QSize>
+#include <QHeaderView>
 
 #ifdef WITH_KDE
 #include <kfiledialog.h>
@@ -54,7 +55,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 	connect( btnOK, SIGNAL( clicked() ), this, SLOT( oK() ) );
 	connect( btnBrowse, SIGNAL( clicked() ), this, SLOT( chooseIcon() ) );
 	connect(btnAboutQt, SIGNAL(clicked()), this, SLOT(aboutQt()));
-	connect( lbMenu, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(changePage(QListWidgetItem*, QListWidgetItem*)));
+	connect( lbMenu, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(changePage(QTreeWidgetItem*, QTreeWidgetItem*)));
 
 	//connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
 	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTheme()));
@@ -97,12 +98,25 @@ RzxProperty::RzxProperty(QWidget *parent)
 	lblWorkDir_2->hide();
 	txtBeepCmd->hide();
 #endif
-	buildModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), lvNetworks);
-	buildModules<RzxModule>(RzxApplication::modulesList(), lvPlugInList);
+
+	lbMenu->header()->hide();
+	generalItem = new QTreeWidgetItem(lbMenu);
+	generalItem->setText(0, tr("Infos"));
+	generalItem->setData(0, Qt::UserRole, 0);
+
+	confItem = new QTreeWidgetItem(lbMenu);
+	confItem->setText(0, tr("Settings"));
+	confItem->setData(0, Qt::UserRole, 1);
+	buildModules<RzxModule>(RzxApplication::modulesList(), lvPlugInList, confItem);
+
+	networkItem = new QTreeWidgetItem(lbMenu);
+	networkItem->setText(0, tr("Network"));
+	networkItem->setData(0, Qt::UserRole, 2);
+	buildModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), lvNetworks, networkItem);
 
 	initDlg();
 	changeTheme();
-	lbMenu->setCurrentRow(0);
+	lbMenu->setCurrentItem(generalItem);
 }
 
 RzxProperty::~RzxProperty()
@@ -120,25 +134,22 @@ void RzxProperty::changeTheme()
 	btnOK->setIcon(RzxIconCollection::getIcon(Rzx::ICON_OK));
 	btnMiseAJour->setIcon(RzxIconCollection::getIcon(Rzx::ICON_APPLY));
 
-#define setIcon(icon, name) lbMenu->item(name)->setIcon(icon)
-	QPixmap pixmap; //Pour le newItem
-	setIcon(RzxIconCollection::getIcon(Rzx::ICON_PROPRIETES), 0);
-	setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES), 1);
-	setIcon(RzxIconCollection::getIcon(Rzx::ICON_NETWORK), 2);
-#undef setIcon
+	generalItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PROPRIETES));
+	confItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
+	networkItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_NETWORK));
 
-	int i = 3;
-	changeThemeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), i);
-	changeThemeModules<RzxModule>(RzxApplication::modulesList(), i);
+//	changeThemeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), i);
+//	changeThemeModules<RzxModule>(RzxApplication::modulesList(), i);
 }
 
 ///La page doit changer, on met à jour le titre
-void RzxProperty::changePage(QListWidgetItem *current, QListWidgetItem *)
+void RzxProperty::changePage(QTreeWidgetItem *current, QTreeWidgetItem *)
 {
 	if(current)
 	{
-		lblTitle->setText("<h2>"+current->text()+"</h2>");
-		lblTitleIcon->setPixmap(current->icon().pixmap(22));
+		lblTitle->setText("<h2>"+current->text(0)+"</h2>");
+		lblTitleIcon->setPixmap(current->icon(0).pixmap(22));
+		prefStack->setCurrentIndex(current->data(0, Qt::UserRole).toInt());
 	}
 }
 
@@ -485,9 +496,9 @@ void RzxProperty::changeEvent(QEvent *e)
 	QDialog::changeEvent(e);
 	if(e->type() == QEvent::LanguageChange)
 	{
-		int row = lbMenu->currentRow();
+		QTreeWidgetItem *item = lbMenu->currentItem();
 		retranslateUi(this);
-		lbMenu->setCurrentRow(row);
+		lbMenu->setCurrentItem(item);
 		lvPlugInList->setHeaderLabels(QStringList() << tr("Name") << tr("Version") << tr("Description"));
 		changeTheme();
 		initDlg();
