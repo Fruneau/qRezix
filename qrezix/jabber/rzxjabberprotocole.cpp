@@ -75,7 +75,6 @@ RzxJabberProtocole::~RzxJabberProtocole(){
 void RzxJabberProtocole::connection(){
 	emit connected(this);
 	emit status("Connection jabber");
-	updateLocalhost();
 }
 
 void RzxJabberProtocole::deconnection(){
@@ -125,13 +124,15 @@ void RzxJabberProtocole::removeRosterItem(){
 
 void RzxJabberProtocole::buildRosterList(){
 	// remplissage de la liste des Roster
-	ui->rosterList->clear();
-	ui->rosterEdit->setText("");
-	std::map<std::string, RosterItem*>::const_iterator i;
-	for( i = client->client()->rosterManager()->roster()->begin() ; i !=client->client()->rosterManager()->roster()->end() ; i++){
-		ui->rosterList->addItem(QString::fromUtf8(((*i).first).data()));
+	if(ui){
+		ui->rosterList->clear();
+		ui->rosterEdit->setText("");
+		std::map<std::string, RosterItem*>::const_iterator i;
+		for( i = client->client()->rosterManager()->roster()->begin() ; i !=client->client()->rosterManager()->roster()->end() ; i++){
+			ui->rosterList->addItem(QString::fromUtf8(((*i).first).data()));
+		}
+		ui->rosterList->sortItems();
 	}
-	ui->rosterList->sortItems();
 };
 
 
@@ -295,6 +296,17 @@ void RzxJabberProtocole::presenceRequest(QString jid, QString name, int type) {
 			0, //Flags ?????
 			"Client Jabber"); //Remarque
 			break;
+		case 3: // Hors ligne
+			opt.Repondeur=2;
+			emit login(  this, 
+				     RzxHostAddress(newComputer->ip()), //IP
+				     newComputer->name(), //Nom de la machine 
+				     *((quint32*) &opt), //Options
+				     *((quint32*) &version), //Version du client
+				     0xffffffff, //Hash de l'ic�e
+				     0, //Flags ?????
+				     "Client Jabber"); //Remarque
+			break;
 	}
 }
 
@@ -391,7 +403,6 @@ void RzxJabberProtocole::sendProperties()
 	Tag *t = computerList["myself"]->props()->toIq();
 	t->addAttrib( "id", id );
 	client->send( t );
-	qDebug() << "properties sent";
 }
 
 void RzxJabberProtocole::updateLocalhost()

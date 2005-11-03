@@ -34,6 +34,8 @@ bool RzxJabberProperty::handleIq (Stanza *stanza){return false;};
 
 bool RzxJabberProperty::handleIqID (Stanza *stanza, int context){
 	Tag *q = stanza->findChild( "vCard" );
+	if(!q)
+		return false;
 	Tag::TagList l = q->children();
 	Tag::TagList::const_iterator it;
 	for(it= l.begin(); it != l.end(); it++)

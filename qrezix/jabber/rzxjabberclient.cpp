@@ -5,9 +5,7 @@
 #include <gloox/disco.h>
 #include <gloox/messagehandler.h>
 #include <gloox/connectionlistener.h>
-#include <gloox/discohandler.h>
 #include <gloox/presencehandler.h>
-#include <gloox/loghandler.h>
 #include <gloox/gloox.h>
 using namespace gloox;
 
@@ -27,12 +25,9 @@ RzxJabberClient::~RzxJabberClient() {
 	if(timer)
 		delete timer;
 	if(j){
-		//j->removeConnectionListener( this );
+		j->removeConnectionListener( this );
 		j->removeMessageHandler( this );
 		j->removePresenceHandler( this );
-		j->removeLogHandler( this );
-		j->disco()->removeDiscoHandler( this );
-		j->rosterManager()->removeRosterListener();
 		delete j;
 	}
 };
@@ -49,39 +44,12 @@ void RzxJabberClient::run()
 	j->registerConnectionListener( this );
 	j->registerMessageHandler( this );
 	j->registerPresenceHandler( this );
-	j->registerLogHandler( this );
-	j->disco()->registerDiscoHandler( this );
 	j->disco()->setVersion( "qRezix Jabber", "0.0.1-svn");
 	j->disco()->setIdentity( "client", "qRezix" );
-	j->rosterManager()->registerRosterListener(this);
 	j->connect(false);
 	timer->start(100);
 	exec();
 }
-
-// bool gloox::RosterListener::unsubscriptionRequest(const std::string&, const std::string&)’:
-
-void RzxJabberClient::itemAvailable(RosterItem & item, const std::string &msg){
-	emit presence(QString::fromUtf8(item.jid().data()), QString::fromUtf8(item.name().data()) , 2);
-};
-
-
-void RzxJabberClient::itemUnavailable(RosterItem & item, const std::string &msg){
-	emit presence(QString::fromUtf8(item.jid().data()), QString::fromUtf8(item.name().data()) , 0);
-};
-
-
-void RzxJabberClient::itemChanged(RosterItem & item, const std::string &msg){
-	emit presence(QString::fromUtf8(item.jid().data()), QString::fromUtf8(item.name().data()) , 1);
-};
-
-void RzxJabberClient::itemUpdated(const std::string &jid){
-	emit rosterUpdated();
-};
-
-void RzxJabberClient::itemRemoved(const std::string &jid){
-	emit rosterUpdated();
-};
 
 void RzxJabberClient::readData(){
 	j->recv(0);
@@ -119,15 +87,7 @@ bool RzxJabberClient::onTLSConnect( const CertInfo& info )
 	return true;
 };
 
-void RzxJabberClient::handleDiscoInfoResult( const std::string& id, const Stanza& stanza )
-{
-	printf( "handleDiscoInfoResult}\n" );
-}
 
-void RzxJabberClient::handleDiscoItemsResult( const std::string& id, const Stanza& stanza )
-{
-	printf( "handleDiscoItemsResult\n" );
-}
 
 void RzxJabberClient::handleMessage( Stanza *stanza )
 {
@@ -136,11 +96,15 @@ void RzxJabberClient::handleMessage( Stanza *stanza )
 
 
 void RzxJabberClient::handlePresence( Stanza *stanza ){
-
+	if(stanza->show()==PRESENCE_UNAVAILABLE)
+		emit presence(QString::fromUtf8(stanza->from().bare().data()),QString::fromUtf8(stanza->from().bare().data()), 3);
+	else if(stanza->show()==PRESENCE_AWAY || stanza->show()==PRESENCE_DND || stanza->show()==PRESENCE_XA)
+		emit presence(QString::fromUtf8(stanza->from().bare().data()),QString::fromUtf8(stanza->from().bare().data()), 1);
+	else
+		emit presence(QString::fromUtf8(stanza->from().bare().data()),QString::fromUtf8(stanza->from().bare().data()), 2);
+	emit rosterUpdated();
 }
 
-void RzxJabberClient::handleLog( const std::string& xml, bool incoming ){
-};
 
 bool RzxJabberClient::send(Tag* t){
 	if(j && isStarted()){
