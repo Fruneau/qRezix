@@ -23,31 +23,27 @@
 #include <gloox/disco.h>
 #include <gloox/messagehandler.h>
 #include <gloox/connectionlistener.h>
-#include <gloox/rosterlistener.h>
 #include <gloox/rostermanager.h>
-#include <gloox/discohandler.h>
 #include <gloox/presencehandler.h>
-#include <gloox/loghandler.h>
 #include <gloox/gloox.h>
 
 
 using namespace gloox;
 
-class RzxJabberClient : public QThread, DiscoHandler, MessageHandler, ConnectionListener, PresenceHandler, LogHandler, RosterListener
+class RzxJabberClient : public QThread, MessageHandler, ConnectionListener, PresenceHandler
 {
 	Q_OBJECT
 
 	public:
 		RzxJabberClient(QObject *parent=0);
 		~RzxJabberClient();
-		virtual void onConnect();
-		virtual void onDisconnect( ConnectionError e );
-		virtual bool onTLSConnect( const CertInfo& info );
-		virtual void handleDiscoInfoResult( const std::string& id, const Stanza& stanza );
-		virtual void handleDiscoItemsResult( const std::string& id, const Stanza& stanza );
-		virtual void handleMessage( Stanza *stanza );
-		virtual void handlePresence( Stanza *stanza );
-		virtual void handleLog( const std::string& xml, bool incoming );
+		void onConnect();
+		void onDisconnect( ConnectionError e );
+		bool onTLSConnect( const CertInfo& info );
+		void onResourceBindError (ResourceBindError){};
+		void onSessionCreateError (SessionCreateError){};
+		void handleMessage( Stanza *stanza );
+		void handlePresence( Stanza *stanza );
 		void run();
 		void stop();
 		Client* client(){ return j; }
@@ -57,13 +53,6 @@ class RzxJabberClient : public QThread, DiscoHandler, MessageHandler, Connection
 	private:
 		Client *j;
 		QTimer *timer;
-		void itemAvailable(RosterItem & item, const std::string &msg);
-		void itemUnavailable(RosterItem & item, const std::string &msg);
-		void itemChanged(RosterItem & item, const std::string &msg);
-		void itemUpdated(const std::string &jid);
-		void itemRemoved(const std::string &jid);
-		bool unsubscriptionRequest(const std::string&, const std::string&){return true;}
-		bool subscriptionRequest(const std::string&, const std::string&){return true;}
 
 	signals:
 		void presence(QString jid, QString name, int type);
