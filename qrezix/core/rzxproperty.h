@@ -109,6 +109,7 @@ void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidget *view, QTre
 				item->setText(0, names[i]);
 				item->setIcon(0, module->icon());
 				item->setData(0, Qt::UserRole, prefStack->indexOf(widget));
+				lbMenu->expandItem(item);
 			}
 		}
 

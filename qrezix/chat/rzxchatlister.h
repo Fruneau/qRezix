@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QString>
 #include <QHash>
+#include <QPointer>
 
 #include <RzxHostAddress>
 
@@ -31,8 +32,9 @@
 
 #include <RzxModule>
 
+#include "rzxchat.h"
+
 class QPoint;
-class RzxChat;
 class RzxComputer;
 class RzxClientListener;
 namespace Ui { class RzxChatPropUI; }
@@ -45,8 +47,8 @@ class RzxChatLister:public RzxModule
 	Q_OBJECT
 	RZX_GLOBAL(RzxChatLister)
 
-	QHash<RzxHostAddress, RzxChat*> chatByIP;
-	QHash<QString, RzxChat*> chatByLogin;
+	QHash<RzxHostAddress, QPointer<RzxChat> > chatByIP;
+	QHash<QString, QPointer<RzxChat> > chatByLogin;
 
 	RzxChat *getChatByName(const QString&) const;
 	RzxChat *getChatByIP(const RzxHostAddress&) const;

@@ -103,15 +103,18 @@ RzxProperty::RzxProperty(QWidget *parent)
 	generalItem = new QTreeWidgetItem(lbMenu);
 	generalItem->setText(0, tr("Infos"));
 	generalItem->setData(0, Qt::UserRole, 0);
+	lbMenu->expandItem(generalItem);
 
 	confItem = new QTreeWidgetItem(lbMenu);
 	confItem->setText(0, tr("Settings"));
 	confItem->setData(0, Qt::UserRole, 1);
+	lbMenu->expandItem(confItem);
 	buildModules<RzxModule>(RzxApplication::modulesList(), lvPlugInList, confItem);
 
 	networkItem = new QTreeWidgetItem(lbMenu);
 	networkItem->setText(0, tr("Network"));
 	networkItem->setData(0, Qt::UserRole, 2);
+	lbMenu->expandItem(networkItem);
 	buildModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), lvNetworks, networkItem);
 
 	initDlg();
