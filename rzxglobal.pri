@@ -21,4 +21,5 @@ HEADERS += ../core/RzxGlobal \
 	../core/RzxBaseLoader \
 	../core/RzxNetwork \
 	../core/RzxWrongPass \
-	../core/RzxChangePass 														
+	../core/RzxChangePass \
+	../core/RzxSound

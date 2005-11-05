@@ -47,15 +47,10 @@
 #include <QFile>
 #include <QTextStream>
 
-//Pour le son
-#include <QSound>
-#if !defined(WIN32) && !defined(Q_OS_MAC)
-	#include <QProcess>
-#endif
-#include <QApplication>
 
 #include <RzxConfig>
 #include <RzxIconCollection>
+#include <RzxSound>
 
 #include "rzxchat.h"
 
@@ -479,22 +474,8 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 void RzxChat::receive(const QString& msg)
 {
 	QString message = msg;
-	if(RzxChatConfig::beep() && !btnSound->isChecked()) {
-#if defined(WIN32) || defined(Q_OS_MAC)
-		QString file = RzxChatConfig::beepSound();
-		if( !file.isEmpty() && QFile( file ).exists() )
-			QSound::play( file );
-		else
-			QApplication::beep();
-#else
-		QString cmd = RzxConfig::beepCmd(), file = RzxChatConfig::beepSound();
-		if (!cmd.isEmpty() && !file.isEmpty()) {
-			QProcess process;
-			process.start(cmd, QStringList(file));
-		}
-#endif
-	
-	}
+	if(RzxChatConfig::beep() && !btnSound->isChecked())
+		RzxSound::play(RzxChatConfig::beepSound());	
 	
 	if(RzxConfig::autoResponder())
 		append("darkgray", computer()->name() + ">&nbsp;", message);
