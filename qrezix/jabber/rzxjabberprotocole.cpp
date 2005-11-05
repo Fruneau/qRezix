@@ -125,6 +125,7 @@ void RzxJabberProtocole::removeRosterItem(){
 void RzxJabberProtocole::buildRosterList(){
 	// remplissage de la liste des Roster
 	if(ui){
+		connect(ui->btnChangePass, SIGNAL(clicked()), this, SLOT(wantChangePass()));
 		ui->rosterList->clear();
 		ui->rosterEdit->setText("");
 		std::map<std::string, RosterItem*>::const_iterator i;
@@ -189,7 +190,6 @@ void RzxJabberProtocole::propUpdate()
 	RzxJabberConfig::setPingTimeout(ui->ping_timeout->value() * 1000 );
 	
 	if(restart){
-		qDebug() << "Restarting Jabber";
 		stop();
 		start();
 	}
@@ -410,4 +410,24 @@ void RzxJabberProtocole::updateLocalhost()
 {
 	QString jid = QString::fromUtf8(client->client()->jid().bare().data());
 	getProperties(jid,"myself");
+}
+
+/*
+* Changement du mot de passe
+*/
+void RzxJabberProtocole::wantChangePass()
+{
+	new RzxChangePass(this, RzxJabberConfig::pass());
+}
+
+void RzxJabberProtocole::changePass(const QString& newPass)
+{
+	if(isStarted()){
+		client->changePass(newPass);
+	}
+}
+
+void RzxJabberProtocole::usePass(const QString& pass)
+{
+	
 }
