@@ -1091,11 +1091,11 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>Retrieve</source>
-        <translation type="unfinished"></translation>
+        <translation>Obtenir</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation type="unfinished">Envoyer</translation>
+        <translation>Envoyer</translation>
     </message>
     <message>
         <source>Organisation</source>
@@ -1626,7 +1626,7 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     </message>
     <message>
         <source>Infos</source>
-        <translation type="unfinished">Infos</translation>
+        <translation>Infos</translation>
     </message>
     <message>
         <source>Layout</source>
@@ -2356,6 +2356,13 @@ Erreur DNS
 &lt;p&gt;Shows the number of clients connected&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Barre d&apos;état&lt;/h3&gt;
 &lt;p&gt;Permet de connaître le nombre de personnes connectées au serveur&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>RzxTranslator</name>
+    <message>
+        <source>English</source>
+        <translation>Français</translation>
     </message>
 </context>
 <context>
