@@ -3,7 +3,7 @@ Plugin jabber pour qRezix
 -----
 Installation
 -----
-Ce plugin nécessite la lib gloox disponible ici: http://camaya.net/gloox
+Ce plugin nécessite la lib gloox v0.7 disponible ici: http://camaya.net/gloox
 
 Visiblement il existe un ebuild pour gentoo.
 
@@ -21,8 +21,3 @@ TODO
 -----
 
 - Inclure une icone Jabber à installer (nommée ffffffff.png en 64*64)
-
-Correction de bugs sur lib gloox:
-- envoyer un evenement notifyOnDisconnect( reason ) à la fin de disconnect(reason) dans ClientBase.cpp line 153
-- bug sur l'état online/away (stanza.cpp line 157 - 176)
-- pas de fonction removeConnectionListener()
