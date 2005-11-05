@@ -114,7 +114,7 @@ QRezix::QRezix(QWidget *parent)
 
 
 	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(toggleAutoResponder()));
-	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTheme()));
+	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	
 	// Préparation de l'insterface
 	activateAutoResponder( RzxConfig::autoResponder() != 0 );

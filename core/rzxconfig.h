@@ -60,21 +60,6 @@ private:
 	QDir m_userDir;
 	QDir m_libDir;
 
-//Gestion des traductions
-private:
-	QHash<QString, QString> languageNames;
-	QHash<QString, QList<QTranslator*> > translations;
-	QString lang;
-	void loadTranslators();
-	void loadTranslatorsInDir(const QDir &rep);
-
-public:
-	static void setLanguage(const QString&);
-	static QString language();
-	static QStringList translationsList();
-	static QString translation();
-
-
 // Favoris et BanList
 private :
 	QSet<QString> favorites;
@@ -244,7 +229,6 @@ public:
 
 //Quelques signaux...
 signals:
-	void languageChanged();
 	void updateResponder();
 	void iconFormatChange();
 	void useMacMetalStyle(bool);

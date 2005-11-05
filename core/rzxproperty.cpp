@@ -39,6 +39,7 @@ email                : benoit.casoetto@m4x.org
 #include <RzxModule>
 #include <RzxConnectionLister>
 #include <RzxNetwork>
+#include <RzxTranslator>
 
 RZX_GLOBAL_INIT(RzxProperty)
 
@@ -58,7 +59,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 	connect( lbMenu, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(changePage(QTreeWidgetItem*, QTreeWidgetItem*)));
 
 	//connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
-	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTheme()));
+	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	connect(cmbMenuIcons, SIGNAL(activated(int)), this,SLOT(lockCmbMenuText(int)));
 
 	//Pour que le pseudo soit rfc-complient
@@ -160,8 +161,8 @@ void RzxProperty::changePage(QTreeWidgetItem *current, QTreeWidgetItem *)
 void RzxProperty::initLangCombo()
 {
 	languageBox->clear();
-	languageBox->insertItems(0, RzxConfig::translationsList());
-	languageBox->setCurrentIndex(languageBox->findText(RzxConfig::translation()));
+	languageBox->insertItems(0, RzxTranslator::translationsList());
+	languageBox->setCurrentIndex(languageBox->findText(RzxTranslator::translation()));
 }
 
 ///Initialise la liste des thèmes
@@ -382,8 +383,8 @@ bool RzxProperty::miseAJour()
 	
 
 	//On ne change la langue qu'au dernier moment car ça réinitialise toutes les boîtes
-	if(languageBox->currentText() != RzxConfig::translation())
-		RzxConfig::setLanguage(languageBox->currentText());
+	if(languageBox->currentText() != RzxTranslator::translation())
+		RzxTranslator::setLanguage(languageBox->currentText());
 	
 	//Sauvegarde du fichier du conf
 	RzxConfig::global()->flush();

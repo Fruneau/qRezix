@@ -118,6 +118,9 @@ class RzxIconCollection: public QObject
 		static QIcon getFavoriteIcon();
 		static QIcon getBanIcon();
 
+		static bool connect(const QObject * receiver, const char * method, Qt::ConnectionType type = Qt::AutoCompatConnection);
+		static bool disconnect(const QObject * receiver);
+
 	protected:
 		bool isValid(const QDir&) const;
 		QPixmap loadIcon(const QString&, const QString& theme = QString()) const;
@@ -159,5 +162,17 @@ inline const QPixmap& RzxIconCollection::qRezixIcon()
 
 inline const QPixmap& RzxIconCollection::qRezixAwayIcon()
 { return global()->awayIcon; }
+
+///Connexion pour le changement de traduction
+inline bool RzxIconCollection::connect(const QObject *receiver, const char *method, Qt::ConnectionType type)
+{
+	return QObject::connect(global(), SIGNAL(themeChanged(const QString&)), receiver, method, type);
+}
+
+///Déconnecte un objet du message de changement de traduction
+inline bool RzxIconCollection::disconnect(const QObject *receiver)
+{
+	return global()->QObject::disconnect(SIGNAL(themeChanged(const QString&)), receiver);
+}
 
 #endif
