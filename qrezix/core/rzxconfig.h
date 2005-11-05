@@ -85,33 +85,6 @@ public:
 	void writeIgnoreList();
 	void readIgnoreList();
 
-
-// Polices de caractères
-private:
-	class FontProperty
-	{
-		public:
-			bool bold;
-			bool italic;
-			QList<int> sizes;
-		
-			FontProperty() { sizes = QList<int>(); }
-			FontProperty(bool b, bool i, const QList<int> &pS);
-			~FontProperty();
-	};
-	QStringList fontFamilies;
-	QHash<QString,FontProperty> fontProperties;
-
-protected:
-	void loadFontList();
-
-public:
-	QStringList getFontList();
-	const QList<int> getSizes(const QString&) const;
-	bool isItalicSupported(const QString&) const;
-	bool isBoldSupported(const QString&) const;
-
-
 	// Données
 	RZX_STRINGPROP("theme", iconTheme, setIconTheme, DEFAULT_THEME)
 	RZX_STRINGPROP("txtBeepCmd", beepCmd, setBeepCmd, "play")

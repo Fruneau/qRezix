@@ -18,6 +18,7 @@
 #define RZXCHATCONFIG_H
 
 #include <QDir>
+#include <QList>
 
 #include <RzxConfig>
 #include <RzxAbstractConfig>
@@ -43,6 +44,31 @@ class RzxChatConfig:public RzxAbstractConfig
 
 		static QDir logDir();
 		static QString historique(quint32, const QString&);
+
+
+// Polices de caractères
+	private:
+		class FontProperty
+		{
+			public:
+				bool bold;
+				bool italic;
+				QList<int> sizes;
+
+				FontProperty() { sizes = QList<int>(); }
+				FontProperty(bool b, bool i, const QList<int> &pS);
+				~FontProperty();
+		};
+		QStringList fontFamilies;
+		QHash<QString,FontProperty> fontProperties;
+
+	public:
+		void loadFontList();
+		static QStringList getFontList();
+		static const QList<int> getSizes(const QString&);
+		static bool isItalicSupported(const QString&);
+		static bool isBoldSupported(const QString&);
+
 };
 
 ///Retourne le répertoire où rechercher les logs de conversations...

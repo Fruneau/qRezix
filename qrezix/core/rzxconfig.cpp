@@ -22,7 +22,6 @@
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
-#include <QFontDatabase>
 #include <QStringList>
 #include <QTranslator>
 #include <QApplication>
@@ -67,7 +66,6 @@ void RzxConfig::init()
 	loadRezals();
 	
 	//Chargement des données QVB sur les fontes du système
-	loadFontList();
 	Rzx::endModuleLoading("Config");
 }
 
@@ -77,7 +75,6 @@ void RzxConfig::destroy()
 	Rzx::beginModuleClosing("Config");
 	writeFavorites();
 	writeIgnoreList();
-	fontProperties.clear();
 	delete RzxTranslator::global();
 	delete RzxIconCollection::global();
 	Rzx::endModuleClosing("Config");
@@ -92,69 +89,6 @@ bool RzxConfig::find()
 		return false;
 	}
 	return true;
-}
-
-/*****************************************************************************
-* GESTION DES POLICES DE CARACTÈRES                                          *
-*****************************************************************************/
-RzxConfig::FontProperty::FontProperty(bool b, bool i, const QList<int> &pS)
-	: bold(b), italic(i), sizes(pS)
-{ }
-
-RzxConfig::FontProperty::~FontProperty()
-{ }
-
-///Chargement de la liste des polices de caractères
-void RzxConfig::loadFontList()
-{
-	Rzx::beginModuleLoading("Fonts");
-	QFontDatabase fdb;
-	fontFamilies = fdb.families();
-	for( QStringList::Iterator f = fontFamilies.begin(); f != fontFamilies.end();)
-	{
-		QString family = *f;
-		QStringList styles = fdb.styles( family );
-		if(styles.contains("Normal")) 
-		{
-			QList<int> size = fdb.smoothSizes(family, "Normal");
-			bool b = styles.contains("Bold")!=0;
-			bool i = styles.contains("Italic")!=0 || styles.contains("Oblique")!=0;
-			FontProperty fp( b, i, size);
-			fontProperties.insert(family, fp);
-			++f;
-		}
-		else
-			f = fontFamilies.erase(f);
-	}
-	qDebug("Found %d fonts families", fontFamilies.count());
-	Rzx::endModuleLoading("Fonts");
-}
-
-/// Renvoie la liste des familles de fonte initialisée au début
-QStringList RzxConfig::getFontList()
-{
-	return fontFamilies;
-}
-
-/// Renvoie la liste des tailles acceptées par cette police
-const QList<int> RzxConfig::getSizes(const QString& family) const
-{
-	const FontProperty &fp = fontProperties[family];
-	return fp.sizes;
-}
-
-///Indique si la police supporte l'italique
-bool RzxConfig::isItalicSupported(const QString& family) const
-{
-	const FontProperty &fp = fontProperties[family];
-	return fp.italic;
-}
-
-///Indique si la police supporte le gras
-bool RzxConfig::isBoldSupported(const QString& family) const
-{
-	const FontProperty &fp = fontProperties[family];
-	return fp.bold;
 }
 
 /*****************************************************************************

@@ -67,7 +67,10 @@ RzxChatLister::RzxChatLister()
 	setType(MOD_PROPERTIES);
 	setType(MOD_PROPGUI);
 	setIcon(Rzx::ICON_CHAT);
+
 	new RzxChatConfig(this);
+	RzxChatConfig::global()->loadFontList();
+
 	client = RzxClientListener::global();
 	connect(client, SIGNAL(propertiesSent(RzxComputer*)), this, SLOT(warnProperties(RzxComputer*)));
 	connect(client, SIGNAL(haveProperties(RzxComputer*)), this, SIGNAL(haveProperties(RzxComputer*)));
