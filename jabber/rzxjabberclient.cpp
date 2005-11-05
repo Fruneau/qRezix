@@ -46,8 +46,8 @@ void RzxJabberClient::run()
 	j->registerPresenceHandler( this );
 	j->disco()->setVersion( "qRezix Jabber", "0.0.1-svn");
 	j->disco()->setIdentity( "client", "qRezix" );
-	j->connect(false);
-	timer->start(100);
+	if(j->connect(false))
+		timer->start(100);
 	exec();
 }
 
