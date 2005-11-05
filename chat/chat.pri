@@ -1,7 +1,8 @@
 SOURCES += ../chat/rzxchatlister.cpp \
 	../chat/rzxclientlistener.cpp \
 	../chat/rzxchatsocket.cpp \
-	../chat/rzxchat.cpp
+	../chat/rzxchat.cpp \
+	../chat/rzxchatconfig.cpp
 
 HEADERS += ../chat/rzxchatlister.h \
 	../chat/rzxclientlistener.h \

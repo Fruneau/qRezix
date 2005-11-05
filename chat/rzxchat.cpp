@@ -166,7 +166,7 @@ void RzxChat::init()
 
 	//chargement des fontes
 	defFont = new QFont("Terminal", 11);
-	cbFontSelect->insertItems(0, RzxConfig::global()->getFontList());
+	cbFontSelect->insertItems(0, RzxChatConfig::getFontList());
 	
 	//chargement de la liste des couleurs
 	cbColorSelect->addItem(tr("Custom colours...")); //tjs 0
@@ -349,9 +349,9 @@ void RzxChat::on_cbColorSelect_activated(int index) {
 ///Changement de la police de caractère
 void RzxChat::on_cbFontSelect_activated(int index) {
 	QString family = cbFontSelect->itemText(index);
-	btnBold->setEnabled(RzxConfig::global()->isBoldSupported(family));
-	btnItalic->setEnabled(RzxConfig::global()->isItalicSupported(family));
-	QList<int> pSize = RzxConfig::global()->getSizes(family);
+	btnBold->setEnabled(RzxChatConfig::isBoldSupported(family));
+	btnItalic->setEnabled(RzxChatConfig::isItalicSupported(family));
+	QList<int> pSize = RzxChatConfig::getSizes(family);
 
 	QString size = cbSize->currentText();
 	cbSize->clear();
