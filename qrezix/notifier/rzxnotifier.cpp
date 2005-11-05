@@ -14,14 +14,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <QProcess>
-#include <QSound>
-
 #include <RzxGlobal>
 #include <RzxComputer>
 #include <RzxConnectionLister>
 #include <RzxIconCollection>
 #include <RzxProperty>
+#include <RzxSound>
 
 #include "rzxnotifier.h"
 
@@ -90,21 +88,7 @@ void RzxNotifier::favoriteUpdated(RzxComputer *computer)
 	
 	//Bah, beep à la connexion
 	if(RzxNotifierConfig::beepConnection() && computer->state() == Rzx::STATE_HERE)
-	{
-#if defined (WIN32) || defined (Q_OS_MAC)
-		QString file = RzxNotifierConfig::beepSound();
-		if( !file.isEmpty() && QFile(file).exists() )
-			QSound::play( file );
-		else
-			QApplication::beep();
-#else
-		QString cmd = RzxConfig::beepCmd(), file = RzxNotifierConfig::beepSound();
-		if (!cmd.isEmpty() && !file.isEmpty()) {
-			QProcess process;
-			process.start(cmd, QStringList(file));
-		}
-#endif
-	}
+		RzxSound::play(RzxNotifierConfig::beepSound());
 	
 	//Affichage de la fenêtre de notification de connexion
 	if(RzxNotifierConfig::showConnection())

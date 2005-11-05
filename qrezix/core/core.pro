@@ -34,7 +34,8 @@ SOURCES += rzxglobal.cpp \
 	rzxmodule.cpp \
 	rzxnetwork.cpp \
 	rzxwrongpass.cpp \
-	rzxchangepass.cpp
+	rzxchangepass.cpp \
+	rzxsound.cpp
 
 HEADERS += rzxglobal.h \
 	rzxapplication.h \
@@ -54,7 +55,8 @@ HEADERS += rzxglobal.h \
 	rzxmodule.h \
 	rzxnetwork.h \
 	rzxwrongpass.h \
-	rzxchangepass.h
+	rzxchangepass.h \
+	rzxsound.h
 		
 FORMS += rzxpropertyui.ui \
 	rzxwrongpassui.ui \
