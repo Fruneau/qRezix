@@ -25,12 +25,13 @@
 #include <gloox/connectionlistener.h>
 #include <gloox/rostermanager.h>
 #include <gloox/presencehandler.h>
+#include <gloox/registrationhandler.h>
 #include <gloox/gloox.h>
 
 
 using namespace gloox;
 
-class RzxJabberClient : public QThread, MessageHandler, ConnectionListener, PresenceHandler
+class RzxJabberClient : public QThread, MessageHandler, ConnectionListener, PresenceHandler, RegistrationHandler
 {
 	Q_OBJECT
 
@@ -49,6 +50,10 @@ class RzxJabberClient : public QThread, MessageHandler, ConnectionListener, Pres
 		Client* client(){ return j; }
 		bool isStarted();
 		bool send(Tag* t);
+		void changePass(const QString &newPass);
+		void handleRegistrationResult (resultEnum result);
+		void handleRegistrationFields (int fields, std::string instructions){};
+		void handleAlreadyRegistered (){};
 		
 	private:
 		Client *j;

@@ -1,11 +1,14 @@
 #include "rzxjabberclient.h"
 #include "rzxjabberconfig.h"
 
+#include <RzxMessageBox>
+
 #include <gloox/client.h>
 #include <gloox/disco.h>
 #include <gloox/messagehandler.h>
 #include <gloox/connectionlistener.h>
 #include <gloox/presencehandler.h>
+#include <gloox/registration.h>
 #include <gloox/gloox.h>
 using namespace gloox;
 
@@ -113,3 +116,16 @@ bool RzxJabberClient::send(Tag* t){
 	}
 	return false;
 };
+
+void RzxJabberClient::changePass(const QString &newPass){
+	Registration* r = new Registration(j);
+	r->registerRegistrationHandler( this );
+	r->changePassword(newPass.toUtf8().data());
+}
+
+void RzxJabberClient::handleRegistrationResult(resultEnum result){
+	if(result == REGISTRATION_SUCCESS )
+		RzxMessageBox::information(NULL, tr( "Account Registration" ), tr("Operation Succeeded") );
+	else
+		RzxMessageBox::warning(NULL, tr( "Account Registration" ), tr("Operation Failed") );
+}

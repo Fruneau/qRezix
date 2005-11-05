@@ -80,9 +80,9 @@ public slots:
 	void removeRosterItem();
 	void changeRosterText(QListWidgetItem *cur,QListWidgetItem *old);
 	/** Demande de changement de pass */
-	virtual void wantChangePass(){};
-	virtual void changePass(const QString&){};
-	virtual void usePass(const QString&){};
+	virtual void wantChangePass();
+	virtual void changePass(const QString&);
+	virtual void usePass(const QString&);
 	void connection();
 	void deconnection();
 	

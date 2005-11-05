@@ -70,10 +70,6 @@ void RzxChangePass::init(const QString& oldPass)
 	//Rajout des icônes aux boutons
 	btnOK->setIcon(RzxThemedIcon(Rzx::ICON_OK));
 	btnCancel->setIcon(RzxThemedIcon(Rzx::ICON_CANCEL));
-
-	//Connexion des boutons comme il va bien
-	connect(btnOK, SIGNAL(clicked()), this, SLOT(accept()));
-	connect(btnCancel, SIGNAL(clicked()), this, SLOT(reject()));
 	
 	//Affichage de la fenêtre
 	raise();
