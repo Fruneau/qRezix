@@ -75,9 +75,9 @@ RzxTrayIcon::RzxTrayIcon()
 	v_isWMDock = FALSE;
 	buildMenu();
 	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(changeTrayIcon()));
-	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTrayIcon()));
 	connect(RzxConnectionLister::global(), SIGNAL(countChange(const QString& )), this, SLOT(setToolTip(const QString& )));
 	connect(this, SIGNAL(clicked(const QPoint&)), this, SIGNAL(wantToggleVisible()));
+	RzxIconCollection::connect(this, SLOT(changeTrayIcon()));
 	changeTrayIcon();
 	endLoading();
 }

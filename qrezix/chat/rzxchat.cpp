@@ -197,7 +197,7 @@ void RzxChat::init()
 	connect(btnSend, SIGNAL(clicked()), this, SLOT(on_btnSend_clicked()));
 	connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
 
-	connect(RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), this, SLOT(changeTheme()));
+	RzxIconCollection::connect(this, SLOT(changeTheme()));
 
 	on_cbFontSelect_activated(0);
 	on_cbSendHTML_toggled(false);	

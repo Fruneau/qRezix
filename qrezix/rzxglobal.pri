@@ -22,4 +22,5 @@ HEADERS += ../core/RzxGlobal \
 	../core/RzxNetwork \
 	../core/RzxWrongPass \
 	../core/RzxChangePass \
-	../core/RzxSound
+	../core/RzxSound \
+	../core/RzxTranslator
