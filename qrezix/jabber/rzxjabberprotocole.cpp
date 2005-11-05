@@ -189,6 +189,7 @@ void RzxJabberProtocole::propUpdate()
 	RzxJabberConfig::setPingTimeout(ui->ping_timeout->value() * 1000 );
 	
 	if(restart){
+		qDebug() << "Restarting Jabber";
 		stop();
 		start();
 	}
@@ -222,7 +223,7 @@ void RzxJabberProtocole::start() {
 }
 
 void RzxJabberProtocole::stop() {
-	if(isStarted()){
+	if(client && client->isRunning()){
 		client->stop();
 		client->wait(1000);
 	}
