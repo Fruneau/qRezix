@@ -31,6 +31,7 @@ RzxJabberClient::~RzxJabberClient() {
 		j->removeConnectionListener( this );
 		j->removeMessageHandler( this );
 		j->removePresenceHandler( this );
+		j->rosterManager()->removeRosterListener();
 		delete j;
 	}
 };
@@ -47,6 +48,7 @@ void RzxJabberClient::run()
 	j->registerConnectionListener( this );
 	j->registerMessageHandler( this );
 	j->registerPresenceHandler( this );
+	j->rosterManager()->registerRosterListener(this);
 	j->disco()->setVersion( "qRezix Jabber", "0.0.1-svn");
 	j->disco()->setIdentity( "client", "qRezix" );
 	if(j->connect(false))
@@ -75,18 +77,19 @@ bool RzxJabberClient::isStarted()
 
 void RzxJabberClient::onDisconnect( ConnectionError e )
 {
+	timer->stop();
 	printf( "disconnected: %d\n", e );
-	if( e == CONN_AUTHENTICATION_FAILED )
-		printf( "auth failed. reason: %d\n", j->authError() );
+	if( e == CONN_AUTHENTICATION_FAILED || j->authError() == SASL_NOT_AUTHORIZED)
+		RzxMessageBox::warning(NULL, tr( "Jabber: Authentification Error" ), tr("Please verify your username/password and that your account exists") );
 	emit disconnected();
 };
 
 bool RzxJabberClient::onTLSConnect( const CertInfo& info )
 {
-	printf( "status: %d\nissuer: %s\npeer: %s\nprotocol: %s\nmac: %s\ncipher: %s\ncompression: %s\n",
+	/*printf( "status: %d\nissuer: %s\npeer: %s\nprotocol: %s\nmac: %s\ncipher: %s\ncompression: %s\n",
 		info.status, info.issuer.c_str(), info.server.c_str(),
 		info.protocol.c_str(), info.mac.c_str(), info.cipher.c_str(),
-		info.compression.c_str() );
+		info.compression.c_str() ); */
 	return true;
 };
 
@@ -126,12 +129,15 @@ void RzxJabberClient::changePass(const QString &newPass){
 void RzxJabberClient::handleRegistrationResult(resultEnum result){
 	if(result == REGISTRATION_SUCCESS )
 		RzxMessageBox::information(NULL, tr( "Account Registration" ), tr("Operation Succeeded") );
+	else if(result == REGISTRATION_CONFLICT )
+		RzxMessageBox::warning(NULL, tr( "Account Registration" ), tr("Operation Failed: Already registered") );
+	else if(result == REGISTRATION_NOT_ALLOWED )
+		RzxMessageBox::warning(NULL, tr( "Account Registration" ), tr("Operation Failed: Function disabled by Server") );
 	else
 		RzxMessageBox::warning(NULL, tr( "Account Registration" ), tr("Operation Failed") );
 }
 
 void RzxJabberClient::handleAlreadyRegistered (){
-	RzxMessageBox::warning(NULL, tr( "Account Registration" ), tr("Operation Failed\n Already registered") );
 }
 
 void RzxJabberClient::wantNewAccount(const QString &jid, const QString &pass, const QString &server,int port){
@@ -140,7 +146,6 @@ void RzxJabberClient::wantNewAccount(const QString &jid, const QString &pass, co
 		delete j;
 	}
 	j = new Client(server.toUtf8().data());
-	qDebug() << server;
 	j->setPort(port);
 	j->jid().setJID(jid.toUtf8().data());
 	j->setAutoPresence( true );
