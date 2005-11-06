@@ -87,6 +87,7 @@ public:
 
 	// Données
 	RZX_STRINGPROP("theme", iconTheme, setIconTheme, DEFAULT_THEME)
+	RZX_STRINGPROP("language", language, setLanguage, "English")
 	RZX_STRINGPROP("txtBeepCmd", beepCmd, setBeepCmd, "play")
 
 	RZX_STRINGPROP("FTPPath", ftpPath, setFtpPath, QString())
