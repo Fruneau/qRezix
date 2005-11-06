@@ -23,6 +23,7 @@
 #include <gloox/disco.h>
 #include <gloox/messagehandler.h>
 #include <gloox/connectionlistener.h>
+#include <gloox/rosterlistener.h>
 #include <gloox/rostermanager.h>
 #include <gloox/presencehandler.h>
 #include <gloox/registrationhandler.h>
@@ -31,7 +32,7 @@
 
 using namespace gloox;
 
-class RzxJabberClient : public QThread, MessageHandler, ConnectionListener, PresenceHandler, RegistrationHandler
+class RzxJabberClient : public QThread, MessageHandler, ConnectionListener, PresenceHandler, RosterListener, RegistrationHandler
 {
 	Q_OBJECT
 
@@ -55,6 +56,18 @@ class RzxJabberClient : public QThread, MessageHandler, ConnectionListener, Pres
 		void handleRegistrationResult (resultEnum result);
 		void handleRegistrationFields (int fields, std::string instructions){};
 		void handleAlreadyRegistered ();
+		
+		void itemAdded (const std::string &jid){};
+		void itemSubscribed (const std::string &jid){};
+		void itemRemoved (const std::string &jid){};
+		void itemUpdated (const std::string &jid){};
+		void itemUnsubscribed (const std::string &jid){};
+		void roster (Roster &roster){};
+		void itemChanged (RosterItem &item, int status, const std::string &msg){};
+		void itemAvailable (RosterItem &item, const std::string &msg){};
+		void itemUnavailable (RosterItem &item, const std::string &msg){};
+		bool subscriptionRequest (const std::string &jid, const std::string &msg){return true;};
+		bool unsubscriptionRequest (const std::string &jid, const std::string &msg){return true;};
 		
 	private:
 		Client *j;
