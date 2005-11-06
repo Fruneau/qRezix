@@ -87,8 +87,8 @@ public:
 
 	// Données
 	RZX_STRINGPROP("theme", iconTheme, setIconTheme, DEFAULT_THEME)
-	RZX_BOOLPROP("macmetalstyle", macMetalStyle, setMacMetalStyle, true)
 	RZX_STRINGPROP("style", style, setStyle, "default")
+	RZX_BOOLPROP("styleforall", useStyleForAll, setUseStyleForAll, true)
 	RZX_STRINGPROP("language", language, setLanguage, "English")
 	RZX_STRINGPROP("txtBeepCmd", beepCmd, setBeepCmd, "play")
 
