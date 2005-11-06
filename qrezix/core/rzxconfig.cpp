@@ -41,6 +41,7 @@
 #include <RzxComputer>
 #include <RzxIconCollection>
 #include <RzxTranslator>
+#include <RzxStyle>
 
 RZX_CONFIG_INIT(RzxConfig)
 
@@ -61,6 +62,7 @@ void RzxConfig::init()
 	readIgnoreList();
 
 	//CHargment de données diverses (icons, traductions)
+	RzxStyle::global();
 	RzxTranslator::global();
 	RzxIconCollection::global();
 	loadRezals();
@@ -407,13 +409,6 @@ void RzxConfig::emitIconFormatChanged()
 	emit global()->iconFormatChange();
 }
 
-///Emet un signal pour informer du changement de style
-void RzxConfig::emitUseMacMetalStyle()
-{
-	emit global()->useMacMetalStyle(macMetalStyle());
-}
-
-
 /******************************************************************************
 * INFORMATIONS CONCERNANT LA MACHINE                                          *
 ******************************************************************************/
@@ -460,56 +455,6 @@ bool RzxConfig::infoCompleted()
 {
 	return propLastName() != "" && propName() != "" && propCasert() != "" 
 		&& propMail() != DEFAULT_MAIL && propTel() != "";
-}
-
-
-/******************************************************************************
-* GESTION DU STYLE DES FENÊTRES                                               *
-******************************************************************************/
-///Lit le style à utiliser
-bool RzxConfig::macMetalStyle(bool def, const bool& defValue)
-{
-	return def?defValue:global()->value("macmetalstyle", defValue).toBool();
-}
-
-///Défini le style à utiliser
-void RzxConfig::setMacMetalStyle(const bool& style)
-{
-	bool isChanged = style ^ macMetalStyle();
-	if(isChanged)
-	{
-		global()->setValue("macmetalstyle", style);
-		global()->applyStyle();
-		emitUseMacMetalStyle();
-	}
-}
-
-///Ajoute la fenêtre à la liste des fenêtres qui utilisent le style de qRezix
-/** Les fenêtres ajoutées sont automatiquement stylisée. Mais pour qu'une fenêtre
- * soit valide, il faut que ce soit une window
- */
-void RzxConfig::useStyleOnWindow(QWidget *window)
-{
-	if(window && window->isWindow())
-	{
-		global()->styledWidgets << window;
-		global()->applyStyle(window);
-	}
-}
-
-///Applique le style courant sur une fenêtre
-void RzxConfig::applyStyle(QWidget *widget)
-{
-	if(widget)
-		widget->setAttribute(Qt::WA_MacMetalStyle, macMetalStyle());
-}
-
-///Applique le style sur toutes les fenêtres enregistrées
-void RzxConfig::applyStyle()
-{
-	styledWidgets.removeAll(NULL);
-	foreach(QWidget *widget, styledWidgets)
-		applyStyle(widget);
 }
 
 

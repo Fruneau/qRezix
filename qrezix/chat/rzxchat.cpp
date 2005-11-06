@@ -49,6 +49,7 @@
 
 
 #include <RzxConfig>
+#include <RzxStyle>
 #include <RzxIconCollection>
 #include <RzxSound>
 
@@ -115,7 +116,7 @@ RzxChat::RzxChat(RzxComputer *c)
 void RzxChat::init()
 {
 	setAttribute(Qt::WA_DeleteOnClose);
-	RzxConfig::useStyleOnWindow(this);
+	RzxStyle::useStyleOnWindow(this);
 
 	/**** Construction de l'UI ****/
 	/* Splitter avec 2 partie dont une est l'ui */

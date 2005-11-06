@@ -40,6 +40,7 @@ email                : benoit.casoetto@m4x.org
 #include <RzxConnectionLister>
 #include <RzxNetwork>
 #include <RzxTranslator>
+#include <RzxStyle>
 
 RZX_GLOBAL_INIT(RzxProperty)
 
@@ -48,7 +49,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 {
 	object = this;
 	setupUi(this);
-	RzxConfig::useStyleOnWindow(this);
+	RzxStyle::useStyleOnWindow(this);
 	
 	connect( btnBrowseWorkDir, SIGNAL( clicked() ), this, SLOT( launchDirSelectDialog() ) );
 	connect( btnMiseAJour, SIGNAL( clicked() ), this, SLOT( miseAJour() ) );
@@ -361,7 +362,7 @@ bool RzxProperty::miseAJour()
 		RzxConfig::emitIconFormatChanged();
 	}
 	
-	RzxConfig::setMacMetalStyle(cbMacMetal->isChecked());
+	RzxStyle::setMacMetalStyle(cbMacMetal->isChecked());
 	
 	const QPixmap *localhostIcon = pxmIcon->pixmap();
 	if(RzxIconCollection::global()->localhostPixmap().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
