@@ -98,7 +98,6 @@ void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidget *view, QTre
 		QList<QWidget*> props = module->propWidgets();
 		QStringList names = module->propWidgetsName();
 		QTreeWidgetItem *item = parent;
-		int i = 0;
 		for(int i = 0 ; i < props.size(); i++)
 		{
 			QWidget *widget = props[i];

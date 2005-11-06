@@ -40,6 +40,7 @@
 #include <RzxIconCollection>
 #include <RzxConnectionLister>
 #include <RzxComputer>
+#include <RzxStyle>
 
 #include "qrezix.h"
 
@@ -64,7 +65,7 @@ QRezix::QRezix(QWidget *parent)
 	central = NULL;
 	index = NULL;
 
-	RzxConfig::useStyleOnWindow(this);
+	RzxStyle::useStyleOnWindow(this);
 	statusui = new Ui::RzxStatusUI();
 	QWidget *widget = new QWidget;
 	statusui->setupUi(widget);

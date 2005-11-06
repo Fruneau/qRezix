@@ -87,6 +87,8 @@ public:
 
 	// Données
 	RZX_STRINGPROP("theme", iconTheme, setIconTheme, DEFAULT_THEME)
+	RZX_BOOLPROP("macmetalstyle", macMetalStyle, setMacMetalStyle, true)
+	RZX_STRINGPROP("style", style, setStyle, "default")
 	RZX_STRINGPROP("language", language, setLanguage, "English")
 	RZX_STRINGPROP("txtBeepCmd", beepCmd, setBeepCmd, "play")
 
@@ -142,19 +144,6 @@ public:
 	static bool find();
 
 	
-//Gestion du style des fenêtres
-protected:
-	QList< QPointer<QWidget> > styledWidgets;
-	void applyStyle();
-
-public:
-	static void applyStyle(QWidget *);
-	static void useStyleOnWindow(QWidget*);
-
-	RZX_PROP_DECLARE(bool, macMetalStyle, setMacMetalStyle, true)
-	static void emitUseMacMetalStyle();
-
-	
 //Gestion des sous-réseaux
 private:
 	QStringList rezalNames;
@@ -205,7 +194,6 @@ public:
 signals:
 	void updateResponder();
 	void iconFormatChange();
-	void useMacMetalStyle(bool);
 };
 
 #endif
