@@ -147,7 +147,7 @@
           <string>&lt;h3>Reconnection&lt;/h3>&lt;p>Defines the parameters of the reconnection.&lt;p>&lt;p>You shouldn't have to modify this values&lt;/p></string>
          </property>
          <property name="title" >
-          <string>Reconnection</string>
+          <string>Misc</string>
          </property>
          <layout class="QGridLayout" >
           <property name="margin" >
@@ -209,6 +209,13 @@
            <widget class="QPushButton" name="btnChangePass" >
             <property name="text" >
              <string>Change Password</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="QPushButton" name="btnNewAccount" >
+            <property name="text" >
+             <string>New Account</string>
             </property>
            </widget>
           </item>

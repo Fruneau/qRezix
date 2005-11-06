@@ -83,6 +83,7 @@ public slots:
 	virtual void wantChangePass();
 	virtual void changePass(const QString&);
 	virtual void usePass(const QString&);
+	void wantNewAccount();
 	void connection();
 	void deconnection();
 	

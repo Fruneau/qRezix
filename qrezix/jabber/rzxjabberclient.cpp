@@ -129,3 +129,39 @@ void RzxJabberClient::handleRegistrationResult(resultEnum result){
 	else
 		RzxMessageBox::warning(NULL, tr( "Account Registration" ), tr("Operation Failed") );
 }
+
+void RzxJabberClient::handleAlreadyRegistered (){
+	RzxMessageBox::warning(NULL, tr( "Account Registration" ), tr("Operation Failed\n Already registered") );
+}
+
+void RzxJabberClient::wantNewAccount(const QString &jid, const QString &pass, const QString &server,int port){
+	if(j){
+		j->disconnect();
+		delete j;
+	}
+	j = new Client(server.toUtf8().data());
+	qDebug() << server;
+	j->setPort(port);
+	j->jid().setJID(jid.toUtf8().data());
+	j->setAutoPresence( true );
+	j->setInitialPriority( 5 );
+	j->registerConnectionListener( this );
+	j->registerMessageHandler( this );
+	j->registerPresenceHandler( this );
+	j->disco()->setVersion( "qRezix Jabber", "0.0.1-svn");
+	j->disco()->setIdentity( "client", "qRezix" );
+	if(j->connect(false)){
+		QTimer::singleShot(600, this, SLOT(newAccount()));
+		j_password = pass;
+		j_jid = j->jid();
+	}
+}
+
+void RzxJabberClient::newAccount(){
+	Registration::fieldStruct fields;
+	fields.username = j_jid.username();
+	fields.password = j_password.toUtf8().data();
+	Registration* r = new Registration(j);
+	r->registerRegistrationHandler( this );
+	r->createAccount(5, fields);
+}

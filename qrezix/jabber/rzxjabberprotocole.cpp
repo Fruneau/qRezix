@@ -100,6 +100,8 @@ QList<QWidget*> RzxJabberProtocole::propWidgets()
 		connect(ui->rosterDeleteButton,SIGNAL(clicked()),this, SLOT(removeRosterItem()));
 		connect(ui->getButton,SIGNAL(clicked()),this, SLOT(updateLocalhost()));
 		connect(ui->setButton,SIGNAL(clicked()),this, SLOT(sendProperties()));
+		connect(ui->btnChangePass, SIGNAL(clicked()), this, SLOT(wantChangePass()));
+		connect(ui->btnNewAccount, SIGNAL(clicked()), this, SLOT(wantNewAccount()));
 	}
 	return QList<QWidget*>() << propWidget;
 }
@@ -125,7 +127,6 @@ void RzxJabberProtocole::removeRosterItem(){
 void RzxJabberProtocole::buildRosterList(){
 	// remplissage de la liste des Roster
 	if(ui){
-		connect(ui->btnChangePass, SIGNAL(clicked()), this, SLOT(wantChangePass()));
 		ui->rosterList->clear();
 		ui->rosterEdit->setText("");
 		std::map<std::string, RosterItem*>::const_iterator i;
@@ -429,5 +430,12 @@ void RzxJabberProtocole::changePass(const QString& newPass)
 
 void RzxJabberProtocole::usePass(const QString& pass)
 {
-	
+	if(ui)
+		ui->pass->setText(pass);
+}
+
+void RzxJabberProtocole::wantNewAccount()
+{
+	if(client && client->isRunning() && ui)
+		client->wantNewAccount(ui->user->text(),ui->pass->text(),ui->server_name->text(),ui->server_port->value());
 }

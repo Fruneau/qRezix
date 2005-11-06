@@ -51,13 +51,16 @@ class RzxJabberClient : public QThread, MessageHandler, ConnectionListener, Pres
 		bool isStarted();
 		bool send(Tag* t);
 		void changePass(const QString &newPass);
+		void wantNewAccount(const QString &jid, const QString &pass, const QString &server,int port);
 		void handleRegistrationResult (resultEnum result);
 		void handleRegistrationFields (int fields, std::string instructions){};
-		void handleAlreadyRegistered (){};
+		void handleAlreadyRegistered ();
 		
 	private:
 		Client *j;
 		QTimer *timer;
+		JID j_jid;
+		QString j_password;
 
 	signals:
 		void presence(QString jid, QString name, int type);
@@ -67,6 +70,7 @@ class RzxJabberClient : public QThread, MessageHandler, ConnectionListener, Pres
 		void rosterUpdated();
 	private slots:
 		void readData();
+		void newAccount();
 		
 };
 
