@@ -117,7 +117,7 @@ void RzxTranslator::setLanguage(const QString& language)
 	QString newLang = global()->languageNames.keys(language)[0];
 	if(language != global()->translation() && global()->translations.keys().contains(newLang))
 	{
-		RzxConfig::global()->setValue("language", language);
+		RzxConfig::setLanguage(language);
 		foreach(QTranslator *trans, global()->translations[global()->lang])
 			QApplication::removeTranslator(trans);
 		global()->lang = newLang;
@@ -131,5 +131,5 @@ void RzxTranslator::setLanguage(const QString& language)
 ///Retourne le language actuel
 QString RzxTranslator::language()
 {
-	return RzxConfig::global() -> value("language", "English").toString();
+	return RzxConfig::language();
 }
