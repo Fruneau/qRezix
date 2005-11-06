@@ -90,9 +90,6 @@ RzxProperty::RzxProperty(QWidget *parent)
 	lvNetworks->setUniformRowHeights(false);
 	lvNetworks->setHeaderLabels(QStringList() << tr("Name") << tr("Version") << tr("Description"));
 
-#ifndef Q_OS_MAC
-	grpStyle->hide();
-#endif
 #ifndef WIN32
 	btnAboutQt->hide();
 #endif
@@ -167,10 +164,19 @@ void RzxProperty::initLangCombo()
 }
 
 ///Initialise la liste des thèmes
-void RzxProperty::initThemeCombo() {
-	cmbIconTheme -> clear();
-	cmbIconTheme->insertItems(0, RzxIconCollection::global()->themeList());
-	cmbIconTheme->setCurrentIndex(cmbIconTheme->findText(RzxIconCollection::global()->theme()));
+void RzxProperty::initThemeCombo()
+{
+	cmbIconTheme->clear();
+	cmbIconTheme->insertItems(0, RzxIconCollection::themeList());
+	cmbIconTheme->setCurrentIndex(cmbIconTheme->findText(RzxIconCollection::theme()));
+}
+
+///Initialise la liste des styles
+void RzxProperty::initStyleCombo()
+{
+	cmbStyle->clear();
+	cmbStyle->insertItems(0, RzxStyle::styleList());
+	cmbStyle->setCurrentIndex(cmbStyle->findText(RzxStyle::style()));
 }
 
 /** No descriptions */
@@ -187,6 +193,8 @@ void RzxProperty::initDlg(bool def)
 	
 	initThemeCombo();
 	initLangCombo();
+	initStyleCombo();
+	cbStyleForAll->setChecked(RzxConfig::useStyleForAll());
 	
 	hostname->setText( RzxComputer::localhost()->name() );
 	remarque->setText( RzxComputer::localhost()->remarque() );
@@ -261,7 +269,6 @@ void RzxProperty::initDlg(bool def)
 #undef setValue
 	txtWorkDir->setText( RzxConfig::ftpPath(def) );
 	
-	cbMacMetal->setChecked(RzxConfig::macMetalStyle(def));
 	pxmIcon->setPixmap(RzxIconCollection::global()->localhostPixmap());
 
 	cmbSport->setCurrentIndex( RzxConfig::numSport(def) );
@@ -331,7 +338,7 @@ bool RzxProperty::miseAJour()
 		cfgObject->setValue(edit->objectName(), edit->text());
 	
 //	bool iconSizeChanged = (cfgObject->computerIconSize() != cmbIconSize->currentIndex() || cfgObject->computerIconHighlight() != cbHighlight->isChecked());
-	bool themeChanged = RzxConfig::iconTheme() != cmbIconTheme->currentText();
+	bool themeChanged = RzxIconCollection::theme() != cmbIconTheme->currentText();
 
 	//Indique si les données 'partagées' ont été modifiées
 	//localHostUpdated = true ==> besoin de rafraichir le serveur
@@ -362,7 +369,9 @@ bool RzxProperty::miseAJour()
 		RzxConfig::emitIconFormatChanged();
 	}
 	
-	RzxStyle::setMacMetalStyle(cbMacMetal->isChecked());
+	RzxConfig::setUseStyleForAll(cbStyleForAll->isChecked());
+	if(RzxStyle::style() != cmbStyle->currentText())
+		RzxStyle::setStyle(cmbStyle->currentText());
 	
 	const QPixmap *localhostIcon = pxmIcon->pixmap();
 	if(RzxIconCollection::global()->localhostPixmap().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())

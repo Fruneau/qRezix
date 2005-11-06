@@ -68,6 +68,8 @@ protected: // Protected methods
 private:
 	void initLangCombo();
 	void initThemeCombo();
+	void initStyleCombo();
+
 	bool updateLocalHost();
 	QPixmap localhostIcon;
 

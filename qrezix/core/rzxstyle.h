@@ -34,17 +34,42 @@ class RzxStyle:public QObject
 	Q_OBJECT
 	RZX_GLOBAL(RzxStyle)
 
+	QStringList styles;
+	QString currentName;
+	QStyle *current;
+
 	QList< QPointer<QWidget> > styledWidgets;
-	void applyStyle();
 
 	public:
-		static void applyStyle(QWidget *);
+		RzxStyle();
+		~RzxStyle();
+
+		static QStringList styleList();
+		static void setStyle(const QString&);
+		static QString style();
 		static void useStyleOnWindow(QWidget*);
-		static bool macMetalStyle();
-		static void setMacMetalStyle(bool);
+
+		static bool connect(const QObject * receiver, const char * method, Qt::ConnectionType type = Qt::AutoCompatConnection);
+		static bool disconnect(const QObject * receiver);
+
+	protected:
+		void applyStyle();
+		void applyStyle(QWidget *);
 
 	signals:
-		void useMacMetalStyle(bool);
+		void styleChanged(const QString&);
 };
+
+///Connexion pour le changement de traduction
+inline bool RzxStyle::connect(const QObject *receiver, const char *method, Qt::ConnectionType type)
+{
+	return QObject::connect(global(), SIGNAL(styleChanged(const QString&)), receiver, method, type);
+}
+
+///Déconnecte un objet du message de changement de traduction
+inline bool RzxStyle::disconnect(const QObject *receiver)
+{
+	return global()->QObject::disconnect(SIGNAL(styleChanged(const QString&)), receiver);
+}
 
 #endif

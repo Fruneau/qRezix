@@ -180,15 +180,15 @@ void RzxIconCollection::setTheme(const QString& theme)
 }
 
 ///Retourne le thème actuel
-const QString &RzxIconCollection::theme() const
+QString RzxIconCollection::theme()
 {
-	return activeTheme;
+	return global()->activeTheme;
 }
 
 ///Retourne la liste des thèmes
-QStringList RzxIconCollection::themeList() const
+QStringList RzxIconCollection::themeList()
 {
-	QStringList list = themeDir.keys();
+	QStringList list = global()->themeDir.keys();
 	qSort(list.begin(), list.end(), Rzx::caseInsensitiveLessThan);
 	return list;
 }

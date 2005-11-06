@@ -77,6 +77,7 @@ void RzxConfig::destroy()
 	Rzx::beginModuleClosing("Config");
 	writeFavorites();
 	writeIgnoreList();
+	delete RzxStyle::global();
 	delete RzxTranslator::global();
 	delete RzxIconCollection::global();
 	Rzx::endModuleClosing("Config");

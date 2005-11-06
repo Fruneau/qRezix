@@ -78,8 +78,8 @@ class RzxIconCollection: public QObject
 	public:
 		virtual ~RzxIconCollection();
 
-		const QString &theme() const;
-		QStringList themeList() const;
+		static QString theme();
+		static QStringList themeList();
 
 		//recuperation des icônes à thème
 		const QPixmap &pixmap(Rzx::Icon);
