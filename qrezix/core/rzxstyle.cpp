@@ -27,6 +27,8 @@ RZX_GLOBAL_INIT(RzxStyle)
 ///Initialisation du thème
 RzxStyle::RzxStyle()
 {
+	Rzx::beginModuleLoading("Style");
+
 	object = this;
 	current = NULL;
 
@@ -35,8 +37,11 @@ RzxStyle::RzxStyle()
 	styles << "Mac Metal";
 #endif
 	styles += QStyleFactory::keys();
+	qDebug() << "Found" << styles.size() << "styles";
 
 	setStyle(RzxConfig::style());
+
+	Rzx::endModuleLoading("Style");
 }
 
 ///Fermeture bien méritée...

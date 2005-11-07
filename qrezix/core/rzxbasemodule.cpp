@@ -53,7 +53,7 @@ RzxBaseModule::RzxBaseModule(const QString& name, const QString& description, co
 RzxBaseModule::RzxBaseModule(const QString& name, const QString& description)
 	:m_description(description)
 {
-	QRegExp mask("(^.+) (\\d+)\\.(\\d+)\\.(\\d+)-(.*)$");
+	QRegExp mask("(^.+) (\\d+)\\.(\\d+)\\.(\\d+)(\\S*)$");
 	if(mask.indexIn(name) == -1)
 	{
 		m_name = name;
