@@ -88,6 +88,16 @@ void RzxStyle::useStyleOnWindow(QWidget *window)
 	}
 }
 
+///Retire la fenêtre de la liste des fenêtres skinnées
+/** Cette fonction ne rend pas à la fenêtre son style d'origine mais permet juste
+ * de s'assurer que la fenêtre ne sera plus concernée par les changements de styles
+ * non globaux.
+ */
+void RzxStyle::freeStyleOnWindow(QWidget *window)
+{
+	global()->styledWidgets.removeAll(window);
+}
+
 ///Applique le style courant sur une fenêtre
 void RzxStyle::applyStyle(QWidget *widget)
 {
