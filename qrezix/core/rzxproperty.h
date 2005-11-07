@@ -84,6 +84,8 @@ private:
 	template<class T>
 	void closeModules(const QList<T*>&);
 
+	QTreeWidgetItem* createPage(QWidget*, const QString&, const QIcon&, QTreeWidgetItem*);
+
 protected slots: // Protected slots
 	void launchDirSelectDialog();
 	void chooseIcon();
@@ -100,17 +102,18 @@ void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidget *view, QTre
 		QList<QWidget*> props = module->propWidgets();
 		QStringList names = module->propWidgetsName();
 		QTreeWidgetItem *item = parent;
-		for(int i = 0 ; i < props.size(); i++)
+
+		QList<RzxBaseModule*> children = module->childModules();
+
+		if(props.size() >= 1 || children.size())
 		{
-			QWidget *widget = props[i];
-			if(widget)
+			if(props.size() == 1 || (!props.size() && children.size()))
+				item = createPage(props[0], names[0], module->icon(), parent);
+			else
 			{
-				prefStack->addWidget(widget);
-				item = new QTreeWidgetItem(parent);
-				item->setText(0, names[i]);
-				item->setIcon(0, module->icon());
-				item->setData(0, Qt::UserRole, prefStack->indexOf(widget));
-				lbMenu->expandItem(item);
+				item = createPage(NULL, module->name(), module->icon(), parent);
+				for(int i = 0 ; i < props.size(); i++)
+					createPage(props[i], names[i], module->icon(), item);
 			}
 		}
 
@@ -123,7 +126,6 @@ void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidget *view, QTre
 			item->setText(2, module->description());
 		}
 
-		QList<RzxBaseModule*> children = module->childModules();
 		buildModules<RzxBaseModule>(children, NULL, item);
 	}
 }
