@@ -29,6 +29,14 @@
  */
 
 ///Gestion des styles
+/** Cette classe gère les thèmes appliqués aux fenêtres.
+ * qRezix permet de choisir entre un application globale des thèmes ou juste fenêtre par fenêtre.
+ * Dans ce deuxième cas, seules les fenêtres qui ont été déclarées comme 'skinnable'
+ * via \ref RzxStyle::useStyleOnWindows seront mise à jour lors des changements de thème.
+ *
+ * La classe utilise égalementune API proche de \ref RzxTranslator qui permet de connecter simplement
+ * un objet à l'envoie du message styleChanged. Mais a priori ces fonctions sont peu utilses.
+ */
 class RzxStyle:public QObject
 {
 	Q_OBJECT
@@ -48,6 +56,7 @@ class RzxStyle:public QObject
 		static void setStyle(const QString&);
 		static QString style();
 		static void useStyleOnWindow(QWidget*);
+		static void freeStyleOnWindow(QWidget*);
 
 		static bool connect(const QObject * receiver, const char * method, Qt::ConnectionType type = Qt::AutoCompatConnection);
 		static bool disconnect(const QObject * receiver);
