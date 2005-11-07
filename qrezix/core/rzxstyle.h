@@ -17,6 +17,7 @@
 #ifndef RZXSTYLE_H
 #define RZXSTYLE_H
 
+#include <QStyleFactory>
 #include <QObject>
 #include <QList>
 #include <QPointer>
@@ -44,9 +45,10 @@ class RzxStyle:public QObject
 
 	QStringList styles;
 	QString currentName;
-	QStyle *current;
 
 	QList< QPointer<QWidget> > styledWidgets;
+
+	QStyle *current() const;
 
 	public:
 		RzxStyle();
@@ -68,6 +70,16 @@ class RzxStyle:public QObject
 	signals:
 		void styleChanged(const QString&);
 };
+
+
+///Génère un objet du style aproprié
+inline QStyle *RzxStyle::current() const
+{
+	if(currentName == "default" || currentName == "Mac Metal")
+		return NULL;
+	else
+		return QStyleFactory::create(currentName);
+}
 
 ///Connexion pour le changement de traduction
 inline bool RzxStyle::connect(const QObject *receiver, const char *method, Qt::ConnectionType type)

@@ -14,7 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <QStyleFactory>
 #include <QStyle>
 #include <QApplication>
 
@@ -30,7 +29,6 @@ RzxStyle::RzxStyle()
 	Rzx::beginModuleLoading("Style");
 
 	object = this;
-	current = NULL;
 
 	styles << "default";
 #ifdef Q_OS_MAC
@@ -102,28 +100,28 @@ void RzxStyle::freeStyleOnWindow(QWidget *window)
 void RzxStyle::applyStyle(QWidget *widget)
 {
 	if(!widget) return;
+	QStyle *style = current();
 
-	widget->setStyle(current);
-
-	if(!current)
-		widget->setAttribute(Qt::WA_MacMetalStyle, currentName == "Mac Metal");
+	widget->setStyle(style);
+	QList<QWidget*> children = widget->findChildren<QWidget*>();
+	foreach(QWidget *child, children)
+		applyStyle(child);
 }
 
 ///Applique le style sur toutes les fenêtres enregistrées
 void RzxStyle::applyStyle()
 {
-	if(currentName == "default" || currentName == "Mac Metal")
-		current = NULL;
-	else
-		current = QStyleFactory::create(currentName);
-
 	if(RzxConfig::useStyleForAll())
-		QApplication::setStyle(current);
+		QApplication::setStyle(current());
 	
 	if(!RzxConfig::useStyleForAll() || currentName == "Mac Metal")
 	{
 		styledWidgets.removeAll(NULL);
 		foreach(QWidget *widget, styledWidgets)
+		{
 			applyStyle(widget);
+			if(!current())
+				widget->setAttribute(Qt::WA_MacMetalStyle, currentName == "Mac Metal");
+		}
 	}
 }
