@@ -98,6 +98,10 @@ RzxProperty::RzxProperty(QWidget *parent)
 	txtBeepCmd->hide();
 #endif
 
+	//fenêtre pour les props vides, index == 3
+	prefStack->addWidget(new QWidget());
+	
+	//construction du menu
 	lbMenu->header()->hide();
 	generalItem = new QTreeWidgetItem(lbMenu);
 	generalItem->setText(0, tr("Infos"));
@@ -142,6 +146,26 @@ void RzxProperty::changeTheme()
 
 //	changeThemeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), i);
 //	changeThemeModules<RzxModule>(RzxApplication::modulesList(), i);
+}
+
+
+///Crée une entrée dans la liste des fenêtres et l'ajoute à la pile
+QTreeWidgetItem* RzxProperty::createPage(QWidget *widget, const QString& name, const QIcon& icon, QTreeWidgetItem *parent)
+{
+	QTreeWidgetItem *item = NULL;
+
+	int index = 0;
+	if(widget)
+		index = prefStack->addWidget(widget);
+	else
+		index = 3;
+
+	item = new QTreeWidgetItem(parent);
+	item->setText(0, name);
+	item->setIcon(0, icon);
+	item->setData(0, Qt::UserRole, index);
+	lbMenu->expandItem(item);
+	return item;
 }
 
 ///La page doit changer, on met à jour le titre
