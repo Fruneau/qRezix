@@ -144,8 +144,8 @@ void RzxProperty::changeTheme()
 	confItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
 	networkItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_NETWORK));
 
-//	changeThemeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), i);
-//	changeThemeModules<RzxModule>(RzxApplication::modulesList(), i);
+	changeThemeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), lvNetworks, networkItem);
+	changeThemeModules<RzxModule>(RzxApplication::modulesList(), lvPlugInList, confItem);
 }
 
 

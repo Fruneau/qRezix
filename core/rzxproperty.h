@@ -80,7 +80,7 @@ private:
 	template<class T>
 	void updateModules(const QList<T*>&);
 	template<class T>
-	void changeThemeModules(const QList<T*>&, int&);
+	void changeThemeModules(const QList<T*>&, QTreeWidget *, QTreeWidgetItem*);
 	template<class T>
 	void closeModules(const QList<T*>&);
 
@@ -158,16 +158,29 @@ void RzxProperty::updateModules(const QList<T*>& modules)
 
 ///Change le thème des modules
 template<class T>
-void RzxProperty::changeThemeModules(const QList<T*>& modules, int& i)
+void RzxProperty::changeThemeModules(const QList<T*>& modules, QTreeWidget *view, QTreeWidgetItem *parent)
 {
+	int i = 0;
 	foreach(T *module, modules)
 	{
-		int nb = module->propWidgets().count();
-//		for(int j = 0 ; j < nb ; j++, i++)
-//			lbMenu->item(i)->setIcon(module->icon());
+		if(view)
+			view->topLevelItem(i)->setIcon(0, module->icon());
+		QList<QWidget*> props = module->propWidgets();
+		QTreeWidgetItem *item = parent->child(i++);
 
 		QList<RzxBaseModule*> children = module->childModules();
-		changeThemeModules<RzxBaseModule>(children, i);
+
+		if(props.size() >= 1 || children.size())
+		{
+			item->setIcon(0, module->icon());
+			if(props.size() > 1)
+			{
+				for(int k = 0 ; k < item->childCount(); k++)
+					item->child(k)->setIcon(0, module->icon());
+			}
+		}
+
+		changeThemeModules<RzxBaseModule>(children, NULL, item);
 	}
 }
 
