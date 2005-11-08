@@ -12,7 +12,7 @@ SUBDIRS += core main
 !contains(DEFINES, RZX_CHAT_BUILTIN):!contains(DEFINES, NO_CHAT):SUBDIRS += chat
 !contains(DEFINES, RZX_XNET_BUILTIN):!contains(DEFINES, NO_XNET):SUBDIRS += xnet
 !contains(DEFINES, RZX_JABBER_BUILTIN):!contains(DEFINES, NO_JABBER):SUBDIRS += jabber
-system(cd translations && lrelease *.ts && cd ..)
+system(cd resources/translations && lrelease *.ts && cd ../..)
 
 include(rzxinstall.pri)
 mainlib.files = libqrezix*
