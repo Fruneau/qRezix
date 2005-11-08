@@ -1,0 +1,23 @@
+Plugin jabber pour qRezix
+
+-----
+Installation
+-----
+Ce plugin nécessite la lib gloox v0.7 disponible ici: http://camaya.net/gloox
+
+Visiblement il existe un ebuild pour gentoo.
+
+La lib gloox nécessite les libs Iksemel, Gnutls et Libidn.
+
+
+-----
+Notes
+-----
+
+Ce plugin est hautement expérimental. (en plus il a été codé avec les pieds)
+
+-----
+TODO
+-----
+
+- Inclure une icone Jabber à installer (nommée ffffffff.png en 64*64)

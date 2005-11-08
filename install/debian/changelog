@@ -1,0 +1,214 @@
+qrezix (1.7) unstable; urgency=low
+
+  * Passage à Qt4
+  * Mise à jour des deps
+
+ -- pico <pico@cookie.chez-pico.net>  Sun, 26 Jun 2005 23:09:29 +0200
+
+qrezix (1.6.3) unstable; urgency=low
+
+  * Nouvelle version du logiciel
+
+ -- Guillaume Porcher <pico@brownie.chez-pico.net>  Sun,  1 May 2005 14:22:40 +0200
+
+qrezix (1.6.2-1) unstable; urgency=low
+
+  * Version finale 
+
+ -- Guillaume Porcher <pico@brownie.chez-pico.net>  Thu,  7 Apr 2005 23:53:01 +0200
+
+qrezix (1.6.2-rc2) unstable; urgency=low
+
+  * Version de test avant la version finale
+
+ -- pico <pico@pico.eleves.polytechnique.fr>  Wed, 16 Mar 2005 19:48:11 +0100
+
+qrezix (1.6.2) unstable; urgency=low
+
+  * Nouvelle version 
+
+ -- pico <pico@melix.net>  Sat,  5 Mar 2005 22:56:03 +0100
+
+qrezix (1.6.1) unstable; urgency=low
+
+  * Nouvelle version
+
+ -- pico <pico@melix.net>  Mon,  3 Jan 2005 21:53:28 +0100
+
+qrezix (1.5.2) unstable; urgency=low
+
+  * New upstream version (Pass crypté MD5)
+  * Nouvelles icônes dans le systray
+
+ -- pico <pico@melix.org>  Wed,  6 Oct 2004 18:06:32 +0200
+
+qrezix (1.5.1-rc1) unstable; urgency=high
+
+  * Version distribuée pour des tests à grande échelle
+    avant la sortie officielle.
+
+ -- pico <pico@melix.org>  Tue, 28 Sep 2004 08:17:36 +0200
+
+qrezix (1.5.1) unstable; urgency=low
+
+  * Changement du système de paquets (1 dummy package et un qrezix-bin) 
+
+ -- pico <pico@melix.org>  Mon,  6 Sep 2004 15:47:05 +0200
+
+qrezix (1.5.0) unstable; urgency=low
+
+  * Nouvelle version de qrezix 
+
+ -- pico <pico@melix.org>  Fri,  3 Sep 2004 22:11:36 +0200
+
+qrezix (1.3.3) unstable; urgency=low
+
+  * Correction des paquets de thèmes et de traductions
+    Ne devrait plus installer les fichiers à 2 endroits différents
+  * Correction du même bug pour le paquet qrezix
+  * Séparation des paquets de traductions
+  * Ajout d'un lien dans le menu debian Apps/Net
+
+ -- Pico <pico@melix.net>  Wed, 23 Jun 2004 16:40:39 +0200
+
+qrezix (1.3.2) unstable; urgency=low
+
+  * Suppression du package KDE qui n'est plus utilise 
+
+ -- Pico <pico@melix.net>  Mon, 21 Jun 2004 21:14:03 +0200
+
+qrezix (1.3.1) unstable; urgency=low
+
+  * Amélioration du package Debian, possibilité de choisir le répertoire
+    d'installation des icones
+
+ -- JiBee Mayer <jibee@jibee.com>  Tue, 10 Jan 2004 13:46:18 +0100
+
+qrezix (1.3) unstable; urgency=low
+
+  * Support des traductions, corrections des bugs liés aux accents
+  * Quelques modifications liées au chat: support du /me
+
+ -- JiBee Mayer <jibee@jibee.com>  Tue, 14 Oct 2003 10:51:18 +0100
+
+
+qrezix (1.2-6) unstable; urgency=low
+
+  * Modification de l'install, scindée en 2 paquets
+
+ -- JiBee Mayer <jibee@jibee.com>  Tue, 14 Oct 2003 10:51:18 +0100
+
+qrezix (1.2-5) unstable; urgency=low
+
+  * Passage à KDE 3.1
+
+ -- Binet Reseau <br@frankiz.polytechnique.fr>  Mon, 28 Oct 2002 10:51:18 +0100
+
+qrezix (1.2-4) unstable; urgency=low
+
+  * Ajoute le support du son sous linux
+
+ -- Binet Reseau <br@frankiz.polytechnique.fr>  Mon, 28 Oct 2002 10:51:18 +0100
+
+qrezix (1.2-3) unstable; urgency=low
+
+  * Correction de tous les bugs lies au repondeur
+  * Ajout de la boite de dialogue de fichiers pour le beep
+  * Quand beep est decoche, les controles en rapport le sont aussi
+  * Le repondeur se desactive automatiquement quand on commence à chatter
+
+ -- Binet Reseau <br@frankiz.polytechnique.fr>  Mon, 28 Oct 2002 10:51:18 +0100
+
+qrezix (1.2-2) unstable; urgency=low
+
+  * Correction du bug repondeur
+  * Les icones sont maintenant cherchees a la fois dans le repertoire systeme
+    et le repertoire utilisateur
+  * Correction des bugs au premier lancement
+
+ -- Binet Reseau <br@frankiz.polytechnique.fr>  Sat, 26 Oct 2002 15:21:11 +0200
+
+qrezix (1.2-1) unstable; urgency=low
+
+  * Ajout de la gestion multilignes
+
+ -- Binet Reseau <br@frankiz.polytechnique.fr>  Wed, 23 Oct 2002 22:56:09 +0200
+
+qrezix (1.1-2) unstable; urgency=low
+
+  * ajout des icones manquantes
+
+ -- Binet Reseau <br@frankiz.polytechnique.fr>  Mon, 08 Mar 2002 00:00:00 +0100
+
+qrezix (1.1-1) unstable; urgency=low
+
+  * sons [Trasfract, MadCoder]
+  * history [TrasFract]
+  * favoris [TrasFract]
+  * répondeur [Trasfract]
+  * prefs la première fois [TrasFract]
+
+ -- Binet Reseau <br@frankiz.polytechnique.fr>  Mon, 08 Mar 2002 00:00:00 +0100
+
+qrezix (1.0-1) unstable; urgency=low
+
+  * rep par défaut sous Windows [trasfract]
+  * thèmes : c'est bon [Trasfract]
+  * ajout des sports [Trasfract]
+  * Browser de répertoires [TrasFract]
+  * choix du rep par defaut du ftp et utilisation pour linux [MadCoder]
+  * systray pour windows9x [TrasFract]
+  * bugfix : colonne des icones [TrasFract]
+  * bugfix : autochat désactivé [TrasFract]
+
+ -- Binet Reseau <br@frankiz.polytechnique.fr>  Mon, 04 Mar 2002 00:00:00 +0100
+
+qrezix (0.3-1) unstable; urgency=low
+
+  * réduire la fenètre à linker à "systrayiser" au lieu de réduire ... [Trasfract :)]
+  * option pour utiliser/ne pas utiliser le systray (surtout pour les linuxiens) [MadCoder]
+  * effacemet des icones [Trasfract]
+  * problèmes de registres réglés pour Win9X [Trasfract]
+  * fenêtre de propriétés : dimensionnement intelligent + Layout [MadCoder]
+  * Systray pour linux [MadCoder]
+  * sauvegarde des dimensions [Trasfract]
+  * thèmes d'icones, première implémentation [MadCoder]
+  * modification de l'interface de propriétés en vue des upgrades et pour le répondeur [MadCoder]
+  * icones «personnalisées» [Trasfract]
+  * bugfix: redimmensionnement des fenêtres de propriétés [Mummy]
+  * bugfix: page web [MadCoder]
+  * détection auto de l'OS et du localhost [Mummy]
+  * les icones s'enregistrent toujours dans leur format d'origine
+    (corrige le bug des icones en 16 couleurs de Manao) [Doudou]
+
+ -- Binet Reseau <br@frankiz.polytechnique.fr>  Mon, 25 Feb 2002 00:00:00 +0100
+
+qrezix (0.2-1) unstable; urgency=low
+
+  * icône [Trasfract]
+  * systray [Trasfract]
+  * code pour pas afficher les lignes de prefs vides et resizer la fenêtre. [MadCoder]
+  * envoi/réception des préférences [Mummy]
+  * bugfix : messages vides non envoyables. [MadCoder]
+  * bugfix : touche esc pour les fenêtres de chat [MadCoder]
+  * bugfix : clic droit sur les en-têtes de colonne. [Trasfract]
+  * ordre de tabulation  [MadCoder]
+  * gestion de l'arborescence .rezix/icones si ca existe pas  [MadCoder]
+  * détection automatique du hostname pour linux [MadCoder]
+  * redimensionnement de la zone de saisie du chat [MadCoder]
+  * choix des outils (ftp, news, http) [Trasfract]
+  * la focus du chat est automatiquement donné à la bonne "case" [MadCoder]
+
+ -- Binet Réseau <br@frankiz.polytechnique.fr>  Wed, 20 Feb 2002 00:00:00 +0100
+
+qrezix (0.1-1) unstable; urgency=low
+
+  * Ajouté les icones pour les serveurs et pour l'OS, à copier de icones/ dans RzxConfig::icones
+  * Chat: ctrl+enter marche, la fenetre ne revient plus tout en haut quand elle est pleine
+  * Initial release.
+
+ -- Doudou <sylvain.joyeux@polytechnique.fr>    Wed, 30 Jan 2002 00:00:00 +0100
+
+Local variables:
+mode: debian-changelog
+End:

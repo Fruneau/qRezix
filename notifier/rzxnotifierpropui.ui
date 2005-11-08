@@ -1,0 +1,181 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>RzxNotifierPropUI</class>
+ <widget class="QWidget" name="RzxNotifierPropUI" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>579</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>8</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="2" column="0" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>251</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string>Notification Window</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>8</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="0" >
+       <widget class="QCheckBox" name="cbWarnFavorite" >
+        <property name="whatsThis" >
+         <string>&lt;h3>Notification&lt;/h3>&lt;p>Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p></string>
+        </property>
+        <property name="text" >
+         <string>Show a notification window on favorite's state modification</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0" >
+    <widget class="QGroupBox" name="groupBox_2" >
+     <property name="title" >
+      <string>Beep</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>8</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="0" >
+       <widget class="QCheckBox" name="chkBeepFavorites" >
+        <property name="whatsThis" >
+         <string>&lt;h3>Beep on connection&lt;/h3>&lt;p>Check this if you want qRezix to play a sound when a favorite get connected&lt;/p></string>
+        </property>
+        <property name="text" >
+         <string>Beep on connection of one of your favorites</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>1</number>
+        </property>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType" >
+           <enum>QSizePolicy::Preferred</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>90</width>
+            <height>10</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="txtBeepFavorites" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="whatsThis" >
+           <string>&lt;h3>Beep on connection&lt;/h3>&lt;p>Select the sound to play when a favorite get connected&lt;/p></string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="btnBeepBrowse" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string>...</string>
+          </property>
+          <property name="autoRaise" >
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <tabstops>
+  <tabstop>chkBeepFavorites</tabstop>
+  <tabstop>txtBeepFavorites</tabstop>
+  <tabstop>btnBeepBrowse</tabstop>
+  <tabstop>cbWarnFavorite</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>chkBeepFavorites</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>txtBeepFavorites</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>159</x>
+     <y>56</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>250</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkBeepFavorites</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>btnBeepBrowse</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>496</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>546</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
