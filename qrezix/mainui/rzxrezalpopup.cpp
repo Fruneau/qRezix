@@ -45,7 +45,6 @@ RzxRezalPopup::RzxRezalPopup(const QModelIndex& index, QMenuBar *menu)
 	menu->addMenu(this);
 }
 
-
 ///Constructeur on ne peut plus simple...
 RzxRezalPopup::RzxRezalPopup(RzxComputer *computer, const QPoint& point, QWidget *parent)
 	:QMenu(parent)
@@ -70,7 +69,6 @@ RzxRezalPopup::RzxRezalPopup(const QModelIndex& index, const QPoint& point, QWid
 		return;
 	}
 	init(value.value<RzxComputer*>(), point);
-	
 }
 
 ///Initalisation du Popup
