@@ -1,0 +1,125 @@
+       ______    ____________  ___ ___   ___
+      ||    \\  //         //   |   \\   //
+      ||    ||            //    |    \\ //
+ ___  ||____//   ___     //    _|_    \'/
+/  \\ ||   \\   /   \   //            /,\
+|   | ||    \\  |---'  //            // \\
+\__\\ ||     \\ \___/ //________// _//   \\_
+
+qRezix
+v1.7
+
+qRezix est un logiciel développé par le BR pour assurer la connexion des X. Ce logiciel fournit les outils nécessaires pour le chat et le partage des fichiers. C'est aussi une clef de voûte pour structurer le rezal. Il est important que chaque personne connectée utilise ce programme, où tout autre client xNet de façon constante depuis le démarrage, jusqu'à l'extinction de l'ordinateur.
+
+Ce programme est sous license GPL
+(C) Binet Réseau 2002 - 2005
+--------------------------------------------------------------------------------
+Contenu:
+--------------------------------------------------------------------------------
+I   - Configuration nécessaire
+II  - Démarrage de qRezix
+III - Chat
+IV  - Clients-serveurs
+V   - Changer l'icône dans le systray
+VI  - FAQ
+VII - Bug Report
+VIII- License
+--------------------------------------------------------------------------------
+
+
+
+I - Configuration nécessaire
+
+qRezix fonctionne sur les ordinateurs sous Linux, Mac OS X et Windows.
+Pour Windows, l'installateur est compilé et distribué par la BR.
+Pour Linux et Mac OS X, des paquets Debian et Mandrake sont générés et les sources sont distribuées. Vous pouvez également avoir accès à la cvs de qRezix. Pour être compilé, ce programme nécessite Qt 4.0.1 ou ultérieur.
+
+Avant de lancer qRezix, il faut convenablement configurer l'ordinateur, en ouvrant en particulier les ports 5050 (connexion au serveur) et 5053 (connexion pour les chats) en tcp du pare-feu.
+
+--------------------------------------------------------------------------------
+
+II - Démarrage de qRezix
+
+Au premier démarrage de qRezix, il y a 2 événements importants :
+	- L'entrée de vos informations personnelles. Ces informations sont pour la plupart nécessaires (seul le site internet et le surnom ne sont pas nécessaires). Sans ces informations, la connexion ne sera pas établie. Il est important de remplir ces informations honnêtement. Les administrateurs se réservent le droit d'exclure les utilisateurs irrespectueux.
+	- La première connexion au serveur. Lors de cette première connexion, 2 possibilités :
+		* le pseudo demandé est libre, dans ce cas le serveur donne un pass.
+		* le pseudo est déjà utilisé, dans ce cas qRezix demande de rentrer le pass qui a déjà été donné à ce pseudo. Si ce n'est pas vous qui avez enregistré ce pseudo, changez de pseudo. (nom d'ordinateur)
+
+L'ordinateur est dès lors connecté au rezal, la fenêtre principale se rempli de la liste des utilisateurs connectés.
+
+--------------------------------------------------------------------------------
+
+III - Chat
+
+Pour utiliser le chat, effectuez tout simplement un double clic sur le pseudo de la personne avec qui vous voulez chatter. La chat commencera dès que vous enverrez votre message. En cliquant sur 'Envoyer en html' vous avez accès aux outils de formatage du texte et aux commandes html.
+
+--------------------------------------------------------------------------------
+
+IV - Clients-serveurs
+
+qRezix vous permet d'indiquer aux autres utilisateurs que vous avez un serveur de partage de fichiers installé sur votre ordinateur (serveurs ftp, http, samba ou serveurs de news). Pour ceci il vous suffit de cocher les cases correspondantes dans l'onglet réseau des préférences.
+
+A l'exception des serveurs samba sous Windows, qRezix est capable de détecter la présence d'un serveur sur l'ordinateur et n'en affichera la présence que si celle-ci est effective.
+
+
+qRezix vous permet également d'ouvrir une connexion vers les serveurs des autres utilisateurs. Pour ceci choisissez le client qui vous permettra d'ouvrir ces connexions, et définissez le répertoire dans lequel vous voulez que les fichiers téléchargés soient stockés par défaut.
+
+--------------------------------------------------------------------------------
+
+V - Changer l'icône dans le systray (ne s'applique pas à la version Mac)
+
+qRezix vous permet de modifier l'icône qui apparait dans le systray, si l'icône par défaut ne vous plait pas.
+
+Pour cela, il suffit de placer dans le répertoire correspondant au thème que vous utilisez des images au format png, nommées systray.png et systrayAway.png qui seront affichées en fonction de l'état présent/absent du client.
+
+Au prochain démarrage de qRezix, votre icône remplace alors l'icône par défaut.
+
+--------------------------------------------------------------------------------
+
+VI - Foire Aux Questions (FAQ)
+
+* qRezix ne veut pas se connecter à cause d'une erreur DNS, que dois-je faire ?
+
+Mets xnetserver.eleves.polytechnique.fr dans la case serveur de l'onglet Réseau des préférences. Si ça ne marche toujours pas, vérifie la configuration des serveurs DNS de ta machine.
+
+
+* qRezix ne peut pas se connecter, il m'indique 'Connexion refusée', que dois-je faire ?
+
+Vérifie que tu as bien marqué xnetserver.eleves.polytechnique.fr comme serveur sur lequel te connecter (Case serveur de l'onglet Réseau des préférences), que le port est bien 5053 et le port P2P 5050.
+
+
+* Comment rajouter des favoris non connectés ?
+
+Il suffit d'éditer un fichier favorites.conf dans le répertoire d'installation de qRezix (ou le ~/.rezix/favorites.conf sous Linux) en y mettant la liste des pseudos à ajouter aux favoris.
+
+La modification sera effective au prochain lancement de qRezix.
+
+
+* Comment rajouter un thème d'icônes ?
+
+Il suffit de rajouter un répertoire dans le répertoire 'themes' de l'installation de qRezix (C:\Program Files\qRezix\themes\mon_theme  ou  /usr/share/qrezix/themes/mon_theme). Dans ce répertoire, il faut mettre les icônes au format PNG du thème. Les icônes sont décrites par leur nom.
+
+Pour que le thème soit reconnu par qRezix, il faut absolument qu'il contienne l'icone action.png (seule icône obligatoire).
+
+N'hésitez pas à envoyer vos thèmes d'icônes à qrezix@frankiz. Nous pourrons ainsi les rajouter aux thèmes proposés à l'installation de qRezix.
+
+
+--------------------------------------------------------------------------------
+
+VII - Bug Report
+
+Pour rapporter un bug de qRezix, il suffit d'aller sur http://bugs.frankiz. Après une rapide inscription, il faut choisir 'nouveau bug', puis qRezix dans la liste des programmes proposés.
+
+Une fois dans le formulaire, faites une description la plus précise des circonstances dans lesquels surgit le bug. Plus le bug sera décrit précisément, plus ce sera facile de trouver son origine.
+
+--------------------------------------------------------------------------------
+
+VIII - License
+
+qRezix est distribué sous license GNU GPL.
+Vous avez le droit de le redistribuer et/ou de le modifier selon les termes de la version 2.1 ou supérieure de cette license.
+
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
