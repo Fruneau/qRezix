@@ -1,0 +1,74 @@
+Protocole xNet
+Communication DCC (Direct Client to Client)
+
+I - Protocole :
+Chaque client est en écoute sur le port 5050 en tcp en permanence (attention à vos firewalls) depuis l'ouverture du client jusqu'à sa fermeture
+
+1 - Chat
+La connexion entre les deux clients est établie par le premier des deux clients qui le nécessite, et ne sera refermée que lorsque l'un des deux clients souhaitera mettre fin à la communication (par fermeture de la fenêtre, ou on peut imaginier par ban, kick ou déconnexion manuelle).
+
+La connexion d'un chat est initialisée par l'envoi du premier message CHAT qui entraîne l'ouverture par l'autre client de sa fenêtre de chat.
+
+Lorsqu'une connexion de chat est établie, tous les messages, y compris les propriétés entre ces deux clients passent par cette connexion.
+Le seul cas où une connexion extérieure sera mise en oeuvre sera lors de l'échange de propriétés lorsque la connexion client-client n'a pas été établie pour un chat.
+
+
+2 - Echange des propriétés
+Une connexion courte peut être établie lorsqu'un des clients (1) check les propriétés d'un autre client (2) avec lequel n'est pas établie de connexion actuellement.
+De ce cas, le client qui check les propriétés envoi le message PROPQUERY. L'autre client à la réception du message ouvre une connexion particulière et émet le PROPANSWER en réponse. Pour plus de sécurité, il me paraît alors mieux de faire fermer la connexion par le client 1.
+
+
+II - Structure d'une commande
+
+1 - Structure d'un message
+Pour le format des commandes, j'ai repris les commandes qui existaient déjà, je les ai reformatée de la même manière que que pour les communication client-serveur, histoire que le code soit à peu prêt homogène. Ce format est donc un envoi de string, composée d'un en-tête, d'un corps de message et d'une fermeture.
+
+"COMMANDE <message>\r\n"
+L'espace entre l'en-tête et le message (même pour un message vide) est obligatoire.
+De même que la terminaison "\r\n"
+Les chaînes de caractère sont codées en charset latin1.
+
+
+2 - Les messages
+PARTIE IMPLEMENTÉE
+
+"CHAT <message>\r\n":
+<message> est une chaine de texte
+Envoi la chaîne message de la discussion.
+L'émission de cette commande initialise la connexion si aucune n'existe
+
+
+"PROPQUERY \r\n":
+Envoi d'une requête de lecture des informations personnelles du client
+L'émission de cette commande initialise la connexion si aucune n'existe, mais celle-ci sera alors fermée à la réception de PROPANSWER.
+Ce message entraîne en réponse la réception de PROPANSWER
+
+"PROPANSWER <message>\r\n"
+<message> est de la forme "champs1|valeur1|champs2|valeur2|...|champsN|valeurN"
+	champsI est le nom du ième champs
+	valeurI est la valeur du ième champs
+Ce message vient uniquement en réponse à PROPQUERY
+
+
+"PING \r\n"
+Envoi d'une requête ping.
+Ce message entraîne en réponse la réception de PONG
+
+"PONG \r\n"
+Réponse à une requête ping.
+
+
+
+PARTIE NON IMPLÉMENTÉE QUI AVAIT ÉTÉ ENVISAGÉE POUR L'ANCIEN PROTOCOLE EN UDP
+(j'ai mis les données brutes)
+FORUMS
+chaîne = "FORUM"
+non implémenté
+
+Demande de répertoire d'upload (FTP) :
+chaîne = "UPLOADDIRQUERY"
+arguments =""
+
+Envoi d'un répertoire d'upload :
+chaîne = "UPLOADDIRANSWER"
+arguments = répertoire d'upload FTP en ASCIIZ (ex : "/upload")

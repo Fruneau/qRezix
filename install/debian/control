@@ -1,0 +1,55 @@
+Source: qrezix
+Section: net
+Priority: optional
+Build-Depends: libqt4-dev,qt4-dev-tools,debhelper(>= 4.0.0)
+Maintainer: br <br@frankiz.polytechnique.fr>
+Standards-Version: 3.6.0
+
+Package: qrezix
+Architecture: all
+Depends: qrezix-bin,qrezix-theme-noia-warm,qrezix-theme-classic,qrezix-theme-krystal,qrezix-theme-ms,qrezix-theme-macosx,qrezix-theme-kids,qrezix-translations-fr
+Description: Qrezix (meta-package)
+ Permet d'intaller l'ensemble des composants qrezix.
+
+Package: qrezix-bin
+Architecture: any
+Depends: ${shlibs:Depends},qrezix-theme
+Recommends: qrezix-translations
+Description: QRezix programme principal
+ 
+Package: qrezix-theme-noia-warm
+Architecture: all
+Provides: qrezix-theme
+Description: Thèmes d'icone pour QRezix basé sur le thème d'icones KDE du même nom, par Lathuile
+
+Package: qrezix-theme-classic
+Architecture: all
+Provides: qrezix-theme
+Description: Thèmes d'icone pour QRezix par défaut
+
+Package: qrezix-theme-krystal
+Architecture: all
+Provides: qrezix-theme
+Description: Thèmes d'icone pour QRezix basé sur le thème d'icones Krystal de KDE
+
+Package: qrezix-theme-ms
+Architecture: all
+Provides: qrezix-theme
+Description: Thèmes d'icone pour QRezix par Lathuile: Open M$$!
+
+Package: qrezix-theme-macosx
+Architecture: all
+Provides: qrezix-theme
+Description: Thèmes d'icone pour QRezix par Fruneau
+
+Package: qrezix-theme-kids
+Architecture: all
+Provides: qrezix-theme
+Description: Thèmes d'icone pour QRezix par Fruneau
+
+Package: qrezix-translations-fr
+Architecture: all
+Provides: qrezix-translations
+Description: Fichiers de traduction Français pour QRezix
+Replaces: qrezix-translations
+
