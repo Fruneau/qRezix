@@ -103,6 +103,10 @@ void RzxStyle::applyStyle(QWidget *widget)
 	QStyle *style = current();
 
 	widget->setStyle(style);
+	if(!style && widget->isWindow())
+		widget->setAttribute(Qt::WA_MacMetalStyle, currentName == "Mac Metal");
+
+
 	QList<QWidget*> children = widget->findChildren<QWidget*>();
 	foreach(QWidget *child, children)
 		applyStyle(child);
@@ -118,10 +122,6 @@ void RzxStyle::applyStyle()
 	{
 		styledWidgets.removeAll(NULL);
 		foreach(QWidget *widget, styledWidgets)
-		{
 			applyStyle(widget);
-			if(!current())
-				widget->setAttribute(Qt::WA_MacMetalStyle, currentName == "Mac Metal");
-		}
 	}
 }
