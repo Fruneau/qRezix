@@ -70,7 +70,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = ./qrezix
+INPUT                  = .
 FILE_PATTERNS          = *.cpp \
                          *.cc \
                          *.C \
@@ -114,7 +114,7 @@ IGNORE_PREFIX          =
 # configuration options related to the HTML output
 #---------------------------------------------------------------------------
 GENERATE_HTML          = YES
-HTML_OUTPUT            = html
+HTML_OUTPUT            = doc/html
 HTML_FILE_EXTENSION    = .html
 HTML_HEADER            = 
 HTML_FOOTER            = 
@@ -134,7 +134,7 @@ TREEVIEW_WIDTH         = 250
 # configuration options related to the LaTeX output
 #---------------------------------------------------------------------------
 GENERATE_LATEX         = NO
-LATEX_OUTPUT           = latex
+LATEX_OUTPUT           = doc/latex
 LATEX_CMD_NAME         = latex
 MAKEINDEX_CMD_NAME     = makeindex
 COMPACT_LATEX          = NO
@@ -149,7 +149,7 @@ LATEX_HIDE_INDICES     = NO
 # configuration options related to the RTF output
 #---------------------------------------------------------------------------
 GENERATE_RTF           = NO
-RTF_OUTPUT             = rtf
+RTF_OUTPUT             = doc/rtf
 COMPACT_RTF            = NO
 RTF_HYPERLINKS         = NO
 RTF_STYLESHEET_FILE    = 
@@ -158,14 +158,14 @@ RTF_EXTENSIONS_FILE    =
 # configuration options related to the man page output
 #---------------------------------------------------------------------------
 GENERATE_MAN           = NO
-MAN_OUTPUT             = man
+MAN_OUTPUT             = doc/man
 MAN_EXTENSION          = .3
 MAN_LINKS              = NO
 #---------------------------------------------------------------------------
 # configuration options related to the XML output
 #---------------------------------------------------------------------------
 GENERATE_XML           = NO
-XML_OUTPUT             = xml
+XML_OUTPUT             = doc/xml
 XML_SCHEMA             = 
 XML_DTD                = 
 XML_PROGRAMLISTING     = YES
