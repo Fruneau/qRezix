@@ -2,36 +2,317 @@
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
  <Mainframe MaximizeMode="1" />
- <DocsAndViews NumberOfDocuments="8" >
-  <Doc0 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/rzxconfig.cpp" >
-   <View0 line="415" Type="Source" />
+ <DocsAndViews NumberOfDocuments="93" >
+  <Doc0 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/defaults.h" >
+   <View0 line="0" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/qrezix.cpp" >
-   <View0 line="376" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxabstractconfig.cpp" >
+   <View0 line="0" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/rzxclientlistener.cpp" >
-   <View0 Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxabstractconfig.h" >
+   <View0 line="0" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/rzxchat.cpp" >
-   <View0 Type="Source" />
+  <Doc3 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxapplication.cpp" >
+   <View0 line="0" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/rzxchat.h" >
-   <View0 Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxapplication.h" >
+   <View0 line="0" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/rzxclientlistener.h" >
-   <View0 Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxbaseloader.h" >
+   <View0 line="0" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/rzxproperty.cpp" >
-   <View0 line="514" Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxbasemodule.cpp" >
+   <View0 line="0" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:/home/pico/projets_br/qrezix/qrezix/main.cpp" >
-   <View0 line="53" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxbasemodule.h" >
+   <View0 line="0" Type="Source" />
   </Doc7>
+  <Doc8 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxchangepass.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc8>
+  <Doc9 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxchangepass.h" >
+   <View0 line="0" Type="Source" />
+  </Doc9>
+  <Doc10 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxcomputer.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc10>
+  <Doc11 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxcomputer.h" >
+   <View0 line="0" Type="Source" />
+  </Doc11>
+  <Doc12 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxconfig.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc12>
+  <Doc13 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxconfig.h" >
+   <View0 line="0" Type="Source" />
+  </Doc13>
+  <Doc14 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxconnectionlister.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc14>
+  <Doc15 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxconnectionlister.h" >
+   <View0 line="0" Type="Source" />
+  </Doc15>
+  <Doc16 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxglobal.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc16>
+  <Doc17 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxglobal.h" >
+   <View0 line="0" Type="Source" />
+  </Doc17>
+  <Doc18 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxhostaddress.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc18>
+  <Doc19 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxhostaddress.h" >
+   <View0 line="0" Type="Source" />
+  </Doc19>
+  <Doc20 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxiconcollection.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc20>
+  <Doc21 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxiconcollection.h" >
+   <View0 line="0" Type="Source" />
+  </Doc21>
+  <Doc22 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxmessagebox.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc22>
+  <Doc23 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxmessagebox.h" >
+   <View0 line="0" Type="Source" />
+  </Doc23>
+  <Doc24 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxmodule.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc24>
+  <Doc25 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxmodule.h" >
+   <View0 line="0" Type="Source" />
+  </Doc25>
+  <Doc26 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxnetwork.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc26>
+  <Doc27 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxnetwork.h" >
+   <View0 line="0" Type="Source" />
+  </Doc27>
+  <Doc28 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxproperty.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc28>
+  <Doc29 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxproperty.h" >
+   <View0 line="0" Type="Source" />
+  </Doc29>
+  <Doc30 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxsound.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc30>
+  <Doc31 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxsound.h" >
+   <View0 line="0" Type="Source" />
+  </Doc31>
+  <Doc32 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxstyle.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc32>
+  <Doc33 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxstyle.h" >
+   <View0 line="0" Type="Source" />
+  </Doc33>
+  <Doc34 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxsubnet.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc34>
+  <Doc35 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxsubnet.h" >
+   <View0 line="0" Type="Source" />
+  </Doc35>
+  <Doc36 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxthemedicon.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc36>
+  <Doc37 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxthemedicon.h" >
+   <View0 line="0" Type="Source" />
+  </Doc37>
+  <Doc38 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxtranslator.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc38>
+  <Doc39 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxtranslator.h" >
+   <View0 line="0" Type="Source" />
+  </Doc39>
+  <Doc40 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxutilslauncher.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc40>
+  <Doc41 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxutilslauncher.h" >
+   <View0 line="0" Type="Source" />
+  </Doc41>
+  <Doc42 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxwrongpass.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc42>
+  <Doc43 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxwrongpass.h" >
+   <View0 line="38" Type="Source" />
+  </Doc43>
+  <Doc44 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/chat/rzxchat.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc44>
+  <Doc45 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/chat/rzxchat.h" >
+   <View0 line="0" Type="Source" />
+  </Doc45>
+  <Doc46 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/chat/rzxchatconfig.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc46>
+  <Doc47 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/chat/rzxchatconfig.h" >
+   <View0 line="0" Type="Source" />
+  </Doc47>
+  <Doc48 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/chat/rzxchatlister.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc48>
+  <Doc49 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/chat/rzxchatlister.h" >
+   <View0 line="0" Type="Source" />
+  </Doc49>
+  <Doc50 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/chat/rzxchatsocket.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc50>
+  <Doc51 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/chat/rzxchatsocket.h" >
+   <View0 line="0" Type="Source" />
+  </Doc51>
+  <Doc52 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/chat/rzxclientlistener.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc52>
+  <Doc53 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/chat/rzxclientlistener.h" >
+   <View0 line="0" Type="Source" />
+  </Doc53>
+  <Doc54 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/main/main.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc54>
+  <Doc55 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/qrezix.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc55>
+  <Doc56 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/qrezix.h" >
+   <View0 line="0" Type="Source" />
+  </Doc56>
+  <Doc57 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxdict.h" >
+   <View0 line="0" Type="Source" />
+  </Doc57>
+  <Doc58 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxmainuiconfig.h" >
+   <View0 line="0" Type="Source" />
+  </Doc58>
+  <Doc59 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxquit.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc59>
+  <Doc60 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxquit.h" >
+   <View0 line="0" Type="Source" />
+  </Doc60>
+  <Doc61 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezal.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc61>
+  <Doc62 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezal.h" >
+   <View0 line="0" Type="Source" />
+  </Doc62>
+  <Doc63 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezaldetail.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc63>
+  <Doc64 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezaldetail.h" >
+   <View0 line="0" Type="Source" />
+  </Doc64>
+  <Doc65 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezalindex.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc65>
+  <Doc66 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezalindex.h" >
+   <View0 line="0" Type="Source" />
+  </Doc66>
+  <Doc67 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezalmap.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc67>
+  <Doc68 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezalmap.h" >
+   <View0 line="0" Type="Source" />
+  </Doc68>
+  <Doc69 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezalmodel.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc69>
+  <Doc70 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezalmodel.h" >
+   <View0 line="0" Type="Source" />
+  </Doc70>
+  <Doc71 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezalpopup.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc71>
+  <Doc72 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezalpopup.h" >
+   <View0 line="0" Type="Source" />
+  </Doc72>
+  <Doc73 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezalsearch.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc73>
+  <Doc74 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezalsearch.h" >
+   <View0 line="0" Type="Source" />
+  </Doc74>
+  <Doc75 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezalview.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc75>
+  <Doc76 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxrezalview.h" >
+   <View0 line="0" Type="Source" />
+  </Doc76>
+  <Doc77 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxui.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc77>
+  <Doc78 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/mainui/rzxui.h" >
+   <View0 line="41" Type="Source" />
+  </Doc78>
+  <Doc79 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/notifier/rzxnotifier.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc79>
+  <Doc80 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/notifier/rzxnotifier.h" >
+   <View0 line="0" Type="Source" />
+  </Doc80>
+  <Doc81 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/notifier/rzxnotifierconfig.h" >
+   <View0 line="0" Type="Source" />
+  </Doc81>
+  <Doc82 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/notifier/rzxtraywindow.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc82>
+  <Doc83 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/notifier/rzxtraywindow.h" >
+   <View0 line="0" Type="Source" />
+  </Doc83>
+  <Doc84 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/tray/rzxtrayconfig.h" >
+   <View0 line="0" Type="Source" />
+  </Doc84>
+  <Doc85 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/tray/rzxtrayicon.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc85>
+  <Doc86 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/tray/rzxtrayicon.h" >
+   <View0 line="0" Type="Source" />
+  </Doc86>
+  <Doc87 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/xnet/rzxprotocole.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc87>
+  <Doc88 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/xnet/rzxprotocole.h" >
+   <View0 line="0" Type="Source" />
+  </Doc88>
+  <Doc89 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/xnet/rzxserverlistener.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc89>
+  <Doc90 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/xnet/rzxserverlistener.h" >
+   <View0 line="0" Type="Source" />
+  </Doc90>
+  <Doc91 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/xnet/rzxxnetconfig.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc91>
+  <Doc92 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/xnet/rzxxnetconfig.h" >
+   <View0 line="0" Type="Source" />
+  </Doc92>
  </DocsAndViews>
  <LastCompileConfig>(Par défaut)</LastCompileConfig>
  <pluginList>
+  <kdevdebugger>
+   <breakpointList/>
+  </kdevdebugger>
   <kdevbookmarks>
-   <bookmarks/>
+   <bookmarks>
+    <bookmark url="/home/fruneau/xnet/qrezix/branches/qrezix--qt4/qrezix/rzxcomputer.cpp" >
+     <mark line="42" />
+     <mark line="322" />
+    </bookmark>
+    <bookmark url="/home/fruneau/xnet/qrezix/branches/qrezix--qt4/qrezix/rzxrezalmodel.cpp" >
+     <mark line="74" />
+    </bookmark>
+    <bookmark url="/home/fruneau/xnet/qrezix/branches/qrezix--qt4/qrezix/rzxrezalmodel.h" >
+     <mark line="99" />
+    </bookmark>
+    <bookmark url="/home/fruneau/xnet/qrezix/branches/qrezix--qt4/qrezix/core/rzxiconcollection.h" >
+     <mark line="134" />
+    </bookmark>
+    <bookmark url="/home/fruneau/xnet/qrezix/branches/qrezix--qt4/qrezix/rzxconfig.cpp" >
+     <mark line="269" />
+    </bookmark>
+    <bookmark url="/home/fruneau/xnet/qrezix/branches/qrezix--qt4/qrezix/rzxchatsocket.h" >
+     <mark line="131" />
+    </bookmark>
+    <bookmark url="/home/fruneau/xnet/qrezix/branches/qrezix--qt4/qrezix/xnet/rzxprotocole.cpp" >
+     <mark line="267" />
+    </bookmark>
+   </bookmarks>
   </kdevbookmarks>
   <kdevsubversion>
    <subversion recurseresolve="1" recurserelocate="1" recursemerge="1" recursecommit="1" base="" recursepropget="1" recurseswitch="1" recurseupdate="1" recursepropset="1" recursediff="1" recurserevert="1" forcemove="1" recursecheckout="1" forceremove="1" recurseadd="1" recurseproplist="1" forcemerge="1" />
@@ -42,8 +323,5 @@
    <calltree path="" params="" />
    <kcachegrind path="" />
   </kdevvalgrind>
-  <kdevdebugger>
-   <breakpointList/>
-  </kdevdebugger>
  </pluginList>
 </KDevPrjSession>

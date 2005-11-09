@@ -20,8 +20,8 @@ networks.files = librzxnet*
 modules.files = librzx*
 rezal.path = librezal*
 subnets.files = subnet.ini
-themes.files = ../icons/themes/*
-translations.files = translations/*.qm
+themes.files = resources/themes/*
+translations.files = resources/translations/*.qm
 
 mac {
 	mainlib.path = qRezix.app/Contents/Frameworks

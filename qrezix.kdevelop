@@ -1,42 +1,42 @@
 <!DOCTYPE kdevelop>
 <kdevelop>
   <general>
-    <author>Sylvain Joyeux</author>
-    <email>sylvain.joyeux@m4x.org</email>
+    <author>Florent Bruneau</author>
+    <email>florent.bruneau@m4x.org</email>
     <projectmanagement>KDevKDEAutoProject</projectmanagement>
     <primarylanguage>C++</primarylanguage>
     <keywords>
       <keyword>KDE</keyword>
       <keyword>Qt</keyword>
     </keywords>
-    <version>1.1</version>
+    <version>1.7</version>
     <description/>
-    <ignoreparts>
-      <part>KDevVisualBoyAdvance</part>
-      <part>KDevPerforce</part>
-    </ignoreparts>
+    <ignoreparts/>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
     <secondaryLanguages/>
+    <versioncontrol>kdevsubversion</versioncontrol>
   </general>
   <kdevautoproject>
     <general>
       <mainprogram>qrezix</mainprogram>
       <useconfiguration>default</useconfiguration>
       <activetarget>qrezix/qrezix</activetarget>
+      <useactivetarget>true</useactivetarget>
     </general>
     <configure>
       <configargs>--with-kde</configargs>
     </configure>
     <make>
       <abortonerror>true</abortonerror>
-      <numberofjobs>2</numberofjobs>
+      <numberofjobs>1</numberofjobs>
       <dontact>false</dontact>
-      <makebin/>
+      <makebin>make</makebin>
       <envvars>
         <envvar value="1" name="WANT_AUTOCONF_2_5" />
         <envvar value="1" name="WANT_AUTOMAKE_1_6" />
       </envvars>
+      <prio>0</prio>
     </make>
     <compiler>
       <cflags/>
@@ -46,6 +46,10 @@
       <mainprogram>qrezix/qrezix</mainprogram>
       <programargs/>
       <directoryradio>executable</directoryradio>
+      <customdirectory>/</customdirectory>
+      <terminal>false</terminal>
+      <autocompile>true</autocompile>
+      <envvars/>
     </run>
     <envvars/>
     <configurations>
@@ -61,6 +65,7 @@
         <cflags/>
         <cxxflags/>
         <f77flags/>
+        <envvars/>
       </default>
     </configurations>
     <makeenvvars>
@@ -82,6 +87,7 @@
     <tree>
       <hidenonprojectfiles>false</hidenonprojectfiles>
       <hidepatterns>*.o,*.lo,CVS</hidepatterns>
+      <showvcsfields>false</showvcsfields>
     </tree>
   </kdevfileview>
   <kdevdoctreeview>
@@ -109,6 +115,7 @@
     <display>
       <staticmembers>false</staticmembers>
       <demanglenames>true</demanglenames>
+      <outputradix>10</outputradix>
     </display>
   </kdevdebugger>
   <workspace>
@@ -166,5 +173,28 @@
       <argumentsHintDelay>400</argumentsHintDelay>
       <headerCompletionDelay>250</headerCompletionDelay>
     </codecompletion>
+    <creategettersetter>
+      <prefixGet/>
+      <prefixSet>set</prefixSet>
+      <prefixVariable>m_,_</prefixVariable>
+      <parameterName>value</parameterName>
+      <inlineGet>true</inlineGet>
+      <inlineSet>true</inlineSet>
+    </creategettersetter>
   </kdevcppsupport>
+  <kdevfilecreate>
+    <filetypes/>
+    <useglobaltypes/>
+  </kdevfilecreate>
+  <kdevdocumentation>
+    <projectdoc>
+      <docsystem/>
+      <docurl/>
+      <usermanualurl/>
+    </projectdoc>
+  </kdevdocumentation>
+  <ctagspart>
+    <customArguments/>
+    <customTagfilePath/>
+  </ctagspart>
 </kdevelop>
