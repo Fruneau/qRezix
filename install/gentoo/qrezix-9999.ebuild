@@ -29,7 +29,6 @@ use_module() {
 }
 
 src_compile() {
-	cd qrezix || die
 	use_module chat CHAT
 	use_module mainui MAINUI
 	use_module tray TRAYICON
@@ -37,16 +36,13 @@ src_compile() {
 	use_module xnet XNET
 	qmake "DEFINES=${DEFINES}" "PREFIX=/usr" "DEST=${D}" qrezix.pro || die
 	make || die
-	if cd translations; then
+	if cd resources/translations; then
 		lrelease *.ts
-		cd ..
+		cd ../..
 	fi
-	cd ..
 }
 
 src_install() {
-	cd qrezix
 	qmake "PREFIX=/usr" "DEST=${D}" qrezix.pro || die
 	make install || die
-	cd ..
 }
