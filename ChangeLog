@@ -1,4 +1,6 @@
 [v1.7.0] 2005-09 <br2003@frankiz.polytechnique.fr>
+    * Module RzxRezalMap [Fruneau]
+    * Module RzxRezalDetail [Fruneau]
     * Migration en Qt4 [Fruneau]
     * Restructuration et modularisation du programme [Fruneau]
     * Interface jabber [pico]
