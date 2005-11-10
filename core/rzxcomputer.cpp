@@ -113,6 +113,37 @@ void RzxComputer::initLocalhost()
 	Rzx::endModuleLoading("Local computer image");
 }
 
+///Détermine le système d'exploitation du système local
+/** Les différents OS supportés sont Windows 9X (1) ou NT (2), Linux (3), MacOS (4), MacOSX(5), BSD(6) */
+void RzxComputer::autoSetOs()
+{
+	m_options.SysEx = Rzx::SYSEX_UNKNOWN;
+#ifdef WIN32
+	if (QSysInfo::WindowsVersion & QSysInfo::WV_NT_based)
+		m_options.SysEx = Rzx::SYSEX_WINNT;
+	else
+		m_options.SysEx = Rzx::SYSEX_WIN9X;
+#endif
+#ifdef Q_OS_LINUX
+	m_options.SysEx = Rzx::SYSEX_LINUX;
+#endif
+#ifdef Q_OS_BSD4
+	m_options.SysEx = Rzx::SYSEX_BSD;
+#endif
+#ifdef Q_OS_MAC
+	m_options.SysEx = Rzx::SYSEX_MACOSX;
+#endif
+}
+
+///Indique si l'objet indiqué est localhost
+/** A priori le test sur le nom de machine est suffisant pour indentifier si un objet est le même que localhost */
+bool RzxComputer::isLocalhost() const
+{
+	return name() == localhost()->name();
+}
+
+
+/******************** Réseau *********************/
 ///Mise à jour du RzxComputer lors de la réception de nouvelle infos
 void RzxComputer::update(const QString& c_name, quint32 c_options, quint32 c_stamp, quint32 c_flags, const QString& c_remarque)
 {
@@ -135,27 +166,9 @@ void RzxComputer::update(const QString& c_name, quint32 c_options, quint32 c_sta
 	emit update(this);
 }
 
-///Détermine le système d'exploitation du système local
-/** Les différents OS supportés sont Windows 9X (1) ou NT (2), Linux (3), MacOS (4), MacOSX(5), BSD(6) */
-void RzxComputer::autoSetOs()
-{
-	m_options.SysEx = Rzx::SYSEX_UNKNOWN;
-#ifdef WIN32
-	if (QSysInfo::WindowsVersion & QSysInfo::WV_NT_based)
-		m_options.SysEx = Rzx::SYSEX_WINNT;
-	else
-		m_options.SysEx = Rzx::SYSEX_WIN9X;
-#endif
-#ifdef Q_OS_LINUX
-	m_options.SysEx = Rzx::SYSEX_LINUX;
-#endif
-#ifdef Q_OS_BSD4
-	m_options.SysEx = Rzx::SYSEX_BSD;
-#endif
-#ifdef Q_OS_MAC
-	m_options.SysEx = Rzx::SYSEX_MACOSX;
-#endif
-}
+///Récupération du module auquel est ataché l'entrée
+RzxNetwork *RzxComputer::network() const
+{ return m_network; }
 
 ///Retourne une chaîne de caractère représentant l'objet ajencée selon le pattern
 /** Le pattern peut comporter les éléments suivant :
@@ -198,10 +211,112 @@ QString RzxComputer::serialize(const QString& pattern) const
 	return message;
 }
 
+///Connexion de la machine
+void RzxComputer::login()
+{
+	if(!connected)
+	{
+		connected = true;
+		emitStateChanged();
+	}
+}
+
+///Déconnexion
+void RzxComputer::logout()
+{
+	if(connected)
+	{
+		connected = false;
+		emitStateChanged();
+	}
+}
+
+///Charge l'icône associée à la machine
+void RzxComputer::loadIcon()
+{
+	QPixmap temp = RzxIconCollection::global()->hashedIcon(m_stamp);
+	if(temp.isNull())
+	{
+		if(m_stamp && m_network)
+			m_network->getIcon(ip());
+		setIcon(RzxIconCollection::global()->osPixmap(sysEx(), true));
+	}
+	else
+		setIcon(temp);
+}
+
+
 /******************** Remplissage du RzxComputer *********************/
+/********** NOM */
 ///Défition du nom de machine
 void RzxComputer::setName(const QString& newName) 
 { m_name = newName; }
+
+///Récupération du nom de la machine
+const QString &RzxComputer::name() const 
+{ return m_name; }
+
+
+/********** COMMENTAIRE */
+///Définition du commentaire
+void RzxComputer::setRemarque(const QString& text)
+{ m_remarque = text; }
+
+///Récupération du commentaire
+const QString &RzxComputer::remarque() const 
+{ return m_remarque; }
+
+
+/********** IP */
+///Définition de l'IP
+/** Utile pour localhost uniquement */
+void RzxComputer::setIP(const RzxHostAddress& address)
+{ m_ip = address; }
+
+///Récupération de l'IP sous la forme d'un RzxHostAddress
+const RzxHostAddress &RzxComputer::ip() const
+{ return m_ip; }
+
+///Indique si on est sur la même passerelle que la personne de référence
+bool RzxComputer::isSameGateway(const RzxComputer& ref) const
+{ return RzxHostAddress::isSameGateway(ip(), ref.ip()); }
+
+///Fonction surchargée par confort d'utilisation
+/** Si \a computer est Null la comparaison est réalisée avec localhost */
+bool RzxComputer::isSameGateway(RzxComputer *computer) const
+{
+	if(!computer)
+		computer = localhost();
+	return isSameGateway(*computer);
+}
+
+///Permet de retrouver le 'nom' du sous-réseau sur lequel se trouve la machine
+/** Permet de donner un nom au sous-réseau de la machine. A terme cette fonction lira les données à partir d'un fichier qui contiendra les correspondances */
+int RzxComputer::rezal() const
+{
+	return m_ip.rezal();
+}
+
+
+/********** REPONDEUR */
+///Définitioin de l'état du répondeur
+/** Fonction surchargée pour pouvoir définir un type on-off 
+ *
+ * Cette fonction n'a d'utilité que pour localhost
+ */
+void RzxComputer::setState(bool state)
+{
+	if(state)
+	{
+		if(RzxConfig::refuseWhenAway())
+			setState(Rzx::STATE_REFUSE);
+		else
+			setState(Rzx::STATE_AWAY);
+	}
+	else
+		setState(Rzx::STATE_HERE);
+}
+
 ///Définition de l'état du répondeur
 void RzxComputer::setState(Rzx::ConnectionState state)
 {
@@ -228,75 +343,7 @@ void RzxComputer::setState(Rzx::ConnectionState state)
 	}
 	emitStateChanged();
 }
-///Définitioin de l'état du répondeur
-/** Fonction surchargée pour pouvoir définir un type on-off 
- *
- * Cette fonction n'a d'utilité que pour localhost
- */
-void RzxComputer::setState(bool state)
-{
-	if(state)
-	{
-		if(RzxConfig::refuseWhenAway())
-			setState(Rzx::STATE_REFUSE);
-		else
-			setState(Rzx::STATE_AWAY);
-	}
-	else
-		setState(Rzx::STATE_HERE);
-}
-///Connexion de la machine
-void RzxComputer::login()
-{
-	if(!connected)
-	{
-		connected = true;
-		emitStateChanged();
-	}
-}
-///Déconnexion
-void RzxComputer::logout()
-{
-	if(connected)
-	{
-		connected = false;
-		emitStateChanged();
-	}
-}
-///Définition de l'icône
-void RzxComputer::setIcon(const QPixmap& image){
-	m_icon = image;
-	emit update(this);
-}
-///Définition de la liste des serveurs présents sur la machine
-void RzxComputer::setServers(Servers servers) 
-{ m_options.Server = servers; }
-///Définition de la liste des serveurs envisageables sur la machine (localhost uniquement)
-void RzxComputer::setServerFlags(Servers serverFlags) 
-{ m_serverFlags = serverFlags; }
-///Définition de la promo
-void RzxComputer::setPromo(Rzx::Promal promo)
-{ m_options.Promo = promo; }
-///Définition du commentaire
-void RzxComputer::setRemarque(const QString& text)
-{ m_remarque = text; }
 
-///Définition de l'IP
-/** Utile pour localhost uniquement */
-void RzxComputer::setIP(const RzxHostAddress& address)
-{ m_ip = address; }
-///Ajout d'une feature à la machine
-void RzxComputer::addCapabilities(int feature)
-{ m_options.Capabilities |= feature; }
-
-
-/************ Récupération des informations concernant le RzxComputer ***********/
-///Récupération du nom de la machine
-const QString &RzxComputer::name() const 
-{ return m_name; }
-///Récupération du commentaire
-const QString &RzxComputer::remarque() const 
-{ return m_remarque; }
 ///Récupération de l'état du répondeur
 Rzx::ConnectionState RzxComputer::state() const
 {
@@ -312,71 +359,61 @@ Rzx::ConnectionState RzxComputer::state() const
 	}
 }
 
+/********** PROMO */
+///Définition de la promo
+void RzxComputer::setPromo(Rzx::Promal promo)
+{ m_options.Promo = promo; }
+
 ///Récupération de la promo
 Rzx::Promal RzxComputer::promo() const 
 { return (Rzx::Promal)m_options.Promo; }
+
 ///Récupération du texte décrivant la promo
 QString RzxComputer::promoText() const
 { return promalText[m_options.Promo]; }
 
+
+/********** ICONE */
+///Définition de l'icône
+void RzxComputer::setIcon(const QPixmap& image){
+	m_icon = image;
+	emit update(this);
+}
+
 ///Récupération de l'icône
 QPixmap RzxComputer::icon() const 
 { return m_icon; }
+
 ///Récupération du stamp de l'icône
 quint32 RzxComputer::stamp() const
 { return m_stamp; }
 
-///Récupération du module auquel est ataché l'entrée
-RzxNetwork *RzxComputer::network() const
-{ return m_network; }
 
+/********** DONNEES DE CONNEXION BRUTES */
 ///Récupération des options (OS, Servers, Promo, Répondeur)
 RzxComputer::options_t RzxComputer::options() const 
 { return m_options; }
 
-///Récupération de l'OS
-Rzx::SysEx RzxComputer::sysEx() const
-{ return (Rzx::SysEx)m_options.SysEx; }
-///Récupération du nom de l'OS
-QString RzxComputer::sysExText() const
-{	return tr(osText[sysEx()]); }
-
 ///Récupération de flags (euh ça sert à quoi ???)
 unsigned long RzxComputer::flags() const
 { return m_flags; }
-///Récupération de la liste des servers présents sur la machine (ou demandés par l'utilisateur dans le cas de localhost)
-RzxComputer::Servers RzxComputer::servers() const
-{ return (ServerFlags)m_options.Server; }
-///Récupération de la liste des serveurs présents (localhost)
-RzxComputer::Servers RzxComputer::serverFlags() const
-{ return m_serverFlags; }
-bool RzxComputer::hasSambaServer() const
-{ return (m_options.Server & SERVER_SAMBA); }
-///Indique si on a un serveur ftp
-bool RzxComputer::hasFtpServer() const
-{ return (m_options.Server & SERVER_FTP); }
-///Indique si on a un serveur http
-bool RzxComputer::hasHttpServer() const
-{ return (m_options.Server & SERVER_HTTP); }
-///Indique si on a un serveur news
-bool RzxComputer::hasNewsServer() const
-{ return (m_options.Server & SERVER_NEWS); }
-
-///Teste de la présence d'une possibilité
-/** Retourne true si la machine possède la capacité demandée,
- * ou si elle ne supporte pas l'extension \a cap du protocole xNet */
-bool RzxComputer::can(Rzx::Capabilities cap) const
-{
-	if(cap == Rzx::CAP_ON) return m_options.Capabilities & Rzx::CAP_ON;
-
-	if(!(m_options.Capabilities & Rzx::CAP_ON)) return true;
-	else return (m_options.Capabilities & cap);
-}
 
 ///Récupération de la version du client
 RzxComputer::version_t RzxComputer::version() const
 { return m_version; }
 
+
+/********** OS */
+///Récupération de l'OS
+Rzx::SysEx RzxComputer::sysEx() const
+{ return (Rzx::SysEx)m_options.SysEx; }
+
+///Récupération du nom de l'OS
+QString RzxComputer::sysExText() const
+{	return tr(osText[sysEx()]); }
+
+
+/********** CLIENT XNET */
 ///Retourne le client utilisé avec la version
 /**Permet d'obtenir le nom et le numéro de version du client xNet utilisé*/
 QString RzxComputer::client() const
@@ -398,47 +435,57 @@ QString RzxComputer::client() const
 	return clientName;
 }
 
-///Récupération de l'IP sous la forme d'un RzxHostAddress
-const RzxHostAddress &RzxComputer::ip() const
-{ return m_ip; }
-///Indique si on est sur la même passerelle que la personne de référence
-bool RzxComputer::isSameGateway(const RzxComputer& ref) const
-{ return RzxHostAddress::isSameGateway(ip(), ref.ip()); }
-///Fonction surchargée par confort d'utilisation
-/** Si \a computer est Null la comparaison est réalisée avec localhost */
-bool RzxComputer::isSameGateway(RzxComputer *computer) const
+
+/********** FLAGS SERVEURS */
+///Définition de la liste des serveurs présents sur la machine
+void RzxComputer::setServers(Servers servers) 
+{ m_options.Server = servers; }
+
+///Définition de la liste des serveurs envisageables sur la machine (localhost uniquement)
+void RzxComputer::setServerFlags(Servers serverFlags) 
+{ m_serverFlags = serverFlags; }
+
+///Récupération de la liste des servers présents sur la machine (ou demandés par l'utilisateur dans le cas de localhost)
+RzxComputer::Servers RzxComputer::servers() const
+{ return (ServerFlags)m_options.Server; }
+
+///Récupération de la liste des serveurs présents (localhost)
+RzxComputer::Servers RzxComputer::serverFlags() const
+{ return m_serverFlags; }
+
+///Indique si on a un serveur samba
+bool RzxComputer::hasSambaServer() const
+{ return (m_options.Server & SERVER_SAMBA); }
+
+///Indique si on a un serveur ftp
+bool RzxComputer::hasFtpServer() const
+{ return (m_options.Server & SERVER_FTP); }
+
+///Indique si on a un serveur http
+bool RzxComputer::hasHttpServer() const
+{ return (m_options.Server & SERVER_HTTP); }
+
+///Indique si on a un serveur news
+bool RzxComputer::hasNewsServer() const
+{ return (m_options.Server & SERVER_NEWS); }
+
+
+/********** FONCTIONALITES */
+///Ajout d'une feature à la machine
+void RzxComputer::addCapabilities(int feature)
+{ m_options.Capabilities |= feature; }
+
+///Teste de la présence d'une possibilité
+/** Retourne true si la machine possède la capacité demandée,
+ * ou si elle ne supporte pas l'extension \a cap du protocole xNet */
+bool RzxComputer::can(Rzx::Capabilities cap) const
 {
-	if(!computer)
-		computer = localhost();
-	return isSameGateway(*computer);
-}
-///Indique si l'objet indiqué est localhost
-/** A priori le test sur le nom de machine est suffisant pour indentifier si un objet est le même que localhost */
-bool RzxComputer::isLocalhost() const
-{
-	return name() == localhost()->name();
+	if(cap == Rzx::CAP_ON) return m_options.Capabilities & Rzx::CAP_ON;
+
+	if(!(m_options.Capabilities & Rzx::CAP_ON)) return true;
+	else return (m_options.Capabilities & cap);
 }
 
-///Permet de retrouver le 'nom' du sous-réseau sur lequel se trouve la machine
-/** Permet de donner un nom au sous-réseau de la machine. A terme cette fonction lira les données à partir d'un fichier qui contiendra les correspondances */
-int RzxComputer::rezal() const
-{
-	return m_ip.rezal();
-}
-
-/** No descriptions */
-void RzxComputer::loadIcon()
-{
-	QPixmap temp = RzxIconCollection::global()->hashedIcon(m_stamp);
-	if(temp.isNull())
-	{
-		if(m_stamp && m_network)
-			m_network->getIcon(ip());
-		setIcon(RzxIconCollection::global()->osPixmap(sysEx(), true));
-	}
-	else
-		setIcon(temp);
-}
 
 /*********** Lancement des clients sur la machine ************/
 ///Lance un client ftp sur l'ordinateur indiqué
