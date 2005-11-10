@@ -1,18 +1,18 @@
-SOURCES += ../chat/rzxchatlister.cpp \
-	../chat/rzxclientlistener.cpp \
-	../chat/rzxchatsocket.cpp \
-	../chat/rzxchat.cpp \
-	../chat/rzxchatconfig.cpp
+SOURCES += $$ROOT/chat/rzxchatlister.cpp \
+	$$ROOT/chat/rzxclientlistener.cpp \
+	$$ROOT/chat/rzxchatsocket.cpp \
+	$$ROOT/chat/rzxchat.cpp \
+	$$ROOT/chat/rzxchatconfig.cpp
 
-HEADERS += ../chat/rzxchatlister.h \
-	../chat/rzxclientlistener.h \
-	../chat/rzxchatsocket.h \
-	../chat/rzxchat.h \
-	../chat/rzxchatconfig.h
+HEADERS += $$ROOT/chat/rzxchatlister.h \
+	$$ROOT/chat/rzxclientlistener.h \
+	$$ROOT/chat/rzxchatsocket.h \
+	$$ROOT/chat/rzxchat.h \
+	$$ROOT/chat/rzxchatconfig.h
 
-FORMS += ../chat/rzxchatpropui.ui
+FORMS += $$ROOT/chat/rzxchatpropui.ui
 mac {
-	FORMS += ../chat/rzxchatui_mac.ui
+	FORMS += $$ROOT/chat/rzxchatui_mac.ui
 } else {
-	FORMS += ../chat/rzxchatui.ui
+	FORMS += $$ROOT/chat/rzxchatui.ui
 }

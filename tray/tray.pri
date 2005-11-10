@@ -1,6 +1,6 @@
-SOURCES += ../tray/rzxtrayicon.cpp
+SOURCES += $$ROOT/tray/rzxtrayicon.cpp
 
-HEADERS += ../tray/rzxtrayicon.h \
-	../tray/rzxtrayconfig.h
+HEADERS += $$ROOT/tray/rzxtrayicon.h \
+	$$ROOT/tray/rzxtrayconfig.h
 
-FORMS += ../tray/rzxtraypropui.ui
+FORMS += $$ROOT/tray/rzxtraypropui.ui

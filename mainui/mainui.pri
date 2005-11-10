@@ -1,32 +1,32 @@
-SOURCES += ../mainui/rzxui.cpp \
-	../mainui/qrezix.cpp \
-	../mainui/rzxrezal.cpp \
-	../mainui/rzxrezalmodel.cpp \
-	../mainui/rzxrezalview.cpp \
-	../mainui/rzxrezalpopup.cpp \
-	../mainui/rzxrezalsearch.cpp \
-	../mainui/rzxrezaldetail.cpp \
-	../mainui/rzxrezalindex.cpp \
-	../mainui/rzxrezalmap.cpp \
-	../mainui/rzxquit.cpp
+SOURCES += $$ROOT/mainui/rzxui.cpp \
+	$$ROOT/mainui/qrezix.cpp \
+	$$ROOT/mainui/rzxrezal.cpp \
+	$$ROOT/mainui/rzxrezalmodel.cpp \
+	$$ROOT/mainui/rzxrezalview.cpp \
+	$$ROOT/mainui/rzxrezalpopup.cpp \
+	$$ROOT/mainui/rzxrezalsearch.cpp \
+	$$ROOT/mainui/rzxrezaldetail.cpp \
+	$$ROOT/mainui/rzxrezalindex.cpp \
+	$$ROOT/mainui/rzxrezalmap.cpp \
+	$$ROOT/mainui/rzxquit.cpp
 
-HEADERS += ../mainui/rzxui.h \
-	../mainui/qrezix.h \
-	../mainui/rzxrezal.h \
-	../mainui/rzxrezalmodel.h \
-	../mainui/rzxrezalview.h \
-	../mainui/rzxrezalpopup.h \
-	../mainui/rzxrezalsearch.h \
-	../mainui/rzxrezaldetail.h \
-	../mainui/rzxrezalindex.h \
-	../mainui/rzxrezalmap.h \
-	../mainui/rzxdict.h \
-	../mainui/rzxquit.h \
-	../mainui/rzxmainuiconfig.h
+HEADERS += $$ROOT/mainui/rzxui.h \
+	$$ROOT/mainui/qrezix.h \
+	$$ROOT/mainui/rzxrezal.h \
+	$$ROOT/mainui/rzxrezalmodel.h \
+	$$ROOT/mainui/rzxrezalview.h \
+	$$ROOT/mainui/rzxrezalpopup.h \
+	$$ROOT/mainui/rzxrezalsearch.h \
+	$$ROOT/mainui/rzxrezaldetail.h \
+	$$ROOT/mainui/rzxrezalindex.h \
+	$$ROOT/mainui/rzxrezalmap.h \
+	$$ROOT/mainui/rzxdict.h \
+	$$ROOT/mainui/rzxquit.h \
+	$$ROOT/mainui/rzxmainuiconfig.h
 
-FORMS += ../mainui/qrezixui.ui \
-	../mainui/rzxstatusui.ui \
-	../mainui/rzxquitui.ui \
-	../mainui/rzxmainuipropui.ui \
-	../mainui/rzxitemui.ui
+FORMS += $$ROOT/mainui/qrezixui.ui \
+	$$ROOT/mainui/rzxstatusui.ui \
+	$$ROOT/mainui/rzxquitui.ui \
+	$$ROOT/mainui/rzxmainuipropui.ui \
+	$$ROOT/mainui/rzxitemui.ui
 

@@ -4,7 +4,7 @@
  <Mainframe MaximizeMode="1" />
  <DocsAndViews NumberOfDocuments="93" >
   <Doc0 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/defaults.h" >
-   <View0 line="0" Type="Source" />
+   <View0 Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/core/rzxabstractconfig.cpp" >
    <View0 line="0" Type="Source" />
@@ -277,10 +277,10 @@
    <View0 line="0" Type="Source" />
   </Doc90>
   <Doc91 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/xnet/rzxxnetconfig.cpp" >
-   <View0 line="0" Type="Source" />
+   <View0 line="31" Type="Source" />
   </Doc91>
   <Doc92 NumberOfViews="1" URL="file:///home/fruneau/xnet/qrezix/branches/qrezix--qt4/xnet/rzxxnetconfig.h" >
-   <View0 line="0" Type="Source" />
+   <View0 line="24" Type="Source" />
   </Doc92>
  </DocsAndViews>
  <LastCompileConfig>(Par défaut)</LastCompileConfig>
@@ -300,11 +300,11 @@
     <bookmark url="/home/fruneau/xnet/qrezix/branches/qrezix--qt4/qrezix/rzxrezalmodel.h" >
      <mark line="99" />
     </bookmark>
-    <bookmark url="/home/fruneau/xnet/qrezix/branches/qrezix--qt4/qrezix/core/rzxiconcollection.h" >
-     <mark line="134" />
-    </bookmark>
     <bookmark url="/home/fruneau/xnet/qrezix/branches/qrezix--qt4/qrezix/rzxconfig.cpp" >
      <mark line="269" />
+    </bookmark>
+    <bookmark url="/home/fruneau/xnet/qrezix/branches/qrezix--qt4/qrezix/core/rzxiconcollection.h" >
+     <mark line="134" />
     </bookmark>
     <bookmark url="/home/fruneau/xnet/qrezix/branches/qrezix--qt4/qrezix/rzxchatsocket.h" >
      <mark line="131" />

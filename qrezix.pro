@@ -16,9 +16,9 @@ system(cd resources/translations && lrelease *.ts && cd ../..)
 
 include(rzxinstall.pri)
 mainlib.files = libqrezix*
-networks.files = librzxnet*
-modules.files = librzx*
-rezal.path = librezal*
+networks.files = net/librzxnet*
+modules.files = modules/librzx*
+rezal.path = rezals/librezal*
 subnets.files = subnet.ini
 themes.files = resources/themes/*
 translations.files = resources/translations/*.qm

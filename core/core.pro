@@ -6,6 +6,7 @@ VERSION = 1.7.0
 DESTDIR = ..
 TARGET = qrezix
 
+ROOT = ..
 INCLUDEPATH += ..
 contains(DEFINES, RZX_MAINUI_BUILTIN):include(../mainui/mainui.pri)
 contains(DEFINES, RZX_TRAYICON_BUILTIN):include(../tray/tray.pri)
@@ -66,4 +67,4 @@ FORMS += rzxpropertyui.ui \
 	rzxwrongpassui.ui \
 	rzxchangepassui.ui
 
-TRANSLATIONS = ../translations/qrezix_fr.ts
+TRANSLATIONS = $$(ROOT)/resources/translations/qrezix_fr.ts

@@ -1,13 +1,5 @@
-TEMPLATE = lib
-CONFIG += qt plugin warn_on
-DEFINES += QT_DLL
-LANGUAGE = c++
+ROOT = ..
+include($$ROOT/rzxbasemodule.pri)
 
-TARGET = $$sprintf(rzxnet%1, $$TARGET)
-TRANSLATIONS = ../translations/$$(MODULENAME)_fr.ts
+DESTDIR = $$ROOT/net
 
-include(../rzxglobal.pri)
-
-DESTDIR = ..
-INCLUDEPATH += ../core ..
-LIBS += -L.. -lqrezix

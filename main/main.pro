@@ -3,18 +3,18 @@ LANGUAGE = C++
 CONFIG	+= qt warn_on
 DEFINES += QT_DLL
 
-
+ROOT = ..
 include(../rzxglobal.pri)
 
-LIBS += -L.. -lqrezix
-INCLUDEPATH += .. ../core
+LIBS += -L$$ROOT -lqrezix
+INCLUDEPATH += $$ROOT $$ROOT/core
 
 SOURCES	+= main.cpp
 
-TRANSLATIONS	= translations/qrezix_fr.ts
-RC_FILE		= ../icone.rc
+TRANSLATIONS	= $$ROOT/resources/translations/qrezix_fr.ts
+RC_FILE		= $$ROOT/resources/icone.rc
 
-DESTDIR = ..
+DESTDIR = $$ROOT
 mac {
 	TARGET = qRezix
 } else {

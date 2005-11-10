@@ -1,11 +1,11 @@
-HEADERS += ../xnet/rzxserverlistener.h \
-	../xnet/rzxprotocole.h \
-	../xnet/rzxxnetconfig.h \
-	../xnet/md5.h
+HEADERS += $$ROOT/xnet/rzxserverlistener.h \
+	$$ROOT/xnet/rzxprotocole.h \
+	$$ROOT/xnet/rzxxnetconfig.h \
+	$$ROOT/xnet/md5.h
 
-SOURCES += ../xnet/rzxserverlistener.cpp \
-	../xnet/rzxprotocole.cpp \
-	../xnet/rzxxnetconfig.cpp \
-	../xnet/md5.cpp
+SOURCES += $$ROOT/xnet/rzxserverlistener.cpp \
+	$$ROOT/xnet/rzxprotocole.cpp \
+	$$ROOT/xnet/rzxxnetconfig.cpp \
+	$$ROOT/xnet/md5.cpp
 
-FORMS += ../xnet/rzxxnetpropui.ui
+FORMS += $$ROOT/xnet/rzxxnetpropui.ui

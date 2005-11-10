@@ -3,25 +3,25 @@ QT *= network
 
 include(rzxinstall.pri)
 
-HEADERS += ../core/RzxGlobal \
-	../core/RzxApplication \
-	../core/RzxHostAddress \
-	../core/RzxSubnet \
-	../core/RzxConnectionLister \
-	../core/RzxComputer \
-	../core/RzxMessageBox \
-	../core/RzxUtilsLauncher \
-	../core/RzxProperty \
-	../core/RzxAbstractConfig \
-	../core/RzxConfig \
-	../core/RzxIconCollection \
-	../core/RzxThemedIcon \
-	../core/RzxModule \
-	../core/RzxBaseModule \
-	../core/RzxBaseLoader \
-	../core/RzxNetwork \
-	../core/RzxWrongPass \
-	../core/RzxChangePass \
-	../core/RzxSound \
-	../core/RzxTranslator \
-	../core/RzxStyle
+HEADERS += $$ROOT/core/RzxGlobal \
+	$$ROOT/core/RzxApplication \
+	$$ROOT/core/RzxHostAddress \
+	$$ROOT/core/RzxSubnet \
+	$$ROOT/core/RzxConnectionLister \
+	$$ROOT/core/RzxComputer \
+	$$ROOT/core/RzxMessageBox \
+	$$ROOT/core/RzxUtilsLauncher \
+	$$ROOT/core/RzxProperty \
+	$$ROOT/core/RzxAbstractConfig \
+	$$ROOT/core/RzxConfig \
+	$$ROOT/core/RzxIconCollection \
+	$$ROOT/core/RzxThemedIcon \
+	$$ROOT/core/RzxModule \
+	$$ROOT/core/RzxBaseModule \
+	$$ROOT/core/RzxBaseLoader \
+	$$ROOT/core/RzxNetwork \
+	$$ROOT/core/RzxWrongPass \
+	$$ROOT/core/RzxChangePass \
+	$$ROOT/core/RzxSound \
+	$$ROOT/core/RzxTranslator \
+	$$ROOT/core/RzxStyle
