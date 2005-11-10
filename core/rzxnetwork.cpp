@@ -87,6 +87,12 @@ void RzxNetwork::properties(RzxComputer*)
 {
 }
 
+///Envoie un message de chat à la machine indiquée
+/** Cette fonction est émise lors de l'appelle à RzxComputer::sendChat. Et suppose que la
+ * machine indiquée est bien sur le réseau actuel.
+ *
+ * L'implémentation par défaut ne fait rien
+ */
 void RzxNetwork::sendChatMessage(RzxComputer*, Rzx::ChatMessageType, const QString&)
 {
 }

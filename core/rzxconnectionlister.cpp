@@ -35,6 +35,10 @@
 
 RZX_GLOBAL_INIT(RzxConnectionLister)
 
+///Construction du gestionnaire de réseau
+/** La construction comprend en particulier le chargement des différents modules
+ * réseaux disponibles.
+ */
 RzxConnectionLister::RzxConnectionLister( QObject *parent)
 		: QObject(parent)
 {
@@ -50,6 +54,9 @@ RzxConnectionLister::RzxConnectionLister( QObject *parent)
 	Rzx::endModuleLoading("Connection lister");
 }
 
+///Destruction du gestionnaire de réseau
+/** Ferme toutes les connexions
+ */
 RzxConnectionLister::~RzxConnectionLister()
 {
 	Rzx::beginModuleClosing("Connection lister");
@@ -182,7 +189,9 @@ QStringList RzxConnectionLister::getIpList(Rzx::Capabilities features)
 	return ips;
 }
 
-/** No descriptions */
+///Gère la déconnexion d'un RzxNetwork
+/** \sa newConnection
+ */
 void RzxConnectionLister::newDisconnection(RzxNetwork*)
 {
 	if(connectionNumber > 0)
@@ -191,7 +200,14 @@ void RzxConnectionLister::newDisconnection(RzxNetwork*)
 		qDebug("Invalid disconnection");
 }
 
-/** No descriptions */
+///Gère la connexion d'un RzxNetwork
+/** Lorsqu'un RzxNetwork établie une connexion avec son serveur
+ * (ou tout autre façon assimilable d'être considérable comme
+ * actif), il l'indique et est alors noté comme connecté par le
+ * RzxConnectionLister
+ *
+ * \sa newDisconnection
+ */
 void RzxConnectionLister::newConnection(RzxNetwork* network)
 {
 	foreach(RzxComputer *computer, displayWaiter)
@@ -251,7 +267,7 @@ void RzxConnectionLister::start()
 		network->start();
 }
 
-///Arrï¿½e toutes les connexions
+///Arrête toutes les connexions
 void RzxConnectionLister::stop()
 {
 	foreach(RzxNetwork *network, moduleList())
@@ -268,19 +284,33 @@ void RzxConnectionLister::refresh()
 		network->refresh();
 }
 
-/** No descriptions */
+///Affiche un message d'information
+/** Ce message relai ceux des différents modules réseau
+ *
+ * \sa warning, fatal
+ */
 void RzxConnectionLister::info( const QString& msg )
 {
 	// Boîte de dialogue non modale, pour que les comms continuent.
 	RzxMessageBox::information(NULL, tr( "XNet Server message:" ), msg );
 }
-/** No descriptions */
+
+///Affiche un avertissement
+/** Ce message relai ceux des différents modules réseau
+ *
+ * \sa info, fatal
+ */
 void RzxConnectionLister::warning( const QString& msg )
 {
 	// Boîte de dialogue non modale, pour que les comms continuent.
 	RzxMessageBox::warning(NULL, tr( "XNet Server message:" ), msg );
 }
-/** No descriptions */
+
+///Affiche un message d'erreur
+/** Ce message relai ceux des différents modules réseau
+ *
+ * \sa info, warning
+ */
 void RzxConnectionLister::fatal( const QString& msg )
 {
 	// Boîte de dialogue modale
@@ -293,7 +323,9 @@ void RzxConnectionLister::statusChanged(const QString& msg)
 	emit status(msg, isConnected());
 }
 
-/** No descriptions */
+///Gère le réception d'une icône
+/** Enregistre l'icône associée à l'adresse IP indiquée
+ */
 void RzxConnectionLister::receivedIcon(QImage* icon, const RzxHostAddress& ip)
 {
 	RzxComputer *computer = getComputerByIP(ip);

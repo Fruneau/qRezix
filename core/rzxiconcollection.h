@@ -58,6 +58,11 @@ class RzxIconCollection: public QObject
 	Q_PROPERTY(QPixmap localhostPixmap READ localhostPixmap WRITE setLocalhostPixmap)
 	RZX_GLOBAL(RzxIconCollection)
 
+	///Structure d'identification des icônes
+	/** Réalise l'association IconId - nom du fichier pour les icônes systèmes
+	 * de qRezix. Cette structure comprend également un champs qui indique si
+	 * l'icône est nécessaire à la réalisation d'un thème d'icône
+	 */
 	struct IconData
 	{
 		Rzx::Icon id;
@@ -132,34 +137,63 @@ class RzxIconCollection: public QObject
 		void themeChanged(const QString&);
 };
 
-///Pour simplifier l'écriture...
+///Surcharge
+/** \sa pixmap
+ */
 inline const QPixmap &RzxIconCollection::getPixmap(Rzx::Icon icon)
 { return global()->pixmap(icon); }
 
+///Surcharge
+/** \sa icon
+ */
 inline QIcon RzxIconCollection::getIcon(Rzx::Icon m_icon)
 { return global()->icon(m_icon); }
 
+///Surcharge
+/** \sa icon
+ */
 inline QIcon RzxIconCollection::getIcon(const QString& m_icon)
 { return global()->icon(m_icon); }
 
+///Surcharge
+/** \sa responderIcon
+ */
 inline QIcon RzxIconCollection::getResponderIcon()
 { return global()->responderIcon(); }
 
+///Surcharge
+/** \sa soundIcon
+ */
 inline QIcon RzxIconCollection::getSoundIcon()
 { return global()->soundIcon(); }
 
+///Surcharge
+/** \sa onOffIcon
+ */
 inline QIcon RzxIconCollection::getOnOffIcon()
 { return global()->onOffIcon(); }
 
+///Surcharge
+/** \sa favoriteIcon
+ */
 inline QIcon RzxIconCollection::getFavoriteIcon()
 { return global()->favoriteIcon(); }
 
+///Surcharge
+/** \sa banIcon
+ */
 inline QIcon RzxIconCollection::getBanIcon()
 { return global()->banIcon(); }
 
+///Surcharge
+/** \sa hereIcon
+ */
 inline const QPixmap& RzxIconCollection::qRezixIcon()
 { return global()->hereIcon; }
 
+///Surcharge
+/** \sa awayIcon
+ */
 inline const QPixmap& RzxIconCollection::qRezixAwayIcon()
 { return global()->awayIcon; }
 

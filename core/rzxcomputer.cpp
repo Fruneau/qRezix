@@ -60,7 +60,7 @@ RzxComputer::RzxComputer():delayScan(NULL) { }
  * et n'est pas adapté à la construction de localhost
  */
 RzxComputer::RzxComputer(RzxNetwork *network, const RzxHostAddress& c_ip, const QString& c_name, quint32 c_options, quint32 c_version, quint32 c_stamp, quint32 c_flags, const QString& c_remarque)
-	:m_name(c_name), m_ip(c_ip), m_flags(c_flags), m_stamp(c_stamp), m_remarque(c_remarque), m_network(network), delayScan(NULL)
+	: delayScan(NULL), m_network(network), m_name(c_name), m_remarque(c_remarque), m_ip(c_ip), m_flags(c_flags), m_stamp(c_stamp)
 {
 	*((quint32 *) &m_options) = c_options;
 	*((quint32 *) &m_version) = c_version;

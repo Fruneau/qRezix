@@ -31,6 +31,12 @@
   *@author Benoit Casoetto
   */
 
+///Fenêtre de préférences
+/** Cette fenêtre regroupe les préférences globales de qRezix ainsi que celles
+ * de tous les modules. Elle est générée à partir des données fournies par les modules
+ * et fournit un menu arborescent qui simplifie l'utilisation de la fenêtre et
+ * la compréhension de l'organisation du programme.
+ */
 class RzxProperty : public QDialog, public Ui::frmPref
 {
 	Q_OBJECT

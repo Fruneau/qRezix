@@ -82,7 +82,7 @@ FILE_PATTERNS          = *.cpp \
                          *.java \
                          Rzx*
 RECURSIVE              = YES
-EXCLUDE                = 
+EXCLUDE                = doc templates packages resources
 EXCLUDE_SYMLINKS       = YES
 EXCLUDE_PATTERNS       = moc_* \
                          ui_* \

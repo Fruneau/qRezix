@@ -39,7 +39,8 @@
  * Cette classe fait partie du coeur de qRezix et constituant le moyen de stockage
  * des informations concernant les utilisateurs.
  */
-class RzxComputer : public QObject  {
+class RzxComputer : public QObject {
+/******************************* En-tête Qt ***************************/
 	Q_OBJECT
 	Q_PROPERTY(QString name READ name WRITE setName)
 	Q_PROPERTY(Servers servers READ servers WRITE setServers)
@@ -56,7 +57,9 @@ class RzxComputer : public QObject  {
 	//Q_PROPERTY(Rzx::ConnectionState state READ state WRITE setState)
 	Q_ENUMS(ServerFlags)
 	Q_FLAGS(Servers)
-	
+
+
+/************* Définition des différentes données *********************/
 #if __BYTE_ORDER == __LITTLE_ENDIAN
 	struct options_t
 	{
@@ -120,86 +123,51 @@ private:
 	///Chaînes de caractères des OS
 	static const char *osText[7];
 
+
+/************* Représentation de localhost *********************/
+	QTimer *delayScan;
 	static RzxComputer *m_localhost;
+
+protected:
+	/** Pour la creation de localHost */
+	void initLocalhost();
+	void autoSetOs();
+
+public:
+	static RzxComputer *localhost();
+	static void buildLocalhost();
+	bool isLocalhost() const;
+
+protected slots:
+	//Reconstruction de la liste des serveurs
+	void scanServers();
+
+
+/************* Construction et destruction d'instances *********************/
+private:
+	RzxNetwork *m_network;
 
 	//private car il ne doit être utilisé que pour la construction de localhost
 	RzxComputer();
 
 public:
-	static RzxComputer *localhost();
-	static void buildLocalhost();
-
 	RzxComputer(RzxNetwork *, const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
 	~RzxComputer();
 
-	QString serialize(const QString& pattern) const;
+//Réseau
+	RzxNetwork *network() const;
 
 	void update(const QString&, quint32, quint32, quint32, const QString&);
-
-protected:
-	/** Pour la creation de localHost */
-	void initLocalhost();
+	QString serialize(const QString& pattern) const;
+	void loadIcon();
 
 public slots:
 	void logout();
 	void login();
-	void setName(const QString& text);
-	void setPromo(Rzx::Promal promo);
-	void setState(Rzx::ConnectionState);
-	void setState(bool);
-	void setServers(Servers);
-	void setServerFlags(Servers);
-	void setRemarque(const QString& text);
-	void setIcon(const QPixmap& image);
-	void setIP(const RzxHostAddress&);
-	void addCapabilities(int);
-	
-public:
-	const QString &name() const;
-	const QString &remarque() const;
-	QString properties() const;
 
-	QPixmap icon() const;
-	quint32 stamp() const;
 
-	options_t options() const;
-	Rzx::Promal promo() const;
-	QString promoText() const;
-	Rzx::ConnectionState state() const;
-	Rzx::SysEx sysEx() const;
-	QString sysExText() const;
-	Servers servers() const;
-	Servers serverFlags() const;
-	bool hasSambaServer() const;
-	bool hasFtpServer() const;
-	bool hasHttpServer() const;
-	bool hasNewsServer() const;
-
-	version_t version() const;
-	QString client() const;
-	bool can(Rzx::Capabilities) const;
-
-	const RzxHostAddress &ip() const;
-	QString rezalName(bool shortname = true) const;
-	int rezal() const;
-	RzxNetwork *network() const;
-	bool isSameGateway(RzxComputer *computer = 0) const;
-	bool isSameGateway(const RzxComputer&) const;
-	bool isLocalhost() const;
-
-	unsigned long flags() const;
-
-	bool isFavorite() const;
-	bool isIgnored() const;
-	bool isOnResponder() const;
-	
-	void loadIcon();
-	void autoSetOs();
-
-	void runScanFtp();
-	void stopScanFtp();
-
-signals: // Signals
+//Quelques signaux
+signals:
 	void update(RzxComputer*);
 	void needIcon(const RzxHostAddress&);
 	void favoriteStateChanged(RzxComputer*);
@@ -208,21 +176,95 @@ signals: // Signals
 protected:
 	void emitStateChanged();
 
-protected slots:
-	//Reconstruction de la liste des serveurs
-	void scanServers();
+//Favoris/ignore
+public:
+	bool isFavorite() const;
+	bool isIgnored() const;
 
 public slots:
-	//Lancement des clients
-	void ftp(const QString& path = QString()) const;
-	void http(const QString& path = QString()) const;
-	void samba(const QString& path = QString()) const;
-	void news(const QString& path = QString()) const;
-	//Ban/Favoris
 	void ban();
 	void unban();
 	void addToFavorites();
 	void removeFromFavorites();
+
+
+/******************* Propriétés de l'objet ********************************/
+private:
+	QString m_name;
+	QString m_remarque;
+	RzxHostAddress m_ip;
+
+	Servers m_serverFlags;
+	options_t m_options;
+	version_t m_version;
+	unsigned long m_flags;
+	unsigned long m_stamp;
+
+	QPixmap m_icon;
+
+	bool connected;
+
+public:
+	const QString &name() const;
+	const QString &remarque() const;
+
+	Rzx::Promal promo() const;
+	QString promoText() const;
+
+	Rzx::SysEx sysEx() const;
+	QString sysExText() const;
+
+	Rzx::ConnectionState state() const;
+	bool isOnResponder() const;
+
+	unsigned long flags() const;
+	options_t options() const;
+	quint32 stamp() const;
+	QPixmap icon() const;
+
+	Servers servers() const;
+	Servers serverFlags() const;
+	bool hasSambaServer() const;
+	bool hasFtpServer() const;
+	bool hasHttpServer() const;
+	bool hasNewsServer() const;
+
+	const RzxHostAddress &ip() const;
+	QString rezalName(bool shortname = true) const;
+	int rezal() const;
+	bool isSameGateway(RzxComputer *computer = 0) const;
+	bool isSameGateway(const RzxComputer&) const;
+
+	version_t version() const;
+	QString client() const;
+	bool can(Rzx::Capabilities) const;
+
+public slots:
+	void setName(const QString& text);
+	void setRemarque(const QString& text);
+	void setPromo(Rzx::Promal promo);
+	void setState(Rzx::ConnectionState);
+	void setState(bool);
+	void setServers(Servers);
+	void setServerFlags(Servers);
+	void setIcon(const QPixmap& image);
+	void setIP(const RzxHostAddress&);
+	void addCapabilities(int);
+
+
+/******************* Accès aux serveurs distantsz ***************************************/
+public slots:
+	void ftp(const QString& path = QString()) const;
+	void http(const QString& path = QString()) const;
+	void samba(const QString& path = QString()) const;
+	void news(const QString& path = QString()) const;
+
+
+/******************* Information non intrinsèque à l'objet ********************************/
+public:
+	QString properties() const;
+
+public slots:
 	//Chat, historique, propriétés
 	void history();
 	void checkProperties();
@@ -230,20 +272,6 @@ public slots:
 	void chat();
 	void sendChat(Rzx::ChatMessageType, const QString& = QString());
 	void receiveChat(Rzx::ChatMessageType, const QString& = QString());
-
-protected:
-	QString m_name;
-	Servers m_serverFlags;
-	options_t m_options;
-	version_t m_version;
-	RzxHostAddress m_ip;
-	unsigned long m_flags;
-	unsigned long m_stamp;
-	QString m_remarque;
-	QPixmap m_icon;
-	RzxNetwork *m_network;
-	QTimer *delayScan;
-	bool connected;
 };
 
 ///Déclaration pour le MetaType RzxComputer dans le but d'utiliser le RzxComputer comme metatype

@@ -142,16 +142,28 @@ void RzxModule::history(RzxComputer*)
 ///Force l'affichage des propriétés par le module en question
 /** Cette fonction est n'a besoin d'être réimplémentée que dans les MOD_PROPERTIESUI
  *
- * L'implémentation par défaut ne faire rien
+ * L'implémentation par défaut ne fait rien
  */
 void RzxModule::showProperties(RzxComputer*)
 {
 }
 
+///Envoie un message à l'ordinateur distant
+/** Ce message est identifié par la machine de destination, le type de message et son
+ * contenu
+ *
+ * L'implémentation par défaut ne fait rien
+ */
 void RzxModule::sendChatMessage(RzxComputer*, Rzx::ChatMessageType, const QString&)
 {
 }
 
+///Réception d'un message provenant de l'ordinateur distant
+/** Ce message est identifié par la machine qui l'a envoyé, le type de message et
+ * son contenu
+ *
+ * L'implémentation par défaut ne fait rien
+ */
 void RzxModule::receiveChatMessage(RzxComputer*, Rzx::ChatMessageType, const QString&)
 {
 }

@@ -27,7 +27,10 @@ typedef void ( *sighandler_t ) ( int );
 
 sighandler_t default_segv_handler, default_pipe_handler, default_term_handler, default_int_handler;
 
-
+///Interception des erreurs non fatales
+/** Ce qui comprend en particuler le SIGPIPE... qui peut être utile dans certaine condition
+ * en cas de problèmes avec le réseau
+ */
 void nonfatalHandler( int signum )
 {
 	qWarning( "Received a %i signal, continuing", signum );
@@ -35,6 +38,11 @@ void nonfatalHandler( int signum )
 
 #ifdef Q_OS_LINUX
 #include <execinfo.h>
+
+///Interception des erreurs fatales
+/** Sous Linux, cette fonction permet l'affichage d'un backtrace automatiquement lors d'un
+ * crash de qRezix
+ */
 void fatalHandler( int signum )
 {
 	void * array[ 128 ];
@@ -58,6 +66,10 @@ void fatalHandler( int signum )
 }
 #endif
 
+///Interception de SIGTERM
+/** Par extension, on l'associe également à SIGINT pour terminer proprement
+ * lors de l'arrêt via Ctrl+C
+ */
 void sigTermHandler(int)
 {
 	static bool test = true;
@@ -67,6 +79,9 @@ void sigTermHandler(int)
 	test = false;
 }
 
+///Fonction principale du programme
+/** Cette fonction ne fait en fait que lancer le RzxApplication
+ */
 int main(int argc, char *argv[])
 {
 #ifdef Q_OS_LINUX

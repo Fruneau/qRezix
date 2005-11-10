@@ -35,7 +35,7 @@ class RzxComputer;
 class QImage;
 
 ///RzxConnection lister est la classe centrale de l'architecture du programme
-/** Elle est en effet le pivot entre l'architecture rï¿½eau et l'interface graphique.
+/** Elle est en effet le pivot entre l'architecture réseau et l'interface graphique.
  * RzxRezal est son pendant graphique.
  */
 class RzxConnectionLister : public QObject, public RzxBaseLoader<RzxNetwork>
@@ -51,7 +51,7 @@ class RzxConnectionLister : public QObject, public RzxBaseLoader<RzxNetwork>
 	QTimer delayDisplay;
 	QList< QPointer<RzxComputer> > displayWaiter;
 	
-	// Index des machines connectï¿½s
+	// Index des machines connectées
 	QHash<RzxHostAddress, RzxComputer*> computerByIP;
 	QHash<QString, RzxComputer*> computerByLogin;
 
@@ -63,7 +63,7 @@ class RzxConnectionLister : public QObject, public RzxBaseLoader<RzxNetwork>
 		bool isDisconnected() const;
 		bool isConnected() const;
 		
-		// Rï¿½upï¿½ation des donnï¿½s des annuaires
+		// Récupération des données des annuaires
 		RzxComputer *getComputerByName(const QString&) const;
 		RzxComputer *getComputerByIP(const RzxHostAddress&) const;
 		
@@ -110,14 +110,14 @@ class RzxConnectionLister : public QObject, public RzxBaseLoader<RzxNetwork>
 		void wantHistorique(RzxComputer*);
 };
 
-///Indique si on a fini d'enregistrer tous les connectï¿½ d'un serveur
-/** Lorsqu'on se connecte ï¿½un nouveau serveur, on peut dans certains
+///Indique si on a fini d'enregistrer tous les connectés d'un serveur
+/** Lorsqu'on se connecte à un nouveau serveur, on peut dans certains
  * cas recevoir un grand nombre de nouvelle connexion. Celle-ci sont
- * bufferï¿½s, et lorsque toutes ces connexions sont 'assimilï¿½' on 
- * considï¿½e que les connexions sont en ï¿½at d'ï¿½re traitï¿½ comme des
- * connexions normales et non plus comme un paquet ï¿½absorber.
+ * bufferées, et lorsque toutes ces connexions sont 'assimilées' on 
+ * considère que les connexions sont en état d'être traitées comme des
+ * connexions normales et non plus comme un paquet à absorber.
  *
- * Lorsque toutes ces connexions sont assimilï¿½, on considï¿½e que
+ * Lorsque toutes ces connexions sont assimilées, on considère que
  * le RzxConnectionLister est initialized...
  */
 inline bool RzxConnectionLister::isInitialized() const
@@ -125,13 +125,13 @@ inline bool RzxConnectionLister::isInitialized() const
 	return initialized;
 }
 
-///Renvoie l'ordinateur associï¿½ï¿½name
+///Renvoie l'ordinateur associé à name
 inline RzxComputer *RzxConnectionLister::getComputerByName(const QString& name) const
 {
 	return computerByLogin[name];
 }
 
-///Renvoie l'ordinateur associï¿½ï¿½l'IP
+///Renvoie l'ordinateur associé à l'IP
 inline RzxComputer *RzxConnectionLister::getComputerByIP(const RzxHostAddress& ip) const
 {
 	return computerByIP[ip];

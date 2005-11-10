@@ -25,6 +25,12 @@
 #include <RzxSound>
 
 ///Lecture d'un son
+/** Cette fonction détermine la manière de jouer le son en fonction de la configuration
+ * de qRezix. Ainsi on a en particulier :
+ * 	- pas de son ==> beep système
+ * 	- son mais pas de lecteur valide (sous Unix non MacOSX uniquement) ==> beep système
+ * 	- son et lecteur valide ==> lecture du son
+ */
 void RzxSound::play(const QString& file)
 {
 	if(file.isEmpty() || !QFile(file).exists())
