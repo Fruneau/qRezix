@@ -28,16 +28,16 @@
 #include <RzxSubnet>
 
 #ifdef RZX_MAINUI_BUILTIN
-#	include "../mainui/rzxui.h"
+#	include "../modules/mainui/rzxui.h"
 #endif
 #ifdef RZX_TRAYICON_BUILTIN
-#	include "../tray/rzxtrayicon.h"
+#	include "../modules/tray/rzxtrayicon.h"
 #endif
 #ifdef RZX_CHAT_BUILTIN
-#	include "../chat/rzxchatlister.h"
+#	include "../modules/chat/rzxchatlister.h"
 #endif
 #ifdef RZX_NOTIFIER_BUILTIN
-#	include "../notifier/rzxnotifier.h"
+#	include "../modules/notifier/rzxnotifier.h"
 #endif
 
 ///Définition de la version de qRezix

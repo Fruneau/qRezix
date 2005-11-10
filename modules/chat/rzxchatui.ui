@@ -471,7 +471,7 @@
   <customwidget>
    <class>RzxTextEdit</class>
    <extends></extends>
-   <header>chat/rzxchat.h</header>
+   <header>rzxchat.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

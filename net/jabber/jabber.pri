@@ -5,19 +5,19 @@ warning("! More informations: jabber/README file !")
 warning("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 warning("")
 
-HEADERS += $$ROOT/jabber/rzxjabberprotocole.h \
-	$$ROOT/jabber/rzxjabberconfig.h \
-	$$ROOT/jabber/rzxjabberclient.h \
-	$$ROOT/jabber/rzxjabbercomputer.h \
-	$$ROOT/jabber/rzxjabberproperty.h
+HEADERS += $$ROOT/net/jabber/rzxjabberprotocole.h \
+	$$ROOT/net/jabber/rzxjabberconfig.h \
+	$$ROOT/net/jabber/rzxjabberclient.h \
+	$$ROOT/net/jabber/rzxjabbercomputer.h \
+	$$ROOT/net/jabber/rzxjabberproperty.h
 
-SOURCES += $$ROOT/jabber/rzxjabberprotocole.cpp \
-	$$ROOT/jabber/rzxjabberconfig.cpp \
-	$$ROOT/jabber/rzxjabberclient.cpp \
-	$$ROOT/jabber/rzxjabbercomputer.cpp \
-	$$ROOT/jabber/rzxjabberproperty.cpp
+SOURCES += $$ROOT/net/jabber/rzxjabberprotocole.cpp \
+	$$ROOT/net/jabber/rzxjabberconfig.cpp \
+	$$ROOT/net/jabber/rzxjabberclient.cpp \
+	$$ROOT/net/jabber/rzxjabbercomputer.cpp \
+	$$ROOT/net/jabber/rzxjabberproperty.cpp
 
-FORMS += $$ROOT/jabber/rzxjabberpropui.ui
+FORMS += $$ROOT/net/jabber/rzxjabberpropui.ui
 
 LIBS += -lgloox
 

@@ -1,10 +1,10 @@
-SOURCES += $$ROOT/notifier/rzxnotifier.cpp \
-	$$ROOT/notifier/rzxtraywindow.cpp
+SOURCES += $$ROOT/modules/notifier/rzxnotifier.cpp \
+	$$ROOT/modules/notifier/rzxtraywindow.cpp
 
-HEADERS += $$ROOT/notifier/rzxnotifier.h \
-	$$ROOT/notifier/rzxtraywindow.h \
-	$$ROOT/notifier/rzxnotifierconfig.h
+HEADERS += $$ROOT/modules/notifier/rzxnotifier.h \
+	$$ROOT/modules/notifier/rzxtraywindow.h \
+	$$ROOT/modules/notifier/rzxnotifierconfig.h
 
-FORMS += $$ROOT/notifier/rzxnotifierpropui.ui
+FORMS += $$ROOT/modules/notifier/rzxnotifierpropui.ui
 
-RESOURCES += $$ROOT/notifier/rzxnotifier.qrc
+RESOURCES += $$ROOT/modules/notifier/rzxnotifier.qrc

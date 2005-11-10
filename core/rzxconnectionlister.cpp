@@ -27,10 +27,10 @@
 #include <RzxApplication>
 
 #ifdef RZX_XNET_BUILTIN
-#include "../xnet/rzxserverlistener.h"
+#include "../net/xnet/rzxserverlistener.h"
 #endif
 #ifdef RZX_JABBER_BUILTIN
-#include "../jabber/rzxjabberprotocole.h"
+#include "../net/jabber/rzxjabberprotocole.h"
 #endif
 
 RZX_GLOBAL_INIT(RzxConnectionLister)

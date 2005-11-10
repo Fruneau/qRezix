@@ -1,32 +1,32 @@
-SOURCES += $$ROOT/mainui/rzxui.cpp \
-	$$ROOT/mainui/qrezix.cpp \
-	$$ROOT/mainui/rzxrezal.cpp \
-	$$ROOT/mainui/rzxrezalmodel.cpp \
-	$$ROOT/mainui/rzxrezalview.cpp \
-	$$ROOT/mainui/rzxrezalpopup.cpp \
-	$$ROOT/mainui/rzxrezalsearch.cpp \
-	$$ROOT/mainui/rzxrezaldetail.cpp \
-	$$ROOT/mainui/rzxrezalindex.cpp \
-	$$ROOT/mainui/rzxrezalmap.cpp \
-	$$ROOT/mainui/rzxquit.cpp
+SOURCES += $$ROOT/modules/mainui/rzxui.cpp \
+	$$ROOT/modules/mainui/qrezix.cpp \
+	$$ROOT/modules/mainui/rzxrezal.cpp \
+	$$ROOT/modules/mainui/rzxrezalmodel.cpp \
+	$$ROOT/modules/mainui/rzxrezalview.cpp \
+	$$ROOT/modules/mainui/rzxrezalpopup.cpp \
+	$$ROOT/modules/mainui/rzxrezalsearch.cpp \
+	$$ROOT/modules/mainui/rzxrezaldetail.cpp \
+	$$ROOT/modules/mainui/rzxrezalindex.cpp \
+	$$ROOT/modules/mainui/rzxrezalmap.cpp \
+	$$ROOT/modules/mainui/rzxquit.cpp
 
-HEADERS += $$ROOT/mainui/rzxui.h \
-	$$ROOT/mainui/qrezix.h \
-	$$ROOT/mainui/rzxrezal.h \
-	$$ROOT/mainui/rzxrezalmodel.h \
-	$$ROOT/mainui/rzxrezalview.h \
-	$$ROOT/mainui/rzxrezalpopup.h \
-	$$ROOT/mainui/rzxrezalsearch.h \
-	$$ROOT/mainui/rzxrezaldetail.h \
-	$$ROOT/mainui/rzxrezalindex.h \
-	$$ROOT/mainui/rzxrezalmap.h \
-	$$ROOT/mainui/rzxdict.h \
-	$$ROOT/mainui/rzxquit.h \
-	$$ROOT/mainui/rzxmainuiconfig.h
+HEADERS += $$ROOT/modules/mainui/rzxui.h \
+	$$ROOT/modules/mainui/qrezix.h \
+	$$ROOT/modules/mainui/rzxrezal.h \
+	$$ROOT/modules/mainui/rzxrezalmodel.h \
+	$$ROOT/modules/mainui/rzxrezalview.h \
+	$$ROOT/modules/mainui/rzxrezalpopup.h \
+	$$ROOT/modules/mainui/rzxrezalsearch.h \
+	$$ROOT/modules/mainui/rzxrezaldetail.h \
+	$$ROOT/modules/mainui/rzxrezalindex.h \
+	$$ROOT/modules/mainui/rzxrezalmap.h \
+	$$ROOT/modules/mainui/rzxdict.h \
+	$$ROOT/modules/mainui/rzxquit.h \
+	$$ROOT/modules/mainui/rzxmainuiconfig.h
 
-FORMS += $$ROOT/mainui/qrezixui.ui \
-	$$ROOT/mainui/rzxstatusui.ui \
-	$$ROOT/mainui/rzxquitui.ui \
-	$$ROOT/mainui/rzxmainuipropui.ui \
-	$$ROOT/mainui/rzxitemui.ui
+FORMS += $$ROOT/modules/mainui/qrezixui.ui \
+	$$ROOT/modules/mainui/rzxstatusui.ui \
+	$$ROOT/modules/mainui/rzxquitui.ui \
+	$$ROOT/modules/mainui/rzxmainuipropui.ui \
+	$$ROOT/modules/mainui/rzxitemui.ui
 
