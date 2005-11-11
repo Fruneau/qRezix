@@ -21,10 +21,16 @@
 #include <QHash>
 #include <QPolygon>
 
-#include "rzxrezal.h"
-
 #include <RzxHostAddress>
 #include <RzxSubnet>
+
+#ifdef RZX_RZLMAP_BUILTIN
+#       define RZX_BUILTIN
+#else
+#       define RZX_PLUGIN
+#endif
+
+#include <RzxRezal>
 
 class QPainter;
 class QComboBox;
@@ -115,10 +121,5 @@ class RzxRezalMap:public QAbstractItemView, public RzxRezal
 		void setMap(int);
 		void setMap(const QString&);
 };
-
-inline bool RzxRezalMap::isInitialised() const
-{
-	return initialised;
-}
 
 #endif

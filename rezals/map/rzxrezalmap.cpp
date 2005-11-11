@@ -70,6 +70,12 @@ RzxRezalMap::~RzxRezalMap()
 	endClosing();
 }
 
+/** \reimp */
+bool RzxRezalMap::isInitialised() const
+{
+	return initialised;
+}
+
 ///Charge la liste des cartes disponibles
 QStringList RzxRezalMap::loadMaps()
 {

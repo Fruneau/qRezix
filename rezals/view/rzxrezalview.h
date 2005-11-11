@@ -24,6 +24,12 @@
 #include <QItemSelectionModel>
 #include <QPoint>
 
+#ifdef RZX_RZLVIEW_BUILTIN
+#       define RZX_BUILTIN
+#else
+#       define RZX_PLUGIN
+#endif
+
 #include <RzxRezal>
 #include <RzxRezalSearch>
 

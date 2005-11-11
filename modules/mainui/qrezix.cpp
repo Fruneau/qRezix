@@ -47,10 +47,19 @@
 #include "rzxmainuiconfig.h"
 #include "rzxquit.h"
 #include "rzxrezalmodel.h"
-#include "rzxrezalview.h"
-#include "rzxrezaldetail.h"
-#include "rzxrezalindex.h"
-#include "rzxrezalmap.h"
+
+#ifdef RZX_RZLVIEW_BUILTIN
+#	include "../../rezals/view/rzxrezalview.h"
+#endif
+#ifdef RZX_RZLDETAIL_BUILTIN
+#	include "../../rezals/detail/rzxrezaldetail.h"
+#endif
+#ifdef RZX_RZLDINDEX_BUILTIN
+#	include "../../rezals/index/rzxrezalindex.h"
+#endif
+#ifdef RZX_RZLMAP_BUILTIN
+#	include "../../rezals/map/rzxrezalmap.h"
+#endif
 
 RZX_GLOBAL_INIT(QRezix)
 
@@ -137,10 +146,18 @@ QRezix::QRezix(QWidget *parent)
 ///Chargement des rezals
 void QRezix::loadBuiltins()
 {
+#ifdef RZX_RZLVIEW_BUILTIN
 	installModule(new RzxRezalView());
+#endif
+#ifdef RZX_RZLDETAIL_BUILTIN
 	installModule(new RzxRezalDetail());
+#endif
+#ifdef RZX_RZLINDEX_BUILTIN
 	installModule(new RzxRezalIndex());
+#endif
+#ifdef RZX_RZLMAP_BUILTIN
 	installModule(new RzxRezalMap());
+#endif
 }
 
 ///Chargement des rezals

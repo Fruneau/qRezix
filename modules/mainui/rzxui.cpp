@@ -28,7 +28,6 @@ RZX_MODULE_EXPORT(RzxUi)
 
 #include "qrezix.h"
 #include "rzxrezalmodel.h"
-#include "rzxrezalview.h"
 #include "rzxmainuiconfig.h"
 #include "ui_rzxmainuipropui.h"
 
