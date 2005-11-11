@@ -18,6 +18,7 @@
 #define RZXTEXTEDIT_H
 
 #include <QTextEdit>
+#include <QTextLine>
 
 class RzxChat;
 
@@ -49,6 +50,10 @@ class RzxTextEdit : public QTextEdit
 
 	ListText *history;
 	ListText *curLine;
+
+	QTextLine currentTextLine() const;
+	bool atBeginning() const;
+	bool atEnd() const;
 
 public:
 	RzxTextEdit(QWidget *parent=0);

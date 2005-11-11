@@ -17,6 +17,7 @@
 #include <QKeyEvent>
 #include <QTextCursor>
 #include <QTextBlock>
+#include <QTextLayout>
 
 #include <RzxComputer>
 
@@ -62,9 +63,8 @@ RzxTextEdit::~RzxTextEdit()
 ///Interception de la frappe au clavier
 void RzxTextEdit::keyPressEvent(QKeyEvent *e)
 {
-	QKeyEvent * eMapped=e;
-//	bool down=false;
-//	int para, index, line;
+	QKeyEvent *eMapped = e;
+	bool down=false;
 	
 	//Saut de ligne - Envoie du message
 	switch(eMapped->key())
@@ -90,26 +90,58 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e)
 			break;
 	
 	//Parcours de l'historique
-/*	case Qt::Key_Down: 
+	case Qt::Key_Down:
 		down=true;
 	case Qt::Key_Up:
-		//Pour pouvoir éviter d'avoir à appuyer sur Shift ou Ctrl si on est à l'extrémité de la boite
-		getCursorPosition(&para, &index);
-		line = lineOfChar(para, index);
-		for(int i = 0 ; i<para ; i++) line += linesOfParagraph(i);
-		
 		//Et op, parcours de l'historique si les conditions sont réunies
-		if((eMapped->state() & Qt::ShiftButton) || (eMapped->state() & Qt::ControlButton) || (down && (line == lines()-1)) || (!down && !line)) {
+		if((eMapped->modifiers() & Qt::ShiftModifier) || (eMapped->modifiers() & Qt::ControlModifier) 
+			|| (down && atEnd()) || (!down && atBeginning()))
+		{
 			onArrowPressed(down);
 			break;
 		}
-		eMapped =new QKeyEvent(QEvent::KeyRelease, e->key(), e->ascii(), e->state());
-*/	
+		eMapped = new QKeyEvent(QEvent::KeyRelease, e->key(), e->modifiers(), e->text());
+	
 	//Texte normal
 	default:
 		QTextEdit::keyPressEvent(eMapped);
 		onTextEdited();
 	}
+}
+
+///Retourne un QTextLine indiquant la position du curseur
+QTextLine RzxTextEdit::currentTextLine() const
+{
+	const QTextBlock block = textCursor().block();
+	if (!block.isValid())
+		return QTextLine();
+
+	const QTextLayout *layout = block.layout();
+	if (!layout)
+		return QTextLine();
+
+	const int relativePos = textCursor().position() - block.position();
+	return layout->lineForTextPosition(relativePos);
+}
+
+///Indique si on est à la première ligne
+bool RzxTextEdit::atBeginning() const
+{
+	QTextBlock block = textCursor().block();
+	if(block.previous().isValid()) return false;
+
+	QTextLine line = currentTextLine();
+	return line.isValid() && !line.lineNumber();
+}
+
+///Indique si on est à la dernière ligne
+bool RzxTextEdit::atEnd() const
+{
+	QTextBlock block = textCursor().block();
+	if(block.next().isValid()) return false;
+
+	QTextLine line = currentTextLine();
+	return line.isValid() && line.lineNumber() == block.layout()->lineCount() - 1;
 }
 
 ///Fait une completion automatique du nick au niveau du curseur.
@@ -161,9 +193,10 @@ bool RzxTextEdit::nickAutocompletion()
 ///Pacours de l'historique
 void RzxTextEdit::onArrowPressed(bool down)
 {
-	if(history==0)
+	if(!history)
 		return;
-	ListText * newCur=0;
+
+	ListText *newCur = NULL;
 	if(down)
 		newCur = curLine->pPrevious;
 	else
@@ -181,7 +214,7 @@ void RzxTextEdit::onTextEdited()
 
 	if(!history)
 	{
-		history = new ListText(toHtml(), 0);
+		history = new ListText(toHtml(), NULL);
 		curLine = history;
 		return;
 	}
