@@ -59,7 +59,7 @@ class QSettings;
  * valeurs peuvent également contenir une entrée goto_nnnn qui renvoie vers une autre carte. La sélection de l'objet renverra vers une
  * carte détaillée de l'objet sélectionné.
  */
-class RzxRezalMap:public QAbstractItemView, public RzxRezal
+class RzxRezalMap : public QAbstractItemView, public RzxRezal
 {
 	Q_OBJECT
 

@@ -25,9 +25,9 @@
 #include <RzxConfig>
 #include <RzxComputer>
 
-#include "rzxrezalmap.h"
-
 #include <RzxRezalModel>
+
+#include "rzxrezalmap.h"
 
 RZX_REZAL_EXPORT(RzxRezalMap)
 
