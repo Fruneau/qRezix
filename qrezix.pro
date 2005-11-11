@@ -11,7 +11,7 @@ include(rzxinstall.pri)
 mainlib.files = libqrezix*
 networks.files = net/librzxnet*
 modules.files = modules/librzx*
-rezal.path = rezals/librezal*
+rezal.files = rezals/librezal*
 subnets.files = subnet.ini
 themes.files = resources/themes/*
 translations.files = resources/translations/*.qm

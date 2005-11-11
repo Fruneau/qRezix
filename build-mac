@@ -4,6 +4,10 @@
 qmake "DEFINES+=NO_JABBER" qrezix.pro
 make
 
+install_name_tool -change librzxmainui.dylib '@executable_path/../Resources/modules/librzxmainui.dylib' rezals/librezalmap.dylib
+install_name_tool -change librzxmainui.dylib '@executable_path/../Resources/modules/librzxmainui.dylib' rezals/librezaldetail.dylib
+install_name_tool -change librzxmainui.dylib '@executable_path/../Resources/modules/librzxmainui.dylib' rezals/librezalindex.dylib
+install_name_tool -change librzxmainui.dylib '@executable_path/../Resources/modules/librzxmainui.dylib' rezals/librezalview.dylib
 # Recrée le Makefile pour qu'il mette à jour la liste des fichiers à installer
 qmake "DEFINES+=NO_JABBER" qrezix.pro
 
