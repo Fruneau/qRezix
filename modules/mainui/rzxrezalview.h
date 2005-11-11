@@ -24,8 +24,8 @@
 #include <QItemSelectionModel>
 #include <QPoint>
 
-#include "rzxrezal.h"
-#include "rzxrezalsearch.h"
+#include <RzxRezal>
+#include <RzxRezalSearch>
 
 /**
 @author Florent Bruneau

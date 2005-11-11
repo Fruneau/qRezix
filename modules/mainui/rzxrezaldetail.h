@@ -20,7 +20,7 @@
 #include <QAbstractItemView>
 #include <QPointer>
 
-#include "rzxrezal.h"
+#include <RzxRezal>
 #include "ui_rzxitemui.h"
 
 class RzxComputer;

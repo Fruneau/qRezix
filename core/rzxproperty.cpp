@@ -203,7 +203,9 @@ void RzxProperty::initStyleCombo()
 	cmbStyle->setCurrentIndex(cmbStyle->findText(RzxStyle::style()));
 }
 
-/** No descriptions */
+///Initialise la boîte de dialogue avec les données courante de configuration
+/** ou si def = true, avec les données par défaut
+ */
 void RzxProperty::initDlg(bool def)
 {
 	RzxConfig * config = RzxConfig::global();
@@ -331,7 +333,7 @@ bool RzxProperty::updateLocalHost()
 	return refresh || servers != oldservers;
 }
 
-
+///Mets à jours les données globales de qRezix avec ce qu'a rentré l'utilisateur
 bool RzxProperty::miseAJour()
 {
 	updateModules<RzxNetwork>(RzxConnectionLister::global()->moduleList());
@@ -425,6 +427,7 @@ bool RzxProperty::miseAJour()
 	return true;
 }
 
+///Retourne la liste des informations non complétées
 QString RzxProperty::infoNeeded()
 {
 	QString msg = "";
@@ -441,6 +444,9 @@ QString RzxProperty::infoNeeded()
 	return msg;
 }
 
+///Affiche une boite de dialogue en cas de manque d'information
+/** Retourne le choix de l'utilisateur
+ */
 int RzxProperty::infoCompleteMessage()
 {
 	return QMessageBox::question(this, tr("Incomplete Data"), tr("In order to use qRezix, you must fill in the following information :\n")
@@ -449,11 +455,13 @@ int RzxProperty::infoCompleteMessage()
 			QMessageBox::Ok, QMessageBox::Cancel);
 }
 
+///L'utilisateur ne veut pas que ses modications soient prises en compte
 void RzxProperty::annuler() {
 	if(RzxConfig::infoCompleted() || (infoCompleteMessage() == QMessageBox::Cancel))
 		close();
 }
 
+///L'utilisateur veut que ses modifications soient prises en compte
 void RzxProperty::oK() {
 	if(!miseAJour())
 		return;
@@ -473,7 +481,7 @@ QString RzxProperty::browse(const QString& name, const QString& title, const QSt
 	return file;
 }
 
-/** No descriptions */
+///Affiche la boîte de dialoge due choix d'icône
 void RzxProperty::chooseIcon() {
 	QString file = browse(tr("Icons"), tr("Icon selection"), "*.png *.jpg *.bmp");
 	if ( file.isEmpty() ) return ;
@@ -489,6 +497,7 @@ void RzxProperty::chooseIcon() {
 	pxmIcon->setPixmap(icon);
 }
 
+///Affiche la boite de selection du répertoire de stockage des données pour le ftp
 void RzxProperty::launchDirSelectDialog() {
 	QString temp;
 	if ( !RzxConfig::global()->ftpPath().isNull() )
@@ -538,6 +547,7 @@ void RzxProperty::changeEvent(QEvent *e)
 		retranslateUi(this);
 		lbMenu->setCurrentItem(item);
 		lvPlugInList->setHeaderLabels(QStringList() << tr("Name") << tr("Version") << tr("Description"));
+		lvNetworks->setHeaderLabels(QStringList() << tr("Name") << tr("Version") << tr("Description"));
 		changeTheme();
 		initDlg();
 	}

@@ -22,8 +22,8 @@
 
 #include "rzxrezaldetail.h"
 
-#include "rzxrezalmodel.h"
-#include "rzxmainuiconfig.h"
+#include <RzxRezalModel>
+#include <RzxMainUIConfig>
 
 RZX_REZAL_EXPORT(RzxRezalDetail)
 

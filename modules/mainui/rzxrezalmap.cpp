@@ -27,7 +27,7 @@
 
 #include "rzxrezalmap.h"
 
-#include "rzxrezalmodel.h"
+#include <RzxRezalModel>
 
 RZX_REZAL_EXPORT(RzxRezalMap)
 

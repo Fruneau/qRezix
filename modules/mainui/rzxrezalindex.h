@@ -18,7 +18,8 @@
 #define RZXREZALINDEX_H
 
 #include <QTreeView>
-#include "rzxrezal.h"
+
+#include <RzxRezal>
 
 /**
 @author Florent Bruneau
