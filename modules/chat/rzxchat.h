@@ -20,11 +20,16 @@
 
 #include <QMenu>
 #include <QFrame>
-#include <QTextEdit>
 #include <QPointer>
 #include <QTimer>
 
 #include <RzxComputer>
+
+#ifdef Q_OS_MAC
+#	include "ui_rzxchatui_mac.h"
+#else
+#	include "ui_rzxchatui.h"
+#endif
 
 /**
   *@author Sylvain Joyeux
@@ -36,8 +41,7 @@ class QMoveEvent;
 class QKeyEvent;
 class QEvent;
 class QSplitter;
-
-class RzxChat;
+class QTextEdit;
 
 ///Classe pour les fenêtre propriété et historique du chat
 /** Affiche une frame qui permet de contenir les données des propriétés et de l'historique.<br>
@@ -60,43 +64,6 @@ inline void RzxPopup::forceVisible(bool pos)
 	else hide();
 }
 
-///Pour customiser la boîte d'édition
-/** Rajout de Stéphane Lescuyer 2004/05/27 */
-class RzxTextEdit : public QTextEdit 
-{
-	Q_OBJECT
-	
-	friend class RzxChat;
-	RzxChat *chat;
-	
-public:
-	RzxTextEdit(QWidget *parent=0);
-	~RzxTextEdit();
-	
-protected:
-	void setChat(RzxChat*);
-	void keyPressEvent(QKeyEvent*);
-	bool nickAutocompletion();
-
-signals:
-	void enterPressed();
-	void arrowPressed(bool);
-	void textWritten();
-};
-
-inline RzxTextEdit::RzxTextEdit(QWidget *parent)
-	:QTextEdit(parent), chat(NULL) { }
-
-inline void RzxTextEdit::setChat(RzxChat *m_chat)
-{ chat = m_chat; }
-
-
-#ifdef Q_OS_MAC
-#	include "ui_rzxchatui_mac.h"
-#else
-#	include "ui_rzxchatui.h"
-#endif
-
 ///Fenêtre de dialogue
 /** (et pas boîte de dialogue ;)... gere la totalité de l'interface de chat.
  *
@@ -110,6 +77,7 @@ class RzxChat : public QWidget, private Ui::RzxChatUI
 	
 	friend class RzxRezal;
 	
+	///Liste chaînée simple et rapide pour gérer l'historique
 	class ListText
 	{
 		public:
@@ -130,9 +98,7 @@ class RzxChat : public QWidget, private Ui::RzxChatUI
 
 public: 
 	RzxChat(RzxComputer *);
-//	RzxChat(RzxChatSocket* sock);
 	virtual ~RzxChat();
-//	RzxChatSocket *socket();
 	void sendChat(const QString& msg);
 
 private:
@@ -144,6 +110,8 @@ private:
 	
 protected:
 	QPointer<RzxComputer> m_computer;
+	int lastIP;
+	QString lastName;
 
 	QString textHistorique;
 	QTimer *timer;
@@ -201,6 +169,7 @@ protected: // Protected methods
 	virtual void changeEvent(QEvent *e);
 };
 
+///Retourne la machine associée à la fenêtre de chat
 inline RzxComputer *RzxChat::computer() const
 { return m_computer; }
 

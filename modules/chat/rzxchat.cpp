@@ -23,7 +23,6 @@
 #include <QShowEvent>
 #include <QCloseEvent>
 #include <QMoveEvent>
-#include <QKeyEvent>
 
 //Pour la construction de la fenêtre
 #include <QIcon>
@@ -37,7 +36,6 @@
 #include <QDateTime>
 #include <QRegExp>
 #include <QTextCursor>
-#include <QTextBlock>
 //Pour les couleurs du texte
 #include <QColor>
 #include <QColorDialog>
@@ -55,6 +53,7 @@
 
 #include "rzxchat.h"
 
+#include "rzxtextedit.h"
 #include "rzxchatlister.h"
 #include "rzxchatconfig.h"
 
@@ -94,18 +93,9 @@ const QColor RzxChat::preDefinedColors[16] = {Qt::black, Qt::red, Qt::darkRed,
 		Qt::magenta, Qt::darkMagenta, Qt::yellow, Qt::darkYellow, Qt::gray,
 		Qt::darkGray, Qt::lightGray};
 
-/*************** Création/Destruction de la fenêtre *****************/
-//On crée la fenêtre soit avec un m_socket d'une connection déjà établie
-/* RzxChat::RzxChat(RzxChatSocket* sock)
-	:QWidget(NULL, Qt::WindowContextHelpButtonHint), RzxChatUI()
-{
-	setSocket(sock);
-	init();
-} */
-
-//Soit sans m_socket, celui-ci sera initialisé de par la suite
+///Constructin d'une fenêtre de chat associée à la machine indiquée
 RzxChat::RzxChat(RzxComputer *c)
-	:QWidget(NULL, Qt::WindowContextHelpButtonHint), RzxChatUI()
+	:QWidget(NULL, Qt::WindowContextHelpButtonHint), RzxChatUI(), lastIP(0)
 {
 	setComputer(c);
 	init();
@@ -210,17 +200,20 @@ void RzxChat::init()
 ///Bye bye
 RzxChat::~RzxChat()
 {
-/*	QString temp = textHistorique;
+	if(lastIP)
+	{
+		QString temp = textHistorique;
 
-	QString filename = RzxChatConfig::historique(computer()->ip().toRezix(), computer()->name());
-	if(filename.isNull()) return;
+		QString filename = RzxChatConfig::historique(lastIP, lastName);
+		if(filename.isNull()) return;
 	
-	QFile file(filename);
-	file.open(QIODevice::ReadWrite |QIODevice::Append);
-	QTextStream stream(&file);
-	stream.setCodec("UTF-8");
-	stream << temp;
-	file.close();*/
+		QFile file(filename);
+		file.open(QIODevice::ReadWrite |QIODevice::Append);
+		QTextStream stream(&file);
+		stream.setCodec("UTF-8");
+		stream << temp;
+		file.close();
+	}
 	
 #ifdef WIN32
 	if(timer) delete timer;
@@ -228,43 +221,15 @@ RzxChat::~RzxChat()
 	if(defFont) delete defFont;
 }
 
-/********************* Gestion de la connexion au réseau ***********************/
-// Inline définies dans rzxchat.h :
-//	 - RzxChatSocket *RzxChatSocket::getSocket();
-//	 - RzxChatSocket *RzxChatSocket::validSocket();
-
-/*///Installation/Remplacement du m_socket de chat
-void RzxChat::setSocket(RzxChatSocket* sock)
-{
-	if(!sock && (!m_socket || m_socket->isConnected()))
-		return;
-
-	if(m_socket && sock && m_socket->isConnected() && *sock != *m_socket)
-	{
-		qDebug("Un nouveau m_socket différent a été proposé à %s", m_hostname.toAscii().constData());
-		disconnect(m_socket);
-		m_socket->disconnect(this);
-		m_socket->close();
-	}
-	
-	m_socket = sock;
-
-	if(m_socket)
-	{
-		m_socket->setChat(this);
-		connect(this, SIGNAL(send(const QString& )), m_socket, SLOT(sendChat(const QString& )));
-		connect(m_socket, SIGNAL(chat(const QString& )), this, SLOT(receive(const QString& )));
-		connect(m_socket, SIGNAL(info(const QString& )), this, SLOT(info(const QString& )));
-		connect(m_socket, SIGNAL(notify(const QString&, bool)), this, SLOT(notify(const QString&, bool )));
-		connect(m_socket, SIGNAL(pongReceived(int )), this, SLOT(pong(int)));
-		connect(&typingTimer, SIGNAL(timeout()), m_socket, SLOT(sendTyping()));
-		connect(m_socket, SIGNAL(typing(bool)), this, SLOT(peerTypingStateChanged(bool)));
-	}
-}*/
-
+///Défini la machine associée à la fenêtre de chat
 void RzxChat::setComputer(RzxComputer* c)
 {
 	m_computer = c;
+	if(c)
+	{
+		lastIP = c->ip().toRezix();
+		lastName = c->name();
+	}
 	updateTitle();
 }
 
@@ -376,7 +341,8 @@ void RzxChat::on_cbSize_activated(int index) {
 }
 
 ///Activation/Désactivation du formatage HTML du texte
-void RzxChat::on_cbSendHTML_toggled(bool on) {
+void RzxChat::on_cbSendHTML_toggled(bool on)
+{
 	cbFontSelect->setEnabled(on);
 	cbColorSelect->setEnabled(on);
 	cbSize->setEnabled(on);
@@ -428,7 +394,8 @@ void RzxChat::onTextChanged()
 }
 
 ///Ajoute les en-têtes qui vont bien pour l'affichage
-void RzxChat::append(const QString& color, const QString& host, const QString& argMsg) {
+void RzxChat::append(const QString& color, const QString& host, const QString& argMsg)
+{
 	QDateTime date = QDateTime::currentDateTime();
 	QString tmp, tmpH, head="", tmpD;
 	tmpD = date.toString("ddd d MMMM yy");
@@ -493,8 +460,9 @@ void RzxChat::receive(const QString& msg)
 }
 
 
-/** Affiche une info de status (deconnexion, reconnexion) */
-void RzxChat::info(const QString& msg){
+/// Affiche une info de status (deconnexion, reconnexion)
+void RzxChat::info(const QString& msg)
+{
 	append( "darkgreen", computer()->name() + " ", msg );
 }
 
@@ -524,9 +492,7 @@ void RzxChat::receiveChatMessage(Rzx::ChatMessageType type, const QString& msg)
 	}
 }
 
-
-
-/** No descriptions */
+///Envoie le contenu de la fenêtre d'édition
 void RzxChat::on_btnSend_clicked()
 {
 	//Pour que les plug-ins qui en on besoin modifie le texte de chat
@@ -593,20 +559,23 @@ void RzxChat::on_btnHistorique_toggled(bool on)
 		return;
 	}
 
-	if(hist) return;
+	if(hist || !lastIP) return;
 	btnProperties->setChecked(false);
 	
+	//Enregistre l'historique actuel
 	QString temp = textHistorique;
 
-	QString filename = RzxChatConfig::historique(computer()->ip().toRezix(), computer()->name());
+	QString filename = RzxChatConfig::historique(lastIP, lastName);
 	if (filename.isNull()) return;
 	
-	QFile file(filename);		
+	QFile file(filename);
 	file.open(QIODevice::ReadWrite |QIODevice::Append);
 	file.write(temp.toUtf8());
 	file.close();
+
+	//Affiche la fenêtre
 	QPoint *pos = new QPoint(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
-	hist = (RzxPopup*)RzxChatLister::global()->historique(computer()->ip(), false, this, pos);
+	hist = (RzxPopup*)RzxChatLister::global()->historique(RzxHostAddress::fromRezix(lastIP), false, this, pos);
 	delete pos;
 	hist->show();
 }
@@ -640,12 +609,15 @@ void RzxChat::receiveProperties(const QString& msg)
 	prop->show();
 }
 
+///Déplacement des popups avec la fenêtre principale
 void RzxChat::moveEvent(QMoveEvent *)
 {
+#ifndef Q_OS_MAC
 	if(!hist.isNull())
 		hist->move(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
 	if(!prop.isNull())
 		prop->move(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
+#endif
 }
 
 /// Gestion de la connexion avec l'autre client
@@ -759,108 +731,4 @@ void RzxChat::on_btnPlugins_clicked()
 	if(!menuPlugins.actions().count())
 		menuPlugins.addAction("<none>");
 	menuPlugins.popup(btnPlugins->mapToGlobal(btnPlugins->rect().bottomLeft()));
-}
-
-
-/***************************************************
-* RzxTextEdit : fenêtre d'édition avec interceptions
-***************************************************/
-RzxTextEdit::~RzxTextEdit() {
-}
-
-void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
-	QKeyEvent * eMapped=e;
-//	bool down=false;
-//	int para, index, line;
-	
-	//Saut de ligne - Envoie du message
-	switch(eMapped->key())
-	{
-		case Qt::Key_Enter: case Qt::Key_Return:
-			if(eMapped->modifiers() != Qt::SHIFT)
-			{
-				emit enterPressed();
-				break;
-			}
-			//eMapped =new QKeyEvent(QEvent::KeyRelease, Qt::Key_Enter, e->text(), e->modifiers());
-			QTextEdit::keyPressEvent(eMapped);
-			break;
-
-		//Autocompletion
-		case Qt::Key_Tab:
-			//Pour que quand on appuie sur tab ça fasse la complétion du nick
-			if(!nickAutocompletion())
-			{
-				QTextEdit::keyPressEvent(eMapped);
-				emit textWritten();
-			}
-			break;
-	
-	//Parcours de l'historique
-/*	case Qt::Key_Down: 
-		down=true;
-	case Qt::Key_Up:
-		//Pour pouvoir éviter d'avoir à appuyer sur Shift ou Ctrl si on est à l'extrémité de la boite
-		getCursorPosition(&para, &index);
-		line = lineOfChar(para, index);
-		for(int i = 0 ; i<para ; i++) line += linesOfParagraph(i);
-		
-		//Et op, parcours de l'historique si les conditions sont réunies
-		if((eMapped->state() & Qt::ShiftButton) || (eMapped->state() & Qt::ControlButton) || (down && (line == lines()-1)) || (!down && !line)) {
-			emit arrowPressed(down);
-			break;
-		}
-		eMapped =new QKeyEvent(QEvent::KeyRelease, e->key(), e->ascii(), e->state());
-*/	
-	//Texte normal
-	default:
-		QTextEdit::keyPressEvent(eMapped);
-		emit textWritten();
-	}
-}
-
-///Fait une completion automatique du nick au niveau du curseur.
-/** La completion n'est réalisée que si aucune sélection n'est actuellement définie */
-bool RzxTextEdit::nickAutocompletion()
-{
-	QTextCursor cursor = textCursor();
-	
-	//Si y'a une sélection, on zappe
-	if(cursor.hasSelection())
-		return false;
-	
-	//On récupère la position du curseur et la paragraphe concerné
-	int index = cursor.position();
-	index -= cursor.block().position();
-	if(!index) return false;
-	
-	QRegExp mask("[^-A-Za-z0-9]([-A-Za-z0-9]+)$");
-	QString textPara = cursor.block().text();
-	
-	//Juste pour se souvenir des pseudos possibles
-	QString localName = RzxComputer::localhost()->name();
-	QString remoteName = chat->computer()->name();
-	
-	for(int i = 1 ; i <= index && (localName.length() > i || remoteName.length() > i) ; i++)
-	{
-		//Chaine de caractère qui précède le curseur de taille i
-		QString nick = textPara.mid(index-i, i);
-		
-		if(mask.indexIn(nick) != -1 || i == index)
-		{
-			if(mask.indexIn(nick) != -1) nick = mask.cap(1);
-			if(!remoteName.indexOf(nick, false) && localName.indexOf(nick, false))
-			{
-				cursor.insertText(remoteName.right(remoteName.length()-nick.length()) + " ");
-				return true;
-			}
-			else if(remoteName.indexOf(nick, false) && !localName.indexOf(nick, false))
-			{
-				cursor.insertText(localName.right(localName.length()-nick.length()) + " ");
-				return true;
-			}
-			return false;
-		}
-	}
-	return false;
 }

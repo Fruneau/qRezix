@@ -569,7 +569,7 @@
   <customwidget>
    <class>RzxTextEdit</class>
    <extends></extends>
-   <header>rzxchat.h</header>
+   <header>rzxtextedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
