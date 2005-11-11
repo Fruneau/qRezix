@@ -1,4 +1,5 @@
 [v1.7.0] 2005-11 <br2003@frankiz.polytechnique.fr>
+    * Changement dynamique de thème Qt [Fruneau]
     * Module RzxRezalMap [Fruneau]
     * Module RzxRezalDetail [Fruneau]
     * Migration en Qt4 [Fruneau]

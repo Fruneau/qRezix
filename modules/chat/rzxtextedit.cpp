@@ -24,11 +24,44 @@
 
 #include "rzxchat.h"
 
-RzxTextEdit::~RzxTextEdit()
+/***************************************************
+* RzxTextEdit::ListText
+***************************************************/
+RzxTextEdit::ListText::ListText(QString t, ListText * pN)
 {
+	texte = t;
+	pNext = pN;
+	pPrevious = 0;
+	if(pNext != 0)
+		pNext -> pPrevious = this;
 }
 
-void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
+RzxTextEdit::ListText::~ListText()
+{
+	delete pNext;
+}
+
+
+/***************************************************
+* RzxTextEdit
+***************************************************/
+///Construction
+RzxTextEdit::RzxTextEdit(QWidget *parent)
+	:QTextEdit(parent), chat(NULL)
+{
+	curLine = history = NULL;
+}
+
+///Destruction
+RzxTextEdit::~RzxTextEdit()
+{
+	curLine = NULL;
+	delete history;
+}
+
+///Interception de la frappe au clavier
+void RzxTextEdit::keyPressEvent(QKeyEvent *e)
+{
 	QKeyEvent * eMapped=e;
 //	bool down=false;
 //	int para, index, line;
@@ -52,7 +85,7 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 			if(!nickAutocompletion())
 			{
 				QTextEdit::keyPressEvent(eMapped);
-				emit textWritten();
+				onTextEdited();
 			}
 			break;
 	
@@ -67,7 +100,7 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 		
 		//Et op, parcours de l'historique si les conditions sont réunies
 		if((eMapped->state() & Qt::ShiftButton) || (eMapped->state() & Qt::ControlButton) || (down && (line == lines()-1)) || (!down && !line)) {
-			emit arrowPressed(down);
+			onArrowPressed(down);
 			break;
 		}
 		eMapped =new QKeyEvent(QEvent::KeyRelease, e->key(), e->ascii(), e->state());
@@ -75,7 +108,7 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e) {
 	//Texte normal
 	default:
 		QTextEdit::keyPressEvent(eMapped);
-		emit textWritten();
+		onTextEdited();
 	}
 }
 
@@ -123,4 +156,45 @@ bool RzxTextEdit::nickAutocompletion()
 		}
 	}
 	return false;
+}
+
+///Pacours de l'historique
+void RzxTextEdit::onArrowPressed(bool down)
+{
+	if(history==0)
+		return;
+	ListText * newCur=0;
+	if(down)
+		newCur = curLine->pPrevious;
+	else
+		newCur = curLine->pNext;
+	if(!newCur)
+		newCur = history;
+	setHtml(newCur->texte);
+	curLine = newCur;
+}
+
+///En cas d'édition du texte, on met à jour l'historique
+void RzxTextEdit::onTextEdited()
+{
+	emit textWritten();
+
+	if(!history)
+	{
+		history = new ListText(toHtml(), 0);
+		curLine = history;
+		return;
+	}
+	history->texte = toHtml();
+}
+
+///Valide le contenue
+/** La validation consiste à l'envoie du contenu de la fenêtre
+ * donc on incrémente l'historique et on vide la fenêtre.
+ */
+void RzxTextEdit::validate()
+{
+	history = new ListText(toHtml(), history);
+	curLine = history;
+	clear();
 }

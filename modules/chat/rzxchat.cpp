@@ -70,21 +70,6 @@ RzxPopup::RzxPopup(QWidget *parent)
 	setAttribute(Qt::WA_DeleteOnClose);
 }
 
-/***************************************************
-* RzxChat::ListText
-***************************************************/
-RzxChat::ListText::ListText(QString t, ListText * pN) {
-	texte = t;
-	pNext = pN;
-	pPrevious = 0;
-	if(pNext != 0)
-		pNext -> pPrevious = this;
-}
-
-RzxChat::ListText::~ListText() {
-	delete pNext;
-}
-
 /******************************
 * RzxChat
 ******************************/
@@ -151,8 +136,6 @@ void RzxChat::init()
 	changeIconFormat();
 
 	/**** Préparation des données ****/
-	//gestion touches haut et bas
-	curLine = history = 0;
 	curColor = Qt::black;
 
 	//chargement des fontes
@@ -180,7 +163,6 @@ void RzxChat::init()
 	connect( timer, SIGNAL(timeout()),this, SLOT(messageReceived()) );
 #endif
 	connect(edMsg, SIGNAL(enterPressed()), this, SLOT(onReturnPressed()));
-	connect(edMsg, SIGNAL(arrowPressed(bool)), this, SLOT(onArrowPressed(bool)));
 	connect(edMsg, SIGNAL(textWritten()), this, SLOT(onTextChanged()));
 	connect(btnHistorique, SIGNAL(toggled(bool)), this, SLOT(on_btnHistorique_toggled(bool)));
 	connect(btnProperties, SIGNAL(toggled(bool)), this, SLOT(on_btnProperties_toggled(bool)));
@@ -264,29 +246,16 @@ void RzxChat::updateTitle()
 ///Valide le texte
 /** utilisé pour tronquer la chaine et enlever le retour chariot quand
 l'utilisateur utilise Return ou Enter pour envoyer son texte */
-void RzxChat::onReturnPressed() {
+void RzxChat::onReturnPressed()
+{
 	int length=edMsg->toPlainText().length();
-	if(length==0) {  //vide + /n
-		edMsg->setPlainText("");
+	if(!length)
+	{  //vide + /n
+		edMsg->clear();
 		return;
 	}
 	//edMsg->setText(edMsg->text().left(length-1));
 	on_btnSend_clicked();
-}
-
-///Pacours de l'historique
-void RzxChat::onArrowPressed(bool down) {
-	if(history==0)
-		return;
-	ListText * newCur=0;
-	if(down)
-		newCur = curLine->pPrevious;
-	else
-		newCur = curLine->pNext;
-	if(!newCur)
-		newCur = history;
-	edMsg->setHtml(newCur->texte);
-	curLine = newCur;
 }
 
 ///On ajoute une nouvelle couleur dans la liste des couleurs prédéfinies
@@ -367,14 +336,9 @@ void RzxChat::on_cbSendHTML_toggled(bool on)
 
 
 /******************** Editiion du texte *******************/
+///En cas d'édition du texte
 void RzxChat::onTextChanged()
 {
-	if(!history) {
-		history = new ListText(edMsg->toHtml(), 0);
-		curLine = history;
-		return;
-	}
-	history->texte = edMsg->toHtml();
 	if(!typing && edMsg->toPlainText().length())
 	{
 		typing = true;
@@ -506,8 +470,6 @@ void RzxChat::on_btnSend_clicked()
 	QString rawMsg = edMsg->toPlainText();
 	if(rawMsg.isEmpty()) return;
 
-	history = new ListText(htmlMsg, history);
-	curLine = history;
 
 	if(rawMsg == "/ping" || rawMsg.left(6) == "/ping ")
 	{
@@ -535,7 +497,8 @@ void RzxChat::on_btnSend_clicked()
 	QString dispMsg = msg;
 	append("red", ">&nbsp;", dispMsg);
 	sendChat(msg);	//passage par la sous-couche de gestion du m_socket avant d'émettre
-	edMsg -> setPlainText("");
+
+	edMsg->validate();
 	
 /*	if(cbSendHTML->isChecked())
 	{

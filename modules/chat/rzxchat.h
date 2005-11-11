@@ -75,21 +75,6 @@ class RzxChat : public QWidget, private Ui::RzxChatUI
 	Q_OBJECT
 	Q_PROPERTY(RzxComputer* computer READ computer WRITE setComputer)
 	
-	friend class RzxRezal;
-	
-	///Liste chaînée simple et rapide pour gérer l'historique
-	class ListText
-	{
-		public:
-			ListText * pPrevious;
-			QString texte;
-			ListText * pNext;
-			
-		public:	
-			ListText(QString t, ListText * pN);
-			~ListText();
-	};
-
 	static const QColor preDefinedColors[16];
 	
 	QTextEdit *txtHistory;
@@ -115,8 +100,6 @@ protected:
 
 	QString textHistorique;
 	QTimer *timer;
-	ListText *history;
-	ListText *curLine;
 	QFont *defFont;
 	QColor curColor;
 	bool typing, peerTyping;

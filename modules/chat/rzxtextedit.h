@@ -33,24 +33,42 @@ class RzxTextEdit : public QTextEdit
 	
 	friend class RzxChat;
 	RzxChat *chat;
-	
+
+	///Liste chaînée simple et rapide pour gérer l'historique
+	class ListText
+	{
+		public:
+			ListText * pPrevious;
+			QString texte;
+			ListText * pNext;
+			
+		public:	
+			ListText(QString t, ListText * pN);
+			~ListText();
+	};
+
+	ListText *history;
+	ListText *curLine;
+
 public:
 	RzxTextEdit(QWidget *parent=0);
 	~RzxTextEdit();
+
+public slots:
+	void validate();
 	
 protected:
 	void setChat(RzxChat*);
 	void keyPressEvent(QKeyEvent*);
 	bool nickAutocompletion();
 
+	void onArrowPressed(bool);
+	void onTextEdited();
+
 signals:
 	void enterPressed();
-	void arrowPressed(bool);
 	void textWritten();
 };
-
-inline RzxTextEdit::RzxTextEdit(QWidget *parent)
-	:QTextEdit(parent), chat(NULL) { }
 
 inline void RzxTextEdit::setChat(RzxChat *m_chat)
 { chat = m_chat; }
