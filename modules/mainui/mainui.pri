@@ -20,3 +20,8 @@ FORMS += $$ROOT/modules/mainui/qrezixui.ui \
 	$$ROOT/modules/mainui/rzxstatusui.ui \
 	$$ROOT/modules/mainui/rzxquitui.ui \
 	$$ROOT/modules/mainui/rzxmainuipropui.ui
+
+contains(DEFINES, RZX_RZLVIEW_BUILTIN):include($$ROOT/rezals/view/view.pri)
+contains(DEFINES, RZX_RZLDETAIL_BUILTIN):include($$ROOT/rezals/detail/detail.pri)
+contains(DEFINES, RZX_RZLINDEX_BUILTIN):include($$ROOT/rezals/index/index.pri)
+contains(DEFINES, RZX_RZLMAP_BUILTIN):include($$ROOT/rezals/map/map.pri)

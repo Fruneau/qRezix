@@ -17,6 +17,10 @@ TRAYICON - TrayIcon pour simplifier l'accès au programme
 NOTIFIER - Gestion des notifications de connexion des favoris
 XNET - Gestion du protocole xNet
 JABBER - Gestion du protocole Jabber
+RZLINDEX - Module de la mainui jouant le rôle d'index
+RZLVIEW - Module de la mainui fournissant un affichage classique
+RZLDETAIL - Module de la mainui offrant un détail de la personne sélectionnée
+RZLMAP - Module de la mainui permettant de situer géographiquement les personnes
 
 * Le préfixe, valide uniquement sous Unix (non MacOS X) donne la base du répertoire d'installation. Par défaut PREFIX=/usr
 
