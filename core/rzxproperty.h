@@ -176,7 +176,7 @@ void RzxProperty::changeThemeModules(const QList<T*>& modules, QTreeWidget *view
 
 		QList<RzxBaseModule*> children = module->childModules();
 
-		if(props.size() >= 1 || children.size())
+		if(item && (props.size() >= 1 || children.size()))
 		{
 			item->setIcon(0, module->icon());
 			if(props.size() > 1)
