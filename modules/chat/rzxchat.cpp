@@ -206,13 +206,7 @@ RzxChat::~RzxChat()
 ///Défini la machine associée à la fenêtre de chat
 void RzxChat::setComputer(RzxComputer* c)
 {
-	if(m_computer && c != m_computer)
-	{
-		disconnect(m_computer, SIGNAL(update(RzxComputer*)), this, SLOT(setComputer(RzxComputer*)));
-		if(c)
-			connect(c, SIGNAL(update(RzxComputer*)), this, SLOT(setComputer(RzxComputer*)));
-		m_computer = c;
-	}
+	m_computer = c;
 	if(c)
 	{
 		lastIP = c->ip().toRezix();

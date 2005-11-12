@@ -106,14 +106,18 @@ RzxChatLister::~RzxChatLister()
 /** Sert aussi au raffraichissement des données*/
 void RzxChatLister::login(RzxComputer *computer)
 {
-	RzxChat *chat = chatByLogin.take(computer->name());
+	RzxChat *chat = getChatByIP(computer->ip());
 	if(chat)
 	{
 		//Indication au chat de la reconnexion
 		chat->setComputer(computer);
 		if (!computer)
 			chat->info( tr("reconnected") );
-		chatByLogin.insert(computer->name(), chat);
+		if(chatByLogin[computer->name()] != chat)
+		{
+			chatByLogin.remove(chatByLogin.key(chat));
+			chatByLogin.insert(computer->name(), chat);
+		}
 	}
 }
 
