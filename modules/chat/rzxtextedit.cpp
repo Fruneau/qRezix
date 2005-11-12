@@ -28,6 +28,7 @@
 /***************************************************
 * RzxTextEdit::ListText
 ***************************************************/
+///Construit un nouveau maillon de la liste
 RzxTextEdit::ListText::ListText(QString t, ListText * pN)
 {
 	texte = t;
@@ -37,6 +38,7 @@ RzxTextEdit::ListText::ListText(QString t, ListText * pN)
 		pNext -> pPrevious = this;
 }
 
+///Supprime la liste récursivement
 RzxTextEdit::ListText::~ListText()
 {
 	delete pNext;
@@ -201,10 +203,14 @@ void RzxTextEdit::onArrowPressed(bool down)
 		newCur = curLine->pPrevious;
 	else
 		newCur = curLine->pNext;
+
 	if(!newCur)
 		newCur = history;
-	setHtml(newCur->texte);
-	curLine = newCur;
+	if(curLine != newCur)
+	{
+		setHtml(newCur->texte);
+		curLine = newCur;
+	}
 }
 
 ///En cas d'édition du texte, on met à jour l'historique
@@ -219,6 +225,7 @@ void RzxTextEdit::onTextEdited()
 		return;
 	}
 	history->texte = toHtml();
+	curLine = history;
 }
 
 ///Valide le contenue
