@@ -73,7 +73,7 @@ void RzxNotifier::loginEnd()
 void RzxNotifier::login(RzxComputer *computer)
 {
 	connect(computer, SIGNAL(favoriteStateChanged(RzxComputer*)), this, SLOT(favoriteUpdated(RzxComputer* )));
-	if(computer && computer->isFavorite())
+	if(computer && computer->isFavorite() && !computer->isLocalhost())
 		favoriteUpdated(computer);
 }
 
