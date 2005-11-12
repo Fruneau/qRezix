@@ -110,10 +110,10 @@ void RzxChatLister::login(RzxComputer *computer)
 	if(chat)
 	{
 		//Indication au chat de la reconnexion
+		chat->setComputer(computer);
 		if (!computer)
 			chat->info( tr("reconnected") );
 		chatByLogin.insert(computer->name(), chat);
-		chat->updateTitle();
 	}
 }
 

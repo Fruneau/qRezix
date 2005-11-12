@@ -82,8 +82,8 @@ const QColor RzxChat::preDefinedColors[16] = {Qt::black, Qt::red, Qt::darkRed,
 RzxChat::RzxChat(RzxComputer *c)
 	:QWidget(NULL, Qt::WindowContextHelpButtonHint), RzxChatUI(), lastIP(0)
 {
-	setComputer(c);
 	init();
+	setComputer(c);
 }
 
 ///Initialisation de la fenêtre de chat
@@ -174,7 +174,7 @@ void RzxChat::init()
 
 	on_cbFontSelect_activated(0);
 	on_cbSendHTML_toggled(false);	
-	edMsg->setPlainText("");
+	edMsg->clear();
 	typing = peerTyping = false;
 	unread = 0;
 }
@@ -186,7 +186,7 @@ RzxChat::~RzxChat()
 	{
 		QString temp = textHistorique;
 
-		QString filename = RzxChatConfig::historique(lastIP, lastName);
+		QString filename = RzxChatConfig::historique(rezixIP(), name());
 		if(filename.isNull()) return;
 	
 		QFile file(filename);
@@ -206,7 +206,13 @@ RzxChat::~RzxChat()
 ///Défini la machine associée à la fenêtre de chat
 void RzxChat::setComputer(RzxComputer* c)
 {
-	m_computer = c;
+	if(m_computer && c != m_computer)
+	{
+		disconnect(m_computer, SIGNAL(update(RzxComputer*)), this, SLOT(setComputer(RzxComputer*)));
+		if(c)
+			connect(c, SIGNAL(update(RzxComputer*)), this, SLOT(setComputer(RzxComputer*)));
+		m_computer = c;
+	}
 	if(c)
 	{
 		lastIP = c->ip().toRezix();
@@ -235,7 +241,7 @@ void RzxChat::peerTypingStateChanged(bool state)
  */ 
 void RzxChat::updateTitle()
 {
-	QString title = tr("Chat") + " - " + computer()->name();
+	QString title = tr("Chat") + " - " + name();
 	
 	if(peerTyping && isActiveWindow()) title += " - " + tr("Is typing a message");
 	if(unread) title += " - " + QString::number(unread) + " " + tr("unread");
@@ -410,9 +416,9 @@ void RzxChat::receive(const QString& msg)
 		RzxSound::play(RzxChatConfig::beepSound());	
 	
 	if(RzxConfig::autoResponder())
-		append("darkgray", computer()->name() + ">&nbsp;", message);
+		append("darkgray", name() + ">&nbsp;", message);
 	else
-		append("blue", computer()->name() + ">&nbsp;", message);
+		append("blue", name() + ">&nbsp;", message);
 	if(!isActiveWindow())
 	{
 		unread++;
@@ -427,7 +433,7 @@ void RzxChat::receive(const QString& msg)
 /// Affiche une info de status (deconnexion, reconnexion)
 void RzxChat::info(const QString& msg)
 {
-	append( "darkgreen", computer()->name() + " ", msg );
+	append( "darkgreen", name() + " ", msg );
 }
 
 /// Affiche un message de notification (envoie de prop, ping, pong...)
@@ -437,7 +443,7 @@ void RzxChat::notify(const QString& msg, bool withHostname)
 		return;
 
 	QString header = "***&nbsp;";
-	if(withHostname) header += computer()->name() + "&nbsp;";
+	if(withHostname) header += name() + "&nbsp;";
 	append("gray", header, msg);
 }
 
@@ -528,7 +534,7 @@ void RzxChat::on_btnHistorique_toggled(bool on)
 	//Enregistre l'historique actuel
 	QString temp = textHistorique;
 
-	QString filename = RzxChatConfig::historique(lastIP, lastName);
+	QString filename = RzxChatConfig::historique(rezixIP(), name());
 	if (filename.isNull()) return;
 	
 	QFile file(filename);

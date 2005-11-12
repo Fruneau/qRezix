@@ -95,7 +95,7 @@ private:
 	
 protected:
 	QPointer<RzxComputer> m_computer;
-	int lastIP;
+	qint32 lastIP;
 	QString lastName;
 
 	QString textHistorique;
@@ -126,6 +126,8 @@ public slots: // Public slots
 	
 public:
 	RzxComputer *computer() const;
+	const QString& name() const;
+	qint32 rezixIP() const;
 
 protected slots:
 	void pong(int ms);
@@ -156,5 +158,12 @@ protected: // Protected methods
 inline RzxComputer *RzxChat::computer() const
 { return m_computer; }
 
+///Retourne le nom de la machine associée
+inline const QString& RzxChat::name() const
+{ return lastName; }
+
+///Retourne l'adresse de la machine associée
+inline qint32 RzxChat::rezixIP() const
+{ return lastIP; }
 
 #endif
