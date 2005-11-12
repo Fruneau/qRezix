@@ -139,7 +139,6 @@ protected slots:
 	void on_cbSendHTML_toggled(bool on);
 	void on_btnSend_clicked();
 	void onReturnPressed();
-	void onArrowPressed(bool down);
 	void onTextChanged();
 	bool event(QEvent *e);
 	void on_btnPlugins_clicked();
