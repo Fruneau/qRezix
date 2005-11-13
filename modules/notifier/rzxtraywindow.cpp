@@ -24,6 +24,7 @@
 #include <QHBoxLayout>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QMouseEvent>
 
 #include <RzxComputer>
 #include <RzxConfig>
@@ -33,8 +34,8 @@
 
 ///Construction de la fenêtre de notification d'état de connexion de computer
 /** La fenêtre est construite pour disparaître automatiquement au bout de time secondes */
-RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
-		: QFrame( NULL, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint )
+RzxTrayWindow::RzxTrayWindow( RzxComputer* c, unsigned int time )
+		: QFrame( NULL, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint ), computer(c)
 {
 	setAttribute( Qt::WA_DeleteOnClose );
 	setMinimumWidth( 150 );
@@ -58,6 +59,7 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
 	QImage symbol;
 	QPixmap symbolPixmap;
 	int px, py;
+	px = py = 0; // pour faire taire un warning @lc...
 	switch(computer->state())
 	{
 		case Rzx::STATE_DISCONNECTED:
@@ -122,3 +124,26 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* computer, unsigned int time )
 /** Rien à faire ici */
 RzxTrayWindow::~RzxTrayWindow()
 {}
+
+///Capture de l'action de la souris
+/** On applique quelques règles simples :
+ * - clic droit ==> chat
+ * - clic gauche ==> fermeture de la fenêtre
+ */
+void RzxTrayWindow::mousePressEvent(QMouseEvent *e)
+{
+	switch(e->button())
+	{
+		case Qt::RightButton:
+			if(computer && computer->state() == Rzx::STATE_HERE)
+				computer->chat();
+
+		case Qt::LeftButton:
+			timer.stop();
+			close();
+			break;
+
+		default:
+			QWidget::mousePressEvent(e);
+	}
+}

@@ -18,9 +18,11 @@
 
 #include <QFrame>
 #include <QTimer>
+#include <QPointer>
 
-class RzxComputer;
-class QEvent;
+#include <RzxComputer>
+
+class QMouseEvent;
 
 ///Gestion de la fenêtre qui s'affiche lorsque les favoris changent d'état
 /** Construit, affiche et détruit la fenêtre.
@@ -38,8 +40,12 @@ class RzxTrayWindow: public QFrame
 	Q_OBJECT
 	
 	QTimer timer;
+	QPointer<RzxComputer> computer;
 	
 	public:
 		RzxTrayWindow(RzxComputer *computer, unsigned int time = 5);
 		~RzxTrayWindow();
+
+	protected slots:
+		virtual void mousePressEvent(QMouseEvent*);
 };
