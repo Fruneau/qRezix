@@ -13,5 +13,6 @@ mac {
 	lib.path = qRezix.app/Contents/Resources/rezals
 } else:unix {
         lib.path = $$DEST/lib/qrezix/rezals
+        lib.extra = ln -sf $$DEST/lib/qrezix/rezals/* $$DEST/lib
 }
 INSTALLS += lib
