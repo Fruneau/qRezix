@@ -41,6 +41,7 @@ RzxTranslator::~RzxTranslator()
 	foreach(QList<QTranslator*> list, translations)
 		qDeleteAll(list);
 	translations.clear();
+	RZX_GLOBAL_CLOSE
 }
 
 ///Chargement des traductions disponibles

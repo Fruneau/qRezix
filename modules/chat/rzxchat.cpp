@@ -475,7 +475,7 @@ void RzxChat::on_btnSend_clicked()
 	{
 		if(computer())
 			computer()->sendChat(Rzx::Ping);
-		edMsg->setPlainText("");
+		edMsg->clear();
 		notify(tr("Ping emitted"));
 		return;
 	}

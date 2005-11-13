@@ -176,6 +176,8 @@ void RzxIconCollection::setTheme(const QString& theme)
 		activeTheme = theme;
 	icons.clear();
 	qDebug("Icons theme set to %s", activeTheme.toAscii().constData());
+	
+	RzxConfig::setIconTheme(activeTheme);
 	emit themeChanged(activeTheme);
 }
 

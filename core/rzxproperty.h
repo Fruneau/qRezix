@@ -46,6 +46,14 @@ class RzxProperty : public QDialog, public Ui::frmPref
 	QTreeWidgetItem *networkItem ;
 	QTreeWidgetItem *confItem;
 
+	///Indexes des différentes pages prédéfinies
+	enum Pages {
+		UserInfo = 0,
+		ProgConfig = 1,
+		Network = 2,
+		Blank = 3
+	};
+
 public: 
 	RzxProperty(QWidget *parent = NULL);
 	~RzxProperty();

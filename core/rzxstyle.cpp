@@ -46,6 +46,7 @@ RzxStyle::RzxStyle()
 RzxStyle::~RzxStyle()
 {
 	styles.clear();
+	RZX_GLOBAL_CLOSE
 }
 
 ///Retourne la liste des styles disponibles
@@ -61,16 +62,21 @@ QString RzxStyle::style()
 }
 
 ///Défini le style à utiliser
-void RzxStyle::setStyle(const QString& newStyle)
+/** Cette fonction est une surcharge de setStyle qui est globale
+ */
+void RzxStyle::local_setStyle(const QString& newStyle)
 {
-	if(global()->styles.contains(newStyle) && newStyle != global()->currentName)
+	if(styles.contains(newStyle) && newStyle != currentName)
 	{
-		global()->currentName = newStyle;
+		currentName = newStyle;
 		RzxConfig::setStyle(newStyle);
-		global()->applyStyle();
-		emit global()->styleChanged(newStyle);
+		applyStyle();
+		emit styleChanged(newStyle);
 		qDebug() << "Style set to" << newStyle;
 	}
+
+	metalStyle = (currentName == "Mac Metal");
+	defaultStyle = (currentName == "default" || metalStyle);
 }
 
 ///Ajoute la fenêtre à la liste des fenêtres qui utilisent le style de qRezix
@@ -104,7 +110,7 @@ void RzxStyle::applyStyle(QWidget *widget)
 
 	widget->setStyle(style);
 	if(!style && widget->isWindow())
-		widget->setAttribute(Qt::WA_MacMetalStyle, currentName == "Mac Metal");
+		widget->setAttribute(Qt::WA_MacMetalStyle, metalStyle);
 
 
 	QList<QWidget*> children = widget->findChildren<QWidget*>();
@@ -118,7 +124,7 @@ void RzxStyle::applyStyle()
 	if(RzxConfig::useStyleForAll())
 		QApplication::setStyle(current());
 	
-	if(!RzxConfig::useStyleForAll() || currentName == "Mac Metal")
+	if(!RzxConfig::useStyleForAll() || metalStyle)
 	{
 		styledWidgets.removeAll(NULL);
 		foreach(QWidget *widget, styledWidgets)

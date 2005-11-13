@@ -45,10 +45,13 @@ class RzxStyle:public QObject
 
 	QStringList styles;
 	QString currentName;
+	bool defaultStyle;
+	bool metalStyle;
 
 	QList< QPointer<QWidget> > styledWidgets;
 
 	QStyle *current() const;
+	void local_setStyle(const QString&);
 
 	public:
 		RzxStyle();
@@ -75,7 +78,7 @@ class RzxStyle:public QObject
 ///Génère un objet du style aproprié
 inline QStyle *RzxStyle::current() const
 {
-	if(currentName == "default" || currentName == "Mac Metal")
+	if(defaultStyle)
 		return NULL;
 	else
 		return QStyleFactory::create(currentName);
@@ -91,6 +94,12 @@ inline bool RzxStyle::connect(const QObject *receiver, const char *method, Qt::C
 inline bool RzxStyle::disconnect(const QObject *receiver)
 {
 	return global()->QObject::disconnect(SIGNAL(styleChanged(const QString&)), receiver);
+}
+
+///Change le style
+inline void RzxStyle::setStyle(const QString& style)
+{
+	global()->local_setStyle(style);
 }
 
 #endif

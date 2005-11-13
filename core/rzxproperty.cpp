@@ -44,28 +44,32 @@ email                : benoit.casoetto@m4x.org
 
 RZX_GLOBAL_INIT(RzxProperty)
 
+///Construction de la fenêtre de propriétés
 RzxProperty::RzxProperty(QWidget *parent)
 	:QDialog(parent)
 {
 	object = this;
 	setupUi(this);
 	RzxStyle::useStyleOnWindow(this);
-	
-	connect( btnBrowseWorkDir, SIGNAL( clicked() ), this, SLOT( launchDirSelectDialog() ) );
-	connect( btnMiseAJour, SIGNAL( clicked() ), this, SLOT( miseAJour() ) );
-	connect( btnAnnuler, SIGNAL( clicked() ), this, SLOT( annuler() ) );
-	connect( btnOK, SIGNAL( clicked() ), this, SLOT( oK() ) );
-	connect( btnBrowse, SIGNAL( clicked() ), this, SLOT( chooseIcon() ) );
-	connect(btnAboutQt, SIGNAL(clicked()), this, SLOT(aboutQt()));
-	connect( lbMenu, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(changePage(QTreeWidgetItem*, QTreeWidgetItem*)));
-
-	//connect( btnChangePass, SIGNAL(clicked()), RzxServerListener::object(), SLOT(changePass()));
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
+
+	//Connection des boutons	
+	connect(btnBrowseWorkDir, SIGNAL( clicked() ), this, SLOT( launchDirSelectDialog() ) );
+	connect(btnMiseAJour, SIGNAL( clicked() ), this, SLOT( miseAJour() ) );
+	connect(btnAnnuler, SIGNAL( clicked() ), this, SLOT( annuler() ) );
+	connect(btnOK, SIGNAL( clicked() ), this, SLOT( oK() ) );
+	connect(btnBrowse, SIGNAL( clicked() ), this, SLOT( chooseIcon() ) );
+	connect(btnAboutQt, SIGNAL(clicked()), this, SLOT(aboutQt()));
+
 	connect(cmbMenuIcons, SIGNAL(activated(int)), this,SLOT(lockCmbMenuText(int)));
 
+	//Navigation entre les différentes pages
+	connect(lbMenu, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), 
+		this, SLOT(changePage(QTreeWidgetItem*, QTreeWidgetItem*)));
+
 	//Pour que le pseudo soit rfc-complient
+	//et pas trop long non plus...
 	hostname->setValidator( new QRegExpValidator(QRegExp("[a-zA-Z0-9](-?[a-zA-Z0-9])*"), hostname) );
-	//Les pseudos trop longs c'est vraiment imbitable
 	hostname->setMaxLength(32);
 
 	//La remarque doit tenir en une seule ligne...
@@ -105,18 +109,18 @@ RzxProperty::RzxProperty(QWidget *parent)
 	lbMenu->header()->hide();
 	generalItem = new QTreeWidgetItem(lbMenu);
 	generalItem->setText(0, tr("Infos"));
-	generalItem->setData(0, Qt::UserRole, 0);
+	generalItem->setData(0, Qt::UserRole, UserInfo);
 	lbMenu->expandItem(generalItem);
 
 	confItem = new QTreeWidgetItem(lbMenu);
 	confItem->setText(0, tr("Settings"));
-	confItem->setData(0, Qt::UserRole, 1);
+	confItem->setData(0, Qt::UserRole, ProgConfig);
 	lbMenu->expandItem(confItem);
 	buildModules<RzxModule>(RzxApplication::modulesList(), lvPlugInList, confItem);
 
 	networkItem = new QTreeWidgetItem(lbMenu);
 	networkItem->setText(0, tr("Network"));
-	networkItem->setData(0, Qt::UserRole, 2);
+	networkItem->setData(0, Qt::UserRole, Network);
 	lbMenu->expandItem(networkItem);
 	buildModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), lvNetworks, networkItem);
 
@@ -125,6 +129,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 	lbMenu->setCurrentItem(generalItem);
 }
 
+///Fermeture de la fenêtre
 RzxProperty::~RzxProperty()
 {
 	closeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList());
@@ -158,7 +163,7 @@ QTreeWidgetItem* RzxProperty::createPage(QWidget *widget, const QString& name, c
 	if(widget)
 		index = prefStack->addWidget(widget);
 	else
-		index = 3;
+		index = Blank;
 
 	item = new QTreeWidgetItem(parent);
 	item->setText(0, name);
@@ -355,20 +360,14 @@ bool RzxProperty::miseAJour()
 		return false;
 	}
 	
-	//Mise à jours des données de configuration
-	RzxConfig *cfgObject = RzxConfig::global();
-	
 	// iteration sur l'ensemble des objets QCheckBox
 	QList<QLineEdit*> l = findChildren<QLineEdit*>(QRegExp("txt.*"));
 	foreach(QLineEdit *edit, l)
-		cfgObject->setValue(edit->objectName(), edit->text());
+		RzxConfig::global()->setValue(edit->objectName(), edit->text());
 	
-//	bool iconSizeChanged = (cfgObject->computerIconSize() != cmbIconSize->currentIndex() || cfgObject->computerIconHighlight() != cbHighlight->isChecked());
-	bool themeChanged = RzxIconCollection::theme() != cmbIconTheme->currentText();
-
 	//Indique si les données 'partagées' ont été modifiées
 	//localHostUpdated = true ==> besoin de rafraichir le serveur
-	bool localHostUpdated = updateLocalHost();
+	updateLocalHost();
 	
 	RzxConfig::setDnsName(RzxComputer::localhost()->name() );
 	RzxConfig::setRemarque(RzxComputer::localhost()->remarque());
@@ -401,22 +400,10 @@ bool RzxProperty::miseAJour()
 	
 	const QPixmap *localhostIcon = pxmIcon->pixmap();
 	if(RzxIconCollection::global()->localhostPixmap().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
-	{
-		localHostUpdated = true;
 		RzxIconCollection::global()->setLocalhostPixmap(*localhostIcon);
-/*		if(RzxApplication::instance()->isInitialised() && !RzxServerListener::object() -> isSocketClosed())
-			RzxServerListener::object() -> sendIcon(localhostIcon->toImage());*/
-	}
 
-/*	if(localHostUpdated)
-		RzxServerListener::object()->sendRefresh();*/
-
-	if(themeChanged)
-	{
+	if(RzxIconCollection::theme() != cmbIconTheme->currentText())
 		RzxIconCollection::global()->setTheme(cmbIconTheme->currentText());
-		RzxConfig::setIconTheme(cmbIconTheme->currentText());
-	}
-	
 
 	//On ne change la langue qu'au dernier moment car ça réinitialise toutes les boîtes
 	if(languageBox->currentText() != RzxTranslator::translation())

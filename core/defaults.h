@@ -38,10 +38,6 @@
 
 // Version envoyee au serveur
 #define RZX_CLIENT_ID (0x06)
-//#define RZX_MAJOR_VERSION (1)
-//#define RZX_MINOR_VERSION (7)
-//#define RZX_FUNNY_VERSION (0)
-//#define RZX_TAG_VERSION   "-svn"
 
 #ifdef Q_OS_MAC
 #	define QREZIX_ICON "../resources/q_mac.xpm"
