@@ -5,6 +5,8 @@ DEFINES += QT_DLL
 INCLUDEPATH += core
 
 SUBDIRS += core main modules net rezals
+unix:system(find -name 'Makefile' -exec 'rm {}' ";" 2>> /dev/null)
+mac:system(find . -name 'Makefile' -exec 'rm {}' ";" 2>> /dev/null)
 system(cd resources/translations && lrelease *.ts && cd ../..)
 
 include(rzxinstall.pri)
