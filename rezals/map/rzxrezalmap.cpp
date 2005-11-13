@@ -81,6 +81,7 @@ QStringList RzxRezalMap::loadMaps()
 {
 	//Chargement de la liste des cartes et des paramètres qui vont avec...
 	QString file = RzxConfig::findFile("map.ini");
+	QDir dir(file.left(file.length() - 7));
 	if(file.isNull())
 	{
 		qDebug("No map file found...");
@@ -105,7 +106,7 @@ QStringList RzxRezalMap::loadMaps()
 		Map *map = new Map;
 		map->name = maps.value(QString("%1_map_name").arg(i)).toString();
 		map->humanName = maps.value(QString("%1_map_human_name").arg(i)).toString();
-		map->pixmap = QPixmap(maps.value(QString("%1_map").arg(i)).toString());
+		map->pixmap = QPixmap(dir.absoluteFilePath(maps.value(QString("%1_map").arg(i)).toString()));
 		mapTable[i] = map;
 		mapNames << map->humanName;
 	}

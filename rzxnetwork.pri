@@ -7,3 +7,10 @@ include($$ROOT/rzxbasemodule.pri)
 
 DESTDIR = $$ROOT/net
 
+lib.files = $$ROOT/net/lib$$TARGET*
+mac {
+        lib.path = qRezix.app/Contents/Resources/net
+} else:unix {
+        lib.path = $$DEST/lib/qrezix/net
+}
+INSTALLS += lib

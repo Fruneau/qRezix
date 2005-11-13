@@ -68,3 +68,14 @@ FORMS += rzxpropertyui.ui \
 	rzxchangepassui.ui
 
 TRANSLATIONS = $$(ROOT)/resources/translations/qrezix_fr.ts
+
+mainlib.files = $$ROOT/libqrezix*
+subnets.files = subnet.ini
+mac {
+        mainlib.path = qRezix.app/Contents/Frameworks
+	subnets.path = qRezix.app/Contents/Resources
+} else:unix {
+        mainlib.path = $$DEST/lib
+	subnets.path = $$DEST/share/qrezix
+}	
+INSTALLS += mainlib subnets		

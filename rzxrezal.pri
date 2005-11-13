@@ -7,3 +7,11 @@ DESTDIR = $$ROOT/rezals
 
 INCLUDEPATH += $$ROOT/modules/mainui
 LIBS += -L$$ROOT/modules -lrzxmainui
+
+lib.files = $$ROOT/rezals/lib$$TARGET*
+mac {
+	lib.path = qRezix.app/Contents/Resources/rezals
+} else:unix {
+        lib.path = $$DEST/lib/qrezix/rezals
+}
+INSTALLS += lib

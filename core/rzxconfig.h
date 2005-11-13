@@ -169,11 +169,7 @@ public:
 		ProgramDirs = UserDir | SystemDir | LibDir,
 		AllDirsExceptTemp = ProgramDirs | CurrentDir,
 		AllDirs = AllDirsExceptTemp | TempDir,
-#ifdef Q_OS_MAC
 		DefSearchDirs = ProgramDirs
-#else
-		DefSearchDirs = AllDirsExceptTemp
-#endif
 	};
 	Q_DECLARE_FLAGS(Dir, DirFlags);
 
