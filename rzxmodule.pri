@@ -8,7 +8,7 @@ DESTDIR = $$ROOT/modules
 
 lib.files = $$ROOT/modules/lib$$TARGET*
 mac {
-	lib.path = qRezix.app/Contents/Resources/modules
+	lib.path = $$ROOT/qRezix.app/Contents/Resources/modules
 } else:unix {
         lib.path = $$DEST/lib/qrezix/modules
 	lib.extra = ln -sf $$DEST/lib/qrezix/modules/* $$DEST/lib

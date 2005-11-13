@@ -24,7 +24,7 @@ mac {
 	info.path = qRezix.app/Contents
 
 	qrezix.files = qRezix.app
-	qrezix.path = ../macosx/root/Applications
+	qrezix.path = packages/macosx/
 	INSTALLS += icone \
 		info
 

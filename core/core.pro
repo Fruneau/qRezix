@@ -72,8 +72,8 @@ TRANSLATIONS = $$(ROOT)/resources/translations/qrezix_fr.ts
 mainlib.files = $$ROOT/libqrezix*
 subnets.files = subnet.ini
 mac {
-        mainlib.path = qRezix.app/Contents/Frameworks
-	subnets.path = qRezix.app/Contents/Resources
+        mainlib.path = $$ROOT/qRezix.app/Contents/Frameworks
+	subnets.path = $$ROOT/qRezix.app/Contents/Resources
 } else:unix {
         mainlib.path = $$DEST/lib
 	subnets.path = $$DEST/share/qrezix

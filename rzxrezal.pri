@@ -10,7 +10,7 @@ LIBS += -L$$ROOT/modules -lrzxmainui
 
 lib.files = $$ROOT/rezals/lib$$TARGET*
 mac {
-	lib.path = qRezix.app/Contents/Resources/rezals
+	lib.path = $$ROOT/qRezix.app/Contents/Resources/rezals
 } else:unix {
         lib.path = $$DEST/lib/qrezix/rezals
         lib.extra = ln -sf $$DEST/lib/qrezix/rezals/* $$DEST/lib
