@@ -112,7 +112,7 @@ void RzxProtocole::parse(const QString& msg)
 				break;
 				
 			case SERVER_PING:
-				emit ping();
+				pingReceived();
 				break;
 
 			case SERVER_WRONGPASS:
@@ -197,24 +197,24 @@ void RzxProtocole::sendAuth(const QString& passcode)
 	msg = msg + "PASS " + passcode + "\r\n";
 	msg = msg + "JOIN " + RzxComputer::localhost()->serialize(serialPattern) + "\r\n";
 	
-	emit send(msg);	
+	send(msg);	
 }
 
 void RzxProtocole::sendRefresh() {
 	QString msg = "REFRESH ";
 	msg = msg + RzxComputer::localhost()->serialize(serialPattern) + "\r\n";
-	emit send(msg);
+	send(msg);
 }
 
 void RzxProtocole::sendPart() {
-	emit send("PART\r\n");
+	send("PART\r\n");
 }
 void RzxProtocole::sendPong() {
-	emit send("PONG\r\n");
+	send("PONG\r\n");
 }
 void RzxProtocole::getIcon(const RzxHostAddress& ip) {
 	QString msg = "DOWNLOAD " + QString::number(ip.toRezix(), 16) + "\r\n";
-	emit send(msg);
+	send(msg);
 }
 
 /****************************************************************************
@@ -229,7 +229,7 @@ void RzxProtocole::changePass(const QString& newPass)
 {
 	m_newPass = newPass + MD5_ADD;
 	m_newPass = MD5String(m_newPass.toLatin1());
-	emit send("CHANGEPASS " + m_newPass + "\r\n");
+	send("CHANGEPASS " + m_newPass + "\r\n");
 }
 
 
@@ -264,6 +264,7 @@ void RzxProtocole::propInit(bool def)
 	ui->server_port->setValue( RzxXNetConfig::serverPort(def) );
 	ui->reconnection->setValue( RzxXNetConfig::reconnection(def) / 1000 );
 	ui->ping_timeout->setValue( RzxXNetConfig::pingTimeout(def) / 1000 );
+	ui->btnChangePass->setEnabled(isStarted());
 }
 
 /** \reimp */
@@ -275,13 +276,7 @@ void RzxProtocole::propUpdate()
 	{
 		RzxXNetConfig::setServerName(ui->server_name->text() );
 		RzxXNetConfig::setServerPort(ui->server_port->value() );
-		stop();
-		start();
-	}
-	else
-	{
-		RzxXNetConfig::setServerName(ui->server_name->text() );
-		RzxXNetConfig::setServerPort(ui->server_port->value() );
+		restart();
 	}
 
 	RzxXNetConfig::setReconnection(ui->reconnection->value() * 1000 );

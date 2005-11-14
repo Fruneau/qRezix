@@ -42,6 +42,8 @@ class RzxComputer;
 class RzxServerListener : public RzxProtocole {
 	Q_OBJECT
 
+	bool restarting;
+
 public:
 	RzxServerListener();
 	~RzxServerListener();
@@ -58,6 +60,7 @@ public:
 public slots:
 	virtual void start();
 	virtual void stop();
+	virtual void restart();
 	
 protected slots:
 	void serverClose();
@@ -65,12 +68,16 @@ protected slots:
 	void serverError(QTcpSocket::SocketError);
 	void serverTimeout();
 	void connectToXnetserver();
-	void sendProtocolMsg(const QString& msg);
+	virtual void send(const QString& msg);
+	virtual void pingReceived();
 	void serverConnected();
 	void serverFound();
 	void serverResetTimer();
 	void closeWaitFlush();
 	void waitReconnection();
+
+	void emitConnected();
+	void emitDisconnected();
 
 protected: // Protected attributes
 	QTcpSocket socket;
@@ -83,8 +90,6 @@ protected: // Protected attributes
 	/** Timer utilisé pour les reconnexions automatiques */
 	QTimer reconnection;
 	/** Nom d'hote du serveur */
-	QString serverHostname;
-	/** Pour le timeout sur les ping/pong */
 	QTimer pingTimer;
 	/** Temps restant avant la tentative de reconnexion */
 	int timeToConnection;
@@ -101,6 +106,18 @@ private:
 inline void RzxServerListener::notify(const QString& text)
 {
     emit status(text);
+}
+
+///Envoie le signal 'Connecté'
+inline void RzxServerListener::emitConnected()
+{
+	emit connected(this);
+}
+
+///Envoie le signale 'Déconnecté'
+inline void RzxServerListener::emitDisconnected()
+{
+	emit disconnected(this);
 }
 
 #endif

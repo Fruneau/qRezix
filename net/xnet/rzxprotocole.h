@@ -77,6 +77,16 @@ public:
 
 	virtual void parse(const QString& msg);
 
+protected slots:
+	///envoie d'un message
+ 	/** Utilisé quand l'objet RzxProtocole a besoin d'envoyer une commande au serveur,
+ 	 * typiquement lors d'appel aux fonctions @ref sendAuth, @ref sendRefresh,
+ 	 * @ref sendPart, @ref sendPong et @ref getIcon
+	 */
+	virtual void send(const QString&) = 0;
+	///Réception d'un ping
+	virtual void pingReceived() = 0;
+
 public slots:
 	/** Demande un envoi d'icone
 	*@param ip ip de l'hote dont on veut l'icone */
@@ -115,17 +125,7 @@ public slots:
 	virtual void propUpdate();
 	virtual void propClose();
 
-// Signals
-signals:
-	/** ping() est emit quand on passe une commande PING a @ref parse */
- 	void ping();
- 	
- 	/** emit quand l'objet RzxProtocole a besoin d'envoyer une commande au serveur,
- 	*typiquement lors d'appel aux fonctions @ref sendAuth, @ref sendRefresh,
- 	*@ref sendPart, @ref sendPong et @ref getIcon */
-	void send(const QString& msg);
-
-};
+ };
 
 inline void RzxProtocole::refresh()
 {

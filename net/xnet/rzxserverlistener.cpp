@@ -32,16 +32,14 @@ RZX_NETWORK_EXPORT(RzxServerListener)
 
 ///Construction du Socket
 RzxServerListener::RzxServerListener()
-	: RzxProtocole(), socket() {
+	: RzxProtocole(), socket()
+{
 	beginLoading();
 	new RzxXNetConfig(this);
 	connect(&reconnection, SIGNAL(timeout()), this, SLOT(waitReconnection()));	
 	
-	connect(this, SIGNAL(ping()), this, SLOT(sendPong()));
-	connect(this, SIGNAL(ping()), this, SLOT(serverResetTimer()));
 	connect(&socket, SIGNAL(bytesWritten(qint64)), this, SLOT(serverResetTimer()));
 	connect(&socket, SIGNAL(readyRead()), this, SLOT(serverResetTimer()));
-	connect(this, SIGNAL(send(const QString&)), this, SLOT(sendProtocolMsg(const QString&)));
 	
 	connect(&socket, SIGNAL(disconnected()), this, SLOT(serverClose()));
 	connect(&socket, SIGNAL(error(QTcpSocket::SocketError)), this, SLOT(serverError(QTcpSocket::SocketError)));
@@ -49,8 +47,8 @@ RzxServerListener::RzxServerListener()
 	
 	connect(&socket, SIGNAL(hostFound()), this, SLOT(serverFound()));
 	
-	connect(&socket, SIGNAL(disconnected()), this, SIGNAL(disconnected(this)));
-	connect(&socket, SIGNAL(connected()), this, SIGNAL(connected(this)));
+	connect(&socket, SIGNAL(disconnected()), this, SIGNAL(emitDisconnected()));
+	connect(&socket, SIGNAL(connected()), this, SIGNAL(emitConnected()));
 	connect(&socket, SIGNAL(connected()), this, SLOT(serverConnected()));
 	connect(&socket, SIGNAL(connected()), this, SLOT(beginAuth()));
 
@@ -58,10 +56,11 @@ RzxServerListener::RzxServerListener()
 	
 	premiereConnexion = true;
 	hasBeenConnected = true;
+	restarting = false;
 	endLoading();
 }
 
-
+///On ferme tout et on s'en va...
 RzxServerListener::~RzxServerListener()
 {
 	beginClosing();
@@ -70,14 +69,39 @@ RzxServerListener::~RzxServerListener()
 	endClosing();
 }
 
-void RzxServerListener::start() {
+/** \reimp */
+void RzxServerListener::start()
+{
+	if(restarting)
+	{
+		restarting = false;
+		disconnect(&socket, SIGNAL(disconnected()), this, SLOT(start()));
+	}
 	connectToXnetserver();
 }
 
+/** \reimp */
+void RzxServerListener::restart()
+{
+	if(!isStarted())
+	{
+		qDebug() << "Restarting xNet 1";
+		start();
+	}
+	else
+	{
+		qDebug() << "Restarting xNet 2";
+		restarting = true;
+		connect(&socket, SIGNAL(disconnected()), this, SLOT(start()));
+		stop();
+	}
+}
+
+///Initialise la reconnexion au serveur
 void RzxServerListener::setupReconnection(const QString& msg) {
 	if(reconnection.isActive()) return;
 
-	emit disconnected(this);
+	emitDisconnected();
 
 	unsigned int time = RzxXNetConfig::reconnection();
 	QString temp;
@@ -105,7 +129,7 @@ void RzxServerListener::setupReconnection(const QString& msg) {
 	}
 }
 
-///Pour afficher le dï¿½ompte avant la tentative de reconnexion
+///Pour afficher le décompte avant la tentative de reconnexion
 void RzxServerListener::waitReconnection()
 {
 	timeToConnection -= 1000;
@@ -118,8 +142,10 @@ void RzxServerListener::waitReconnection()
 		notify(message + "... " + tr("will try to reconnect in %1 seconds").arg(timeToConnection/1000));
 }
 
-/** Erreur ï¿½la conenction au serveur. On rï¿½ssaie en SERVER_RECONNECTION ms */
-void RzxServerListener::serverError(QTcpSocket::SocketError error) {
+///Gestion des erreurs du socket
+/** Erreur à la connexion au serveur. On rééssaie en SERVER_RECONNECTION ms */
+void RzxServerListener::serverError(QTcpSocket::SocketError error)
+{
 	pingTimer.stop();
 	QString reconnectionMsg;
 	
@@ -168,15 +194,20 @@ void RzxServerListener::serverError(QTcpSocket::SocketError error) {
 	qDebug("Server socket error : %s", socket.errorString().toAscii().constData());
 }
 
-void RzxServerListener::serverClose() {
-	setupReconnection(tr("Connection closed"));
+///On vient d'être déconnecté, on tente de relancer la connexion
+void RzxServerListener::serverClose()
+{
+	if(!restarting)
+		setupReconnection(tr("Connection closed"));
 }
 
-/** Appelï¿½ quand il n'y a pas eu de ping depuis plus de RzxXNetConfig::pingTimeout() ms */
+///La connexion avec le serveur a timeouté
+/** Appelée quand il n'y a pas eu de ping depuis plus de RzxXNetConfig::pingTimeout() ms */
 void RzxServerListener::serverTimeout(){
 	setupReconnection(tr("Connection lost"));
 }
 
+///Initialise la connexion avec le serveur xNet
 void RzxServerListener::connectToXnetserver()
 {
 	iconMode = false;
@@ -193,19 +224,25 @@ void RzxServerListener::connectToXnetserver()
 	notify(tr("Looking for server %1").arg(serverHostname));
 }
 
+///On a trouvé le serveur...
 void RzxServerListener::serverFound()
 {
 	notify(tr("Server found, trying to connect"));
 }
 
-/** No descriptions */
-void RzxServerListener::serverConnected(){
+///On est connecté...
+void RzxServerListener::serverConnected()
+{
 	notify(tr("Connected"));
 	hasBeenConnected = true;
 	pingTimer.start(RzxXNetConfig::pingTimeout());
 	emit receiveAddress(getIP());
 }
 
+///On reçoit des données depuis le serveurs
+/** Cette partie gère la réception de l'icône, alors que la gestion propre au protocol
+ * se trouve dans RzxProtocole.
+ */
 void RzxServerListener::serverReceive() {
 	QString temp;
 	QImage image(64, 64, QImage::Format_ARGB32), swapImg;
@@ -281,12 +318,17 @@ void RzxServerListener::parse(const QString& msg)
 	RzxProtocole::parse(msg);
 }
 
+///On a reçu un ping
+/** On envoie pong et on réinitialise le timer d'attente de ping
+ */
+void RzxServerListener::pingReceived()
+{
+	sendPong();
+	serverResetTimer();
+}
+
 /** Change l'icone de l'ordinateur local */
 void RzxServerListener::sendIcon(const QImage& image) {
-//	if (image.isNull()) return;
-	// on convertit l'image recue pour la rendre affichable
-	// on fait les copies par bloc de 4 octets --> besoin d'un peu de rab
-//	QImage workImage = image.convertDepth(32,0);
 	QImage workImage;
 	if(!image.isNull())
 		workImage = image.scaled(ICON_WIDTH, ICON_HEIGHT, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
@@ -306,12 +348,13 @@ void RzxServerListener::sendIcon(const QImage& image) {
 			*(dest++) = qAlpha(src[pix]);
 		}
 	}
-	sendProtocolMsg("UPLOAD\r\n");
+	send("UPLOAD\r\n");
 	socket.write((char *)buffer, ICON_SIZE);
 }
 
 /** No descriptions */
-void RzxServerListener::sendProtocolMsg(const QString& msg){	
+void RzxServerListener::send(const QString& msg)
+{	
 	if(socket.write(msg.toLatin1()) != (int)msg.length())
 		notify(tr("Socket error, cannot write"));
 }
@@ -333,8 +376,9 @@ void RzxServerListener::stop()
 {
 	disconnect(&socket, SIGNAL(connectionClosed()), this, SLOT(serverClose()));
 	disconnect(&socket, SIGNAL(error(QTcpSocket::SocketError)), this, SLOT(serverError(QTcpSocker::SocketError)));
-	if (isStarted()) {
-		emit disconnected(this);
+	if(isStarted())
+	{
+		emitDisconnected();
 		return;
 	}
 	
@@ -349,7 +393,7 @@ void RzxServerListener::stop()
 
 /** No descriptions */
 void RzxServerListener::closeWaitFlush(){
-	emit disconnected(this);
+	emitDisconnected();
 }
 
 /** No descriptions */
