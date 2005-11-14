@@ -25,8 +25,6 @@
 #include <RzxBaseModule>
 #include "ui_rzxpropertyui.h"
 
-#define NB_COL 10
-
 /**
   *@author Benoit Casoetto
   */

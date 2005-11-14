@@ -366,40 +366,36 @@ Les discussions et les propriétés sont désactivées</translation>
 <context>
     <name>RzxChatPropUI</name>
     <message>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Chat</source>
-        <translation>Discussion</translation>
+        <translation type="obsolete">Discussion</translation>
     </message>
     <message>
         <source>&lt;h3&gt;warning&lt;/h3&gt;&lt;p&gt;If you check this you will receive an notification each time somebody check you properties&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning :&lt;/b&gt; in some cases, this option can be used to spam you with notification windows&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Propriétés&lt;/h3&gt;&lt;p&gt;Si vous cochez cette case, vous recevrez un message de notification chaque fois que quelqu&apos;un regarde vos propriétés&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt; Dans certaines conditions cette option peut-être utilisée par un utilisateur malveillant faire apparaître une multitude de fenêtre.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Propriétés&lt;/h3&gt;&lt;p&gt;Si vous cochez cette case, vous recevrez un message de notification chaque fois que quelqu&apos;un regarde vos propriétés&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt; Dans certaines conditions cette option peut-être utilisée par un utilisateur malveillant faire apparaître une multitude de fenêtre.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Warn me when properties are being checked</source>
-        <translation>Prévenir quand les propriétés sont envoyées</translation>
+        <translation type="obsolete">Prévenir quand les propriétés sont envoyées</translation>
     </message>
     <message>
         <source>Print hh:mm:ss in chat</source>
-        <translation>Afficher hh:mm:ss dans le chat</translation>
+        <translation type="obsolete">Afficher hh:mm:ss dans le chat</translation>
     </message>
     <message>
         <source>Beep</source>
-        <translation>Bip</translation>
+        <translation type="obsolete">Bip</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Select the sound to play when you receive a new message&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Choisissez le son à jouer à la réception d&apos;un nouveau message&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Choisissez le son à jouer à la réception d&apos;un nouveau message&lt;/p&gt;</translation>
     </message>
     <message>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive en message&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez que qRezix joue un son à la réception d&apos;un nouveau message.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez que qRezix joue un son à la réception d&apos;un nouveau message.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Beep on message receiption</source>
@@ -407,19 +403,19 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Network</source>
-        <translation>Réseau</translation>
+        <translation type="obsolete">Réseau</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Peer2peer port&lt;/h3&gt;&lt;p&gt;Define the port of the chat&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Port P2P&lt;/h3&gt;&lt;p&gt;Port à utiliser pour le chat&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir besoin de modifier cette valeur&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Port P2P&lt;/h3&gt;&lt;p&gt;Port à utiliser pour le chat&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir besoin de modifier cette valeur&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation>Port:</translation>
+        <translation type="obsolete">Port:</translation>
     </message>
     <message>
         <source>Beep on message reception</source>
-        <translation>Bip à la réception d&apos;un message</translation>
+        <translation type="obsolete">Bip à la réception d&apos;un message</translation>
     </message>
 </context>
 <context>
@@ -521,71 +517,71 @@ Les discussions et les propriétés sont désactivées</translation>
     <name>RzxChatUI</name>
     <message>
         <source>Chat [Qt]</source>
-        <translation>Chat [Qt]</translation>
+        <translation type="obsolete">Chat [Qt]</translation>
     </message>
     <message>
         <source>&amp;Send</source>
-        <translation>&amp;Envoyer</translation>
+        <translation type="obsolete">&amp;Envoyer</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>Fermer</translation>
+        <translation type="obsolete">Fermer</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation>Propriétés</translation>
+        <translation type="obsolete">Propriétés</translation>
     </message>
     <message>
         <source>History</source>
-        <translation>Historique</translation>
+        <translation type="obsolete">Historique</translation>
     </message>
     <message>
         <source>Send as &amp;HTML</source>
-        <translation>Envoyer en &amp;HTML</translation>
+        <translation type="obsolete">Envoyer en &amp;HTML</translation>
     </message>
     <message>
         <source>Alt+S</source>
-        <translation>Alt+S</translation>
+        <translation type="obsolete">Alt+S</translation>
     </message>
     <message>
         <source>Alt+H</source>
-        <translation>Alt+H</translation>
+        <translation type="obsolete">Alt+H</translation>
     </message>
     <message>
         <source>B</source>
-        <translation>G</translation>
+        <translation type="obsolete">G</translation>
     </message>
     <message>
         <source>I</source>
-        <translation>I</translation>
+        <translation type="obsolete">I</translation>
     </message>
     <message>
         <source>U</source>
-        <translation>S</translation>
+        <translation type="obsolete">S</translation>
     </message>
     <message>
         <source>Pl&amp;ug-ins</source>
-        <translation>Pl&amp;ug-ins</translation>
+        <translation type="obsolete">Pl&amp;ug-ins</translation>
     </message>
     <message>
         <source>Alt+U</source>
-        <translation>Alt+U</translation>
+        <translation type="obsolete">Alt+U</translation>
     </message>
     <message>
         <source>Ctrl+B</source>
-        <translation>Ctrl+G</translation>
+        <translation type="obsolete">Ctrl+G</translation>
     </message>
     <message>
         <source>Ctrl+I</source>
-        <translation>Ctrl+I</translation>
+        <translation type="obsolete">Ctrl+I</translation>
     </message>
     <message>
         <source>Ctrl+U</source>
-        <translation>Ctrl+S</translation>
+        <translation type="obsolete">Ctrl+S</translation>
     </message>
     <message>
         <source>Ctrl+S</source>
-        <translation>Ctrl+H</translation>
+        <translation type="obsolete">Ctrl+H</translation>
     </message>
     <message>
         <source>...</source>
@@ -593,11 +589,11 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>Plug-ins</source>
-        <translation>Plug-ins</translation>
+        <translation type="obsolete">Plug-ins</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation>Envoyer</translation>
+        <translation type="obsolete">Envoyer</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Chat&lt;/h3&gt;&lt;p&gt;This is the place where you can read your chat&lt;/p&gt;</source>
@@ -606,7 +602,7 @@ Les discussions et les propriétés sont désactivées</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Input&lt;/h3&gt;&lt;p&gt;This is the place where you can type your messages.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Shortcuts :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Enter : &lt;/b&gt;Send your message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] : &lt;/b&gt;Navigate through the messages you have already typed&lt;br&gt;&lt;b&gt;Ctrl+Enter : &lt;/b&gt; Add a line-break&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Boite de saisie&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Boite de saisie&lt;/h3&gt;
 &lt;p&gt;C&apos;est ici qu&apos;il faut taper les messages à envoyer&lt;p&gt;
 &lt;p&gt;&lt;b&gt;Raccourcis clavier :&lt;/b&gt;&lt;br&gt;
 &lt;b&gt;Entrer : &lt;/b&gt; Pour envoyer le message&lt;br&gt;
@@ -616,72 +612,56 @@ Les discussions et les propriétés sont désactivées</translation>
     <message>
         <source>&lt;h3&gt;Plug-ins&lt;/h3&gt;
 &lt;p&gt;Shows a menu which helps you to use the extra-features provided by qRezix&apos;s plug-ins&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Plug-ins&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Plug-ins&lt;/h3&gt;
 &lt;p&gt;Affiche un menu qui permet de parcourir les fonctionalités offertes par les plug-ins installés&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Font&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, you can choose here the font to use&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Police&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, vous pouvez choisir la police de caractères de votre message&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Police&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, vous pouvez choisir la police de caractères de votre message&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Color&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, you can choose here the color to use&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Couleur&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, vous pouvez choisir la couleur de votre message&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Couleur&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, vous pouvez choisir la couleur de votre message&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Size&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, you can choose here the size of the text &lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Taille&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, vous pouvez choisir la taille du texte&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Taille&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, vous pouvez choisir la taille du texte&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Bold&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the bold style for the text&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Gras&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, ce bouton permet de mettre votre texte en gras&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Gras&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, ce bouton permet de mettre votre texte en gras&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Italic&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the italic style for the text&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Gras&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, ce bouton permet de mettre votre texte en italique&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Gras&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, ce bouton permet de mettre votre texte en italique&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Underlined&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the underlined style for the text&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Gras&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, ce bouton permet de souligner votre texte&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Gras&lt;/h3&gt;&lt;p&gt;Lorsque vous avez décidé d&apos;envoyé un message en HTML, ce bouton permet de souligner votre texte&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Send&lt;/h3&gt;&lt;p&gt;Send the message you have typed...&lt;br&gt;It&apos;s a lot easier to use &lt;b&gt;Enter&lt;/b&gt;&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Envoyer&lt;/h3&gt;&lt;p&gt;Envoie votre message&lt;br&gt;C&apos;est tout de même beacoup plus simple de taper &lt;b&gt;Entrer&lt;/b&gt;&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Envoyer&lt;/h3&gt;&lt;p&gt;Envoie votre message&lt;br&gt;C&apos;est tout de même beacoup plus simple de taper &lt;b&gt;Entrer&lt;/b&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Send as HTML&lt;/h3&gt;&lt;p&gt;When this case is checked, you can format your text&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning : &lt;/b&gt;some clients don&apos;t support HTML...&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Envoyer en HTML&lt;/h3&gt;&lt;p&gt;Lorsque cette case est cochée, vous pouvez utiliser les options de formatage du texte&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention : &lt;/b&gt; certains clients ne gèrent pas le texte formaté&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Envoyer en HTML&lt;/h3&gt;&lt;p&gt;Lorsque cette case est cochée, vous pouvez utiliser les options de formatage du texte&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention : &lt;/b&gt; certains clients ne gèrent pas le texte formaté&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Sound&lt;/h3&gt;&lt;p&gt;Enables/disables the sound which is played when a new message arrives&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Son&lt;/h3&gt;&lt;p&gt;(Dés)active le son qui est joué à la réception d&apos;un nouveau message&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Son&lt;/h3&gt;&lt;p&gt;(Dés)active le son qui est joué à la réception d&apos;un nouveau message&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Properties&lt;/h3&gt;&lt;p&gt;Ask for the properties of the person you are talking to.&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Propriétés&lt;/h3&gt;&lt;p&gt;Demande les propriétés de la personne avec qui vous discutez&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Propriétés&lt;/h3&gt;&lt;p&gt;Demande les propriétés de la personne avec qui vous discutez&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;History&lt;/h3&gt;&lt;p&gt;If you want to read all your old chats with this person&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Historique&lt;/h3&gt;&lt;p&gt;Permet d&apos;avoir accès à vos discussions antérieures&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Historique&lt;/h3&gt;&lt;p&gt;Permet d&apos;avoir accès à vos discussions antérieures&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Close&lt;/h3&gt;&lt;p&gt;Ends the chat et close the window&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Fermer&lt;/h3&gt;&lt;p&gt;Met fin à la discussion et ferme la fenêtre&lt;/p&gt;</translation>
-    </message>
-    <message encoding="UTF-8">
-        <source>⌘B</source>
-        <translation></translation>
-    </message>
-    <message encoding="UTF-8">
-        <source>⌘U</source>
-        <translation></translation>
-    </message>
-    <message encoding="UTF-8">
-        <source>⌘I</source>
-        <translation></translation>
-    </message>
-    <message encoding="UTF-8">
-        <source>⌥H</source>
-        <translation></translation>
+        <translation type="obsolete">&lt;h3&gt;Fermer&lt;/h3&gt;&lt;p&gt;Met fin à la discussion et ferme la fenêtre&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -993,442 +973,349 @@ dans lequel il enregistre sa configuration</translation>
     </message>
 </context>
 <context>
-    <name>RzxItemUI</name>
+    <name>RzxIntroUI</name>
     <message>
-        <source>Form</source>
-        <translation></translation>
+        <source>Welcome</source>
+        <translation>Bienvenu</translation>
     </message>
     <message>
+        <source>Select your icon theme:</source>
+        <translation>Choisissez votre thème :</translation>
+    </message>
+    <message>
+        <source>Select your language:</source>
+        <translation>Choisissez votre langue :</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>RzxItemUI</name>
+    <message>
         <source>0</source>
-        <translation>0</translation>
+        <translation type="obsolete">0</translation>
     </message>
     <message>
         <source>1</source>
-        <translation>1</translation>
-    </message>
-    <message>
-        <source>Get Now !</source>
-        <translation></translation>
+        <translation type="obsolete">1</translation>
     </message>
 </context>
 <context>
     <name>RzxJabberPropUI</name>
     <message>
         <source>Form</source>
-        <translation>Formulaire</translation>
+        <translation type="obsolete">Formulaire</translation>
     </message>
     <message>
         <source>Server identification</source>
-        <translation>Indentification du serveur</translation>
+        <translation type="obsolete">Indentification du serveur</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation>Port :</translation>
+        <translation type="obsolete">Port :</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Server&lt;/h3&gt;&lt;p&gt;Define the address of the xnetserver&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Serveur&lt;/h3&gt;&lt;p&gt;Adresse du serveur xnet.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Serveur&lt;/h3&gt;&lt;p&gt;Adresse du serveur xnet.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation>Mot de passe :</translation>
+        <translation type="obsolete">Mot de passe :</translation>
     </message>
     <message>
         <source>User name:</source>
-        <translation>Pseudo :</translation>
+        <translation type="obsolete">Pseudo :</translation>
     </message>
     <message>
         <source>Server name:</source>
-        <translation>Nom du serveur :</translation>
+        <translation type="obsolete">Nom du serveur :</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Defines the port to connect to on the xnetserver&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Port de connection au serveur xnet&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir à modifer cette valeur.&lt;p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Port de connection au serveur xnet&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir à modifer cette valeur.&lt;p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Reconnection&lt;/h3&gt;&lt;p&gt;Defines the parameters of the reconnection.&lt;p&gt;&lt;p&gt;You shouldn&apos;t have to modify this values&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Reconnexion&lt;/h3&gt;&lt;p&gt;Paramètres de connexion au serveur xnet.&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir à modifier ces valeurs.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Reconnexion&lt;/h3&gt;&lt;p&gt;Paramètres de connexion au serveur xnet.&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir à modifier ces valeurs.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Reconnection</source>
-        <translation>Reconnexion</translation>
+        <translation type="obsolete">Reconnexion</translation>
     </message>
     <message>
         <source>Auto-reconnect delay:</source>
-        <translation>Délai avant reconnexion:</translation>
+        <translation type="obsolete">Délai avant reconnexion:</translation>
     </message>
     <message>
         <source>Ping timeout (sec):</source>
-        <translation>Délai d&apos;inactivité (sec):</translation>
+        <translation type="obsolete">Délai d&apos;inactivité (sec):</translation>
     </message>
     <message>
         <source>Jabber protocole.</source>
-        <translation>Protocole Jabber.</translation>
+        <translation type="obsolete">Protocole Jabber.</translation>
     </message>
     <message>
         <source>Roster Management</source>
-        <translation>Gestion des Contacts</translation>
+        <translation type="obsolete">Gestion des Contacts</translation>
     </message>
     <message>
         <source>JID:</source>
-        <translation>JID :</translation>
+        <translation type="obsolete">JID :</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Effacer</translation>
+        <translation type="obsolete">Effacer</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Ajouter</translation>
+        <translation type="obsolete">Ajouter</translation>
     </message>
     <message>
         <source>Connection Settings</source>
-        <translation>Paramètres de connexion</translation>
-    </message>
-    <message>
-        <source>User Info</source>
-        <translation></translation>
+        <translation type="obsolete">Paramètres de connexion</translation>
     </message>
     <message>
         <source>Retrieve</source>
-        <translation>Obtenir</translation>
+        <translation type="obsolete">Obtenir</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation>Envoyer</translation>
-    </message>
-    <message>
-        <source>Organisation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Unit:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Name:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>General</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Phone:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Website:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Full Name:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Nickname:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Birthday:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Email:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Country:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Post Code:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Region:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;City:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Street:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Envoyer</translation>
     </message>
 </context>
 <context>
     <name>RzxJabberProperty</name>
     <message>
-        <source>Email</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Phone</source>
-        <translation type="unfinished">Téléphone</translation>
-    </message>
-    <message>
-        <source>Website</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Nickname</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Birthday</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Téléphone</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
-    </message>
-    <message>
-        <source>Address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Organisation</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Description</translation>
     </message>
 </context>
 <context>
     <name>RzxMainuiPropUI</name>
     <message>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Tab</source>
-        <translation>Onglet</translation>
+        <translation type="obsolete">Onglet</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Search&lt;/h3&gt;&lt;p&gt;Do you want to see the search tool ?&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Recherche&lt;/h3&gt;&lt;p&gt;Cochez la case si vous voulez voir apparaître l&apos;outil de recherche&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Recherche&lt;/h3&gt;&lt;p&gt;Cochez la case si vous voulez voir apparaître l&apos;outil de recherche&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Show Search Tools</source>
-        <translation>Afficher les outils de recherche</translation>
+        <translation type="obsolete">Afficher les outils de recherche</translation>
     </message>
     <message>
         <source>Tab to select on start:</source>
-        <translation>Onglet actif au démarrage:</translation>
+        <translation type="obsolete">Onglet actif au démarrage:</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Onglet&lt;/h3&gt;&lt;p&gt;Quand vous lancez qRezix, vous pouvez soit affichier vos Favoris, soit afficher Tout le Monde. qRezix sera néanmoins plus rapide à charger la liste des personnes connectées si vous choisissez de démarrer sur la liste des favoris.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Onglet&lt;/h3&gt;&lt;p&gt;Quand vous lancez qRezix, vous pouvez soit affichier vos Favoris, soit afficher Tout le Monde. qRezix sera néanmoins plus rapide à charger la liste des personnes connectées si vous choisissez de démarrer sur la liste des favoris.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoris</translation>
+        <translation type="obsolete">Favoris</translation>
     </message>
     <message>
         <source>Everybody</source>
-        <translation>Tout le monde</translation>
+        <translation type="obsolete">Tout le monde</translation>
     </message>
     <message>
         <source>Computer icons</source>
-        <translation>Icônes des ordinateurs</translation>
+        <translation type="obsolete">Icônes des ordinateurs</translation>
     </message>
     <message>
         <source>Icon size</source>
-        <translation>Taille des icônes</translation>
+        <translation type="obsolete">Taille des icônes</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Icon size&lt;/h3&gt;&lt;p&gt;Do you prefer big icons (64x64) or small icons (32x32) for the pictures of the users&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Taille des icônes&lt;/h3&gt;&lt;p&gt;Préférez- ous des grandes (64x64) ou des petites icônes (32x32) ? Les grandes icônes sont plus belles à voir, mais limite le nombre d&apos;utilisateurs affichés simultanément.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Taille des icônes&lt;/h3&gt;&lt;p&gt;Préférez- ous des grandes (64x64) ou des petites icônes (32x32) ? Les grandes icônes sont plus belles à voir, mais limite le nombre d&apos;utilisateurs affichés simultanément.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>32*32</source>
-        <translation>32*32</translation>
+        <translation type="obsolete">32*32</translation>
     </message>
     <message>
         <source>64*64</source>
-        <translation>64*64</translation>
+        <translation type="obsolete">64*64</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Highlight&lt;/h3&gt;&lt;p&gt;If you choose to display small icons and check this box then the selected item will be displayed with a big icon.&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Démarquer la sélection&lt;/h3&gt;&lt;p&gt;Si vous avez choisi d&apos;afficher de petite icônes, vous pouvez sélectionnez cette option qui permettra d&apos;afficher une grande icône pour l&apos;ordinateur sélectionné... pratique pour le retrouver :-)&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Démarquer la sélection&lt;/h3&gt;&lt;p&gt;Si vous avez choisi d&apos;afficher de petite icônes, vous pouvez sélectionnez cette option qui permettra d&apos;afficher une grande icône pour l&apos;ordinateur sélectionné... pratique pour le retrouver :-)&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Highlight the selection</source>
-        <translation>Démarquer la sélection</translation>
+        <translation type="obsolete">Démarquer la sélection</translation>
     </message>
     <message>
         <source>Action on double-clic</source>
-        <translation>Action du double-clic</translation>
+        <translation type="obsolete">Action du double-clic</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Define the action to execute when you double click on an item&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Action du double-clic&lt;/h3&gt;&lt;p&gt;Lorsque vous double-cliquez sur un ordinateur, une action est exécutée. Vous pouvez choisir cette action parmi l&apos;ouverture d&apos;une discussion, la connexion au FTP, ...&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Action du double-clic&lt;/h3&gt;&lt;p&gt;Lorsque vous double-cliquez sur un ordinateur, une action est exécutée. Vous pouvez choisir cette action parmi l&apos;ouverture d&apos;une discussion, la connexion au FTP, ...&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Chat</source>
-        <translation>Discussion</translation>
+        <translation type="obsolete">Discussion</translation>
     </message>
     <message>
         <source>Open FTP</source>
-        <translation>Connection en FTP</translation>
+        <translation type="obsolete">Connection en FTP</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Afficher les colonnes...&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir s&apos;afficher&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Afficher les colonnes...&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir s&apos;afficher&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Columns layout</source>
-        <translation>Afficher les colonnes</translation>
+        <translation type="obsolete">Afficher les colonnes</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
     <message>
         <source>FTP</source>
-        <translation>FTP</translation>
+        <translation type="obsolete">FTP</translation>
     </message>
     <message>
         <source>OS</source>
-        <translation>OS</translation>
+        <translation type="obsolete">OS</translation>
     </message>
     <message>
         <source>Client</source>
-        <translation>Client</translation>
+        <translation type="obsolete">Client</translation>
     </message>
     <message>
         <source>Web</source>
-        <translation>Web</translation>
+        <translation type="obsolete">Web</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation>Commentaire</translation>
+        <translation type="obsolete">Commentaire</translation>
     </message>
     <message>
         <source>Promotion</source>
-        <translation>Promâl</translation>
+        <translation type="obsolete">Promâl</translation>
     </message>
     <message>
         <source>Same gateway</source>
-        <translation>Même passerelle</translation>
+        <translation type="obsolete">Même passerelle</translation>
     </message>
     <message>
         <source>IP</source>
-        <translation>IP</translation>
+        <translation type="obsolete">IP</translation>
     </message>
     <message>
         <source>Place</source>
-        <translation>Bâtiment</translation>
+        <translation type="obsolete">Bâtiment</translation>
     </message>
     <message>
         <source>News</source>
-        <translation>News</translation>
+        <translation type="obsolete">News</translation>
     </message>
     <message>
         <source>Samba</source>
-        <translation>Samba</translation>
+        <translation type="obsolete">Samba</translation>
     </message>
     <message>
         <source>Misc</source>
-        <translation>Divers</translation>
+        <translation type="obsolete">Divers</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Quitting dialog&lt;/h3&gt;&lt;p&gt;Enable/disable the dialog box which is displayed when you close the qRezix&apos;s main window&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Boite de dialogue à la fermeture&lt;/h3&gt;&lt;p&gt;(Dés)active la boite de dialogue qui est affichée lorsque vous fermez la fenêtre principale de qRezix&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Boite de dialogue à la fermeture&lt;/h3&gt;&lt;p&gt;(Dés)active la boite de dialogue qui est affichée lorsque vous fermez la fenêtre principale de qRezix&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Show dialog when clicking on X</source>
-        <translation>Afficher une boîte de dialogue en cliquant sur X</translation>
+        <translation type="obsolete">Afficher une boîte de dialogue en cliquant sur X</translation>
     </message>
     <message>
         <source>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;ToolTips are little windows that appears when you </source>
-        <translation>&lt;h3&gt;Boites d&apos;information&lt;/h3&gt;&lt;p&gt;Les Boites d&apos;informations sont des petites fenêtres qui s&apos;affichent lorsque la souris reste au dessus d&apos;un élément&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Boites d&apos;information&lt;/h3&gt;&lt;p&gt;Les Boites d&apos;informations sont des petites fenêtres qui s&apos;affichent lorsque la souris reste au dessus d&apos;un élément&lt;/p&gt;</translation>
     </message>
     <message>
         <source>ToolTips</source>
-        <translation>Boites d&apos;information</translation>
+        <translation type="obsolete">Boites d&apos;information</translation>
     </message>
     <message>
         <source>Client version</source>
-        <translation>Version du client</translation>
+        <translation type="obsolete">Version du client</translation>
     </message>
     <message>
         <source>Ip address</source>
-        <translation>Adresse IP</translation>
+        <translation type="obsolete">Adresse IP</translation>
     </message>
     <message>
         <source>Enable tooltips</source>
-        <translation>Afficher les boites d&apos;infomation</translation>
+        <translation type="obsolete">Afficher les boites d&apos;infomation</translation>
     </message>
     <message>
         <source>Features</source>
-        <translation>Fonctionnalités</translation>
+        <translation type="obsolete">Fonctionnalités</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation>Propriétés</translation>
+        <translation type="obsolete">Propriétés</translation>
     </message>
     <message>
         <source>Layout</source>
-        <translation>Affichage</translation>
+        <translation type="obsolete">Affichage</translation>
     </message>
     <message>
         <source>0</source>
-        <translation>0</translation>
+        <translation type="obsolete">0</translation>
     </message>
     <message>
         <source>1</source>
-        <translation>1</translation>
+        <translation type="obsolete">1</translation>
     </message>
     <message>
         <source>2</source>
-        <translation>2</translation>
+        <translation type="obsolete">2</translation>
     </message>
 </context>
 <context>
     <name>RzxNotifierPropUI</name>
     <message>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Notification Window</source>
-        <translation>Fenêtre de notification</translation>
+        <translation type="obsolete">Fenêtre de notification</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez qu&apos;une petite fenêtre de notification s&apos;affiche chaque fois qu&apos;un favori se connecte, se déconnecte ou passe sur répondeur.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez qu&apos;une petite fenêtre de notification s&apos;affiche chaque fois qu&apos;un favori se connecte, se déconnecte ou passe sur répondeur.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Show a notification window on favorite&apos;s state modification</source>
-        <translation>Afficher une fenêtre de notification lorsqu&apos;un favoris change d&apos;état</translation>
+        <translation type="obsolete">Afficher une fenêtre de notification lorsqu&apos;un favoris change d&apos;état</translation>
     </message>
     <message>
         <source>Beep</source>
-        <translation>Bip</translation>
+        <translation type="obsolete">Bip</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when a favorite get connected&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez que qRezix joue un son à la connexion d&apos;un favori.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez que qRezix joue un son à la connexion d&apos;un favori.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Beep on connection of one of your favorites</source>
-        <translation>Bip à la connexion d&apos;un favoris</translation>
+        <translation type="obsolete">Bip à la connexion d&apos;un favoris</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Select the sound to play when a favorite get connected&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Choisissez le son à jouer à la connexion d&apos;un favori.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Choisissez le son à jouer à la connexion d&apos;un favori.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
 </context>
 <context>
@@ -1727,12 +1614,12 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>Your password has been successfully changed on the server. Remember it carefully, it can be useful.</source>
-        <translation>Votre mot de passe a bien été changé sur le serveur. Mémorisez le bien, il pourra vous être utile. </translation>
+        <translation type="obsolete">Votre mot de passe a bien été changé sur le serveur. Mémorisez le bien, il pourra vous être utile. </translation>
     </message>
     <message>
         <source>Server was unable to change your pass :
 </source>
-        <translation>Le serveur n&apos;a pas pu changer votre mot de passe :
+        <translation type="obsolete">Le serveur n&apos;a pas pu changer votre mot de passe :
 </translation>
     </message>
 </context>
@@ -1755,15 +1642,15 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     <name>RzxQuitUI</name>
     <message>
         <source>Quit</source>
-        <translation>Quitter</translation>
+        <translation type="obsolete">Quitter</translation>
     </message>
     <message>
         <source>Oops, do nothing</source>
-        <translation>Oups, ne fait rien</translation>
+        <translation type="obsolete">Oups, ne fait rien</translation>
     </message>
     <message>
         <source>yes, I want to &amp;Leave qRezix</source>
-        <translation>oui, je veux &amp;Quitter qRezix</translation>
+        <translation type="obsolete">oui, je veux &amp;Quitter qRezix</translation>
     </message>
     <message>
         <source>Alt+L</source>
@@ -1771,7 +1658,7 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>no, I want to &amp;Minimize qRezix</source>
-        <translation>non, je veux &amp;Minimiser qRezix</translation>
+        <translation type="obsolete">non, je veux &amp;Minimiser qRezix</translation>
     </message>
     <message>
         <source>Alt+M</source>
@@ -1779,31 +1666,19 @@ CONSERVE-LE SOIGNEUSEMENT, parce que sans lui, tu pourrais ne plus pouvoir te co
     </message>
     <message>
         <source>Return</source>
-        <translation>Return</translation>
+        <translation type="obsolete">Return</translation>
     </message>
     <message>
         <source>Are you sure you want to &lt;b&gt;Quit qRezix &lt;/b&gt;?</source>
-        <translation>Etes-vous sûr de vouloir &lt;b&gt;Quitter qRezix &lt;/b&gt;?</translation>
+        <translation type="obsolete">Etes-vous sûr de vouloir &lt;b&gt;Quitter qRezix &lt;/b&gt;?</translation>
     </message>
     <message>
         <source>&amp;Always do like that</source>
-        <translation>&amp;Toujours faire comme ça</translation>
+        <translation type="obsolete">&amp;Toujours faire comme ça</translation>
     </message>
     <message>
         <source>Alt+A</source>
         <translation type="obsolete">Alt+A</translation>
-    </message>
-    <message encoding="UTF-8">
-        <source>⌥L</source>
-        <translation></translation>
-    </message>
-    <message encoding="UTF-8">
-        <source>⌥M</source>
-        <translation></translation>
-    </message>
-    <message encoding="UTF-8">
-        <source>⌥A</source>
-        <translation></translation>
     </message>
 </context>
 <context>
@@ -2241,7 +2116,7 @@ Propriétés envoyées à %2 (%3)</translation>
         <source>Cannot find server %1:
 
 DNS request failed</source>
-        <translation>Impossible de trouver le serveur %1:
+        <translation type="obsolete">Impossible de trouver le serveur %1:
 
 Erreur DNS
 </translation>
@@ -2252,31 +2127,31 @@ Erreur DNS
     </message>
     <message>
         <source>Unknown QSocket error: %1</source>
-        <translation>Erreur inconnue dans QSocket: %1</translation>
+        <translation type="obsolete">Erreur inconnue dans QSocket: %1</translation>
     </message>
     <message>
         <source>Connection closed</source>
-        <translation>Connexion fermée</translation>
+        <translation type="obsolete">Connexion fermée</translation>
     </message>
     <message>
         <source>Connection lost</source>
-        <translation>Connexion perdue</translation>
+        <translation type="obsolete">Connexion perdue</translation>
     </message>
     <message>
         <source>Server name and port are not configured</source>
-        <translation>Le nom et le port du serveur ne sont pas configurés</translation>
+        <translation type="obsolete">Le nom et le port du serveur ne sont pas configurés</translation>
     </message>
     <message>
         <source>Looking for server %1</source>
-        <translation>Recherche du serveur %1</translation>
+        <translation type="obsolete">Recherche du serveur %1</translation>
     </message>
     <message>
         <source>Server found, trying to connect</source>
-        <translation>Serveur trouvé, tentative de connexion</translation>
+        <translation type="obsolete">Serveur trouvé, tentative de connexion</translation>
     </message>
     <message>
         <source>Connected</source>
-        <translation>Connecté</translation>
+        <translation type="obsolete">Connecté</translation>
     </message>
     <message>
         <source>qReziX error</source>
@@ -2288,15 +2163,15 @@ Erreur DNS
     </message>
     <message>
         <source>Socket error, cannot write</source>
-        <translation>Erreur de socket, écriture impossible</translation>
+        <translation type="obsolete">Erreur de socket, écriture impossible</translation>
     </message>
     <message>
         <source>will try to reconnect in %1 seconds</source>
-        <translation>prochaine tentative de connexion dans %1 secondes</translation>
+        <translation type="obsolete">prochaine tentative de connexion dans %1 secondes</translation>
     </message>
     <message>
         <source>Connection refused</source>
-        <translation>Connexion refusé</translation>
+        <translation type="obsolete">Connexion refusé</translation>
     </message>
     <message>
         <source>Connectiion reset by peer</source>
@@ -2304,15 +2179,15 @@ Erreur DNS
     </message>
     <message>
         <source>Socket access denied</source>
-        <translation>Accès au socket interdit</translation>
+        <translation type="obsolete">Accès au socket interdit</translation>
     </message>
     <message>
         <source>Too many sockets</source>
-        <translation>Trop de sockets ouverts</translation>
+        <translation type="obsolete">Trop de sockets ouverts</translation>
     </message>
     <message>
         <source>Operation timeout</source>
-        <translation>Temps alloué à l&apos;opération dépassé</translation>
+        <translation type="obsolete">Temps alloué à l&apos;opération dépassé</translation>
     </message>
     <message>
         <source>Link down</source>
@@ -2324,37 +2199,33 @@ Erreur DNS
     </message>
     <message>
         <source>Connection reset by peer</source>
-        <translation>Connexion réinitialisée par le client distant </translation>
+        <translation type="obsolete">Connexion réinitialisée par le client distant </translation>
     </message>
     <message>
         <source>Unable to find server %1</source>
-        <translation>Impossible de trouver le serveur %1</translation>
+        <translation type="obsolete">Impossible de trouver le serveur %1</translation>
     </message>
     <message>
         <source>Network down</source>
-        <translation>Pas de réseau</translation>
+        <translation type="obsolete">Pas de réseau</translation>
     </message>
     <message>
         <source>Unsupported operation</source>
-        <translation>Opération non supportée</translation>
+        <translation type="obsolete">Opération non supportée</translation>
     </message>
 </context>
 <context>
     <name>RzxStatusUI</name>
     <message>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>&lt;h3&gt;Status bar&lt;/h3&gt;
 &lt;p&gt;Shows the status of your connection with the xnetserver&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Bar d&apos;état&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Bar d&apos;état&lt;/h3&gt;
 &lt;p&gt;Indique le statut de votre connexion avec le xnetserver&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Status bar&lt;/h3&gt;
 &lt;p&gt;Shows the number of clients connected&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Barre d&apos;état&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Barre d&apos;état&lt;/h3&gt;
 &lt;p&gt;Permet de connaître le nombre de personnes connectées au serveur&lt;/p&gt;</translation>
     </message>
 </context>
@@ -2387,20 +2258,16 @@ Erreur DNS
 <context>
     <name>RzxTrayPropUI</name>
     <message>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>&lt;h3&gt;Systray&lt;/h3&gt;&lt;p&gt;Do you want to have qRezix reduced to an icon in the systray ?&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Icône de la barre des tâches&lt;/h3&gt;&lt;p&gt;Voulez-vous avoir accès à qRezix via une icône dans la barre des tâches ?&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Icône de la barre des tâches&lt;/h3&gt;&lt;p&gt;Voulez-vous avoir accès à qRezix via une icône dans la barre des tâches ?&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Systray</source>
-        <translation>Systray</translation>
+        <translation type="obsolete">Systray</translation>
     </message>
     <message>
         <source>Size of tray icon :</source>
-        <translation>Taille de la trayicon :</translation>
+        <translation type="obsolete">Taille de la trayicon :</translation>
     </message>
 </context>
 <context>
@@ -2458,56 +2325,40 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
 <context>
     <name>RzxXNetPropUI</name>
     <message>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>&lt;h3&gt;Reconnection&lt;/h3&gt;&lt;p&gt;Defines the parameters of the reconnection.&lt;p&gt;&lt;p&gt;You shouldn&apos;t have to modify this values&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Reconnexion&lt;/h3&gt;&lt;p&gt;Paramètres pour les tentatives de connexions au xnetserver.&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir à modifier ces valeurs.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Reconnexion&lt;/h3&gt;&lt;p&gt;Paramètres pour les tentatives de connexions au xnetserver.&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir à modifier ces valeurs.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Reconnection</source>
-        <translation>Reconnexion</translation>
+        <translation type="obsolete">Reconnexion</translation>
     </message>
     <message>
         <source>Auto-reconnect delay:</source>
-        <translation>Délai avant reconnection:</translation>
+        <translation type="obsolete">Délai avant reconnection:</translation>
     </message>
     <message>
         <source>Ping timeout (sec):</source>
-        <translation>Délai d&apos;inactivité (sec):</translation>
+        <translation type="obsolete">Délai d&apos;inactivité (sec):</translation>
     </message>
     <message>
         <source>Server identification</source>
-        <translation>Indentification du serveur</translation>
+        <translation type="obsolete">Indentification du serveur</translation>
     </message>
     <message>
         <source>Server name:</source>
-        <translation>Nom du serveur :</translation>
+        <translation type="obsolete">Nom du serveur :</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Server&lt;/h3&gt;&lt;p&gt;Define the address of the xnetserver&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Serveur&lt;/h3&gt;&lt;p&gt;qRezix doit se connecter à un serveur. Ce champs spécifie l&apos;adresse du xnetserveur.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Serveur&lt;/h3&gt;&lt;p&gt;qRezix doit se connecter à un serveur. Ce champs spécifie l&apos;adresse du xnetserveur.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Defines the port to connect to on the xnetserver&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Port vers lequel se connecter sur le xnetserver&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir à modifer cette valeur.&lt;p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Port vers lequel se connecter sur le xnetserver&lt;/p&gt;&lt;p&gt;Vous ne devriez pas avoir à modifer cette valeur.&lt;p&gt;</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation>Port:</translation>
-    </message>
-    <message>
-        <source>Account</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Change my Password</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;The xNet protocole is the original protocole of qRezix.&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This module support xNet v4.0 which include authentification and 32bits icons support. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translation type="obsolete">Port:</translation>
     </message>
 </context>
 <context>
@@ -3373,14 +3224,22 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Use Brushed Metal Style</source>
-        <translation>Utiliser le style Métal Brossé</translation>
+        <translation type="obsolete">Utiliser le style Métal Brossé</translation>
+    </message>
+    <message>
+        <source>Use style on all windows</source>
+        <translation>Utiliser sur toutes les fenêtres</translation>
+    </message>
+    <message>
+        <source>Style:</source>
+        <translation>Style :</translation>
     </message>
 </context>
 <context>
     <name>qRezixUI</name>
     <message>
         <source>qRezix</source>
-        <translation>qRezix</translation>
+        <translation type="obsolete">qRezix</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Status bar&lt;/h3&gt;
@@ -3399,18 +3258,18 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
 &lt;p&gt;You can choose if you want to see Everybody or only your favorites.&lt;br&gt;
 Each item have a menu (right click)&lt;/p&gt;
 &lt;p&gt;To switch you can use &lt;b&gt;Shift+Tab&lt;/b&gt;&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;qRezix&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;qRezix&lt;/h3&gt;
 &lt;p&gt;Permet de savoir qui est connecté de façon exhaustive. Vous avez le choix entre l&apos;affichage de tout le monde ou seulement de vos favoris&lt;/p&gt;
 &lt;p&gt;Pour chaque personne vous avez la possibilité de voire différentes informations, et un clique-droit sur la ligne correspondante permet d&apos;avoir accès à différentes actions.&lt;/p&gt;
 &lt;p&gt;Pour passer des Favoris à Tout le monde (et vice-versa), vous pouvez utiliser &lt;b&gt;Maj+Tab&lt;/b&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoris</translation>
+        <translation type="obsolete">Favoris</translation>
     </message>
     <message>
         <source>Everybody</source>
-        <translation>Tout le monde</translation>
+        <translation type="obsolete">Tout le monde</translation>
     </message>
 </context>
 </TS>

@@ -38,7 +38,8 @@ SOURCES += rzxglobal.cpp \
 	rzxchangepass.cpp \
 	rzxsound.cpp \
 	rzxtranslator.cpp \
-	rzxstyle.cpp
+	rzxstyle.cpp \
+	rzxintro.cpp
 
 HEADERS += rzxglobal.h \
 	rzxapplication.h \
@@ -61,11 +62,13 @@ HEADERS += rzxglobal.h \
 	rzxchangepass.h \
 	rzxsound.h \
 	rzxtranslator.h \
-	rzxstyle.h
+	rzxstyle.h \
+	rzxintro.h
 		
 FORMS += rzxpropertyui.ui \
 	rzxwrongpassui.ui \
-	rzxchangepassui.ui
+	rzxchangepassui.ui \
+	rzxintroui.ui
 
 TRANSLATIONS = $$(ROOT)/resources/translations/qrezix_fr.ts
 

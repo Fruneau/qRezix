@@ -83,15 +83,15 @@ void RzxConfig::destroy()
 	Rzx::endModuleClosing("Config");
 }
 
-/** Recherche si la configuration a déjà été réalisée */
-bool RzxConfig::find()
+///Indique si c'est le premier chargement
+bool RzxConfig::firstLaunch()
 {
 	if(global()->value("firstload", true).toBool())
 	{
 		global() -> setValue("firstload", false);
-		return false;
+		return true;
 	}
-	return true;
+	return false;
 }
 
 /*****************************************************************************

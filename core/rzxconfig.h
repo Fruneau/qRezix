@@ -141,7 +141,7 @@ public:
 	RZX_RGBPROP("error_text", errorTextColor, setErrorTextColor, 0xFFFFFF)
 		
 	static bool infoCompleted();
-	static bool find();
+	static bool firstLaunch();
 
 	
 //Gestion des sous-réseaux

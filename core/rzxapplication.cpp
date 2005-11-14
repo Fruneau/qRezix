@@ -25,6 +25,7 @@
 #include <RzxConnectionLister>
 #include <RzxProperty>
 #include <RzxSubnet>
+#include <RzxIntro>
 
 #ifdef RZX_MAINUI_BUILTIN
 #	include "../modules/mainui/rzxui.h"
@@ -143,8 +144,15 @@ bool RzxApplication::loadCore()
 
 	//Vérification du remplissage des propriétés
 	connect(this, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
-	if(!RzxConfig::global()->find() || !RzxConfig::infoCompleted())
+
+	bool first = RzxConfig::global()->firstLaunch();
+	if(first || !RzxConfig::infoCompleted())
 	{
+		if(first)
+		{
+			RzxIntro *intro = new RzxIntro();
+			intro->exec();
+		}
 		properties = new RzxProperty(NULL);
 		properties->initDlg();
 		properties -> exec();
