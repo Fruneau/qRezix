@@ -42,82 +42,72 @@ class RzxComputer;
 class RzxServerListener : public RzxProtocole {
 	Q_OBJECT
 
+	QTcpSocket socket;
+	QTimer reconnectionTimer;
+	QTimer pingTimer;
+
+	//Pour le transfert de données
+	QString sendingBuffer;
+	bool iconMode;
+	RzxHostAddress iconHost;
+
+	//Pour la gestion de l'état de connexion
 	bool restarting;
+	bool userConnection;
+	bool reconnection;
+	bool wantDisconnection;
+
+	//Pour l'affichage de l'avancement de la reconnexion
+	QString message;
+	int timeToReconnection;
 
 public:
 	RzxServerListener();
 	~RzxServerListener();
 
-	/** Reimplemente depuis @ref RzxProtocole pour ajouter la gestion des icones. */
-	virtual void parse(const QString& msg);
-	/** Change l'icone de l'ordinateur local */
-	void sendIcon(const QImage& image);
-	void setupReconnection(const QString& msg);
 	RzxHostAddress getServerIP() const;
 	RzxHostAddress getIP() const;
 	virtual bool isStarted() const;
 
+//Gestion de la connexion
 public slots:
 	virtual void start();
 	virtual void stop();
 	virtual void restart();
-	
-protected slots:
-	void serverClose();
-	void serverReceive();
-	void serverError(QTcpSocket::SocketError);
-	void serverTimeout();
+
+protected:
 	void connectToXnetserver();
-	virtual void send(const QString& msg);
-	virtual void pingReceived();
-	void serverConnected();
-	void serverFound();
-	void serverResetTimer();
-	void closeWaitFlush();
+	void setupReconnection(const QString& msg);
+
+private slots:
 	void waitReconnection();
 
-	void emitConnected();
-	void emitDisconnected();
-
-protected: // Protected attributes
-	QTcpSocket socket;
-	bool premiereConnexion;
-
-	/** Buffer de lecture/ecriture dans le socket */
-	RzxHostAddress iconHost;
-	bool iconMode;	
-
-	/** Timer utilisé pour les reconnexions automatiques */
-	QTimer reconnection;
-	/** Nom d'hote du serveur */
-	QTimer pingTimer;
-	/** Temps restant avant la tentative de reconnexion */
-	int timeToConnection;
-	/** Message */
-	QString message;
-	/** indique si une connexion a été établie depuis la dernière erreur indiquée à l'utilisateur */
-	bool hasBeenConnected;
-	
-private:
+//Fonctions de notification
+protected slots:
 	void notify(const QString& text);
+	void serverFound();
+	void serverDisconnected(const QString& = QString());
+	void serverConnected();
+	void error(QTcpSocket::SocketError);
+	
+
+//Echange de données
+protected slots:
+	void read();
+	virtual void parse(const QString& msg);
+
+	virtual void send(const QString& msg);
+	virtual void pingReceived();
+	void sendIcon(const QImage& image);
+
+	void timeout();
+	void haveActivity();
 };
 
 ///Notifie de la modification du statut de la connexion
 inline void RzxServerListener::notify(const QString& text)
 {
     emit status(text);
-}
-
-///Envoie le signal 'Connecté'
-inline void RzxServerListener::emitConnected()
-{
-	emit connected(this);
-}
-
-///Envoie le signale 'Déconnecté'
-inline void RzxServerListener::emitDisconnected()
-{
-	emit disconnected(this);
 }
 
 #endif
