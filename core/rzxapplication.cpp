@@ -156,6 +156,8 @@ bool RzxApplication::loadCore()
 		properties = new RzxProperty(NULL);
 		properties->initDlg();
 		properties -> exec();
+		delete properties;
+		properties = NULL;
 		if(!RzxConfig::infoCompleted())
 			return false;
 	}
