@@ -96,3 +96,12 @@ void RzxNetwork::properties(RzxComputer*)
 void RzxNetwork::sendChatMessage(RzxComputer*, Rzx::ChatMessageType, const QString&)
 {
 }
+
+///Relance la connexion
+/** L'implémentation par défaut fait un stop - start
+ */
+void RzxNetwork::restart()
+{
+	stop();
+	start();
+}

@@ -74,6 +74,7 @@ class RzxNetwork : public QObject, public RzxBaseModule
 	public slots:
 		virtual void start() = 0;
 		virtual void stop() = 0;
+		virtual void restart();
 		virtual void refresh() = 0;
 		virtual void getIcon(const RzxHostAddress&) = 0;
 		virtual void usePass(const QString&) = 0;
