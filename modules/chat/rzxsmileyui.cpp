@@ -45,7 +45,8 @@ RzxSmileyUi::RzxSmileyUi(QWidget *parent)
 	// chargement de la config
 	QString filename = "resources/smileys/basic/basic.theme";
 	QGridLayout *smileyLayout = new QGridLayout;
-	int cpt=0;
+	int rowcpt=0;
+	int colcpt=0;
 	if (!filename.isNull()){
 		QString text;
 		QFile file(filename);
@@ -57,9 +58,14 @@ RzxSmileyUi::RzxSmileyUi(QWidget *parent)
 				text = stream.readLine();
 				QStringList list = text.split("###");
 				if(list.count() == 2){
-					RzxSmileyButton *tmp = new RzxSmileyButton(list[0],QIcon(list[1]),this);
+					QStringList rep = list[0].split("$$");
+					RzxSmileyButton *tmp = new RzxSmileyButton(rep[0],QIcon(list[1]),this);
 					connect(tmp,SIGNAL(clicked(QString)), this, SIGNAL(clickedSmiley(QString)));
-					smileyLayout->addWidget(tmp,0,cpt++);
+					smileyLayout->addWidget(tmp,colcpt,rowcpt++);
+					if(rowcpt > 4){
+						rowcpt = 0;
+						colcpt++;
+					}
 				}
 			}
 			file.close();
