@@ -167,9 +167,10 @@ void RzxChat::init()
 	connect(btnHistorique, SIGNAL(toggled(bool)), this, SLOT(on_btnHistorique_toggled(bool)));
 	connect(btnProperties, SIGNAL(toggled(bool)), this, SLOT(on_btnProperties_toggled(bool)));
 	connect(btnPlugins, SIGNAL(toggled(int)), this, SLOT(on_btnPlugins_toggled(int)));
+	connect(btnSmiley, SIGNAL(toggled(bool)), this, SLOT(onSmileyToggled(bool)));
 	connect(btnSend, SIGNAL(clicked()), this, SLOT(on_btnSend_clicked()));
 	connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
-
+	
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 
 	on_cbFontSelect_activated(0);
@@ -177,6 +178,7 @@ void RzxChat::init()
 	edMsg->clear();
 	typing = peerTyping = false;
 	unread = 0;
+	
 }
 
 ///Bye bye
@@ -694,4 +696,19 @@ void RzxChat::on_btnPlugins_clicked()
 	if(!menuPlugins.actions().count())
 		menuPlugins.addAction("<none>");
 	menuPlugins.popup(btnPlugins->mapToGlobal(btnPlugins->rect().bottomLeft()));
+}
+
+/// Affichage du menu des smileys lors d'un clic sur le bouton
+void RzxChat::onSmileyToggled(bool on)
+{
+	if(!on)
+	{
+		if(!smileyUi.isNull())
+			smileyUi->close();
+		return;
+	}
+	smileyUi = new RzxSmileyUi();
+	connect(smileyUi, SIGNAL(clickedSmiley(QString)), edMsg, SLOT(insertPlainText(QString)));
+	smileyUi->move(QPoint(btnSmiley->mapToGlobal(btnSmiley->rect().bottomLeft())));
+	smileyUi->show();
 }

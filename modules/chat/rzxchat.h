@@ -31,6 +31,8 @@
 #	include "ui_rzxchatui.h"
 #endif
 
+#include "rzxsmileyui.h"
+
 /**
   *@author Sylvain Joyeux
   */
@@ -92,6 +94,7 @@ private:
 	QMenu menuPlugins;
 	QPointer<RzxPopup> hist;
 	QPointer<RzxPopup> prop;
+	QPointer<RzxSmileyUi> smileyUi;
 	
 protected:
 	QPointer<RzxComputer> m_computer;
@@ -138,6 +141,7 @@ protected slots:
 	void on_cbSize_activated(int index);
 	void on_cbSendHTML_toggled(bool on);
 	void on_btnSend_clicked();
+	void onSmileyToggled(bool on);
 	void onReturnPressed();
 	void onTextChanged();
 	bool event(QEvent *e);
