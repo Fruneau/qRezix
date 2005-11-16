@@ -21,6 +21,8 @@
 #include <QRegExp>
 #include <QProcess>
 #include <QApplication>
+#include <QTcpServer>
+
 
 #include <RzxComputer>
 
@@ -640,19 +642,19 @@ void RzxComputer::scanServers()
 	QTcpServer detecter;
 
 	//scan du ftp
-	if(!detecter.listen(ip, 21))
+	if(!detecter.listen(m_ip, 21))
 		newServers |= SERVER_FTP;
 
 	//scan du http
-	if(!detecter.listen(ip, 80))
+	if(!detecter.listen(m_ip, 80))
 		newServers |= SERVER_HTTP;
 
 	//scan du nntp
-	if(!detecter.listen(ip, 119))
+	if(!detecter.listen(m_ip, 119))
 		newServers |= SERVER_NEWS;
 
 	//scan du samba
-	if(!detecter.listen(ip, 445))
+	if(!detecter.listen(m_ip, 445))
 		newServers |= SERVER_SAMBA;
 #else
 	QProcess netstat;

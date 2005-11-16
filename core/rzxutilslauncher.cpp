@@ -63,7 +63,7 @@ void RzxUtilsLauncher::ftp(const RzxHostAddress& m_ip, const QString& path)
 					regReader.setValue("Proxy Exceptions", ip + ";" + proxyExcpt);
 			}
 			else
-				reader.setValue("Proxy Type", 0);
+				regReader.setValue("Proxy Type", 0);
 			regReader.endGroup();
 
 			//Récupération du chemin d'accès
@@ -160,7 +160,7 @@ void RzxUtilsLauncher::http(const RzxHostAddress& m_ip, const QString& m_path)
 	}
 	else if(cmd == "iExplore")
 	{
-		cmd = "explorer"
+		cmd = "explorer";
 		args << tempip;
 	}
 	else if(cmd == "standard")
@@ -196,7 +196,7 @@ void RzxUtilsLauncher::news(const RzxHostAddress& m_ip, const QString& m_path)
 
 #ifdef WIN32
 	if(cmd == "standard" )
-		cmd = tempip
+		cmd = tempip;
 	else
 		args << tempip;
 #else

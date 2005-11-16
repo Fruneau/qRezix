@@ -60,7 +60,7 @@ class RzxComputer : public QObject {
 
 
 /************* Définition des différentes données *********************/
-#if __BYTE_ORDER == __LITTLE_ENDIAN
+#if defined(__BYTE_ORDER) && __BYTE_ORDER == __LITTLE_ENDIAN
 	struct options_t
 	{
 		unsigned Server			:6;
@@ -89,7 +89,7 @@ class RzxComputer : public QObject {
 	};
 	
 public: 
-#if __BYTE_ORDER == __LITTLE_ENDIAN
+#if defined(__BYTE_ORDER) && __BYTE_ORDER == __LITTLE_ENDIAN
 	struct version_t
 	{
 		unsigned FunnyVersion	:14;

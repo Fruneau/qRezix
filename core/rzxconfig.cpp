@@ -110,9 +110,9 @@ void RzxConfig::loadDirs()
 	QString userSubdir;
 	m_userDir = QDir::home();
 #ifdef WIN32
-	QString dir = settings->value("InstDir").toString();
+	QString dir = value("InstDir").toString();
 	userSubdir = "qRezix";
-	m_libDir = QDir::currentDirPath();
+	m_libDir = QDir::current();
 	if(!dir.isEmpty())
 		m_systemDir.setPath(dir);
 	else

@@ -229,7 +229,7 @@ namespace Rzx
 #define __LITTLE_ENDIAN LITTLE_ENDIAN
 #define __BIG_ENDIAN BIG_ENDIAN
 #else
-#define __LITTLE_ENDIAN
+#define __LITTLE_ENDIAN 1
 #define __BYTE_ORDER __LITTLE_ENDIAN
 #endif
 #endif
