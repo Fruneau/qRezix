@@ -423,7 +423,7 @@ void RzxChat::receive(const QString& msg)
 		updateTitle();
 	}
 #ifdef WIN32
-  if(!timer->isActive()) timer->start( 1000, FALSE );
+  if(!timer->isActive()) timer->start( 1000);
 #endif
 }
 
@@ -602,7 +602,7 @@ void RzxChat::sendChat(const QString& msg)
 
 /******************* Gestion des événements ***************************/
 #ifdef WIN32
-void RzxChat::showEvent ( QShowEvent * e){
+void RzxChat::showEvent ( QShowEvent *){
 	timer->stop();
 }
 #endif

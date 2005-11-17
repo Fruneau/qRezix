@@ -132,7 +132,7 @@ int RzxChatSocket::parse(const QString& msg)
 					qDebug("Parsing CHAT : %s", cmd.cap(2).toAscii().constData());
 					if(RzxConfig::autoResponder())
 						sendResponder(RzxConfig::autoResponderMsg());
-					if(RzxConfig::autoResponder() == Rzx::STATE_REFUSE)
+					if(RzxComputer::localhost()->state() == Rzx::STATE_REFUSE)
 						return DCC_CHAT;
 					host.computer()->receiveChat(Rzx::Chat, cmd.cap(2));
 					host.computer()->receiveChat(Rzx::StopTyping);
