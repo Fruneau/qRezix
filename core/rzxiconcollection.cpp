@@ -340,6 +340,22 @@ QIcon RzxIconCollection::banIcon()
 	return ban;
 }
 
+///Surcharge
+/** \sa hereIcon
+ */
+const QPixmap& RzxIconCollection::qRezixIcon()
+{
+	return global()->hereIcon;
+}
+
+///Surcharge
+/** \sa awayIcon
+ */
+const QPixmap& RzxIconCollection::qRezixAwayIcon()
+{
+	return global()->awayIcon;
+}
+
 ///Récupération d'une icône utilisateur
 /** Les icônes utilisateurs sont hashées par le serveur et stockées
  * brutes sous un nom de fichier de la forme hash.img

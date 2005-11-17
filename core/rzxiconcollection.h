@@ -185,18 +185,6 @@ inline QIcon RzxIconCollection::getFavoriteIcon()
 inline QIcon RzxIconCollection::getBanIcon()
 { return global()->banIcon(); }
 
-///Surcharge
-/** \sa hereIcon
- */
-inline const QPixmap& RzxIconCollection::qRezixIcon()
-{ return global()->hereIcon; }
-
-///Surcharge
-/** \sa awayIcon
- */
-inline const QPixmap& RzxIconCollection::qRezixAwayIcon()
-{ return global()->awayIcon; }
-
 ///Connexion pour le changement de traduction
 inline bool RzxIconCollection::connect(const QObject *receiver, const char *method, Qt::ConnectionType type)
 {

@@ -75,15 +75,6 @@ class RZX_CORE_EXPORT RzxStyle:public QObject
 };
 
 
-///Génère un objet du style aproprié
-inline QStyle *RzxStyle::current() const
-{
-	if(defaultStyle)
-		return NULL;
-	else
-		return QStyleFactory::create(currentName);
-}
-
 ///Connexion pour le changement de traduction
 inline bool RzxStyle::connect(const QObject *receiver, const char *method, Qt::ConnectionType type)
 {
@@ -94,12 +85,6 @@ inline bool RzxStyle::connect(const QObject *receiver, const char *method, Qt::C
 inline bool RzxStyle::disconnect(const QObject *receiver)
 {
 	return global()->QObject::disconnect(SIGNAL(styleChanged(const QString&)), receiver);
-}
-
-///Change le style
-inline void RzxStyle::setStyle(const QString& style)
-{
-	global()->local_setStyle(style);
 }
 
 #endif

@@ -83,18 +83,4 @@ inline RzxThemedIcon::operator QIcon() const
 	return icon();
 }
 
-///Indique si l'objet est valide.
-/** Si l'object est invalide il sera casté en une icône nulle
- */
-inline bool RzxThemedIcon::isValid() const
-{
-	return m_type != Invalid;
-}
-
-///Retourne le type d'icône
-inline RzxThemedIcon::Type RzxThemedIcon::type() const
-{
-	return m_type;
-}
-
 #endif

@@ -59,22 +59,4 @@ class RZX_CORE_EXPORT RzxSubnet
 		QString toString() const;
 };
 
-///Retourne le network normalisé
-inline const QHostAddress &RzxSubnet::network() const
-{
-	return m_network;
-}
-
-///Retourne le masque
-inline const QHostAddress &RzxSubnet::netmask() const
-{
-	return m_netmask;
-}
-
-///Converti le subnet en chaîne de caractère
-inline QString RzxSubnet::toString() const
-{
-	return m_network.toString() + "/" + m_netmask.toString();
-}
-
 #endif

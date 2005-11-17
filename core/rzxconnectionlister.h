@@ -110,31 +110,4 @@ class RZX_CORE_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader
 		void wantHistorique(RzxComputer*);
 };
 
-///Indique si on a fini d'enregistrer tous les connectés d'un serveur
-/** Lorsqu'on se connecte à un nouveau serveur, on peut dans certains
- * cas recevoir un grand nombre de nouvelle connexion. Celle-ci sont
- * bufferées, et lorsque toutes ces connexions sont 'assimilées' on 
- * considère que les connexions sont en état d'être traitées comme des
- * connexions normales et non plus comme un paquet à absorber.
- *
- * Lorsque toutes ces connexions sont assimilées, on considère que
- * le RzxConnectionLister est initialized...
- */
-inline bool RzxConnectionLister::isInitialized() const
-{
-	return initialized;
-}
-
-///Renvoie l'ordinateur associé à name
-inline RzxComputer *RzxConnectionLister::getComputerByName(const QString& name) const
-{
-	return computerByLogin[name];
-}
-
-///Renvoie l'ordinateur associé à l'IP
-inline RzxComputer *RzxConnectionLister::getComputerByIP(const RzxHostAddress& ip) const
-{
-	return computerByIP[ip];
-}
-
 #endif

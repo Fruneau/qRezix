@@ -78,6 +78,23 @@ RzxComputer::~RzxComputer()
 
 
 /********************** Initialisation d'un RzxComputer *****************/
+///Retourne un objet représentant localhost
+/** Localhost est un RzxComputer* qui contient toutes les informations représentant l'ordinateur local */
+RzxComputer *RzxComputer::localhost()
+{
+	if(!m_localhost)
+		buildLocalhost();
+	return m_localhost;
+}
+
+///Construit l'objet représentant localhost
+void RzxComputer::buildLocalhost()
+{
+	if(m_localhost) return;
+	m_localhost = new RzxComputer();
+	m_localhost->initLocalhost();
+}
+
 ///Création d'un Computer représentant localhost
 /** L'objet créé est un objet global qui regroupe les informations importantes
  * concernant localhost. Cet objet n'est pas affiché dans le rzxrezal. La machine
@@ -299,6 +316,14 @@ int RzxComputer::rezal() const
 	return m_ip.rezal();
 }
 
+///Retourne la version texte du nom du sous-réseau
+/** Ne fait que réaliser la conversion en chaîne de caractères du RezalId */
+QString RzxComputer::rezalName(bool shortname) const
+{
+	return m_ip.rezalName(shortname);
+}
+
+
 
 /********** REPONDEUR */
 ///Définitioin de l'état du répondeur
@@ -360,6 +385,17 @@ Rzx::ConnectionState RzxComputer::state() const
 		default: return Rzx::STATE_DISCONNECTED;
 	}
 }
+
+///Indique si la machine est sur répondeur
+/** Permet de traduire simplement l'état 'sur répondeur' qui correspond à 2 Rzx::ConnectionState différents
+ * et donc qui plus casse pied à tester que here et disconnected
+ */
+bool RzxComputer::isOnResponder() const
+{
+	Rzx::ConnectionState m_state = state();
+	return m_state == Rzx::STATE_AWAY || m_state == Rzx::STATE_REFUSE;
+}
+
 
 /********** PROMO */
 ///Définition de la promo

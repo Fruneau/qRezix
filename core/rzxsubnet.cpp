@@ -175,3 +175,21 @@ QHostAddress RzxSubnet::maskFromSize(int size, QAbstractSocket::NetworkLayerProt
 			return QHostAddress();
 	}
 }
+
+///Retourne le network normalisé
+const QHostAddress &RzxSubnet::network() const
+{
+	return m_network;
+}
+
+///Retourne le masque
+const QHostAddress &RzxSubnet::netmask() const
+{
+	return m_netmask;
+}
+
+///Converti le subnet en chaîne de caractère
+QString RzxSubnet::toString() const
+{
+	return m_network.toString() + "/" + m_netmask.toString();
+}

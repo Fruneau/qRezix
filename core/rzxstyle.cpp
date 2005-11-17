@@ -61,6 +61,21 @@ QString RzxStyle::style()
 	return global()->currentName;
 }
 
+///Génère un objet du style aproprié
+QStyle *RzxStyle::current() const
+{
+	if(defaultStyle)
+		return NULL;
+	else
+		return QStyleFactory::create(currentName);
+}
+
+///Change le style
+void RzxStyle::setStyle(const QString& style)
+{
+	global()->local_setStyle(style);
+}
+
 ///Défini le style à utiliser
 /** Cette fonction est une surcharge de setStyle qui est globale
  */

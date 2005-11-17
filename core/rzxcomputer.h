@@ -277,27 +277,6 @@ public slots:
 ///Déclaration pour le MetaType RzxComputer dans le but d'utiliser le RzxComputer comme metatype
 Q_DECLARE_METATYPE(RzxComputer*)
 
-///Retourne un objet représentant localhost
-/** Localhost est un RzxComputer* qui contient toutes les informations représentant l'ordinateur local */
-inline RzxComputer *RzxComputer::localhost()
-{
-	if(!m_localhost)
-		buildLocalhost();
-	return m_localhost;
-}
-
-///Construit l'objet représentant localhost
-inline void RzxComputer::buildLocalhost()
-{
-	if(m_localhost) return;
-	m_localhost = new RzxComputer();
-	m_localhost->initLocalhost();
-}
-
-///Retourne la version texte du nom du sous-réseau
-/** Ne fait que réaliser la conversion en chaîne de caractères du RezalId */
-inline QString RzxComputer::rezalName(bool shortname) const
-{ return m_ip.rezalName(shortname); }
 
 ///Indique si l'objet est dans les favoris
 inline bool RzxComputer::isFavorite() const
@@ -306,15 +285,5 @@ inline bool RzxComputer::isFavorite() const
 ///Indique si l'objet est dans les machines ignorées
 inline bool RzxComputer::isIgnored() const
 { return RzxConfig::global()->isBan(*this); }
-
-///Indique si la machine est sur répondeur
-/** Permet de traduire simplement l'état 'sur répondeur' qui correspond à 2 Rzx::ConnectionState différents
- * et donc qui plus casse pied à tester que here et disconnected
- */
-inline bool RzxComputer::isOnResponder() const
-{
-	Rzx::ConnectionState m_state = state();
-	return m_state == Rzx::STATE_AWAY || m_state == Rzx::STATE_REFUSE;
-}
 
 #endif

@@ -303,6 +303,71 @@ void RzxApplication::preferences()
 	}
 }
 
+///Retourne la version de qRezix
+Rzx::Version RzxApplication::version()
+{
+	return m_version;
+}
+
+///Indique si l'application a été initialisée sans encombre
+/** Si le flags est faux, l'application est reconnue comme n'étant
+ * pas en état de fonctionner..., il faut donc faire attention à ne pas
+ * lancer l'application ou utiliser des modules
+ */
+bool RzxApplication::isInitialised() const
+{
+	return wellInit;
+}
+
+///Instance de l'application
+RzxApplication *RzxApplication::instance()
+{
+	return qobject_cast<RzxApplication*>(QApplication::instance());
+}
+
+///Indique si l'application bénéficie d'une trayicon
+/** La trayicon a un statut particulier car elle permet à l'application
+ * d'avoir une intéraction 'discrète'...
+ */
+bool RzxApplication::hasHider() const
+{
+	return hiders.count();
+}
+
+///Indique si l'application a une fenêtre principale
+/** La fenêtre principale est une fenêtre permettant un intéraction maximale
+ * entre l'utilisateur et le programme.
+ */
+bool RzxApplication::hasMainWindow() const
+{
+	return mainui != NULL;
+}
+
+///Retourne le module de chat
+/** Le module retourné ici est un module à utiliser par défaut pour le chat si
+ * l'ordinateur utilise un protocole qui ne gère pas le chat.
+ */
+RzxModule *RzxApplication::chatModule()
+{
+	return instance()->chatProto;
+}
+
+///Retourne le module des propriétés
+/** Le module retourné ici est un module à utiliser par défaut pour le check des
+ * propriétés de l'utilisateur distant si le protocole réseau via lequel il est connecté
+ * ne le permet pas.
+ */
+RzxModule *RzxApplication::propertiesModule()
+{
+	return instance()->propertiesProto;
+}
+
+///Retourne le module de l'interface utilisateur pour le chat
+RzxModule *RzxApplication::chatUiModule()
+{
+	return instance()->chatui;
+}
+
 ///Change l'état du répondeur
 void RzxApplication::toggleResponder()
 {

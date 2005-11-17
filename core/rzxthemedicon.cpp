@@ -73,6 +73,20 @@ RzxThemedIcon::~RzxThemedIcon()
 {
 }
 
+///Indique si l'objet est valide.
+/** Si l'object est invalide il sera casté en une icône nulle
+ */
+bool RzxThemedIcon::isValid() const
+{
+	return m_type != Invalid;
+}
+
+///Retourne le type d'icône
+RzxThemedIcon::Type RzxThemedIcon::type() const
+{
+	return m_type;
+}
+
 ///Pour la recopie de l'objet
 const RzxThemedIcon &RzxThemedIcon::operator=(const RzxThemedIcon& a)
 {
