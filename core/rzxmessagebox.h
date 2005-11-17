@@ -25,7 +25,7 @@ class QWidget;
  * de qRezix en permettant d'afficher des messages sans entraîner des
  * actions dommageables pour l'exécution du programme.
  */
-namespace RzxMessageBox
+namespace Q_DECL_EXPORT RzxMessageBox
 {
 	int information( QWidget *parent, const QString& caption,
 		const QString& text, bool modal =false );

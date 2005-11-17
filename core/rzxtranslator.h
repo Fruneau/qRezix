@@ -39,7 +39,7 @@ class QTranslator;
  * La plupart des classes n'ont juste besoin que de connaître connect et disconnect qui permettent
  * de simplifier la connexion au languageChanged.
  */
-class RzxTranslator:public QObject
+class Q_DECL_EXPORT RzxTranslator:public QObject
 {
 	Q_OBJECT
 	RZX_GLOBAL(RzxTranslator)

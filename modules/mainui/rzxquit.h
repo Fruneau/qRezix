@@ -24,7 +24,7 @@
 
 class RzxConfig;
 
-class RzxQuit : public QDialog, private Ui::RzxQuitUI
+class Q_DECL_EXPORT RzxQuit : public QDialog, private Ui::RzxQuitUI
 {
 	Q_OBJECT
 	Q_PROPERTY(QuitMode quitMode READ quitMode)

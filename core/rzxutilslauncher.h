@@ -32,10 +32,10 @@ class RzxHostAddress;
  */
 namespace RzxUtilsLauncher
 {
-	void ftp(const RzxHostAddress&, const QString& path = QString());
-	void http(const RzxHostAddress&, const QString& path = QString());
-	void news(const RzxHostAddress&, const QString& path = QString());
-	void samba(const RzxHostAddress&, const QString& path = QString());
+	Q_DECL_EXPORT void ftp(const RzxHostAddress&, const QString& path = QString());
+	Q_DECL_EXPORT void http(const RzxHostAddress&, const QString& path = QString());
+	Q_DECL_EXPORT void news(const RzxHostAddress&, const QString& path = QString());
+	Q_DECL_EXPORT void samba(const RzxHostAddress&, const QString& path = QString());
 };
 
 #endif

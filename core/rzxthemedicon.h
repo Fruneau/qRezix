@@ -28,7 +28,7 @@
  * changement de thème. En effet, le cast vers QIcon est dynamique et
  * sélectionne de lui même le thème qvb.
  */
-class RzxThemedIcon: public QObject
+class Q_DECL_EXPORT RzxThemedIcon: public QObject
 {
 	Q_OBJECT
 

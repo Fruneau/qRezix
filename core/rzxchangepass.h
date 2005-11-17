@@ -27,7 +27,7 @@ class RzxNetwork;
 */
 
 ///Interface de changement de mot de passe
-class RzxChangePass: public QDialog, private Ui::RzxChangePassUI
+class  Q_DECL_EXPORT RzxChangePass: public QDialog, private Ui::RzxChangePassUI
 {
 	Q_OBJECT
 

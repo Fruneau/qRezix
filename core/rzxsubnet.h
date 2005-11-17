@@ -28,7 +28,7 @@
 /** Un sous-réseau est une plage d'ip définie par une ip et un masque tel que
  * subnet = { ip | ip & masque == ref & masque }.
  */
-class RzxSubnet
+class Q_DECL_EXPORT RzxSubnet
 {
 	QHostAddress m_network;
 	QHostAddress m_netmask;

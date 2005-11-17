@@ -38,7 +38,7 @@ class QImage;
 /** Elle est en effet le pivot entre l'architecture réseau et l'interface graphique.
  * RzxRezal est son pendant graphique.
  */
-class RzxConnectionLister : public QObject, public RzxBaseLoader<RzxNetwork>
+class Q_DECL_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader<RzxNetwork>
 {
 	Q_OBJECT
 	Q_PROPERTY(bool initialized READ isInitialized)

@@ -39,7 +39,7 @@ class RzxComputer;
  * 	- logout pour indiquer une déconnexion
  * 	- refresh pour envoyer les mises à jour des informations du client
  */
-class RzxNetwork : public QObject, public RzxBaseModule
+class Q_DECL_EXPORT RzxNetwork : public QObject, public RzxBaseModule
 {
 	Q_OBJECT
 	Q_PROPERTY(Type type READ type)

@@ -99,7 +99,7 @@
  * }
  * \endcode
  */
-class RzxBaseModule
+class  Q_DECL_EXPORT RzxBaseModule
 {
 	//Propriétés du modules
 	QString m_name;

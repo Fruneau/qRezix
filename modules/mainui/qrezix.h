@@ -41,7 +41,7 @@ class QLineEdit;
 class RzxRezalPopup;
 
 /** QRezix is the base class of the project */
-class QRezix : public QMainWindow, public RzxBaseLoader<RzxRezal>
+class Q_DECL_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRezal>
 {
 	Q_OBJECT
 	Q_PROPERTY(bool initialised READ isInitialised)

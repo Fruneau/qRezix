@@ -94,7 +94,7 @@ class RzxComputer;
  * 	- INCLUDEPATH += (path de qRezix core lib includes)
  * 	- LIBS += -L(path de la lib qrezix) -lqrezix
  */
-class RzxModule:public QObject, public RzxBaseModule
+class Q_DECL_EXPORT RzxModule:public QObject, public RzxBaseModule
 {
 	Q_OBJECT
 

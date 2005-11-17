@@ -161,27 +161,27 @@ namespace Rzx
 		CompleteVersion = LongVersion | TagVersion
 	};
 	Q_DECLARE_FLAGS(VersionParts, VersionPartFlags)
-	QString versionToString(const Rzx::Version&, VersionParts = CompleteVersion);
+	Q_DECL_EXPORT QString versionToString(const Rzx::Version&, VersionParts = CompleteVersion);
 
 	///Définition de la fonction d'output surchargée
-	void installMsgHandler();
-	void closeMsgHandler();
-	void useOutputFile(FILE *file);
+	Q_DECL_EXPORT void installMsgHandler();
+	Q_DECL_EXPORT void closeMsgHandler();
+	Q_DECL_EXPORT void useOutputFile(FILE *file);
 
 	//Chargement d'un module
-	void beginModuleLoading(const QString&);
-	void endModuleLoading(const QString&, bool success = true);
+	Q_DECL_EXPORT void beginModuleLoading(const QString&);
+	Q_DECL_EXPORT void endModuleLoading(const QString&, bool success = true);
 
 	//Fermeture d'un module
-	void beginModuleClosing(const QString&);
-	void endModuleClosing(const QString&);
+	Q_DECL_EXPORT void beginModuleClosing(const QString&);
+	Q_DECL_EXPORT void endModuleClosing(const QString&);
 
 	///Pour trier case unsensitive
-	bool caseInsensitiveLessThan(const QString&, const QString&);
+	Q_DECL_EXPORT bool caseInsensitiveLessThan(const QString&, const QString&);
 
 	///Comparaison de versions
-	bool operator==(const Version&, const Version&);
-	bool operator<(const Version&, const Version&);
+	Q_DECL_EXPORT bool operator==(const Version&, const Version&);
+	Q_DECL_EXPORT bool operator<(const Version&, const Version&);
 };
 
 ///Défini les fonctions nécessaire pour générer un objet global

@@ -45,7 +45,7 @@ class QDir;
  * et n'est qu'une réécriture dans une classe indépendante de RzxConfig de ce
  * qu'on trouvait dans qRezix jusqu'à la version 1.6.x
  */
-class RzxIconCollection: public QObject
+class Q_DECL_EXPORT RzxIconCollection: public QObject
 {
 	Q_OBJECT
 	Q_PROPERTY(QString theme READ theme WRITE setTheme)

@@ -31,7 +31,7 @@ class RzxComputer;
 
 ///Popup simple qui intercepte le clavier
 /** Pour réimplanter le clavier et la touche droite, ne mérite pas un .h/.cpp pour lui tt seul */
-class RzxRezalPopup : public QMenu
+class Q_DECL_EXPORT RzxRezalPopup : public QMenu
 {
 	Q_OBJECT
 

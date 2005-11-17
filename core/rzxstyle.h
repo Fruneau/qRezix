@@ -38,7 +38,7 @@
  * La classe utilise égalementune API proche de \ref RzxTranslator qui permet de connecter simplement
  * un objet à l'envoie du message styleChanged. Mais a priori ces fonctions sont peu utilses.
  */
-class RzxStyle:public QObject
+class Q_DECL_EXPORT RzxStyle:public QObject
 {
 	Q_OBJECT
 	RZX_GLOBAL(RzxStyle)

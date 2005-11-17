@@ -38,7 +38,7 @@ namespace Ui { class RzxMainuiPropUI; }
 /** Cette classe existe parce que le double héritage par QObjet
  * pose quelques problème...
  */
-class RzxUi:public RzxModule
+class Q_DECL_EXPORT RzxUi:public RzxModule
 {
 	Q_OBJECT
 

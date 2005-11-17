@@ -29,7 +29,7 @@ class RzxNetwork;
 /** Cette classe est fortement liée à RzxNetwork mais peut très bien être
  * utilisée séparément
  */
-class RzxWrongPass: public QDialog, private Ui::RzxWrongPassUI
+class Q_DECL_EXPORT RzxWrongPass: public QDialog, private Ui::RzxWrongPassUI
 {
 	Q_OBJECT
 

@@ -30,7 +30,7 @@ class QModelIndex;
 */
 
 ///Classe fournissant une API simple pour permettre des recherches
-class RzxRezalSearch:public QObject
+class Q_DECL_EXPORT RzxRezalSearch:public QObject
 {
 	Q_OBJECT
 	Q_PROPERTY(QAbstractItemView* view READ view)
