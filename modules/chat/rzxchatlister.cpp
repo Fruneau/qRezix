@@ -117,7 +117,7 @@ RzxChatLister::RzxChatLister()
 			}
 		}
 	}
-	
+	loadSmileys();
 	endLoading();
 }
 
@@ -473,6 +473,7 @@ void RzxChatLister::propUpdate()
 	RzxChatConfig::setPrintTime(ui->cbPrintTime->isChecked());
 	RzxChatConfig::setChatPort(ui->chat_port->value());
 	RzxChatConfig::setSmileyTheme(ui->smileyCombo->currentText());
+	loadSmileys();
 }
 
 /** \reimp */
@@ -497,4 +498,34 @@ void RzxChatLister::chooseBeep()
 	if (file.isEmpty()) return;
 
 	ui->beepSound->setText(file);
+}
+
+/// Chargement des correspondances motif/smiley
+void RzxChatLister::loadSmileys(){
+	smileys.clear();
+	// chargement de la config
+	QDir *dir = smileyDir[RzxChatConfig::smileyTheme()];
+	if (dir){
+		QString text;
+		QFile file(dir->absolutePath()+"/theme");
+		if(file.exists()){
+			file.open(QIODevice::ReadOnly);
+			QTextStream stream(&file);
+			stream.setCodec("UTF-8");
+			while(!stream.atEnd()) {
+				text = stream.readLine();
+				QStringList list = text.split("###");
+				if(list.count() == 2){
+					QStringList rep = list[0].split("$$");
+					for (int i = 0; i < rep.size(); ++i) {
+						QStringList item;
+						item << rep[i].trimmed();
+						item << list[1];
+						smileys << item;
+					}
+				}
+			}
+			file.close();
+		}
+	}
 }

@@ -178,7 +178,6 @@ void RzxChat::init()
 	edMsg->clear();
 	typing = peerTyping = false;
 	unread = 0;
-	
 }
 
 ///Bye bye
@@ -724,21 +723,12 @@ void RzxChat::onSmileyToggled(bool on)
 /// Remplace les smileys par des images dans une string
 QString RzxChat::replaceSmiley(const QString& txt){
 	QString msg = txt;
-	
-	static QRegExp mask;
-	mask.setCaseSensitivity(Qt::CaseInsensitive);
-	for(int i = 0 ; i < smileys.size() ; i++)
+	for(int i = 0 ; i < RzxChatLister::global()->smileys.size() ; i++)
 	{
-		if(QFile::exists(RzxChatConfig::smileyTheme()+ QString("/%1.png").arg(i+1)))
+		if(QFile::exists(RzxChatLister::global()->smileyDir[RzxChatConfig::smileyTheme()]->absolutePath()+"/"+RzxChatLister::global()->smileys[i][1]))
 		{
-			mask.setPattern("(^|[^A-Za-z0-9])(" + smileys[i][0] + ")([^a-zA-Z0-9]|$)");
-						//On applique 2 fois parce que c'est nécessaire pour être sûr que tous les smileys seront remplacer
-						//En effet, il se peut qu'on recontre une partie d'un smiley perdu dans le pattern de délimitation
-			msg.replace(mask, QString("\\1_smiley_patern_%1_\\3").arg(i));
-			msg.replace(mask, QString("\\1_smiley_patern_%1_\\3").arg(i));
-			msg.replace(QString("_smiley_patern_%1_").arg(i), "<img src=\""+RzxChatConfig::smileyTheme()+smileys[i][1]+ "alt=\"" + smileys[i][0] + "\">");
+			msg.replace(RzxChatLister::global()->smileys[i][0], "<img src=\""+RzxChatLister::global()->smileyDir[RzxChatConfig::smileyTheme()]->absolutePath()+"/"+RzxChatLister::global()->smileys[i][1]+ "\" alt=\"" + RzxChatLister::global()->smileys[i][0] + "\">");
 		}
 	}
-	
 	return msg;
 }

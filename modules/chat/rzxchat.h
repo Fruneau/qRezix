@@ -95,7 +95,6 @@ private:
 	QPointer<RzxPopup> hist;
 	QPointer<RzxPopup> prop;
 	QPointer<RzxSmileyUi> smileyUi;
-	QList<QStringList> smileys;
 	
 protected:
 	QPointer<RzxComputer> m_computer;

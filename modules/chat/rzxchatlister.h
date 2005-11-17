@@ -58,7 +58,7 @@ class RzxChatLister:public RzxModule
 	QWidget *propWidget;
 	Ui::RzxChatPropUI *ui;
 
-	
+	void loadSmileys();
 	
 	bool wellInit;
 
@@ -67,6 +67,7 @@ class RzxChatLister:public RzxModule
 		~RzxChatLister();
 		
 		QHash<QString, QDir*> smileyDir;
+		QList<QStringList> smileys;
 		
 		virtual bool isInitialised() const;
 
