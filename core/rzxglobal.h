@@ -216,17 +216,30 @@ namespace Rzx
  * \endcode
  * \sa RZX_GLOBAL_INIT
  */
+#ifndef Q_OS_WIN
 #define RZX_GLOBAL(type) \
 	public: \
 		static type *global() { if(!object) object = new type; return object; } \
 	private: \
 		static type *object;
+#else
+#define RZX_GLOBAL(type) \
+	public: \
+		static type *global(); \
+	private: \
+		static type *object;
+#endif
 
 ///Initialise la définition globale
 /** \sa RZX_GLOBAL */
+#ifndef Q_OS_WIN
 #define RZX_GLOBAL_INIT(type) type *type::object = NULL;
+#else
+#define RZX_GLOBAL_INIT(type) type *type::object = NULL; \
+	type *type::global() { if(!object) object = new type; return object; }
+#endif
 
-///Vire le pointeur vers l'objet global
+ ///Vire le pointeur vers l'objet global
 /** \sa RZX_GLOBAL */
 #define RZX_GLOBAL_CLOSE if(object == this) object = NULL;
 
@@ -237,6 +250,7 @@ namespace Rzx
 #define __LITTLE_ENDIAN LITTLE_ENDIAN
 #define __BIG_ENDIAN BIG_ENDIAN
 #else
+#define __BIG_ENDIAN 0
 #define __LITTLE_ENDIAN 1
 #define __BYTE_ORDER __LITTLE_ENDIAN
 #endif
