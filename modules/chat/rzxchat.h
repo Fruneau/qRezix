@@ -95,6 +95,7 @@ private:
 	QPointer<RzxPopup> hist;
 	QPointer<RzxPopup> prop;
 	QPointer<RzxSmileyUi> smileyUi;
+	QList<QStringList> smileys;
 	
 protected:
 	QPointer<RzxComputer> m_computer;
@@ -149,6 +150,7 @@ protected slots:
 
 protected: // Protected methods
 	void append(const QString& color, const QString& host, const QString& msg);
+	QString replaceSmiley(const QString& txt);
 #ifdef WIN32
 	virtual void showEvent ( QShowEvent * e);
 #endif

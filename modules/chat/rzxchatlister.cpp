@@ -28,7 +28,7 @@
 #include <QHeaderView>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
-
+#include <QComboBox>
 #include <QTime>
 
 #include <RzxGlobal>
@@ -39,6 +39,7 @@
 #include <RzxApplication>
 #include <RzxProperty>
 #include <RzxComputer>
+
 
 #include "rzxchatlister.h"
 
@@ -90,6 +91,33 @@ RzxChatLister::RzxChatLister()
 		RzxComputer::localhost()->addCapabilities(Rzx::CAP_CHAT);
 		wellInit = true;
 	}
+	
+	//Recherche des thèmes de smileys installés
+	qDebug("Searching smileys themes...");
+	QList<QDir> path = RzxConfig::dirList(RzxConfig::AllDirsExceptTemp, "smileys");
+
+	foreach(QDir dir, path)
+	{
+		QStringList subDirs = dir.entryList(QDir::Dirs, QDir::Name | QDir::IgnoreCase);
+		foreach(QString subDir, subDirs)
+		{
+			//on utilise .keys().contain() car value[] fait un insert dans le QHash
+			//ce qui tendrait donc à rajouter des clés parasites dans la liste
+			if(!smileyDir.keys().contains(subDir))
+			{
+				QDir *theme = new QDir(dir);
+				theme->cd(subDir);
+				if(theme->exists("theme"))
+				{
+					qDebug() << "*" << subDir << "in" << theme->path();
+					smileyDir.insert(subDir, theme);
+				}
+				else
+					delete theme;
+			}
+		}
+	}
+	
 	endLoading();
 }
 
@@ -430,6 +458,8 @@ void RzxChatLister::propInit(bool def)
 	ui->cbPropertiesWarning->setChecked(RzxChatConfig::warnWhenChecked(def));
 	ui->cbPrintTime->setChecked(RzxChatConfig::printTime(def));
 	ui->chat_port->setValue(RzxChatConfig::chatPort(def));
+	ui->smileyCombo->addItems(smileyDir.keys());
+	ui->smileyCombo->setCurrentIndex(ui->smileyCombo->findText(RzxChatConfig::smileyTheme()));
 }
 
 /** \reimp */
@@ -442,6 +472,7 @@ void RzxChatLister::propUpdate()
 	RzxChatConfig::setWarnWhenChecked(ui->cbPropertiesWarning->isChecked());
 	RzxChatConfig::setPrintTime(ui->cbPrintTime->isChecked());
 	RzxChatConfig::setChatPort(ui->chat_port->value());
+	RzxChatConfig::setSmileyTheme(ui->smileyCombo->currentText());
 }
 
 /** \reimp */

@@ -58,12 +58,16 @@ class RzxChatLister:public RzxModule
 	QWidget *propWidget;
 	Ui::RzxChatPropUI *ui;
 
+	
+	
 	bool wellInit;
 
 	public:
 		RzxChatLister();
 		~RzxChatLister();
-
+		
+		QHash<QString, QDir*> smileyDir;
+		
 		virtual bool isInitialised() const;
 
 	public slots:

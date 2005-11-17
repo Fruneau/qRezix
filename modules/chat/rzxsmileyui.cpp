@@ -19,6 +19,9 @@
 #include <QGridLayout>
 #include <QTextStream>
 #include <QFile>
+#include "rzxchatconfig.h"
+#include "rzxchatlister.h"
+
 
 RzxSmileyButton::RzxSmileyButton(const QString& text, const QIcon & ic, QWidget * parent )
 	:QPushButton(ic, text, parent )
@@ -43,13 +46,13 @@ RzxSmileyUi::RzxSmileyUi(QWidget *parent)
 	setWindowTitle(tr("Smileys"));
 	
 	// chargement de la config
-	QString filename = "resources/smileys/basic/basic.theme";
+	QDir *dir = RzxChatLister::global()->smileyDir[RzxChatConfig::smileyTheme()];
 	QGridLayout *smileyLayout = new QGridLayout;
 	int rowcpt=0;
 	int colcpt=0;
-	if (!filename.isNull()){
+	if (dir){
 		QString text;
-		QFile file(filename);
+		QFile file(dir->absolutePath()+"/theme");
 		if(file.exists()){
 			file.open(QIODevice::ReadOnly);
 			QTextStream stream(&file);
@@ -59,7 +62,7 @@ RzxSmileyUi::RzxSmileyUi(QWidget *parent)
 				QStringList list = text.split("###");
 				if(list.count() == 2){
 					QStringList rep = list[0].split("$$");
-					RzxSmileyButton *tmp = new RzxSmileyButton(rep[0],QIcon(list[1]),this);
+					RzxSmileyButton *tmp = new RzxSmileyButton(rep[0],QIcon(dir->absolutePath()+"/"+list[1]),this);
 					connect(tmp,SIGNAL(clicked(QString)), this, SIGNAL(clickedSmiley(QString)));
 					smileyLayout->addWidget(tmp,colcpt,rowcpt++);
 					if(rowcpt > 4){
@@ -80,3 +83,4 @@ RzxSmileyUi::~RzxSmileyUi()
 {
 	
 }
+

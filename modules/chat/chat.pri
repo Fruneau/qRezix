@@ -23,10 +23,11 @@ mac {
 }
 
 
-smileys.files = $$ROOT/resources/smileys/*
+smileys.files = $$ROOT/resources/smileys
 
 mac {
 	smileys.path = qRezix.app/Contents/Resources/smileys
 } else:unix {
-	smileys.path = $$DEST/share/qrezix/smileys
+	smileys.path = $$DEST/share/qrezix/
 }
+INSTALLS += smileys

@@ -36,6 +36,8 @@ class RzxChatConfig:public RzxAbstractConfig
 	public:
 		RZX_BOOLPROP("beep", beep, setBeep, true)
 		RZX_STRINGPROP("beepSound", beepSound, setBeepSound, QString())
+		RZX_STRINGPROP("smileyTheme", smileyTheme, setSmileyTheme, QString())
+
 		RZX_BOOLPROP("warnWhenChecked", warnWhenChecked, setWarnWhenChecked, false)
 		RZX_BOOLPROP("printTime", printTime, setPrintTime, true)
 		RZX_UINTPROP("chatPort", chatPort, setChatPort, 5050)

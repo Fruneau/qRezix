@@ -394,6 +394,9 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 		tmpD = QString("<font color=\"%1\"><i>%2 - %3</i></font>").arg(color).arg(tmpD, head);
 		tmpH = ("<font color=\"%1\">"+head+"</font>").arg(color);
 	}
+	// Gestion des smileys
+	tmp = replaceSmiley(tmp);
+	
 	if(RzxChatConfig::printTime())
 		txtHistory->append(tmpH + tmp);
 	else
@@ -582,6 +585,8 @@ void RzxChat::moveEvent(QMoveEvent *)
 		hist->move(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
 	if(!prop.isNull())
 		prop->move(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
+	if(!smileyUi.isNull())
+		smileyUi->move(btnSmiley->mapToGlobal(btnSmiley->rect().bottomLeft()));
 #endif
 }
 
@@ -610,6 +615,8 @@ void RzxChat::closeEvent(QCloseEvent * e)
 		hist->close();
 	if(!prop.isNull())
 		prop->close();
+	if(!smileyUi.isNull())
+		smileyUi->close();
 	RzxChatConfig::saveChatWidget(this);
 	e -> accept();
 
@@ -631,6 +638,7 @@ bool RzxChat::event(QEvent *e)
 #ifndef WIN32
 		if(!hist.isNull()) hist->raise();
 		if(!prop.isNull()) prop->raise();
+		if(!smileyUi.isNull()) smileyUi->raise();
 #endif
 	}
 #ifdef WIN32
@@ -711,4 +719,26 @@ void RzxChat::onSmileyToggled(bool on)
 	connect(smileyUi, SIGNAL(clickedSmiley(QString)), edMsg, SLOT(insertPlainText(QString)));
 	smileyUi->move(QPoint(btnSmiley->mapToGlobal(btnSmiley->rect().bottomLeft())));
 	smileyUi->show();
+}
+
+/// Remplace les smileys par des images dans une string
+QString RzxChat::replaceSmiley(const QString& txt){
+	QString msg = txt;
+	
+	static QRegExp mask;
+	mask.setCaseSensitivity(Qt::CaseInsensitive);
+	for(int i = 0 ; i < smileys.size() ; i++)
+	{
+		if(QFile::exists(RzxChatConfig::smileyTheme()+ QString("/%1.png").arg(i+1)))
+		{
+			mask.setPattern("(^|[^A-Za-z0-9])(" + smileys[i][0] + ")([^a-zA-Z0-9]|$)");
+						//On applique 2 fois parce que c'est nécessaire pour être sûr que tous les smileys seront remplacer
+						//En effet, il se peut qu'on recontre une partie d'un smiley perdu dans le pattern de délimitation
+			msg.replace(mask, QString("\\1_smiley_patern_%1_\\3").arg(i));
+			msg.replace(mask, QString("\\1_smiley_patern_%1_\\3").arg(i));
+			msg.replace(QString("_smiley_patern_%1_").arg(i), "<img src=\""+RzxChatConfig::smileyTheme()+smileys[i][1]+ "alt=\"" + smileys[i][0] + "\">");
+		}
+	}
+	
+	return msg;
 }
