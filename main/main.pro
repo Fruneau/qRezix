@@ -6,7 +6,12 @@ DEFINES += QT_DLL
 ROOT = ..
 include(../rzxglobal.pri)
 
-LIBS += -L$$ROOT -lqrezix
+win32 {
+	LIBS += -L$$ROOT -lqrezix1
+} else {
+	LIBS += -L$$ROOT -lqrezix
+}
+
 INCLUDEPATH += $$ROOT $$ROOT/core
 
 SOURCES	+= main.cpp
