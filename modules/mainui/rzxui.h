@@ -27,6 +27,8 @@
 
 #include <RzxModule>
 
+#include "rzxmainuiglobal.h"
+
 /**
  @author Florent Bruneau
  */
@@ -38,7 +40,7 @@ namespace Ui { class RzxMainuiPropUI; }
 /** Cette classe existe parce que le double héritage par QObjet
  * pose quelques problème...
  */
-class Q_DECL_EXPORT RzxUi:public RzxModule
+class RZX_MAINUI_EXPORT RzxUi:public RzxModule
 {
 	Q_OBJECT
 

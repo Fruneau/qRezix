@@ -39,7 +39,7 @@
  * Cette classe fait partie du coeur de qRezix et constituant le moyen de stockage
  * des informations concernant les utilisateurs.
  */
-class  Q_DECL_EXPORT RzxComputer : public QObject {
+class  RZX_CORE_EXPORT RzxComputer : public QObject {
 /******************************* En-tête Qt ***************************/
 	Q_OBJECT
 	Q_PROPERTY(QString name READ name WRITE setName)

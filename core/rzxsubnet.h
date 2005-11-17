@@ -20,6 +20,8 @@
 #include <QHostAddress>
 #include <QAbstractSocket>
 
+#include <RzxGlobal>
+
 /**
  @author Florent Bruneau
  */
@@ -28,7 +30,7 @@
 /** Un sous-réseau est une plage d'ip définie par une ip et un masque tel que
  * subnet = { ip | ip & masque == ref & masque }.
  */
-class Q_DECL_EXPORT RzxSubnet
+class RZX_CORE_EXPORT RzxSubnet
 {
 	QHostAddress m_network;
 	QHostAddress m_netmask;

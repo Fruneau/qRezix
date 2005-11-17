@@ -18,7 +18,7 @@
 #ifndef RZXUTILSLAUNCHER_H
 #define RZXUTILSLAUNCHER_H
 
-#include <QString>
+#include <RzxGlobal>
 
 class RzxHostAddress;
 
@@ -32,10 +32,10 @@ class RzxHostAddress;
  */
 namespace RzxUtilsLauncher
 {
-	Q_DECL_EXPORT void ftp(const RzxHostAddress&, const QString& path = QString());
-	Q_DECL_EXPORT void http(const RzxHostAddress&, const QString& path = QString());
-	Q_DECL_EXPORT void news(const RzxHostAddress&, const QString& path = QString());
-	Q_DECL_EXPORT void samba(const RzxHostAddress&, const QString& path = QString());
+	RZX_CORE_EXPORT void ftp(const RzxHostAddress&, const QString& path = QString());
+	RZX_CORE_EXPORT void http(const RzxHostAddress&, const QString& path = QString());
+	RZX_CORE_EXPORT void news(const RzxHostAddress&, const QString& path = QString());
+	RZX_CORE_EXPORT void samba(const RzxHostAddress&, const QString& path = QString());
 };
 
 #endif

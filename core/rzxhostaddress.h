@@ -34,7 +34,7 @@ class RzxComputer;
  * composants réseaux du programme et avec en particulier les
  * particularités du protocole xNet
  */
-class Q_DECL_EXPORT RzxHostAddress : public QHostAddress 
+class RZX_CORE_EXPORT RzxHostAddress : public QHostAddress 
 {
 	public:
 		RzxHostAddress();

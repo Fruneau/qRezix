@@ -20,6 +20,8 @@
 #include <QDialog>
 #include "ui_rzxchangepassui.h"
 
+#include <RzxGlobal>
+
 class RzxNetwork;
 
 /**
@@ -27,7 +29,7 @@ class RzxNetwork;
 */
 
 ///Interface de changement de mot de passe
-class  Q_DECL_EXPORT RzxChangePass: public QDialog, private Ui::RzxChangePassUI
+class RZX_CORE_EXPORT RzxChangePass: public QDialog, private Ui::RzxChangePassUI
 {
 	Q_OBJECT
 

@@ -1,9 +1,9 @@
 /***************************************************************************
-                          rzxquit.h  -  description
+                          rzxmainuiglobal  -  description
                              -------------------
-    begin                : Thu Jun 24 2004
-    copyright            : (C) 2004 by Florent Bruneau
-    email                : fruneau@melix.org
+    begin                : Thu Jan 24 2002
+    copyright            : (C) 2002 by Sylvain Joyeux
+    email                : sylvain.joyeux@m4x.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,42 +14,17 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef RZXMAINUIGLOBAL_H
+#define RZXMAINUIGLOBAL_H
 
-#ifndef RZXQUIT_H
-#define RZXQUIT_H
+#include <QtGlobal>
 
-#include <QDialog>
+#ifndef RZX_MAINUI_EXPORT
+#	ifdef RZX_BUILD_MAINUI
+#		define RZX_MAINUI_EXPORT Q_DECL_EXPORT
+#	else
+#		define RZX_MAINUI_EXPORT
+#	endif
+#endif
 
-#include "rzxmainuiglobal.h"
-#include "ui_rzxquitui.h"
-
-class RzxConfig;
-
-class RZX_MAINUI_EXPORT RzxQuit : public QDialog, private Ui::RzxQuitUI
-{
-	Q_OBJECT
-	Q_PROPERTY(QuitMode quitMode READ quitMode)
-	Q_ENUMS(QuitMode)
-
-	public:
-		enum QuitMode {
-			selectQuit = 0x01,
-			selectMinimize = 0x02,
-			selectAbort = 0x04
-		};
-
-	private:
-		QuitMode selection;
-
-	public:
-		RzxQuit(QWidget* parent=0);
-	   ~RzxQuit();
-
-		QuitMode quitMode() const;
-
-	protected slots:
-		void quitOptionChange();
-		void on_btnApply_clicked();
-};
-
-#endif //RZXQUIT_H
+#endif

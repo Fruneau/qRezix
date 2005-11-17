@@ -1,3 +1,5 @@
+DEFINES += RZX_BUILD_MAINUI
+
 SOURCES += $$ROOT/modules/mainui/rzxui.cpp \
 	$$ROOT/modules/mainui/qrezix.cpp \
 	$$ROOT/modules/mainui/rzxrezal.cpp \
@@ -14,7 +16,8 @@ HEADERS += $$ROOT/modules/mainui/rzxui.h \
 	$$ROOT/modules/mainui/rzxrezalsearch.h \
 	$$ROOT/modules/mainui/rzxdict.h \
 	$$ROOT/modules/mainui/rzxquit.h \
-	$$ROOT/modules/mainui/rzxmainuiconfig.h
+	$$ROOT/modules/mainui/rzxmainuiconfig.h \
+	$$ROOT/modules/mainui/rzxmainuiglobal.h
 
 FORMS += $$ROOT/modules/mainui/qrezixui.ui \
 	$$ROOT/modules/mainui/rzxstatusui.ui \

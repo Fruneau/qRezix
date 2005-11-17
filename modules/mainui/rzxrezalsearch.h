@@ -21,6 +21,8 @@
 #include <QString>
 #include <QTime>
 
+#include "rzxmainuiglobal.h"
+
 class QAbstractItemView;
 class RzxRezalModel;
 class QModelIndex;
@@ -30,7 +32,7 @@ class QModelIndex;
 */
 
 ///Classe fournissant une API simple pour permettre des recherches
-class Q_DECL_EXPORT RzxRezalSearch:public QObject
+class RZX_MAINUI_EXPORT RzxRezalSearch:public QObject
 {
 	Q_OBJECT
 	Q_PROPERTY(QAbstractItemView* view READ view)

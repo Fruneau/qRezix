@@ -47,7 +47,7 @@ class RzxComputer;
 
 ///Gestion des données de configuration
 /** Classe à épurer !!! */
-class  Q_DECL_EXPORT RzxConfig : public RzxAbstractConfig
+class RZX_CORE_EXPORT RzxConfig : public RzxAbstractConfig
 {
 	Q_OBJECT
 	Q_ENUMS(DirFlags)

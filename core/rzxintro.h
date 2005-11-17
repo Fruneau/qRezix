@@ -22,7 +22,7 @@
 
 #include "ui_rzxintroui.h"
 
-class Q_DECL_EXPORT RzxIntro : public QDialog, private Ui::RzxIntroUI
+class RZX_CORE_EXPORT RzxIntro : public QDialog, private Ui::RzxIntroUI
 {
 	Q_OBJECT
 

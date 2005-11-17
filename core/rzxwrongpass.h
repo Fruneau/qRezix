@@ -19,6 +19,9 @@
 
 #include <QDialog>
 #include "ui_rzxwrongpassui.h"
+
+#include <RzxGlobal>
+
 /**
  @author Florent Bruneau
  */
@@ -29,7 +32,7 @@ class RzxNetwork;
 /** Cette classe est fortement liée à RzxNetwork mais peut très bien être
  * utilisée séparément
  */
-class Q_DECL_EXPORT RzxWrongPass: public QDialog, private Ui::RzxWrongPassUI
+class RZX_CORE_EXPORT RzxWrongPass: public QDialog, private Ui::RzxWrongPassUI
 {
 	Q_OBJECT
 

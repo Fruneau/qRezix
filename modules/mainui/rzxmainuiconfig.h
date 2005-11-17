@@ -18,6 +18,7 @@
 #define RZXMAINUICONFIG_H
 
 #include <RzxAbstractConfig>
+#include "rzxmainuiglobal.h"
 
 #define DEFAULT_WINDOWSIZE "100000000"
 
@@ -26,7 +27,7 @@
  */
 
 ///Stockage des données de configuration du module.
-class RzxMainUIConfig: public RzxAbstractConfig
+class RZX_MAINUI_EXPORT RzxMainUIConfig: public RzxAbstractConfig
 {
 	RZX_CONFIG(RzxMainUIConfig)
 

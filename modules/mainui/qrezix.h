@@ -32,6 +32,7 @@
 #include "rzxrezal.h"
 #include "ui_rzxstatusui.h"
 #include "rzxrezalpopup.h"
+#include "rzxmainuiglobal.h"
 
 class RzxComputer;
 class QEvent;
@@ -41,7 +42,7 @@ class QLineEdit;
 class RzxRezalPopup;
 
 /** QRezix is the base class of the project */
-class Q_DECL_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRezal>
+class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRezal>
 {
 	Q_OBJECT
 	Q_PROPERTY(bool initialised READ isInitialised)

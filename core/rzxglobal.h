@@ -25,6 +25,14 @@
 
 #include "defaults.h"
 
+///Pour exporter
+#ifndef RZX_CORE_EXPORT
+#	ifdef RZX_BUILD_CORE
+#		define RZX_CORE_EXPORT Q_DECL_EXPORT
+#	else
+#		define RZX_CORE_EXPORT
+#	endif
+#endif
 
 ///Namespace pour encadrer les enums communs à la plupart des interfaces
 namespace Rzx
@@ -161,27 +169,27 @@ namespace Rzx
 		CompleteVersion = LongVersion | TagVersion
 	};
 	Q_DECLARE_FLAGS(VersionParts, VersionPartFlags)
-	Q_DECL_EXPORT QString versionToString(const Rzx::Version&, VersionParts = CompleteVersion);
+	RZX_CORE_EXPORT QString versionToString(const Rzx::Version&, VersionParts = CompleteVersion);
 
 	///Définition de la fonction d'output surchargée
-	Q_DECL_EXPORT void installMsgHandler();
-	Q_DECL_EXPORT void closeMsgHandler();
-	Q_DECL_EXPORT void useOutputFile(FILE *file);
+	RZX_CORE_EXPORT void installMsgHandler();
+	RZX_CORE_EXPORT void closeMsgHandler();
+	RZX_CORE_EXPORT void useOutputFile(FILE *file);
 
 	//Chargement d'un module
-	Q_DECL_EXPORT void beginModuleLoading(const QString&);
-	Q_DECL_EXPORT void endModuleLoading(const QString&, bool success = true);
+	RZX_CORE_EXPORT void beginModuleLoading(const QString&);
+	RZX_CORE_EXPORT void endModuleLoading(const QString&, bool success = true);
 
 	//Fermeture d'un module
-	Q_DECL_EXPORT void beginModuleClosing(const QString&);
-	Q_DECL_EXPORT void endModuleClosing(const QString&);
+	RZX_CORE_EXPORT void beginModuleClosing(const QString&);
+	RZX_CORE_EXPORT void endModuleClosing(const QString&);
 
 	///Pour trier case unsensitive
-	Q_DECL_EXPORT bool caseInsensitiveLessThan(const QString&, const QString&);
+	RZX_CORE_EXPORT bool caseInsensitiveLessThan(const QString&, const QString&);
 
 	///Comparaison de versions
-	Q_DECL_EXPORT bool operator==(const Version&, const Version&);
-	Q_DECL_EXPORT bool operator<(const Version&, const Version&);
+	RZX_CORE_EXPORT bool operator==(const Version&, const Version&);
+	RZX_CORE_EXPORT bool operator<(const Version&, const Version&);
 };
 
 ///Défini les fonctions nécessaire pour générer un objet global

@@ -30,7 +30,7 @@
  */
 namespace RzxSound
 {
-	Q_DECL_EXPORT void play(const QString& = QString());
+	RZX_CORE_EXPORT void play(const QString& = QString());
 };
 
 #endif

@@ -34,7 +34,7 @@ class RzxComputer;
 ///Classe principale de l'application
 /** Le but de cette classe est de réunir tous les composants...
  */
-class Q_DECL_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<RzxModule>
+class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<RzxModule>
 {
 	Q_OBJECT
 	Q_PROPERTY(bool initialised READ isInitialised)

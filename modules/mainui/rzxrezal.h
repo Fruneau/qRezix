@@ -21,6 +21,8 @@
 
 #include <QDockWidget>
 
+#include "rzxmainuiglobal.h"
+
 class QAbstractItemView;
 
 /**
@@ -59,7 +61,7 @@ class QAbstractItemView;
  * Il est donc naturel d'avoir ressucité l'ancienne RzxRezal pour nommé les afficheurs
  * qui doivent donc implémenter cette interface.
  */
-class Q_DECL_EXPORT RzxRezal:public RzxBaseModule
+class RZX_MAINUI_EXPORT RzxRezal:public RzxBaseModule
 {
 	Q_ENUMS(TypeFlags)
 	Q_FLAGS(Type)

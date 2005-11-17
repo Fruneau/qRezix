@@ -27,6 +27,7 @@
 
 #include <RzxGlobal>
 
+#include "rzxmainuiglobal.h"
 #include "rzxdict.h"
 
 class RzxComputer;
@@ -71,7 +72,7 @@ typedef class QList< QPointer<RzxComputer> > RzxRezalSearchList;
  * Chacune de ces catégories stockent tout le monde 1 fois... donc la charge mémoire du modèle est de l'ordre de 
  * 4*4*nbconnectés = 8ko avec 500 connectés, ce qui est très raisonnable. 
  */
-class Q_DECL_EXPORT RzxRezalModel:public QAbstractItemModel
+class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 {
 	Q_OBJECT
 	Q_ENUMS(NumColonne ToolTipFlags)

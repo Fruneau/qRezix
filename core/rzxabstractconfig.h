@@ -36,7 +36,7 @@ class RzxBaseModule;
  * but que de permettre de fournir un système simple aux modules pour
  * stocker proprement leurs données de configuration.
  */
-class Q_DECL_EXPORT RzxAbstractConfig: public QSettings
+class RZX_CORE_EXPORT RzxAbstractConfig: public QSettings
 {
 	Q_OBJECT
 

@@ -16,7 +16,7 @@
 #ifndef RZXMSGBOX_H
 #define RZXMSGBOX_H
 
-#include <QString>
+#include <RzxGlobal>
 
 class QWidget;
 
@@ -27,13 +27,13 @@ class QWidget;
  */
 namespace RzxMessageBox
 {
-	Q_DECL_EXPORT int information( QWidget *parent, const QString& caption,
+	RZX_CORE_EXPORT int information( QWidget *parent, const QString& caption,
 		const QString& text, bool modal =false );
 
-	Q_DECL_EXPORT int warning( QWidget *parent, const QString& caption,
+	RZX_CORE_EXPORT int warning( QWidget *parent, const QString& caption,
 		const QString& text, bool modal =false );
 
-	Q_DECL_EXPORT int critical( QWidget *parent, const QString& caption,
+	RZX_CORE_EXPORT int critical( QWidget *parent, const QString& caption,
 		const QString& text, bool modal =false );
 }
 
