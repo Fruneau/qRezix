@@ -273,14 +273,14 @@ void RzxTrayIcon::mouseReleaseEvent( QMouseEvent *e )
 	switch ( e->button() )
 	{
 		case Qt::RightButton:
-			if ( pop.count() )
+			if ( true /*pop.count() #GUI_TEST*/ )
 			{
 				buildMenu();
 				// Necessary to make keyboard focus
 				// and menu closing work on Windows.
-				pop.setActiveWindow();
+				//pop.setActiveWindow();	#GUI_TEST
 				pop.popup( e->globalPos() );
-				pop.setActiveWindow();
+				//pop.setActiveWindow();	#GUI_TEST
 				e->accept();
 			}
 			break;
@@ -365,7 +365,7 @@ static PtrShell_NotifyIcon ptrShell_NotifyIcon = 0;
 static void resolveLibs()
 {
 	QLibrary lib( "shell32" );
-	lib.setAutoUnload( FALSE );
+	//lib.setAutoUnload( FALSE );  #GUI_TEST à éviter Qt3 voir pour le manuel
 	static bool triedResolve = FALSE;
 	if ( !ptrShell_NotifyIcon && !triedResolve )
 	{
@@ -413,7 +413,7 @@ class RzxTrayIcon::RzxTrayIconPrivate : public QWidget
 				{
 					// Tip is limited to 63 + NULL; lstrcpyn appends a NULL terminator.
 					QString tip = iconObject->toolTip().left( 63 ) + QChar();
-					lstrcpynA( tnd.szTip, ( const char* ) tip.local8Bit(), QMIN( tip.length() + 1, 64 ) );
+					lstrcpynA( tnd.szTip, ( const char* ) tip.toLocal8Bit(), qMin( tip.length() + 1, 64 ) );
 				}
 			}
 
@@ -424,7 +424,7 @@ class RzxTrayIcon::RzxTrayIconPrivate : public QWidget
 		bool trayMessageW( DWORD msg )
 		{
 			resolveLibs();
-			if ( ! ( ptrShell_NotifyIcon && qWinVersion() & QSysInfo::WV_NT_based ) )
+			if ( ! ( ptrShell_NotifyIcon && QSysInfo::WinVersion() & QSysInfo::WV_NT_based ) )
 				return trayMessageA( msg );
 
 			NOTIFYICONDATAW tnd;
@@ -441,7 +441,7 @@ class RzxTrayIcon::RzxTrayIconPrivate : public QWidget
 				{
 					// Tip is limited to 63 + NULL; lstrcpyn appends a NULL terminator.
 					QString tip = iconObject->toolTip().left( 63 ) + QChar();
-					lstrcpynW( tnd.szTip, ( TCHAR* ) tip.unicode(), QMIN( tip.length() + 1, 64 ) );
+					lstrcpynW( tnd.szTip, ( TCHAR* ) tip.unicode(), qMin( tip.length() + 1, 64 ) );
 					//		lstrcpynW(tnd.szTip, (TCHAR*)qt_winTchar( tip, FALSE ), QMIN( tip.length()+1, 64 ) );
 				}
 			}
@@ -480,37 +480,37 @@ class RzxTrayIcon::RzxTrayIconPrivate : public QWidget
 						switch ( m->lParam )
 						{
 							case WM_MOUSEMOVE:
-								e = new QMouseEvent( QEvent::MouseMove, mapFromGlobal( gpos ), gpos, 0, 0 );
+								e = new QMouseEvent( QEvent::MouseMove, mapFromGlobal( gpos ), gpos, Qt::NoButton, Qt::NoButton,Qt::NoModifier );
 								break;
 							case WM_LBUTTONDOWN:
-								e = new QMouseEvent( QEvent::MouseButtonPress, mapFromGlobal( gpos ), gpos, Qt::LeftButton, Qt::LeftButton );
+								e = new QMouseEvent( QEvent::MouseButtonPress, mapFromGlobal( gpos ), gpos, Qt::LeftButton, Qt::LeftButton  ,  Qt::NoModifier);
 								break;
 							case WM_LBUTTONUP:
-								e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, Qt::LeftButton, Qt::LeftButton );
+								e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, Qt::LeftButton, Qt::LeftButton  ,Qt::NoModifier );
 								break;
 							case WM_LBUTTONDBLCLK:
-								e = new QMouseEvent( QEvent::MouseButtonDblClick, mapFromGlobal( gpos ), gpos, Qt::LeftButton, Qt::LeftButton );
+								e = new QMouseEvent( QEvent::MouseButtonDblClick, mapFromGlobal( gpos ), gpos, Qt::LeftButton, Qt::LeftButton , Qt::NoModifier);
 								break;
 							case WM_RBUTTONDOWN:
-								e = new QMouseEvent( QEvent::MouseButtonPress, mapFromGlobal( gpos ), gpos, Qt::RightButton, Qt::RightButton );
+								e = new QMouseEvent( QEvent::MouseButtonPress, mapFromGlobal( gpos ), gpos, Qt::RightButton, Qt::RightButton ,Qt::NoModifier );
 								break;
 							case WM_RBUTTONUP:
-								e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, Qt::RightButton, Qt::RightButton );
+								e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, Qt::RightButton, Qt::RightButton , Qt::NoModifier );
 								break;
 							case WM_RBUTTONDBLCLK:
-								e = new QMouseEvent( QEvent::MouseButtonDblClick, mapFromGlobal( gpos ), gpos, Qt::RightButton, Qt::RightButton );
+								e = new QMouseEvent( QEvent::MouseButtonDblClick, mapFromGlobal( gpos ), gpos, Qt::RightButton, Qt::RightButton, Qt::NoModifier);
 								break;
 							case WM_MBUTTONDOWN:
-								e = new QMouseEvent( QEvent::MouseButtonPress, mapFromGlobal( gpos ), gpos, Qt::MidButton, Qt::MidButton );
+								e = new QMouseEvent( QEvent::MouseButtonPress, mapFromGlobal( gpos ), gpos, Qt::MidButton, Qt::MidButton , Qt::NoModifier);
 								break;
 							case WM_MBUTTONUP:
-								e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, Qt::MidButton, Qt::MidButton );
+								e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, Qt::MidButton, Qt::MidButton , Qt::NoModifier);
 								break;
 							case WM_MBUTTONDBLCLK:
-								e = new QMouseEvent( QEvent::MouseButtonDblClick, mapFromGlobal( gpos ), gpos, Qt::MidButton, Qt::MidButton );
+								e = new QMouseEvent( QEvent::MouseButtonDblClick, mapFromGlobal( gpos ), gpos, Qt::MidButton, Qt::MidButton , Qt::NoModifier);
 								break;
 							case WM_CONTEXTMENU:
-								e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, Qt::RightButton, Qt::RightButton );
+								e = new QMouseEvent( QEvent::MouseButtonRelease, mapFromGlobal( gpos ), gpos, Qt::RightButton, Qt::RightButton , Qt::NoModifier);
 								break;
 						}
 						if ( e )
@@ -531,7 +531,7 @@ class RzxTrayIcon::RzxTrayIconPrivate : public QWidget
 
 static HBITMAP createIconMask( const QPixmap &qp )
 {
-	QImage bm = qp.convertToImage();
+	QImage bm = qp.toImage();
 	int w = bm.width();
 	int h = bm.height();
 	int bpl = ( ( w + 15 ) / 16 ) * 2;			// bpl, 16 bit alignment
