@@ -22,6 +22,12 @@
 
 #include "ui_rzxintroui.h"
 
+///Fenêtre de choix de la configuration initiale
+/** Affiche une fenêtre qui permet de choisir la langue et le thème d'icône
+ * à utiliser dans qRezix.
+ *
+ * Cette fenêtre est automatiquement affichée au premier démarrage
+ */
 class RZX_CORE_EXPORT RzxIntro : public QDialog, private Ui::RzxIntroUI
 {
 	Q_OBJECT

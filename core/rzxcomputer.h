@@ -110,6 +110,7 @@ public:
 		SERVER_SAMBA = 1,
 		SERVER_FTP = 2,
 		SERVER_HOTLINE = 4,
+		SERVER_PRINTER = SERVER_HOTLINE,
 		SERVER_HTTP = 8,
 		SERVER_NEWS = 16
 	};
@@ -228,6 +229,7 @@ public:
 	bool hasFtpServer() const;
 	bool hasHttpServer() const;
 	bool hasNewsServer() const;
+	bool hasPrinter() const;
 
 	const RzxHostAddress &ip() const;
 	QString rezalName(bool shortname = true) const;

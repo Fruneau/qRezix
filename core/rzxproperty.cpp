@@ -243,6 +243,7 @@ void RzxProperty::initDlg(bool def)
 	CbFTP->setChecked(servers & RzxComputer::SERVER_FTP);
 	CbHTTP->setChecked(servers & RzxComputer::SERVER_HTTP);
 	CbNews->setChecked(servers & RzxComputer::SERVER_NEWS);
+	CbPrinter->setChecked(servers & RzxComputer::SERVER_PRINTER);
 
 	clientFtp ->clear();
 	clientHttp ->clear();
@@ -332,6 +333,8 @@ bool RzxProperty::updateLocalHost()
 		servers |= RzxComputer::SERVER_HTTP;
 	if ( CbNews->isChecked() )
 		servers |= RzxComputer::SERVER_NEWS;
+	if ( CbPrinter->isChecked() )
+		servers |= RzxComputer::SERVER_PRINTER;
 
 	const RzxComputer::Servers oldservers = RzxComputer::localhost()->serverFlags();
 	RzxComputer::localhost()->setServerFlags(servers);

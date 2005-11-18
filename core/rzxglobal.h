@@ -127,7 +127,9 @@ namespace Rzx
 		ICON_OS5_LARGE = 53,
 		ICON_OS6 = 54,
 		ICON_OS6_LARGE = 55,
-		ICON_NUMBER = 56
+		ICON_PRINTER = 56,
+		ICON_NOPRINTER = 57,
+		ICON_NUMBER = 58
 	};
 
 	///Types de messages auxquel on peut s'attendre dans un protocole de chat

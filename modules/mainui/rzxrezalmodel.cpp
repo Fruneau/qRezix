@@ -35,6 +35,7 @@ const char *RzxRezalModel::colNames[RzxRezalModel::numColonnes] = {
 			QT_TR_NOOP("FTP"),
 			QT_TR_NOOP("Web"), 
 			QT_TR_NOOP("News"),
+			QT_TR_NOOP("Printer"),
 			QT_TR_NOOP("OS"),
 			QT_TR_NOOP("Gateway"),
 			QT_TR_NOOP("Promo"),
@@ -504,6 +505,7 @@ QVariant RzxRezalModel::getComputer(int role, const RzxRezalSearchList& list, in
 				case ColFTP: return RzxIconCollection::getIcon(computer->hasFtpServer()?Rzx::ICON_FTP:Rzx::ICON_NOFTP);
 				case ColHTTP: return RzxIconCollection::getIcon(computer->hasHttpServer()?Rzx::ICON_HTTP:Rzx::ICON_NOHTTP);
 				case ColNews: return RzxIconCollection::getIcon(computer->hasNewsServer()?Rzx::ICON_NEWS:Rzx::ICON_NONEWS);
+				case ColPrinter: return RzxIconCollection::getIcon(computer->hasPrinter()?Rzx::ICON_PRINTER:Rzx::ICON_NOPRINTER);
 				case ColGateway: return RzxIconCollection::getIcon(computer->isSameGateway()?Rzx::ICON_SAMEGATEWAY:Rzx::ICON_OTHERGATEWAY);
 				case ColPromo: return RzxIconCollection::global()->promoIcon(computer->promo());
 				case ColOS: return RzxIconCollection::global()->osIcon(computer->sysEx());
@@ -556,6 +558,8 @@ QString RzxRezalModel::tooltip(const RzxComputer *computer) const
 		tooltip += "<b>-></b>&nbsp;" + tr("news server : ") + tr("<b>on</b>") + "<br/>";
 	if(computer->hasSambaServer() && (tooltipFlags & (int)RzxRezalModel::TipSamba))
 		tooltip += "<b>-></b>&nbsp;" + tr("samba server : ") + tr("<b>on</b>") + "<br/>";
+	if(computer->hasPrinter() && (tooltipFlags & (int)RzxRezalModel::TipPrinter))
+		tooltip += "<b>-></b>&nbsp;" + tr("printer : ") + tr("<b>yes</b>") + "<br/>";
 	if(tooltipFlags & (int)RzxRezalModel::TipOS)
 		tooltip += "<b>-></b>&nbsp;os : " + computer->sysExText() + "<br/>";
 	if(tooltipFlags & (int)RzxRezalModel::TipClient)
@@ -635,6 +639,7 @@ QVariant RzxRezalModel::headerData(int column, Qt::Orientation orientation, int 
 			{
 				case ColSamba: case ColFTP: case ColHTTP:
 				case ColNews: case ColGateway: case ColPromo:
+				case ColPrinter:
 					return QVariant();
 				default:
 					return tr(colNames[column]);
@@ -647,6 +652,7 @@ QVariant RzxRezalModel::headerData(int column, Qt::Orientation orientation, int 
 				case ColFTP: return RzxIconCollection::getIcon(Rzx::ICON_FTP);
 				case ColHTTP: return RzxIconCollection::getIcon(Rzx::ICON_HTTP);
 				case ColNews: return RzxIconCollection::getIcon(Rzx::ICON_NEWS);
+				case ColPrinter: return RzxIconCollection::getIcon(Rzx::ICON_PRINTER);
 				case ColGateway: return RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY);
 				case ColPromo: return RzxIconCollection::global()->promoIcon(Rzx::PROMAL_ORANGE);
 				default: return QVariant();

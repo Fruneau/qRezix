@@ -91,13 +91,14 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 			ColFTP = 3,
 			ColHTTP = 4,
 			ColNews = 5,
-			ColOS = 6,
-			ColGateway = 7,
-			ColPromo = 8,
-			ColRezal = 9,
-			ColIP = 10,
-			ColClient = 11,
-			numColonnes = 12
+			ColPrinter = 6,
+			ColOS = 7,
+			ColGateway = 8,
+			ColPromo = 9,
+			ColRezal = 10,
+			ColIP = 11,
+			ColClient = 12,
+			numColonnes = 13
 		};
 
 		///Flags des éléments des tooltips
@@ -114,7 +115,8 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 			TipIP = 256,
 			TipResal = 512,
 			TipFeatures = 1024,
-			TipProperties = 2048
+			TipProperties = 2048,
+			TipPrinter = 4092
 		};
 		Q_DECLARE_FLAGS(ToolTip, ToolTipFlags)
 

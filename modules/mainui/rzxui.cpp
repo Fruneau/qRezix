@@ -135,6 +135,7 @@ void RzxUi::propInit(bool def)
 	ui->cbcFTP ->setChecked( colonnes & (1<<RzxRezalModel::ColFTP) );
 	ui->cbcHTTP ->setChecked( colonnes & (1<<RzxRezalModel::ColHTTP) );
 	ui->cbcNews ->setChecked( colonnes & (1<<RzxRezalModel::ColNews) );
+	ui->cbcPrinter ->setChecked( colonnes & (1<<RzxRezalModel::ColPrinter) );
 	ui->cbcOS ->setChecked( colonnes & (1<<RzxRezalModel::ColOS) );
 	ui->cbcGateway ->setChecked( colonnes & (1<<RzxRezalModel::ColGateway) );
 	ui->cbcPromo ->setChecked( colonnes & (1<<RzxRezalModel::ColPromo) );
@@ -150,6 +151,7 @@ void RzxUi::propInit(bool def)
 	ui->cbTooltipHttp->setChecked(tooltip & RzxRezalModel::TipHttp);
 	ui->cbTooltipNews->setChecked(tooltip & RzxRezalModel::TipNews);
 	ui->cbTooltipSamba->setChecked(tooltip & RzxRezalModel::TipSamba);
+	ui->cbTooltipPrinter->setChecked(tooltip & RzxRezalModel::TipPrinter);
 	ui->cbTooltipPromo->setChecked(tooltip & RzxRezalModel::TipPromo);
 	ui->cbTooltipOS->setChecked(tooltip & RzxRezalModel::TipOS);
 	ui->cbTooltipVersion->setChecked(tooltip & RzxRezalModel::TipClient);
@@ -192,6 +194,7 @@ void RzxUi::propUpdate()
 	if ( ui->cbcFTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColFTP;
 	if ( ui->cbcHTTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColHTTP;
 	if ( ui->cbcNews ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColNews;
+	if ( ui->cbcPrinter ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColPrinter;
 	if ( ui->cbcOS ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColOS;
 	if ( ui->cbcGateway ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColGateway;
 	if ( ui->cbcPromo ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColPromo;
@@ -205,6 +208,7 @@ void RzxUi::propUpdate()
 	if(ui->cbTooltipFtp->isChecked()) tooltip |= RzxRezalModel::TipFtp;
 	if(ui->cbTooltipHttp->isChecked()) tooltip |= RzxRezalModel::TipHttp;
 	if(ui->cbTooltipNews->isChecked()) tooltip |= RzxRezalModel::TipNews;
+	if(ui->cbTooltipPrinter->isChecked()) tooltip |= RzxRezalModel::TipPrinter;
 	if(ui->cbTooltipSamba->isChecked()) tooltip |= RzxRezalModel::TipSamba;
 	if(ui->cbTooltipPromo->isChecked()) tooltip |= RzxRezalModel::TipPromo;
 	if(ui->cbTooltipOS->isChecked()) tooltip |= RzxRezalModel::TipOS;

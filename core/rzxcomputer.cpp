@@ -507,6 +507,9 @@ bool RzxComputer::hasHttpServer() const
 bool RzxComputer::hasNewsServer() const
 { return (m_options.Server & SERVER_NEWS); }
 
+///Indique si on a un serveur news
+bool RzxComputer::hasPrinter() const
+{ return (m_options.Server & SERVER_PRINTER); }
 
 /********** FONCTIONALITES */
 ///Ajout d'une feature à la machine
@@ -671,7 +674,7 @@ void RzxComputer::receiveChat(Rzx::ChatMessageType type, const QString& msg)
 /** Rerchercher parmi les protocoles affichés par qRezix lesquels sont présents sur la machine */
 void RzxComputer::scanServers()
 {
-	Servers newServers;
+	Servers newServers = SERVER_PRINTER;
 #ifdef WIN32
     //Bon, c pas beau, mais si j'essaye de travailler sur le meme socket pour tous les test
 	//j'arrive toujours à de faux résultats... c ptet un bug de windows (pour changer)
@@ -680,18 +683,22 @@ void RzxComputer::scanServers()
 	//scan du ftp
 	if(!detecter.listen(m_ip, 21))
 		newServers |= SERVER_FTP;
+	detecter.close();
 
 	//scan du http
 	if(!detecter.listen(m_ip, 80))
 		newServers |= SERVER_HTTP;
+	detecter.close();
 
 	//scan du nntp
 	if(!detecter.listen(m_ip, 119))
 		newServers |= SERVER_NEWS;
+	detecter.close();
 
 	//scan du samba
 	if(!detecter.listen(m_ip, 445))
 		newServers |= SERVER_SAMBA;
+	detecter.close();
 #else
 	QProcess netstat;
 	QStringList res;
