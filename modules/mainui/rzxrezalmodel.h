@@ -130,7 +130,6 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 		RzxRezalSearchList jone;
 		RzxRezalSearchList rouje;
 		RzxRezalSearchList oranje;
-		RzxRezalSearchList binet;
 		RzxRezalSearchList *rezals;
 
 		RzxRezalSearchTree everybodyByName;
@@ -140,7 +139,6 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 		RzxRezalSearchTree joneByName;
 		RzxRezalSearchTree roujeByName;
 		RzxRezalSearchTree oranjeByName;
-		RzxRezalSearchTree binetByName;
 		RzxRezalSearchTree *rezalsByName;
 
 		///Ordre utilisé pour trier
@@ -172,8 +170,7 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 			TREE_PROMO_JONE = 0,
 			TREE_PROMO_ROUJE = 1,
 			TREE_PROMO_ORANJE = 2,
-			TREE_PROMO_BINET = 3,
-			TREE_PROMO_NUMBER = 4
+			TREE_PROMO_NUMBER = 3
 		};
 
 		///Flags permettant d'identifier les identifiant des objets
@@ -219,7 +216,7 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 		QPersistentModelIndex favoritesGroup;
 		QPersistentModelIndex favoriteIndex, ignoredIndex, neutralIndex;
 		QPersistentModelIndex promoGroup;
-		QPersistentModelIndex joneIndex, roujeIndex, oranjeIndex, binetIndex;
+		QPersistentModelIndex joneIndex, roujeIndex, oranjeIndex;
 		QPersistentModelIndex rezalGroup;
 		QPersistentModelIndex *rezalIndex;
 

@@ -90,7 +90,6 @@ RzxRezalModel::RzxRezalModel()
 	joneIndex = QAbstractItemModel::createIndex(TREE_PROMO_JONE, 0, (int)TREE_FLAG_PROMO);
 	roujeIndex = QAbstractItemModel::createIndex(TREE_PROMO_ROUJE, 0, (int)TREE_FLAG_PROMO);
 	oranjeIndex = QAbstractItemModel::createIndex(TREE_PROMO_ORANJE, 0, (int)TREE_FLAG_PROMO);
-	binetIndex = QAbstractItemModel::createIndex(TREE_PROMO_BINET, 0, (int)TREE_FLAG_PROMO);
 	
 	//Initialisation de l'ordre de tri
 	order = (NumColonne)RzxMainUIConfig::sortColumn();
@@ -177,7 +176,6 @@ QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent)
 						case TREE_PROMO_JONE: if(!column) return joneIndex; break;
 						case TREE_PROMO_ROUJE: if(!column) return roujeIndex; break;
 						case TREE_PROMO_ORANJE: if(!column) return oranjeIndex; break;
-						case TREE_PROMO_BINET: if(!column) return binetIndex; break;
 					}
 					break;
 
@@ -210,7 +208,6 @@ QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent)
 				case TREE_PROMO_JONE: return createIndex(row, column, TREE_FLAG_PROMO_JONE, jone);
 				case TREE_PROMO_ROUJE: return createIndex(row, column, TREE_FLAG_PROMO_ROUJE, rouje);
 				case TREE_PROMO_ORANJE: return createIndex(row, column, TREE_FLAG_PROMO_ORANJE, oranje);
-				case TREE_PROMO_BINET: return createIndex(row, column, TREE_FLAG_PROMO_BINET, binet);
 			}
 			break;
 
@@ -251,7 +248,6 @@ QModelIndex RzxRezalModel::index(RzxComputer *computer, const QModelIndex& paren
 				case TREE_PROMO_JONE: list = &jone; break;
 				case TREE_PROMO_ROUJE: list = &rouje; break;
 				case TREE_PROMO_ORANJE: list = &oranje; break;
-				case TREE_PROMO_BINET: list = &binet; break;
 			}
 			break;
 			
@@ -294,7 +290,6 @@ const RzxRezalSearchTree *RzxRezalModel::childrenByName(const QModelIndex& index
 				case TREE_PROMO_JONE: return &joneByName;
 				case TREE_PROMO_ROUJE: return &roujeByName;
 				case TREE_PROMO_ORANJE: return &oranjeByName;
-				case TREE_PROMO_BINET: return &binetByName;
 			}
 			break;
 			
@@ -321,7 +316,6 @@ QModelIndex RzxRezalModel::parent(const QModelIndex& index) const
 		case TREE_FLAG_PROMO_JONE: return joneIndex;
 		case TREE_FLAG_PROMO_ROUJE: return roujeIndex;
 		case TREE_FLAG_PROMO_ORANJE: return oranjeIndex;
-		case TREE_FLAG_PROMO_BINET: return binetIndex;
 	}
 
 	//Cas Particulier : les rezal
@@ -395,7 +389,6 @@ int RzxRezalModel::rowCount(const QModelIndex& index) const
 				case TREE_PROMO_JONE: return jone.count();
 				case TREE_PROMO_ROUJE: return rouje.count();
 				case TREE_PROMO_ORANJE: return oranje.count();
-				case TREE_PROMO_BINET: return binet.count();
 			}
 			break;
 
@@ -456,7 +449,6 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 				case TREE_PROMO_JONE: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_JONE), tr("Jones"));
 				case TREE_PROMO_ROUJE: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_ROUJE), tr("Roujes"));
 				case TREE_PROMO_ORANJE: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_ORANJE), tr("Oranjes"));
-				case TREE_PROMO_BINET: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_FAVORITE), tr("Binets"));
 			}
 			break;
 
@@ -470,7 +462,6 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 		case TREE_FLAG_PROMO_JONE: return getComputer(role, jone, value, column);
 		case TREE_FLAG_PROMO_ROUJE: return getComputer(role, rouje, value, column);
 		case TREE_FLAG_PROMO_ORANJE: return getComputer(role, oranje, value, column);
-		case TREE_FLAG_PROMO_BINET: return getComputer(role, binet, value, column);
 	}
 
 	if((category & TREE_FLAG_HARDMASK) == TREE_FLAG_REZAL)
@@ -789,36 +780,19 @@ void RzxRezalModel::update(RzxComputer *computer)
 	switch(computer->promo())
 	{
 		case Rzx::PROMAL_UNK: case Rzx::PROMAL_ORANGE:
-/*			if(computer->rezal() == Rzx::RZL_BINETS || computer->rezal() == Rzx::RZL_BR)
+			if(!oranje.contains(computer))
 			{
-				if(!binet.contains(computer))
-				{
-					removeObject(roujeIndex, rouje, roujeByName, computer);
-					insertObject(binetIndex, binet, binetByName, computer);
-					removeObject(oranjeIndex, oranje, oranjeByName, computer);
-					removeObject(joneIndex, jone, joneByName, computer);
-				}
-				else
-					updateObject(binetIndex, binet, computer);
+				removeObject(roujeIndex, rouje, roujeByName, computer);
+				insertObject(oranjeIndex, oranje, oranjeByName, computer);
+				removeObject(joneIndex, jone, joneByName, computer);
 			}
-			else*/
-			{
-				if(!oranje.contains(computer))
-				{
-					removeObject(roujeIndex, rouje, roujeByName, computer);
-					removeObject(binetIndex, binet, binetByName, computer);
-					insertObject(oranjeIndex, oranje, oranjeByName, computer);
-					removeObject(joneIndex, jone, joneByName, computer);
-				}
-				else
-					updateObject(oranjeIndex, oranje, computer);
-			}
+			else
+				updateObject(oranjeIndex, oranje, computer);
 			break;
 		case Rzx::PROMAL_JONE:
 			if(!jone.contains(computer))
 			{
 				removeObject(roujeIndex, rouje, roujeByName, computer);
-				removeObject(binetIndex, binet, binetByName, computer);
 				removeObject(oranjeIndex, oranje, oranjeByName, computer);
 				insertObject(joneIndex, jone, joneByName, computer);
 			}
@@ -829,7 +803,6 @@ void RzxRezalModel::update(RzxComputer *computer)
 			if(!rouje.contains(computer))
 			{
 				insertObject(roujeIndex, rouje, roujeByName, computer);
-				removeObject(binetIndex, binet, binetByName, computer);
 				removeObject(oranjeIndex, oranje, oranjeByName, computer);
 				removeObject(joneIndex, jone, joneByName, computer);
 			}
@@ -869,7 +842,6 @@ void RzxRezalModel::clear()
 	deleteGroup(jone, joneIndex);
 	deleteGroup(rouje, roujeIndex);
 	deleteGroup(oranje, oranjeIndex);
-	deleteGroup(binet, binetIndex);
 	for(uint i = 0 ; i < RzxConfig::rezalNumber() ; i++)
 		deleteGroup(rezals[i], rezalIndex[i]);
 }
@@ -935,7 +907,6 @@ QModelIndexList RzxRezalModel::selected(const QModelIndex& ref) const
 	insert(jone, joneIndex);
 	insert(rouje, roujeIndex);
 	insert(oranje, oranjeIndex);
-	insert(binet, binetIndex);
 	for(uint i = 0 ; i<RzxConfig::rezalNumber() ; i++)
 		insert(rezals[i], rezalIndex[i]);
 	return indexList;
@@ -963,7 +934,6 @@ void RzxRezalModel::sort(int column, Qt::SortOrder sortSens)
 	sortList(jone, joneIndex);
 	sortList(rouje, roujeIndex);
 	sortList(oranje, oranjeIndex);
-	sortList(binet, binetIndex);
 	for(uint i=0 ; i < RzxConfig::rezalNumber() ; i++)
 		sortList(rezals[i], rezalIndex[i]);
 #undef sortList
