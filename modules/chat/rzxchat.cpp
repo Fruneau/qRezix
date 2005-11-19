@@ -272,7 +272,7 @@ void RzxChat::setColor(int index)
 ///Changement de la police de caractère
 void RzxChat::setFont(int index)
 {
-	QString family = cbFontSelect->itemText(index);
+	QString family = RzxChatConfig::nearestFont(cbFontSelect->itemText(index));
 	btnBold->setEnabled(RzxChatConfig::isBoldSupported(family));
 	btnItalic->setEnabled(RzxChatConfig::isItalicSupported(family));
 	QList<int> pSize = RzxChatConfig::getSizes(family);
@@ -283,7 +283,7 @@ void RzxChat::setFont(int index)
 		QString newItem = QString::number(point);
 		cbSize->addItem(newItem);
 	}
-	cbSize->setCurrentIndex(cbSize->findText(QString::number(edMsg->size())));
+	cbSize->setCurrentIndex(cbSize->findText(QString::number(RzxChatConfig::nearestSize(family, edMsg->size()))));
 	edMsg->setFont(family);
 }
 
@@ -301,12 +301,13 @@ void RzxChat::setSize(int index)
 ///Activation/Désactivation du formatage HTML du texte
 void RzxChat::setHtml(bool on)
 {
+	const QString &font = edMsg->font();
 	cbFontSelect->setEnabled(on);
 	cbColorSelect->setEnabled(on);
 	cbSize->setEnabled(on);
-	btnBold->setEnabled(on);
+	btnBold->setEnabled(RzxChatConfig::isBoldSupported(font));
 	btnUnderline->setEnabled(on);
-	btnItalic->setEnabled(on);
+	btnItalic->setEnabled(RzxChatConfig::isItalicSupported(font));
 	edMsg->useHtml(on);
 }
 

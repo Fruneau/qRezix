@@ -67,6 +67,8 @@ class RzxChatConfig:public RzxAbstractConfig
 	public:
 		void loadFontList();
 		static QStringList getFontList();
+		static QString nearestFont(const QString&);
+		static int nearestSize(const QString&, int);
 		static const QList<int> getSizes(const QString&);
 		static bool isItalicSupported(const QString&);
 		static bool isBoldSupported(const QString&);

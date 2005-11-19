@@ -67,8 +67,10 @@ class RzxTextEdit : public QTextEdit
 	ListText *curLine;
 
 	QString m_font;
+	QString m_defaultFont;
 	QColor m_color;
 	int m_size;
+	int m_defaultSize;
 	bool m_italic;
 	bool m_bold;
 	bool m_underline;
@@ -225,8 +227,8 @@ inline void RzxTextEdit::useHtml(bool html)
 	m_html = html;
 	if(!html)
 	{
-		setFont(DefaultFont);
-		setSize(DefaultSize);
+		setFont(m_defaultFont);
+		setSize(m_defaultSize);
 		setBold(false);
 		setItalic(false);
 		setUnderline(false);

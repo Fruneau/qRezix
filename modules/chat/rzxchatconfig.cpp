@@ -77,3 +77,55 @@ bool RzxChatConfig::isBoldSupported(const QString& family)
 	const FontProperty &fp = global()->fontProperties[family];
 	return fp.bold;
 }
+
+///Retourne la police dont le nom semble le plus proche
+/** En espérant que ce soit une police du même type que celui
+ * qu'on recherche
+ */
+QString RzxChatConfig::nearestFont(const QString& family)
+{
+	QStringList keys = global()->fontProperties.keys();
+	if(keys.contains(family))
+		return family;
+
+	foreach(QString key, keys)
+	{
+		if(key.contains(family, Qt::CaseInsensitive))
+			return key;
+	}
+
+	foreach(QString key, keys)
+	{
+		if(family.contains(key, Qt::CaseInsensitive))
+			return key;
+	}
+	return keys[0];
+}
+
+///Retourne la taille la plus proche de celle indiquée pour la police donnée
+/** Si la police n'est pas valide, la fonction retourne -1
+ */
+int RzxChatConfig::nearestSize(const QString& family, int size)
+{
+	if(!global()->fontProperties.keys().contains(family))
+		return -1;
+
+	QList<int> sizes = global()->fontProperties[family].sizes;
+	if(sizes.isEmpty())
+		return -1;
+
+	if(sizes.contains(size))
+		return size;
+
+	//128 maximum... pour éviter les ennuis
+	//mais normalement on peut monter à l'infini, ça changerait rien
+	//la fonction devrait toujours finir
+	for(int i = 1 ; i < 128 ; i++)
+	{
+		if(i < size && sizes.contains(size - i))
+			return size - i;
+		if(sizes.contains(size + i))
+			return size + i;
+	}
+	return -1;
+}
