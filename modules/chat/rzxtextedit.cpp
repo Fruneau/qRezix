@@ -53,6 +53,11 @@ RzxTextEdit::RzxTextEdit(QWidget *parent)
 	:QTextEdit(parent), chat(NULL)
 {
 	curLine = history = NULL;
+	m_font = DefaultFont;
+	m_size = DefaultSize;
+	m_bold = m_italic = m_underline = FALSE;
+	m_color = Qt::black;
+	setHtml(false);
 }
 
 ///Destruction
@@ -237,4 +242,6 @@ void RzxTextEdit::validate()
 	history = new ListText(toHtml(), history);
 	curLine = history;
 	clear();
+
+	useHtml(m_html);
 }

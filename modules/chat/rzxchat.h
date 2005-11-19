@@ -82,7 +82,6 @@ protected:
 
 	QString textHistorique;
 	QTimer *timer;
-	QFont *defFont;
 	QColor curColor;
 	bool typing, peerTyping;
 	QTimer typingTimer;

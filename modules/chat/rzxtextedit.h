@@ -20,6 +20,14 @@
 #include <QTextEdit>
 #include <QTextLine>
 
+#ifndef Q_OS_WIN
+#	define DefaultFont "Terminal"
+#	define DefaultSize 11
+#else
+#	define DefaultFont "Arial"
+#	define DefaultSize 8
+#endif
+
 class RzxChat;
 
 /**
@@ -31,6 +39,13 @@ class RzxChat;
 class RzxTextEdit : public QTextEdit 
 {
 	Q_OBJECT
+	Q_PROPERTY(QString font READ font WRITE setFont)
+	Q_PROPERTY(int size READ size WRITE setSize)
+	Q_PROPERTY(bool bold READ bold WRITE setBold)
+	Q_PROPERTY(bool italic READ italic WRITE setItalic)
+	Q_PROPERTY(bool underline READ underline WRITE setUnderline)
+	Q_PROPERTY(QColor color READ color WRITE setColor)
+	Q_PROPERTY(bool useHtml READ useHtml WRITE useHtml)
 	
 	friend class RzxChat;
 	RzxChat *chat;
@@ -51,6 +66,15 @@ class RzxTextEdit : public QTextEdit
 	ListText *history;
 	ListText *curLine;
 
+	QString m_font;
+	QColor m_color;
+	int m_size;
+	bool m_italic;
+	bool m_bold;
+	bool m_underline;
+	bool m_html;
+	
+
 	QTextLine currentTextLine() const;
 	bool atBeginning() const;
 	bool atEnd() const;
@@ -58,6 +82,14 @@ class RzxTextEdit : public QTextEdit
 public:
 	RzxTextEdit(QWidget *parent=0);
 	~RzxTextEdit();
+
+	const QString &font() const;
+	int size() const;
+	bool bold() const;
+	bool italic() const;
+	bool underline() const;
+	const QColor &color() const;
+	bool useHtml() const;
 
 public slots:
 	void validate();
@@ -94,57 +126,128 @@ inline void RzxTextEdit::setChat(RzxChat *m_chat)
  */
 inline void RzxTextEdit::setBold(bool bold)
 {
+	m_bold = bold;
 	setFontWeight(bold ? QFont::Bold : QFont::Normal);
+}
+
+///Retourne l'état de l'utilisation du gras
+/** L'information retournée décrit le formatage du texte
+ * dans le cas ou l'édition est en mode html
+ */
+inline bool RzxTextEdit::bold() const
+{
+	return m_bold;
 }
 
 ///Passe l'édition en italique
 inline void RzxTextEdit::setItalic(bool ital)
 {
+	m_italic = ital;
 	setFontItalic(ital);
+}
+
+///Retourne l'état de l'utilisation de l'italique
+/** L'information retournée décrit le formatage du texte
+ * dans le cas ou l'édition est en mode html
+ */
+inline bool RzxTextEdit::italic() const
+{
+	return m_italic;
 }
 
 ///Passe l'édition en souligné
 inline void RzxTextEdit::setUnderline(bool under)
 {
+	m_underline = under;
 	setFontUnderline(under);
+}
+
+///Retourne l'état de l'utilisation du soulignement
+/** L'information retournée décrit le formatage du texte
+ * dans le cas ou l'édition est en mode html
+ */
+inline bool RzxTextEdit::underline() const
+{
+	return m_underline;
 }
 
 ///Change la police
 inline void RzxTextEdit::setFont(const QString& font)
 {
+	m_font = font;
 	setFontFamily(font);
+}
+
+///Retourne l'état de l'utilisation de la police
+/** L'information retournée décrit le formatage du texte
+ * dans le cas ou l'édition est en mode html
+ */
+inline const QString &RzxTextEdit::font() const
+{
+	return m_font;
 }
 
 ///Change la taille de la police
 inline void RzxTextEdit::setSize(int size)
 {
+	m_size = size;
 	setFontPointSize(size);
+}
+
+///Retourne l'état de l'utilisation de la taille de la police
+/** L'information retournée décrit le formatage du texte
+ * dans le cas ou l'édition est en mode html
+ */
+inline int RzxTextEdit::size() const
+{
+	return m_size;
 }
 
 ///Change la couleur de la police
 inline void RzxTextEdit::setColor(const QColor& c)
 {
+	m_color = c;
 	setTextColor(c);
+}
+
+///Retourne l'état de l'utilisation de la couleur de la police
+/** L'information retournée décrit le formatage du texte
+ * dans le cas ou l'édition est en mode html
+ */
+inline const QColor &RzxTextEdit::color() const
+{
+	return m_color;
 }
 
 ///Change le formatage du texte
 inline void RzxTextEdit::useHtml(bool html)
 {
+	m_html = html;
 	if(!html)
 	{
-#ifdef WIN32
-//parce que Terminal n'existe pas sous Win !
-		setFont("Arial");
-		setSize(8);
-#else
-		setFont("Terminal");
-		setSize(11);
-#endif
+		setFont(DefaultFont);
+		setSize(DefaultSize);
 		setBold(false);
 		setItalic(false);
 		setUnderline(false);
-		setPlainText(toPlainText());
+		setColor(Qt::black);
 	}
+	else
+	{
+		setFont(m_font);
+		setSize(m_size);
+		setBold(m_bold);
+		setItalic(m_italic);
+		setUnderline(m_underline);
+		setColor(m_color);
+	}
+	setPlainText(toPlainText());
+}
+
+///Retourne l'état de l'utilisation du formatage html
+inline bool RzxTextEdit::useHtml() const
+{
+	return m_html;
 }
 
 #endif

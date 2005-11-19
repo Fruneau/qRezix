@@ -126,8 +126,8 @@ void RzxChat::init()
 	curColor = Qt::black;
 
 	//chargement des fontes
-	defFont = new QFont("Terminal", 11);
 	cbFontSelect->insertItems(0, RzxChatConfig::getFontList());
+	cbFontSelect->setCurrentIndex(cbFontSelect->findText(edMsg->font()));
 	
 	//chargement de la liste des couleurs
 	cbColorSelect->addItem(tr("Custom colours...")); //tjs 0
@@ -161,8 +161,7 @@ void RzxChat::init()
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 
 	setFont(0);
-	setHtml(false);	
-	edMsg->clear();
+	setHtml(false);
 	typing = peerTyping = false;
 	unread = 0;
 }
@@ -188,7 +187,6 @@ RzxChat::~RzxChat()
 #ifdef WIN32
 	if(timer) delete timer;
 #endif	
-	if(defFont) delete defFont;
 }
 
 ///Défini la machine associée à la fenêtre de chat
@@ -279,14 +277,13 @@ void RzxChat::setFont(int index)
 	btnItalic->setEnabled(RzxChatConfig::isItalicSupported(family));
 	QList<int> pSize = RzxChatConfig::getSizes(family);
 
-	QString size = cbSize->currentText();
 	cbSize->clear();
 	foreach(int point, pSize)
 	{
 		QString newItem = QString::number(point);
 		cbSize->addItem(newItem);
 	}
-	cbSize->setCurrentIndex(cbSize->findText(size));
+	cbSize->setCurrentIndex(cbSize->findText(QString::number(edMsg->size())));
 	edMsg->setFont(family);
 }
 
@@ -481,16 +478,6 @@ void RzxChat::on_btnSend_clicked()
 	sendChat(msg);	//passage par la sous-couche de gestion du m_socket avant d'émettre
 
 	edMsg->validate();
-	
-/*	if(cbSendHTML->isChecked())
-	{
-		fontChanged(cbFontSelect->currentItem());
-		sizeChanged(cbSize->currentItem());
-		colorClicked(cbColorSelect->currentItem());
-		edMsg->setBold(btnBold->isOn());
-		edMsg->setItalic(btnItalic->isOn());
-		edMsg->setUnderline(btnUnderline->isOn());
-	}*/
 }
 
 /********* Gestion des propriétés et de l'historique *********/
