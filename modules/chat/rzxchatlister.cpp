@@ -283,7 +283,7 @@ void RzxChatLister::showProperties(RzxComputer *c)
 }
 
 ///Affichage des proprietes d'un ordinateur
-QWidget *RzxChatLister::showProperties(RzxComputer *computer, const QString& msg, bool withFrame, QWidget *parent, QPoint *pos )
+QWidget *RzxChatLister::showProperties(RzxComputer *computer, const QString& msg, bool withFrame, QWidget *parent, QAbstractButton *button)
 {
 	if(!computer)
 		return NULL;
@@ -301,9 +301,8 @@ QWidget *RzxChatLister::showProperties(RzxComputer *computer, const QString& msg
 	}
 	else
 	{
-		propertiesDialog = new RzxPopup(parent?parent:RzxApplication::mainWindow());
+		propertiesDialog = new RzxChatPopup(button, parent?parent:RzxApplication::mainWindow());
 		((QFrame*)propertiesDialog)->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
-		if(pos) propertiesDialog->move(*pos);
 	}
 
 	// Layout, pour le resize libre
@@ -364,7 +363,7 @@ QWidget *RzxChatLister::showProperties(RzxComputer *computer, const QString& msg
 }
 
 ///Affichage de la fenêtre de favoris
-QWidget *RzxChatLister::historique(RzxComputer *computer, bool withFrame, QWidget *parent, QPoint *pos )
+QWidget *RzxChatLister::historique(RzxComputer *computer, bool withFrame, QWidget *parent, QAbstractButton *button)
 {
 	const RzxHostAddress &ip = computer->ip();
 	const QString &hostname = computer->name();
@@ -398,13 +397,8 @@ QWidget *RzxChatLister::historique(RzxComputer *computer, bool withFrame, QWidge
 	}
 	else
 	{
-		histoDialog = new RzxPopup(parent?parent:RzxApplication::mainWindow());
+		histoDialog = new RzxChatPopup(button, parent?parent:RzxApplication::mainWindow());
 		((QFrame*)histoDialog)->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
-		if(pos) 
-		{
-			QPoint ul = *pos;
-			histoDialog->move(ul);
-		}
 	}
 	QGridLayout * qHistoLayout = new QGridLayout(histoDialog);
 	qHistoLayout->setSpacing(0);

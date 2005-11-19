@@ -1,9 +1,9 @@
 /***************************************************************************
-                          rzxsmileyui.h  -  description
+                       rzxchatpopup  -  description
                              -------------------
-    begin                : mer nov 16 2005
-    copyright            : (C) 2005 by Guillaume Porcher
-    email                : pico@melix.org
+    begin                : Sat Nov 19 2005
+    copyright            : (C) 2005 Florent Bruneau
+    email                : florent.bruneau@m4x.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,40 +14,32 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef RZXSMILEYUI_H
-#define RZXSMILEYUI_H
-
-#include <QPushButton>
-#include <QtDebug>
+#include <QAbstractButton>
 
 #include "rzxchatpopup.h"
 
-/**
-@author Pico
-*/
-class RzxSmileyButton : public QPushButton
-{
-	Q_OBJECT
-	public:
-		RzxSmileyButton(const QString& test, const QIcon & icon, QWidget * parent = 0 );
-	private:
-		QString msg;
-	signals:
-		void clicked(const QString&);
-	private slots:
-		void wantAdd(){emit clicked(msg);}
-};
-
-
-class RzxSmileyUi : public RzxChatPopup
-{
-	Q_OBJECT
-	public:
-		RzxSmileyUi(QAbstractButton *btn, QWidget *parent = 0);
-		~RzxSmileyUi();
-
-	signals:
-		void clickedSmiley(const QString& msg);
-};
-
+///Construit un popup
+RzxChatPopup::RzxChatPopup(QAbstractButton *btn, QWidget *parent)
+#ifdef Q_OS_MAC
+	:QFrame(parent, Qt::Drawer)
+#else
+	:QFrame(parent, Qt::Window | Qt::FramelessWindowHint)
 #endif
+{
+	button = btn;
+	setAttribute(Qt::WA_DeleteOnClose);
+	if(!button)
+	{
+		close();
+		return;
+	}
+	move();
+}
+
+///Place le popup sous le bouton qui lui est assigné
+void RzxChatPopup::move()
+{
+#ifndef Q_OS_MAC
+	QFrame::move(button->mapToGlobal(button->rect().bottomLeft()));
+#endif
+}

@@ -77,8 +77,8 @@ class RzxChatLister:public RzxModule
 
 		void warnProperties(RzxComputer*);
 
-		QWidget *historique(RzxComputer*, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL);
-		QWidget *showProperties(RzxComputer*, const QString&, bool withFrame = true, QWidget *parent = NULL, QPoint *pos = NULL);
+		QWidget *historique(RzxComputer*, bool withFrame = true, QWidget *parent = NULL, QAbstractButton *button = NULL);
+		QWidget *showProperties(RzxComputer*, const QString&, bool withFrame = true, QWidget *parent = NULL, QAbstractButton *button = NULL);
 
 		virtual void history(RzxComputer*);
 		virtual void properties(RzxComputer*);

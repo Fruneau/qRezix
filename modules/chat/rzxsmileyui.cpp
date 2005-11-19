@@ -34,14 +34,9 @@ RzxSmileyButton::RzxSmileyButton(const QString& text, const QIcon & ic, QWidget 
 	connect(this, SIGNAL(clicked(bool)), this, SLOT(wantAdd()));
 }
 
-RzxSmileyUi::RzxSmileyUi(QWidget *parent)
-#ifdef Q_OS_MAC
-	:QFrame(parent, Qt::Drawer)
-#else
-	:QFrame(parent, Qt::Window | Qt::FramelessWindowHint)
-#endif
+RzxSmileyUi::RzxSmileyUi(QAbstractButton *btn, QWidget *parent)
+	:RzxChatPopup(btn, parent)
 {
-	setAttribute(Qt::WA_DeleteOnClose);
 	setFrameStyle(QFrame::WinPanel | QFrame::Raised);
 	setWindowTitle(tr("Smileys"));
 	
@@ -63,7 +58,7 @@ RzxSmileyUi::RzxSmileyUi(QWidget *parent)
 				if(list.count() == 2){
 					QStringList rep = list[0].split("$$");
 					RzxSmileyButton *tmp = new RzxSmileyButton(rep[0],QIcon(dir->absolutePath()+"/"+list[1]),this);
-					connect(tmp,SIGNAL(clicked(QString)), this, SIGNAL(clickedSmiley(QString)));
+					connect(tmp,SIGNAL(clicked(const QString&)), this, SIGNAL(clickedSmiley(const QString&)));
 					smileyLayout->addWidget(tmp,colcpt,rowcpt++);
 					if(rowcpt > 4){
 						rowcpt = 0;

@@ -19,7 +19,6 @@
 #define RZXCHAT_IMPL_H
 
 #include <QMenu>
-#include <QFrame>
 #include <QPointer>
 #include <QTimer>
 
@@ -31,6 +30,7 @@
 #	include "ui_rzxchatui.h"
 #endif
 
+#include "rzxchatpopup.h"
 #include "rzxsmileyui.h"
 
 /**
@@ -44,27 +44,6 @@ class QKeyEvent;
 class QEvent;
 class QSplitter;
 class QTextEdit;
-
-///Classe pour les fenêtre propriété et historique du chat
-/** Affiche une frame qui permet de contenir les données des propriétés et de l'historique.<br>
-  * Cette classe permet simplement une abstraction de la chose, sans pour autant apporter quoi que ce soit de vraiment nouveau
-  */
-class RzxPopup : public QFrame
-{
-	Q_OBJECT
-	
-	public:
-		RzxPopup(QWidget *parent = 0);
-		~RzxPopup() { }
-		
-		void forceVisible(bool pos);
-};
-
-inline void RzxPopup::forceVisible(bool pos)
-{
-	if(pos) show();
-	else hide();
-}
 
 ///Fenêtre de dialogue
 /** (et pas boîte de dialogue ;)... gere la totalité de l'interface de chat.
@@ -92,8 +71,8 @@ private:
 	void init();
 	void addColor(QColor color);
 	QMenu menuPlugins;
-	QPointer<RzxPopup> hist;
-	QPointer<RzxPopup> prop;
+	QPointer<RzxChatPopup> hist;
+	QPointer<RzxChatPopup> prop;
 	QPointer<RzxSmileyUi> smileyUi;
 	
 protected:
@@ -141,7 +120,7 @@ protected slots:
 	void on_cbSize_activated(int index);
 	void on_cbSendHTML_toggled(bool on);
 	void on_btnSend_clicked();
-	void onSmileyToggled(bool on);
+	void on_btnSmiley_toggled(bool on);
 	void onReturnPressed();
 	void onTextChanged();
 	bool event(QEvent *e);

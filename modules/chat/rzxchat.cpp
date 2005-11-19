@@ -57,19 +57,6 @@
 #include "rzxchatlister.h"
 #include "rzxchatconfig.h"
 
-/****************************************************
-* RzxPopup
-****************************************************/
-RzxPopup::RzxPopup(QWidget *parent)
-#ifdef Q_OS_MAC
-	:QFrame(parent, Qt::Drawer)
-#else
-	:QFrame(parent, Qt::Window | Qt::FramelessWindowHint)
-#endif
-{
-	setAttribute(Qt::WA_DeleteOnClose);
-}
-
 /******************************
 * RzxChat
 ******************************/
@@ -167,7 +154,7 @@ void RzxChat::init()
 	connect(btnHistorique, SIGNAL(toggled(bool)), this, SLOT(on_btnHistorique_toggled(bool)));
 	connect(btnProperties, SIGNAL(toggled(bool)), this, SLOT(on_btnProperties_toggled(bool)));
 	connect(btnPlugins, SIGNAL(toggled(int)), this, SLOT(on_btnPlugins_toggled(int)));
-	connect(btnSmiley, SIGNAL(toggled(bool)), this, SLOT(onSmileyToggled(bool)));
+	connect(btnSmiley, SIGNAL(toggled(bool)), this, SLOT(on_btnSmiley_toggled(bool)));
 	connect(btnSend, SIGNAL(clicked()), this, SLOT(on_btnSend_clicked()));
 	connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
 	
@@ -541,9 +528,7 @@ void RzxChat::on_btnHistorique_toggled(bool on)
 	file.close();
 
 	//Affiche la fenêtre
-	QPoint *pos = new QPoint(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
-	hist = (RzxPopup*)RzxChatLister::global()->historique(RzxHostAddress::fromRezix(lastIP), false, this, pos);
-	delete pos;
+	hist = (RzxChatPopup*)RzxChatLister::global()->historique(RzxHostAddress::fromRezix(lastIP), false, this, btnHistorique);
 	hist->show();
 }
 
@@ -565,9 +550,7 @@ void RzxChat::on_btnProperties_toggled(bool on)
 ///Demande l'affichage des propriétés
 void RzxChat::receiveProperties(const QString& msg)
 {
-	QPoint *pos = new QPoint(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
-	prop = (RzxPopup*)RzxChatLister::global()->showProperties(computer()->ip(), msg, false, this, pos);
-	delete pos;
+	prop = (RzxChatPopup*)RzxChatLister::global()->showProperties(computer()->ip(), msg, false, this, btnProperties);
 	if(prop.isNull())
 	{
 		btnProperties->setChecked(false);
@@ -579,14 +562,12 @@ void RzxChat::receiveProperties(const QString& msg)
 ///Déplacement des popups avec la fenêtre principale
 void RzxChat::moveEvent(QMoveEvent *)
 {
-#ifndef Q_OS_MAC
 	if(!hist.isNull())
-		hist->move(btnHistorique->mapToGlobal(btnHistorique->rect().bottomLeft()));
+		hist->move();
 	if(!prop.isNull())
-		prop->move(btnProperties->mapToGlobal(btnProperties->rect().bottomLeft()));
+		prop->move();
 	if(!smileyUi.isNull())
-		smileyUi->move(btnSmiley->mapToGlobal(btnSmiley->rect().bottomLeft()));
-#endif
+		smileyUi->move();
 }
 
 /// Gestion de la connexion avec l'autre client
@@ -706,7 +687,7 @@ void RzxChat::on_btnPlugins_clicked()
 }
 
 /// Affichage du menu des smileys lors d'un clic sur le bouton
-void RzxChat::onSmileyToggled(bool on)
+void RzxChat::on_btnSmiley_toggled(bool on)
 {
 	if(!on)
 	{
@@ -714,14 +695,14 @@ void RzxChat::onSmileyToggled(bool on)
 			smileyUi->close();
 		return;
 	}
-	smileyUi = new RzxSmileyUi();
-	connect(smileyUi, SIGNAL(clickedSmiley(QString)), edMsg, SLOT(insertPlainText(QString)));
-	smileyUi->move(QPoint(btnSmiley->mapToGlobal(btnSmiley->rect().bottomLeft())));
+	smileyUi = new RzxSmileyUi(btnSmiley, this);
+	connect(smileyUi, SIGNAL(clickedSmiley(const QString&)), edMsg, SLOT(insertPlainText(const QString&)));
 	smileyUi->show();
 }
 
 /// Remplace les smileys par des images dans une string
-QString RzxChat::replaceSmiley(const QString& txt){
+QString RzxChat::replaceSmiley(const QString& txt)
+{
 	QString msg = txt;
 	for(int i = 0 ; i < RzxChatLister::global()->smileys.size() ; i++)
 	{
