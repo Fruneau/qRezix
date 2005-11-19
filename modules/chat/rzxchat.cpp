@@ -136,13 +136,13 @@ void RzxChat::init()
 	cbColorSelect->setCurrentIndex(1); //black par défaut
 
 	//gestion du formatiage du texte
-	//connect(btnBold, SIGNAL(toggled(bool)), edMsg, SLOT(setBold(bool)));
-	connect(btnItalic, SIGNAL(toggled(bool)), edMsg, SLOT(setFontItalic(bool)));
-	connect(btnUnderline, SIGNAL(toggled(bool)), edMsg, SLOT(setFontUnderline(bool)));
-	connect(cbColorSelect, SIGNAL(activated(int)), this, SLOT(on_cbColorSelect_activated(int)));
-	connect(cbFontSelect, SIGNAL(activated(int)), this, SLOT(on_cbFontSelect_activated(int)));
-	connect(cbSize, SIGNAL(activated(int)), this, SLOT(on_cbSize_activated(int)));
-	connect(cbSendHTML, SIGNAL(toggled(bool)), this, SLOT(on_cbSendHTML_toggled(bool)));
+	connect(btnBold, SIGNAL(toggled(bool)), edMsg, SLOT(setBold(bool)));
+	connect(btnItalic, SIGNAL(toggled(bool)), edMsg, SLOT(setItalic(bool)));
+	connect(btnUnderline, SIGNAL(toggled(bool)), edMsg, SLOT(setUnderline(bool)));
+	connect(cbColorSelect, SIGNAL(activated(int)), this, SLOT(setColor(int)));
+	connect(cbFontSelect, SIGNAL(activated(int)), this, SLOT(setFont(int)));
+	connect(cbSize, SIGNAL(activated(int)), this, SLOT(setSize(int)));
+	connect(cbSendHTML, SIGNAL(toggled(bool)), this, SLOT(setHtml(bool)));
 
 	/** Connexions **/
 #ifdef WIN32
@@ -160,8 +160,8 @@ void RzxChat::init()
 	
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 
-	on_cbFontSelect_activated(0);
-	on_cbSendHTML_toggled(false);	
+	setFont(0);
+	setHtml(false);	
 	edMsg->clear();
 	typing = peerTyping = false;
 	unread = 0;
@@ -247,30 +247,33 @@ void RzxChat::onReturnPressed()
 }
 
 ///On ajoute une nouvelle couleur dans la liste des couleurs prédéfinies
-void RzxChat::addColor(QColor color) {
+void RzxChat::addColor(QColor color)
+{
 	QPixmap p = QPixmap(50, 15);
 	p.fill(color);
 	cbColorSelect->addItem(p, QString());
 }
 
 ///Changement de la couleur du texte
-void RzxChat::on_cbColorSelect_activated(int index) {
+void RzxChat::setColor(int index)
+{
 	QColor c;
 	if(!index)
 		c = QColorDialog::getColor(curColor, this);
-	else {
+	else
+	{
 		if(index <=16)
 			c = preDefinedColors[index-1];
 		else
 			c = QColorDialog::customColor(index - 17);
 	}
 	curColor = c.isValid() ? c : curColor;
-	qDebug("Color changed");
-	edMsg->setTextColor(curColor);
+	edMsg->setColor(curColor);
 }
 
 ///Changement de la police de caractère
-void RzxChat::on_cbFontSelect_activated(int index) {
+void RzxChat::setFont(int index)
+{
 	QString family = cbFontSelect->itemText(index);
 	btnBold->setEnabled(RzxChatConfig::isBoldSupported(family));
 	btnItalic->setEnabled(RzxChatConfig::isItalicSupported(family));
@@ -284,21 +287,22 @@ void RzxChat::on_cbFontSelect_activated(int index) {
 		cbSize->addItem(newItem);
 	}
 	cbSize->setCurrentIndex(cbSize->findText(size));
-	edMsg->setFontFamily(family);
+	edMsg->setFont(family);
 }
 
 ///Changement de la taille du texte
-void RzxChat::on_cbSize_activated(int index) {
+void RzxChat::setSize(int index)
+{
 	QString size = cbSize->itemText(index);
 	bool ok;
 	int point = size.toInt(&ok, 10);
 	if(!ok)
 		return;
-	edMsg->setFontPointSize(point);
+	edMsg->setSize(point);
 }
 
 ///Activation/Désactivation du formatage HTML du texte
-void RzxChat::on_cbSendHTML_toggled(bool on)
+void RzxChat::setHtml(bool on)
 {
 	cbFontSelect->setEnabled(on);
 	cbColorSelect->setEnabled(on);
@@ -306,20 +310,7 @@ void RzxChat::on_cbSendHTML_toggled(bool on)
 	btnBold->setEnabled(on);
 	btnUnderline->setEnabled(on);
 	btnItalic->setEnabled(on);
-	if(!on) {
-#ifdef WIN32
-//parce que Terminal n'existe pas sous Win !
-		edMsg->setFontFamily("Arial");
-		edMsg->setFontPointSize(8);
-#else
-		edMsg->setFontFamily("Terminal");
-		edMsg->setFontPointSize(11);
-#endif
-		edMsg->setFontWeight(2);
-		edMsg->setFontItalic(false);
-		edMsg->setFontUnderline(false);
-		edMsg->setPlainText(edMsg->toPlainText());
-	}
+	edMsg->useHtml(on);
 }
 
 

@@ -115,10 +115,10 @@ protected slots:
 	void pong(int ms);
 	void on_btnHistorique_toggled(bool on = false);
 	void on_btnProperties_toggled(bool on = false);
-	void on_cbColorSelect_activated(int index);
-	void on_cbFontSelect_activated(int index);
-	void on_cbSize_activated(int index);
-	void on_cbSendHTML_toggled(bool on);
+	void setColor(int index);
+	void setFont(int index);
+	void setSize(int index);
+	void setHtml(bool);
 	void on_btnSend_clicked();
 	void on_btnSmiley_toggled(bool on);
 	void onReturnPressed();

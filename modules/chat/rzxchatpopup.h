@@ -39,16 +39,7 @@ class RzxChatPopup : public QFrame
 		RzxChatPopup(QAbstractButton *btn, QWidget *parent = NULL);
 		~RzxChatPopup() { }
 		
-		void forceVisible(bool pos);
 		void move();
 };
-
-inline void RzxChatPopup::forceVisible(bool pos)
-{
-	if(pos) show();
-	else hide();
-}
-
-
 
 #endif
