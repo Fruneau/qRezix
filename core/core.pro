@@ -8,12 +8,12 @@ TARGET = qrezix
 
 ROOT = ..
 INCLUDEPATH += ..
-contains(DEFINES, RZX_MAINUI_BUILTIN):include(../mainui/mainui.pri)
-contains(DEFINES, RZX_TRAYICON_BUILTIN):include(../tray/tray.pri)
-contains(DEFINES, RZX_NOTIFIER_BUILTIN):include(../notifier/notifier.pri)
-contains(DEFINES, RZX_CHAT_BUILTIN):include(../chat/chat.pri)
-contains(DEFINES, RZX_XNET_BUILTIN):include(../xnet/xnet.pri)
-contains(DEFINES, RZX_JABBER_BUILTIN):include(../jabber/jabber.pri)
+contains(DEFINES, RZX_MAINUI_BUILTIN):include($$ROOT/modules/mainui/mainui.pri)
+contains(DEFINES, RZX_TRAYICON_BUILTIN):include($$ROOT/modules/tray/tray.pri)
+contains(DEFINES, RZX_NOTIFIER_BUILTIN):include($$ROOT/modules/notifier/notifier.pri)
+contains(DEFINES, RZX_CHAT_BUILTIN):include($$ROOT/modules//chat/chat.pri)
+contains(DEFINES, RZX_XNET_BUILTIN):include($$ROOT/net/xnet/xnet.pri)
+contains(DEFINES, RZX_JABBER_BUILTIN):include($$ROOT/net/jabber/jabber.pri)
 include(../rzxglobal.pri)
 
 DEFINES += PREFIX=\"$$PREFIX\"
