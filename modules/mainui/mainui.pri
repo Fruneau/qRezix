@@ -1,5 +1,7 @@
 DEFINES += RZX_BUILD_MAINUI
 
+INCLUDEPATH += $$ROOT/modules/mainui
+
 SOURCES += $$ROOT/modules/mainui/rzxui.cpp \
 	$$ROOT/modules/mainui/qrezix.cpp \
 	$$ROOT/modules/mainui/rzxrezal.cpp \

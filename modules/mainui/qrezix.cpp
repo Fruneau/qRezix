@@ -54,7 +54,7 @@
 #ifdef RZX_RZLDETAIL_BUILTIN
 #	include "../../rezals/detail/rzxrezaldetail.h"
 #endif
-#ifdef RZX_RZLDINDEX_BUILTIN
+#ifdef RZX_RZLINDEX_BUILTIN
 #	include "../../rezals/index/rzxrezalindex.h"
 #endif
 #ifdef RZX_RZLMAP_BUILTIN
