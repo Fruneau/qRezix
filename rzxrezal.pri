@@ -14,5 +14,7 @@ mac {
 } else:unix {
         lib.path = $$DEST/lib/qrezix/rezals
         lib.extra = ln -sf $$DEST/lib/qrezix/rezals/* $$DEST/lib
+} else:win32 {
+	lib.path = $$DEST/rezals
 }
 INSTALLS += lib

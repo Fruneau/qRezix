@@ -12,5 +12,7 @@ mac {
 } else:unix {
         lib.path = $$DEST/lib/qrezix/modules
 	lib.extra = ln -sf $$DEST/lib/qrezix/modules/* $$DEST/lib
+} else:win32 {
+	lib.path = $$DEST/modules
 }
 INSTALLS += lib

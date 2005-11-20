@@ -10,5 +10,8 @@ mac {
 } else:unix {
 	maps.path = $$DEST/share/qrezix/maps
 	mapini.path = $$DEST/share/qrezix
+} else:win32
+	maps.path = $$DEST/maps
+	mapini.path = $$DEST/
 }
 INSTALLS += maps mapini

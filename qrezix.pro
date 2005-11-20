@@ -33,6 +33,12 @@ mac {
 	translations.path = $$DEST/share/qrezix/translations
 	qrezix.files = qrezix
 	qrezix.path = $$DEST/bin
+} else:win32 {
+	themes.path = $$DEST/themes
+	translations.path = $$DEST/translations
+
+	qrezix.files = qrezix.exe
+	qrezix.path = $$DEST/
 }
 
 INSTALLS += translations \

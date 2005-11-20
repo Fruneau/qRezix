@@ -31,5 +31,7 @@ mac {
 	smileys.path = qRezix.app/Contents/Resources/smileys
 } else:unix {
 	smileys.path = $$DEST/share/qrezix/
+} else:win32 {
+	smileys.path = $$DEST/smileys
 }
 INSTALLS += smileys

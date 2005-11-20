@@ -13,5 +13,7 @@ mac {
 } else:unix {
         lib.path = $$DEST/lib/qrezix/net
         lib.extra = ln -sf $$DEST/lib/qrezix/net/* $$DEST/lib
+} else:win32 {
+	lib.path = $$DEST/net
 }
 INSTALLS += lib

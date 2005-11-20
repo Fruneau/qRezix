@@ -81,5 +81,8 @@ mac {
 } else:unix {
         mainlib.path = $$DEST/lib
 	subnets.path = $$DEST/share/qrezix
-}	
+} else:win32 {
+	mainlib.path = $$DEST
+	subnets.path = $$DEST
+}
 INSTALLS += mainlib subnets		
