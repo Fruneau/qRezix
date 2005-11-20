@@ -9,7 +9,7 @@ TARGET = qrezix
 
 ROOT = ..
 INCLUDEPATH += ..
-include(../rzxglobla.pri)
+include(../rzxglobal.pri)
 contains(DEFINES, RZX_MAINUI_BUILTIN):include($$ROOT/modules/mainui/mainui.pri)
 contains(DEFINES, RZX_TRAYICON_BUILTIN):include($$ROOT/modules/tray/tray.pri)
 contains(DEFINES, RZX_NOTIFIER_BUILTIN):include($$ROOT/modules/notifier/notifier.pri)
