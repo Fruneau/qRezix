@@ -229,7 +229,7 @@
         <number>0</number>
        </property>
        <property name="spacing" >
-        <number>0</number>
+        <number>6</number>
        </property>
        <item row="0" column="0" >
         <widget class="QToolButton" name="btnBold" >
@@ -257,7 +257,7 @@
           <string>B</string>
          </property>
          <property name="shortcut" >
-          <string>⌘B</string>
+          <string/>
          </property>
          <property name="checkable" >
           <bool>true</bool>
@@ -296,7 +296,7 @@
           <string>U</string>
          </property>
          <property name="shortcut" >
-          <string>⌘U</string>
+          <string/>
          </property>
          <property name="checkable" >
           <bool>true</bool>
@@ -335,10 +335,23 @@
           <string>I</string>
          </property>
          <property name="shortcut" >
-          <string>⌘I</string>
+          <string/>
          </property>
          <property name="checkable" >
           <bool>true</bool>
+         </property>
+         <property name="toolButtonStyle" >
+          <enum>Qt::ToolButtonTextOnly</enum>
+         </property>
+         <property name="autoRaise" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3" >
+        <widget class="QToolButton" name="btnSmiley" >
+         <property name="text" >
+          <string>:-)</string>
          </property>
          <property name="toolButtonStyle" >
           <enum>Qt::ToolButtonTextOnly</enum>
@@ -393,7 +406,7 @@
         <string>Send as &amp;HTML</string>
        </property>
        <property name="shortcut" >
-        <string>⌥H</string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -522,7 +535,7 @@
     </layout>
    </item>
   </layout>
-  <widget class="QWidget" name="" >
+  <widget class="QWidget" name="widget" >
    <property name="geometry" >
     <rect>
      <x>9</x>
@@ -532,7 +545,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="" >
+  <widget class="QWidget" name="widget_2" >
    <property name="geometry" >
     <rect>
      <x>710</x>
@@ -542,7 +555,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="" >
+  <widget class="QWidget" name="widget_3" >
    <property name="geometry" >
     <rect>
      <x>650</x>
@@ -552,7 +565,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="" >
+  <widget class="QWidget" name="widget_4" >
    <property name="geometry" >
     <rect>
      <x>10</x>
