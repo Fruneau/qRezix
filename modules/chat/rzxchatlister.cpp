@@ -70,7 +70,6 @@ RzxChatLister::RzxChatLister()
 	setIcon(Rzx::ICON_CHAT);
 
 	new RzxChatConfig(this);
-	RzxChatConfig::global()->loadFontList();
 
 	client = RzxClientListener::global();
 	connect(client, SIGNAL(propertiesSent(RzxComputer*)), this, SLOT(warnProperties(RzxComputer*)));
@@ -92,32 +91,6 @@ RzxChatLister::RzxChatLister()
 		wellInit = true;
 	}
 	
-	//Recherche des thèmes de smileys installés
-	qDebug("Searching smileys themes...");
-	QList<QDir> path = RzxConfig::dirList(RzxConfig::AllDirsExceptTemp, "smileys");
-
-	foreach(QDir dir, path)
-	{
-		QStringList subDirs = dir.entryList(QDir::Dirs, QDir::Name | QDir::IgnoreCase);
-		foreach(QString subDir, subDirs)
-		{
-			//on utilise .keys().contain() car value[] fait un insert dans le QHash
-			//ce qui tendrait donc à rajouter des clés parasites dans la liste
-			if(!smileyDir.keys().contains(subDir))
-			{
-				QDir *theme = new QDir(dir);
-				theme->cd(subDir);
-				if(theme->exists("theme"))
-				{
-					qDebug() << "*" << subDir << "in" << theme->path();
-					smileyDir.insert(subDir, theme);
-				}
-				else
-					delete theme;
-			}
-		}
-	}
-	loadSmileys();
 	endLoading();
 }
 
@@ -452,7 +425,7 @@ void RzxChatLister::propInit(bool def)
 	ui->cbPropertiesWarning->setChecked(RzxChatConfig::warnWhenChecked(def));
 	ui->cbPrintTime->setChecked(RzxChatConfig::printTime(def));
 	ui->chat_port->setValue(RzxChatConfig::chatPort(def));
-	ui->smileyCombo->addItems(smileyDir.keys());
+	ui->smileyCombo->addItems(RzxChatConfig::global()->smileyDir.keys());
 	ui->smileyCombo->setCurrentIndex(ui->smileyCombo->findText(RzxChatConfig::smileyTheme()));
 }
 
@@ -467,7 +440,7 @@ void RzxChatLister::propUpdate()
 	RzxChatConfig::setPrintTime(ui->cbPrintTime->isChecked());
 	RzxChatConfig::setChatPort(ui->chat_port->value());
 	RzxChatConfig::setSmileyTheme(ui->smileyCombo->currentText());
-	loadSmileys();
+	RzxChatConfig::loadSmileys();
 }
 
 /** \reimp */
@@ -492,34 +465,4 @@ void RzxChatLister::chooseBeep()
 	if (file.isEmpty()) return;
 
 	ui->beepSound->setText(file);
-}
-
-/// Chargement des correspondances motif/smiley
-void RzxChatLister::loadSmileys(){
-	smileys.clear();
-	// chargement de la config
-	QDir *dir = smileyDir[RzxChatConfig::smileyTheme()];
-	if (dir){
-		QString text;
-		QFile file(dir->absolutePath()+"/theme");
-		if(file.exists()){
-			file.open(QIODevice::ReadOnly);
-			QTextStream stream(&file);
-			stream.setCodec("UTF-8");
-			while(!stream.atEnd()) {
-				text = stream.readLine();
-				QStringList list = text.split("###");
-				if(list.count() == 2){
-					QStringList rep = list[0].split("$$");
-					for (int i = 0; i < rep.size(); ++i) {
-						QStringList item;
-						item << rep[i].trimmed();
-						item << list[1];
-						smileys << item;
-					}
-				}
-			}
-			file.close();
-		}
-	}
 }

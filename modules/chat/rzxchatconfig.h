@@ -31,12 +31,11 @@
 
 class RzxChatConfig:public RzxAbstractConfig
 {
-	RZX_CONFIG(RzxChatConfig)
+	RZX_CONFIG_EXPANDED(RzxChatConfig)
 
 	public:
 		RZX_BOOLPROP("beep", beep, setBeep, true)
 		RZX_STRINGPROP("beepSound", beepSound, setBeepSound, QString())
-		RZX_STRINGPROP("smileyTheme", smileyTheme, setSmileyTheme, QString())
 
 		RZX_BOOLPROP("warnWhenChecked", warnWhenChecked, setWarnWhenChecked, false)
 		RZX_BOOLPROP("printTime", printTime, setPrintTime, true)
@@ -46,6 +45,16 @@ class RzxChatConfig:public RzxAbstractConfig
 
 		static QDir logDir();
 		static QString historique(quint32, const QString&);
+
+// Smileys
+	private:
+		void loadSmileysList();
+
+	public:
+		QHash<QString, QDir*> smileyDir;
+		QList<QStringList> smileys;
+		static void loadSmileys();
+		RZX_STRINGPROP("smileyTheme", smileyTheme, setSmileyTheme, QString())
 
 
 // Polices de caractères
@@ -58,14 +67,14 @@ class RzxChatConfig:public RzxAbstractConfig
 				QList<int> sizes;
 
 				FontProperty() { sizes = QList<int>(); }
-				FontProperty(bool b, bool i, const QList<int> &pS);
-				~FontProperty();
+				FontProperty(bool b, bool i, const QList<int> &pS): bold(b), italic(i), sizes(pS) { }
+				~FontProperty() { }
 		};
 		QStringList fontFamilies;
 		QHash<QString,FontProperty> fontProperties;
+		void loadFontList();
 
 	public:
-		void loadFontList();
 		static QStringList getFontList();
 		static QString nearestFont(const QString&);
 		static int nearestSize(const QString&, int);

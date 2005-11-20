@@ -20,7 +20,6 @@
 #include <QTextStream>
 #include <QFile>
 #include "rzxchatconfig.h"
-#include "rzxchatlister.h"
 
 
 RzxSmileyButton::RzxSmileyButton(const QString& text, const QIcon & ic, QWidget * parent )
@@ -41,7 +40,7 @@ RzxSmileyUi::RzxSmileyUi(QAbstractButton *btn, QWidget *parent)
 	setWindowTitle(tr("Smileys"));
 	
 	// chargement de la config
-	QDir *dir = RzxChatLister::global()->smileyDir[RzxChatConfig::smileyTheme()];
+	QDir *dir = RzxChatConfig::global()->smileyDir[RzxChatConfig::smileyTheme()];
 	QGridLayout *smileyLayout = new QGridLayout;
 	int rowcpt=0;
 	int colcpt=0;

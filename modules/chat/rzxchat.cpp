@@ -683,11 +683,11 @@ void RzxChat::on_btnSmiley_toggled(bool on)
 QString RzxChat::replaceSmiley(const QString& txt)
 {
 	QString msg = txt;
-	for(int i = 0 ; i < RzxChatLister::global()->smileys.size() ; i++)
+	for(int i = 0 ; i < RzxChatConfig::global()->smileys.size() ; i++)
 	{
-		if(QFile::exists(RzxChatLister::global()->smileyDir[RzxChatConfig::smileyTheme()]->absolutePath()+"/"+RzxChatLister::global()->smileys[i][1]))
+		if(QFile::exists(RzxChatConfig::global()->smileyDir[RzxChatConfig::smileyTheme()]->absolutePath()+"/"+RzxChatConfig::global()->smileys[i][1]))
 		{
-			msg.replace(RzxChatLister::global()->smileys[i][0], "<img src=\""+RzxChatLister::global()->smileyDir[RzxChatConfig::smileyTheme()]->absolutePath()+"/"+RzxChatLister::global()->smileys[i][1]+ "\" alt=\"" + RzxChatLister::global()->smileys[i][0] + "\">");
+			msg.replace(RzxChatConfig::global()->smileys[i][0], "<img src=\""+RzxChatConfig::global()->smileyDir[RzxChatConfig::smileyTheme()]->absolutePath()+"/"+RzxChatConfig::global()->smileys[i][1]+ "\" alt=\"" + RzxChatConfig::global()->smileys[i][0] + "\">");
 		}
 	}
 	return msg;
