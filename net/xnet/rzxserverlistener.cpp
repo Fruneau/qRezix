@@ -252,6 +252,7 @@ void RzxServerListener::serverConnected()
 	reconnection = true;
 
 	haveActivity();
+	emit connected(this);
 	emit receiveAddress(getIP());
 
 	//Envoie du buffer

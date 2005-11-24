@@ -253,9 +253,10 @@ void RzxConnectionLister::newConnection(RzxNetwork* network)
 	foreach(RzxHostAddress key, computerByIP.keys())
 	{
 		RzxComputer *computer = computerByIP[key];
-		if(computer || computer->network()==network)
+		if(computer || computer->network() == network)
 		{
-			if(computer) delete computer;
+			emit logout(computer);
+			delete computer;
 			computerByIP.remove(key);
 		}
 	}

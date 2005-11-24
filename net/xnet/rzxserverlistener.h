@@ -39,7 +39,8 @@ class QStringList;
 class QPixmap;
 class RzxComputer;
 
-class RzxServerListener : public RzxProtocole {
+class RzxServerListener : public RzxProtocole 
+{
 	Q_OBJECT
 
 	QTcpSocket socket;
