@@ -21,6 +21,7 @@
 #include "rzxmainuiglobal.h"
 
 #define DEFAULT_WINDOWSIZE "100000000"
+#define DEFAULT_REZAL "Item view"
 
 /**
  @author Florent Bruneau

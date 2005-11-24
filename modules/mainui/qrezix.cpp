@@ -170,17 +170,14 @@ bool QRezix::installModule(RzxRezal *rezal)
 		RzxMainUIConfig *conf = RzxMainUIConfig::global();
 		conf->beginGroup(rezal->name());
 
-		bool isCentral = conf->value("isCentral", (bool)(rezal->type() & RzxRezal::TYP_CENTRAL)).toBool();
+		bool isCentral = conf->value("isCentral", false).toBool();
 		bool isFloating = conf->value("isFloating", rezal->floating()).toBool();
 		Qt::DockWidgetArea area = (Qt::DockWidgetArea)conf->value("area", rezal->area()).toInt();
 		bool isVisible = conf->value("isVisible", true).toBool();
 		QDockWidget *dock = NULL;
 
-		if(!central && isCentral)
-		{
-			setCentralWidget(rezal->widget());
-			central = rezal;
-		}
+		if(isCentral && !central)
+			setCentralRezal(rezal);
 		else if(rezal->type() & RzxRezal::TYP_DOCKABLE)
 		{
 			dock = new QDockWidget(rezal->name());
@@ -210,6 +207,8 @@ bool QRezix::installModule(RzxRezal *rezal)
 			dock->hide();
 		if(dock)
 			connect(action, SIGNAL(toggled(bool)), dock, SLOT(setVisible(bool)));
+		else
+			connect(action, SIGNAL(toggled(bool)), rezal->widget(), SLOT(setVisible(bool)));
 		return true;
 	}
 	return false;
@@ -218,6 +217,8 @@ bool QRezix::installModule(RzxRezal *rezal)
 ///Crée les liens entres les rézals
 void QRezix::linkModules()
 {
+	if(!central)
+		setCentralRezal();
 	foreach(RzxRezal *rezal, moduleList())
 	{
 		if((rezal->type() & RzxRezal::TYP_INDEXED) && index)
@@ -232,6 +233,49 @@ void QRezix::linkModules()
 	connect(moduleList()[0]->widget()->selectionModel(), SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)),
 			this, SLOT(setMenu(const QModelIndex&, const QModelIndex&)));
 #endif
+}
+
+///Change la fenêtre centrale
+/** Si aucune n'est spécifié, la fenêtre sera choisie par le programme
+ */
+void QRezix::setCentralRezal(RzxRezal *rezal)
+{
+	if(rezal && rezal == central) return;
+
+	if(!rezal)
+	{
+		foreach(RzxRezal *rez, moduleList())
+		{
+			if(rez->type() & RzxRezal::TYP_CENTRAL && (!rezal || rez->name() == DEFAULT_REZAL))
+				rezal = rez;
+		}
+	}
+
+	if(!rezal) return;
+
+	if(central && central->type() & RzxRezal::TYP_DOCKABLE)
+	{
+		central->widget()->setParent(this);
+		QDockWidget *dock = new QDockWidget(central->name());
+		dock->setWidget(central->widget());
+		dock->setFeatures(central->features());
+		dock->setAllowedAreas(central->allowedAreas());
+		rezal->setDockWidget(dock);
+	}
+	else if(central)
+	{
+		central->widget()->hide();
+		central->widget()->setParent(NULL);
+	}
+
+	if(rezal->dockWidget())
+	{
+		rezal->widget()->setParent(this);
+		delete rezal->dockWidget();
+		rezal->setDockWidget(NULL);
+	}
+	setCentralWidget(rezal->widget());
+	central = rezal;
 }
 
 ///Construction des actions

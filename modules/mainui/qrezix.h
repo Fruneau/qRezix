@@ -100,6 +100,9 @@ public slots: // Public slots
 	void toggleVisible();
 	void updateLayout();
 
+protected slots:
+	void setCentralRezal(RzxRezal *rezal = NULL);
+
 #ifdef Q_OS_MAC
 	private:
 		QPointer<RzxRezalPopup> popup;
