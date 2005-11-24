@@ -39,7 +39,7 @@ RzxRezalMap::RzxRezalMap(QWidget *widget)
 	:QAbstractItemView(widget), RzxRezal("Platal 1.7.0-svn", "Show an interactive map of the campus")
 {
 	beginLoading();
-	setType(TYP_DOCKABLE);
+	setType(TYP_ALL);
 	setType(TYP_INDEXED);
 	setModel(RzxRezalModel::global());
 	currentMap = NULL;
@@ -96,7 +96,6 @@ QStringList RzxRezalMap::loadMaps()
 		qDebug() << "No map found in the file" << file;
 		return QStringList();
 	}
-//	qDebug() << "Loading" << mapNb << "maps...";
 
 	//Récupération de la liste des cartes disponibles
 	mapTable.resize(mapNb);
@@ -114,12 +113,7 @@ QStringList RzxRezalMap::loadMaps()
 
 	//Récupération des cartes
 	for(int i = 0 ; i < mapNb ; i++)
-	{
 		loadMap(maps, mapTable[i]);
-/*		qDebug() << "*" << mapTable[i]->name + " (" + mapTable[i]->humanName + ")"
-			 << ":" << mapTable[i]->polygons.size() << "polygons -" 
-			<< (mapTable[i]->useSubnets?"subnets map":"detailed map");*/
-	}
 
 	return mapNames;
 }

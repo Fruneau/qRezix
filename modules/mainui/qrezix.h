@@ -41,7 +41,7 @@ class QAction;
 class QLineEdit;
 class RzxRezalPopup;
 
-/** QRezix is the base class of the project */
+/** QRezix was the base class of the project */
 class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRezal>
 {
 	Q_OBJECT
@@ -98,9 +98,6 @@ public slots: // Public slots
 	void setSearchPattern(const QString&);
 	void toggleVisible();
 	void updateLayout();
-
-protected slots: // Protected slots
-	void pluginsMenu();
 
 #ifdef Q_OS_MAC
 	private:

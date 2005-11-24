@@ -197,11 +197,17 @@ bool QRezix::installModule(RzxRezal *rezal)
 			index = rezal;
 		conf->endGroup();
 
+		QAction *action = menuPlugins.addAction(rezal->icon(), rezal->name());
+		action->setCheckable(true);
+		action->setChecked(isVisible);
+
 		//Après endGroup, car contient un changement de répertoire...
 		if(dock && isFloating)
 			conf->restoreWidget(rezal->name(), dock, dock->pos(), dock->size());
 		if(dock && !isVisible)
 			dock->hide();
+		if(dock)
+			connect(action, SIGNAL(toggled(bool)), dock, SLOT(setVisible(bool)));
 		return true;
 	}
 	return false;
@@ -231,11 +237,7 @@ void QRezix::linkModules()
 void QRezix::buildActions()
 {
 	pluginsAction = new QAction(tr("Plug-ins"), this);
-	//pluginsAction->setCheckable(true);
-	pluginsMenu();
 	pluginsAction->setMenu(&menuPlugins);
-//	connect(pluginsAction, SIGNAL(toggled(bool)), this, SLOT(pluginsMenu(bool)));
-//	connect(&menuPlugins, SIGNAL(aboutToHide()), pluginsAction, SLOT(toggle()));
 
 	prefAction = new QAction(tr("Preferences"), this);
 	connect(prefAction, SIGNAL(triggered()), this, SIGNAL(wantPreferences()));
@@ -500,14 +502,4 @@ void QRezix::menuFormatChange()
 		statusui->lblStatus->hide();
 		statusui->lblCountIcon->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 	}
-}
-
-/// Affichage du menu plug-ins lors d'un clic sur le bouton
-/** Les actions sont gérées directement par le plug-in s'il a bien été programmé */
-void QRezix::pluginsMenu()
-{
-	menuPlugins.clear();
-	if(!menuPlugins.actions().count())
-		menuPlugins.addAction("<none>");
-//	menuPlugins.popup(btnPlugins->mapToGlobal(btnPlugins->rect().topRight()));
 }
