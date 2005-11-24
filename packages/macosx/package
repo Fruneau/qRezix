@@ -15,3 +15,8 @@ cd qRezix.app/Contents
 ../../install_libs MacOS/qRezix
 find . -name '*.dylib' -exec ../../install_libs {} ";"
 
+# Nettoyage du bundle
+cd Resources
+find . -name '.svn' -exec rm -rf {} ";"
+rm -rf icones
+rm -rf logs
