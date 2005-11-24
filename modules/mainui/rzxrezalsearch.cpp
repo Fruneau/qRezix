@@ -27,7 +27,10 @@ RzxRezalSearch::RzxRezalSearch(QAbstractItemView *view, int timeout, bool connec
 	:QObject(view), timeLimit(timeout)
 {
 	if(connected)
+	{
 		connect(this, SIGNAL(searchPatternChanged(const QString&)), QRezix::global(), SLOT(setSearchPattern(const QString&)));
+		connect(QRezix::global(), SIGNAL(searchPatternChanged(const QString&)), this, SLOT(setPattern(const QString&)));
+	}
 }
 
 ///Destruction... rien à faire

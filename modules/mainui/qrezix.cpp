@@ -105,14 +105,16 @@ QRezix::QRezix(QWidget *parent)
 	leSearch = new QLineEdit();
 	leSearch->setMinimumSize(50, 22);
 	leSearch->setMaximumSize(150, 22);
-	connect(leSearch, SIGNAL(returnPressed()), this, SLOT(launchSearch()));
+	connect(leSearch, SIGNAL(textEdited(const QString&)), this, SIGNAL(searchPatternChanged(const QString&)));
+	
+	lblSearch = new QLabel();
 	
 	//Construction des barres d'outils
 	QToolBar *bar = addToolBar(tr("Main"));
 	bar->addAction(pluginsAction);
 	bar->addSeparator();
 	bar->addWidget(leSearch);
-	bar->addAction(searchAction);
+	bar->addWidget(lblSearch);
 
 	QLabel *spacer = new QLabel(); //CRAAAAAAAAAAAAAAAAAAAADE
 	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -245,11 +247,6 @@ void QRezix::buildActions()
 	columnsAction = new QAction(tr("Adjust columns"), this);
 	connect(columnsAction, SIGNAL(triggered()), this, SLOT(updateLayout()));
 	
-	searchAction = new QAction(tr("Search"), this);
-	searchAction->setCheckable(true);
-/*	connect(searchAction, SIGNAL(toggled(bool)), rezal, SLOT(activeFilter(bool)));
-	connect(searchAction, SIGNAL(toggled(bool)), rezalFavorites, SLOT(activeFilter(bool)));*/
-
 	awayAction = new QAction(tr("Away"), this);
 	awayAction->setCheckable(true);	
 	connect(awayAction, SIGNAL(triggered()), this, SIGNAL(wantToggleResponder()));
@@ -385,18 +382,6 @@ void QRezix::activateAutoResponder( bool state )
 	}
 }
 
-///Lancement d'une recherche sur le pseudo dans la liste des personnes connectées
-void QRezix::launchSearch()
-{
-	if(searchAction->isChecked())
-	{
-		searchAction->setChecked(false);
-		return;
-	}
-	if(!leSearch->text().length()) searchAction->setChecked(false);
-	else searchAction->setChecked(true);
-}
-
 ///Change l'état d'affichage de la fenêtre...
 void QRezix::toggleVisible()
 {
@@ -422,7 +407,7 @@ void QRezix::toggleVisible()
 void QRezix::showSearch(bool state)
 {
 	leSearch->setVisible(state);
-	searchAction->setVisible(state);
+	lblSearch->setVisible(state);
 }
 
 ///Change le pattern de la recherche
@@ -439,9 +424,10 @@ void QRezix::changeTheme()
 	awayAction->setIcon(RzxIconCollection::getResponderIcon());
 	columnsAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_COLUMN));
 	prefAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
-	searchAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_SEARCH));
 	statusui->lblCountIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_NOTFAVORITE)
 		.scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+	if(RzxConfig::menuIconSize())
+		lblSearch->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_SEARCH));
 	if(statusFlag)
 		statusui->lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_ON));
 	else
@@ -454,6 +440,7 @@ void QRezix::menuFormatChange()
 {
 	int icons = RzxConfig::menuIconSize();
 	int texts = RzxConfig::menuTextPosition();
+	lblSearch->clear();
 
 	//On transforme le cas 'pas d'icônes et pas de texte' en 'petites icônes et pas de texte'
 	if(!texts && !icons) icons = 1;
@@ -487,6 +474,7 @@ void QRezix::menuFormatChange()
 				setIconSize(size);
 				statusui->lblStatusIcon->show();
 				statusui->lblCountIcon->show();
+				lblSearch->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_SEARCH));
 			}
 			break;
 	}
@@ -496,6 +484,7 @@ void QRezix::menuFormatChange()
 	{
 		statusui->lblStatus->show();
 		statusui->lblCountIcon->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+		lblSearch->setText(tr("Search"));
 	}
 	else
 	{

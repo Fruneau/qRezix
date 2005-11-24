@@ -39,6 +39,7 @@ class QEvent;
 class QCloseEvent;
 class QAction;
 class QLineEdit;
+class QLabel;
 class RzxRezalPopup;
 
 /** QRezix was the base class of the project */
@@ -52,6 +53,7 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	RzxRezal *index;
 	
 	QLineEdit *leSearch;
+	QLabel *lblSearch;
 	QMenu menuPlugins;
 	bool statusFlag;
 	bool statusMax;
@@ -61,7 +63,6 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	QAction *pluginsAction;
 	QAction *prefAction;
 	QAction *columnsAction;
-	QAction *searchAction;
 	QAction *awayAction;
 
 	Ui::RzxStatusUI *statusui;
@@ -77,6 +78,7 @@ signals:
 	void wantQuit();
 	void wantPreferences();
 	void wantToggleResponder();
+	void searchPatternChanged(const QString&);
 
 protected:
 	void saveState();
@@ -93,7 +95,6 @@ public slots: // Public slots
 	void activateAutoResponder( bool state );
 	void changeTheme();
 	void menuFormatChange();
-	void launchSearch();
 	void showSearch(bool state);
 	void setSearchPattern(const QString&);
 	void toggleVisible();
