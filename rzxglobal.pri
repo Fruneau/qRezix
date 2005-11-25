@@ -26,6 +26,7 @@ HEADERS += $$ROOT/core/RzxGlobal \
 	$$ROOT/core/RzxTranslator \
 	$$ROOT/core/RzxStyle
 
+!contains(DEFINES, NO_JABBER):!existLib(gloox):DEFINES += NO_JABBER
 contains(DEFINES, RZX_ALL_BUILTIN) {
 	!contains(DEFINES, NO_MAINUI):DEFINES += RZX_MAINUI_BUILTIN
 	!contains(DEFINES, NO_TRAYICON):DEFINES += RZX_TRAYICON_BUILTIN
