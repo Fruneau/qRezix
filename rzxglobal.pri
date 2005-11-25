@@ -1,7 +1,7 @@
 CONFIG *= debug
 QT *= network
 
-include(rzxinstall.pri)
+include($$ROOT/rzxinstall.pri)
 
 HEADERS += $$ROOT/core/RzxGlobal \
 	$$ROOT/core/RzxApplication \
