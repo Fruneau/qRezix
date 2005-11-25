@@ -25,24 +25,32 @@
         <source>Main</source>
         <translation>Principal</translation>
     </message>
+    <message>
+        <source>View</source>
+        <translation>Affichage</translation>
+    </message>
+    <message>
+        <source>Central</source>
+        <translation>Fenêtre principale</translation>
+    </message>
 </context>
 <context>
     <name>RzxItemUI</name>
     <message>
         <source>Form</source>
-        <translation>Formulaire</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>0</source>
-        <translation>0</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>1</source>
-        <translation>1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Get Now !</source>
-        <translation>Récupérer maintenant !</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -235,6 +243,10 @@
         <source>Properties</source>
         <translation>Propriétés</translation>
     </message>
+    <message>
+        <source>Printer</source>
+        <translation>Imprimante</translation>
+    </message>
 </context>
 <context>
     <name>RzxQuit</name>
@@ -298,23 +310,23 @@
     <name>RzxRezalDetail</name>
     <message>
         <source>Property</source>
-        <translation>Propriétés</translation>
+        <translation type="obsolete">Propriétés</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation>Valeur</translation>
+        <translation type="obsolete">Valeur</translation>
     </message>
     <message>
         <source>away</source>
-        <translation>absent</translation>
+        <translation type="obsolete">absent</translation>
     </message>
     <message>
         <source>connected</source>
-        <translation>connecté</translation>
+        <translation type="obsolete">connecté</translation>
     </message>
     <message>
         <source>Never checked</source>
-        <translation>Jamais demandées</translation>
+        <translation type="obsolete">Jamais demandées</translation>
     </message>
 </context>
 <context>
@@ -405,7 +417,7 @@
     </message>
     <message>
         <source>Binets</source>
-        <translation>Binets</translation>
+        <translation type="obsolete">Binets</translation>
     </message>
     <message>
         <source>Informations :</source>
@@ -462,6 +474,18 @@
     <message>
         <source>No properties cached</source>
         <translation>Pas de propriétés en cache</translation>
+    </message>
+    <message>
+        <source>Printer</source>
+        <translation>Imprimante</translation>
+    </message>
+    <message>
+        <source>printer : </source>
+        <translation>imprimante :</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;yes&lt;/b&gt;</source>
+        <translation>&lt;b&gt;oui&lt;/b&gt;</translation>
     </message>
 </context>
 <context>

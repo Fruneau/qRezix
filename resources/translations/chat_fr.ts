@@ -27,15 +27,15 @@
     </message>
     <message>
         <source>Ping request received</source>
-        <translation type="unfinished"></translation>
+        <translation>Requête &apos;ping&apos; reçue</translation>
     </message>
     <message>
         <source>Pong answer received</source>
-        <translation type="unfinished"></translation>
+        <translation>Réponse &apos;pong&apos; reçue</translation>
     </message>
     <message>
         <source>Chat closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Discussion terminée</translation>
     </message>
 </context>
 <context>
@@ -156,6 +156,10 @@ Chat and properties browsing are disabled</source>
     <message>
         <source>Beep on message reception</source>
         <translation>Bip à la réception des messages</translation>
+    </message>
+    <message>
+        <source>Smileys</source>
+        <translation>Smileys</translation>
     </message>
 </context>
 <context>
@@ -291,7 +295,7 @@ Chat and properties browsing are disabled</source>
     </message>
     <message encoding="UTF-8">
         <source>⌘B</source>
-        <translation>B</translation>
+        <translation type="obsolete">B</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Underlined&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the underlined style for the text&lt;/p&gt;</source>
@@ -303,7 +307,7 @@ Chat and properties browsing are disabled</source>
     </message>
     <message encoding="UTF-8">
         <source>⌘U</source>
-        <translation>U</translation>
+        <translation type="obsolete">U</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Italic&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the italic style for the text&lt;/p&gt;</source>
@@ -315,7 +319,7 @@ Chat and properties browsing are disabled</source>
     </message>
     <message encoding="UTF-8">
         <source>⌘I</source>
-        <translation>I</translation>
+        <translation type="obsolete">I</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Send&lt;/h3&gt;&lt;p&gt;Send the message you have typed...&lt;br&gt;It&apos;s a lot easier to use &lt;b&gt;Enter&lt;/b&gt;&lt;/p&gt;</source>
@@ -335,7 +339,7 @@ Chat and properties browsing are disabled</source>
     </message>
     <message encoding="UTF-8">
         <source>⌥H</source>
-        <translation>H</translation>
+        <translation type="obsolete">H</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Sound&lt;/h3&gt;&lt;p&gt;Enables/disables the sound which is played when a new message arrives&lt;/p&gt;</source>
@@ -401,6 +405,14 @@ Chat and properties browsing are disabled</source>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
     </message>
+    <message>
+        <source>:-)</source>
+        <translation>:-)</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Smiley&lt;/h3&gt;&lt;p&gt;Click to add a smiley&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Smiley&lt;/h3&gt;&lt;p&gt;Cliquer pour ajouter un smiley&lt;/p&gt;</translation>
+    </message>
 </context>
 <context>
     <name>RzxClientListener</name>
@@ -413,6 +425,13 @@ Chat and properties browsing are disabled</source>
 </source>
         <translation>Une erreur s&apos;est produite lors de l&apos;obtention des propriétés :
 </translation>
+    </message>
+</context>
+<context>
+    <name>RzxSmileyUi</name>
+    <message>
+        <source>Smileys</source>
+        <translation>Smileys</translation>
     </message>
 </context>
 </TS>
