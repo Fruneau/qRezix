@@ -13,6 +13,9 @@ cp $QTDIR/lib/QtNetwork.framework/QtNetwork qRezix.app/Contents/Frameworks/
 
 cd qRezix.app/Contents
 ../../install_libs MacOS/qRezix
+../../install_libs Frameworks/QtGui
+../../install_libs Frameworks/QtCore
+../../install_libs Frameworks/QtNetwork
 find . -name '*.dylib' -exec ../../install_libs {} ";"
 
 # Nettoyage du bundle
