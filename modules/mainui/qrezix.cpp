@@ -170,15 +170,15 @@ bool QRezix::installModule(RzxRezal *rezal)
 		RzxMainUIConfig *conf = RzxMainUIConfig::global();
 		conf->beginGroup(rezal->name());
 
-		bool isCentral = conf->value("isCentral", false).toBool();
 		bool isFloating = conf->value("isFloating", rezal->floating()).toBool();
 		Qt::DockWidgetArea area = (Qt::DockWidgetArea)conf->value("area", rezal->area()).toInt();
 		bool isVisible = conf->value("isVisible", true).toBool();
 		QDockWidget *dock = NULL;
 
-		if(isCentral && !central)
-			setCentralRezal(rezal);
-		else if(rezal->type() & RzxRezal::TYP_DOCKABLE)
+		if(rezal->type() & RzxRezal::TYP_CENTRAL)
+			centralisable << rezal;
+
+		if(rezal->type() & RzxRezal::TYP_DOCKABLE)
 		{
 			dock = new QDockWidget(rezal->name());
 			if(isFloating)
@@ -196,7 +196,7 @@ bool QRezix::installModule(RzxRezal *rezal)
 			index = rezal;
 		conf->endGroup();
 
-		QAction *action = menuPlugins.addAction(rezal->icon(), rezal->name());
+		QAction *action = menuView.addAction(rezal->icon(), rezal->name());
 		action->setCheckable(true);
 		action->setChecked(isVisible);
 
@@ -217,8 +217,7 @@ bool QRezix::installModule(RzxRezal *rezal)
 ///Crée les liens entres les rézals
 void QRezix::linkModules()
 {
-	if(!central)
-		setCentralRezal();
+	setCentralRezal();
 	foreach(RzxRezal *rezal, moduleList())
 	{
 		if((rezal->type() & RzxRezal::TYP_INDEXED) && index)
@@ -240,33 +239,41 @@ void QRezix::linkModules()
  */
 void QRezix::setCentralRezal(RzxRezal *rezal)
 {
-	if(rezal && rezal == central) return;
+	if(central)
+	{
+		//Nécessite de relancer qRezix pour être pris en compte
+		//TODO : message d'avertissement...
+		if(rezal->type() & RzxRezal::TYP_CENTRAL)
+			RzxMainUIConfig::setCentralRezal(rezal->name());
+		return;
+	}
 
 	if(!rezal)
 	{
-		foreach(RzxRezal *rez, moduleList())
+		foreach(RzxRezal *rez, centralisable)
 		{
-			if(rez->type() & RzxRezal::TYP_CENTRAL && (!rezal || rez->name() == DEFAULT_REZAL))
+			if(rez->name() == RzxMainUIConfig::centralRezal())
+			{
 				rezal = rez;
+				break;
+			}
 		}
 	}
+	if(!rezal)
+	{
+		foreach(RzxRezal *rez, centralisable)
+		{
+			if(rez->name() == DEFAULT_REZAL)
+			{
+				rezal = rez;
+				break;
+			}
+		}
+	}
+	if(!rezal && centralisable.size())
+		rezal = centralisable[0];
 
 	if(!rezal) return;
-
-	if(central && central->type() & RzxRezal::TYP_DOCKABLE)
-	{
-		central->widget()->setParent(this);
-		QDockWidget *dock = new QDockWidget(central->name());
-		dock->setWidget(central->widget());
-		dock->setFeatures(central->features());
-		dock->setAllowedAreas(central->allowedAreas());
-		rezal->setDockWidget(dock);
-	}
-	else if(central)
-	{
-		central->widget()->hide();
-		central->widget()->setParent(NULL);
-	}
 
 	if(rezal->dockWidget())
 	{
@@ -278,11 +285,55 @@ void QRezix::setCentralRezal(RzxRezal *rezal)
 	central = rezal;
 }
 
+///Change la fenêtre centrale
+/** Surcharge qui identifie la fenêtre à son indexe dans la liste
+ * des rezals centralisables
+ */
+void QRezix::setCentralRezal(int i)
+{
+	setCentralRezal(centralisable[i]);
+}
+
+///Change la fenêtre centrale
+/** Surcharge qui identifie la fenêtre à l'action qui a été déclenchée
+ */
+void QRezix::setCentralRezal(QAction *action)
+{
+	setCentralRezal(choseCentral[action]);
+}
+
+///Retourne la liste des noms des centralisables
+QStringList QRezix::centralRezals() const
+{
+	QStringList list;
+	for(int i = 0 ; i < centralisable.size() ; i++)
+		list << centralisable[i]->name();
+	return list;
+}
+
+///Retourne le nom du rezal central actuel
+QString QRezix::centralRezal() const
+{
+	if(central)
+		return central->name();
+	return QString();
+}
+
 ///Construction des actions
 /** Les actions définissent les appels de base des menus/barre d'outils */
 void QRezix::buildActions()
 {
 	pluginsAction = new QAction(tr("Plug-ins"), this);
+	menuView.setTitle(tr("View"));
+	for(int i = 0 ; i < centralisable.size() ; i++)
+	{
+		QAction *action = menuCentral.addAction(centralisable[i]->icon(), centralisable[i]->name());
+		choseCentral.insert(action, centralisable[i]);
+	}
+	menuCentral.setTitle(tr("Central"));
+	connect(&menuCentral, SIGNAL(triggered(QAction*)), this, SLOT(setCentralRezal(QAction*)));
+	menuPlugins.addMenu(&menuView);
+	menuPlugins.addMenu(&menuCentral);
 	pluginsAction->setMenu(&menuPlugins);
 
 	prefAction = new QAction(tr("Preferences"), this);
@@ -312,7 +363,6 @@ void QRezix::saveState()
 	{
 		conf->beginGroup(rezal->name());
 		
-		conf->setValue("isCentral", rezal == central);
 		QDockWidget *dock = rezal->dockWidget();
 		if(dock)
 		{

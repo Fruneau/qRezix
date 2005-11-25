@@ -51,10 +51,14 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 
 	RzxRezal *central;
 	RzxRezal *index;
+	QList<RzxRezal*> centralisable;
+	QHash<QAction*, RzxRezal*> choseCentral;
 	
 	QLineEdit *leSearch;
 	QLabel *lblSearch;
 	QMenu menuPlugins;
+	QMenu menuView;
+	QMenu menuCentral;
 	bool statusFlag;
 	bool statusMax;
 	bool alreadyOpened;
@@ -73,6 +77,8 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 public:
 	~QRezix();
 	bool isInitialised() const;
+	QStringList centralRezals() const;
+	QString centralRezal() const;
 
 signals:
 	void wantQuit();
@@ -99,9 +105,11 @@ public slots: // Public slots
 	void setSearchPattern(const QString&);
 	void toggleVisible();
 	void updateLayout();
+	void setCentralRezal(int);
 
 protected slots:
 	void setCentralRezal(RzxRezal *rezal = NULL);
+	void setCentralRezal(QAction *);
 
 #ifdef Q_OS_MAC
 	private:

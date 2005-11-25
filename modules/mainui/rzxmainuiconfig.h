@@ -49,6 +49,7 @@ class RZX_MAINUI_EXPORT RzxMainUIConfig: public RzxAbstractConfig
 		RZX_ENUMPROP(Qt::SortOrder, "sortOrder", sortOrder, setSortOrder, Qt::AscendingOrder)
 		RZX_INTPROP("sortColumn", sortColumn, setSortColumn, 0)
 		RZX_LISTPROP(int, "columnpositions", columnPositions, setColumnPositions)
+		RZX_STRINGPROP("centralrezal", centralRezal, setCentralRezal, DEFAULT_REZAL)
 	
 		RZX_WIDGETPROP("main", restoreMainWidget, saveMainWidget, QPoint(2,24), QSize(400, 300))
 };
