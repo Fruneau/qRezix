@@ -89,10 +89,8 @@ RzxProperty::RzxProperty(QWidget *parent)
 	//Initialisation de la treeview des plugins
 	lvPlugInList->setIconSize(QSize(16,16));
 	lvPlugInList->setUniformRowHeights(false);
-	lvPlugInList->setHeaderLabels(QStringList() << tr("Name") << tr("Version") << tr("Description"));
 	lvNetworks->setIconSize(QSize(16,16));
 	lvNetworks->setUniformRowHeights(false);
-	lvNetworks->setHeaderLabels(QStringList() << tr("Name") << tr("Version") << tr("Description"));
 
 #ifndef WIN32
 	btnAboutQt->hide();
@@ -536,8 +534,6 @@ void RzxProperty::changeEvent(QEvent *e)
 		QTreeWidgetItem *item = lbMenu->currentItem();
 		retranslateUi(this);
 		lbMenu->setCurrentItem(item);
-		lvPlugInList->setHeaderLabels(QStringList() << tr("Name") << tr("Version") << tr("Description"));
-		lvNetworks->setHeaderLabels(QStringList() << tr("Name") << tr("Version") << tr("Description"));
 		changeTheme();
 		initDlg();
 	}

@@ -110,7 +110,6 @@ QList<QWidget*> RzxUi::propWidgets()
 		propWidget = new QWidget;
 		ui->setupUi(propWidget);
 		ui->rezalList->setIconSize(QSize(16,16));
-		ui->rezalList->setHeaderLabels(QStringList() << tr("Name") << tr("Version") << tr("Description"));
 	}
 	return QList<QWidget*>() << propWidget;
 }

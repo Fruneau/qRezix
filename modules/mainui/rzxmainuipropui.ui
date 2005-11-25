@@ -515,17 +515,17 @@
         </property>
         <column>
          <property name="text" >
-          <string>0</string>
+          <string>Name</string>
          </property>
         </column>
         <column>
          <property name="text" >
-          <string>1</string>
+          <string>Version</string>
          </property>
         </column>
         <column>
          <property name="text" >
-          <string>2</string>
+          <string>Description</string>
          </property>
         </column>
        </widget>

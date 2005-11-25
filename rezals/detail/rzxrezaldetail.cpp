@@ -40,12 +40,6 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 	connect(RzxApplication::instance(), SIGNAL(haveProperties(RzxComputer*, bool*)),
 		this, SLOT(propChanged(RzxComputer*,bool*)));
 
-	// Création des en-têtes de colonnes
-	QTreeWidgetItem *item = new QTreeWidgetItem();
-	item->setText(0, tr("Property"));
-	item->setText(1, tr("Value"));
-	propsView->setHeaderItem(item);
-
 	endLoading();
 }
 
@@ -192,19 +186,13 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	lblStateIcon->setPixmap(RzxIconCollection::getPixmap(computer->isOnResponder()?Rzx::ICON_AWAY:Rzx::ICON_HERE));
 	lblState->setText(QString(computer->isOnResponder()?tr("away"):tr("connected")));
 
-	// Création des en-têtes de colonnes
-	QTreeWidgetItem *item = new QTreeWidgetItem();
-	item->setText(0, tr("Property"));
-	item->setText(1, tr("Value"));
-	propsView->setHeaderItem(item);
-
 	// Remplissage
 	propsView->clear();
 	btnProperties->setEnabled(true);
 	QStringList props = computer->properties().split('|');
 	if(props.size())
 	{
-		item = NULL;
+		QTreeWidgetItem *item = NULL;
 		propsView->setEnabled(true);
 		for(int i = 0 ; i < props.size() - 1 ; i+=2)
 		{

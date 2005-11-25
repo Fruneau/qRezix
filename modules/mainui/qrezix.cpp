@@ -18,8 +18,6 @@
 #include <QLineEdit>
 #include <QToolBox>
 #include <QMenuBar>
-#include <QRect>
-#include <QPoint>
 #include <QString>
 #include <QIcon>
 #include <QPixmap>
