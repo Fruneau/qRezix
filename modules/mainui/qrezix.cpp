@@ -16,12 +16,10 @@
  ***************************************************************************/
 #include <QLabel>
 #include <QLineEdit>
-#include <QToolBox>
 #include <QMenuBar>
 #include <QString>
 #include <QIcon>
 #include <QPixmap>
-#include <QBitmap>
 #include <QApplication>
 #include <QCloseEvent>
 #include <QEvent>
