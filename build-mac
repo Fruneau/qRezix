@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Génère le Makefile et le compile
+qmake qrezix.pro
+make
+
+install_name_tool -change librzxmainui.dylib '@executable_path/../Resources/modules/librzxmainui.dylib' rezals/librezalmap.dylib
+install_name_tool -change librzxmainui.dylib '@executable_path/../Resources/modules/librzxmainui.dylib' rezals/librezaldetail.dylib
+install_name_tool -change librzxmainui.dylib '@executable_path/../Resources/modules/librzxmainui.dylib' rezals/librezalindex.dylib
+install_name_tool -change librzxmainui.dylib '@executable_path/../Resources/modules/librzxmainui.dylib' rezals/librezalview.dylib
+# Recrée le Makefile pour qu'il mette à jour la liste des fichiers à installer
+qmake qrezix.pro
+
+# Intégration des composants dans le Bundle
+make install

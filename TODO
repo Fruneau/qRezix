@@ -1,13 +1,17 @@
 BUGFIXES
 
+* Blocage du programme suite aux fenêtre de notification
+* Formatage html du chat incompatibe avec l'ancienne version
 
 UPGRADES
 
-* skinnage de qRezix
+* skinnage de qRezix (partiel)
+* permettre le chat à plus de 2 personnes
+* interface de chat personnalisée
+* plan intéractif du campus (partiel)
+
+DONE
+
 * ordre des colonnes à sauvegarder dans le fichier de conf
 * commenter le programme
 * multi interfaces réseau
-* permettre le chat à plus de 2 personnes
-* interface de chat personnalisée
-
-DONE

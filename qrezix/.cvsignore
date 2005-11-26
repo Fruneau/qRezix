@@ -1,9 +1,0 @@
-Makefile
-*.moc.cpp
-*ui.h
-moc_*
-*.moc
-.deps
-.libs
-qrezix
-*ui.cpp

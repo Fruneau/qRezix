@@ -1,0 +1,614 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>RzxChatUI</class>
+ <widget class="QWidget" name="RzxChatUI" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>814</width>
+    <height>107</height>
+   </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy>
+    <hsizetype>3</hsizetype>
+    <vsizetype>5</vsizetype>
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle" >
+   <string>Chat [Qt]</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>8</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="1" column="0" >
+    <widget class="RzxTextEdit" name="edMsg" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>7</hsizetype>
+       <vsizetype>7</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize" >
+      <size>
+       <width>0</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>32767</width>
+       <height>32767</height>
+      </size>
+     </property>
+     <property name="baseSize" >
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="focusPolicy" >
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="whatsThis" >
+      <string>&lt;h3>Input&lt;/h3>&lt;p>This is the place where you can type your messages.&lt;/p>&lt;p>&lt;b>Shortcuts :&lt;/b>&lt;br>&lt;b>Enter : &lt;/b>Send your message&lt;br>&lt;b>Ctrl+[UP|DOWN] : &lt;/b>Navigate through the messages you have already typed&lt;br>&lt;b>Ctrl+Enter : &lt;/b> Add a line-break&lt;/p></string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QPushButton" name="btnPlugins" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Plug-ins&lt;/h3>
+&lt;p>Shows a menu which helps you to use the extra-features provided by qRezix's plug-ins&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>Plug-ins</string>
+       </property>
+       <property name="checkable" >
+        <bool>true</bool>
+       </property>
+       <property name="flat" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>50</width>
+         <height>32</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="Line" name="line2_2" >
+       <property name="frameShape" >
+        <enum>QFrame::VLine</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>50</width>
+         <height>32</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cbFontSelect" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>7</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize" >
+        <size>
+         <width>128</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Font&lt;/h3>&lt;p>When you decided to send your messages as HTML, you can choose here the font to use&lt;/p></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cbColorSelect" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>7</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Color&lt;/h3>&lt;p>When you decided to send your messages as HTML, you can choose here the color to use&lt;/p></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cbSize" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize" >
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>32767</width>
+         <height>32767</height>
+        </size>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Size&lt;/h3>&lt;p>When you decided to send your messages as HTML, you can choose here the size of the text &lt;/p></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="0" column="0" >
+        <widget class="QToolButton" name="btnBold" >
+         <property name="minimumSize" >
+          <size>
+           <width>28</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font" >
+          <font>
+           <family></family>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <italic>false</italic>
+           <bold>true</bold>
+           <underline>false</underline>
+           <strikeout>false</strikeout>
+          </font>
+         </property>
+         <property name="whatsThis" >
+          <string>&lt;h3>Bold&lt;/h3>&lt;p>When you decided to send your messages as HTML, this button can enable/disable the bold style for the text&lt;/p></string>
+         </property>
+         <property name="text" >
+          <string>B</string>
+         </property>
+         <property name="shortcut" >
+          <string/>
+         </property>
+         <property name="checkable" >
+          <bool>true</bool>
+         </property>
+         <property name="toolButtonStyle" >
+          <enum>Qt::ToolButtonTextOnly</enum>
+         </property>
+         <property name="autoRaise" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" >
+        <widget class="QToolButton" name="btnUnderline" >
+         <property name="minimumSize" >
+          <size>
+           <width>28</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font" >
+          <font>
+           <family></family>
+           <pointsize>12</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+           <underline>true</underline>
+           <strikeout>false</strikeout>
+          </font>
+         </property>
+         <property name="whatsThis" >
+          <string>&lt;h3>Underlined&lt;/h3>&lt;p>When you decided to send your messages as HTML, this button can enable/disable the underlined style for the text&lt;/p></string>
+         </property>
+         <property name="text" >
+          <string>U</string>
+         </property>
+         <property name="shortcut" >
+          <string/>
+         </property>
+         <property name="checkable" >
+          <bool>true</bool>
+         </property>
+         <property name="toolButtonStyle" >
+          <enum>Qt::ToolButtonTextOnly</enum>
+         </property>
+         <property name="autoRaise" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="QToolButton" name="btnItalic" >
+         <property name="minimumSize" >
+          <size>
+           <width>28</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font" >
+          <font>
+           <family></family>
+           <pointsize>12</pointsize>
+           <weight>50</weight>
+           <italic>true</italic>
+           <bold>false</bold>
+           <underline>false</underline>
+           <strikeout>false</strikeout>
+          </font>
+         </property>
+         <property name="whatsThis" >
+          <string>&lt;h3>Italic&lt;/h3>&lt;p>When you decided to send your messages as HTML, this button can enable/disable the italic style for the text&lt;/p></string>
+         </property>
+         <property name="text" >
+          <string>I</string>
+         </property>
+         <property name="shortcut" >
+          <string/>
+         </property>
+         <property name="checkable" >
+          <bool>true</bool>
+         </property>
+         <property name="toolButtonStyle" >
+          <enum>Qt::ToolButtonTextOnly</enum>
+         </property>
+         <property name="autoRaise" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3" >
+        <widget class="QToolButton" name="btnSmiley" >
+         <property name="text" >
+          <string>:-)</string>
+         </property>
+         <property name="checkable" >
+          <bool>true</bool>
+         </property>
+         <property name="checked" >
+          <bool>false</bool>
+         </property>
+         <property name="toolButtonStyle" >
+          <enum>Qt::ToolButtonTextOnly</enum>
+         </property>
+         <property name="autoRaise" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QPushButton" name="btnSend" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Send&lt;/h3>&lt;p>Send the message you have typed...&lt;br>It's a lot easier to use &lt;b>Enter&lt;/b>&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>Send</string>
+       </property>
+       <property name="shortcut" >
+        <string/>
+       </property>
+       <property name="flat" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="cbSendHTML" >
+       <property name="whatsThis" >
+        <string>&lt;h3>Send as HTML&lt;/h3>&lt;p>When this case is checked, you can format your text&lt;/p>&lt;p>&lt;b>Warning : &lt;/b>some clients don't support HTML...&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>Send as &amp;HTML</string>
+       </property>
+       <property name="shortcut" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>15</width>
+         <height>30</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnSound" >
+       <property name="whatsThis" >
+        <string>&lt;h3>Sound&lt;/h3>&lt;p>Enables/disables the sound which is played when a new message arrives&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="checkable" >
+        <bool>true</bool>
+       </property>
+       <property name="flat" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>15</width>
+         <height>30</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnProperties" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>Properties&lt;/h3>&lt;p>Ask for the properties of the person you are talking to.&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>Properties</string>
+       </property>
+       <property name="checkable" >
+        <bool>true</bool>
+       </property>
+       <property name="flat" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnHistorique" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="whatsThis" >
+        <string>&lt;h3>History&lt;/h3>&lt;p>If you want to read all your old chats with this person&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>History</string>
+       </property>
+       <property name="checkable" >
+        <bool>true</bool>
+       </property>
+       <property name="flat" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnClose" >
+       <property name="whatsThis" >
+        <string>&lt;h3>Close&lt;/h3>&lt;p>Ends the chat et close the window&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>Close</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+  <widget class="QWidget" name="widget" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>788</width>
+     <height>34</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_2" >
+   <property name="geometry" >
+    <rect>
+     <x>710</x>
+     <y>10</y>
+     <width>86</width>
+     <height>32</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_3" >
+   <property name="geometry" >
+    <rect>
+     <x>650</x>
+     <y>10</y>
+     <width>114</width>
+     <height>40</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_4" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>788</width>
+     <height>34</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="3" margin="2" />
+ <pixmapfunction></pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>RzxTextEdit</class>
+   <extends></extends>
+   <header>rzxtextedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>edMsg</tabstop>
+  <tabstop>btnSend</tabstop>
+  <tabstop>cbSendHTML</tabstop>
+  <tabstop>cbFontSelect</tabstop>
+  <tabstop>cbColorSelect</tabstop>
+  <tabstop>cbSize</tabstop>
+  <tabstop>btnBold</tabstop>
+  <tabstop>btnItalic</tabstop>
+  <tabstop>btnUnderline</tabstop>
+  <tabstop>btnProperties</tabstop>
+  <tabstop>btnHistorique</tabstop>
+  <tabstop>btnSound</tabstop>
+  <tabstop>btnClose</tabstop>
+  <tabstop>btnPlugins</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
