@@ -7,7 +7,7 @@ ROOT = ..
 include(../rzxglobal.pri)
 
 win32 {
-	LIBS += -L$$ROOT -lqrezix1
+	LIBS += -L$$ROOT -lqrezix2
 } else {
 	LIBS += -L$$ROOT -lqrezix
 }
