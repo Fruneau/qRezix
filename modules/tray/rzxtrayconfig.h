@@ -29,6 +29,7 @@ class RzxTrayConfig:public RzxAbstractConfig
 
 	public:
 		RZX_INTPROP("traysize", traySize, setTraySize, 22)
+		RZX_BOOLPROP("autoscale", autoScale, setAutoScale, true)
 };
 
 #endif

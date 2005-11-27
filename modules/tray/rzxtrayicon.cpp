@@ -787,6 +787,8 @@ void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 	pix.fill(QColor(0,0,0,0));
 	QPainter painter(&pix);
 	int dim = RzxTrayConfig::traySize();
+	if(RzxTrayConfig::autoScale())
+		dim = width() - 2;
 	painter.drawPixmap((width() - dim) / 2, (height() - dim)/2,
 		 pm.scaled( dim, dim, Qt::IgnoreAspectRatio, Qt::SmoothTransformation ));
 	setWindowIcon( pix );
@@ -1051,6 +1053,7 @@ QStringList RzxTrayIcon::propWidgetsName()
 /** \reimp */
 void RzxTrayIcon::propInit(bool def)
 {
+	ui->cbAutoScale->setChecked(RzxTrayConfig::autoScale());
 	ui->sbTraySize->setValue(RzxTrayConfig::traySize(def));	
 }
 
@@ -1059,10 +1062,16 @@ void RzxTrayIcon::propUpdate()
 {
 	if(!ui) return;
 
+	if(RzxTrayConfig::autoScale() ^ ui->cbAutoScale->isChecked())
+	{
+		RzxTrayConfig::setAutoScale(ui->cbAutoScale->isChecked());
+		changeTrayIcon();
+	}
 	if(ui->sbTraySize->value() != RzxTrayConfig::traySize())
 	{
 		RzxTrayConfig::setTraySize(ui->sbTraySize->value());
-		changeTrayIcon();
+		if(!RzxTrayConfig::autoScale())
+			changeTrayIcon();
 	}
 }
 
