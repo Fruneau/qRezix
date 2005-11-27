@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <QDir>
+#include <QMessageBox>
 
 #include <RzxApplication>
 
@@ -152,6 +153,12 @@ bool RzxApplication::loadCore()
 		{
 			RzxIntro *intro = new RzxIntro();
 			intro->exec();
+
+#ifdef RZX_SVNVERSION
+			QMessageBox::warning(NULL, tr("Welcome to qRezix"),
+				tr("This is a development version, provided as is, <b>without any garantee</b> of stability or functionality.<br><br><i>Use at your own risk.</i>"),
+				QMessageBox::Ok, QMessageBox::NoButton);
+#endif
 		}
 		properties = new RzxProperty(NULL);
 		properties->initDlg();

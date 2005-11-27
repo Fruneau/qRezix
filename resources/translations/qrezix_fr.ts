@@ -205,6 +205,17 @@ Each item have a menu (right click)&lt;/p&gt;
     </message>
 </context>
 <context>
+    <name>RzxApplication</name>
+    <message>
+        <source>Welcome to qRezix</source>
+        <translation>Bienvenue dans qRezix</translation>
+    </message>
+    <message>
+        <source>This is a development version, provided as is, &lt;b&gt;without any garantee&lt;/b&gt; of stability or functionality.&lt;br&gt;&lt;br&gt;&lt;i&gt;Use at your own risk.&lt;/i&gt;</source>
+        <translation>Ceci est une version de développement. Elle est distribuée &lt;b&gt;sans aucune garantie&lt;/b&gt; de stabilité ou de bon fonctionnement.&lt;br&gt;&lt;br&gt;&lt;i&gt;Utilisez-la à vos risques et périls&lt;/i&gt;</translation>
+    </message>
+</context>
+<context>
     <name>RzxChangePassUI</name>
     <message>
         <source>Change your pass</source>
@@ -1023,11 +1034,11 @@ dans lequel il enregistre sa configuration</translation>
     <name>RzxItemUI</name>
     <message>
         <source>0</source>
-        <translation type="unfinished">0</translation>
+        <translation type="obsolete">0</translation>
     </message>
     <message>
         <source>1</source>
-        <translation type="unfinished">1</translation>
+        <translation type="obsolete">1</translation>
     </message>
     <message>
         <source>Form</source>
@@ -1036,6 +1047,14 @@ dans lequel il enregistre sa configuration</translation>
     <message>
         <source>Get Now !</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Property</source>
+        <translation type="unfinished">Propriété</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation type="unfinished">Valeur</translation>
     </message>
 </context>
 <context>
@@ -1447,15 +1466,15 @@ dans lequel il enregistre sa configuration</translation>
     </message>
     <message>
         <source>0</source>
-        <translation type="unfinished">0</translation>
+        <translation type="obsolete">0</translation>
     </message>
     <message>
         <source>1</source>
-        <translation type="unfinished">1</translation>
+        <translation type="obsolete">1</translation>
     </message>
     <message>
         <source>2</source>
-        <translation type="unfinished">2</translation>
+        <translation type="obsolete">2</translation>
     </message>
     <message>
         <source>Form</source>
@@ -1464,6 +1483,14 @@ dans lequel il enregistre sa configuration</translation>
     <message>
         <source>Printer</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished">Version</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished">Description</translation>
     </message>
 </context>
 <context>
@@ -1720,11 +1747,11 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     </message>
     <message>
         <source>Description</source>
-        <translation>Description</translation>
+        <translation type="obsolete">Description</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation>Version</translation>
+        <translation type="obsolete">Version</translation>
     </message>
     <message>
         <source>Incorrect properties</source>
@@ -1774,7 +1801,7 @@ Essayez d&apos;installer la dernière version du plug-in (fichier %1).</translat
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
 </context>
 <context>
@@ -2536,6 +2563,14 @@ Erreur DNS
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&lt;h3&gt;Auto-scale&lt;/h3&gt;&lt;p&gt;If enabled, qRezix will try to automaticly adjust the trayicon size to fit its container&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto scale the tray icon</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxTrayWindow</name>
@@ -2556,15 +2591,15 @@ Erreur DNS
     <name>RzxUi</name>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Version</translation>
+        <translation type="obsolete">Version</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation type="obsolete">Description</translation>
     </message>
     <message>
         <source>Main UI for qRezix</source>
@@ -2950,7 +2985,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Name</source>
-        <translation type="obsolete">Nom</translation>
+        <translation type="unfinished">Nom</translation>
     </message>
     <message>
         <source>Web</source>
@@ -3070,7 +3105,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Description</source>
-        <translation type="obsolete">Description</translation>
+        <translation type="unfinished">Description</translation>
     </message>
     <message>
         <source>Show dialog when clicking on X</source>
@@ -3118,7 +3153,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Version</source>
-        <translation type="obsolete">Version</translation>
+        <translation type="unfinished">Version</translation>
     </message>
     <message>
         <source>Highlight the selection</source>
@@ -3438,11 +3473,11 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>1</source>
-        <translation>1</translation>
+        <translation type="obsolete">1</translation>
     </message>
     <message>
         <source>2</source>
-        <translation>2</translation>
+        <translation type="obsolete">2</translation>
     </message>
     <message>
         <source>Computer infos</source>
