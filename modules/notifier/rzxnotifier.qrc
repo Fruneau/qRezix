@@ -1,8 +1,8 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
 	<file alias="notifier_fond.png">../../resources/notifier_fond.png</file>
-	<file alias="notifier_away.bmp">../../resources/notifier_away.bmp</file>
-	<file alias="notifier_here.bmp">../../resources/notifier_here.bmp</file>
-	<file alias="notifier_quit.bmp">../../resources/notifier_quit.bmp</file>
+	<file alias="notifier_away.png">../../resources/notifier_away.png</file>
+	<file alias="notifier_here.png">../../resources/notifier_here.png</file>
+	<file alias="notifier_quit.png">../../resources/notifier_quit.png</file>
 </qresource>
 </RCC>

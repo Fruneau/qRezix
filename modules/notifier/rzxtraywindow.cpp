@@ -18,7 +18,7 @@
 #include <QLabel>
 #include <QPixmap>
 #include <QBitmap>
-#include <QImage>
+#include <QPainter>
 #include <QColor>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -56,38 +56,31 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* c, unsigned int time )
 	name->setText( "<h2><font color=\"white\">" + computer->name() + "</font></h2>" );
 
 	// - la description de l'état de connexion
-	QImage symbol;
 	QPixmap symbolPixmap;
 	int px, py;
 	px = py = 0; // pour faire taire un warning @lc...
 	switch(computer->state())
 	{
 		case Rzx::STATE_DISCONNECTED:
-			symbolPixmap = QPixmap(":/notifier_quit.bmp");
+			symbolPixmap = QPixmap(":/notifier_quit.png");
 			px = 29; py = 27;
 			break;
 		case Rzx::STATE_AWAY: case Rzx::STATE_REFUSE:
-			symbolPixmap = QPixmap(":/notifier_away.bmp");
+			symbolPixmap = QPixmap(":/notifier_away.png");
 			px = 19; py = 27;
 			break;
 		case Rzx::STATE_HERE:
-			symbolPixmap = QPixmap(":/notifier_here.bmp");
+			symbolPixmap = QPixmap(":/notifier_here.png");
 			px = 43; py = 10;
 			break;
 	}
-#ifdef Q_OS_MAC
-	symbolPixmap.setMask(symbolPixmap.createMaskFromColor(Qt::white));
-#else
-	symbolPixmap.setMask(symbolPixmap.createMaskFromColor(Qt::black));
-#endif
-	symbol = symbolPixmap.toImage();
-	QImage computerIcon = computer->icon().toImage();
-	//CRRRRRRRRRRRRRRRRRRRRRRRRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADE
-	for(int x = 0 ; x < 64 ; x++)
-		for(int y = 0 ; y < 64 ; y++)
-			if(!qAlpha(symbol.pixel(px+x, py+y)))
-				symbol.setPixel(px+x, py+y, computerIcon.pixel(x, y));
-	icone->setPixmap( QPixmap::fromImage(symbol));
+
+	QPixmap pixmap(symbolPixmap.width(), symbolPixmap.height());
+	pixmap.fill(QColor(0,0,0,0));
+	QPainter painter(&pixmap);
+	painter.drawPixmap(px, py, computer->icon());
+	painter.drawPixmap(0, 0, symbolPixmap);
+	icone->setPixmap(pixmap);
 
 	QPalette palette ;
 	palette.setColor( backgroundRole(), QColor( 0xc0, 0xc0, 0xc0 ) );
