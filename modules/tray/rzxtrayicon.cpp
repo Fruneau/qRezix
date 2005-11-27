@@ -732,6 +732,7 @@ class RzxTrayIcon::RzxTrayIconPrivate : public QWidget
 		virtual void mouseReleaseEvent( QMouseEvent *e );
 		virtual void mouseDoubleClickEvent( QMouseEvent *e );
 		virtual void closeEvent( QCloseEvent *e );
+		virtual void resizeEvent( QResizeEvent *e);
 
 	private:
 		RzxTrayIcon *iconObject;
@@ -776,6 +777,10 @@ void RzxTrayIcon::RzxTrayIconPrivate::initWM( WId icon )
 	XFree( hints );
 }
 
+///Construit l'icône à utiliser
+/** Cette icône est centrée et sa taille est celle définie par l'utilisateur
+ * via la fenêtre de propriétés
+ */
 void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 {
 	pix = QPixmap(width(), height());
@@ -789,10 +794,18 @@ void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 	repaint();
 }
 
+///Dessine l'icône
 void RzxTrayIcon::RzxTrayIconPrivate::paintEvent( QPaintEvent * )
 {
 	QPainter p( this );
 	p.drawPixmap( 0, 0, pix );
+}
+
+///Raffraichi l'icône lorsque la tray est resizée
+void RzxTrayIcon::RzxTrayIconPrivate::resizeEvent( QResizeEvent *e)
+{
+	QWidget::resizeEvent(e);
+	setPixmap(iconObject->pm);
 }
 
 void RzxTrayIcon::RzxTrayIconPrivate::enterEvent( QEvent *e )
