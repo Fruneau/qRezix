@@ -156,9 +156,9 @@ void RzxTrayIcon::buildMenu()
 		newItem(Rzx::ICON_HERE, tr( "&I'm back !" ), this, SIGNAL( wantToggleResponder() ) );
 	else
 		newItem(Rzx::ICON_AWAY, tr( "I'm &away !" ), this, SIGNAL( wantToggleResponder() ) );
+#ifndef Q_OS_MAC
 	newItem(Rzx::ICON_QUIT, tr( "&Quit" ), this, SIGNAL(wantQuit()) );
-#ifdef Q_OS_MAC
-
+#else
 	qt_mac_set_dock_menu( &pop );
 #endif
 
@@ -778,7 +778,12 @@ void RzxTrayIcon::RzxTrayIconPrivate::initWM( WId icon )
 
 void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 {
-	pix = pm.scaled( RzxTrayConfig::traySize(), RzxTrayConfig::traySize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+	pix = QPixmap(width(), height());
+	pix.fill(QColor(0,0,0,0));
+	QPainter painter(&pix);
+	int dim = RzxTrayConfig::traySize();
+	painter.drawPixmap((width() - dim) / 2, (height() - dim)/2,
+		 pm.scaled( dim, dim, Qt::IgnoreAspectRatio, Qt::SmoothTransformation ));
 	setWindowIcon( pix );
 	setMask( pix.mask() );
 	repaint();
@@ -787,7 +792,7 @@ void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 void RzxTrayIcon::RzxTrayIconPrivate::paintEvent( QPaintEvent * )
 {
 	QPainter p( this );
-	p.drawPixmap( ( width() - pix.width() ) / 2, ( height() - pix.height() ) / 2, pix );
+	p.drawPixmap( 0, 0, pix );
 }
 
 void RzxTrayIcon::RzxTrayIconPrivate::enterEvent( QEvent *e )

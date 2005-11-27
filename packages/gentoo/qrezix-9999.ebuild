@@ -17,7 +17,7 @@ IUSE="chat mainui tray notifier xnet"
 
 DEPEND=">=x11-libs/qt-4.0.1"
 
-ESVN_REPO_URI="svn://skinwel/qrezix/branches/qrezix--qt4/"
+ESVN_REPO_URI="svn://skinwel/qrezix/trunk/"
 
 DEFINES="NO_JABBER"
 
@@ -36,10 +36,6 @@ src_compile() {
 	use_module xnet XNET
 	qmake "DEFINES=${DEFINES}" "PREFIX=/usr" "DEST=${D}" qrezix.pro || die
 	make || die
-	if cd resources/translations; then
-		lrelease *.ts
-		cd ../..
-	fi
 }
 
 src_install() {
