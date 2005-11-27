@@ -4,7 +4,7 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 PROJECT_NAME           = qRezix
-PROJECT_NUMBER         = 1.7
+PROJECT_NUMBER         = 2.0.0-svn
 OUTPUT_DIRECTORY       = 
 CREATE_SUBDIRS         = YES
 OUTPUT_LANGUAGE        = French

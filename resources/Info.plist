@@ -7,20 +7,20 @@
 	<key>CFBundleExecutable</key>
 	<string>qRezix</string>
 	<key>CFBundleGetInfoString</key>
-	<string>qRezix 1.7.0-svn, Copyright (c) 2002-2005 Binet Réseau</string>
+	<string>qRezix 2.0.0-svn, Copyright (c) 2002-2005 Binet Réseau</string>
 	<key>CFBundleIconFile</key>
 	<string>qrezix.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.br.qrezix</string>
 	<key>CFBundleInfoDictionaryVersion</key>
-	<string>1.7.0</string>
+	<string>2.0.0</string>
 	<key>CFBundleName</key>
 	<string>qRezix</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.7.0</string>
+	<string>2.0.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.7.0</string>
+	<string>2.0.0</string>
 </dict>
 </plist>

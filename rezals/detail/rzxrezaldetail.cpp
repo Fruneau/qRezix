@@ -31,7 +31,7 @@ RZX_REZAL_EXPORT(RzxRezalDetail)
 /** Il n'affiche en effet qu'un item... le currentIndex.
  */
 RzxRezalDetail::RzxRezalDetail(QWidget *widget)
-	:QAbstractItemView(widget), RzxRezal("Item details 1.7.0-svn", "Detail of an item"), computer(NULL), waitProp(NULL)
+	:QAbstractItemView(widget), RzxRezal("Item details 2.0.0-svn", "Detail of an item"), computer(NULL), waitProp(NULL)
 {
 	beginLoading();
 	setModel(RzxRezalModel::global());

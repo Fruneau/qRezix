@@ -36,7 +36,7 @@ RZX_REZAL_EXPORT(RzxRezalMap)
  * du fichier de configuration avec la liste des cartes à charger
  */
 RzxRezalMap::RzxRezalMap(QWidget *widget)
-	:QAbstractItemView(widget), RzxRezal("Platal 1.7.0-svn", "Show an interactive map of the campus")
+	:QAbstractItemView(widget), RzxRezal("Platal 2.0.0-svn", "Show an interactive map of the campus")
 {
 	beginLoading();
 	setType(TYP_ALL);

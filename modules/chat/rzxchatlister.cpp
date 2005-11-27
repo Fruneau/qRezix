@@ -56,7 +56,7 @@ RZX_CONFIG_INIT(RzxChatConfig)
 RZX_GLOBAL_INIT(RzxChatLister)
 
 RzxChatLister::RzxChatLister()
-	:RzxModule("Chat 1.7.0-svn", QT_TR_NOOP("qRezix graphical chat interface"))
+	:RzxModule("Chat 2.0.0-svn", QT_TR_NOOP("qRezix graphical chat interface"))
 {
 	beginLoading();
 	propWidget = NULL;

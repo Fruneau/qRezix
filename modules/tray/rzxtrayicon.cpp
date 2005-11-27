@@ -59,7 +59,7 @@ RZX_CONFIG_INIT(RzxTrayConfig)
   \sa show
 */
 RzxTrayIcon::RzxTrayIcon()
-		: RzxModule("Tray icon 1.7.0-svn", QT_TR_NOOP("qRezix tray icon")), tip("qRezix"), d( 0 )
+		: RzxModule("Tray icon 2.0.0-svn", QT_TR_NOOP("qRezix tray icon")), tip("qRezix"), d( 0 )
 {
 	beginLoading();
 	setType(MOD_GUI);

@@ -59,7 +59,7 @@ const QString RzxProtocole::serialPattern = "$nn $xo $xv $xf $rem";
 
 ///Construction... RAS
 RzxProtocole::RzxProtocole()
-	: RzxNetwork("xNet 1.7.0-svn", "Native support for the xNet protocole version 4.0"), ui(NULL), propWidget(NULL)
+	: RzxNetwork("xNet 2.0.0-svn", "Native support for the xNet protocole version 4.0"), ui(NULL), propWidget(NULL)
 {
 	setIcon(RzxThemedIcon(Rzx::ICON_NETWORK));
 }

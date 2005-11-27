@@ -21,7 +21,7 @@
 RZX_REZAL_EXPORT(RzxRezalIndex)
 
 RzxRezalIndex::RzxRezalIndex(QWidget *parent)
- : QTreeView(parent), RzxRezal("Index 1.7.0-svn", "Index view for easy navigation")
+ : QTreeView(parent), RzxRezal("Index 2.0.0-svn", "Index view for easy navigation")
 {
 	beginLoading();
 	setType(TYP_ALL);

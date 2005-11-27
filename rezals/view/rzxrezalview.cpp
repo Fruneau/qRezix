@@ -35,7 +35,7 @@ RZX_REZAL_EXPORT(RzxRezalView)
 
 ///Construction du RezalView
 RzxRezalView::RzxRezalView( QWidget *parent )
-	: QTreeView( parent ), RzxRezal("Item view 1.7.0-svn", "Historical way to display computers"), search(this)
+	: QTreeView( parent ), RzxRezal("Item view 2.0.0-svn", "Historical way to display computers"), search(this)
 {
 	beginLoading();
 	setType(TYP_ALL);
