@@ -46,7 +46,7 @@
     </message>
     <message>
         <source>Auto scale the tray icon</source>
-        <translation>Ajusté automatiquement la taille</translation>
+        <translation>Ajuster automatiquement la taille</translation>
     </message>
 </context>
 </TS>
