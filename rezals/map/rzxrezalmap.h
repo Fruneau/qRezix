@@ -111,6 +111,7 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 		virtual void setSelection(const QRect&, QItemSelectionModel::SelectionFlags);
 		virtual QRegion visualRegionForSelection(const QItemSelection&) const;
 
+		virtual void resizeEvent(QResizeEvent*);
 		virtual void mouseDoubleClickEvent(QMouseEvent *e);
 		virtual void paintEvent(QPaintEvent*);
 		void drawSelection(QPainter&);

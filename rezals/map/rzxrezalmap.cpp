@@ -192,8 +192,22 @@ void RzxRezalMap::setMap(int map)
 		currentMap = mapTable[map];
 	scrollTo(currentIndex());
 	horizontalScrollBar()->setRange(0, currentMap->pixmap.width() - viewport()->width());
+	horizontalScrollBar()->setPageStep(viewport()->width());
 	verticalScrollBar()->setRange(0, currentMap->pixmap.height() - viewport()->height());
+	verticalScrollBar()->setPageStep(viewport()->height());
 	viewport()->update();
+}
+
+///Met à jour la taille de la carte
+/** Ajuste les bars de défilement
+ */
+void RzxRezalMap::resizeEvent(QResizeEvent *e)
+{
+	QAbstractItemView::resizeEvent(e);
+	horizontalScrollBar()->setRange(0, currentMap->pixmap.width() - viewport()->width());
+	horizontalScrollBar()->setPageStep(viewport()->width());
+	verticalScrollBar()->setRange(0, currentMap->pixmap.height() - viewport()->height());
+	verticalScrollBar()->setPageStep(viewport()->height());
 }
 
 ///Change la carte active vers la carte indiquée
