@@ -18,7 +18,13 @@
 #ifndef RZXJABBERPROTOCOLE_H
 #define RZXJABBERPROTOCOLE_H
 
-#define RZX_PLUGIN
+#undef RZX_BUILTIN
+#undef RZX_PLUGIN
+#ifdef RZX_JABBER_BUILTIN
+#	define RZX_BUILTIN
+#else
+#	define RZX_PLUGIN
+#endif
 
 #include <QObject>
 #include <QString>

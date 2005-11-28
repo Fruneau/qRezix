@@ -21,6 +21,8 @@
 #ifndef CS_TRAYICON_H
 #define CS_TRAYICON_H
 
+#undef RZX_BUILTIN
+#undef RZX_PLUGIN
 #ifdef RZX_TRAYICON_BUILTIN
 #	define RZX_BUILTIN
 #else

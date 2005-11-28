@@ -193,6 +193,7 @@ namespace Rzx
 	///Comparaison de versions
 	RZX_CORE_EXPORT bool operator==(const Version&, const Version&);
 	RZX_CORE_EXPORT bool operator<(const Version&, const Version&);
+	RZX_CORE_EXPORT bool operator>=(const Version&, const Version&);
 };
 
 ///Défini les fonctions nécessaire pour générer un objet global

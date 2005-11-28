@@ -23,6 +23,7 @@
 #include <RzxMessageBox>
 #include <RzxComputer>
 #include <RzxIconCollection>
+#include <RzxApplication>
 
 #include "rzxserverlistener.h"
 #include "rzxxnetconfig.h"

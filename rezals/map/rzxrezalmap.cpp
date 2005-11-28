@@ -14,6 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#define RZX_MODULE_NAME "Platal"
+
 #include <QPaintEvent>
 #include <QPainter>
 #include <QRegExp>
@@ -22,6 +24,7 @@
 #include <QScrollBar>
 #include <QSettings>
 
+#include <RzxApplication>
 #include <RzxConfig>
 #include <RzxComputer>
 
@@ -36,7 +39,7 @@ RZX_REZAL_EXPORT(RzxRezalMap)
  * du fichier de configuration avec la liste des cartes à charger
  */
 RzxRezalMap::RzxRezalMap(QWidget *widget)
-	:QAbstractItemView(widget), RzxRezal("Platal 2.0.0-svn", "Show an interactive map of the campus")
+	:QAbstractItemView(widget), RzxRezal(RZX_MODULE_NAME, QT_TR_NOOP("Show an interactive map of the campus"), RZX_MODULE_VERSION)
 {
 	beginLoading();
 	setType(TYP_ALL);

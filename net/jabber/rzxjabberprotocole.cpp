@@ -14,6 +14,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#define RZX_MODULE_NAME "Jabber"
+#define RZX_MODULE_VERSIONSTR "0.0.1-svn"
+
 #include <QStringList>
 #include <QRegExp>
 #include <QLineEdit>
@@ -42,7 +45,7 @@ RZX_CONFIG_INIT(RzxJabberConfig)
 
 ///Construction... RAS
 RzxJabberProtocole::RzxJabberProtocole()
-	: RzxNetwork("Jabber", "Native support for the jabber protocole",0,0,1,"svn")
+	: RzxNetwork(RZX_MODULE_NAME, QT_TR_NOOP("Native support for the jabber protocole"), RZX_MODULE_VERSION)
 {
 	setType(RzxNetwork::TYP_CHAT);
 	setType(RzxNetwork::TYP_PROPERTIES);

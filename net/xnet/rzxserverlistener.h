@@ -22,6 +22,8 @@
 #include <QTcpSocket>
 #include <QPixmap>
 
+#undef RZX_BUILTIN
+#undef RZX_PLUGIN
 #ifdef RZX_XNET_BUILTIN
 #	define RZX_BUILTIN
 #else

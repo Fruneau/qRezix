@@ -17,7 +17,8 @@
 * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *
 */
-#include <QApplication>
+#define RZX_MODULE_NAME "Tray icon"
+
 #include <QImage>
 #include <QPixmap>
 #include <QBitmap>
@@ -37,6 +38,7 @@
 #include <RzxComputer>
 #include <RzxIconCollection>
 #include <RzxConnectionLister>
+#include <RzxApplication>
 
 #include "rzxtrayicon.h"
 #include "rzxtrayconfig.h"
@@ -59,7 +61,7 @@ RZX_CONFIG_INIT(RzxTrayConfig)
   \sa show
 */
 RzxTrayIcon::RzxTrayIcon()
-		: RzxModule("Tray icon 2.0.0-svn", QT_TR_NOOP("qRezix tray icon")), tip("qRezix"), d( 0 )
+		: RzxModule(RZX_MODULE_NAME, QT_TR_NOOP("qRezix tray icon"), RZX_MODULE_VERSION), tip("qRezix"), d( 0 )
 {
 	beginLoading();
 	setType(MOD_GUI);

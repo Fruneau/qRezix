@@ -22,29 +22,8 @@
  * 	- description du plugin qui est juste un texte expliquant le plugin à l'utilisateur
  * 	- numéro de version major.minor.build-tag
  */
-RzxNetwork::RzxNetwork(const QString& name, const QString& description, int major, int minor, int build, const QString& tag)
-	:RzxBaseModule(name, description, major, minor, build, tag)
-{
-}
-
-///Construction d'un network
-/** Fonction surchargée
- */
 RzxNetwork::RzxNetwork(const QString& name, const QString& description, const Rzx::Version& version)
 	:RzxBaseModule(name, description, version)
-{
-}
-
-///Construction d'un network à partir d'une chaîne décrivant son nom version
-/** Cette fonction surchargée présente l'intérêt de permettre la construction d'un module simplemente à partir
- * de 2 chaînes de caractères. La première décrivant le module avec son nom et sa version, l'autre donnant une
- * description humainre de ce même module.
- *
- * Le nom est donné de la forme :
- * "nom major.minor.build-tag"
- */
-RzxNetwork::RzxNetwork(const QString& name, const QString& description)
-	:RzxBaseModule(name, description)
 {
 }
 

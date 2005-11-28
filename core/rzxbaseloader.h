@@ -53,16 +53,20 @@ template <class T>
 class RzxBaseLoader
 {
 	typedef T *(*loadTModuleProc)(void);
+	typedef QString (*loadNameProc)(void);
+	typedef Rzx::Version (*loadVersionProc)(void);
 
 	QString rep;
 	QString pattern;
 	const char *symbol;
+	const char *name;
+	const char *version;
 
 	QHash<QString, QString> files;
 	QHash<QString, T*> modules;
 
 	public:
-		RzxBaseLoader(const QString&, const QString&, const char*, bool = false);
+		RzxBaseLoader(const QString&, const QString&, const char*, const char*, const char*, bool = false);
 		virtual ~RzxBaseLoader();
 
 		QList<T*> moduleList() const;
@@ -82,8 +86,9 @@ class RzxBaseLoader
 
 ///Construit un loader en lançant automatiquement le chargement
 template <class T>
-RzxBaseLoader<T>::RzxBaseLoader(const QString& m_rep, const QString& m_pattern, const char* m_symbol, bool load)
-	:rep(m_rep), pattern(m_pattern), symbol(m_symbol)
+RzxBaseLoader<T>::RzxBaseLoader(const QString& m_rep, const QString& m_pattern,
+		const char* m_symbol, const char* m_name, const char* m_version, bool load)
+	:rep(m_rep), pattern(m_pattern), symbol(m_symbol), name(m_name), version(m_version)
 {
 	if(load)
 		loadModules();
@@ -183,13 +188,27 @@ void RzxBaseLoader<T>::loadPlugins()
 }
 
 ///Résoud le symbole
-/** Permet de charger une lib
+/** Permet de charger une lib. Ne charge la lib que si les données indique qu'il n'y
+ * a pas de module qui entre en conflit avec le module donné
  *
  * Retourne NULL en cas d'échec de la résolution du symbole
  */
 template <class T>
 T *RzxBaseLoader<T>::resolve(const QString& file) const
 {
+	loadNameProc getName = (loadNameProc)QLibrary::resolve(file, name);
+	if(!getName) return NULL;
+
+	loadVersionProc getVersion = (loadVersionProc)QLibrary::resolve(file, version);
+	if(!getVersion) return NULL;
+
+	QString moduleName = getName();
+	Rzx::Version moduleVersion = getVersion();
+
+	T* module = modules[moduleName];
+	if(module && module->version() >= moduleVersion)
+		return NULL;
+
 	loadTModuleProc getModule = (loadTModuleProc)QLibrary::resolve(file, symbol);
 	if(getModule)
 		return getModule();

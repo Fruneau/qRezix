@@ -184,7 +184,13 @@ bool Rzx::operator==(const Rzx::Version& a, const Rzx::Version& b)
 bool Rzx::operator<(const Rzx::Version& a, const Rzx::Version& b)
 {
 	if(a.major < b.major) return true;
-	if(a.minor < b.minor) return true;
-	if(a.build < b.build) return true;
+	if(a.major == b.major && a.minor < b.minor) return true;
+	if(a.major == b.major && a.minor == b.minor && a.build < b.build) return true;
 	return false;
+}
+
+///Compare les numéros de version
+bool Rzx::operator>=(const Rzx::Version& a, const Rzx::Version& b)
+{
+	return !(a < b);
 }

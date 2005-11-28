@@ -25,49 +25,9 @@
  * 	- description du plugin qui est juste un texte expliquant le plugin à l'utilisateur
  * 	- numéro de version major.minor.build-tag
  */
-RzxBaseModule::RzxBaseModule(const QString& name, const QString& description, int major, int minor, int build, const QString& tag)
-	:m_name(name), m_description(description)
-{
-	m_version.major = major;
-	m_version.minor = minor;
-	m_version.build = build;
-	m_version.tag = tag;
-}
-
-///Construction d'un module
-/** Fonction surchargée
- */
 RzxBaseModule::RzxBaseModule(const QString& name, const QString& description, const Rzx::Version& version)
 	:m_name(name), m_description(description), m_version(version)
 {
-}
-
-///Construction d'un module à partir d'une chaîne décrivant son nom version
-/** Cette fonction surchargée présente l'intérêt de permettre la construction d'un module simplemente à partir
- * de 2 chaînes de caractères. La première décrivant le module avec son nom et sa version, l'autre donnant une
- * description humainre de ce même module.
- *
- * Le nom est donné de la forme :
- * "nom major.minor.build-tag"
- */
-RzxBaseModule::RzxBaseModule(const QString& name, const QString& description)
-	:m_description(description)
-{
-	QRegExp mask("(^.+) (\\d+)\\.(\\d+)\\.(\\d+)(\\S*)$");
-	if(mask.indexIn(name) == -1)
-	{
-		m_name = name;
-		m_version.major = m_version.minor = m_version.build = 0;
-		m_version.tag = QString();
-	}
-	else
-	{
-		m_name = mask.cap(1);
-		m_version.major = mask.cap(2).toUInt();
-		m_version.minor = mask.cap(3).toUInt();
-		m_version.build = mask.cap(4).toUInt();
-		m_version.tag = mask.cap(5);
-	}
 }
 
 ///Destruction du module

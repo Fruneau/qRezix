@@ -59,9 +59,7 @@ class RZX_CORE_EXPORT RzxNetwork : public QObject, public RzxBaseModule
 		Type m_type;
 
 	public:
-		RzxNetwork(const QString&, const QString&, int, int, int, const QString& = QString());
 		RzxNetwork(const QString&, const QString&, const Rzx::Version&);
-		RzxNetwork(const QString&, const QString&);
 		virtual ~RzxNetwork();
 
 		const Type &type() const;
@@ -144,6 +142,6 @@ inline bool RzxNetwork::isInitialised() const
 }
 
 ///Définition de la fonction d'export d'un module network
-#define RZX_NETWORK_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getNetwork, RzxNetwork, MODULE)
+#define RZX_NETWORK_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getNetwork, getNetworkName, getNetworkVersion, RzxNetwork, MODULE)
 
 #endif

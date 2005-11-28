@@ -15,11 +15,14 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#define RZX_MODULE_NAME "Main UI"
+
 #include <QWidget>
 
 #include <RzxGlobal>
 #include <RzxConfig>
 #include <RzxIconCollection>
+#include <RzxApplication>
 
 #include "rzxui.h"
 
@@ -36,7 +39,7 @@ RZX_CONFIG_INIT(RzxMainUIConfig)
 
 /** \reimp */
 RzxUi::RzxUi()
-	:RzxModule("Main UI 2.0.0-svn", QT_TR_NOOP("Main UI for qRezix"))
+	:RzxModule(RZX_MODULE_NAME, QT_TR_NOOP("Main UI for qRezix"), RZX_MODULE_VERSION)
 {
 	beginLoading();
 	setType(MOD_MAINGUI);

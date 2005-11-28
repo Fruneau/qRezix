@@ -14,6 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#define RZX_MODULE_NAME "Chat"
+
 //Pour les fenêtres historique/proprités
 #include <QFrame>
 #include <QDialog>
@@ -56,7 +58,7 @@ RZX_CONFIG_INIT(RzxChatConfig)
 RZX_GLOBAL_INIT(RzxChatLister)
 
 RzxChatLister::RzxChatLister()
-	:RzxModule("Chat 2.0.0-svn", QT_TR_NOOP("qRezix graphical chat interface"))
+	:RzxModule(RZX_MODULE_NAME, QT_TR_NOOP("qRezix graphical chat interface"), RZX_MODULE_VERSION)
 {
 	beginLoading();
 	propWidget = NULL;

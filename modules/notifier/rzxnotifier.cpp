@@ -14,12 +14,15 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#define RZX_MODULE_NAME "Favorite Notifier"
+
 #include <RzxGlobal>
 #include <RzxComputer>
 #include <RzxConnectionLister>
 #include <RzxIconCollection>
 #include <RzxProperty>
 #include <RzxSound>
+#include <RzxApplication>
 
 #include "rzxnotifier.h"
 
@@ -35,7 +38,7 @@ RZX_CONFIG_INIT(RzxNotifierConfig)
 /** La construction consiste juste à mettre en place les connexions qvb
  */
 RzxNotifier::RzxNotifier()
-	:RzxModule("Favorite notifier 2.0.0-svn", QT_TR_NOOP("Notify that a favorite state has changed"))
+	:RzxModule(RZX_MODULE_NAME, QT_TR_NOOP("Notify that a favorite state has changed"), RZX_MODULE_VERSION)
 {
 	beginLoading();
 	favoriteWarn = false;

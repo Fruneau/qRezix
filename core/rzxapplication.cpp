@@ -74,7 +74,7 @@ Rzx::Version RzxApplication::m_version = {
 
 ///Chargement de qRezix et de ses différents modules
 RzxApplication::RzxApplication(int argc, char **argv)
-	:QApplication(argc, argv), RzxBaseLoader<RzxModule>("modules", "rzx*", "getModule")
+	:QApplication(argc, argv), RzxBaseLoader<RzxModule>("modules", "rzx*", "getModule", "getModuleName", "getModuleVersion")
 {
 	properties = NULL;
 	mainui = chatui = propertiesUi = propertiesProto = chatProto = NULL;

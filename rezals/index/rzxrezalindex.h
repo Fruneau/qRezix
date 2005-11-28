@@ -19,6 +19,8 @@
 
 #include <QTreeView>
 
+#undef RZX_BUILTIN
+#undef RZX_PLUGIN
 #ifdef RZX_RZLINDEX_BUILTIN
 #       define RZX_BUILTIN
 #else

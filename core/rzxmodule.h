@@ -143,9 +143,7 @@ class RZX_CORE_EXPORT RzxModule:public QObject, public RzxBaseModule
 
 	//Chargement du module
 	protected:
-		RzxModule(const QString&, const QString&, int, int, int, const QString& = QString());
 		RzxModule(const QString&, const QString&, const Rzx::Version&);
-		RzxModule(const QString&, const QString&);
 
 	public:
 		~RzxModule();
@@ -258,6 +256,6 @@ class RZX_CORE_EXPORT RzxModule:public QObject, public RzxBaseModule
  * variables sont en effet 'undefined' à la fin de rzxmodule.h sauf si RZX_PRESERVE_MODULETYPE
  * est défini.
  */
-#define RZX_MODULE_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getModule, RzxModule, MODULE)
+#define RZX_MODULE_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getModule, getModuleName, getModuleVersion, RzxModule, MODULE)
 
 #endif

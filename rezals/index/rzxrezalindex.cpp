@@ -14,6 +14,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#define RZX_MODULE_NAME "Index"
+
+#include <RzxApplication>
+
 #include "rzxrezalindex.h"
 
 #include <RzxRezalModel>
@@ -21,7 +25,7 @@
 RZX_REZAL_EXPORT(RzxRezalIndex)
 
 RzxRezalIndex::RzxRezalIndex(QWidget *parent)
- : QTreeView(parent), RzxRezal("Index 2.0.0-svn", "Index view for easy navigation")
+ : QTreeView(parent), RzxRezal(RZX_MODULE_NAME, QT_TR_NOOP("Index view for easy navigation"), RZX_MODULE_VERSION)
 {
 	beginLoading();
 	setType(TYP_ALL);

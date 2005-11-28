@@ -14,6 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#define RZX_MODULE_NAME "Item details"
+
 #include <QMouseEvent>
 
 #include <RzxComputer>
@@ -31,7 +33,8 @@ RZX_REZAL_EXPORT(RzxRezalDetail)
 /** Il n'affiche en effet qu'un item... le currentIndex.
  */
 RzxRezalDetail::RzxRezalDetail(QWidget *widget)
-	:QAbstractItemView(widget), RzxRezal("Item details 2.0.0-svn", "Detail of an item"), computer(NULL), waitProp(NULL)
+	:QAbstractItemView(widget), RzxRezal(RZX_MODULE_NAME, QT_TR_NOOP("Detail of an item"), RZX_MODULE_VERSION),
+		computer(NULL), waitProp(NULL)
 {
 	beginLoading();
 	setModel(RzxRezalModel::global());

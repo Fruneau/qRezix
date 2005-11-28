@@ -14,6 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#define RZX_MODULE_NAME "xNet"
+
 #include <QStringList>
 #include <QRegExp>
 #include <QLineEdit>
@@ -28,6 +30,7 @@
 #include <RzxIconCollection>
 #include <RzxWrongPass>
 #include <RzxChangePass>
+#include <RzxApplication>
 
 #include "rzxprotocole.h"
 #include "rzxxnetconfig.h"
@@ -59,7 +62,8 @@ const QString RzxProtocole::serialPattern = "$nn $xo $xv $xf $rem";
 
 ///Construction... RAS
 RzxProtocole::RzxProtocole()
-	: RzxNetwork("xNet 2.0.0-svn", "Native support for the xNet protocole version 4.0"), ui(NULL), propWidget(NULL)
+	: RzxNetwork(RZX_MODULE_NAME, QT_TR_NOOP("Native support for the xNet protocole version 4.0"), RZX_MODULE_VERSION),
+		 ui(NULL), propWidget(NULL)
 {
 	setIcon(RzxThemedIcon(Rzx::ICON_NETWORK));
 }

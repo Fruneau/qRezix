@@ -46,13 +46,11 @@
  *
  * class MyModuleType: public RzxBaseModule
  * {
-		MyModuleType(const QString&, const QString&, int, int, int, const QString& = QString());
 		MyModuleType(const QString&, const QString&, const Rzx::Version&);
-		MyModuleType(const QString&, const QString&);
  * 	...
  * };
  *
- * #define RZX_MYMODULE_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getMyModule, MyModuleType, MODULE)
+ * #define RZX_MYMODULE_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getMyModule, getMyModuleName, getMyModuleVersion, MyModuleType, MODULE)
  * \endcode
  *
  * Cette classe défini quasiment une interface même si seule isInitialised est abstraite. Dans
@@ -72,6 +70,16 @@
  * un module à part entière. L'utilisation de ces fonctions dans des classes qui ne sont pas des
  * module mais des sous-entités donnera l'affichage de logs inintéressants. Leur utilisations se
  * fait donc de la forme :
+ *
+ * Il faut de plus définir deux variables pour avant d'exporter un module. Le plus simple est de placer les
+ * définition en début de fichier avant toute inclusion !
+ * 	- RZX_MODULE_NAME = le nom du module
+ * 	- RZX_MODULE_VERSIONSTR = la version du module... si manquant, la version de qRezix sera utilisée, mais
+ * cela ne reflètera de fait en rien l'état de développement du module. Donc il est fortement conseillé de ne pas
+ * omettre se paramètre sauf pour les modules de base de qRezix
+ *
+ * Une variable RZX_MODULE_VERSION de type Rzx::version est alors créée pour reflèter le choix de l'utilisateur
+ *
  * \code
  * class MyModule : public MyModuleType
  * {
@@ -83,7 +91,8 @@
  *
  * //Un constructeur bien pratique qui initialise correctement le module
  * //et qui écrit des logs informant l'utilisateur de l'évolution de l'initialisation
- * MyModule::MyModule():MyModuleType("Mon module 1.0.0-blah", "Mon super module de test")
+ * //Attention à bien utiliser RZX_MODULE_VERSION et RZX_MODULE_NAME !!!
+ * MyModule::MyModule():MyModuleType(RZX_MODULE_NAME, QT_TR_NOOPT("Mon super module de test"), RZX_MODULE_VERSION)
  * {
  * 	beginLoading();
  * 	/// initialisation du module... 
@@ -111,9 +120,7 @@ class  RZX_CORE_EXPORT RzxBaseModule
 
 	//Chargement du module
 	protected:
-		RzxBaseModule(const QString&, const QString&, int, int, int, const QString& = QString());
 		RzxBaseModule(const QString&, const QString&, const Rzx::Version&);
-		RzxBaseModule(const QString&, const QString&);
 
 		void beginLoading() const;
 		void endLoading() const;
@@ -151,6 +158,15 @@ class  RZX_CORE_EXPORT RzxBaseModule
 
 #undef RZX_BASEMODULE_EXPORT
 
+#ifndef RZX_MODULE_NAME
+#	define RZX_MODULE_NAME "Unamed module"
+#endif
+#ifndef RZX_MODULE_VERSIONSTR
+#	define RZX_MODULE_VERSION RzxApplication::version()
+#else
+#	define RZX_MODULE_VERSION Rzx::versionFromString(RZX_MODULE_VERSIONSTR)
+#endif
+
 ///Exportation du module
 /** Défini une fonction qui exporte le module. Cette macro doit être appelée pour tout
  * module. Elle sert à la création d'une entité du module en pour les plug-ins.
@@ -164,14 +180,18 @@ class  RZX_CORE_EXPORT RzxBaseModule
  * est défini.
  */
 #ifndef RZX_PLUGIN
-#	define RZX_BASEMODULE_EXPORT(name, type, MODULE)
+#	define RZX_BASEMODULE_EXPORT(modExp, nameExp, versExp, type, MODULE)
 #else
 #	ifdef Q_OS_WIN
-#		define RZX_BASEMODULE_EXPORT(name, type, MODULE) \
-			extern "C" __declspec(dllexport) type *name(void) { return (type*)(new MODULE); }
+#		define RZX_BASEMODULE_EXPORT(modExp, nameExp, versExp, type, MODULE) \
+			extern "C" __declspec(dllexport) type *modExp(void) { return (type*)(new MODULE); } \
+			extern "C" __declspec(dllexport) QString nameExp(void) { return RZX_MODULE_NAME; } \
+			extern "C" __declspec(dllexport) Rzx::Version versExp(void) { return RZX_MODULE_VERSION; }
 #	else
-#		define RZX_BASEMODULE_EXPORT(name, type, MODULE) \
-			extern "C" type *name(void) { return (type*)(new MODULE); }
+#		define RZX_BASEMODULE_EXPORT(modExp, nameExp, versExp, type, MODULE) \
+			extern "C" type *modExp(void) { return (type*)(new MODULE); } \
+			extern "C" QString nameExp(void) { return RZX_MODULE_NAME; } \
+			extern "C" Rzx::Version versExp(void) { return RZX_MODULE_VERSION; }
 #	endif
 #endif
 

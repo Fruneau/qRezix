@@ -24,6 +24,8 @@
 
 #include <RzxHostAddress>
 
+#undef RZX_BUILTIN
+#undef RZX_PLUGIN
 #ifdef RZX_CHAT_BUILTIN
 #	define RZX_BUILTIN
 #else

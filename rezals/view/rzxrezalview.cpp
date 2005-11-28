@@ -14,6 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#define RZX_MODULE_NAME "Item view"
+
 #include <QKeyEvent>
 #include <QHeaderView>
 #include <QMouseEvent>
@@ -24,6 +26,7 @@
 
 #include <RzxComputer>
 #include <RzxConfig>
+#include <RzxApplication>
 
 #include "rzxrezalview.h"
 
@@ -35,7 +38,8 @@ RZX_REZAL_EXPORT(RzxRezalView)
 
 ///Construction du RezalView
 RzxRezalView::RzxRezalView( QWidget *parent )
-	: QTreeView( parent ), RzxRezal("Item view 2.0.0-svn", "Historical way to display computers"), search(this)
+	: QTreeView( parent ), RzxRezal(RZX_MODULE_NAME, QT_TR_NOOP("Historical way to display computers"), RZX_MODULE_VERSION),
+		search(this)
 {
 	beginLoading();
 	setType(TYP_ALL);

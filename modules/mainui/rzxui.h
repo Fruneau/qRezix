@@ -19,6 +19,8 @@
 #ifndef RZXUI_H
 #define RZXUI_H
 
+#undef RZX_BUILTIN
+#undef RZX_PLUGIN
 #ifdef RZX_MAINUI_BUILTIN
 #	define RZX_BUILTIN
 #else

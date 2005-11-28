@@ -82,9 +82,7 @@ class RZX_MAINUI_EXPORT RzxRezal:public RzxBaseModule
 		QDockWidget *dock;
 
 	public:
-		RzxRezal(const QString&, const QString&, int, int, int, const QString& = QString());
 		RzxRezal(const QString&, const QString&, const Rzx::Version&);
-		RzxRezal(const QString&, const QString&);
 		virtual ~RzxRezal();
 		virtual bool isInitialised() const;
 
@@ -108,6 +106,6 @@ class RZX_MAINUI_EXPORT RzxRezal:public RzxBaseModule
 		void setType(const Type&);
 };
 
-#define RZX_REZAL_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getRezal, RzxRezal, MODULE)
+#define RZX_REZAL_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getRezal, getRezalName, getRezalVersion, RzxRezal, MODULE)
 
 #endif

@@ -20,10 +20,12 @@
 #include <QAbstractItemView>
 #include <QPointer>
 
+#undef RZX_BUILTIN
+#undef RZX_PLUGIN
 #ifdef RZX_RZLDETAIL_BUILTIN
-#       define RZX_BUILTIN
+#	define RZX_BUILTIN
 #else
-#       define RZX_PLUGIN
+#	define RZX_PLUGIN
 #endif
 
 

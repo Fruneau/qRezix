@@ -17,6 +17,8 @@
 #ifndef RZXNOTIFIER_H
 #define RZXNOTIFIER_H
 
+#undef RZX_BUILTIN
+#undef RZX_PLUGIN
 #ifdef RZX_NOTIFIER_BUILTIN
 #	define RZX_BUILTIN
 #else
