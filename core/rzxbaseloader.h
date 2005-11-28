@@ -54,36 +54,39 @@ class RzxBaseLoader
 {
 	typedef T *(*loadTModuleProc)(void);
 
+	QString rep;
+	QString pattern;
+	const char *symbol;
+
+	QHash<QString, QString> files;
 	QHash<QString, T*> modules;
 
 	public:
-		RzxBaseLoader(const QString&, const QString&, const char*);
-		RzxBaseLoader();
+		RzxBaseLoader(const QString&, const QString&, const char*, bool = false);
 		virtual ~RzxBaseLoader();
 
 		QList<T*> moduleList() const;
 
 	protected:
-		void loadModules(const QString&, const QString&, const char*);
+		void loadModules();
 		void closeModules();
 
+		T *resolve(const QString& file) const;
+
 		virtual void loadBuiltins();
-		virtual void loadPlugins(const QString&, const QString&, const char*);
+		virtual void loadPlugins();
+		bool installModule(const QString&);
 		virtual bool installModule(T*);
 		virtual void linkModules();
 };
 
 ///Construit un loader en lançant automatiquement le chargement
 template <class T>
-RzxBaseLoader<T>::RzxBaseLoader(const QString& rep, const QString& pattern, const char* symbol)
+RzxBaseLoader<T>::RzxBaseLoader(const QString& m_rep, const QString& m_pattern, const char* m_symbol, bool load)
+	:rep(m_rep), pattern(m_pattern), symbol(m_symbol)
 {
-	loadModules(rep, pattern, symbol);
-}
-
-///Construit un loader vide
-template <class T>
-RzxBaseLoader<T>::RzxBaseLoader()
-{
+	if(load)
+		loadModules();
 }
 
 ///Détruit le loader en fermant les modules...
@@ -115,13 +118,13 @@ void RzxBaseLoader<T>::closeModules()
  * les différents modules.
  */
 template <class T>
-void RzxBaseLoader<T>::loadModules(const QString& rep, const QString& pattern, const char* symbol)
+void RzxBaseLoader<T>::loadModules()
 {
 //	Rzx::beginModuleLoading("Built-ins");
 	loadBuiltins();
 //	Rzx::endModuleLoading("Built-ins");
 //	Rzx::beginModuleLoading("Plug-ins");
-	loadPlugins(rep, pattern, symbol);
+	loadPlugins();
 //	Rzx::endModuleLoading("Built-ins");
 //	Rzx::beginModuleLoading("Modules interactions");
 	linkModules();
@@ -154,7 +157,7 @@ void RzxBaseLoader<T>::loadBuiltins()
  * Une fois le fichier trouvé, on cherche le symbole dans la bibliothèque.
  */
 template <class T>
-void RzxBaseLoader<T>::loadPlugins(const QString& rep, const QString& pattern, const char* symbol)
+void RzxBaseLoader<T>::loadPlugins()
 {
 	QList<QDir> path = RzxConfig::dirList(RzxConfig::DefSearchDirs, rep
 #ifndef Q_OS_MAC
@@ -175,12 +178,40 @@ void RzxBaseLoader<T>::loadPlugins(const QString& rep, const QString& pattern, c
 
 		QStringList plugins = dir.entryList(filter, QDir::Files|QDir::Readable);
 		foreach(QString it, plugins)
-		{
-			loadTModuleProc getModule = (loadTModuleProc)QLibrary::resolve(dir.absoluteFilePath(it), symbol);
-			if(getModule)
-				installModule(getModule());
-		}
+			installModule(dir.absoluteFilePath(it));
 	}
+}
+
+///Résoud le symbole
+/** Permet de charger une lib
+ *
+ * Retourne NULL en cas d'échec de la résolution du symbole
+ */
+template <class T>
+T *RzxBaseLoader<T>::resolve(const QString& file) const
+{
+	loadTModuleProc getModule = (loadTModuleProc)QLibrary::resolve(file, symbol);
+	if(getModule)
+		return getModule();
+	return NULL;
+}
+
+///Installe le module
+/** Installe le module contenu dans le fichier spécifié
+ *
+ * Simple surcharge de la fonction qui suit
+ */
+template <class T>
+bool RzxBaseLoader<T>::installModule(const QString& file)
+{
+	T *module = resolve(file);
+	if(module)
+	{
+		if(!installModule(module))
+			return false;
+		files.insert(module->name(), file);
+	}
+	return false;
 }
 
 ///Installe le module

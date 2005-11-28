@@ -25,7 +25,6 @@
 #include <RzxConnectionLister>
 #include <RzxMessageBox>
 #include <RzxProperty>
-#include <RzxSubnet>
 #include <RzxIntro>
 
 #ifdef RZX_MAINUI_BUILTIN
@@ -75,7 +74,7 @@ Rzx::Version RzxApplication::m_version = {
 
 ///Chargement de qRezix et de ses différents modules
 RzxApplication::RzxApplication(int argc, char **argv)
-	:QApplication(argc, argv)
+	:QApplication(argc, argv), RzxBaseLoader<RzxModule>("modules", "rzx*", "getModule")
 {
 	properties = NULL;
 	mainui = chatui = propertiesUi = propertiesProto = chatProto = NULL;
@@ -105,7 +104,7 @@ RzxApplication::RzxApplication(int argc, char **argv)
 		return;
 	//Chargement des modules de qRezix
 	Rzx::beginModuleLoading("Modules loading");
-	loadModules("modules", "rzx*", "getModule");
+	loadModules();
 	Rzx::endModuleLoading("Modules loading");
 
 	//Lancement de l'interface réseau

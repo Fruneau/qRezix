@@ -61,7 +61,7 @@ RZX_GLOBAL_INIT(QRezix)
 
 ///Construction de la fenêtre principale
 QRezix::QRezix(QWidget *parent)
-	: QMainWindow(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint)
+	: QMainWindow(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint), RzxBaseLoader<RzxRezal>("rezals", "rezal*", "getRezal")
 {
 	object = this;
 	statusFlag = false;
@@ -77,7 +77,7 @@ QRezix::QRezix(QWidget *parent)
 	statusBar()->addWidget(widget, 1);
 	setWindowTitle("qRezix v" + Rzx::versionToString(RzxApplication::version(), Rzx::ShortVersion));
 
-	loadModules("rezals", "rezal*", "getRezal");
+	loadModules();
 	setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
 	setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
 	setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);

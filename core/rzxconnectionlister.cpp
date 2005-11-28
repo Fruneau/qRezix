@@ -40,7 +40,7 @@ RZX_GLOBAL_INIT(RzxConnectionLister)
  * réseaux disponibles.
  */
 RzxConnectionLister::RzxConnectionLister( QObject *parent)
-		: QObject(parent)
+	: QObject(parent), RzxBaseLoader<RzxNetwork>("net", "rzxnet*", "getNetwork")
 {
 	Rzx::beginModuleLoading("Connection lister");
 	object = this;
@@ -48,7 +48,7 @@ RzxConnectionLister::RzxConnectionLister( QObject *parent)
 
 	delayDisplay.setSingleShot(true);
 
-	loadModules("net", "rzxnet*", "getNetwork");	
+	loadModules();	
 	connect(&delayDisplay, SIGNAL(timeout()), this, SLOT(login()));
 
 	Rzx::endModuleLoading("Connection lister");

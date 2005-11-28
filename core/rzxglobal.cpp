@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <QString>
+#include <QRegExp>
 
 #include <RzxGlobal>
 
@@ -151,6 +152,26 @@ QString Rzx::versionToString(const Rzx::Version& version, Rzx::VersionParts part
 	if(parts & TagVersion && !version.tag.isNull())
 		value += version.tag;
 	return value;
+}
+
+///Converti une chaîne de caractère en version
+Rzx::Version Rzx::versionFromString(const QString& name)
+{
+	Version version;
+	QRegExp mask("^(\\d+)\\.(\\d+)\\.(\\d+)(\\S*)$");
+	if(mask.indexIn(name) == -1)
+	{
+		version.major = version.minor = version.build = 0;
+		version.tag = QString();
+	}
+	else
+	{
+		version.major = mask.cap(1).toUInt();
+		version.minor = mask.cap(2).toUInt();
+		version.build = mask.cap(3).toUInt();
+		version.tag = mask.cap(4);
+	}
+	return version;
 }
 
 ///Compare les numéros de version

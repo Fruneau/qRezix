@@ -172,6 +172,7 @@ namespace Rzx
 	};
 	Q_DECLARE_FLAGS(VersionParts, VersionPartFlags)
 	RZX_CORE_EXPORT QString versionToString(const Rzx::Version&, VersionParts = CompleteVersion);
+	RZX_CORE_EXPORT Rzx::Version versionFromString(const QString&);
 
 	///Définition de la fonction d'output surchargée
 	RZX_CORE_EXPORT void installMsgHandler();
