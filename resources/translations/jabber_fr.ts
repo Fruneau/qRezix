@@ -228,4 +228,11 @@
         <translation>Organisation</translation>
     </message>
 </context>
+<context>
+    <name>RzxJabberProtocole</name>
+    <message>
+        <source>Native support for the jabber protocole</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

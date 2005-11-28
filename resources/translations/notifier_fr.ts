@@ -53,19 +53,4 @@
         <translation>...</translation>
     </message>
 </context>
-<context>
-    <name>RzxTrayWindow</name>
-    <message>
-        <source>is now disconnected</source>
-        <translation type="obsolete">vient de se connecter</translation>
-    </message>
-    <message>
-        <source>is now away</source>
-        <translation type="obsolete">est absent</translation>
-    </message>
-    <message>
-        <source>is now here</source>
-        <translation type="obsolete">est là</translation>
-    </message>
-</context>
 </TS>

@@ -178,7 +178,10 @@ void RzxProperty::changePage(QTreeWidgetItem *current, QTreeWidgetItem *)
 	{
 		lblTitle->setText("<h2>"+current->text(0)+"</h2>");
 		lblTitleIcon->setPixmap(current->icon(0).pixmap(22));
-		prefStack->setCurrentIndex(current->data(0, Qt::UserRole).toInt());
+		int page = current->data(0, Qt::UserRole).toInt();
+		if(page >= prefStack->count())
+			page = 0;
+		prefStack->setCurrentIndex(page);
 	}
 }
 

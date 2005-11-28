@@ -114,10 +114,6 @@ Chat and properties browsing are disabled</source>
         <translation>&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez qu&apos;un son soit émis à la réception d&apos;un message.&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>Beep on message receiption</source>
-        <translation type="obsolete">Bip à la réception des messages</translation>
-    </message>
-    <message>
         <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Select the sound to play when you receive a new message&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Choisissez le son joué à la réception d&apos;un message&lt;/p&gt;</translation>
     </message>
@@ -169,18 +165,6 @@ Chat and properties browsing are disabled</source>
         <translation>a envoyé des propriétés vides</translation>
     </message>
     <message>
-        <source>Ping received</source>
-        <translation type="obsolete">Ping reçu</translation>
-    </message>
-    <message>
-        <source>Surname</source>
-        <translation type="obsolete">Nom</translation>
-    </message>
-    <message>
-        <source>First name</source>
-        <translation type="obsolete">Prénom</translation>
-    </message>
-    <message>
         <source>Nick</source>
         <translation>Surnom</translation>
     </message>
@@ -193,10 +177,6 @@ Chat and properties browsing are disabled</source>
         <translation>e-mail</translation>
     </message>
     <message>
-        <source>Web</source>
-        <translation type="obsolete">Web</translation>
-    </message>
-    <message>
         <source>Room</source>
         <translation>Salle</translation>
     </message>
@@ -205,28 +185,12 @@ Chat and properties browsing are disabled</source>
         <translation>Sport</translation>
     </message>
     <message>
-        <source>Promo</source>
-        <translation type="obsolete">Promo</translation>
-    </message>
-    <message>
         <source>Unable to send data... writeBlock returns -1</source>
         <translation>Impossible d&apos;envoyer des données... writeBlock a renvoyé -1</translation>
     </message>
     <message>
-        <source>ends the chat</source>
-        <translation type="obsolete">a mis fin à la discussion</translation>
-    </message>
-    <message>
-        <source>can&apos;t be contact, check his firewall... CONNECTION ERROR</source>
-        <translation type="obsolete">ne peut pas être contacté... son firewall est peut-être mal configuré</translation>
-    </message>
-    <message>
         <source>can&apos;t be found... CONNECTION ERROR</source>
         <translation>ne peut pas être trouvé sur le réseau</translation>
-    </message>
-    <message>
-        <source>has sent datas which can&apos;t be read... CONNECTION ERROR</source>
-        <translation type="obsolete">a envoyé des données qui ne peuvent pas être lues</translation>
     </message>
     <message>
         <source>Name</source>
@@ -293,10 +257,6 @@ Chat and properties browsing are disabled</source>
         <source>B</source>
         <translation>G</translation>
     </message>
-    <message encoding="UTF-8">
-        <source>⌘B</source>
-        <translation type="obsolete">B</translation>
-    </message>
     <message>
         <source>&lt;h3&gt;Underlined&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the underlined style for the text&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Souligné&lt;/h3&gt;&lt;p&gt;Permet de souligner le texte si vous éditez votre message en HTML&lt;/p&gt;</translation>
@@ -305,10 +265,6 @@ Chat and properties browsing are disabled</source>
         <source>U</source>
         <translation>S</translation>
     </message>
-    <message encoding="UTF-8">
-        <source>⌘U</source>
-        <translation type="obsolete">U</translation>
-    </message>
     <message>
         <source>&lt;h3&gt;Italic&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the italic style for the text&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Italique&lt;/h3&gt;&lt;p&gt;Permet de mettre le texte en italique si vous éditez votre message en HTML&lt;/p&gt;</translation>
@@ -316,10 +272,6 @@ Chat and properties browsing are disabled</source>
     <message>
         <source>I</source>
         <translation>I</translation>
-    </message>
-    <message encoding="UTF-8">
-        <source>⌘I</source>
-        <translation type="obsolete">I</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Send&lt;/h3&gt;&lt;p&gt;Send the message you have typed...&lt;br&gt;It&apos;s a lot easier to use &lt;b&gt;Enter&lt;/b&gt;&lt;/p&gt;</source>
@@ -336,10 +288,6 @@ Chat and properties browsing are disabled</source>
     <message>
         <source>Send as &amp;HTML</source>
         <translation>Envoyer en &amp;HTML</translation>
-    </message>
-    <message encoding="UTF-8">
-        <source>⌥H</source>
-        <translation type="obsolete">H</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Sound&lt;/h3&gt;&lt;p&gt;Enables/disables the sound which is played when a new message arrives&lt;/p&gt;</source>

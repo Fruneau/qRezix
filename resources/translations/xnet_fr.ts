@@ -2,16 +2,6 @@
 <context>
     <name>RzxProtocole</name>
     <message>
-        <source>Your pass has been successfully changed by the server. Keep it well because it can be useful.</source>
-        <translation type="obsolete">Votre mot de passe a été changé avec succès par le serveur. Notez le bien.</translation>
-    </message>
-    <message>
-        <source>Server can&apos;t change your pass :
-</source>
-        <translation type="obsolete">Le serveur ne peut pas changer le mot passe :
-</translation>
-    </message>
-    <message>
         <source>Your password has been successfully changed on the server. Remember it carefully, it can be useful.</source>
         <translation>Votre mot de passe a été changé correctement sur le serveur. Souvenez-vous en, il pourra vous être utile.</translation>
     </message>
@@ -20,6 +10,10 @@
 </source>
         <translation>Le serveur n&apos;a pas pu changer votre mot de passe :
 </translation>
+    </message>
+    <message>
+        <source>Native support for the xNet protocole version 4.0</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -31,14 +25,6 @@
     <message>
         <source>Connection refused</source>
         <translation>Connexion refusée</translation>
-    </message>
-    <message>
-        <source>Connectiion reset by peer</source>
-        <translation type="obsolete">Connexion réinitialisée par l&apos;hôte distant</translation>
-    </message>
-    <message>
-        <source>Cannot find server %1</source>
-        <translation type="obsolete">Impossible de trouver %1</translation>
     </message>
     <message>
         <source>Cannot find server %1:
@@ -57,14 +43,6 @@ DNS request failed</source>
     <message>
         <source>Operation timeout</source>
         <translation>Délai de l&apos;opération dépassé</translation>
-    </message>
-    <message>
-        <source>Link down</source>
-        <translation type="obsolete">Câble débranché</translation>
-    </message>
-    <message>
-        <source>Unspported operation</source>
-        <translation type="obsolete">Opération non supportée</translation>
     </message>
     <message>
         <source>Unknown QSocket error: %1</source>

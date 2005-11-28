@@ -7,26 +7,34 @@
     </message>
     <message>
         <source>0</source>
-        <translation>0</translation>
+        <translation type="obsolete">0</translation>
     </message>
     <message>
         <source>1</source>
-        <translation>1</translation>
+        <translation type="obsolete">1</translation>
     </message>
     <message>
         <source>Get Now !</source>
         <translation>Récupérer !</translation>
+    </message>
+    <message>
+        <source>Property</source>
+        <translation type="unfinished">Propriétés</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation type="unfinished">Valeur</translation>
     </message>
 </context>
 <context>
     <name>RzxRezalDetail</name>
     <message>
         <source>Property</source>
-        <translation>Propriétés</translation>
+        <translation type="obsolete">Propriétés</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation>Valeur</translation>
+        <translation type="obsolete">Valeur</translation>
     </message>
     <message>
         <source>away</source>
@@ -39,6 +47,10 @@
     <message>
         <source>Never checked</source>
         <translation>Jamais récupérées</translation>
+    </message>
+    <message>
+        <source>Detail of an item</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

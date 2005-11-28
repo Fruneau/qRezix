@@ -41,11 +41,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>0</source>
+        <source>Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1</source>
+        <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -65,15 +65,15 @@
     </message>
     <message>
         <source>0</source>
-        <translation>0</translation>
+        <translation type="obsolete">0</translation>
     </message>
     <message>
         <source>1</source>
-        <translation>1</translation>
+        <translation type="obsolete">1</translation>
     </message>
     <message>
         <source>2</source>
-        <translation>2</translation>
+        <translation type="obsolete">2</translation>
     </message>
     <message>
         <source>Misc</source>
@@ -247,6 +247,14 @@
         <source>Printer</source>
         <translation>Imprimante</translation>
     </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished">Version</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished">Description</translation>
+    </message>
 </context>
 <context>
     <name>RzxQuit</name>
@@ -304,29 +312,6 @@
     <message encoding="UTF-8">
         <source>⌥A</source>
         <translation>S</translation>
-    </message>
-</context>
-<context>
-    <name>RzxRezalDetail</name>
-    <message>
-        <source>Property</source>
-        <translation type="obsolete">Propriétés</translation>
-    </message>
-    <message>
-        <source>Value</source>
-        <translation type="obsolete">Valeur</translation>
-    </message>
-    <message>
-        <source>away</source>
-        <translation type="obsolete">absent</translation>
-    </message>
-    <message>
-        <source>connected</source>
-        <translation type="obsolete">connecté</translation>
-    </message>
-    <message>
-        <source>Never checked</source>
-        <translation type="obsolete">Jamais demandées</translation>
     </message>
 </context>
 <context>
@@ -416,10 +401,6 @@
         <translation>Oranjes</translation>
     </message>
     <message>
-        <source>Binets</source>
-        <translation type="obsolete">Binets</translation>
-    </message>
-    <message>
         <source>Informations :</source>
         <translation>Informations :</translation>
     </message>
@@ -454,14 +435,6 @@
     <message>
         <source>none</source>
         <translation>none</translation>
-    </message>
-    <message>
-        <source>place : </source>
-        <translation type="obsolete">bâtiment :</translation>
-    </message>
-    <message>
-        <source>No properties in cache</source>
-        <translation type="obsolete">Pas de propriétés en mémoire</translation>
     </message>
     <message>
         <source>Properties checked on </source>
@@ -566,15 +539,15 @@
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation>Version</translation>
+        <translation type="obsolete">Version</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation>Description</translation>
+        <translation type="obsolete">Description</translation>
     </message>
 </context>
 <context>
