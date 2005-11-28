@@ -200,6 +200,7 @@ void RzxProperty::changeThemeModules(const QList<T*>& modules, QTreeWidget *view
 template<class T>
 void RzxProperty::closeModules(const QList<T*>& modules)
 {
+	prefStack->setCurrentIndex(0);
 	foreach(T *module, modules)
 	{
 		if(module)

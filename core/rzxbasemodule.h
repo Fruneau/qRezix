@@ -24,6 +24,8 @@
  @author Florent Bruneau
  */
 
+class QLibrary;
+
 ///Structure de base à implémenter pour réaliser un type de module pour qRezix
 /** Le but de cette classe est de définir un type de base qui pourra servir à tous les types
  * de module de qRezix. En effet, on peut envisager non seulement des modules réseau, graphique...
@@ -117,6 +119,7 @@ class  RZX_CORE_EXPORT RzxBaseModule
 	QString m_copyright;
 	Rzx::Version m_version;
 	RzxThemedIcon m_icon;
+	QLibrary *m_lib;
 
 	//Chargement du module
 	protected:
@@ -152,6 +155,9 @@ class  RZX_CORE_EXPORT RzxBaseModule
 		virtual void propUpdate();
 		virtual void propDefault();
 		virtual void propClose();
+
+		void setLibrary(QLibrary*);
+		QLibrary *library() const;
 };
 
 #endif

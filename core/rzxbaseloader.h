@@ -82,6 +82,12 @@ class RzxBaseLoader
 		bool installModule(const QString&);
 		virtual bool installModule(T*);
 		virtual void linkModules();
+
+		void unloadModule(const QString&);
+		virtual void unloadModule(T*);
+
+		virtual bool loadModule(const QString&);
+		virtual bool reloadModule(const QString&);
 };
 
 ///Construit un loader en lançant automatiquement le chargement
@@ -111,7 +117,8 @@ QList<T*> RzxBaseLoader<T>::moduleList() const
 template <class T>
 void RzxBaseLoader<T>::closeModules()
 {
-	qDeleteAll(modules);
+	foreach(T *module, modules)
+		unloadModule(module);
 }
 
 ///Charge les modules
@@ -196,22 +203,44 @@ void RzxBaseLoader<T>::loadPlugins()
 template <class T>
 T *RzxBaseLoader<T>::resolve(const QString& file) const
 {
-	loadNameProc getName = (loadNameProc)QLibrary::resolve(file, name);
-	if(!getName) return NULL;
+	QLibrary *lib = new QLibrary(file);
+	loadNameProc getName = (loadNameProc)lib->resolve(name);
+	if(!getName)
+	{
+		lib->unload();
+		delete lib;
+		return NULL;
+	}
 
-	loadVersionProc getVersion = (loadVersionProc)QLibrary::resolve(file, version);
-	if(!getVersion) return NULL;
+	loadVersionProc getVersion = (loadVersionProc)lib->resolve(file, version);
+	if(!getVersion)
+	{
+		lib->unload();
+		delete lib;
+		return NULL;
+	}
 
 	QString moduleName = getName();
 	Rzx::Version moduleVersion = getVersion();
 
 	T* module = modules[moduleName];
 	if(module && module->version() >= moduleVersion)
+	{
+		lib->unload();
+		delete lib;
 		return NULL;
+	}
 
-	loadTModuleProc getModule = (loadTModuleProc)QLibrary::resolve(file, symbol);
+	loadTModuleProc getModule = (loadTModuleProc)lib->resolve(file, symbol);
 	if(getModule)
-		return getModule();
+	{
+		T *module = getModule();
+		if(module)
+			module->setLibrary(lib);
+		return module;
+	}
+	lib->unload();
+	delete lib;
 	return NULL;
 }
 
@@ -265,6 +294,64 @@ bool RzxBaseLoader<T>::installModule(T* module)
 template <class T>
 void RzxBaseLoader<T>::linkModules()
 {
+}
+
+///Décharge un module de la mémoire
+/** Ferme le module, et décharge la biblithèque associée si nécessaire
+ */
+template <class T>
+void RzxBaseLoader<T>::unloadModule(const QString& name)
+{
+	T *module = modules[name];
+	if(module)
+		unloadModule(module);
+}
+
+///Décharge un module de la mémoire
+/** Surcharge fournie pour simplifier le travail
+ */
+template <class T>
+void RzxBaseLoader<T>::unloadModule(T *module)
+{
+	if(!module)
+		return;
+
+	QLibrary *lib = module->library();
+	modules.remove(module->name());
+	delete module;
+	if(lib)
+	{
+		lib->unload();
+		delete lib;
+	}
+}
+
+///Charge un module à partir de son nom
+/** Charge un module à partir du nom.
+ *
+ * Cette fonction utilise la correspondance nom-fichier pour retrouver
+ * la lib à charger
+ */
+template <class T>
+bool RzxBaseLoader<T>::loadModule(const QString& moduleName)
+{
+	if(modules[moduleName]) return false;
+
+	if(files[moduleName].isNull()) return false;
+	return installModule(files[moduleName]);
+}
+
+///Recharge un module
+/** Décharge complètement un module et le recharge dans la foulée
+ * La bibliothèque associée est normalement également rechargée, ce qui
+ * a pour conséquence de permettre de tester des modifications des modules
+ * en cours de route
+ */
+template <class T>
+bool RzxBaseLoader<T>::reloadModule(const QString& moduleName)
+{
+	unloadModule(moduleName);
+	return loadModule(moduleName);
 }
 
 #endif

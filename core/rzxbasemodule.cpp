@@ -26,7 +26,7 @@
  * 	- numéro de version major.minor.build-tag
  */
 RzxBaseModule::RzxBaseModule(const QString& name, const QString& description, const Rzx::Version& version)
-	:m_name(name), m_description(description), m_version(version)
+	:m_name(name), m_description(description), m_version(version), m_lib(NULL)
 {
 }
 
@@ -80,6 +80,13 @@ void RzxBaseModule::setAuthor(const QString& author)
 void RzxBaseModule::setCopyright(const QString &copyright)
 {
 	m_copyright = copyright;
+}
+
+///Défini la lib associée
+/** \sa library */
+void RzxBaseModule::setLibrary(QLibrary *lib)
+{
+	m_lib = lib;
 }
 
 ///Récupération du nom du module
@@ -153,6 +160,14 @@ const QString &RzxBaseModule::author() const
 const QString &RzxBaseModule::copyright() const
 {
 	return m_copyright;
+}
+
+///Retourne la bibliothèque contenant le module
+/**
+ */
+QLibrary *RzxBaseModule::library() const
+{
+	return m_lib;
 }
 
 ///Retourne la liste des modules fils
