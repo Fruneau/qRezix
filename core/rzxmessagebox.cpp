@@ -29,6 +29,8 @@ int RzxMessageBox::information( QWidget *parent, const QString& caption,
 {
 	if(QApplication::type() == QApplication::Tty)
 		qDebug("[%s] %s", caption.toLatin1().constData(), text.toLatin1().constData());
+	else if(modal)
+		return QMessageBox::information(parent, caption, text, QMessageBox::Ok);
 	else
 	{
 		QMessageBox *mb = new QMessageBox(caption, text, QMessageBox::Information,
@@ -52,6 +54,8 @@ int RzxMessageBox::warning( QWidget *parent, const QString& caption,
 {
 	if(QApplication::type() == QApplication::Tty)
 		qDebug("[%s] %s", caption.toLatin1().constData(), text.toLatin1().constData());
+	else if(modal)
+		return QMessageBox::warning(parent, caption, text, QMessageBox::Ok, QMessageBox::NoButton);
 	else
 	{
 		QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Warning,
@@ -75,6 +79,8 @@ int RzxMessageBox::critical( QWidget *parent, const QString& caption,
 {
 	if(QApplication::type() == QApplication::Tty)
 		qDebug("[%s] %s", caption.toLatin1().constData(), text.toLatin1().constData());
+	else if(modal)
+		return QMessageBox::critical(parent, caption, text, QMessageBox::Ok, QMessageBox::NoButton);
 	else
 	{
 		QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Critical,

@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 #include <QDir>
-#include <QMessageBox>
 
 #include <RzxApplication>
 
@@ -24,6 +23,7 @@
 #include <RzxComputer>
 #include <RzxIconCollection>
 #include <RzxConnectionLister>
+#include <RzxMessageBox>
 #include <RzxProperty>
 #include <RzxSubnet>
 #include <RzxIntro>
@@ -155,9 +155,8 @@ bool RzxApplication::loadCore()
 			intro->exec();
 
 #ifdef RZX_SVNVERSION
-			QMessageBox::warning(NULL, tr("Welcome to qRezix"),
-				tr("This is a development version, provided as is, <b>without any garantee</b> of stability or functionality.<br><br><i>Use at your own risk.</i>"),
-				QMessageBox::Ok, QMessageBox::NoButton);
+			RzxMessageBox::warning(NULL, tr("Welcome to qRezix"),
+				tr("This is a development version, provided as is, <b>without any garantee</b> of stability or functionality.<br><br><i>Use at your own risk.</i>"), true);
 #endif
 		}
 		properties = new RzxProperty(NULL);
