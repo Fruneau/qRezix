@@ -75,9 +75,14 @@ RzxRezalPopup::RzxRezalPopup(const QModelIndex& index, const QPoint& point, QWid
 /** Le popup contient toutes les interactions envisageables avec l'ordinateur indiqué. */
 void RzxRezalPopup::init(RzxComputer *computer, const QPoint& point)
 {
+	if(!computer)
+	{
+		deleteLater();
+		return;
+	}
 	if(!point.isNull()) setAttribute(Qt::WA_DeleteOnClose);
 
-	setTitle(computer->name());;
+	setTitle(computer->name());
 	
 #define newItem(name, trad, receiver, slot) addAction(RzxIconCollection::getIcon(name), trad, receiver, slot)
 	if(computer->isIgnored())
