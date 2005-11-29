@@ -2,10 +2,12 @@
 
 # Compilation
 rm -rf qRezix.app
+echo "Building qRezix"
 cd ../..
-./build-mac
+./build-mac > /dev/null
 
 # Ajout de Qt dans le bundle
+echo "Linking with Qt"
 cd packages/macosx
 cp $QTDIR/lib/QtGui.framework/QtGui qRezix.app/Contents/Frameworks/
 cp $QTDIR/lib/QtCore.framework/QtCore qRezix.app/Contents/Frameworks/
@@ -19,7 +21,8 @@ cd qRezix.app/Contents
 find . -name '*.dylib' -exec ../../install_libs {} ";"
 
 # Nettoyage du bundle
+echo "Cleaning the bundle"
 cd Resources
-find . -name '.svn' -exec rm -rf {} ";"
+find . -name '.svn' -exec rm -rf {} ";" 2> /dev/null > /dev/null
 rm -rf icones
 rm -rf logs
