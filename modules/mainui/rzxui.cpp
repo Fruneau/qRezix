@@ -59,8 +59,8 @@ RzxUi::~RzxUi()
 {
 	beginClosing();
 	delete qrezix;
-	delete RzxMainUIConfig::global();
 	delete RzxRezalModel::global();
+	delete RzxMainUIConfig::global();
 	endClosing();
 }
 
