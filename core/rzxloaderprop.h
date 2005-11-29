@@ -70,14 +70,14 @@ class RzxLoaderProp:public RzxBaseLoaderProp
 
 ///Construction de l'objet
 template <class T>
-RzxLoaderProp<T>::RzxLoaderProp<T>(QWidget *parent)
+RzxLoaderProp<T>::RzxLoaderProp(QWidget *parent)
 	:RzxBaseLoaderProp(parent)
 {
 }
 
 ///Destruction de l'object
 template <class T>
-RzxLoaderProp<T>::~RzxLoaderProp<T>()
+RzxLoaderProp<T>::~RzxLoaderProp()
 {
 }
 
