@@ -68,6 +68,7 @@ QRezix::QRezix(QWidget *parent)
 	statusFlag = false;
 	wellInit = false;
 	alreadyOpened=false;
+	closing = false;
 	central = NULL;
 	index = NULL;
 
@@ -215,6 +216,7 @@ bool QRezix::installModule(RzxRezal *rezal)
 void QRezix::linkModules()
 {
 	setCentralRezal();
+	sel = new QItemSelectionModel(RzxRezalModel::global());
 	foreach(RzxRezal *rezal, moduleList())
 	{
 		if((rezal->type() & RzxRezal::TYP_INDEXED) && index)
@@ -223,12 +225,42 @@ void QRezix::linkModules()
 			connect(index->widget(), SIGNAL(clicked(const QModelIndex&)), rezal->widget(), SLOT(setRootIndex(const QModelIndex&)));
 			connect(index->widget(), SIGNAL(activated(const QModelIndex&)), rezal->widget(), SLOT(setRootIndex(const QModelIndex&)));
 		}
-		rezal->widget()->setSelectionModel(moduleList()[0]->widget()->selectionModel());
+		rezal->widget()->setSelectionModel(sel);
 	}
 #ifdef Q_OS_MAC
-	connect(moduleList()[0]->widget()->selectionModel(), SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)),
+	connect(sel, SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)),
 			this, SLOT(setMenu(const QModelIndex&, const QModelIndex&)));
 #endif
+}
+
+///Recrée les liens entre rezals
+void QRezix::relinkModules(RzxRezal *newRezal, RzxRezal *)
+{
+	if(closing) return;
+
+	if(newRezal)
+		newRezal->widget()->setSelectionModel(sel);
+}
+
+///Décharge le module indiqué
+void QRezix::unloadModule(RzxRezal *rezal)
+{
+	if(!rezal) return;
+
+	saveState(rezal);
+	QDockWidget *dock = rezal->dockWidget();
+
+	if(central == rezal) central = NULL;
+	if(index == rezal) index = NULL;
+	centralisable.removeAll(rezal);
+	QList<QAction*> actions = choseCentral.keys(rezal);
+	foreach(QAction *action, actions)
+		choseCentral.remove(action);
+
+	RzxBaseLoader<RzxRezal>::unloadModule(rezal);
+
+	if(dock)
+		delete dock;
 }
 
 ///Change la fenêtre centrale
@@ -347,6 +379,7 @@ void QRezix::buildActions()
 ///energistre l'état de la fenêtre et quitte....
 QRezix::~QRezix()
 {
+	closing = true;
 	closeModules();
 	RZX_GLOBAL_CLOSE
 }
@@ -354,24 +387,30 @@ QRezix::~QRezix()
 ///Sauvegarde l'état de la fenêtre et des modules
 void QRezix::saveState()
 {
-	RzxMainUIConfig *conf = RzxMainUIConfig::global();
 	QList<RzxRezal*> rezals = moduleList();
 	foreach(RzxRezal *rezal, rezals)
-	{
-		conf->beginGroup(rezal->name());
-		
-		QDockWidget *dock = rezal->dockWidget();
-		if(dock)
-		{
-			conf->setValue("isFloating", dock->isFloating());
-			conf->setValue("area", dockWidgetArea(dock));
-			conf->setValue("isVisible", dock->isVisible());
-		}
-		conf->endGroup();
-		if(dock && dock->isFloating())
-			conf->saveWidget(rezal->name(), dock);
-	}
+		saveState(rezal);
 	RzxMainUIConfig::saveMainWidget(this);
+}
+
+///Sauvegarder l'état d'un rezal particulier
+void QRezix::saveState(RzxRezal *rezal)
+{
+	if(closing) return;
+
+	RzxMainUIConfig *conf = RzxMainUIConfig::global();
+	conf->beginGroup(rezal->name());
+		
+	QDockWidget *dock = rezal->dockWidget();
+	if(dock)
+	{
+		conf->setValue("isFloating", dock->isFloating());
+		conf->setValue("area", dockWidgetArea(dock));
+		conf->setValue("isVisible", dock->isVisible());
+	}
+	conf->endGroup();
+	if(dock && dock->isFloating())
+		conf->saveWidget(rezal->name(), dock);
 }
 
 #ifdef Q_OS_MAC

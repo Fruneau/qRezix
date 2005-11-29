@@ -87,6 +87,7 @@ class RzxBaseLoader
 		bool installModule(const QString&);
 		virtual bool installModule(T*);
 		virtual void linkModules();
+		virtual void relinkModules(T* newT = NULL, T* oldT = NULL);
 
 		void unloadModule(const QString&);
 		virtual void unloadModule(T*);
@@ -115,7 +116,9 @@ RzxBaseLoader<T>::~RzxBaseLoader()
 template <class T>
 QList<T*> RzxBaseLoader<T>::moduleList() const
 {
-	return modules.values();
+	QList<T*> list = modules.values();
+	list.removeAll(NULL);
+	return list;
 }
 
 ///Vide la liste des modules
@@ -301,6 +304,21 @@ void RzxBaseLoader<T>::linkModules()
 {
 }
 
+///Crée les liens pour un nouveau module ou détruit ceux d'un ancien
+/** Lorsqu'un module est déchargé ou qu'un autre est chargé, il faut
+ * reconstruire les liens avec les autres modules. Cette fonction est censée
+ * s'en charger.
+ *
+ * Pour ceci elle peut prendre 2 arguments, vraissemblablement jamais plus d'un à la
+ * fois :
+ * 	- soit un nouveau module à lié au reste
+ * 	- soit un ancien module à libérer de ses liens
+ */
+template <class T>
+void RzxBaseLoader<T>::relinkModules(T*, T*)
+{
+}
+
 ///Décharge un module de la mémoire
 /** Ferme le module, et décharge la biblithèque associée si nécessaire
  */
@@ -321,6 +339,7 @@ void RzxBaseLoader<T>::unloadModule(T *module)
 	if(!module)
 		return;
 
+	relinkModules(NULL, module);
 	QLibrary *lib = module->library();
 	modules.remove(module->name());
 	delete module;
@@ -343,7 +362,9 @@ bool RzxBaseLoader<T>::loadModule(const QString& moduleName)
 	if(modules[moduleName]) return false;
 
 	if(files[moduleName].isNull()) return false;
-	return installModule(files[moduleName]);
+	bool ret = installModule(files[moduleName]);
+	relinkModules(modules[moduleName], NULL);
+	return ret;
 }
 
 ///Recharge un module

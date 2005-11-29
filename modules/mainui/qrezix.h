@@ -53,7 +53,8 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	RzxRezal *index;
 	QList<RzxRezal*> centralisable;
 	QHash<QAction*, RzxRezal*> choseCentral;
-	
+	QItemSelectionModel *sel;
+
 	QLineEdit *leSearch;
 	QLabel *lblSearch;
 	QMenu menuPlugins;
@@ -63,6 +64,7 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	bool statusMax;
 	bool alreadyOpened;
 	bool wellInit;
+	bool closing;
 	
 	QAction *pluginsAction;
 	QAction *prefAction;
@@ -88,12 +90,15 @@ signals:
 
 protected:
 	void saveState();
+	void saveState(RzxRezal*);
 	virtual void closeEvent(QCloseEvent * e);
 	virtual bool event(QEvent * e);
 
 	virtual void loadBuiltins();
 	virtual bool installModule(RzxRezal*);
 	virtual void linkModules();
+	virtual void relinkModules(RzxRezal* = NULL, RzxRezal* = NULL);
+	virtual void unloadModule(RzxRezal*);
 
 public slots: // Public slots
 	void status(const QString& msg, bool fatal);
