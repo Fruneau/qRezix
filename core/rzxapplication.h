@@ -69,10 +69,13 @@ class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<R
 		
 	protected:
 		bool loadCore();
+		void installHider(RzxModule*);
 		
 		virtual void loadBuiltins();
 		virtual bool installModule(RzxModule*);
 		virtual void linkModules();
+		virtual void relinkModules(RzxModule* = NULL, RzxModule* = NULL);
+		virtual void unloadModule(RzxModule*);
 
 	public slots:
 		void saveSettings();

@@ -207,13 +207,23 @@ void RzxConnectionLister::logout( const RzxHostAddress& ip )
 
 ///Retourne la liste des IP des gens connectés
 /** Permet pour les plug-ins d'obtenir facilement la liste les ip connectées */
-QStringList RzxConnectionLister::getIpList(Rzx::Capabilities features)
+QStringList RzxConnectionLister::ipList(Rzx::Capabilities features) const
 {
 	QStringList ips;
 	foreach(RzxHostAddress key, computerByIP.keys())
 		if(!features || computerByIP[key]->can(features))
 			ips << key.toString();
 	return ips;
+}
+
+///Retourne la liste des machines
+QList<RzxComputer*> RzxConnectionLister::computerList(Rzx::Capabilities features) const
+{
+	QList<RzxComputer*> computers;
+	foreach(RzxComputer *computer, computerByIP)
+		if(computer && (!features || computer->can(features)))
+			computers << computer;
+	return computers;
 }
 
 ///Gère la déconnexion d'un RzxNetwork

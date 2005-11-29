@@ -199,6 +199,17 @@ void RzxApplication::loadBuiltins()
 #undef loadBuiltIn
 }
 
+///Connecte un module 'hider' à la mainui
+void RzxApplication::installHider(RzxModule *hider)
+{
+	if(mainui)
+	{
+		connect(hider, SIGNAL(wantToggleVisible()), mainui, SLOT(toggleVisible()));
+		connect(hider, SIGNAL(wantShow()), mainui, SLOT(show()));
+		connect(hider, SIGNAL(wantHide()), mainui, SLOT(hide()));
+	}
+}
+
 ///Création des liens entre les modules
 /** L'application principale nécessite que les modules aient
  * plusieurs catégories, en particulier pour la trayicon,
@@ -212,19 +223,34 @@ void RzxApplication::linkModules()
 
 	foreach(RzxModule *hider, hiders)
 	{
-		if(mainui)
-		{
-			connect(hider, SIGNAL(wantToggleVisible()), mainui, SLOT(toggleVisible()));
-			connect(hider, SIGNAL(wantShow()), mainui, SLOT(show()));
-			connect(hider, SIGNAL(wantHide()), mainui, SLOT(hide()));
-		}
+		installHider(hider);
 		hider->show();
 	}
 	if(mainui && !hiders.count())
 		mainui->show();
+}
 
-	//Fin du chargement des modules
-	return;
+///Création des liens avec un nouveau module
+void RzxApplication::relinkModules(RzxModule *newMod, RzxModule *oldMod)
+{
+	if(newMod)
+	{
+		if(newMod->type() & RzxModule::MOD_HIDE)
+		{
+			installHider(newMod);
+			newMod->show();
+		}
+		else if(mainui == newMod)
+		{
+			foreach(RzxModule *hider, hiders)
+				installHider(hider);
+			if(properties)
+				properties->setParent(mainWindow());
+		}
+	}
+
+	if(oldMod && mainui && !hiders.count())
+		mainui->show();
 }
 
 ///Installe le module
@@ -258,6 +284,24 @@ bool RzxApplication::installModule(RzxModule *mod)
 		return true;
 	}
 	return false;
+}
+
+///Décharge un module
+void RzxApplication::unloadModule(RzxModule *module)
+{
+	hiders.removeAll(module);
+	if(module == mainui && properties)
+		properties->setParent(NULL);
+
+#define clear(var) if(var == module) var = NULL
+	clear(mainui);
+	clear(chatProto);
+	clear(chatui);
+	clear(propertiesProto);
+	clear(propertiesUi);
+#undef clear
+
+	RzxBaseLoader<RzxModule>::unloadModule(module);
 }
 
 ///Sauvegarde des données au moment de la fermeture

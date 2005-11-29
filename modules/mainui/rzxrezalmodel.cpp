@@ -104,6 +104,14 @@ RzxRezalModel::RzxRezalModel()
 	for(uint i = 0 ; i < RzxConfig::rezalNumber() ; i++)
 		rezalIndex[i] = QAbstractItemModel::createIndex(i, 0, (int)TREE_FLAG_REZAL);
 
+	object = this;
+	sortEnabled = false;
+	QList<RzxComputer*> computers = RzxConnectionLister::global()->computerList();
+	foreach(RzxComputer *computer, computers)
+		login(computer);
+	sortEnabled = true;
+	//sort(order, sens);
+
 	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(RzxConnectionLister::global(), SIGNAL(logout(RzxComputer* )), this, SLOT(logout(RzxComputer* )));
 	connect(RzxConnectionLister::global(), SIGNAL(update(RzxComputer* )), this, SLOT(update(RzxComputer* )));
@@ -857,7 +865,8 @@ void RzxRezalModel::clear()
 void RzxRezalModel::insertObject(const QModelIndex& parent, RzxRezalSearchList& list, RzxRezalSearchTree& tree, RzxComputer *computer)
 {
 	list << computer;
-	qSort(list.begin(), list.end(), sortComputer);
+	if(sortEnabled)
+		qSort(list.begin(), list.end(), sortComputer);
 	const int row = list.indexOf(computer);
 	beginInsertRows(parent, row, row);
 	tree.insert(computer->name().toLower(), new QPointer<RzxComputer>(computer));

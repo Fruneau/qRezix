@@ -71,7 +71,8 @@ class RZX_CORE_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader
 		void login(RzxNetwork*, const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
 		void login();
 		void logout(const RzxHostAddress& ip);
-		QStringList getIpList(Rzx::Capabilities features = Rzx::CAP_NONE);
+		QStringList ipList(Rzx::Capabilities features = Rzx::CAP_NONE) const;
+		QList<RzxComputer*> computerList(Rzx::Capabilities features = Rzx::CAP_NONE) const;
 		
 		void start();
 		void stop();
