@@ -146,7 +146,6 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 		///Ordre utilisé pour trier
 		NumColonne order;
 		Qt::SortOrder sens;
-		bool sortEnabled;
 
 		friend bool sortComputer(RzxComputer *, RzxComputer *);
 
