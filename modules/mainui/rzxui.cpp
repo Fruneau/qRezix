@@ -112,7 +112,7 @@ QList<QWidget*> RzxUi::propWidgets()
 	{
 		propWidget = new QWidget;
 		ui->setupUi(propWidget);
-		//ui->rezalList->setIconSize(QSize(16,16));
+		ui->rezalLoader->setLoader(qrezix);
 	}
 	return QList<QWidget*>() << propWidget;
 }
@@ -163,18 +163,6 @@ void RzxUi::propInit(bool def)
 	ui->cbTooltipProperties->setChecked(tooltip & RzxRezalModel::TipProperties);
 
 	ui->cbSearch->setChecked( RzxMainUIConfig::useSearch(def) );
-
-	ui->rezalLoader->setLoader(qrezix);
-/*	QList<RzxRezal*> rezals = qrezix->moduleList();
-	ui->rezalList->clear();
-	foreach(RzxRezal *rezal, rezals)
-	{
-		QTreeWidgetItem *item = new QTreeWidgetItem(ui->rezalList);
-		item->setIcon(0, rezal->icon());
-		item->setText(0, rezal->name());
-		item->setText(1, rezal->versionString());
-		item->setText(2, rezal->description());
-	}*/
 }
 
 /** \reimp */
