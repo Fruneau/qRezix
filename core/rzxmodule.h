@@ -21,6 +21,7 @@
 #define RZXMODULE_H
 
 #include <QFlags>
+#include <RzxLoaderProp>
 
 class RzxComputer;
 
@@ -243,6 +244,8 @@ class RZX_CORE_EXPORT RzxModule:public QObject, public RzxBaseModule
 		 */
 		void haveProperties(RzxComputer*);
 };
+
+typedef RzxLoaderProp<RzxModule> RzxModuleLoaderProp;
 
 ///Exportation du module
 /** Défini une fonction qui exporte le module. Cette macro doit être appelée pour tout

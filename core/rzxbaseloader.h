@@ -26,6 +26,9 @@
 #include <RzxGlobal>
 #include <RzxConfig>
 
+template <class T>
+class RzxLoaderProp;
+
 /**
  @author Florent Bruneau
  */
@@ -52,6 +55,8 @@
 template <class T>
 class RzxBaseLoader
 {
+	friend class RzxLoaderProp<T>;
+
 	typedef T *(*loadTModuleProc)(void);
 	typedef QString (*loadNameProc)(void);
 	typedef Rzx::Version (*loadVersionProc)(void);

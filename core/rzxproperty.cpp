@@ -87,10 +87,12 @@ RzxProperty::RzxProperty(QWidget *parent)
 	lbMenu->setIconSize(QSize(32,32));
 
 	//Initialisation de la treeview des plugins
-	lvPlugInList->setIconSize(QSize(16,16));
+	moduleLoader->setLoader(RzxApplication::instance());
+	networkLoader->setLoader(RzxConnectionLister::global());
+/*	lvPlugInList->setIconSize(QSize(16,16));
 	lvPlugInList->setUniformRowHeights(false);
 	lvNetworks->setIconSize(QSize(16,16));
-	lvNetworks->setUniformRowHeights(false);
+	lvNetworks->setUniformRowHeights(false);*/
 
 #ifndef WIN32
 	btnAboutQt->hide();
@@ -114,13 +116,13 @@ RzxProperty::RzxProperty(QWidget *parent)
 	confItem->setText(0, tr("Settings"));
 	confItem->setData(0, Qt::UserRole, ProgConfig);
 	lbMenu->expandItem(confItem);
-	buildModules<RzxModule>(RzxApplication::modulesList(), lvPlugInList, confItem);
+	buildModules<RzxModule>(RzxApplication::modulesList(), confItem);
 
 	networkItem = new QTreeWidgetItem(lbMenu);
 	networkItem->setText(0, tr("Network"));
 	networkItem->setData(0, Qt::UserRole, Network);
 	lbMenu->expandItem(networkItem);
-	buildModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), lvNetworks, networkItem);
+	buildModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), networkItem);
 
 	initDlg();
 	changeTheme();
@@ -147,8 +149,8 @@ void RzxProperty::changeTheme()
 	confItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
 	networkItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_NETWORK));
 
-	changeThemeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), lvNetworks, networkItem);
-	changeThemeModules<RzxModule>(RzxApplication::modulesList(), lvPlugInList, confItem);
+	changeThemeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), networkItem);
+	changeThemeModules<RzxModule>(RzxApplication::modulesList(), confItem);
 }
 
 

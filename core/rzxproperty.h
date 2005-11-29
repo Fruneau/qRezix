@@ -86,13 +86,13 @@ private:
 	QPixmap localhostIcon;
 
 	template<class T>
-	void buildModules(const QList<T*>&, QTreeWidget* = NULL, QTreeWidgetItem* = NULL);
+	void buildModules(const QList<T*>&, QTreeWidgetItem* = NULL);
 	template<class T>
 	void initModules(const QList<T*>&, bool def = false);
 	template<class T>
 	void updateModules(const QList<T*>&);
 	template<class T>
-	void changeThemeModules(const QList<T*>&, QTreeWidget *, QTreeWidgetItem*);
+	void changeThemeModules(const QList<T*>&, QTreeWidgetItem*);
 	template<class T>
 	void closeModules(const QList<T*>&);
 
@@ -107,7 +107,7 @@ protected slots: // Protected slots
 
 ///Inclu les modules dans la fenêtre de propriétés
 template<class T>
-void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidget *view, QTreeWidgetItem *parent)
+void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidgetItem *parent)
 {
 	foreach(T *module, modules)
 	{
@@ -129,16 +129,7 @@ void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidget *view, QTre
 			}
 		}
 
-		if(view)
-		{
-			QTreeWidgetItem *item = new QTreeWidgetItem(view);
-			item->setIcon(0, module->icon());
-			item->setText(0, module->name());
-			item->setText(1, module->versionString());
-			item->setText(2, module->description());
-		}
-
-		buildModules<RzxBaseModule>(children, NULL, item);
+		buildModules<RzxBaseModule>(children, item);
 	}
 }
 
@@ -170,13 +161,11 @@ void RzxProperty::updateModules(const QList<T*>& modules)
 
 ///Change le thème des modules
 template<class T>
-void RzxProperty::changeThemeModules(const QList<T*>& modules, QTreeWidget *view, QTreeWidgetItem *parent)
+void RzxProperty::changeThemeModules(const QList<T*>& modules, QTreeWidgetItem *parent)
 {
 	int i = 0;
 	foreach(T *module, modules)
 	{
-		if(view)
-			view->topLevelItem(i)->setIcon(0, module->icon());
 		QList<QWidget*> props = module->propWidgets();
 		QTreeWidgetItem *item = parent->child(i++);
 
@@ -192,7 +181,7 @@ void RzxProperty::changeThemeModules(const QList<T*>& modules, QTreeWidget *view
 			}
 		}
 
-		changeThemeModules<RzxBaseModule>(children, NULL, item);
+		changeThemeModules<RzxBaseModule>(children, item);
 	}
 }
 

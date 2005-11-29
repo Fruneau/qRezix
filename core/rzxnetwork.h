@@ -20,7 +20,7 @@
 #define RZXNETWORK_H
 
 #include <QObject>
-
+#include <RzxLoaderProp>
 
 class RzxHostAddress;
 class RzxComputer;
@@ -140,6 +140,8 @@ inline bool RzxNetwork::isInitialised() const
 {
 	return true;
 }
+
+typedef RzxLoaderProp<RzxNetwork> RzxNetworkLoaderProp;
 
 ///Définition de la fonction d'export d'un module network
 #define RZX_NETWORK_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getNetwork, getNetworkName, getNetworkVersion, RzxNetwork, MODULE)
