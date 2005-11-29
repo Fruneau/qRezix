@@ -20,6 +20,7 @@
 #define RZXREZAL_H
 
 #include <QDockWidget>
+#include <RzxLoaderProp>
 
 #include "rzxmainuiglobal.h"
 
@@ -105,6 +106,8 @@ class RZX_MAINUI_EXPORT RzxRezal:public RzxBaseModule
 	protected:
 		void setType(const Type&);
 };
+
+typedef RzxLoaderProp<RzxRezal> RzxRezalLoaderProp;
 
 #define RZX_REZAL_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getRezal, getRezalName, getRezalVersion, RzxRezal, MODULE)
 

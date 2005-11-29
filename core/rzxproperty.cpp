@@ -89,10 +89,6 @@ RzxProperty::RzxProperty(QWidget *parent)
 	//Initialisation de la treeview des plugins
 	moduleLoader->setLoader(RzxApplication::instance());
 	networkLoader->setLoader(RzxConnectionLister::global());
-/*	lvPlugInList->setIconSize(QSize(16,16));
-	lvPlugInList->setUniformRowHeights(false);
-	lvNetworks->setIconSize(QSize(16,16));
-	lvNetworks->setUniformRowHeights(false);*/
 
 #ifndef WIN32
 	btnAboutQt->hide();

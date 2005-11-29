@@ -24,6 +24,12 @@
    </property>
    <item row="0" column="0" colspan="3" >
     <widget class="QTreeWidget" name="treeModules" >
+     <property name="iconSize" >
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
      <property name="rootIsDecorated" >
       <bool>false</bool>
      </property>
@@ -93,7 +99,6 @@
  </widget>
  <layoutdefault spacing="6" margin="0" />
  <pixmapfunction></pixmapfunction>
- <includes/>
  <resources/>
  <connections/>
 </ui>

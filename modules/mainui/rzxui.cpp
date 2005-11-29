@@ -112,7 +112,7 @@ QList<QWidget*> RzxUi::propWidgets()
 	{
 		propWidget = new QWidget;
 		ui->setupUi(propWidget);
-		ui->rezalList->setIconSize(QSize(16,16));
+		//ui->rezalList->setIconSize(QSize(16,16));
 	}
 	return QList<QWidget*>() << propWidget;
 }
@@ -164,7 +164,8 @@ void RzxUi::propInit(bool def)
 
 	ui->cbSearch->setChecked( RzxMainUIConfig::useSearch(def) );
 
-	QList<RzxRezal*> rezals = qrezix->moduleList();
+	ui->rezalLoader->setLoader(qrezix);
+/*	QList<RzxRezal*> rezals = qrezix->moduleList();
 	ui->rezalList->clear();
 	foreach(RzxRezal *rezal, rezals)
 	{
@@ -173,7 +174,7 @@ void RzxUi::propInit(bool def)
 		item->setText(0, rezal->name());
 		item->setText(1, rezal->versionString());
 		item->setText(2, rezal->description());
-	}
+	}*/
 }
 
 /** \reimp */
