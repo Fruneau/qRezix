@@ -6,43 +6,43 @@ package=qrezix
 
 build: 	checkdir configure
 	# On commence par compiler pour Qt seul
-	cd qrezix && qmake-qt4 -o Makefile qrezix.pro
-	#cd qrezix/chat && make compiler_uic_make_all
-	cd qrezix && $(MAKE) 
+	qmake-qt4 "PREFIX=/usr" "DEST=$(CURDIR)/debian/qrezix" -o Makefile qrezix.pro
+	$(MAKE) 
+	
+	$(MAKE) install
 	
 	#Installation des libs
-	mkdir -p $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/modules
-	mkdir -p $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/net
+	#mkdir -p $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/modules
+	#mkdir -p $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/net
 	#Core lib
-	cp -a qrezix/lib*.so* $(CURDIR)/debian/qrezix-bin/usr/lib
+	#cp -a qrezix/lib*.so* $(CURDIR)/debian/qrezix-bin/usr/lib
 	#Modules reseau
-	mv $(CURDIR)/debian/qrezix-bin/usr/lib/librzxnet* $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/net
+	#mv $(CURDIR)/debian/qrezix-bin/usr/lib/librzxnet* $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/net
 	#Modules
-	mv $(CURDIR)/debian/qrezix-bin/usr/lib/librzx*.so*  $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/modules
+	#mv $(CURDIR)/debian/qrezix-bin/usr/lib/librzx*.so*  $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/modules
 	
 	#Installation des binaires
-	mkdir -p $(CURDIR)/debian/qrezix-bin/usr/bin
-	cp -a qrezix/qrezix $(CURDIR)/debian/qrezix-bin/usr/bin
+	#mkdir -p $(CURDIR)/debian/qrezix-bin/usr/bin
+	#cp -a qrezix/qrezix $(CURDIR)/debian/qrezix-bin/usr/bin
 	
 	# Paquets séparés pour les Traductions
-	cd qrezix && lrelease translations/*.ts
 	mkdir -p $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
-	cp -a $(CURDIR)/qrezix/translations/*.qm $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
+	mv $(CURDIR)/debian/qrezix/usr/share/qrezix/translations/*.qm $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
 	
 	# Paquets séparés pour les thèmes
 	mkdir -p $(CURDIR)/debian/qrezix-theme-noia-warm/usr/share/qrezix/themes/NoiaWarmKDE
-	cp -a $(CURDIR)/icons/themes/NoiaWarmKDE/*.png $(CURDIR)/debian/qrezix-theme-noia-warm/usr/share/qrezix/themes/NoiaWarmKDE
+	cp -a $(CURDIR)/debian/qrezix/usr/share/qrezix/themes/NoiaWarmKDE/*.png $(CURDIR)/debian/qrezix-theme-noia-warm/usr/share/qrezix/themes/NoiaWarmKDE
 	mkdir -p $(CURDIR)/debian/qrezix-theme-krystal/usr/share/qrezix/themes/krystal
-	cp -a $(CURDIR)/icons/themes/Krystal/*.png $(CURDIR)/debian/qrezix-theme-krystal/usr/share/qrezix/themes/krystal
+	cp -a $(CURDIR)/debian/qrezix/usr/share/qrezix/themes/Krystal/*.png $(CURDIR)/debian/qrezix-theme-krystal/usr/share/qrezix/themes/krystal
 	mkdir -p $(CURDIR)/debian/qrezix-theme-macosx/usr/share/qrezix/themes/MacOSX
-	cp -a $(CURDIR)/icons/themes/MacOSX/*.png $(CURDIR)/debian/qrezix-theme-macosx/usr/share/qrezix/themes/MacOSX
+	cp -a $(CURDIR)/debian/qrezix/usr/share/qrezix/themes/MacOSX/*.png $(CURDIR)/debian/qrezix-theme-macosx/usr/share/qrezix/themes/MacOSX
 	mkdir -p $(CURDIR)/debian/qrezix-theme-kids/usr/share/qrezix/themes/Kids
-	cp -a $(CURDIR)/icons/themes/Kids/*.png $(CURDIR)/debian/qrezix-theme-kids/usr/share/qrezix/themes/Kids
+	cp -a $(CURDIR)/debian/qrezix/usr/share/qrezix/themes/Kids/*.png $(CURDIR)/debian/qrezix-theme-kids/usr/share/qrezix/themes/Kids
 	mkdir -p $(CURDIR)/debian/qrezix-theme-classic/usr/share/qrezix/themes/classic
-	cp -a $(CURDIR)/icons/themes/Classic/*.png $(CURDIR)/debian/qrezix-theme-classic/usr/share/qrezix/themes/classic
+	cp -a $(CURDIR)/debian/qrezix/usr/share/qrezix/themes/Classic/*.png $(CURDIR)/debian/qrezix-theme-classic/usr/share/qrezix/themes/classic
 	mkdir -p $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/ms
-	cp -a $(CURDIR)/icons/themes/ms/*.png $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/ms
-	
+	cp -a $(CURDIR)/debian/qrezix/usr/share/qrezix/themes/ms/*.png $(CURDIR)/debian/qrezix-theme-ms/usr/share/qrezix/themes/ms
+	rm -rf $(CURDIR)/debian/qrezix/usr/share/qrezix/themes
 	touch build
 
 checkdir:
@@ -50,7 +50,7 @@ checkdir:
 	touch checkdir
 
 configure:	
-	cd qrezix && qmake -o Makefile qrezix.pro
+	qmake-qt4 -o Makefile qrezix.pro
 
 
 clean:
@@ -86,19 +86,19 @@ binary-arch: checkroot build
 	#dh_installcron
 	#dh_installinfo
 	#dh_installman
-	#dh_strip
-	#dh_link
+	dh_strip
+	dh_link usr/lib/modules/* usr/lib
 	#dh_compress -X.docbook -X.css -X-license -X.dcl -X.bz2
 	dh_fixperms
 	dh_makeshlibs -V
 	dh_installdeb
 	#dh_perl
-	dh_shlibdeps -ldebian/ark/usr/lib:debian/ksim/usr/lib:debian/klaptopdaemon/usr/lib:debian/kmilo/usr/lib:debian/qrezix-bin/usr/lib
+	dh_shlibdeps -ldebian/ark/usr/lib:debian/ksim/usr/lib:debian/klaptopdaemon/usr/lib:debian/kmilo/usr/lib:debian/qrezix/usr/lib
 	dh_undocumented -A qrezix.1
 	dh_gencontrol
 	dh_md5sums
-	chmod 755 debian/qrezix-bin/usr/lib/libqrezix*
-	chmod 755 debian/qrezix-bin/usr/lib/qrezix/*
+	#chmod 755 debian/qrezix-bin/usr/lib/libqrezix*
+	#chmod 755 debian/qrezix-bin/usr/lib/qrezix/*
 	dh_builddeb
 
 	

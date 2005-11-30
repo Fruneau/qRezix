@@ -11,7 +11,7 @@ mac {
 	lib.path = $$ROOT/qRezix.app/Contents/Resources/modules
 } else:unix {
         lib.path = $$DEST/lib/qrezix/modules
-	lib.extra = ln -sf $$DEST/lib/qrezix/modules/* $$DEST/lib
+	lib.extra = cd $$DEST/lib && ln -sf qrezix/modules/* ./
 } else:win32 {
 	lib.path = $$DEST/modules
 }

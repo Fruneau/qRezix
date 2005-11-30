@@ -1,3 +1,9 @@
+qrezix (2.0-0.svn) experimental; urgency=low
+
+  * Passage à la version 2
+
+ -- Guillaume Porcher <pico@brownie.chez-pico.net>  Wed, 30 Nov 2005 10:45:54 +0100
+
 qrezix (1.7) unstable; urgency=low
 
   * Passage à Qt4

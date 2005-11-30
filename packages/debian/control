@@ -5,13 +5,13 @@ Build-Depends: libqt4-dev,qt4-dev-tools,debhelper(>= 4.0.0)
 Maintainer: br <br@frankiz.polytechnique.fr>
 Standards-Version: 3.6.0
 
-Package: qrezix
+Package: qrezix-all
 Architecture: all
-Depends: qrezix-bin,qrezix-theme-noia-warm,qrezix-theme-classic,qrezix-theme-krystal,qrezix-theme-ms,qrezix-theme-macosx,qrezix-theme-kids,qrezix-translations-fr
+Depends: qrezix,qrezix-theme-noia-warm,qrezix-theme-classic,qrezix-theme-krystal,qrezix-theme-ms,qrezix-theme-macosx,qrezix-theme-kids,qrezix-translations-fr
 Description: Qrezix (meta-package)
  Permet d'intaller l'ensemble des composants qrezix.
 
-Package: qrezix-bin
+Package: qrezix
 Architecture: any
 Depends: ${shlibs:Depends},qrezix-theme
 Recommends: qrezix-translations
