@@ -1,5 +1,6 @@
 qrezix-all_2.0-0.svn_all.deb net optional
 qrezix_2.0-0.svn_i386.deb net optional
+qrezix-dev_2.0-0.svn_all.deb net optional
 qrezix-theme-noia-warm_2.0-0.svn_all.deb net optional
 qrezix-theme-classic_2.0-0.svn_all.deb net optional
 qrezix-theme-krystal_2.0-0.svn_all.deb net optional

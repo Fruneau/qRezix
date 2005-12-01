@@ -8,48 +8,53 @@ Standards-Version: 3.6.0
 Package: qrezix-all
 Architecture: all
 Depends: qrezix,qrezix-theme-noia-warm,qrezix-theme-classic,qrezix-theme-krystal,qrezix-theme-ms,qrezix-theme-macosx,qrezix-theme-kids,qrezix-translations-fr
-Description: Qrezix (meta-package)
- Permet d'intaller l'ensemble des composants qrezix.
+Description: qRezix (meta-package)
+ Permet d'intaller l'ensemble des composants qRezix.
 
 Package: qrezix
 Architecture: any
 Depends: ${shlibs:Depends},qrezix-theme
 Recommends: qrezix-translations
-Description: QRezix programme principal
+Description: qRezix programme principal
  
+Package: qrezix-dev
+Architecture: any
+Depends: qrezix
+Description: Headers qRezix pour le développement de plugins
+
 Package: qrezix-theme-noia-warm
 Architecture: all
 Provides: qrezix-theme
-Description: Thèmes d'icone pour QRezix basé sur le thème d'icones KDE du même nom, par Lathuile
+Description: Thèmes d'icone pour qRezix basé sur le thème d'icones KDE du même nom
 
 Package: qrezix-theme-classic
 Architecture: all
 Provides: qrezix-theme
-Description: Thèmes d'icone pour QRezix par défaut
+Description: Thèmes d'icone pour qRezix par défaut
 
 Package: qrezix-theme-krystal
 Architecture: all
 Provides: qrezix-theme
-Description: Thèmes d'icone pour QRezix basé sur le thème d'icones Krystal de KDE
+Description: Thèmes d'icone pour qRezix basé sur le thème d'icones Krystal de KDE
 
 Package: qrezix-theme-ms
 Architecture: all
 Provides: qrezix-theme
-Description: Thèmes d'icone pour QRezix par Lathuile: Open M$$!
+Description: Thèmes d'icone pour qRezix: Open M$$!
 
 Package: qrezix-theme-macosx
 Architecture: all
 Provides: qrezix-theme
-Description: Thèmes d'icone pour QRezix par Fruneau
+Description: Thèmes d'icone pour qRezix MacOS-like
 
 Package: qrezix-theme-kids
 Architecture: all
 Provides: qrezix-theme
-Description: Thèmes d'icone pour QRezix par Fruneau
+Description: Thèmes d'icone pour qRezix basé sur le thème Kids de KDE
 
 Package: qrezix-translations-fr
-Architecture: all
+Architecture: any
 Provides: qrezix-translations
-Description: Fichiers de traduction Français pour QRezix
+Description: Fichiers de traduction Français pour qRezix
 Replaces: qrezix-translations
 
