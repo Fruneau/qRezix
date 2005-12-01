@@ -21,20 +21,12 @@
         <translation>Formulaire</translation>
     </message>
     <message>
-        <source>Notification Window</source>
-        <translation>Fenêtre de notification</translation>
-    </message>
-    <message>
         <source>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Si vous cochez, une fenêtre de notification s&apos;affichera chaque fois qu&apos;un favoris se connecte, se déconnecte ou change d&apos;état&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Show a notification window on favorite&apos;s state modification</source>
         <translation>Afficher les fenêtre de notification des favoris</translation>
-    </message>
-    <message>
-        <source>Beep</source>
-        <translation>Bip</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when a favorite get connected&lt;/p&gt;</source>
@@ -51,6 +43,30 @@
     <message>
         <source>...</source>
         <translation>...</translation>
+    </message>
+    <message>
+        <source>When ?</source>
+        <translation>Quand ?</translation>
+    </message>
+    <message>
+        <source>No notification when I am away</source>
+        <translation>Pas de notification lorsque je suis marqué absent</translation>
+    </message>
+    <message>
+        <source>Notify favorite disconnection</source>
+        <translation>Notifier la déconnexion des favoris</translation>
+    </message>
+    <message>
+        <source>What ?</source>
+        <translation>Comment ?</translation>
+    </message>
+    <message>
+        <source>Notify when favorite go away</source>
+        <translation>Notifier lorsqu&apos;un favoris est marqué absent</translation>
+    </message>
+    <message>
+        <source>Notify when favorite arrive or come back</source>
+        <translation>Notifier l&apos;arrivée et le retour des favoris</translation>
     </message>
 </context>
 </TS>
