@@ -12,7 +12,7 @@
 ;Définition de versions
   !define MUI_PRODUCT "qRezix"
   !define MUI_VERSION "v2.0"
-  !define MUI_COMPLETEVERSION "v2.0.1"
+  !define MUI_COMPLETEVERSION "v2.0.0"
   !define MUI_NAME "${MUI_PRODUCT} ${MUI_VERSION}"
   !define MUI_COMPLETENAME "${MUI_PRODUCT} ${MUI_COMPLETEVERSION}"
 
@@ -28,7 +28,7 @@
   !define QTNETDLL "QtNetwork4.dll"
 
 ;Pour le cas ou on utilise VC++ pour compiler
-  ;!define USE_MSVCR_DLL  ;TODO tester avant
+  !define USE_MSVCR_DLL
 
   !ifdef USE_MSVCR_DLL
      !define MSVCR_DLL "msvcr71.dll"
@@ -389,8 +389,7 @@ Section "Traduction française" SecTransFrench
 
   SetOutPath "$INSTDIR\translations"
   
-  ; TODO a completer
-  File "..\..\resources\translations\qrezix_fr.qm"
+  File "..\..\resources\translations\*.qm"
   SetOutPath "$INSTDIR"
 SectionEnd
 
