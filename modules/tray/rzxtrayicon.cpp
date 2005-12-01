@@ -91,9 +91,6 @@ RzxTrayIcon::~RzxTrayIcon()
 {
 	beginClosing();
 	sysRemove();
-#ifdef Q_OS_MAC
-	qt_mac_set_dock_menu(NULL);
-#endif
 	delete RzxTrayConfig::global();
 	endClosing();
 }

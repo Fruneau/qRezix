@@ -28,10 +28,10 @@ mac {
 smileys.files = $$ROOT/resources/smileys
 
 mac {
-	smileys.path = $$ROOT/qRezix.app/Contents/Resources/smileys
+	smileys.path = $$ROOT/qRezix.app/Contents/Resources/
 } else:unix {
 	smileys.path = $$DEST/share/qrezix/
 } else:win32 {
-	smileys.path = $$DEST/smileys
+	smileys.path = $$DEST/
 }
 INSTALLS += smileys
