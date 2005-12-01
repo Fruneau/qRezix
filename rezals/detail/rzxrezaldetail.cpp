@@ -42,7 +42,7 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 	setType(TYP_DOCKABLE);
 	connect(RzxApplication::instance(), SIGNAL(haveProperties(RzxComputer*, bool*)),
 		this, SLOT(propChanged(RzxComputer*,bool*)));
-
+	clear();
 	endLoading();
 }
 

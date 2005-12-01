@@ -20,29 +20,9 @@
 #include <RzxHostAddress>
 #include <RzxConnectionLister>
 
-
-///Création d'un RzxHostAddress à partir de la donnée fournie par le protocole xNet
-/** Le protocole xNet a le malheur de transmettre les IPs à l'envers... :/, et donc
- * pour pouvoir construire un QHostAddress, il faut swapper l'int...
- */
-RzxHostAddress RzxHostAddress::fromRezix(quint32 tempIP) {
-	RzxHostAddress ret;
-	quint32 ip;
-	ip = 0;
-	ip |= (tempIP >> 24) & 0xFF;
-	ip |= ((tempIP >> 16) & 0xFF) << 8;
-	ip |= ((tempIP >> 8) & 0xFF) << 16;
-	ip |= (tempIP & 0xFF) << 24;
-	ret.setAddress(ip);
-	return ret;
-}
-
-///Convertie le RzxHostAddress dans le format utilisable par le protocole xNet
-/** Pour le même raisons que \ref fromRezix, il faut retourner l'adresse
- */
-quint32 RzxHostAddress::toRezix() const
+///Inverse les octes d'un objet de 32bits
+quint32 swap(quint32 tempIP)
 {
-	quint32 tempIP = toIPv4Address();
 	quint32 ip;
 	ip = 0;
 	ip |= (tempIP >> 24) & 0xFF;
@@ -50,6 +30,23 @@ quint32 RzxHostAddress::toRezix() const
 	ip |= ((tempIP >> 8) & 0xFF) << 16;
 	ip |= (tempIP & 0xFF) << 24;
 	return ip;
+}
+
+///Création d'un RzxHostAddress à partir de la donnée fournie par le protocole xNet
+/** Le protocole xNet a le malheur de transmettre les IPs à l'envers... :/, et donc
+ * pour pouvoir construire un QHostAddress, il faut swapper l'int...
+ */
+RzxHostAddress RzxHostAddress::fromRezix(quint32 tempIP)
+{
+	return RzxHostAddress(swap(tempIP));
+}
+
+///Convertie le RzxHostAddress dans le format utilisable par le protocole xNet
+/** Pour le même raisons que \ref fromRezix, il faut retourner l'adresse
+ */
+quint32 RzxHostAddress::toRezix() const
+{
+	return swap(toIPv4Address());
 }
 
 ///Converti l'objet en entier
