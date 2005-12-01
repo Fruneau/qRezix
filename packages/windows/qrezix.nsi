@@ -11,8 +11,8 @@
 
 ;Définition de versions
   !define MUI_PRODUCT "qRezix"
-  !define MUI_VERSION "v1.6"
-  !define MUI_COMPLETEVERSION "v1.6.1"
+  !define MUI_VERSION "v2.0"
+  !define MUI_COMPLETEVERSION "v2.0.1"
   !define MUI_NAME "${MUI_PRODUCT} ${MUI_VERSION}"
   !define MUI_COMPLETENAME "${MUI_PRODUCT} ${MUI_COMPLETEVERSION}"
 
@@ -20,13 +20,15 @@
   !include "MUI.nsh"
   !include "Sections.nsh"
 
-;Pour pouvoir copier qt-mtedu333.dll dans l'installeur
-  !define QTDIR "C:\Qt\3.3.3Educational"
+;Pour pouvoir copier les dll dans l'installeur
+  !define QTDIR "D:\Programmes\Qt\4.0.1"
   !define SOURCESYSDIR "C:\windows\system32"
-  !define QTDLL "qt-mtedu333.dll"
+  !define QTCOREDLL "QtCore4.dll"
+  !define QTGUIDLL "QtGui4.dll"
+  !define QTNETDLL "QtNetwork4.dll"
 
 ;Pour le cas ou on utilise VC++ pour compiler
-  !define USE_MSVCR_DLL
+  ;!define USE_MSVCR_DLL  ;TODO tester avant
 
   !ifdef USE_MSVCR_DLL
      !define MSVCR_DLL "msvcr71.dll"
@@ -145,28 +147,30 @@ FunctionEnd
   SetOutPath "$INSTDIR\themes"
   CreateDirectory "${THEME}"
   SetOutPath "$INSTDIR\themes\${THEME}"
-  File "..\icons\themes\${THEME}\*.png"
+  File "..\..\resources\themes\${THEME}\*.png"
 !macroend
 
-!macro INSTALL_XPLO_THEME THEME
-  SetOutPath "$INSTDIR\plugins\themes"
-  CreateDirectory "${THEME}"
-  SetOutPath "$INSTDIR\plugins\themes\${THEME}"
-  File "..\..\qrezix-plugins\xplo\src\themes\${THEME}\*.png"
-!macroend
+;!macro INSTALL_XPLO_THEME THEME
+;  SetOutPath "$INSTDIR\plugins\themes"
+;  CreateDirectory "${THEME}"
+;  SetOutPath "$INSTDIR\plugins\themes\${THEME}"
+;  File "..\..\qrezix-plugins\xplo\src\themes\${THEME}\*.png"
+;!macroend
 
-!macro INSTALL_SMILEY_THEME THEME
-  SetOutPath "$INSTDIR\plugins\themes"
-  CreateDirectory "${THEME}"
-  SetOutPath "$INSTDIR\plugins\themes\${THEME}"
-  File "..\..\qrezix-plugins\smilix\themes\${THEME}\*.png"
-!macroend
+;!macro INSTALL_SMILEY_THEME THEME
+;  SetOutPath "$INSTDIR\plugins\themes"
+;  CreateDirectory "${THEME}"
+;  SetOutPath "$INSTDIR\plugins\themes\${THEME}"
+;  File "..\..\resources\smilix\themes\${THEME}\*.png"
+;!macroend
+
+
 
 !macro INSTALL_SMILEY_IMAGES THEME
   SetOutPath "$INSTDIR\plugins\smiley"
   CreateDirectory "${THEME}"
   SetOutPath "$INSTDIR\plugins\smileys\${THEME}"
-  File "..\..\qrezix-plugins\smilix\smileys\${THEME}\*.png"
+  File "..\..\resources\smileys\${THEME}\*.png"
 !macroend
   
 ;--------------------------------
@@ -187,9 +191,10 @@ FunctionEnd
   LangString DESC_SecThemeNoia ${LANG_FRENCH} "Un autre thème d'icônes sympa"
   LangString DESC_SecThememS ${LANG_FRENCH} "L'invasion des pingouins !"
   LangString DESC_SecThemeMacOSX ${LANG_FRENCH} "Ressemble un peu à MacOS X"
+  LangString DESC_SecThemeNuvola ${LANG_FRENCH} "Toujours un thème d'icônes sympa"
   LangString DESC_SecTransFrench ${LANG_FRENCH} `Traduction française de qRezix`
-  LangString DESC_SecPiXplo ${LANG_FRENCH} "Plug-in de l'Xplo... pour la recherche de fichiers"
-  LangString DESC_SecPiSmiley ${LANG_FRENCH} "Plug-in pour le chat qui ajoute converti les smileys en image"
+  ;LangString DESC_SecPiXplo ${LANG_FRENCH} "Plug-in de l'Xplo... pour la recherche de fichiers"
+  ;LangString DESC_SecPiSmiley ${LANG_FRENCH} "Plug-in pour le chat qui ajoute converti les smileys en image"
 
 
 ;--------------------------------
@@ -224,18 +229,30 @@ Section "Fichiers de base de qRezix" SecBase
 
   SetOverwrite on
   SetOutPath "$INSTDIR"
-  File "${QTDIR}\bin\${QTDLL}"
+  File "${QTDIR}\bin\${QTCOREDLL}"
   IfErrors "" +3
-    Push "Impossible d'installer $SYSDIR\${QTDLL}.\nRelancez l'installation en tant qu'Administrateur."
+    Push "Impossible d'installer $SYSDIR\${QTCOREDLL}.\nRelancez l'installation en tant qu'Administrateur."
     Call ShowAbort
 
   SetOutPath "$INSTDIR"
-  File "..\qRezix\qRezix.exe"
+  File "${QTDIR}\bin\${QTGUIDLL}"
+  IfErrors "" +3
+    Push "Impossible d'installer $SYSDIR\${QTGUIDLL}.\nRelancez l'installation en tant qu'Administrateur."
+    Call ShowAbort
+	
+  SetOutPath "$INSTDIR"
+  File "${QTDIR}\bin\${QTNETDLL}"
+  IfErrors "" +3
+    Push "Impossible d'installer $SYSDIR\${QTNETDLL}.\nRelancez l'installation en tant qu'Administrateur."
+    Call ShowAbort
+
+  SetOutPath "$INSTDIR"
+  File "..\..\qRezix.exe"
   IfErrors "" +3
     Push "Impossible de remplacer $INSTDIR\qRezix.exe.$\nQuittez ${MUI_PRODUCT} avant de lancer la désinstallation."  
     Call ShowAbort
 
-  File /oname=ReadMe.txt "..\README"
+  File /oname=ReadMe.txt "..\..\README"
 
   ;Création des répertoires pour le stockages des données  
   CreateDirectory "themes"
@@ -331,8 +348,20 @@ Section "Thème d'icône 'MacOS X'" SecThemeMacOSX
 
   SectionIn 1 2
   
-  !insertmacro INSTALL_THEME "MaoOS X"
+  !insertmacro INSTALL_THEME "MacOSX"
 SectionEnd
+
+Section "Thème d'icône 'Nuvola'" SecThemeNuvola
+  SetDetailsPrint textonly
+  DetailPrint "Thèmes d'icônes | Nuvola"
+  SetDetailsPrint listonly
+
+  SectionIn 1 2
+  
+  !insertmacro INSTALL_THEME "Nuvola"
+SectionEnd
+
+
 
 ; Sauf si quelqu'un le complète, le thème mS est mort
 ;Section "Thème d'icônes 'mS'" SecThememS
@@ -359,58 +388,61 @@ Section "Traduction française" SecTransFrench
   SectionIn 1 2 3
 
   SetOutPath "$INSTDIR\translations"
-  File "..\qrezix\translations\qrezix_fr.qm"
+  
+  ; TODO a completer
+  File "..\..\resources\translations\qrezix_fr.qm"
   SetOutPath "$INSTDIR"
 SectionEnd
 
 SubSectionEnd ; Traductions
 
-
+; pas de plugin pour l'instant
 ;Plug-ins
-SubSection "Plug-ins" SecPlugIns
+;SubSection "Plug-ins" SecPlugIns
 
-Section "Plug-in de l'Xplo" SecPiXplo
-  SetDetailsPrint textonly
-  DetailPrint "Plug-ins | Xplo"
-  SetDetailsPrint listonly
 
-  SectionIn 1
+;Section "Plug-in de l'Xplo" SecPiXplo
+;  SetDetailsPrint textonly
+;  DetailPrint "Plug-ins | Xplo"
+;  SetDetailsPrint listonly
+;
+;  SectionIn 1
+;
+;  SetOutPath "$INSTDIR\plugins"
+;  File "..\..\qrezix-plugins\xplo\bin\rzxpixplo.dll"
+;  CreateDirectory "themes"
+;  !insertmacro INSTALL_XPLO_THEME "classic"
+;  !insertmacro INSTALL_XPLO_THEME "krystal"
+;  !insertmacro INSTALL_XPLO_THEME "NoiaWarmKDE"
+;  !insertmacro INSTALL_XPLO_THEME "MacOS X"
+;  SetOutPath "$INSTDIR"
+;SectionEnd
 
-  SetOutPath "$INSTDIR\plugins"
-  File "..\..\qrezix-plugins\xplo\bin\rzxpixplo.dll"
-  CreateDirectory "themes"
-  !insertmacro INSTALL_XPLO_THEME "classic"
-  !insertmacro INSTALL_XPLO_THEME "krystal"
-  !insertmacro INSTALL_XPLO_THEME "NoiaWarmKDE"
-  !insertmacro INSTALL_XPLO_THEME "MacOS X"
-  SetOutPath "$INSTDIR"
-SectionEnd
+;Section "Smilix, pour que le chat soit plus beau" SecPiSmiley
+;  SetDetailsPrint textonly
+;  DetailPrint "Plug-ins | Smilix"
+;  SetDetailsPrint listonly
+;
+;  SectionIn 1
+;
+;  SetOutPath "$INSTDIR\plugins"
+;  File "..\..\qrezix-plugins\smilix\bin\rzxpismiley.dll"
+;  CreateDirectory "themes"
+;  CreateDirectory "smileys"
+;  !insertmacro INSTALL_SMILEY_THEME "classic"
+;  !insertmacro INSTALL_SMILEY_THEME "krystal"
+;  !insertmacro INSTALL_SMILEY_THEME "NoiaWarmKDE"
+;  !inser;tmacro INSTALL_SMILEY_THEME "MacoOS X"
+;
+;  !insertmacro INSTALL_SMILEY_IMAGES "basic"
+;  !insertmacro INSTALL_SMILEY_IMAGES "basic2"
+;  !insertmacro INSTALL_SMILEY_IMAGES "msnlike"
+;  !insertmacro INSTALL_SMILEY_IMAGES "pingu"
+;
+;  SetOutPath "$INSTDIR"
+;SectionEnd
 
-Section "Smilix, pour que le chat soit plus beau" SecPiSmiley
-  SetDetailsPrint textonly
-  DetailPrint "Plug-ins | Smilix"
-  SetDetailsPrint listonly
-
-  SectionIn 1
-
-  SetOutPath "$INSTDIR\plugins"
-  File "..\..\qrezix-plugins\smilix\bin\rzxpismiley.dll"
-  CreateDirectory "themes"
-  CreateDirectory "smileys"
-  !insertmacro INSTALL_SMILEY_THEME "classic"
-  !insertmacro INSTALL_SMILEY_THEME "krystal"
-  !insertmacro INSTALL_SMILEY_THEME "NoiaWarmKDE"
-  !insertmacro INSTALL_SMILEY_THEME "MacoOS X"
-
-  !insertmacro INSTALL_SMILEY_IMAGES "basic"
-  !insertmacro INSTALL_SMILEY_IMAGES "basic2"
-  !insertmacro INSTALL_SMILEY_IMAGES "msnlike"
-  !insertmacro INSTALL_SMILEY_IMAGES "pingu"
-
-  SetOutPath "$INSTDIR"
-SectionEnd
-
-SubSectionEnd ; Plug-ins
+;SubSectionEnd ; Plug-ins
 
 
 ; Juste pour s'assurer que le PWD soit bon à l'exécution de qrezix.exe
@@ -431,13 +463,14 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeClassic} $(DESC_SecThemeClassic)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeKrystal} $(DESC_SecThemeKrystal)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeNoia} $(DESC_SecThemeNoia)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeMacOSX} $(DESC_SecMacOSX)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeMacOSX} $(DESC_SecThemeMacOSX)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeNuvola} $(DESC_SecThemeNuvola)
 ;  !insertmacro MUI_DESCRIPTION_TEXT ${SecThememS} $(DESC_SecThemems)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecTrans} "Traductions de qRezix"
   !insertmacro MUI_DESCRIPTION_TEXT ${SecTransFrench} $(DESC_SecTransFrench)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecPlugIns} "Plug-ins pour qRezix"
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecPiXplo} $(DESC_SecPiXplo)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecPiSmiley} $(DESC_SecPiSmiley)
+  ;!insertmacro MUI_DESCRIPTION_TEXT ${SecPlugIns} "Plug-ins pour qRezix"
+  ;!insertmacro MUI_DESCRIPTION_TEXT ${SecPiXplo} $(DESC_SecPiXplo)
+  ;!insertmacro MUI_DESCRIPTION_TEXT ${SecPiSmiley} $(DESC_SecPiSmiley)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 
@@ -469,7 +502,11 @@ Section "un.Suppression de qRezix" Uninstall
     Push "$SYSDIR\${MSVCR_DLL}"
     Call un.RemoveSharedDLL
   !endif
-  Push "$SYSDIR\${QTDLL}"
+  Push "$SYSDIR\${QTCOREDLL}"
+  Call un.RemoveSharedDLL
+  Push "$SYSDIR\${QTNETDLL}"
+  Call un.RemoveSharedDLL
+  Push "$SYSDIR\${QTGUIDLL}"
   Call un.RemoveSharedDLL
 
   ;Suppression des raccourcis
