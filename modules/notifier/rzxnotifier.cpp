@@ -49,7 +49,7 @@ RzxNotifier::RzxNotifier()
 	new RzxNotifierConfig(this);
 	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(RzxConnectionLister::global(), SIGNAL(initialLoging(bool)), this, SLOT(ignoreLoging(bool)));
-	if(RzxConnectionLister::global()->computerList().size())
+	if(RzxConnectionLister::global()->computerNumber())
 		ignoreLoging(false);
 	endLoading();
 }

@@ -202,7 +202,7 @@ void RzxConnectionLister::login()
 	
 		//Ajout du nouvel ordinateur dans les qdict
 		computerByLogin.insert(computer->name(), computer);
-		emit countChange( tr("%1 clients connected").arg(computerByIP.count()) );
+		emitCountChange();
 	}
 	
 	//Pour passer aux suivants
@@ -225,7 +225,7 @@ void RzxConnectionLister::logout( const RzxHostAddress& ip )
 		computerByIP.remove(ip);
 		computerByLogin.remove(computer->name());
 		computer->deleteLater();
-		emit countChange( tr("%1 clients connected").arg(computerByIP.count()) );
+		emitCountChange();
 	}
 }
 
@@ -249,6 +249,12 @@ QList<RzxComputer*> RzxConnectionLister::computerList(Rzx::Capabilities features
 		if(computer && (!features || computer->can(features)))
 			computers << computer;
 	return computers;
+}
+
+///Retourne le nombre de machines connectées
+int RzxConnectionLister::computerNumber() const
+{
+	return computerByIP.count();
 }
 
 ///Gère la déconnexion d'un RzxNetwork
@@ -308,6 +314,8 @@ void RzxConnectionLister::clearComputerFromNetwork(RzxNetwork *network)
 			computerByIP.remove(key);
 		}
 	}
+
+	emitCountChange();	
 }
 
 ///Indique si on a au moins une connexion avec un serveur
@@ -386,6 +394,14 @@ void RzxConnectionLister::fatal( const QString& msg )
 void RzxConnectionLister::statusChanged(const QString& msg)
 {
 	emit status(msg, isConnected());
+}
+
+///Emet des signaux indiquant le changement du nombre de connectés
+void RzxConnectionLister::emitCountChange()
+{
+	const int cn = computerNumber();
+	emit countChange(tr("%1 clients connected").arg(cn));
+	emit countChange(cn);
 }
 
 ///Gère le réception d'une icône

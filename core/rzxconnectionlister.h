@@ -67,12 +67,14 @@ class RZX_CORE_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader
 		RzxComputer *getComputerByName(const QString&) const;
 		RzxComputer *getComputerByIP(const RzxHostAddress&) const;
 		
+		QStringList ipList(Rzx::Capabilities features = Rzx::CAP_NONE) const;
+		QList<RzxComputer*> computerList(Rzx::Capabilities features = Rzx::CAP_NONE) const;
+		int computerNumber() const;
+
 	public slots:
 		void login(RzxNetwork*, const RzxHostAddress&, const QString&, quint32, quint32, quint32, quint32, const QString&);
 		void login();
 		void logout(const RzxHostAddress& ip);
-		QStringList ipList(Rzx::Capabilities features = Rzx::CAP_NONE) const;
-		QList<RzxComputer*> computerList(Rzx::Capabilities features = Rzx::CAP_NONE) const;
 		
 		void start();
 		void stop();
@@ -89,6 +91,7 @@ class RZX_CORE_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader
 		virtual void relinkModules(RzxNetwork* = NULL, RzxNetwork* = NULL);
 
 		void clearComputerFromNetwork(RzxNetwork *);
+		void emitCountChange();
 	
 	protected slots:
 		void statusChanged(const QString&);
@@ -101,6 +104,7 @@ class RZX_CORE_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader
 		void update(RzxComputer*);
 		void logout(RzxComputer*);
 		void countChange(const QString& newCount);
+		void countChange(int);
 
 		void clear();
 		void initialLoging(bool);
