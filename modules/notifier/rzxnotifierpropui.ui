@@ -8,7 +8,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>579</width>
+    <width>582</width>
     <height>500</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
-    <number>8</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
@@ -29,31 +29,49 @@
      </property>
      <property name="sizeHint" >
       <size>
-       <width>20</width>
-       <height>251</height>
+       <width>563</width>
+       <height>141</height>
       </size>
      </property>
     </spacer>
    </item>
    <item row="1" column="0" >
-    <widget class="QGroupBox" name="groupBox" >
+    <widget class="QGroupBox" name="grpWhen" >
      <property name="title" >
-      <string>Notification Window</string>
+      <string>When ?</string>
      </property>
      <layout class="QGridLayout" >
       <property name="margin" >
-       <number>8</number>
+       <number>9</number>
       </property>
       <property name="spacing" >
        <number>6</number>
       </property>
-      <item row="0" column="0" >
-       <widget class="QCheckBox" name="cbWarnFavorite" >
-        <property name="whatsThis" >
-         <string>&lt;h3>Notification&lt;/h3>&lt;p>Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p></string>
-        </property>
+      <item row="2" column="0" >
+       <widget class="QCheckBox" name="cbAway" >
         <property name="text" >
-         <string>Show a notification window on favorite's state modification</string>
+         <string>Notify when favorite go away</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QCheckBox" name="cbILeave" >
+        <property name="text" >
+         <string>No notification when I am away</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QCheckBox" name="cbDisconnect" >
+        <property name="text" >
+         <string>Notify favorite disconnection</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QCheckBox" name="cbHere" >
+        <property name="text" >
+         <string>Notify when favorite arrive or come back</string>
         </property>
        </widget>
       </item>
@@ -61,24 +79,24 @@
     </widget>
    </item>
    <item row="0" column="0" >
-    <widget class="QGroupBox" name="groupBox_2" >
+    <widget class="QGroupBox" name="grpWhat" >
      <property name="title" >
-      <string>Beep</string>
+      <string>What ?</string>
      </property>
      <layout class="QGridLayout" >
       <property name="margin" >
-       <number>8</number>
+       <number>9</number>
       </property>
       <property name="spacing" >
        <number>6</number>
       </property>
-      <item row="0" column="0" >
-       <widget class="QCheckBox" name="chkBeepFavorites" >
+      <item row="2" column="0" >
+       <widget class="QCheckBox" name="cbWarnFavorite" >
         <property name="whatsThis" >
-         <string>&lt;h3>Beep on connection&lt;/h3>&lt;p>Check this if you want qRezix to play a sound when a favorite get connected&lt;/p></string>
+         <string>&lt;h3>Notification&lt;/h3>&lt;p>Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p></string>
         </property>
         <property name="text" >
-         <string>Beep on connection of one of your favorites</string>
+         <string>Show a notification window on favorite's state modification</string>
         </property>
        </widget>
       </item>
@@ -130,6 +148,16 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QCheckBox" name="chkBeepFavorites" >
+        <property name="whatsThis" >
+         <string>&lt;h3>Beep on connection&lt;/h3>&lt;p>Check this if you want qRezix to play a sound when a favorite get connected&lt;/p></string>
+        </property>
+        <property name="text" >
+         <string>Beep on connection of one of your favorites</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

@@ -52,7 +52,7 @@ class RzxNotifier : public RzxModule
 	public slots:
 		void favoriteUpdated(RzxComputer *);
 		void login(RzxComputer *);
-		void loginEnd();
+		void ignoreLoging(bool);
 
 	public:
 		virtual QList<QWidget*> propWidgets();

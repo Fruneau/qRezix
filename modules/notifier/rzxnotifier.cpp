@@ -48,7 +48,9 @@ RzxNotifier::RzxNotifier()
 	setIcon(Rzx::ICON_FAVORITE);
 	new RzxNotifierConfig(this);
 	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
-	connect(RzxConnectionLister::global(), SIGNAL(loginEnd()), this, SLOT(loginEnd()));
+	connect(RzxConnectionLister::global(), SIGNAL(initialLoging(bool)), this, SLOT(ignoreLoging(bool)));
+	if(RzxConnectionLister::global()->computerList().size())
+		ignoreLoging(false);
 	endLoading();
 }
 
@@ -67,16 +69,16 @@ bool RzxNotifier::isInitialised() const
 }
 
 ///Prend en note le fait que les connexions initiales sont terminées
-void RzxNotifier::loginEnd()
+void RzxNotifier::ignoreLoging(bool ignore)
 {
-	favoriteWarn = true;
+	favoriteWarn = (!ignore);
 }
 
 ///Connecte le nouvel ordinateur
 void RzxNotifier::login(RzxComputer *computer)
 {
 	connect(computer, SIGNAL(favoriteStateChanged(RzxComputer*)), this, SLOT(favoriteUpdated(RzxComputer* )));
-	if(computer && computer->isFavorite() && !computer->isLocalhost())
+	if(computer && computer->isFavorite() && !computer->isLocalhost() && RzxNotifierConfig::notifyHere())
 		favoriteUpdated(computer);
 }
 
@@ -86,7 +88,7 @@ void RzxNotifier::favoriteUpdated(RzxComputer *computer)
 {
 	//ne garde que les favoris avec en plus comme condition que ce ne soit pas les gens présents à la connexion
 	//evite de notifier la présence de favoris si en fait c'est nous qui arrivons.
-	if(!favoriteWarn)
+	if(!favoriteWarn || (RzxComputer::localhost()->isOnResponder() && RzxNotifierConfig::notNotifyWhenILeave()))
 		return;
 	
 	//Bah, beep à la connexion
@@ -95,7 +97,21 @@ void RzxNotifier::favoriteUpdated(RzxComputer *computer)
 	
 	//Affichage de la fenêtre de notification de connexion
 	if(RzxNotifierConfig::showConnection())
+	{
+		switch(computer->state())
+		{
+			case Rzx::STATE_DISCONNECTED:
+				if(!RzxNotifierConfig::notifyDisconnection()) return;
+				break;
+			case Rzx::STATE_AWAY: case Rzx::STATE_REFUSE:
+				if(!RzxNotifierConfig::notifyAway()) return;
+				break;
+			 case Rzx::STATE_HERE:
+				if(!RzxNotifierConfig::notifyHere()) return;
+				break;
+		}
 		new RzxTrayWindow(computer);
+	}
 }
 
 /** \reimp */
@@ -124,6 +140,10 @@ void RzxNotifier::propInit(bool def)
 	ui->cbWarnFavorite->setChecked(RzxNotifierConfig::showConnection(def));
 	ui->chkBeepFavorites->setChecked(RzxNotifierConfig::beepConnection(def));
 	ui->txtBeepFavorites->setText(RzxNotifierConfig::beepSound(def));
+	ui->cbHere->setChecked(RzxNotifierConfig::notifyHere(def));
+	ui->cbDisconnect->setChecked(RzxNotifierConfig::notifyDisconnection(def));
+	ui->cbAway->setChecked(RzxNotifierConfig::notifyAway(def));
+	ui->cbILeave->setChecked(RzxNotifierConfig::notNotifyWhenILeave(def));
 }
 
 /** \reimp */
@@ -134,6 +154,10 @@ void RzxNotifier::propUpdate()
 	RzxNotifierConfig::setBeepConnection(ui->chkBeepFavorites->isChecked());
 	RzxNotifierConfig::setShowConnection(ui->cbWarnFavorite->isChecked());
 	RzxNotifierConfig::setBeepSound(ui->txtBeepFavorites->text());
+	RzxNotifierConfig::setNotifyHere(ui->cbHere->isChecked());
+	RzxNotifierConfig::setNotifyDisconnection(ui->cbDisconnect->isChecked());
+	RzxNotifierConfig::setNotifyAway(ui->cbAway->isChecked());
+	RzxNotifierConfig::setNotNotifyWhenILeave(ui->cbILeave->isChecked());
 }
 
 /** \reimp */

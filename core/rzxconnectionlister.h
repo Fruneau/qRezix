@@ -99,7 +99,7 @@ class RZX_CORE_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader
 		void countChange(const QString& newCount);
 
 		void clear();
-		void loginEnd();
+		void initialLoging(bool);
 		void connectionClosed(RzxNetwork*);
 		void connectionEstablished(RzxNetwork*);
 		void status(const QString& msg, bool fatal);

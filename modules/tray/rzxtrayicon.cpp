@@ -90,8 +90,11 @@ RzxTrayIcon::RzxTrayIcon()
 RzxTrayIcon::~RzxTrayIcon()
 {
 	beginClosing();
-	delete RzxTrayConfig::global();
 	sysRemove();
+#ifdef Q_OS_MAC
+	qt_mac_set_dock_menu(NULL);
+#endif
+	delete RzxTrayConfig::global();
 	endClosing();
 }
 

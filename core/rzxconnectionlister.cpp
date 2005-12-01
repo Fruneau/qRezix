@@ -45,6 +45,7 @@ RzxConnectionLister::RzxConnectionLister( QObject *parent)
 	Rzx::beginModuleLoading("Connection lister");
 	object = this;
 	connectionNumber = 0;
+	initialized = true;
 
 	delayDisplay.setSingleShot(true);
 
@@ -142,6 +143,12 @@ void RzxConnectionLister::login(RzxNetwork* network, const RzxHostAddress& ip, c
 		computer = new RzxComputer(network, ip, name, options, version, stamp, flags, comment);
 		computerByIP.insert(ip, computer);
 		displayWaiter << computer;
+
+		if(displayWaiter.size() > 5 && initialized)
+		{
+			initialized = false;
+			emit initialLoging(true);
+		}
 	
 		if(!delayDisplay.isActive())
 			delayDisplay.start(1);
@@ -184,7 +191,7 @@ void RzxConnectionLister::login()
 	if(!displayWaiter.isEmpty()) delayDisplay.start(5);
 	else
 	{
-		emit loginEnd();
+		emit initialLoging(false);
 		initialized = true;
 	}
 }
@@ -272,10 +279,7 @@ void RzxConnectionLister::newConnection(RzxNetwork* network)
 	}
 
 	if(connectionNumber < moduleList().count())
-	{
 		connectionNumber++;
-		initialized = false;
-	}
 	else
 		qDebug("Invalid connection");
 	
