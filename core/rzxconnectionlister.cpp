@@ -107,6 +107,24 @@ bool RzxConnectionLister::installModule(RzxNetwork *network)
 	return false;
 }
 
+///Reconstruit les liens entre les modules
+/** Dans le cas présent, ceci ne consiste qu'à démarrer les modules chargés
+ * à chaud
+ */
+void RzxConnectionLister::relinkModules(RzxNetwork *newNetwork, RzxNetwork *)
+{
+	if(newNetwork)
+		newNetwork->start();
+}
+
+///Décharge un module réseau
+void RzxConnectionLister::unloadModule(RzxNetwork *network)
+{
+	network->stop();
+	clearComputerFromNetwork(network);
+	RzxBaseLoader<RzxNetwork>::unloadModule(network);
+}
+
 ///Indique si on a fini d'enregistrer tous les connectés d'un serveur
 /** Lorsqu'on se connecte à un nouveau serveur, on peut dans certains
  * cas recevoir un grand nombre de nouvelle connexion. Celle-ci sont
@@ -254,6 +272,19 @@ void RzxConnectionLister::newDisconnection(RzxNetwork*)
  */
 void RzxConnectionLister::newConnection(RzxNetwork* network)
 {
+	clearComputerFromNetwork(network);
+	if(connectionNumber < moduleList().count())
+		connectionNumber++;
+	else
+		qDebug("Invalid connection");
+	
+	if(connectionNumber == 1)
+		emit clear();
+}
+
+///Retire de la liste des ordinateurs ceux associé au module réseau donné
+void RzxConnectionLister::clearComputerFromNetwork(RzxNetwork *network)
+{
 	foreach(RzxComputer *computer, displayWaiter)
 	{
 		if(!computer || (computer->network() == network))
@@ -277,14 +308,6 @@ void RzxConnectionLister::newConnection(RzxNetwork* network)
 			computerByIP.remove(key);
 		}
 	}
-
-	if(connectionNumber < moduleList().count())
-		connectionNumber++;
-	else
-		qDebug("Invalid connection");
-	
-	if(connectionNumber == 1)
-		emit clear();
 }
 
 ///Indique si on a au moins une connexion avec un serveur

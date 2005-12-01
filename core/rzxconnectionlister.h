@@ -85,6 +85,10 @@ class RZX_CORE_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader
 	protected:
 		virtual void loadBuiltins();
 		virtual bool installModule(RzxNetwork*);
+		virtual void unloadModule(RzxNetwork*);
+		virtual void relinkModules(RzxNetwork* = NULL, RzxNetwork* = NULL);
+
+		void clearComputerFromNetwork(RzxNetwork *);
 	
 	protected slots:
 		void statusChanged(const QString&);
