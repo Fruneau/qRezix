@@ -251,7 +251,7 @@ public slots:
 	void setServerFlags(Servers);
 	void setIcon(const QPixmap& image);
 	void setIP(const RzxHostAddress&);
-	void addCapabilities(int);
+	void addCapabilities(int, bool = true);
 
 
 /******************* Accès aux serveurs distantsz ***************************************/

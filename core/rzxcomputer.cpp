@@ -513,8 +513,14 @@ bool RzxComputer::hasPrinter() const
 
 /********** FONCTIONALITES */
 ///Ajout d'une feature à la machine
-void RzxComputer::addCapabilities(int feature)
-{ m_options.Capabilities |= feature; }
+void RzxComputer::addCapabilities(int feature, bool add)
+{
+	if(add)
+		m_options.Capabilities |= feature;
+	else
+		m_options.Capabilities &= ~feature;
+	emitStateChanged();
+}
 
 ///Teste de la présence d'une possibilité
 /** Retourne true si la machine possède la capacité demandée,

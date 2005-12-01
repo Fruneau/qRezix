@@ -101,6 +101,7 @@ RzxChatLister::~RzxChatLister()
 	beginClosing();
 	closeChats();
 	client->deleteLater();
+	RzxComputer::localhost()->addCapabilities(Rzx::CAP_CHAT, false);
 	delete RzxChatConfig::global();
 	endClosing();
 	RZX_GLOBAL_CLOSE

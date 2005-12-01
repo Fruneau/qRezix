@@ -110,7 +110,7 @@ class QLibrary;
  * }
  * \endcode
  */
-class  RZX_CORE_EXPORT RzxBaseModule
+class RZX_CORE_EXPORT RzxBaseModule
 {
 	//Propriétés du modules
 	QString m_name;
