@@ -118,7 +118,6 @@ void RzxConfig::loadDirs()
 		m_systemDir.setPath(dir);
 	else
 		m_systemDir = m_userDir;
-	m_systemDir = m_libDir;
 #else
 	userSubdir = ".rezix";
 	m_systemDir.setPath(QREZIX_DATA_DIR);
