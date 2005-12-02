@@ -263,12 +263,12 @@ Section "Fichiers de base de qRezix" SecBase
 
   CreateDirectory "maps"
 
-  SetOutPath "$INSTDIR/maps"
+  SetOutPath "$INSTDIR\maps"
   File "..\..\rezals\map\*.jpg"
   File "..\..\rezals\map\*.png"
 
   SetOutPath "$INSTDIR"
-  File "..\..\resources\smileys"
+  File /r "..\..\resources\smileys"
   File "..\..\core\subnet.ini"
   File "..\..\rezals\map\map.ini"
 
