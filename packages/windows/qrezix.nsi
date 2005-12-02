@@ -191,6 +191,7 @@ FunctionEnd
   LangString DESC_SecThemeNoia ${LANG_FRENCH} "Un autre thème d'icônes sympa"
   LangString DESC_SecThememS ${LANG_FRENCH} "L'invasion des pingouins !"
   LangString DESC_SecThemeMacOSX ${LANG_FRENCH} "Ressemble un peu à MacOS X"
+  LangString DESC_SecThemeKids ${LANG_FRENCH} "Thème d'icône un peu enfantin... sympa"
   LangString DESC_SecThemeNuvola ${LANG_FRENCH} "Toujours un thème d'icônes sympa"
   LangString DESC_SecTransFrench ${LANG_FRENCH} `Traduction française de qRezix`
   ;LangString DESC_SecPiXplo ${LANG_FRENCH} "Plug-in de l'Xplo... pour la recherche de fichiers"
@@ -311,24 +312,24 @@ SubSectionEnd ; Raccourcis
 ; Les thèmes d'icônes
 SubSection "Thèmes d'icônes" SecTheme
 
-Section "Thème d'icônes 'classic'" SecThemeClassic
+Section "Thème d'icônes 'Classic'" SecThemeClassic
   SetDetailsPrint textonly
-  DetailPrint "Thèmes d'icônes | classic"
+  DetailPrint "Thèmes d'icônes | Classic"
   SetDetailsPrint listonly
 
   SectionIn 1 2 3 RO
 
-  !insertmacro INSTALL_THEME "classic"
+  !insertmacro INSTALL_THEME "Classic"
 SectionEnd
 
-Section "Thème d'icônes 'krystal'" SecThemeKrystal
+Section "Thème d'icônes 'Krystal'" SecThemeKrystal
   SetDetailsPrint textonly
-  DetailPrint "Thèmes d'icônes | krystal"
+  DetailPrint "Thèmes d'icônes | Krystal"
   SetDetailsPrint listonly
 
   SectionIn 1 2
 
-  !insertmacro INSTALL_THEME "krystal"
+  !insertmacro INSTALL_THEME "Krystal"
 SectionEnd
 
 Section "Thème d'icônes 'Noia'" SecThemeNoia
@@ -349,6 +350,16 @@ Section "Thème d'icône 'MacOS X'" SecThemeMacOSX
   SectionIn 1 2
   
   !insertmacro INSTALL_THEME "MacOSX"
+SectionEnd
+
+Section "Thème d'icône 'Kids'" SecThemeKids
+  SetDetailsPrint textonly
+  DetailPrint "Thèmes d'icônes | Kids"
+  SetDetailsPrint listonly
+
+  SectionIn 1 2
+
+  !insertmacro INSTALL_THEME "Kids"
 SectionEnd
 
 Section "Thème d'icône 'Nuvola'" SecThemeNuvola
@@ -463,6 +474,7 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeKrystal} $(DESC_SecThemeKrystal)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeNoia} $(DESC_SecThemeNoia)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeMacOSX} $(DESC_SecThemeMacOSX)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeKids} $(DESC_SecThemeKids)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeNuvola} $(DESC_SecThemeNuvola)
 ;  !insertmacro MUI_DESCRIPTION_TEXT ${SecThememS} $(DESC_SecThemems)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecTrans} "Traductions de qRezix"
