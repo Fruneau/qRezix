@@ -270,8 +270,8 @@ Section "Fichiers de base de qRezix" SecBase
   !insertmacro MUI_STARTMENU_WRITE_END
 
   ;Enregistrement du chemin de stockage
-  DeleteRegKey HKLM "Software\qRezix\InstDir"
-  WriteRegStr HKLM "Software\qRezix" "InstDir" "$INSTDIR"
+  DeleteRegKey HKLM "Software\BR\qRezix\InstDir"
+  WriteRegStr HKLM "Software\BR\qRezix" "InstDir" "$INSTDIR"
   
   ;Create uninstaller
   WriteRegExpandStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "UninstallString" '"$INSTDIR\Uninstall.exe"'
