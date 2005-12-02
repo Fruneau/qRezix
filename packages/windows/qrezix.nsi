@@ -253,6 +253,12 @@ Section "Fichiers de base de qRezix" SecBase
     Push "Impossible de remplacer $INSTDIR\qRezix.exe.$\nQuittez ${MUI_PRODUCT} avant de lancer la désinstallation."  
     Call ShowAbort
 
+  SetOutPath "$INSTDIR"
+  File "..\..\qrezix2.dll"
+  IfErrors "" +3
+    Push "Impossible de remplacer $INSTDIR\qrezix2.dll.$\nQuittez ${MUI_PRODUCT} avant de lancer la désinstallation."
+    Call ShowAbort		
+
   File /oname=ReadMe.txt "..\..\README"
 
   ;Création des répertoires pour le stockages des données  
