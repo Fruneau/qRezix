@@ -260,7 +260,17 @@ Section "Fichiers de base de qRezix" SecBase
   CreateDirectory "icones"
   CreateDirectory "log"
   CreateDirectory "translations"
-  CreateDirectory "plugins"
+
+  CreateDirectory "maps"
+
+  SetOutPath "$INSTDIR/maps"
+  File "..\..\rezals\map\*.jpg"
+  File "..\..\rezals\map\*.png"
+
+  SetOutPath "$INSTDIR"
+  File "..\..\resources\smileys"
+  File "..\..\core\subnet.ini"
+  File "..\..\rezals\map\map.ini"
 
   ;Install the shortcuts in start menu
   !insertmacro MUI_STARTMENU_WRITE_BEGIN "qRezix"
@@ -539,7 +549,7 @@ Section /o "un.Supprimer les préférences" UninstPref
 
   Delete "$INSTDIR\*.*"
   RMDir /r "$INSTDIR"
-  DeleteRegKey HKLM "Software\qRezix"
+  DeleteRegKey HKLM "Software\BR\qRezix"
 SectionEnd
 
 
