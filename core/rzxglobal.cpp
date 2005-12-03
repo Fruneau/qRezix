@@ -16,12 +16,14 @@
  ***************************************************************************/
 #include <QString>
 #include <QRegExp>
+#include <QTime>
 
 #include <RzxGlobal>
 
 static QtMsgHandler oldMsgHandler = NULL;
 static FILE *logfile = NULL;
 int level = 0;
+bool withTS = false;
 
 ///Message handler spécifique pour avoir un formatage intéressant
 void msgHandler(QtMsgType type, const char *msg)
@@ -32,14 +34,27 @@ void msgHandler(QtMsgType type, const char *msg)
 	for(int i = 0 ; i < level*2 ; i++)
 		finalMsg[i] = ' ';
 	memcpy(finalMsg + level*2, msg, len+1);
-	if(logfile != NULL)
-		fprintf(logfile, "[%s] %s\n", type==QtDebugMsg ? "debug" : type==QtWarningMsg ? "warning" : "error",finalMsg);
-	
+
+	FILE *file = logfile;
+	if(!file && !oldMsgHandler)
+	{
+		if(type >= QtCriticalMsg)
+			file = stderr;
+		else
+			file = stdout;
+	}
+
+	if(withTS && file)
+		fprintf(file, "[%s]", QTime::currentTime().toString("hh:mm:ss").toAscii().constData());
+
+	if(logfile)
+		fprintf(logfile, "[%s]", type==QtDebugMsg ? "debug" : type==QtWarningMsg ? "warning" : "error");
+
+	if(file)
+		fprintf(file, "%s\n", finalMsg);
+
 	if(oldMsgHandler != NULL)
 		(*oldMsgHandler)(type,finalMsg);
-
-	if(logfile == NULL && oldMsgHandler == NULL)
-		printf("%s\n", finalMsg);
 
 	delete[] finalMsg;
 }

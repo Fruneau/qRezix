@@ -40,6 +40,8 @@
 #	include "../modules/notifier/rzxnotifier.h"
 #endif
 
+extern bool withTS;
+
 ///Définition de la version de qRezix
 /** La version est générée automatiquement grâce aux informations fournies
  * à la compilation. Pour plus d'information, il suffit de se reporter au
@@ -82,6 +84,7 @@ RzxApplication::RzxApplication(int argc, char **argv)
 
 	//Analyse des arguments
 	for(int i=1; i<argc; i++)
+	{
 		if(strncmp(argv[i],"--log-debug=",12)==0)
 		{
 			int len = strlen(argv[i])-12;
@@ -92,6 +95,9 @@ RzxApplication::RzxApplication(int argc, char **argv)
 			delete[] logfile_name;
 			break;
 		}
+		if(strncmp(argv[i],"--timestamp", 14)==0)
+			withTS = true;
+	}
 
 	//Installation du message handler... à partir de maintenant, on peut
 	//faire des qDebug...
