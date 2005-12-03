@@ -21,6 +21,7 @@ email                : benoit.casoetto@m4x.org
 #include <QPixmap>
 #include <QSize>
 #include <QHeaderView>
+#include <QStack>
 
 #ifdef WITH_KDE
 #include <kfiledialog.h>
@@ -183,8 +184,34 @@ void RzxProperty::addModule(const QString& name, QTreeWidgetItem *parent)
 	else if(parent == networkItem)
 		module << RzxConnectionLister::global()->module(name);
 	else
-		//TODO implémenter la recherche de module dans les sous-modules...
-		return;
+	{
+		//Recherche de l'arborescence des modules
+		QStack<QString> moduleNames;
+		moduleNames.push(name);
+		QTreeWidgetItem *item = parent;
+		do
+		{
+			moduleNames.push(item->text(0));
+			item = item->parent();
+		}
+		while(item && item != confItem && item != networkItem);
+		if(!item) return;
+
+		//Parcours l'arborescence des modules
+		QString moduleName = moduleNames.pop();
+		RzxBaseModule *mod = NULL; 
+		if(item == confItem)
+			mod = RzxApplication::instance()->module(moduleName);
+		else
+			mod = RzxConnectionLister::global()->module(moduleName);
+		while(!moduleNames.isEmpty())
+		{
+			if(!mod) return;
+			moduleName = moduleNames.pop();
+			mod = mod->childModule(moduleName);
+		}
+		if(mod) module << mod;
+	}
 	buildModules<RzxBaseModule>(module, parent);
 	module[0]->propInit();
 }

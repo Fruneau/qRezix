@@ -182,6 +182,18 @@ QList<RzxBaseModule*> RzxBaseModule::childModules() const
 	return QList<RzxBaseModule*>();
 }
 
+///Retourne le module dont le nom est indiqué
+RzxBaseModule *RzxBaseModule::childModule(const QString& name) const
+{
+	const QList<RzxBaseModule*> list = childModules();
+	foreach(RzxBaseModule *module, list)
+	{
+		if(module->name() == name)
+			return module;
+	}
+	return NULL;
+}
+
 ///Retourne la liste des fenêtres de configuration du plugin
 /** Chaque module bénéficie de la possibilité de fournir plusieurs
  * fenêtre de configuration. Ces fenêtres possèdent alors un nom chacune

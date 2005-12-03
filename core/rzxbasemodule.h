@@ -148,6 +148,7 @@ class RZX_CORE_EXPORT RzxBaseModule
 
 		//Gestion des sous-modules
 		virtual QList<RzxBaseModule*> childModules() const;
+		RzxBaseModule *childModule(const QString& name) const;
 
 		//Gestion de propriétés du module
 		virtual QList<QWidget*> propWidgets();
