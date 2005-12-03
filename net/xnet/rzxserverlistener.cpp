@@ -14,6 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#define RZX_MODULE_NAME "xNet"
+
 #include <QRegExp>
 #include <QStringList>
 #include <QImage>

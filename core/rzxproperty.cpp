@@ -212,6 +212,8 @@ void RzxProperty::addModule(const QString& name, QTreeWidgetItem *parent)
 		}
 		if(mod) module << mod;
 	}
+	if(!module[0])
+		return;
 	buildModules<RzxBaseModule>(module, parent);
 	module[0]->propInit();
 }

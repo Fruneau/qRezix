@@ -126,7 +126,10 @@ void RzxLoaderProp<T>::init()
 			item->setText(2, module->description());
 		}
 		else
+		{
 			item->setText(0, name);
+			item->setText(2, loader->files[name]);
+		}
 	}
 }
 
@@ -174,6 +177,15 @@ void RzxLoaderProp<T>::load()
 	{
 		loader->loadModule(name);
 		emitNotifyLoad(name);
+		QTreeWidgetItem *item = treeModules->currentItem();
+		T *module = loader->modules[name];
+		if(module && item)
+		{
+			item->setIcon(0, module->icon());
+			item->setText(0, module->name());
+			item->setText(1, module->versionString());
+			item->setText(2, module->description());
+		}
 	}
 	itemChanged(treeModules->currentItem());
 }
