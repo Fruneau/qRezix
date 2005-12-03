@@ -48,6 +48,7 @@ RzxConnectionLister::RzxConnectionLister( QObject *parent)
 	initialized = true;
 
 	delayDisplay.setSingleShot(true);
+	setSettings(RzxConfig::global());
 
 	loadModules();	
 	connect(&delayDisplay, SIGNAL(timeout()), this, SLOT(login()));
@@ -120,6 +121,7 @@ void RzxConnectionLister::relinkModules(RzxNetwork *newNetwork, RzxNetwork *)
 ///Décharge un module réseau
 void RzxConnectionLister::unloadModule(RzxNetwork *network)
 {
+	if(!network) return;
 	network->stop();
 	clearComputerFromNetwork(network);
 	RzxBaseLoader<RzxNetwork>::unloadModule(network);

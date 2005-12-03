@@ -66,6 +66,7 @@ class RzxBaseLoader
 	const char *symbol;
 	const char *name;
 	const char *version;
+	QSettings *settings;
 
 	QHash<QString, QString> files;
 	QHash<QString, T*> modules;
@@ -81,7 +82,7 @@ class RzxBaseLoader
 		void loadModules();
 		void closeModules();
 
-		T *resolve(const QString& file) const;
+		T *resolve(const QString& file);
 
 		virtual void loadBuiltins();
 		virtual void loadPlugins();
@@ -95,6 +96,10 @@ class RzxBaseLoader
 
 		virtual bool loadModule(const QString&);
 		virtual bool reloadModule(const QString&);
+
+		void setSettings(QSettings *);
+		void saveState();
+		bool shouldLoad(const QString&) const;
 };
 
 ///Construit un loader en lançant automatiquement le chargement
@@ -103,6 +108,7 @@ RzxBaseLoader<T>::RzxBaseLoader(const QString& m_rep, const QString& m_pattern,
 		const char* m_symbol, const char* m_name, const char* m_version, bool load)
 	:rep(m_rep), pattern(m_pattern), symbol(m_symbol), name(m_name), version(m_version)
 {
+	settings = NULL;
 	if(load)
 		loadModules();
 }
@@ -111,6 +117,43 @@ RzxBaseLoader<T>::RzxBaseLoader(const QString& m_rep, const QString& m_pattern,
 template <class T>
 RzxBaseLoader<T>::~RzxBaseLoader()
 {
+}
+
+///Enregistre l'état des modules...
+template <class T>
+void RzxBaseLoader<T>::saveState()
+{
+	if(settings)
+	{
+		settings->beginGroup("modules");
+		QStringList list = modules.keys();
+		foreach(QString name, list)
+			settings->setValue(name, modules[name]);
+		settings->endGroup();
+	}
+}
+
+///Défini le QSettings qui doit servir à l'enregistrement de l'état du chargement
+/** Permet d'enregistrer et de raffraîchir l'état de chargement des
+ * modules.
+ */
+template <class T>
+void RzxBaseLoader<T>::setSettings(QSettings *m_settings)
+{
+	settings = m_settings;
+}
+
+template <class T>
+bool RzxBaseLoader<T>::shouldLoad(const QString& name) const
+{
+	bool load = true;
+	if(settings)
+	{
+		settings->beginGroup("modules");
+		load = settings->value(name, true).toBool();
+		settings->endGroup();
+	}
+	return load;
 }
 
 ///Retourne la liste des modules
@@ -133,6 +176,7 @@ T* RzxBaseLoader<T>::module(const QString& name) const
 template <class T>
 void RzxBaseLoader<T>::closeModules()
 {
+	saveState();
 	foreach(T *module, modules)
 		unloadModule(module);
 }
@@ -217,7 +261,7 @@ void RzxBaseLoader<T>::loadPlugins()
  * Retourne NULL en cas d'échec de la résolution du symbole
  */
 template <class T>
-T *RzxBaseLoader<T>::resolve(const QString& file) const
+T *RzxBaseLoader<T>::resolve(const QString& file)
 {
 	QLibrary *lib = new QLibrary(file);
 	loadNameProc getName = (loadNameProc)lib->resolve(name);
@@ -240,7 +284,13 @@ T *RzxBaseLoader<T>::resolve(const QString& file) const
 	Rzx::Version moduleVersion = getVersion();
 
 	T* module = modules[moduleName];
-	if(module && module->version() >= moduleVersion)
+	bool load = shouldLoad(moduleName);
+	if(!load)
+	{
+		files.insert(moduleName, file);
+		modules.insert(moduleName, NULL);
+	}
+	if(!load || module && module->version() >= moduleVersion)
 	{
 		lib->unload();
 		delete lib;
@@ -287,7 +337,7 @@ template <class T>
 bool RzxBaseLoader<T>::installModule(T* module)
 {
 	if(!module) return false;
-	if(!module->isInitialised())
+	if(!module->isInitialised() || !shouldLoad(module->name()))
 	{
 		delete module;
 		return false;
@@ -368,6 +418,16 @@ template <class T>
 bool RzxBaseLoader<T>::loadModule(const QString& moduleName)
 {
 	if(modules[moduleName]) return false;
+
+	//On enregistre le changement d'état
+	//sinon on se fait jeter plus loin
+	//et ça permet aussi de recharger les builtins au reboot du programme
+	if(settings)
+	{
+		settings->beginGroup("modules");
+		settings->setValue(moduleName, true);
+		settings->endGroup();
+	}
 
 	if(files[moduleName].isNull()) return false;
 	bool ret = installModule(files[moduleName]);

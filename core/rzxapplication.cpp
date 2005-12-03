@@ -136,7 +136,7 @@ bool RzxApplication::loadCore()
 	Rzx::beginModuleLoading("qRezix Core");
 
 	//Chargement des configs
-	new RzxConfig();
+	setSettings(new RzxConfig());
 	setWindowIcon(RzxIconCollection::qRezixIcon());
 
 	//Initialisation de l'objet représentant localhost
