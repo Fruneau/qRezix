@@ -97,6 +97,11 @@ RzxApplication::RzxApplication(int argc, char **argv)
 		}
 		if(strncmp(argv[i],"--timestamp", 14)==0)
 			withTS = true;
+		if(strncmp(argv[i],"--help",6)==0 || strncmp(argv[i],"-h",2)==0)
+		{
+			displayHelp();
+			return;
+		}
 	}
 
 	//Installation du message handler... à partir de maintenant, on peut
@@ -109,9 +114,9 @@ RzxApplication::RzxApplication(int argc, char **argv)
 	if(!loadCore())
 		return;
 	//Chargement des modules de qRezix
-	Rzx::beginModuleLoading("Modules loading");
+	Rzx::beginModuleLoading("Modules");
 	loadModules();
-	Rzx::endModuleLoading("Modules loading");
+	Rzx::endModuleLoading("Modules");
 
 	//Lancement de l'interface réseau
 	RzxConnectionLister *lister = RzxConnectionLister::global();
@@ -468,4 +473,22 @@ void RzxApplication::relayProperties(RzxComputer *c)
 	emit haveProperties(c, &used);
 	if(!used && propertiesUi)
 		propertiesUi->showProperties(c);
+}
+
+///Affiche l'aide de qRezix
+void RzxApplication::displayHelp()
+{
+	qDebug("Usage: qrezix [options]");
+	qDebug("qRezix options:");
+	qDebug("  --help -h            Display this information");
+	qDebug("  --log-debug=<file>   Output debug information into <file> instead of stdout");
+	qDebug("  --timestamp          Add timestamp to debug information");
+	qDebug("\nQt options:");
+	qDebug("  -nograb -style -session -widgetcount");
+#ifdef Q_WS_X11
+	qDebug("  -dograb -sync -display -geometry -fn -font -bg -background -fg -foreground");
+	qDebug("  -name -title -visual -ncols -cmap");
+#endif
+	qDebug("\nqRezix %s", Rzx::versionToString(version()).toAscii().constData());
+	qDebug("Contact or bug reporting: <mailto:qrezix@frankiz.polytechnique.fr>");
 }

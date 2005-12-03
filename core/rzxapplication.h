@@ -57,6 +57,7 @@ class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<R
 		bool isInitialised() const;
 		bool hasHider() const;
 		bool hasMainWindow() const;
+		static void displayHelp();
 		static Rzx::Version version();
 		
 		static RzxApplication *instance();
