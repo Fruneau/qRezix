@@ -72,6 +72,7 @@ class RZX_MAINUI_EXPORT RzxUi:public RzxModule
 		virtual void propInit(bool def = false);
 		virtual void propUpdate();
 		virtual void propClose();
+		virtual void setTreeItem(QTreeWidgetItem *item);
 };
 
 #endif

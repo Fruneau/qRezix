@@ -73,6 +73,8 @@ public slots: // Public slots
 	void aboutQt();
 	void changeTheme();
 
+	void addModule(const QString&, QTreeWidgetItem*);
+	void deleteModule(const QString&, QTreeWidgetItem*);
 
 protected: // Protected methods
 	virtual void changeEvent(QEvent*);
@@ -95,6 +97,9 @@ private:
 	void changeThemeModules(const QList<T*>&, QTreeWidgetItem*);
 	template<class T>
 	void closeModules(const QList<T*>&);
+
+	void deletePage(QTreeWidgetItem*);
+	void rebuildIndexes(const int, QTreeWidgetItem* = NULL);
 
 	QTreeWidgetItem* createPage(QWidget*, const QString&, const QIcon&, QTreeWidgetItem*);
 
@@ -127,6 +132,7 @@ void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidgetItem *parent
 				for(int i = 0 ; i < props.size(); i++)
 					createPage(props[i], names[i], module->icon(), item);
 			}
+			module->setTreeItem(item);
 		}
 
 		buildModules<RzxBaseModule>(children, item);

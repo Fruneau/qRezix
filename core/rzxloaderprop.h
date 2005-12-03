@@ -27,16 +27,24 @@
 
 #include "ui_rzxloaderui.h"
 
+class RzxProperty;
+class QTreeWidgetItem;
+
 ///Classe abstraite affichant les outils facilitant le chargement/déchargement d'objets
 class RzxBaseLoaderProp:public QWidget, protected Ui::RzxLoaderUI
 {
 	Q_OBJECT
+	QTreeWidgetItem *parentItem;
 
 	public:
 		RzxBaseLoaderProp(QWidget *parent = NULL);
 		~RzxBaseLoaderProp();
 
 		virtual void init();
+		void connectToPropertyWindow(RzxProperty * = NULL) const;
+
+	public slots:
+		void setPropertyParent(QTreeWidgetItem * = NULL);
 
 	protected slots:
 		virtual void load() = 0;
@@ -44,6 +52,13 @@ class RzxBaseLoaderProp:public QWidget, protected Ui::RzxLoaderUI
 		virtual void itemChanged(QTreeWidgetItem * current, QTreeWidgetItem * previous) = 0;
 
 		virtual void changeTheme() = 0;
+
+		void emitNotifyLoad(const QString&);
+		void emitNotifyUnload(const QString&);
+
+	signals:
+		void notifyLoad(const QString&, QTreeWidgetItem*);
+		void notifyUnload(const QString&, QTreeWidgetItem*);
 };
 
 template <class T>
@@ -146,9 +161,15 @@ template <class T>
 void RzxLoaderProp<T>::load()
 {
 	if(module)
+	{
+		emitNotifyUnload(module->name());
 		loader->unloadModule(module);
+	}
 	else if(!name.isNull())
+	{
 		loader->loadModule(name);
+		emitNotifyLoad(name);
+	}
 	itemChanged(treeModules->currentItem());
 }
 
@@ -157,7 +178,11 @@ template <class T>
 void RzxLoaderProp<T>::reload()
 {
 	if(!name.isNull())
+	{
+		emitNotifyUnload(name);
 		loader->reloadModule(module->name());
+		emitNotifyLoad(name);
+	}
 	itemChanged(treeModules->currentItem());
 }
 

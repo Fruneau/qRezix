@@ -25,6 +25,7 @@
  */
 
 class QLibrary;
+class QTreeWidgetItem;
 
 ///Structure de base à implémenter pour réaliser un type de module pour qRezix
 /** Le but de cette classe est de définir un type de base qui pourra servir à tous les types
@@ -155,6 +156,7 @@ class RZX_CORE_EXPORT RzxBaseModule
 		virtual void propUpdate();
 		virtual void propDefault();
 		virtual void propClose();
+		virtual void setTreeItem(QTreeWidgetItem *item);
 
 		void setLibrary(QLibrary*);
 		QLibrary *library() const;

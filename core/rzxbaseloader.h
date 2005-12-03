@@ -75,6 +75,7 @@ class RzxBaseLoader
 		virtual ~RzxBaseLoader();
 
 		QList<T*> moduleList() const;
+		T* module(const QString& name) const;
 
 	protected:
 		void loadModules();
@@ -119,6 +120,13 @@ QList<T*> RzxBaseLoader<T>::moduleList() const
 	QList<T*> list = modules.values();
 	list.removeAll(NULL);
 	return list;
+}
+
+///Retourne le module correspondant au nom indiqué
+template <class T>
+T* RzxBaseLoader<T>::module(const QString& name) const
+{
+	return modules[name];
 }
 
 ///Vide la liste des modules

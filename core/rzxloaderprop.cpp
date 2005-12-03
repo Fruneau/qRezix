@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 #include <RzxIconCollection>
+#include <RzxApplication>
+#include <RzxProperty>
 
 #include <RzxLoaderProp>
 
@@ -23,6 +25,7 @@ RzxBaseLoaderProp::RzxBaseLoaderProp(QWidget *parent)
 	:QWidget(parent)
 {
 	setupUi(this);
+	parentItem = NULL;
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	connect(btnLoad, SIGNAL(clicked()), this, SLOT(load()));
 	connect(btnReload, SIGNAL(clicked()), this, SLOT(reload()));
@@ -39,4 +42,33 @@ RzxBaseLoaderProp::~RzxBaseLoaderProp()
 void RzxBaseLoaderProp::init()
 {
 	changeTheme();
+}
+
+///Défini l'objet parent auquel se rapport cet afficheur
+void RzxBaseLoaderProp::setPropertyParent(QTreeWidgetItem *item)
+{
+	connectToPropertyWindow();
+	parentItem = item;
+}
+
+///Connecte la fenêtre au RzxProperty
+void RzxBaseLoaderProp::connectToPropertyWindow(RzxProperty *prop) const
+{
+	if(!prop)
+		prop = RzxProperty::global();
+
+	connect(this, SIGNAL(notifyLoad(const QString&, QTreeWidgetItem*)), prop, SLOT(addModule(const QString&, QTreeWidgetItem*)));
+	connect(this, SIGNAL(notifyUnload(const QString&, QTreeWidgetItem*)), prop, SLOT(deleteModule(const QString&, QTreeWidgetItem*)));
+}
+
+///Emet un signal annonçant le chargement d'un module
+void RzxBaseLoaderProp::emitNotifyLoad(const QString& name)
+{
+	emit notifyLoad(name, parentItem);
+}
+
+///Emet un signal annonçant le déchargement d'un module
+void RzxBaseLoaderProp::emitNotifyUnload(const QString& name)
+{
+	emit notifyUnload(name, parentItem);
 }

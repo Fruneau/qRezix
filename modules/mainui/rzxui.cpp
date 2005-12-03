@@ -229,3 +229,9 @@ void RzxUi::propClose()
 		ui = NULL;
 	}
 }
+
+/** \reimp */
+void RzxUi::setTreeItem(QTreeWidgetItem *item)
+{
+	ui->rezalLoader->setPropertyParent(item);
+}

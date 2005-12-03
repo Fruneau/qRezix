@@ -263,3 +263,17 @@ void RzxBaseModule::propClose()
 	QList<QWidget*> widgets;
 	qDeleteAll(widgets);
 }
+
+///Défini l'item du QTreeWidget qui sert d'index pour le module
+/** Utile en particulier pour les modules qui peuvent avoir des modules
+ * fils. Il faudra alors créer un RzxLoaderProp qui aura besoin de ce
+ * paramètre pour correctement intéragir avec la fenêtre de préférences.
+ *
+ * Cette fonction est appelée après la création des fenêtres de configuration
+ * associées au module...
+ *
+ * L'implémentation par défaut ne fait rien.
+ */
+void RzxBaseModule::setTreeItem(QTreeWidgetItem *)
+{
+}

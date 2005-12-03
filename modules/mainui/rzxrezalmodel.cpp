@@ -875,13 +875,14 @@ void RzxRezalModel::insertObject(const QModelIndex& parent, RzxRezalSearchList& 
 void RzxRezalModel::removeObject(const QModelIndex& parent, RzxRezalSearchList& list, RzxRezalSearchTree& tree, RzxComputer *computer)
 {
 	int row;
-	///Nettoyage de la liste
+	//Nettoyage de la liste
 	while((row = list.indexOf(NULL)) != -1)
 	{
 		beginRemoveRows(parent, row, row);
 		list.removeAt(row);
 		endRemoveRows();
 	}
+	//Suppression de l'ordinateur demandé
 	row = list.indexOf(computer);
 	if(row == -1) return;
 	beginRemoveRows(parent, row, row);

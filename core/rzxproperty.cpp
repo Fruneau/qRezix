@@ -113,12 +113,14 @@ RzxProperty::RzxProperty(QWidget *parent)
 	confItem->setData(0, Qt::UserRole, ProgConfig);
 	lbMenu->expandItem(confItem);
 	buildModules<RzxModule>(RzxApplication::modulesList(), confItem);
+	moduleLoader->setPropertyParent(confItem);
 
 	networkItem = new QTreeWidgetItem(lbMenu);
 	networkItem->setText(0, tr("Network"));
 	networkItem->setData(0, Qt::UserRole, Network);
 	lbMenu->expandItem(networkItem);
 	buildModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), networkItem);
+	networkLoader->setPropertyParent(networkItem);
 
 	initDlg();
 	changeTheme();
@@ -167,6 +169,72 @@ QTreeWidgetItem* RzxProperty::createPage(QWidget *widget, const QString& name, c
 	item->setData(0, Qt::UserRole, index);
 	lbMenu->expandItem(item);
 	return item;
+}
+
+///Rajoute un module dans la liste des modules présent
+/** Le module à rajouter est celui qui a le nom indiqué et doit être rajouter
+ * dans l'arborescence sur le QTreeWidgetItem* indiqué
+ */
+void RzxProperty::addModule(const QString& name, QTreeWidgetItem *parent)
+{
+	QList<RzxBaseModule*> module;
+	if(parent == confItem)
+		module << RzxApplication::instance()->module(name);
+	else if(parent == networkItem)
+		module << RzxConnectionLister::global()->module(name);
+	else
+		//TODO implémenter la recherche de module dans les sous-modules...
+		return;
+	buildModules<RzxBaseModule>(module, parent);
+	module[0]->propInit();
+}
+
+///Retire un module dans la liste des modules présents
+/** Ce module est identifié par son nom et son père dans l'aborescence.
+ */
+void RzxProperty::deleteModule(const QString& name, QTreeWidgetItem *parent)
+{
+	for(int i = 0 ; i < parent->childCount() ; i++)
+	{
+		QTreeWidgetItem * item = parent->child(i);
+		if(item->text(0) == name)
+		{
+			deletePage(item);
+			break;
+		}
+	}
+}
+
+///Supprime l'objet associé au QTreeWidgetItem
+/** Et reconstruit tous les autres objets pour prendre en compte le décallage
+ */
+void RzxProperty::deletePage(QTreeWidgetItem *item)
+{
+	if(!item) return;
+	const int page = item->data(0, Qt::UserRole).toInt();
+	if(page != Blank)
+		rebuildIndexes(page);
+	while(item->childCount())
+		deletePage(item->child(0));
+	if(page != Blank)
+		prefStack->removeWidget(prefStack->widget(page));
+	delete item;
+}
+
+///Reconstruit les index associés aux QTreeWidgetItem
+void RzxProperty::rebuildIndexes(const int page, QTreeWidgetItem *item)
+{
+	if(item)
+	{
+		const int data = item->data(0, Qt::UserRole).toInt();
+		if(data > page)
+			item->setData(0, Qt::UserRole, data-1);
+		for(int i = 0 ; i < item->childCount() ; i++)
+			rebuildIndexes(page, item->child(i));
+	}
+	else
+		for(int i = 0 ; i < lbMenu->topLevelItemCount() ; i++)
+			rebuildIndexes(page, lbMenu->topLevelItem(i));
 }
 
 ///La page doit changer, on met à jour le titre
