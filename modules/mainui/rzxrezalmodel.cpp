@@ -489,6 +489,8 @@ QVariant RzxRezalModel::getComputer(int role, const RzxRezalSearchList& list, in
 	if(pos < 0 || pos >= list.count())
 		return QVariant();
 	RzxComputer *computer = list[pos];
+	if(!computer)
+		return QVariant();
 	switch(role)
 	{
 		case Qt::DisplayRole:
