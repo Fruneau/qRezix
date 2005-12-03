@@ -73,7 +73,7 @@ RzxChatLister::RzxChatLister()
 
 	new RzxChatConfig(this);
 
-	client = RzxClientListener::global();
+	client = new RzxClientListener();;
 	connect(client, SIGNAL(propertiesSent(RzxComputer*)), this, SLOT(warnProperties(RzxComputer*)));
 	connect(client, SIGNAL(haveProperties(RzxComputer*)), this, SIGNAL(haveProperties(RzxComputer*)));
 
@@ -96,6 +96,7 @@ RzxChatLister::RzxChatLister()
 	endLoading();
 }
 
+///Fermeture du module
 RzxChatLister::~RzxChatLister()
 {
 	beginClosing();
@@ -105,6 +106,12 @@ RzxChatLister::~RzxChatLister()
 	delete RzxChatConfig::global();
 	endClosing();
 	RZX_GLOBAL_CLOSE
+}
+
+///Retourne le serveur TCP
+RzxClientListener *RzxChatLister::listener() const
+{
+	return client;
 }
 
 /** Sert aussi au raffraichissement des données*/

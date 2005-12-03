@@ -31,19 +31,25 @@
   *@author Sylvain Joyeux
   */
 
-class RzxClientListener : public QTcpServer  {
+///Ecoute réseau du chat DCC xNet
+/** Cette classe du module chat a pour but d'implémenter l'écoute
+ * du réseau pour le chat DCC du protocole xNet
+ *
+ * La partie communication est gérée par \ref RzxChatSocket
+ */
+class RzxClientListener : public QTcpServer
+{
 	Q_OBJECT
-	RZX_GLOBAL(RzxClientListener)
 
 	QHash< RzxHostAddress, QPointer<RzxChatSocket> > sockets;
 
-	RzxClientListener();
 	public:
+		RzxClientListener();
 		~RzxClientListener();
 
 		bool listen(quint16 port);
 		void attach(RzxChatSocket* socket);
-		
+
 	public slots:
 		void checkProperty(const RzxHostAddress&);
 		void sendChatMessage(RzxComputer *, Rzx::ChatMessageType, const QString& = QString());

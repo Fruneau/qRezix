@@ -1,3 +1,4 @@
+CONFIG -= release
 CONFIG *= debug
 QT *= network
 

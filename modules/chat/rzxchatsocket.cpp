@@ -63,7 +63,7 @@ RzxChatSocket::RzxChatSocket(RzxComputer *c, bool salone)
 	connect(&timeOut, SIGNAL(timeout()), this, SLOT(chatConnexionTimeout()));
 	if(alone)
 		connectToHost();
-	RzxClientListener::global()->attach(this);
+	RzxChatLister::global()->listener()->attach(this);
 }
 
 ///Destruction d'un socket de chat
@@ -90,7 +90,7 @@ void RzxChatSocket::setSocketDescriptor(int socket)
 {
 	QTcpSocket::setSocketDescriptor(socket);
 	host = peerAddress();
-	RzxClientListener::global()->attach(this);
+	RzxChatLister::global()->listener()->attach(this);
 }
 
 ////Parser des messages

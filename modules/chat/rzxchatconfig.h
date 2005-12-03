@@ -29,6 +29,7 @@
  @author Florent Bruneau
  */
 
+///Propriétés du module de chat
 class RzxChatConfig:public RzxAbstractConfig
 {
 	RZX_CONFIG_EXPANDED(RzxChatConfig)

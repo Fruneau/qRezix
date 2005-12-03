@@ -42,7 +42,23 @@ class QLineEdit;
 class QLabel;
 class RzxRezalPopup;
 
-/** QRezix was the base class of the project */
+///Fenêtre principale
+/** Cette classe qui était la classe principale du programme dans les
+ * version antérieure est désormais la classe qui gère l'interface
+ * principale du programme.
+ *
+ * C'est en fait une QMainWindow avec des fonctionnalité de charge de
+ * plug-in via l'héritage de \ref RzxBaseLoader. Elle innonve dans cette
+ * version par sa structure modulaire qui permet à l'utilisateur de choisir
+ * à tout moment la méthode d'affichage des \ref RzxComputer. Les différents
+ * modules d'affichage ont différentes type qui permet à QRezix de les ordonner
+ * correctement.
+ *
+ * La création d'un nouveau module d'affichage passe par la dérivation de
+ * la classe \ref RzxRezal qui dérive elle même de \ref RzxBaseModule. Cette
+ * dérivation permet une bonne intégration à l'interface de qRezix et en particulier
+ * à la fenêtre de préférence.
+ */
 class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRezal>
 {
 	Q_OBJECT

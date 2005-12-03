@@ -32,6 +32,19 @@ class RzxProperty;
 class QTreeWidgetItem;
 
 ///Classe abstraite affichant les outils facilitant le chargement/déchargement d'objets
+/** Cette classe se charge par elle même de se connecter correctement au RzxProperty
+ * mail il faut lui faire remonter l'information du QTreeWidgetItem vi setPropertyParent.
+ * Pour ceci, et si cette classe est utilisée dans un module, il faut utiliser la méthode
+ * \ref RzxBaseModule::setTreeItem.
+ *
+ * Une classe dérivée devra simplement définir des actions pour :
+ * 	- le chargement de l'objet sélectionné : \ref load
+ * 	- le rechargement de l'objet sélectionné : \ref reload
+ * 	- le changement de sélection : \ref itemChanged
+ * 	- le changement de thème d'icône : \ref changeTheme
+ *
+ * Une implémentation par défaut est disponible via \ref RzxLoaderProp
+ */
 class RzxBaseLoaderProp:public QWidget, protected Ui::RzxLoaderUI
 {
 	Q_OBJECT
@@ -62,6 +75,19 @@ class RzxBaseLoaderProp:public QWidget, protected Ui::RzxLoaderUI
 		void notifyUnload(const QString&, QTreeWidgetItem*);
 };
 
+///Implémentation du RzxBaseLoaderProp adapté au RzxBaseLoader-RzxBaseModule
+/** Cette implémentation est conçue pour s'articulée autour du coupe
+ * \ref RzxBaseLoader - \ref RzxBaseModule et leur classes dérivées, et donc à la
+ * structure de module intégrée à qRezix.
+ *
+ * Il suffit ensuite d'instancier l'objet via un typedef
+ * typedef RzxLoaderProp<MonTypeDeModule> RzxMonTypeLoaderProp;
+ *
+ * RzxMonTypeLoaderProp est dès lors utilisable dans QDesigner (enfin dans une
+ * ui... en le faisant hériter de QWidget... enfin pour le faire il faut 
+ * faire dériver de QFrame, puis modifier le .ui à la main pour rendre l'héritage
+ * depuis QWidget et retirer le propriétés issues de QFrame).
+ */
 template <class T>
 class RzxLoaderProp:public RzxBaseLoaderProp
 {

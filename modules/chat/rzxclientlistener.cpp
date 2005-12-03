@@ -24,15 +24,12 @@
 #include "rzxchatsocket.h"
 #include "rzxchat.h"
 
-RZX_GLOBAL_INIT(RzxClientListener)
-
 RzxClientListener::RzxClientListener()
 { }
 
 RzxClientListener::~ RzxClientListener()
 {
 	close();
-	RZX_GLOBAL_CLOSE
 }
 
 ///Connexion d'un RzxChatSocket au reste du programme

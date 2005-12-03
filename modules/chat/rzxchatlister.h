@@ -44,6 +44,17 @@ namespace Ui { class RzxChatPropUI; }
 /**
 @author Florent Bruneau
 */
+
+///Classe principale du module de chat
+/** Cette classe a pour but premier de lister les fenêtres de chat ouverte.
+ * Mais c'est également la classe centrale du module Chat. Cet module a une
+ * double utilité :
+ * 	- interface graphique de chat
+ * 	- interface réseau de chat
+ *
+ * Cette classe sert donc également de relai entre les deux structure indépendantes
+ * que comporte le module, et avec le reste du programme.
+ */
 class RzxChatLister:public RzxModule
 {
 	Q_OBJECT
@@ -67,6 +78,7 @@ class RzxChatLister:public RzxModule
 		~RzxChatLister();
 		
 		virtual bool isInitialised() const;
+		RzxClientListener *listener() const;
 
 	public slots:
 		void login(RzxComputer*);
