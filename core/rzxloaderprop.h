@@ -22,6 +22,7 @@
  */
 
 #include <QWidget>
+#include <RzxIconCollection>
 
 #include <RzxBaseLoader>
 
@@ -83,11 +84,12 @@ class RzxLoaderProp:public RzxBaseLoaderProp
 		virtual void changeTheme();
 };
 
-///Construction de l'objet
+///Construction de l'sobjet
 template <class T>
 RzxLoaderProp<T>::RzxLoaderProp(QWidget *parent)
 	:RzxBaseLoaderProp(parent)
 {
+	module = NULL;
 }
 
 ///Destruction de l'object
@@ -111,6 +113,7 @@ template <class T>
 void RzxLoaderProp<T>::init()
 {
 	QStringList modules = loader->modules.keys();
+	changeTheme();
 	foreach(QString name, modules)
 	{
 		QTreeWidgetItem *item = new QTreeWidgetItem(treeModules);
@@ -147,12 +150,14 @@ void RzxLoaderProp<T>::itemChanged(QTreeWidgetItem * current, QTreeWidgetItem *)
 		btnReload->setEnabled(false);
 		btnLoad->setEnabled(true);
 		btnLoad->setText(tr("Load"));
+		btnLoad->setIcon(RzxIconCollection::getIcon(Rzx::ICON_LOAD));
 	}
 	else
 	{
 		btnReload->setEnabled(true);
 		btnLoad->setEnabled(true);
 		btnLoad->setText(tr("Unload"));
+		btnLoad->setIcon(RzxIconCollection::getIcon(Rzx::ICON_UNLOAD));
 	}
 }
 
@@ -197,6 +202,8 @@ void RzxLoaderProp<T>::changeTheme()
 		if(module)
 			item->setIcon(0, module->icon());
 	}
+	btnReload->setIcon(RzxIconCollection::getIcon(Rzx::ICON_RELOAD));
+	btnLoad->setIcon(RzxIconCollection::getIcon(module?Rzx::ICON_UNLOAD:Rzx::ICON_LOAD));
 }
 
 #endif

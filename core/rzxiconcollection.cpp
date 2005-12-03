@@ -91,7 +91,10 @@ const RzxIconCollection::IconData RzxIconCollection::data[] = {
 	{ Rzx::ICON_OS6, "os_6", true },
 	{ Rzx::ICON_OS6_LARGE, "os_6_large", true },
 	{ Rzx::ICON_PRINTER, "printer", true },
-	{ Rzx::ICON_NOPRINTER, "no_printer", false }
+	{ Rzx::ICON_NOPRINTER, "no_printer", false },
+	{ Rzx::ICON_LOAD, "load", false },
+	{ Rzx::ICON_UNLOAD, "unload", false },
+	{ Rzx::ICON_RELOAD, "reload", false }
 };
 
 ///Construction de la collection d'icône
