@@ -874,7 +874,15 @@ void RzxRezalModel::insertObject(const QModelIndex& parent, RzxRezalSearchList& 
 ///Suppression d'un objet de la liste et du groupe correspondant
 void RzxRezalModel::removeObject(const QModelIndex& parent, RzxRezalSearchList& list, RzxRezalSearchTree& tree, RzxComputer *computer)
 {
-	const int row = list.indexOf(computer);
+	int row;
+	///Nettoyage de la liste
+	while((row = list.indexOf(NULL)) != -1)
+	{
+		beginRemoveRows(parent, row, row);
+		list.removeAt(row);
+		endRemoveRows();
+	}
+	row = list.indexOf(computer);
 	if(row == -1) return;
 	beginRemoveRows(parent, row, row);
 	list.removeAll(computer);
