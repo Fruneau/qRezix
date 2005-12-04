@@ -37,6 +37,7 @@
 #include <RzxConnectionLister>
 #include <RzxComputer>
 #include <RzxStyle>
+#include <RzxInfoMessage>
 
 #include "qrezix.h"
 
@@ -271,8 +272,7 @@ void QRezix::setCentralRezal(RzxRezal *rezal)
 {
 	if(central)
 	{
-		//Nécessite de relancer qRezix pour être pris en compte
-		//TODO : message d'avertissement...
+		new RzxInfoMessage(RzxMainUIConfig::global(), "changeCentral", tr("The central object of qRezix has been set to %1.<br><br>You must restart qRezix in order this change to be applied").arg(rezal->name()), this);
 		if(rezal->type() & RzxRezal::TYP_CENTRAL)
 			RzxMainUIConfig::setCentralRezal(rezal->name());
 		return;

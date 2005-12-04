@@ -53,7 +53,6 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 	header()->setHighlightSections(false);
 	header()->setSortIndicator(RzxMainUIConfig::sortColumn(), RzxMainUIConfig::sortOrder());
 	setAcceptDrops(true);
-	setRootIndex( RzxRezalModel::global()->everybodyGroup );
 
 	setUniformRowHeights(false);
 	setAlternatingRowColors(true);

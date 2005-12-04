@@ -27,7 +27,8 @@ HEADERS += $$ROOT/core/RzxGlobal \
 	$$ROOT/core/RzxTranslator \
 	$$ROOT/core/RzxStyle \
 	$$ROOT/core/RzxIntro \
-	$$ROOT/core/RzxLoaderProp
+	$$ROOT/core/RzxLoaderProp \
+	$$ROOT/core/RzxInfoMessage
 
 !contains(DEFINES, NO_JABBER):!existLib(gloox):DEFINES += NO_JABBER
 contains(DEFINES, RZX_ALL_BUILTIN) {

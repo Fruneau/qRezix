@@ -20,12 +20,14 @@
 #include <QDrag>
 #include <QModelIndex>
 
+#include "rzxmainuiglobal.h"
+
 class QMouseEvent;
 class QDropEvent;
 class RzxComputer;
 
 ///Fournit un moyen simple de créer un QDrag associé à un RzxComputer
-class RzxRezalDrag: public QDrag
+class RZX_MAINUI_EXPORT RzxRezalDrag: public QDrag
 {
 	Q_OBJECT
 
