@@ -272,7 +272,12 @@ void QRezix::setCentralRezal(RzxRezal *rezal)
 {
 	if(central)
 	{
-		new RzxInfoMessage(RzxMainUIConfig::global(), "changeCentral", tr("The central object of qRezix has been set to %1.<br><br>You must restart qRezix in order this change to be applied").arg(rezal->name()), this);
+		new RzxInfoMessage(RzxMainUIConfig::global(),
+			"changeCentral",
+			RzxThemedIcon(Rzx::ICON_SYSTRAYHERE),
+			tr("The central object of qRezix has been set to %1.<br>"
+				"<br>You must restart qRezix in order this change to be applied").arg(rezal->name()),
+			this);
 		if(rezal->type() & RzxRezal::TYP_CENTRAL)
 			RzxMainUIConfig::setCentralRezal(rezal->name());
 		return;

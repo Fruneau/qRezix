@@ -25,6 +25,7 @@
 
 #include <RzxGlobal>
 #include <RzxConfig>
+#include <RzxInfoMessage>
 
 template <class T>
 class RzxLoaderProp;
@@ -429,7 +430,16 @@ bool RzxBaseLoader<T>::loadModule(const QString& moduleName)
 		settings->endGroup();
 	}
 
-	if(files[moduleName].isNull()) return false;
+	if(files[moduleName].isNull())
+	{
+		new RzxInfoMessage(settings,
+			"loadBuiltin",
+			RzxThemedIcon(Rzx::ICON_PLUGIN),
+			RzxInfoMessage::tr("You want to load module %1, but this module is compiled into qRezix as a built-in.<br>"
+				"To load this module you have to restart qRezix.").arg(moduleName),
+			NULL);
+		return false;
+	}
 	bool ret = installModule(files[moduleName]);
 	relinkModules(modules[moduleName], NULL);
 	return ret;

@@ -81,7 +81,10 @@ bool RzxInfoMessage::init(QSettings *m_settings, const QString& m_id)
 	id = m_id;
 	settings = m_settings;
 	if(settings && !id.isEmpty())
+	{
+		cbDont->setChecked(settings->value(id).toBool());
 		if(settings->value(id).toBool()) return false;
+	}
 
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	cbDont->setChecked(false);
