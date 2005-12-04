@@ -3,7 +3,7 @@ Instructions d'installation :
 
 1 - Configurer la compilation :
 qRezix utilise l'outil qmake de Trolltech pour simplier la configuration du programme. Ceci n'empêche pas de pouvoir choisir les modules via la ligne de configuration de qmake. Il suffit de lancer :
-	qmake "DEFINE+=OPT1 OPT2 OPT3" "PREFIX=monprefix" qrezix.pro
+	qmake "DEFINE+=OPT1 OPT2 OPT3" "PREFIX=monprefix" "DEST=madest" qrezix.pro
 
 * Les options OPT1 OPT2 OPT3 sont les options de compilation des différents modules. Ils sont de la forme
 	RZX_$(MODULE)_BUILTIN
@@ -24,14 +24,16 @@ RZLMAP - Module de la mainui permettant de situer géographiquement les personne
 
 L'option peut également être RZX_ALL_BUILTIN qui entraîne que tous les modules seront construit en built-in à l'exception de ceux que l'utilisateur à choisi de ne pas compiler (via NO_$(MODULE))
 
-* Le préfixe, valide uniquement sous Unix (non MacOS X) donne la base du répertoire d'installation. Par défaut PREFIX=/usr
+* Le préfixe, valide uniquement sous Unix (non MacOS X) donne la base du répertoire d'installation. Par défaut PREFIX=/usr. Le PREFIX est utilisé lors de la compilation pour spécifier à qRezix son lieu d'installation. En cas de changement de PREFIX, il faut recompiler la corelib.
 
+* Le préfixe d'installation. Valide uniquement sous unix, permet l'installation dans une arborescence virtuelle (utile pour la création de package). Le répertoire d'installation sera alors $$DEST/$$PREFIX. $$DEST n'est absolument pas pris en compte pour la compilation du programme mais uniquement lors de l'installation
 
 2 - Compilation
 Il suffit de lancer
 	make
 
 3 - Installation
-Il suffit normalement d'exécuter l'installation avec les droits roots
+Il suffit de regénérer la liste des fichiers à installer via un nouvel appel à qmake puis de lancer l'installation :
+	qmake [options] qrezix.pro
+	su
 	make install
-
