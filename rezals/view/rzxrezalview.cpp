@@ -52,6 +52,7 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 	header()->setClickable(true);
 	header()->setHighlightSections(false);
 	header()->setSortIndicator(RzxMainUIConfig::sortColumn(), RzxMainUIConfig::sortOrder());
+	setAcceptDrops(true);
 	setRootIndex( RzxRezalModel::global()->everybodyGroup );
 
 	setUniformRowHeights(false);
@@ -284,11 +285,6 @@ void RzxRezalView::setRootIndex(const QModelIndex& index)
 	else
 		QTreeView::setRootIndex(index);
 	setRootIsDecorated(((RzxRezalModel*)model())->isIndex(rootIndex()));
-	setAcceptDrops(index == RzxRezalModel::global()->favoriteIndex ||
-		index == RzxRezalModel::global()->ignoredIndex ||
-		index == RzxRezalModel::global()->neutralIndex ||
-		index == RzxRezalModel::global()->favoritesGroup);
-
 }
 
 ///Dessine la ligne

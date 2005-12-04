@@ -97,7 +97,9 @@ RzxComputer *RzxRezalDrag::dragEvent(QDropEvent *e, const QModelIndex& index)
 	if(model == RzxRezalModel::global()->favoriteIndex ||
 		model == RzxRezalModel::global()->ignoredIndex ||
 		model == RzxRezalModel::global()->neutralIndex ||
-		model == RzxRezalModel::global()->favoritesGroup)
+		model == RzxRezalModel::global()->favoritesGroup || 
+		model == RzxRezalModel::global()->everybodyGroup ||
+		index == RzxRezalModel::global()->everybodyGroup)
 		return RzxRezalDrag::dragEvent(e);
 	return NULL;
 }
@@ -109,6 +111,7 @@ void RzxRezalDrag::dropEvent(QDropEvent *e, const QModelIndex& index)
 	const QModelIndex favorite = RzxRezalModel::global()->favoriteIndex;
 	const QModelIndex neutral = RzxRezalModel::global()->neutralIndex;
 	const QModelIndex ignored = RzxRezalModel::global()->ignoredIndex;
+	const QModelIndex everybody = RzxRezalModel::global()->everybodyGroup;
 	RzxComputer *computer = dragEvent(e);
 
 	if(!computer) return;
@@ -124,7 +127,7 @@ void RzxRezalDrag::dropEvent(QDropEvent *e, const QModelIndex& index)
 		computer->removeFromFavorites();
 		computer->ban();
 	}
-	if(parent == neutral || index == neutral)
+	if(parent == neutral || index == neutral || parent == everybody || index == everybody)
 	{
 		e->acceptProposedAction();
 		computer->unban();
