@@ -32,6 +32,7 @@
 
 #include <RzxRezalModel>
 #include <RzxRezalPopup>
+#include <RzxRezalDrag>
 #include <RzxMainUIConfig>
 
 RZX_REZAL_EXPORT(RzxRezalView)
@@ -129,7 +130,14 @@ void RzxRezalView::mousePressEvent(QMouseEvent *e)
 	if(e->button() == Qt::RightButton)
 		new RzxRezalPopup(indexAt(e->pos()), e->globalPos(), this);
 	else
+	{
+		QModelIndex model = indexAt(e->pos());
+		if(!model.isValid()) return;
+		RzxComputer *computer = model.model()->data(model, Qt::UserRole).value<RzxComputer*>();
+		RzxRezalDrag::mouseEvent(this, e, computer);
+
 		QTreeView::mousePressEvent(e);
+	}
 }
 
 ///Pour lancer le client qui va bien en fonction de la position du clic
@@ -153,6 +161,39 @@ void RzxRezalView::mouseDoubleClickEvent(QMouseEvent *e)
 				computer->chat();
 	}
 	return;
+}
+
+///Pour le drag&drop
+void RzxRezalView::mouseMoveEvent(QMouseEvent *e)
+{
+	RzxRezalDrag::mouseEvent(this, e);
+	QTreeView::mouseMoveEvent(e);
+}
+
+///Pour le drop du drag&drop
+void RzxRezalView::dragEnterEvent(QDragEnterEvent *e)
+{
+	QTreeView::dragEnterEvent(e);
+	if(RzxRezalDrag::dragEvent(e))
+		e->accept();
+}
+
+///Pour le drop du drag&drop
+void RzxRezalView::dragMoveEvent(QDragMoveEvent *e)
+{
+	QTreeView::dragMoveEvent(e);
+	const QModelIndex model = indexAt(e->pos());
+	const QRect rect = visualRect(model);
+	if(RzxRezalDrag::dragEvent(e, model))
+		e->accept(rect);
+	else
+		e->ignore(rect);
+}
+
+///Pour le drop :)
+void RzxRezalView::dropEvent(QDropEvent *e)
+{
+	RzxRezalDrag::dropEvent(e, indexAt(e->pos()));
 }
 
 ///Surcharge le redimensionnement
@@ -243,6 +284,11 @@ void RzxRezalView::setRootIndex(const QModelIndex& index)
 	else
 		QTreeView::setRootIndex(index);
 	setRootIsDecorated(((RzxRezalModel*)model())->isIndex(rootIndex()));
+	setAcceptDrops(index == RzxRezalModel::global()->favoriteIndex ||
+		index == RzxRezalModel::global()->ignoredIndex ||
+		index == RzxRezalModel::global()->neutralIndex ||
+		index == RzxRezalModel::global()->favoritesGroup);
+
 }
 
 ///Dessine la ligne

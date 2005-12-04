@@ -34,6 +34,7 @@
 
 class RzxComputer;
 
+
 ///ItemView permettant d'afficher le détail
 class RzxRezalDetail:public QAbstractItemView, private Ui::RzxItemUI, public RzxRezal
 {
@@ -63,6 +64,8 @@ class RzxRezalDetail:public QAbstractItemView, private Ui::RzxItemUI, public Rzx
 		void drawComputer(RzxComputer*);
 
 	protected:
+		virtual void mousePressEvent(QMouseEvent*);
+		virtual void mouseMoveEvent(QMouseEvent*);
 		virtual int horizontalOffset() const;
 		virtual bool isIndexHidden(const QModelIndex&) const;
 		virtual QModelIndex moveCursor(CursorAction, Qt::KeyboardModifiers);

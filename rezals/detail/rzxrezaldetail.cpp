@@ -24,6 +24,7 @@
 
 #include "rzxrezaldetail.h"
 
+#include <RzxRezalDrag>
 #include <RzxRezalModel>
 #include <RzxMainUIConfig>
 
@@ -292,4 +293,22 @@ bool RzxRezalDetail::floating() const
 void RzxRezalDetail::updateLayout()
 {
 	drawComputer(computer);
+}
+
+///Pour le drag du drag&drop
+void RzxRezalDetail::mousePressEvent(QMouseEvent *e)
+{
+	QModelIndex model = indexAt(e->pos());
+	if(!model.isValid()) return;
+	RzxComputer *computer = model.model()->data(model, Qt::UserRole).value<RzxComputer*>();
+	RzxRezalDrag::mouseEvent(this, e, computer);
+
+	QAbstractItemView::mousePressEvent(e);
+}
+
+///Pour le drag du drag&drop
+void RzxRezalDetail::mouseMoveEvent(QMouseEvent *e)
+{
+	RzxRezalDrag::mouseEvent(this, e);
+	QAbstractItemView::mouseMoveEvent(e);
 }

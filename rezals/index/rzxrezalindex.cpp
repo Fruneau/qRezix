@@ -16,14 +16,22 @@
  ***************************************************************************/
 #define RZX_MODULE_NAME "Index"
 
+#include <QMouseEvent>
+#include <QDragEnterEvent>
+#include <QDragMoveEvent>
+#include <QDropEvent>
+
 #include <RzxApplication>
+#include <RzxComputer>
 
 #include "rzxrezalindex.h"
 
 #include <RzxRezalModel>
+#include <RzxRezalDrag>
 
 RZX_REZAL_EXPORT(RzxRezalIndex)
 
+///Construction
 RzxRezalIndex::RzxRezalIndex(QWidget *parent)
  : QTreeView(parent), RzxRezal(RZX_MODULE_NAME, QT_TR_NOOP("Index view for easy navigation"), RZX_MODULE_VERSION)
 {
@@ -34,9 +42,11 @@ RzxRezalIndex::RzxRezalIndex(QWidget *parent)
 	for(int i = 1 ; i < RzxRezalModel::numColonnes ; i++)
 		hideColumn(i);
 	resizeColumnToContents(0);
+	setAcceptDrops(true);
 	endLoading();
 }
 
+///Destruction
 RzxRezalIndex::~RzxRezalIndex()
 {
 	beginClosing();
@@ -71,4 +81,48 @@ Qt::DockWidgetArea RzxRezalIndex::area() const
 bool RzxRezalIndex::floating() const
 {
 	return false;
+}
+
+///Pour le drag du drag&drop
+void RzxRezalIndex::mousePressEvent(QMouseEvent *e)
+{
+	QModelIndex model = indexAt(e->pos());
+	if(!model.isValid()) return;
+	RzxComputer *computer = model.model()->data(model, Qt::UserRole).value<RzxComputer*>();
+	RzxRezalDrag::mouseEvent(this, e, computer);
+
+	QTreeView::mousePressEvent(e);
+}
+
+///Pour le drag du drag&drop
+void RzxRezalIndex::mouseMoveEvent(QMouseEvent *e)
+{
+	RzxRezalDrag::mouseEvent(this, e);
+	QTreeView::mouseMoveEvent(e);
+}
+
+///Pour le drop du drag&drop
+void RzxRezalIndex::dragEnterEvent(QDragEnterEvent *e)
+{
+	QTreeView::dragEnterEvent(e);
+	if(RzxRezalDrag::dragEvent(e))
+		e->accept();
+}
+
+///Pour le drop du drag&drop
+void RzxRezalIndex::dragMoveEvent(QDragMoveEvent *e)
+{
+	QTreeView::dragMoveEvent(e);
+	const QModelIndex model = indexAt(e->pos());
+	const QRect rect = visualRect(model);
+	if(RzxRezalDrag::dragEvent(e, model))
+		e->accept(rect);
+	else
+		e->ignore(rect);
+}
+
+///Pour le drop :)
+void RzxRezalIndex::dropEvent(QDropEvent *e)
+{
+	RzxRezalDrag::dropEvent(e, indexAt(e->pos()));
 }

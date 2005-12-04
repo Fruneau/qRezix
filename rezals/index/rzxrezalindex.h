@@ -45,6 +45,13 @@ class RzxRezalIndex : public QTreeView, public RzxRezal
 		virtual Qt::DockWidgetAreas allowedAreas() const;
 		virtual Qt::DockWidgetArea area() const;
 		virtual bool floating() const;
+
+	protected:
+		virtual void mousePressEvent(QMouseEvent*);
+		virtual void mouseMoveEvent(QMouseEvent*);
+		virtual void dragEnterEvent(QDragEnterEvent*);
+		virtual void dragMoveEvent(QDragMoveEvent*);
+		virtual void dropEvent(QDropEvent*);
 };
 
 #endif

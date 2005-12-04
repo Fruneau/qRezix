@@ -72,8 +72,12 @@ class RzxRezalView : public QTreeView, public RzxRezal
 		virtual void resizeEvent(QResizeEvent * e);
 		virtual void mousePressEvent(QMouseEvent *e);
 		virtual void mouseDoubleClickEvent(QMouseEvent *e);
+		virtual void mouseMoveEvent(QMouseEvent *e);
 		virtual void keyPressEvent(QKeyEvent *e);
 		virtual void drawRow(QPainter*, const QStyleOptionViewItem&, const QModelIndex&) const;
+		virtual void dragEnterEvent(QDragEnterEvent*e);
+		virtual void dragMoveEvent(QDragMoveEvent*e);
+		virtual void dropEvent(QDropEvent*e);
 
 	signals:
 		void searchPatternChanged(const QString&);
