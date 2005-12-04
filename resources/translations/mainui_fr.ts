@@ -33,6 +33,10 @@
         <source>Central</source>
         <translation>Fenêtre principale</translation>
     </message>
+    <message>
+        <source>The central object of qRezix has been set to %1.&lt;br&gt;&lt;br&gt;You must restart qRezix in order this change to be applied</source>
+        <translation>Vous avez choisi d&apos;installer %1 comme module principale de qRezix. Cependant un autre module est déjà actuellement installé. Il vous faudra donc relancer qRezix pour que cette modification soit prise en compte. Vous pouvez également le faire en rechargeant le module &apos;MainUi&apos; de qRezix via la fenêtre de préférence.</translation>
+    </message>
 </context>
 <context>
     <name>RzxItemUI</name>
@@ -249,11 +253,11 @@
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Version</translation>
+        <translation type="obsolete">Version</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation type="obsolete">Description</translation>
     </message>
 </context>
 <context>

@@ -1,5 +1,16 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>@default</name>
+    <message>
+        <source>Load</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unload</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QRezix</name>
     <message>
         <source>Main</source>
@@ -31,6 +42,10 @@
     </message>
     <message>
         <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The central object of qRezix has been set to %1.&lt;br&gt;&lt;br&gt;You must restart qRezix in order this change to be applied</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -353,6 +368,28 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
 </context>
 <context>
+    <name>RzxInfoMessage</name>
+    <message>
+        <source>You want to load module %1, but this module is compiled into qRezix as a built-in.&lt;br&gt;To load this module you have to restart qRezix.</source>
+        <translation>Vous êtes sur le point de charger le module %1 qui est compilé dans le coeur même de qRezix. Cette opération n&apos;est possible à chaud que pour les modules compilé séparémments (plug-in). Il vous faudra donc relancer qRezix pour que la modification soit prise en compte.</translation>
+    </message>
+</context>
+<context>
+    <name>RzxInfoMessageUI</name>
+    <message>
+        <source>Information</source>
+        <translation>Information</translation>
+    </message>
+    <message>
+        <source>Don&apos;t show this message next time</source>
+        <translation>Ne plus afficher ce message</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+</context>
+<context>
     <name>RzxIntroUI</name>
     <message>
         <source>Welcome</source>
@@ -627,6 +664,33 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
 </context>
 <context>
+    <name>RzxLoaderUI</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished">Version</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished">Description</translation>
+    </message>
+    <message>
+        <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Load</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RzxMainuiPropUI</name>
     <message>
         <source>Form</source>
@@ -810,11 +874,11 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Version</translation>
+        <translation type="obsolete">Version</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation type="obsolete">Description</translation>
     </message>
 </context>
 <context>
@@ -824,19 +888,11 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Notification Window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show a notification window on favorite&apos;s state modification</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Beep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -853,6 +909,30 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify when favorite go away</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No notification when I am away</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify favorite disconnection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify when favorite arrive or come back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>What ?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1610,7 +1690,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Description</source>
-        <translation>Description</translation>
+        <translation type="obsolete">Description</translation>
     </message>
     <message>
         <source>No text</source>
@@ -1650,7 +1730,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Version</source>
-        <translation>Version</translation>
+        <translation type="obsolete">Version</translation>
     </message>
     <message>
         <source>Comment:</source>
@@ -1779,10 +1859,6 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <message>
         <source>Printer</source>
         <translation>Imprimante</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
