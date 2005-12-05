@@ -87,7 +87,6 @@ bool RzxInfoMessage::init(QSettings *m_settings, const QString& m_id)
 	}
 
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
-	cbDont->setChecked(false);
 	changeTheme();
 	setAttribute(Qt::WA_DeleteOnClose);
 	return true;
@@ -117,6 +116,7 @@ void RzxInfoMessage::setIcon(const RzxThemedIcon& icon)
 void RzxInfoMessage::setText(const QString& m_text)
 {
 	lblMessage->setText(m_text);
+	adjustSize();
 }
 
 ///Change le thème d'icône
