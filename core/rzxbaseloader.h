@@ -432,7 +432,7 @@ bool RzxBaseLoader<T>::loadModule(const QString& moduleName)
 
 	if(files[moduleName].isNull())
 	{
-		new RzxInfoMessage(settings,
+		new RzxInfoMessage(RzxConfig::global(),
 			"loadBuiltin",
 			RzxThemedIcon(Rzx::ICON_PLUGIN),
 			RzxInfoMessage::tr("You want to load module %1, but this module is compiled into qRezix as a built-in.<br>"
