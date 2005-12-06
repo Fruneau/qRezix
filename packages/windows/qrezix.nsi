@@ -28,9 +28,9 @@
   !define QTDIR "D:\Programmes\Qt\4.0.1"
   !define SOURCESYSDIR "C:\windows\system32"
   !ifdef RZX_DEBUG
-     !define QTCOREDLL "QtCore4d.dll"
-     !define QTGUIDLL "QtGui4d.dll"
-     !define QTNETDLL "QtNetwork4d.dll"
+     !define QTCOREDLL "QtCored4.dll"
+     !define QTGUIDLL "QtGuid4.dll"
+     !define QTNETDLL "QtNetworkd4.dll"
   !else
      !define QTCOREDLL "QtCore4.dll"
      !define QTGUIDLL "QtGui4.dll"
