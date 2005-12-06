@@ -20,16 +20,24 @@
   !include "MUI.nsh"
   !include "Sections.nsh"
 
+;Informations sur la compilation du programme
+  !define RZX_DEBUG
+  !define USE_MSVCR_DLL
+
 ;Pour pouvoir copier les dll dans l'installeur
   !define QTDIR "D:\Programmes\Qt\4.0.1"
   !define SOURCESYSDIR "C:\windows\system32"
-  !define QTCOREDLL "QtCore4.dll"
-  !define QTGUIDLL "QtGui4.dll"
-  !define QTNETDLL "QtNetwork4.dll"
+  !ifdef RZX_DEBUG
+     !define QTCOREDLL "QtCore4d.dll"
+     !define QTGUIDLL "QtGui4d.dll"
+     !define QTNETDLL "QtNetwork4d.dll"
+  !else
+     !define QTCOREDLL "QtCore4.dll"
+     !define QTGUIDLL "QtGui4.dll"
+     !define QTNETDLL "QtNetwork4.dll"
+  !endif
 
 ;Pour le cas ou on utilise VC++ pour compiler
-  !define USE_MSVCR_DLL
-
   !ifdef USE_MSVCR_DLL
      !define MSVCR_DLL "msvcr71.dll"
      !define MSVCP_DLL "msvcp71.dll"
