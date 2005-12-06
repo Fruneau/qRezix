@@ -86,6 +86,7 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	QAction *prefAction;
 	QAction *columnsAction;
 	QAction *awayAction;
+	QAction *restartAction;
 
 	Ui::RzxStatusUI *statusui;
 
@@ -102,6 +103,7 @@ signals:
 	void wantQuit();
 	void wantPreferences();
 	void wantToggleResponder();
+	void wantReload();
 	void searchPatternChanged(const QString&);
 
 protected:
@@ -115,6 +117,8 @@ protected:
 	virtual void linkModules();
 	virtual void relinkModules(RzxRezal* = NULL, RzxRezal* = NULL);
 	virtual void unloadModule(RzxRezal*);
+
+	void buildModuleMenus();
 
 public slots: // Public slots
 	void status(const QString& msg, bool fatal);

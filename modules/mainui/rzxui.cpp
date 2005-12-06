@@ -50,6 +50,7 @@ RzxUi::RzxUi()
 	connect(qrezix, SIGNAL(wantQuit()), this, SIGNAL(wantQuit()));
 	connect(qrezix, SIGNAL(wantPreferences()), this, SIGNAL(wantPreferences()));
 	connect(qrezix, SIGNAL(wantToggleResponder()), this, SIGNAL(wantToggleResponder()));
+	connect(qrezix, SIGNAL(wantReload()), this, SLOT(reload()));
 	setIcon(Rzx::ICON_SYSTRAYHERE);
 	endLoading();
 }
@@ -234,4 +235,18 @@ void RzxUi::propClose()
 void RzxUi::setTreeItem(QTreeWidgetItem *item)
 {
 	ui->rezalLoader->setPropertyParent(item);
+}
+
+///Lance un rechargement léger du module
+/** Ce rechargement ne fait que détruire le QRezix et le reconstruire
+ */
+void RzxUi::reload()
+{
+	if(qrezix)
+		delete qrezix;
+	qrezix = QRezix::global();
+	connect(qrezix, SIGNAL(wantQuit()), this, SIGNAL(wantQuit()));
+	connect(qrezix, SIGNAL(wantPreferences()), this, SIGNAL(wantPreferences()));
+	connect(qrezix, SIGNAL(wantToggleResponder()), this, SIGNAL(wantToggleResponder()));
+	connect(qrezix, SIGNAL(wantReload()), this, SLOT(reload()));
 }

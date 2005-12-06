@@ -196,19 +196,11 @@ bool QRezix::installModule(RzxRezal *rezal)
 			index = rezal;
 		conf->endGroup();
 
-		QAction *action = menuView.addAction(rezal->icon(), rezal->name());
-		action->setCheckable(true);
-		action->setChecked(isVisible);
-
 		//Après endGroup, car contient un changement de répertoire...
 		if(dock && isFloating)
 			conf->restoreWidget(rezal->name(), dock, dock->pos(), dock->size());
 		if(dock && !isVisible)
 			dock->hide();
-		if(dock)
-			connect(action, SIGNAL(toggled(bool)), dock, SLOT(setVisible(bool)));
-		else
-			connect(action, SIGNAL(toggled(bool)), rezal->widget(), SLOT(setVisible(bool)));
 		return true;
 	}
 	return false;
@@ -238,6 +230,7 @@ void QRezix::linkModules()
 ///Recrée les liens entre rezals
 void QRezix::relinkModules(RzxRezal *newRezal, RzxRezal *)
 {
+	buildModuleMenus();
 	if(closing) return;
 
 	if(newRezal)
@@ -275,11 +268,11 @@ void QRezix::setCentralRezal(RzxRezal *rezal)
 		new RzxInfoMessage(RzxMainUIConfig::global(),
 			"changeCentral",
 			RzxThemedIcon(Rzx::ICON_SYSTRAYHERE),
-			tr("The central object of qRezix has been set to %1.<br>"
-				"<br>You must restart qRezix in order this change to be applied").arg(rezal->name()),
+			tr("The central widget has been set to %1. You should reload the module in order this changement to take effect. You can do this via this menu.").arg(rezal->name()),
 			this);
 		if(rezal->type() & RzxRezal::TYP_CENTRAL)
 			RzxMainUIConfig::setCentralRezal(rezal->name());
+		buildModuleMenus();
 		return;
 	}
 
@@ -318,6 +311,7 @@ void QRezix::setCentralRezal(RzxRezal *rezal)
 	}
 	setCentralWidget(rezal->widget());
 	central = rezal;
+	buildModuleMenus();
 }
 
 ///Change la fenêtre centrale
@@ -334,6 +328,7 @@ void QRezix::setCentralRezal(int i)
  */
 void QRezix::setCentralRezal(QAction *action)
 {
+	if(!choseCentral[action]) return;
 	setCentralRezal(choseCentral[action]);
 }
 
@@ -360,12 +355,8 @@ void QRezix::buildActions()
 {
 	pluginsAction = new QAction(tr("Plug-ins"), this);
 	menuView.setTitle(tr("View"));
-	for(int i = 0 ; i < centralisable.size() ; i++)
-	{
-		QAction *action = menuCentral.addAction(centralisable[i]->icon(), centralisable[i]->name());
-		choseCentral.insert(action, centralisable[i]);
-	}
 	menuCentral.setTitle(tr("Central"));
+	buildModuleMenus();
 	connect(&menuCentral, SIGNAL(triggered(QAction*)), this, SLOT(setCentralRezal(QAction*)));
 	menuPlugins.addMenu(&menuView);
 	menuPlugins.addMenu(&menuCentral);
@@ -436,6 +427,56 @@ void QRezix::setMenu(const QModelIndex& current, const QModelIndex&)
 }	
 #endif
 
+///Construit les menus des modules
+/** Permet de mettre à jour les menus en fonction des paramètres actuels
+ */
+void QRezix::buildModuleMenus()
+{
+	//Liste des modules centraux
+	menuCentral.clear();
+	choseCentral.clear();
+	restartAction = NULL;
+	for(int i = 0 ; i < centralisable.size() ; i++)
+	{
+		RzxRezal *rezal = centralisable[i];
+		if(!rezal) continue;
+		QAction *action = menuCentral.addAction(rezal->icon(), rezal->name());
+		choseCentral.insert(action, rezal);
+		action->setCheckable(true);
+		action->setChecked(RzxMainUIConfig::centralRezal() == rezal->name());
+	}
+	if(central && central->name() != RzxMainUIConfig::centralRezal())
+	{
+		menuCentral.addSeparator();
+		restartAction = menuCentral.addAction(RzxIconCollection::getIcon(Rzx::ICON_RELOAD), tr("You should restart qRezix"),
+			this, SIGNAL(wantReload()));
+		choseCentral.insert(restartAction, NULL);
+	}
+	
+	//Liste des modules
+	menuView.clear();
+	foreach(RzxRezal *rezal, moduleList())
+	{
+		if(!rezal) continue;
+		QAction *action = menuView.addAction(rezal->icon(), rezal->name());
+		action->setCheckable(true);
+
+		//Après endGroup, car contient un changement de répertoire...
+		QDockWidget *dock = rezal->dockWidget();
+		
+		if(dock)
+		{
+			action->setChecked(dock->isVisible());
+			connect(action, SIGNAL(toggled(bool)), dock, SLOT(setVisible(bool)));
+		}
+		else
+		{
+			action->setChecked(rezal->widget()->isVisible());
+			connect(action, SIGNAL(toggled(bool)), rezal->widget(), SLOT(setVisible(bool)));
+		}
+	}
+}
+
 ///Change l'information d'état
 void QRezix::status(const QString& msg, bool connected)
 {
@@ -457,6 +498,7 @@ void QRezix::updateLayout()
 		rezal->updateLayout();
 }
 
+///Gestion de la fermeture de la fenêtre
 void QRezix::closeEvent(QCloseEvent * e){
 	//pour éviter de fermer rezix par mégarde, on affiche un boite de dialogue laissant le choix
 	//de fermer qrezix, de minimiser la fenêtre principale --> trayicon, ou d'annuler l'action
@@ -557,6 +599,10 @@ void QRezix::setSearchPattern(const QString& pattern)
 void QRezix::changeTheme()
 {
 	pluginsAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PLUGIN));
+	menuCentral.setIcon(RzxIconCollection::getIcon(Rzx::ICON_PLUGIN));
+	menuView.setIcon(RzxIconCollection::getIcon(Rzx::ICON_LAYOUT));
+	if(restartAction)
+		restartAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_RELOAD));
 	awayAction->setIcon(RzxIconCollection::getResponderIcon());
 	columnsAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_COLUMN));
 	prefAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
