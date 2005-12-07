@@ -400,7 +400,7 @@ void RzxBaseLoader<T>::unloadModule(T *module)
 
 	relinkModules(NULL, module);
 	QLibrary *lib = module->library();
-	modules.remove(module->name());
+	modules.insert(module->name(), NULL);
 	delete module;
 	if(lib)
 	{
@@ -441,7 +441,8 @@ bool RzxBaseLoader<T>::loadModule(const QString& moduleName)
 		return false;
 	}
 	bool ret = installModule(files[moduleName]);
-	relinkModules(modules[moduleName], NULL);
+	if(ret)
+		relinkModules(modules[moduleName], NULL);
 	return ret;
 }
 
