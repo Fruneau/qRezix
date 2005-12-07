@@ -32,6 +32,7 @@
 ///Propriétés du module de chat
 class RzxChatConfig:public RzxAbstractConfig
 {
+	Q_OBJECT
 	RZX_CONFIG_EXPANDED(RzxChatConfig)
 
 	public:

@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <QFontDatabase>
-
+#include <RzxTranslator>
 #include "rzxchatconfig.h"
 
 /// Initialisation
@@ -23,6 +23,7 @@ void RzxChatConfig::init()
 {
 	loadFontList();
 	loadSmileysList();
+	RzxTranslator::connect(this, SLOT(loadSmileysList()));
 }
 
 /// Fermeture
