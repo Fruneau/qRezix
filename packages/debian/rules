@@ -4,18 +4,16 @@
 
 package=qrezix
 
-build: 	checkdir configure
-	# On commence par compiler pour Qt seul
+build: 	checkdir 
+	# On commence par compiler
 	qmake-qt4 "PREFIX=/usr" "DEST=$(CURDIR)/debian/qrezix" -o Makefile qrezix.pro
 	$(MAKE) 
+	# On relance la génération du Makefile pour le make install
 	
+	qmake-qt4 "PREFIX=/usr" "DEST=$(CURDIR)/debian/qrezix" -o Makefile qrezix.pro
 	$(MAKE) install
 	
 	#Installation des libs
-	#mkdir -p $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/modules
-	#mkdir -p $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/net
-	#Core lib
-	#cp -a qrezix/lib*.so* $(CURDIR)/debian/qrezix-bin/usr/lib
 	#Modules reseau
 	#mv $(CURDIR)/debian/qrezix-bin/usr/lib/librzxnet* $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/net
 	#Modules
@@ -56,9 +54,6 @@ checkdir:
 	$(checkdir)
 	touch checkdir
 
-configure:	
-	qmake-qt4 -o Makefile qrezix.pro
-
 
 clean:
 	if test -f Makefile; then\
@@ -66,7 +61,7 @@ clean:
 	fi
 	dh_clean -k -A
 	rm -f build
-	rm -f checkdir qt_only.stamp kde.stamp
+	rm -f checkdir 
 
 binary-indep: checkroot build
 	$(checkdir)

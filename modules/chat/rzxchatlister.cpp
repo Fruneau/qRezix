@@ -435,6 +435,7 @@ void RzxChatLister::propInit(bool def)
 	ui->cbPropertiesWarning->setChecked(RzxChatConfig::warnWhenChecked(def));
 	ui->cbPrintTime->setChecked(RzxChatConfig::printTime(def));
 	ui->chat_port->setValue(RzxChatConfig::chatPort(def));
+	ui->smileyCombo->clear();
 	ui->smileyCombo->addItems(RzxChatConfig::global()->smileyDir.keys());
 	ui->smileyCombo->setCurrentIndex(ui->smileyCombo->findText(RzxChatConfig::smileyTheme()));
 }

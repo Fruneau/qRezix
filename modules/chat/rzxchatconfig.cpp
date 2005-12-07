@@ -33,6 +33,9 @@ void RzxChatConfig::destroy()
 ///Chargement de la liste des thèmes
 void RzxChatConfig::loadSmileysList()
 {
+	smileyDir.clear();
+	smileyDir.insert(tr("none"),0);
+	
 	//Recherche des thèmes de smileys installés
 	qDebug("Searching smileys themes...");
 	QList<QDir> path = RzxConfig::dirList(RzxConfig::AllDirsExceptTemp, "smileys");

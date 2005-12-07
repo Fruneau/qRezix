@@ -39,6 +39,13 @@
     </message>
 </context>
 <context>
+    <name>RzxChatConfig</name>
+    <message>
+        <source>none</source>
+        <translation>aucun</translation>
+    </message>
+</context>
+<context>
     <name>RzxChatLister</name>
     <message>
         <source>qRezix graphical chat interface</source>
