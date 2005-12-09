@@ -108,7 +108,7 @@ class RzxChatSocket : public QTcpSocket
 		void propQuery();
 
 		void chatSent();
-		void propertiesSent(const RzxHostAddress& host);
+		void propertiesSent(RzxComputer *);
 		void pongReceived(int time);
 
 		void info(const QString& msg);

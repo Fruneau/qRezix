@@ -36,7 +36,7 @@ RzxClientListener::~ RzxClientListener()
 void RzxClientListener::attach(RzxChatSocket *sock)
 {
 	sockets.insert(sock->peer(), sock);
-	connect(sock, SIGNAL(propertiesSent(const RzxHostAddress& )), this, SIGNAL(propertiesSent(const RzxHostAddress& )));
+	connect(sock, SIGNAL(propertiesSent(RzxComputer*)), this, SIGNAL(propertiesSent(RzxComputer*)));
 	connect(sock, SIGNAL(chatSent()), this, SIGNAL(chatSent()));
 	connect(sock, SIGNAL(haveProperties(RzxComputer*)), this, SIGNAL(haveProperties(RzxComputer*)));
 }

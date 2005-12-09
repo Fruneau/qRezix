@@ -59,7 +59,7 @@ class RzxClientListener : public QTcpServer
 		void info(const QString&);
 		
 	signals:
-		void propertiesSent(const RzxHostAddress&);
+		void propertiesSent(RzxComputer*);
 		void chatSent();
 		void haveProperties(RzxComputer*);
 };

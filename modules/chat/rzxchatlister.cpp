@@ -210,7 +210,10 @@ void RzxChatLister::sendChatMessage(RzxComputer *computer, Rzx::ChatMessageType 
 void RzxChatLister::closeChats()
 {
 	foreach(RzxChat *chat, chatByIP.values())
-		chat->close();
+	{
+		if(chat)
+			chat->close();
+	}
 }
 
 ///Demande l'affichage de l'historique
@@ -231,12 +234,8 @@ void RzxChatLister::warnProperties(RzxComputer *computer)
 	if(!computer) return;
 
 	RzxChat *chat = getChatByIP(computer->ip());
-	QTime cur = QTime::currentTime();
-	QString heure;
-	heure.sprintf( "%2i:%.2i:%.2i",
-	               cur.hour(),
-	               cur.minute(),
-	               cur.second() );
+	const QTime cur = QTime::currentTime();
+	const QString heure = cur.toString("hh:mm:ss");
 
 	if(!chat)
 	{

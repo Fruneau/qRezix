@@ -168,6 +168,7 @@ int RzxChatSocket::parse(const QString& msg)
 ///Envoi d'une demande de propriété
 void RzxChatSocket::sendPropQuery() {
 	send("PROPQUERY \r\n\0");
+	emit propertiesSent(host);
 }
 
 ///Envoi d'une requête ping
