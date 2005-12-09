@@ -41,15 +41,17 @@ class RZX_CORE_EXPORT RzxProperty : public QDialog, public Ui::frmPref
 	RZX_GLOBAL(RzxProperty)
 
 	QTreeWidgetItem *generalItem;
+	QTreeWidgetItem *layoutItem;
+	QTreeWidgetItem *modulesItem;
 	QTreeWidgetItem *networkItem ;
-	QTreeWidgetItem *confItem;
 
 	///Indexes des différentes pages prédéfinies
 	enum Pages {
 		UserInfo = 0,
-		ProgConfig = 1,
-		Network = 2,
-		Blank = 3
+		Layout = 1,
+		Modules = 2,
+		Network = 3,
+		Blank = 4
 	};
 
 public: 
@@ -75,6 +77,8 @@ public slots: // Public slots
 
 	void addModule(const QString&, QTreeWidgetItem*);
 	void deleteModule(const QString&, QTreeWidgetItem*);
+
+	virtual void setVisible(bool);
 
 protected: // Protected methods
 	virtual void changeEvent(QEvent*);
@@ -108,6 +112,10 @@ protected slots: // Protected slots
 	void chooseIcon();
 	void lockCmbMenuText(int index);
 	void changePage(QTreeWidgetItem*, QTreeWidgetItem*);
+
+	void changeTheme(const QString& text);
+	void changeLanguage(const QString& language);
+	void fillThemeView();
 };
 
 ///Inclu les modules dans la fenêtre de propriétés

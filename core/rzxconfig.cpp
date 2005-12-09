@@ -19,12 +19,9 @@
 #include <time.h>
 
 #include <QDate>
-#include <QDir>
 #include <QFile>
 #include <QTextStream>
 #include <QStringList>
-#include <QTranslator>
-#include <QApplication>
 
 #ifdef WIN32
 #	include <math.h>

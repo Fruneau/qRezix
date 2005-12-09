@@ -63,6 +63,8 @@ RzxProperty::RzxProperty(QWidget *parent)
 	connect(btnAboutQt, SIGNAL(clicked()), this, SLOT(aboutQt()));
 
 	connect(cmbMenuIcons, SIGNAL(activated(int)), this,SLOT(lockCmbMenuText(int)));
+	connect(languageBox, SIGNAL(activated(const QString&)), this, SLOT(changeLanguage(const QString&)));
+	connect(cmbIconTheme, SIGNAL(activated(const QString&)), this, SLOT(changeTheme(const QString&)));
 
 	//Navigation entre les différentes pages
 	connect(lbMenu, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), 
@@ -109,12 +111,17 @@ RzxProperty::RzxProperty(QWidget *parent)
 	generalItem->setData(0, Qt::UserRole, UserInfo);
 	lbMenu->expandItem(generalItem);
 
-	confItem = new QTreeWidgetItem(lbMenu);
-	confItem->setText(0, tr("Settings"));
-	confItem->setData(0, Qt::UserRole, ProgConfig);
-	lbMenu->expandItem(confItem);
-	buildModules<RzxModule>(RzxApplication::modulesList(), confItem);
-	moduleLoader->setPropertyParent(confItem);
+	layoutItem = new QTreeWidgetItem(lbMenu);
+	layoutItem->setText(0, tr("Layout"));
+	layoutItem->setData(0, Qt::UserRole, Layout);
+	lbMenu->expandItem(layoutItem);
+
+	modulesItem = new QTreeWidgetItem(lbMenu);
+	modulesItem->setText(0, tr("Modules"));
+	modulesItem->setData(0, Qt::UserRole, Modules);
+	lbMenu->expandItem(modulesItem);
+	buildModules<RzxModule>(RzxApplication::modulesList(), modulesItem);
+	moduleLoader->setPropertyParent(modulesItem);
 
 	networkItem = new QTreeWidgetItem(lbMenu);
 	networkItem->setText(0, tr("Network"));
@@ -136,6 +143,18 @@ RzxProperty::~RzxProperty()
 	RZX_GLOBAL_CLOSE
 }
 
+///Demande le changement du thème actuel
+void RzxProperty::changeTheme(const QString& theme)
+{
+	RzxIconCollection::global()->setTheme(theme);
+}
+
+///Demande le changement de langue
+void RzxProperty::changeLanguage(const QString& lang)
+{
+	RzxTranslator::setLanguage(lang);
+}
+
 /// Change le thème d'icône de la fenêtre de préférence
 /** Le changement de thème correspond à la reconstruction de la listbox de menu (pour que les icônes soient conformes au thème choisi), et au changement des icônes OK, Annuler, Appliquer */
 void RzxProperty::changeTheme()
@@ -145,11 +164,31 @@ void RzxProperty::changeTheme()
 	btnMiseAJour->setIcon(RzxIconCollection::getIcon(Rzx::ICON_APPLY));
 
 	generalItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PROPRIETES));
-	confItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
+	layoutItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_LAYOUT));
+	modulesItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PLUGIN));
 	networkItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_NETWORK));
 
 	changeThemeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), networkItem);
-	changeThemeModules<RzxModule>(RzxApplication::modulesList(), confItem);
+	changeThemeModules<RzxModule>(RzxApplication::modulesList(), modulesItem);
+
+	fillThemeView();
+}
+
+///Rempli la listview d'affichage du thème d'icône
+void RzxProperty::fillThemeView()
+{
+	static QList<Rzx::Icon> icons = QList<Rzx::Icon>() << Rzx::ICON_JONE << Rzx::ICON_FTP << Rzx::ICON_LAYOUT << Rzx::ICON_SAMEGATEWAY
+		<< Rzx::ICON_PLUGIN << Rzx::ICON_FAVORITE << Rzx::ICON_SAMBA << Rzx::ICON_PROPRIETES << Rzx::ICON_NETWORK << Rzx::ICON_BAN
+		<< Rzx::ICON_HISTORIQUE << Rzx::ICON_HTTP << Rzx::ICON_SOUNDON << Rzx::ICON_OS0 << Rzx::ICON_OS1 << Rzx::ICON_OS2
+		<< Rzx::ICON_OS3 << Rzx::ICON_OS4 << Rzx::ICON_OS5 << Rzx::ICON_OS6 << Rzx::ICON_PRINTER << Rzx::ICON_ORANJE
+		<< Rzx::ICON_AWAY << Rzx::ICON_PREFERENCES << Rzx::ICON_ROUJE;
+
+	lstTheme->clear();
+	foreach(Rzx::Icon i, icons)
+	{
+		QListWidgetItem *item = new QListWidgetItem(lstTheme);
+		item->setIcon(RzxIconCollection::getIcon(i));
+	}
 }
 
 
@@ -179,7 +218,7 @@ QTreeWidgetItem* RzxProperty::createPage(QWidget *widget, const QString& name, c
 void RzxProperty::addModule(const QString& name, QTreeWidgetItem *parent)
 {
 	QList<RzxBaseModule*> module;
-	if(parent == confItem)
+	if(parent == modulesItem)
 		module << RzxApplication::instance()->module(name);
 	else if(parent == networkItem)
 		module << RzxConnectionLister::global()->module(name);
@@ -194,13 +233,13 @@ void RzxProperty::addModule(const QString& name, QTreeWidgetItem *parent)
 			moduleNames.push(item->text(0));
 			item = item->parent();
 		}
-		while(item && item != confItem && item != networkItem);
+		while(item && item != modulesItem && item != networkItem);
 		if(!item) return;
 
 		//Parcours l'arborescence des modules
 		QString moduleName = moduleNames.pop();
 		RzxBaseModule *mod = NULL; 
-		if(item == confItem)
+		if(item == modulesItem)
 			mod = RzxApplication::instance()->module(moduleName);
 		else
 			mod = RzxConnectionLister::global()->module(moduleName);
@@ -276,6 +315,8 @@ void RzxProperty::changePage(QTreeWidgetItem *current, QTreeWidgetItem *)
 		int page = current->data(0, Qt::UserRole).toInt();
 		if(page >= prefStack->count())
 			page = 0;
+		if(page == Layout)
+			fillThemeView();
 		prefStack->setCurrentIndex(page);
 	}
 }
@@ -501,13 +542,6 @@ bool RzxProperty::miseAJour()
 	if(RzxIconCollection::global()->localhostPixmap().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
 		RzxIconCollection::global()->setLocalhostPixmap(*localhostIcon);
 
-	if(RzxIconCollection::theme() != cmbIconTheme->currentText())
-		RzxIconCollection::global()->setTheme(cmbIconTheme->currentText());
-
-	//On ne change la langue qu'au dernier moment car ça réinitialise toutes les boîtes
-	if(languageBox->currentText() != RzxTranslator::translation())
-		RzxTranslator::setLanguage(languageBox->currentText());
-	
 	//Sauvegarde du fichier du conf
 	RzxConfig::global()->flush();
 	return true;
@@ -623,6 +657,13 @@ void RzxProperty::lockCmbMenuText(int index)
 		cmbMenuText->setEnabled(true);
 }
 
+///Pour bien initialiser le fenêtre lstTheme
+void RzxProperty::setVisible(bool visible)
+{
+	QDialog::setVisible(visible);
+	if(visible) fillThemeView();
+}
+
 ///Change la langue...
 void RzxProperty::changeEvent(QEvent *e)
 {
@@ -631,8 +672,12 @@ void RzxProperty::changeEvent(QEvent *e)
 	{
 		QTreeWidgetItem *item = lbMenu->currentItem();
 		retranslateUi(this);
-		lbMenu->setCurrentItem(item);
 		changeTheme();
 		initDlg();
+		generalItem->setText(0, tr("Infos"));
+		layoutItem->setText(0, tr("Layout"));
+		modulesItem->setText(0, tr("Modules"));
+		networkItem->setText(0, tr("Network"));
+		changePage(item, item);
 	}
 }

@@ -18,26 +18,16 @@
 #ifndef RZXCONFIG_H
 #define RZXCONFIG_H
 
-#include <QObject>
-#include <QHash>
 #include <QSet>
 #include <QVector>
-#include <QVector>
-#include <QPixmap>
 #include <QDir>
-#include <QTranslator>
-#include <QSettings>
-#include <QPoint>
 #include <QList>
-#include <QPointer>
 
 #include <RzxGlobal>
 #include <RzxSubnet>
 
 #include <RzxAbstractConfig>
 
-class QPixmap;
-class RzxProperty;
 class RzxHostAddress;
 class RzxComputer;
 

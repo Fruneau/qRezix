@@ -45,7 +45,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The central object of qRezix has been set to %1.&lt;br&gt;&lt;br&gt;You must restart qRezix in order this change to be applied</source>
+        <source>The central widget has been set to %1. You should reload the module in order this changement to take effect. You can do this via this menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You should restart qRezix</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -797,32 +801,12 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Computer icons</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Icon size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Icon size&lt;/h3&gt;&lt;p&gt;Do you prefer big icons (64x64) or small icons (32x32) for the pictures of the users&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>32*32</source>
-        <translation type="unfinished">32*32</translation>
+        <translation type="obsolete">32*32</translation>
     </message>
     <message>
         <source>64*64</source>
-        <translation type="unfinished">64*64</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Highlight&lt;/h3&gt;&lt;p&gt;If you choose to display small icons and check this box then the selected item will be displayed with a big icon.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Highlight the selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">64*64</translation>
     </message>
     <message>
         <source>Action on double-clic</source>
@@ -838,10 +822,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Open FTP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1002,19 +982,27 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Settings</source>
-        <translation>Réglages</translation>
+        <translation type="obsolete">Réglages</translation>
     </message>
     <message>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Réseau</translation>
     </message>
     <message>
         <source>Room:</source>
-        <translation type="unfinished">Kazert:</translation>
+        <translation>Kazert :</translation>
     </message>
     <message>
         <source>Phone number:</source>
-        <translation type="unfinished">Téléphone:</translation>
+        <translation>Téléphone :</translation>
+    </message>
+    <message>
+        <source>Layout</source>
+        <translation>Affichage</translation>
+    </message>
+    <message>
+        <source>Modules</source>
+        <translation>Modules</translation>
     </message>
 </context>
 <context>
@@ -1822,7 +1810,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>UI Language:</source>
-        <translation>Langue :</translation>
+        <translation type="obsolete">Langue :</translation>
     </message>
     <message>
         <source>Themes:</source>
@@ -1859,6 +1847,10 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <message>
         <source>Printer</source>
         <translation>Imprimante</translation>
+    </message>
+    <message>
+        <source>Language:</source>
+        <translation>Langue :</translation>
     </message>
 </context>
 <context>
