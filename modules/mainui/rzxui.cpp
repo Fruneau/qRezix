@@ -128,7 +128,6 @@ QStringList RzxUi::propWidgetsName()
 /** \reimp */
 void RzxUi::propInit(bool def)
 {
-	ui->cmbIconSize->setCurrentIndex( RzxMainUIConfig::computerIconSize(def) );
 	ui->cmdDoubleClic->setCurrentIndex( RzxMainUIConfig::doubleClicRole(def) );
 	ui->cmbDefaultTab -> setCurrentIndex(RzxMainUIConfig::defaultTab(def));
 
@@ -147,7 +146,6 @@ void RzxUi::propInit(bool def)
 	ui->cbcIP ->setChecked( colonnes & (1<<RzxRezalModel::ColIP) );
 	ui->cbcClient ->setChecked( colonnes & (1<<RzxRezalModel::ColClient) );
 	ui->cbQuit->setChecked(RzxMainUIConfig::showQuit());
-	ui->cbHighlight->setChecked(RzxMainUIConfig::computerIconHighlight());
 
 	uint tooltip = RzxMainUIConfig::tooltip(def);
 	ui->cbTooltips->setChecked(tooltip & RzxRezalModel::TipEnable);
@@ -173,8 +171,6 @@ void RzxUi::propUpdate()
 	if(!ui) return;
 
 	RzxMainUIConfig::setDoubleClicRole(ui->cmdDoubleClic->currentIndex());
-	RzxMainUIConfig::setComputerIconSize(ui->cmbIconSize -> currentIndex());
-	RzxMainUIConfig::setComputerIconHighlight(ui->cbHighlight->isChecked());
 	RzxMainUIConfig::setDefaultTab(ui->cmbDefaultTab ->currentIndex());
 	RzxMainUIConfig::setUseSearch(ui->cbSearch->isChecked());
 	RzxMainUIConfig::setShowQuit(ui->cbQuit->isChecked());

@@ -37,10 +37,8 @@ class RZX_MAINUI_EXPORT RzxMainUIConfig: public RzxAbstractConfig
 		 * 0 pour 32x32
 		 * 1 pour 64x64
 		 */
-		RZX_INTPROP("iconsize", computerIconSize, setComputerIconSize, 0)
 		RZX_INTPROP("doubleClic", doubleClicRole, setDoubleClicRole, 0)
 		RZX_INTPROP("defaultTab", defaultTab, setDefaultTab, 0)
-		RZX_BOOLPROP("iconHighlight", computerIconHighlight, setComputerIconHighlight, true)
 		RZX_BOOLPROP("useSearch", useSearch, setUseSearch, true)
 		RZX_BOOLPROP("showQuit", showQuit, setShowQuit, true)
 		RZX_INTPROP("quitmode", quitMode, setQuitMode, 1)
