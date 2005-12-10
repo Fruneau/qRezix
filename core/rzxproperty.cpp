@@ -155,7 +155,7 @@ RzxProperty::~RzxProperty()
 ///Demande le changement du thème actuel
 void RzxProperty::changeTheme(const QString& theme)
 {
-	RzxIconCollection::global()->setTheme(theme);
+	RzxIconCollection::setTheme(theme);
 }
 
 ///Demande le changement de langue

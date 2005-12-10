@@ -129,9 +129,10 @@ class RZX_CORE_EXPORT RzxIconCollection: public QObject
 	protected:
 		bool isValid(const QDir&) const;
 		QPixmap loadIcon(const QString&, const QString& theme = QString()) const;
+		void local_setTheme(const QString&);
 	
 	public slots:
-		void setTheme(const QString&);
+		static void setTheme(const QString&);
 
 	signals:
 		void themeChanged(const QString&);

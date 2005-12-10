@@ -138,7 +138,7 @@ RzxIconCollection::RzxIconCollection()
 	//Chargement du thème de démarrage
 	qDebug("Loading theme...");
 	activeTheme = QString();
-	setTheme(RzxConfig::iconTheme());
+	local_setTheme(RzxConfig::iconTheme());
 	Rzx::endModuleLoading("Icon Collection");
 }
 
@@ -167,6 +167,12 @@ bool RzxIconCollection::isValid(const QDir& dir) const
 ///Change le thème actif
 /** Si le thème demandé n'existe pas, on ne change pas de thème */
 void RzxIconCollection::setTheme(const QString& theme)
+{
+	global()->local_setTheme(theme);
+}
+
+///Implémentation de \ref setTheme
+void RzxIconCollection::local_setTheme(const QString& theme)
 {
 	if(theme == activeTheme) return;
 	if(!themeDir.keys().contains(theme))

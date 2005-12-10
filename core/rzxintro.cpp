@@ -61,7 +61,7 @@ void RzxIntro::changeLanguage(const QString& language)
 void RzxIntro::changeTheme(const QString& theme)
 {
 	qDebug() << "change theme";
-	RzxIconCollection::global()->setTheme(theme);
+	RzxIconCollection::setTheme(theme);
 
 	listIcons->clear();
 	foreach(Rzx::Icon i, icons)
