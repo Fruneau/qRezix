@@ -17,11 +17,11 @@
 #include <QWidget>
 #include <QDockWidget>
 #include <QSplitter>
+#include <QDesktopWidget>
 
 #include <RzxAbstractConfig>
 #include <RzxBaseModule>
 #include <RzxApplication>
-#include <QDesktopWidget>
 
 ///Construction d'un RzxAbstractConfig
 /** Cette construction initialise le QSettings pour lui donner la configuration
