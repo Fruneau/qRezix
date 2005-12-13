@@ -68,6 +68,7 @@ RzxComputer::RzxComputer(RzxNetwork *network, const RzxHostAddress& c_ip, const 
 	*((quint32 *) &m_version) = c_version;
 	loadIcon();
 	connected = false;
+	locked = false;
 }	
 
 ///Destruction...
@@ -127,6 +128,7 @@ void RzxComputer::initLocalhost()
 
 	m_flags = 0;
 	connected = true;
+	locked = false;
 
 	scanServers();
 	Rzx::endModuleLoading("Local computer image");
@@ -250,6 +252,29 @@ void RzxComputer::logout()
 	}
 }
 
+///Interdit l'envoie des informations de mise à jour
+/** Permet de mettre à jour plusieurs informations sans flooder le serveur à chaque
+ * information... idéal donc pour alléger la charge réseau et la charge du serveur
+ * \sa unlock
+ */
+void RzxComputer::lock()
+{
+	if(locked) return;
+	locked = true;
+	edited = false;
+}
+
+///Réautorise l'envoie des informations de mise à jour
+/** \sa lock
+ */
+void RzxComputer::unlock()
+{
+	if(!locked) return;
+	locked = false;
+	if(edited)
+		emitStateChanged();
+}
+
 ///Charge l'icône associée à la machine
 void RzxComputer::loadIcon()
 {
@@ -269,7 +294,11 @@ void RzxComputer::loadIcon()
 /********** NOM */
 ///Défition du nom de machine
 void RzxComputer::setName(const QString& newName) 
-{ m_name = newName; }
+{
+	bool favorite = isFavorite();
+	m_name = newName;
+	if(favorite) addToFavorites();
+}
 
 ///Récupération du nom de la machine
 const QString &RzxComputer::name() const 
@@ -592,28 +621,28 @@ QString RzxComputer::properties() const
 ///Ban l'ordinateur
 void RzxComputer::ban()
 {
-	RzxConfig::global()->addToBanlist(*this);
+	RzxConfig::global()->addToBanlist(this);
 	emit update(this);
 }
 
 ///Unban l'ordinateur
 void RzxComputer::unban()
 {
-	RzxConfig::global()->delFromBanlist(*this);
+	RzxConfig::global()->delFromBanlist(this);
 	emit update(this);
 }
 
 ///Ajout au favoris
 void RzxComputer::addToFavorites()
 {
-	RzxConfig::global()->addToFavorites(*this);
+	RzxConfig::global()->addToFavorites(this);
 	emit update(this);
 }
 
 ///Supprime des favoris
 void RzxComputer::removeFromFavorites()
 {
-	RzxConfig::global()->delFromFavorites(*this);
+	RzxConfig::global()->delFromFavorites(this);
 	emit update(this);
 }
 
@@ -629,9 +658,14 @@ void RzxComputer::removeFromFavorites()
  */
 void RzxComputer::emitStateChanged()
 {
-	emit stateChanged(this);
-	if(isFavorite() && !isLocalhost())
-		emit favoriteStateChanged(this);
+	if(locked)
+		edited = true;
+	else
+	{
+		emit stateChanged(this);
+		if(isFavorite() && !isLocalhost())
+			emit favoriteStateChanged(this);
+	}
 }
 
 /*********** Lancement des données liées au chat *************/

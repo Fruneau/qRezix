@@ -57,21 +57,21 @@ private :
 
 public:
 	bool isFavorite(const QString&) const;
-	bool isFavorite(const RzxComputer&) const;
+	bool isFavorite(const RzxComputer*) const;
 	void addToFavorites(const QString&);
-	void addToFavorites(const RzxComputer&);
+	void addToFavorites(const RzxComputer*);
 	void delFromFavorites(const QString&);
-	void delFromFavorites(const RzxComputer&);
+	void delFromFavorites(const RzxComputer*);
 	void writeFavorites();
 	void readFavorites();
 	
 	bool isBan(const QString&) const;
 	bool isBan(const RzxHostAddress&) const;
-	bool isBan(const RzxComputer&) const;
+	bool isBan(const RzxComputer*) const;
 	void addToBanlist(const QString&);
-	void addToBanlist(const RzxComputer&);
+	void addToBanlist(const RzxComputer*);
 	void delFromBanlist(const QString&);
-	void delFromBanlist(const RzxComputer&);
+	void delFromBanlist(const RzxComputer*);
 	void writeIgnoreList();
 	void readIgnoreList();
 

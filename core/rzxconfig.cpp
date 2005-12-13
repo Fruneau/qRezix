@@ -508,8 +508,8 @@ bool RzxConfig::isFavorite(const QString& nom) const {
 }
 
 ///Idem encore mais à partir d'un RzxComputer
-bool RzxConfig::isFavorite(const RzxComputer& computer) const {
-	return isFavorite(computer.name());
+bool RzxConfig::isFavorite(const RzxComputer* computer) const {
+	return isFavorite(computer->name());
 }
 
 ///Ajout du pseudo à la liste des favoris
@@ -518,8 +518,8 @@ void RzxConfig::addToFavorites(const QString& nom) {
 }
 
 ///Idem à partir du RzxComputer
-void RzxConfig::addToFavorites(const RzxComputer& computer) {
-	favorites.insert(computer.name());
+void RzxConfig::addToFavorites(const RzxComputer* computer) {
+	favorites.insert(computer->name());
 }
 
 ///Suppression du pseudo de la liste des favoris
@@ -528,8 +528,8 @@ void RzxConfig::delFromFavorites(const QString& nom) {
 }
 
 ///Idem à partir du RzxComputer
-void RzxConfig::delFromFavorites(const RzxComputer& computer) {
-	favorites.remove(computer.name());
+void RzxConfig::delFromFavorites(const RzxComputer* computer) {
+	favorites.remove(computer->name());
 }
 
 void RzxConfig::writeFavorites()
@@ -594,24 +594,24 @@ bool RzxConfig::isBan(const RzxHostAddress& ip) const {
 }
 
 ///Idem à partir d'un RzxComputer
-bool RzxConfig::isBan(const RzxComputer& computer) const {
-	return isBan(computer.ip().toString());
+bool RzxConfig::isBan(const RzxComputer* computer) const {
+	return isBan(computer->ip().toString());
 }
 
 void RzxConfig::addToBanlist(const QString& ip) {
 	ignoreList.insert(ip);
 }
 
-void RzxConfig::addToBanlist(const RzxComputer& ip) {
-	ignoreList.insert(ip.ip().toString());
+void RzxConfig::addToBanlist(const RzxComputer* computer) {
+	ignoreList.insert(computer->ip().toString());
 }
 
 void RzxConfig::delFromBanlist(const QString& ip) {
 	ignoreList.remove(ip);
 }
 
-void RzxConfig::delFromBanlist(const RzxComputer& ip) {
-	ignoreList.remove(ip.ip().toString());
+void RzxConfig::delFromBanlist(const RzxComputer* computer) {
+	ignoreList.remove(computer->ip().toString());
 }
 
 void RzxConfig::writeIgnoreList()

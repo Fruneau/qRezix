@@ -128,6 +128,8 @@ private:
 /************* Représentation de localhost *********************/
 	QTimer *delayScan;
 	static RzxComputer *m_localhost;
+	bool locked;
+	bool edited;
 
 protected:
 	/** Pour la creation de localHost */
@@ -165,6 +167,9 @@ public:
 public slots:
 	void logout();
 	void login();
+
+	void lock();
+	void unlock();
 
 
 //Quelques signaux
@@ -282,10 +287,10 @@ Q_DECLARE_METATYPE(RzxComputer*)
 
 ///Indique si l'objet est dans les favoris
 inline bool RzxComputer::isFavorite() const
-{ return RzxConfig::global()->isFavorite(*this); }
+{ return RzxConfig::global()->isFavorite(this); }
 
 ///Indique si l'objet est dans les machines ignorées
 inline bool RzxComputer::isIgnored() const
-{ return RzxConfig::global()->isBan(*this); }
+{ return RzxConfig::global()->isBan(this); }
 
 #endif

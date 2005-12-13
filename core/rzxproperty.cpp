@@ -366,8 +366,6 @@ void RzxProperty::initDlg(bool def)
 	foreach(QLineEdit *edit, l)
 		edit->setText(config->value(edit->objectName(), "").toString());
 	
-//	btnChangePass->setEnabled(!RzxServerListener::object()->isSocketClosed());
-	
 	initThemeCombo();
 	initLangCombo();
 	initStyleCombo();
@@ -456,19 +454,17 @@ void RzxProperty::initDlg(bool def)
 }
 
 ///Met à jour l'objet représentant localhost
-bool RzxProperty::updateLocalHost()
+void RzxProperty::updateLocalHost()
 {
-	bool refresh = (RzxComputer::localhost()->name().toLower() != hostname->text().toLower());
-	RzxComputer::localhost()->setName(hostname->text());
-	
-	refresh = refresh || RzxComputer::localhost()->remarque() != remarque->text();
-	RzxComputer::localhost() -> setRemarque(remarque -> text());
-	refresh = refresh || RzxComputer::localhost()->promo() != cmbPromo->currentIndex()+1;
-	RzxComputer::localhost()->setPromo((Rzx::Promal)(cmbPromo->currentIndex() + 1));
-	refresh = refresh || RzxConfig::autoResponder() != chkAutoResponder->isChecked();
-	RzxComputer::localhost()->setState(chkAutoResponder->isChecked());
-	
-	refresh = refresh || (RzxConfig::refuseWhenAway() ^ cbRefuseAway->isChecked());
+	RzxComputer::localhost()->lock();
+	if(RzxComputer::localhost()->name().toLower() != hostname->text().toLower())
+		RzxComputer::localhost()->setName(hostname->text());
+	if(RzxComputer::localhost()->remarque() != remarque->text())
+		RzxComputer::localhost() -> setRemarque(remarque -> text());
+	if(RzxComputer::localhost()->promo() != cmbPromo->currentIndex()+1)
+		RzxComputer::localhost()->setPromo((Rzx::Promal)(cmbPromo->currentIndex() + 1));
+	if(RzxConfig::autoResponder() != chkAutoResponder->isChecked())
+		RzxComputer::localhost()->setState(chkAutoResponder->isChecked());
 
 	RzxComputer::Servers servers;
 	if ( CbSamba->isChecked() )
@@ -482,9 +478,14 @@ bool RzxProperty::updateLocalHost()
 	if ( CbPrinter->isChecked() )
 		servers |= RzxComputer::SERVER_PRINTER;
 
+	const QPixmap *localhostIcon = pxmIcon->pixmap();
+	if(RzxIconCollection::global()->localhostPixmap().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
+		RzxIconCollection::global()->setLocalhostPixmap(*localhostIcon);
+
 	const RzxComputer::Servers oldservers = RzxComputer::localhost()->serverFlags();
-	RzxComputer::localhost()->setServerFlags(servers);
-	return refresh || servers != oldservers;
+	if(servers != oldservers)
+		RzxComputer::localhost()->setServerFlags(servers);
+	RzxComputer::localhost()->unlock();
 }
 
 ///Mets à jours les données globales de qRezix avec ce qu'a rentré l'utilisateur
@@ -546,10 +547,6 @@ bool RzxProperty::miseAJour()
 	RzxConfig::setUseStyleForAll(cbStyleForAll->isChecked());
 	if(RzxStyle::style() != cmbStyle->currentText())
 		RzxStyle::setStyle(cmbStyle->currentText());
-	
-	const QPixmap *localhostIcon = pxmIcon->pixmap();
-	if(RzxIconCollection::global()->localhostPixmap().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
-		RzxIconCollection::global()->setLocalhostPixmap(*localhostIcon);
 
 	//Sauvegarde du fichier du conf
 	RzxConfig::global()->flush();

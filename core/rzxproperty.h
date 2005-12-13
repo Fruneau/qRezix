@@ -88,7 +88,7 @@ private:
 	void initThemeCombo();
 	void initStyleCombo();
 
-	bool updateLocalHost();
+	void updateLocalHost();
 	QPixmap localhostIcon;
 
 	template<class T>
