@@ -18,7 +18,6 @@
 #ifndef RZXCONFIG_H
 #define RZXCONFIG_H
 
-#include <QSet>
 #include <QVector>
 #include <QDir>
 #include <QList>
@@ -50,31 +49,7 @@ private:
 	QDir m_userDir;
 	QDir m_libDir;
 
-// Favoris et BanList
-private :
-	QSet<QString> favorites;
-	QSet<QString> ignoreList;
-
 public:
-	bool isFavorite(const QString&) const;
-	bool isFavorite(const RzxComputer*) const;
-	void addToFavorites(const QString&);
-	void addToFavorites(const RzxComputer*);
-	void delFromFavorites(const QString&);
-	void delFromFavorites(const RzxComputer*);
-	void writeFavorites();
-	void readFavorites();
-	
-	bool isBan(const QString&) const;
-	bool isBan(const RzxHostAddress&) const;
-	bool isBan(const RzxComputer*) const;
-	void addToBanlist(const QString&);
-	void addToBanlist(const RzxComputer*);
-	void delFromBanlist(const QString&);
-	void delFromBanlist(const RzxComputer*);
-	void writeIgnoreList();
-	void readIgnoreList();
-
 	// Données
 	RZX_STRINGPROP("theme", iconTheme, setIconTheme, DEFAULT_THEME)
 	RZX_STRINGPROP("style", style, setStyle, "default")

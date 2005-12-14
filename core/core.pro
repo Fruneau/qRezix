@@ -42,7 +42,10 @@ SOURCES += rzxglobal.cpp \
 	rzxstyle.cpp \
 	rzxintro.cpp \
 	rzxloaderprop.cpp \
-	rzxinfomessage.cpp
+	rzxinfomessage.cpp \
+	rzxcomputerlist.cpp \
+	rzxfavoritelist.cpp \
+	rzxbanlist.cpp
 
 HEADERS += rzxglobal.h \
 	rzxapplication.h \
@@ -68,7 +71,10 @@ HEADERS += rzxglobal.h \
 	rzxstyle.h \
 	rzxintro.h \
 	rzxloaderprop.h \
-	rzxinfomessage.h
+	rzxinfomessage.h \
+	rzxcomputerlist.h \
+	rzxfavoritelist.h \
+	rzxbanlist.h
 		
 FORMS += rzxpropertyui.ui \
 	rzxwrongpassui.ui \

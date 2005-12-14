@@ -285,12 +285,5 @@ public slots:
 Q_DECLARE_METATYPE(RzxComputer*)
 
 
-///Indique si l'objet est dans les favoris
-inline bool RzxComputer::isFavorite() const
-{ return RzxConfig::global()->isFavorite(this); }
-
-///Indique si l'objet est dans les machines ignorées
-inline bool RzxComputer::isIgnored() const
-{ return RzxConfig::global()->isBan(this); }
 
 #endif

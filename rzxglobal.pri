@@ -28,7 +28,10 @@ HEADERS += $$ROOT/core/RzxGlobal \
 	$$ROOT/core/RzxStyle \
 	$$ROOT/core/RzxIntro \
 	$$ROOT/core/RzxLoaderProp \
-	$$ROOT/core/RzxInfoMessage
+	$$ROOT/core/RzxInfoMessage \
+	$$ROOT/core/RzxComputerList \
+	$$ROOT/core/RzxFavoriteList \
+	$$ROOT/core/RzxBanList
 
 !contains(DEFINES, NO_JABBER):!existLib(gloox):DEFINES += NO_JABBER
 contains(DEFINES, RZX_ALL_BUILTIN) {

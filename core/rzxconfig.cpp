@@ -39,6 +39,8 @@
 #include <RzxIconCollection>
 #include <RzxTranslator>
 #include <RzxStyle>
+#include <RzxFavoriteList>
+#include <RzxBanList>
 
 RZX_CONFIG_INIT(RzxConfig)
 
@@ -54,14 +56,12 @@ void RzxConfig::init()
 	//Même si qRezix l'utilise peu, ça peut toujours être utile en particulier pour les plugins
 	srand(time(0));
 
-	//Ouverture du fichier de configuration
-	readFavorites();
-	readIgnoreList();
-
 	//CHargment de données diverses (icons, traductions)
 	RzxStyle::global();
 	RzxTranslator::global();
 	RzxIconCollection::global();
+	RzxFavoriteList::global();
+	RzxBanList::global();
 	loadRezals();
 	
 	//Chargement des données QVB sur les fontes du système
@@ -72,11 +72,11 @@ void RzxConfig::init()
 void RzxConfig::destroy()
 {
 	Rzx::beginModuleClosing("Config");
-	writeFavorites();
-	writeIgnoreList();
 	delete RzxStyle::global();
 	delete RzxTranslator::global();
 	delete RzxIconCollection::global();
+	delete RzxFavoriteList::global();
+	delete RzxBanList::global();
 	Rzx::endModuleClosing("Config");
 }
 
@@ -454,171 +454,6 @@ bool RzxConfig::infoCompleted()
 	return propLastName() != "" && propName() != "" && propCasert() != "" 
 		&& propMail() != DEFAULT_MAIL && propTel() != "";
 }
-
-
-/******************************************************************************
-* GESTION DES FAVORIS                                                         *
-******************************************************************************/
-void RzxConfig::readFavorites()
-{
-	/* Pour que la compatiblité avec l'ancien format soit maintenue
-	on lit ce fichier, et on le supprime, sachant que tout ira dans
-	le nouveau fichier à l'issue */
-	static const QString name = CONF_FAVORITES;
-	if (m_userDir.exists(name))
-	{
-		QString favoritesFile = m_userDir.absoluteFilePath(name);
-	
-		QFile file(favoritesFile);
-		if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-			RzxMessageBox::critical(0, tr("qRezix error"), 
-				tr("Unable to open favorites file %1").arg(favoritesFile));
-			return;
-		}
-	
-		QTextStream stream(&file);
-
-		favorites.clear();
-		QString line;
-		line = stream.readLine();
-		while(!line.isNull()) {
-			addToFavorites(line);
-			line = stream.readLine();
-		}
-		file.close();
-		file.remove(); //le fichier n'est désormais plus nécessaire
-							//tout va dans le qrezixrc
-		writeFavorites();
-	}
-	
-	/* La nouvelle technique... les favoris sont maintenant une entrée dans
-	le fichier de config sous forme de liste */
-	else
-	{
-		QStringList favoriteList = value("favorites").toStringList();
-		QStringList::iterator it;
-		for(it = favoriteList.begin() ; it != favoriteList.end() ; it++)
-			addToFavorites(*it);
-	}
-}
-
-///Indique si l'entrée est dans les favoris
-bool RzxConfig::isFavorite(const QString& nom) const {
-	return favorites.contains(nom);
-}
-
-///Idem encore mais à partir d'un RzxComputer
-bool RzxConfig::isFavorite(const RzxComputer* computer) const {
-	return isFavorite(computer->name());
-}
-
-///Ajout du pseudo à la liste des favoris
-void RzxConfig::addToFavorites(const QString& nom) {
-	favorites.insert(nom);
-}
-
-///Idem à partir du RzxComputer
-void RzxConfig::addToFavorites(const RzxComputer* computer) {
-	favorites.insert(computer->name());
-}
-
-///Suppression du pseudo de la liste des favoris
-void RzxConfig::delFromFavorites(const QString& nom) {
-	favorites.remove(nom);
-}
-
-///Idem à partir du RzxComputer
-void RzxConfig::delFromFavorites(const RzxComputer* computer) {
-	favorites.remove(computer->name());
-}
-
-void RzxConfig::writeFavorites()
-{
-	setValue("favorites", QVariant::fromValue<QStringList>(favorites.values()));
-}
-
-/******************************************************************************
-* GESTION DE L'IGNORE LIST                                                    *
-******************************************************************************/
-void RzxConfig::readIgnoreList()
-{
-	/* Pour que la compatiblité avec l'ancien format soit maintenue
-	on lit ce fichier, et on le supprime, sachant que tout ira dans
-	le nouveau fichier à l'issue */
-	static const QString name = CONF_IGNORELIST;
-	if (m_userDir.exists(name))
-	{
-		QString ignoreListFile = m_userDir.absoluteFilePath(name);
-	
-		QFile file(ignoreListFile);
-		if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-			RzxMessageBox::critical(0, tr("qRezix error"), 
-				tr("Unable to open ignoreList file %1").arg(ignoreListFile));
-			return;
-		}
-	
-		QTextStream stream(&file);
-
-		ignoreList.clear();
-		QString line;
-		line = stream.readLine();
-		while(!line.isNull()) {
-			addToBanlist(line);
-			line = stream.readLine();
-		}
-		file.close();
-		file.remove(); //le fichier n'est désormais plus nécessaire
-							//tout va dans le qrezixrc
-		writeIgnoreList();
-	}
-	
-	/* La nouvelle technique... les favoris sont maintenant une entrée dans
-	le fichier de config sous forme de liste */
-	else
-	{
-		QStringList ignoreListList =  value("ignoreList").toStringList();
-		QStringList::iterator it;
-		for(it = ignoreListList.begin() ; it != ignoreListList.end() ; it++)
-			addToBanlist(*it);
-	}
-}
-
-///Indique si l'ip donnée est bannée
-bool RzxConfig::isBan(const QString& ip) const {
-	return ignoreList.contains(ip);
-}
-
-///Idem à partir d'un RzxHostAddress - RzxHostAddress
-bool RzxConfig::isBan(const RzxHostAddress& ip) const {
-	return isBan(ip.toString());
-}
-
-///Idem à partir d'un RzxComputer
-bool RzxConfig::isBan(const RzxComputer* computer) const {
-	return isBan(computer->ip().toString());
-}
-
-void RzxConfig::addToBanlist(const QString& ip) {
-	ignoreList.insert(ip);
-}
-
-void RzxConfig::addToBanlist(const RzxComputer* computer) {
-	ignoreList.insert(computer->ip().toString());
-}
-
-void RzxConfig::delFromBanlist(const QString& ip) {
-	ignoreList.remove(ip);
-}
-
-void RzxConfig::delFromBanlist(const RzxComputer* computer) {
-	ignoreList.remove(computer->ip().toString());
-}
-
-void RzxConfig::writeIgnoreList()
-{
-	setValue("ignoreList", QVariant::fromValue<QStringList>(ignoreList.values()));
-}
-
 
 /******************************************************************************
 * GESTION DE LA CACHE DES PROPRIÉTÉS

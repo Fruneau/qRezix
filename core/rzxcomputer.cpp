@@ -27,6 +27,8 @@
 #include <RzxComputer>
 
 #include <RzxConfig>
+#include <RzxFavoriteList>
+#include <RzxBanList>
 #include <RzxUtilsLauncher>
 #include <RzxConnectionLister>
 #include <RzxIconCollection>
@@ -296,8 +298,10 @@ void RzxComputer::loadIcon()
 void RzxComputer::setName(const QString& newName) 
 {
 	bool favorite = isFavorite();
+	bool ignored = isIgnored();
 	m_name = newName;
 	if(favorite) addToFavorites();
+	if(ignored) ban();
 }
 
 ///Récupération du nom de la machine
@@ -618,31 +622,43 @@ QString RzxComputer::properties() const
 }
 
 /********** Modification de l'état de préférence *************/
+///Indique si l'objet est dans les machines ignorées
+bool RzxComputer::isIgnored() const
+{
+	return RzxBanList::global()->isIn(this);
+}
+
 ///Ban l'ordinateur
 void RzxComputer::ban()
 {
-	RzxConfig::global()->addToBanlist(this);
+	RzxBanList::global()->add(this);
 	emit update(this);
 }
 
 ///Unban l'ordinateur
 void RzxComputer::unban()
 {
-	RzxConfig::global()->delFromBanlist(this);
+	RzxBanList::global()->remove(this);
 	emit update(this);
+}
+
+///Indique si l'objet est dans les favoris
+bool RzxComputer::isFavorite() const
+{
+	return RzxFavoriteList::global()->isIn(this);
 }
 
 ///Ajout au favoris
 void RzxComputer::addToFavorites()
 {
-	RzxConfig::global()->addToFavorites(this);
+	RzxFavoriteList::global()->add(this);
 	emit update(this);
 }
 
 ///Supprime des favoris
 void RzxComputer::removeFromFavorites()
 {
-	RzxConfig::global()->delFromFavorites(this);
+	RzxFavoriteList::global()->remove(this);
 	emit update(this);
 }
 

@@ -17,6 +17,7 @@
 #include <RzxMessageBox>
 #include <RzxComputer>
 #include <RzxConfig>
+#include <RzxBanList>
 #include <RzxApplication>
 
 #include "rzxclientlistener.h"
@@ -55,7 +56,7 @@ void RzxClientListener::incomingConnection(int socketDescriptor) {
 	// On vérifie au passage que la connexion est valide
 	QHostAddress host;
 	host = sock->peerAddress();
-	if(!RzxConfig::global()->isBan(host)) 
+	if(!RzxBanList::global()->isIn(host)) 
 		qDebug("Accept connexion to client %s", host.toString().toAscii().constData());
 	else {
 		qDebug("Message from client %s has been ignored", host.toString().toAscii().constData());

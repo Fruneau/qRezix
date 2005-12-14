@@ -40,6 +40,7 @@ class RZX_CORE_EXPORT RzxHostAddress : public QHostAddress
 		RzxHostAddress();
 		RzxHostAddress(const QHostAddress& host);
 		RzxHostAddress(quint32 ip);
+		RzxHostAddress(const QString&);
 		~RzxHostAddress();
 
 		static RzxHostAddress fromRezix(quint32 ip);
@@ -66,6 +67,10 @@ inline RzxHostAddress::RzxHostAddress(const QHostAddress& host)
 ///Contructeur à partir d'une ip sous la forme d'un entier
 inline RzxHostAddress::RzxHostAddress(quint32 ip)
 	:QHostAddress(ip) { }
+
+///Constructeur à partir d'une ip sous forme de chaîne de caractère
+inline RzxHostAddress::RzxHostAddress(const QString& address)
+	:QHostAddress(address) { }
 
 ///Destruction de l'objet
 inline RzxHostAddress::~ RzxHostAddress() { }
