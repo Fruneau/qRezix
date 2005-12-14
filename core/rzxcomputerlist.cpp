@@ -230,3 +230,34 @@ QList<RzxComputer*> RzxComputerList::computers() const
 	}
 	return computers;
 }
+
+///Retourne une liste de description des objets...
+/** Si state = true, on affiche les informations de connexion en plus
+ */
+QStringList RzxComputerList::humanReadable(bool state) const
+{
+	QStringList desc;
+	if(type == Name)
+		desc = nameList;
+	else
+	{
+		for(int i = 0 ; i < addressList.size() ; i++)
+		{
+			if(nameList[i].isEmpty())
+				desc << addressList[i].toString();
+			else
+				desc << nameList[i];
+		}
+	}
+	if(state)
+	{
+		QList<RzxComputer*> comp = computers();
+		for(int i = 0 ; i < desc.size() ; i++)
+		{
+			if(!comp[i] || comp[i]->state() == Rzx::STATE_DISCONNECTED)
+				desc[i] += "(*)";
+		}
+	}
+
+	return desc;
+}
