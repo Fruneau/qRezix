@@ -427,7 +427,7 @@ QString RzxConfig::remarque(bool def, const QString& defValue)
 ///Change le commentaire de l'ordinateur
 void RzxConfig::setRemarque(const QString &remarque)
 {
-	global()->value("comment", remarque.isNull()?QString("$#x"):remarque);
+	global()->setValue("comment", remarque.isNull()?QString("$#x"):remarque);
 }
 
 ///Retourne le nom de la promo

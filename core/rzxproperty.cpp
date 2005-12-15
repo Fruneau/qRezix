@@ -513,13 +513,6 @@ bool RzxProperty::miseAJour()
 				"It can only contain letters, numbers and '-' signs."));
 		return false;
 	}
-	/*else if(!remarque->hasAcceptableInput())
-	{
-		RzxMessageBox::information(this, tr("Incorrect properties"),
-			tr("Your comment is not valid...<br>"
-				"It cannot contain linebreaks or other special characters"));
-		return false;
-	}*/
 	
 	// iteration sur l'ensemble des objets QCheckBox
 	QList<QLineEdit*> l = findChildren<QLineEdit*>(QRegExp("txt.*"));
@@ -527,7 +520,6 @@ bool RzxProperty::miseAJour()
 		RzxConfig::global()->setValue(edit->objectName(), edit->text());
 	
 	//Indique si les données 'partagées' ont été modifiées
-	//localHostUpdated = true ==> besoin de rafraichir le serveur
 	updateLocalHost();
 	
 	RzxConfig::setDnsName(RzxComputer::localhost()->name() );
