@@ -26,3 +26,12 @@ cd Resources
 find . -name '.svn' -exec rm -rf {} ";" 2> /dev/null > /dev/null
 rm -rf icones
 rm -rf logs
+
+# Restauration des liens symboliques
+cd ../Frameworks
+rm libqrezix.2.0.dylib
+rm libqrezix.2.dylib
+rm libqrezix.dylib
+ln -s libqrezix.2.0.0.dylib libqrezix.2.0.dylib
+ln -s libqrezix.2.0.0.dylib libqrezix.2.dylib
+ln -s libqrezix.2.0.0.dylib libqrezix.dylib
