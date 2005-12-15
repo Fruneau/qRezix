@@ -19,7 +19,7 @@
 
 #include <QDir>
 #include <QList>
-
+#include <QHash>
 #include <RzxConfig>
 #include <RzxAbstractConfig>
 

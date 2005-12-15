@@ -23,6 +23,10 @@ build: 	checkdir
 	#mkdir -p $(CURDIR)/debian/qrezix-bin/usr/bin
 	#cp -a qrezix/qrezix $(CURDIR)/debian/qrezix-bin/usr/bin
 	
+	#qMake ne gère pas les liens symboliques lors de l'install, ce qui rend le système pas très bon, alors on fait la copie à sa place
+	rm $(CURDIR)/debian/qrezix/usr/lib/libqrezix.so*
+	cp -a $(CURDIR)/libqrezix.so* $(CURDIR)/debian/qrezix/usr/lib/
+	
 	# Paquets séparés pour les Traductions
 	mkdir -p $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
 	mv $(CURDIR)/debian/qrezix/usr/share/qrezix/translations/*.qm $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
