@@ -175,10 +175,14 @@ void RzxConnectionLister::login(RzxNetwork* network, const RzxHostAddress& ip, c
 	}
 	else
 	{
-		computerByLogin.remove(computer->name());
+		if(getComputerByName(name))
+			computerByLogin.remove(computer->name());
 		computer->update(name, options, stamp, flags, comment);
-		computerByLogin.insert(name, computer);
-		emit update(computer);
+		if(getComputerByName(name))
+		{
+			computerByLogin.insert(name, computer);
+			emit update(computer);
+		}
 	}
 }
 
