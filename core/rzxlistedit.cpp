@@ -32,7 +32,8 @@ RzxListEdit::RzxListEdit(QWidget *parent)
 	changeTheme();
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	connect(ui->list, SIGNAL(currentRowChanged(int)), this, SLOT(selectionChanged(int)));
-	connect(ui->editNew, SIGNAL(textChanged(const QString&)), this, SLOT(edited()));
+	connect(ui->editNew, SIGNAL(textChanged(const QString&)), this, SLOT(edited(const QString&)));
+	connect(ui->editNew, SIGNAL(returnPressed()), this, SLOT(add()));
 	connect(ui->btnAdd, SIGNAL(clicked()), this, SLOT(add()));
 	connect(ui->btnDel, SIGNAL(clicked()), this, SLOT(remove()));
 }

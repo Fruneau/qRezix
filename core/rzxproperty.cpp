@@ -122,7 +122,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 	generalItem->setData(0, Qt::UserRole, UserInfo);
 	lbMenu->expandItem(generalItem);
 
-	favoritesItem = new QTreeWidgetItem(generalItem);
+	favoritesItem = new QTreeWidgetItem(lbMenu);
 	favoritesItem->setText(0, tr("Favorites/Banned"));
 	favoritesItem->setData(0, Qt::UserRole, Favorites);
 	lbMenu->expandItem(favoritesItem);

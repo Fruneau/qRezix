@@ -145,7 +145,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Réseau</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Peer2peer port&lt;/h3&gt;&lt;p&gt;Define the port of the chat&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
@@ -331,11 +331,11 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>qRezix error</source>
-        <translation>Erreur qRéziX</translation>
+        <translation type="obsolete">Erreur qRéziX</translation>
     </message>
     <message>
         <source>Unable to open favorites file %1</source>
-        <translation>Impossible de lire le fichier de favoris %1</translation>
+        <translation type="obsolete">Impossible de lire le fichier de favoris %1</translation>
     </message>
     <message>
         <source>English</source>
@@ -343,7 +343,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Unable to open ignoreList file %1</source>
-        <translation>Impossible d&apos;ouvrir le fichier de l&apos;ignore-list %1</translation>
+        <translation type="obsolete">Impossible d&apos;ouvrir le fichier de l&apos;ignore-list %1</translation>
     </message>
     <message>
         <source>qRezix cannot create %1, which is the folder in which its configuration is saved
@@ -668,6 +668,21 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
 </context>
 <context>
+    <name>RzxListEditUI</name>
+    <message>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Ajouter</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Supprimer</translation>
+    </message>
+</context>
+<context>
     <name>RzxLoaderUI</name>
     <message>
         <source>Form</source>
@@ -850,7 +865,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Layout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Affichage</translation>
     </message>
     <message>
         <source>Version</source>
@@ -1003,6 +1018,10 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     <message>
         <source>Modules</source>
         <translation>Modules</translation>
+    </message>
+    <message>
+        <source>Favorites/Banned</source>
+        <translation>Favoris/Bannis</translation>
     </message>
 </context>
 <context>
@@ -1851,6 +1870,22 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <message>
         <source>Language:</source>
         <translation>Langue :</translation>
+    </message>
+    <message>
+        <source>This page aims at giving a way to administrate the lists of your favorites and ignored computers.
+
+Item marked (*) are not connected.</source>
+        <translation>Le but de cette page est de permettre d&apos;administrer la liste des personnes que vous avez choisies comme favories ou bannies.
+
+Les entrées marquées par (*) représente des personnes actuellement déconnectées.</translation>
+    </message>
+    <message>
+        <source>Banned</source>
+        <translation>Bannis</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favoris</translation>
     </message>
 </context>
 <context>

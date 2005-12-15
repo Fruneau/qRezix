@@ -681,45 +681,7 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="0" column="0" >
-        <widget class="QGroupBox" name="groupFavorites" >
-         <property name="title" >
-          <string>Favorites</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="0" column="0" >
-           <widget class="RzxListEdit" name="listFavorites" >
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="0" column="1" >
-        <widget class="QGroupBox" name="groupBanned" >
-         <property name="title" >
-          <string>Banned</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="0" column="0" >
-           <widget class="RzxListEdit" name="listBanned" >
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="2" >
+       <item row="2" column="0" colspan="3" >
         <spacer>
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -731,6 +693,85 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item rowspan="2" row="0" column="2" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>10</width>
+           <height>81</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="0" colspan="2" >
+        <widget class="QLabel" name="lblFavorites" >
+         <property name="text" >
+          <string>This page aims at giving a way to administrate the lists of your favorites and ignored computers.
+
+Item marked (*) are not connected.</string>
+         </property>
+         <property name="textFormat" >
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <property name="wordWrap" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="QGroupBox" name="groupBanned" >
+         <property name="maximumSize" >
+          <size>
+           <width>400</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="title" >
+          <string>Banned</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="0" column="0" >
+           <widget class="RzxListEdit" name="listBanned" />
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="0" >
+        <widget class="QGroupBox" name="groupFavorites" >
+         <property name="maximumSize" >
+          <size>
+           <width>400</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="title" >
+          <string>Favorites</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="0" column="0" >
+           <widget class="RzxListEdit" name="listFavorites" />
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -1268,65 +1309,23 @@
      </widget>
     </widget>
    </item>
-   <item row="0" column="1" >
-    <layout class="QGridLayout" >
-     <property name="margin" >
-      <number>0</number>
+   <item rowspan="2" row="0" column="0" >
+    <widget class="QTreeWidget" name="lbMenu" >
+     <property name="minimumSize" >
+      <size>
+       <width>175</width>
+       <height>0</height>
+      </size>
      </property>
-     <property name="spacing" >
-      <number>6</number>
+     <property name="columnCount" >
+      <number>1</number>
      </property>
-     <item row="0" column="1" >
-      <widget class="QLabel" name="lblTitle" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>7</hsizetype>
-         <vsizetype>0</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>0</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>32767</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="text" >
-        <string>&lt;h2>New Item&lt;/h2></string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0" >
-      <widget class="QLabel" name="lblTitleIcon" >
-       <property name="text" >
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0" colspan="2" >
-      <widget class="Line" name="line4" >
-       <property name="frameShape" >
-        <enum>QFrame::HLine</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="lineWidth" >
-        <number>2</number>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-    </layout>
+     <column>
+      <property name="text" >
+       <string>0</string>
+      </property>
+     </column>
+    </widget>
    </item>
    <item row="2" column="0" colspan="2" >
     <layout class="QHBoxLayout" >
@@ -1388,23 +1387,65 @@
      </item>
     </layout>
    </item>
-   <item rowspan="2" row="0" column="0" >
-    <widget class="QTreeWidget" name="lbMenu" >
-     <property name="minimumSize" >
-      <size>
-       <width>175</width>
-       <height>0</height>
-      </size>
+   <item row="0" column="1" >
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>0</number>
      </property>
-     <property name="columnCount" >
-      <number>1</number>
+     <property name="spacing" >
+      <number>6</number>
      </property>
-     <column>
-      <property name="text" >
-       <string>0</string>
-      </property>
-     </column>
-    </widget>
+     <item row="0" column="1" >
+      <widget class="QLabel" name="lblTitle" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>7</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize" >
+        <size>
+         <width>0</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>32767</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string>&lt;h2>New Item&lt;/h2></string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" >
+      <widget class="QLabel" name="lblTitleIcon" >
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="2" >
+      <widget class="Line" name="line4" >
+       <property name="frameShape" >
+        <enum>QFrame::HLine</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth" >
+        <number>2</number>
+       </property>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -1427,7 +1468,7 @@
   </customwidget>
   <customwidget>
    <class>RzxListEdit</class>
-   <extends>QWidget</extends>
+   <extends>QFrame</extends>
    <header>rzxlistedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
