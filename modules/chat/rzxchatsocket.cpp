@@ -109,13 +109,11 @@ int RzxChatSocket::parse(const QString& msg)
 		{
 			switch(i) {
 				case DCC_PROPQUERY:
-					qDebug("Parsing PROPQUERY");
 					sendProperties();
 					return DCC_PROPQUERY;
 					break;
 
 				case DCC_PROPANSWER:
-					qDebug() << "Parsing PROPANSWER:" << cmd.cap(2);
 					if(cmd.cap(2).isEmpty())					// si il n'y a pas les donnees necessaires 
 					{
 						emit notify(tr("has send empty properties"));
@@ -129,7 +127,6 @@ int RzxChatSocket::parse(const QString& msg)
 					break;
 
 				case DCC_CHAT:
-					qDebug("Parsing CHAT : %s", cmd.cap(2).toAscii().constData());
 					if(RzxConfig::autoResponder())
 						sendResponder(RzxConfig::autoResponderMsg());
 					if(RzxComputer::localhost()->state() == Rzx::STATE_REFUSE)
@@ -141,20 +138,17 @@ int RzxChatSocket::parse(const QString& msg)
 
 				case DCC_PING:
 					sendPong();
-					qDebug("Parsing PING");
 					host.computer()->receiveChat(Rzx::Ping);
 					return DCC_PING;
 					break;
 
 				case DCC_PONG:
 					host.computer()->receiveChat(Rzx::Pong);
-					qDebug("Parsing PONG");
 					return DCC_PONG;
 					break;
 
 				case DCC_TYPING:
 					host.computer()->receiveChat(cmd.cap(2)=="1" ? Rzx::Typing: Rzx::StopTyping);
-					qDebug("Parsing TYPING");
 					return DCC_TYPING;
 					break;
 			};

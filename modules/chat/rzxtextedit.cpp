@@ -58,7 +58,8 @@ RzxTextEdit::RzxTextEdit(QWidget *parent)
 	m_defaultSize = m_size = RzxChatConfig::nearestSize(m_font, DefaultSize);
 	m_bold = m_italic = m_underline = FALSE;
 	m_color = Qt::black;
-	setHtml(false);
+	m_html = false;
+	validate(false);
 }
 
 ///Destruction
@@ -238,11 +239,13 @@ void RzxTextEdit::onTextEdited()
 /** La validation consiste à l'envoie du contenu de la fenêtre
  * donc on incrémente l'historique et on vide la fenêtre.
  */
-void RzxTextEdit::validate()
+void RzxTextEdit::validate(bool val)
 {
-	history = new ListText(toHtml(), history);
-	curLine = history;
-	clear();
-
+	if(val)
+	{
+		history = new ListText(toHtml(), history);
+		curLine = history;
+	}
 	useHtml(m_html);
+	clear();
 }

@@ -94,7 +94,7 @@ public:
 	bool useHtml() const;
 
 public slots:
-	void validate();
+	void validate(bool = true);
 	void setBold(bool);
 	void setItalic(bool);
 	void setColor(const QColor&);

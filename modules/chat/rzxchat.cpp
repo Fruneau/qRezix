@@ -245,7 +245,7 @@ void RzxChat::onReturnPressed()
 	int length = ui->edMsg->toPlainText().length();
 	if(!length)
 	{  //vide + /n
-		ui->edMsg->clear();
+		ui->edMsg->validate(false);
 		return;
 	}
 	//edMsg->setText(edMsg->text().left(length-1));
@@ -463,7 +463,7 @@ void RzxChat::on_btnSend_clicked()
 	{
 		if(computer())
 			computer()->sendChat(Rzx::Ping);
-		ui->edMsg->clear();
+		ui->edMsg->validate(false);
 		notify(tr("Ping emitted"));
 		return;
 	}
