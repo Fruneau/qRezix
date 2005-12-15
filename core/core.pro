@@ -95,8 +95,6 @@ mac {
 	subnets.path = $$ROOT/qRezix.app/Contents/Resources
 } else:unix {
 	QMAKE_COPY              = cp -df
-	QMAKE_COPY_FILE         = $(COPY)
-	QMAKE_COPY_DIR          = $(COPY) -r
         mainlib.path = $$DEST/lib
 	subnets.path = $$DEST/share/qrezix
 } else:win32 {
