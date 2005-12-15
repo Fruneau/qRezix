@@ -30,18 +30,19 @@
 
 
 #include <RzxRezal>
-#include "ui_rzxitemui.h"
 
 class RzxComputer;
-
+namespace Ui { class RzxItemUI; };
 
 ///ItemView permettant d'afficher le détail
-class RzxRezalDetail:public QAbstractItemView, private Ui::RzxItemUI, public RzxRezal
+class RzxRezalDetail:public QAbstractItemView, public RzxRezal
 {
 	Q_OBJECT
 
 	QPointer<RzxComputer> computer;
 	QPointer<RzxComputer> waitProp;
+
+	Ui::RzxItemUI *ui;
 
 	public:
 		RzxRezalDetail(QWidget* = NULL);

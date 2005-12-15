@@ -28,6 +28,8 @@
 #include <RzxRezalModel>
 #include <RzxMainUIConfig>
 
+#include "ui_rzxitemui.h"
+
 RZX_REZAL_EXPORT(RzxRezalDetail)
 
 ///Le RzxRezalDetail est un ItemView extrêmement simple
@@ -37,9 +39,10 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 	:QAbstractItemView(widget), RzxRezal(RZX_MODULE_NAME, QT_TR_NOOP("Detail of an item"), RZX_MODULE_VERSION),
 		computer(NULL), waitProp(NULL)
 {
+	ui = new Ui::RzxItemUI();
 	beginLoading();
 	setModel(RzxRezalModel::global());
-	setupUi(this);
+	ui->setupUi(this);
 	setType(TYP_DOCKABLE);
 	connect(RzxApplication::instance(), SIGNAL(haveProperties(RzxComputer*, bool*)),
 		this, SLOT(propChanged(RzxComputer*,bool*)));
@@ -51,6 +54,7 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 RzxRezalDetail::~RzxRezalDetail()
 {
 	beginClosing();
+	delete ui;
 	endClosing();
 }
 
@@ -124,7 +128,7 @@ void RzxRezalDetail::currentChanged(const QModelIndex& current, const QModelInde
 	computer = RzxRezalModel::global()->data(current, Qt::UserRole).value<RzxComputer*>();
 	if(!computer) return;
 	drawComputer(computer);
-	connect(btnProperties, SIGNAL(clicked()), this, SLOT(checkProp()));
+	connect(ui->btnProperties, SIGNAL(clicked()), this, SLOT(checkProp()));
 }
 
 ///Mets à jour l'affichage si nécessaire
@@ -149,25 +153,25 @@ void RzxRezalDetail::rowsAboutToBeRemoved(const QModelIndex& parent, int start, 
 ///Vide l'affichage
 void RzxRezalDetail::clear()
 {
-	lblFtp->clear();
-	lblHttp->clear();
-	lblNews->clear();
-	lblSamba->clear();
-	lblIcon->clear();
-	lblName->clear();
-	lblComment->clear();
-	lblOS->clear();
-	lblClient->clear();
-	lblPromo->clear();
-	lblRezal->clear();
-	lblIP->clear();
-	lblDate->clear();
-	lblStateIcon->clear();
-	lblState->clear();
-	propsView->clear();
-	propsView->setEnabled(false);
-	btnProperties->setEnabled(false);
-	QAbstractItemView::disconnect(btnProperties, SIGNAL(clicked()), 0, 0);
+	ui->lblFtp->clear();
+	ui->lblHttp->clear();
+	ui->lblNews->clear();
+	ui->lblSamba->clear();
+	ui->lblIcon->clear();
+	ui->lblName->clear();
+	ui->lblComment->clear();
+	ui->lblOS->clear();
+	ui->lblClient->clear();
+	ui->lblPromo->clear();
+	ui->lblRezal->clear();
+	ui->lblIP->clear();
+	ui->lblDate->clear();
+	ui->lblStateIcon->clear();
+	ui->lblState->clear();
+	ui->propsView->clear();
+	ui->propsView->setEnabled(false);
+	ui->btnProperties->setEnabled(false);
+	QAbstractItemView::disconnect(ui->btnProperties, SIGNAL(clicked()), 0, 0);
 }
 
 ///Affichage l'object défini par le RzxComputer
@@ -175,39 +179,39 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 {
 	if(!computer) return;
 
-	lblIcon->setPixmap(computer->icon());
-	lblName->setText("<h3>" + computer->name() + "</h3>");
-	lblComment->setText(computer->remarque());
-	if(computer->hasFtpServer()) lblFtp->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_FTP));
-	if(computer->hasHttpServer()) lblHttp->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_HTTP));
-	if(computer->hasNewsServer()) lblNews->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_NEWS));
-	if(computer->hasSambaServer()) lblSamba->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_SAMBA));
-	lblOS->setPixmap(RzxIconCollection::global()->osPixmap(computer->sysEx(), false));
-	lblClient->setText(computer->client());
-	lblPromo->setPixmap(RzxIconCollection::global()->promoPixmap(computer->promo()));
-	lblRezal->setText(computer->rezalName());
-	lblIP->setText(computer->ip().toString());
-	lblStateIcon->setPixmap(RzxIconCollection::getPixmap(computer->isOnResponder()?Rzx::ICON_AWAY:Rzx::ICON_HERE));
-	lblState->setText(QString(computer->isOnResponder()?tr("away"):tr("connected")));
+	ui->lblIcon->setPixmap(computer->icon());
+	ui->lblName->setText("<h3>" + computer->name() + "</h3>");
+	ui->lblComment->setText(computer->remarque());
+	if(computer->hasFtpServer()) ui->lblFtp->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_FTP));
+	if(computer->hasHttpServer()) ui->lblHttp->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_HTTP));
+	if(computer->hasNewsServer()) ui->lblNews->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_NEWS));
+	if(computer->hasSambaServer()) ui->lblSamba->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_SAMBA));
+	ui->lblOS->setPixmap(RzxIconCollection::global()->osPixmap(computer->sysEx(), false));
+	ui->lblClient->setText(computer->client());
+	ui->lblPromo->setPixmap(RzxIconCollection::global()->promoPixmap(computer->promo()));
+	ui->lblRezal->setText(computer->rezalName());
+	ui->lblIP->setText(computer->ip().toString());
+	ui->lblStateIcon->setPixmap(RzxIconCollection::getPixmap(computer->isOnResponder()?Rzx::ICON_AWAY:Rzx::ICON_HERE));
+	ui->lblState->setText(QString(computer->isOnResponder()?tr("away"):tr("connected")));
 
 	// Remplissage
-	propsView->clear();
-	btnProperties->setEnabled(true);
+	ui->propsView->clear();
+	ui->btnProperties->setEnabled(true);
 	QStringList props = computer->properties().split('|');
 	if(props.size())
 	{
 		QTreeWidgetItem *item = NULL;
-		propsView->setEnabled(true);
+		ui->propsView->setEnabled(true);
 		for(int i = 0 ; i < props.size() - 1 ; i+=2)
 		{
-			item = new QTreeWidgetItem(propsView, item);
+			item = new QTreeWidgetItem(ui->propsView, item);
 			item->setText(0, props[i]);
 			item->setText(1, props[i+1]);
 		}
-		lblDate->setText(RzxConfig::getCacheDate(computer->ip()));
+		ui->lblDate->setText(RzxConfig::getCacheDate(computer->ip()));
 	}
 	else
-		lblDate->setText(tr("Never checked"));
+		ui->lblDate->setText(tr("Never checked"));
 }
 
 ///Demande les propriétés de l'object actuel
@@ -237,17 +241,17 @@ void RzxRezalDetail::mouseDoubleClickEvent(QMouseEvent *e)
 {
 	QWidget *child = childAt(e->pos());
 
-	if(child == lblFtp)
+	if(child == ui->lblFtp)
 		computer->ftp();
-	else if(child == lblHttp)
+	else if(child == ui->lblHttp)
 		computer->http();
-	else if(child == lblSamba)
+	else if(child == ui->lblSamba)
 		computer->samba();
-	else if(child == lblNews)
+	else if(child == ui->lblNews)
 		computer->news();
-	else if(child == lblState || child == lblStateIcon)
+	else if(child == ui->lblState || child == ui->lblStateIcon)
 		computer->chat();
-	else if(child == lblName || child == lblIcon || child == lblIcon)
+	else if(child == ui->lblName || child == ui->lblIcon)
 	{
 		if(RzxMainUIConfig::doubleClicRole() && computer->hasFtpServer())
 			computer->ftp();

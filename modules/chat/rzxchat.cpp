@@ -57,6 +57,12 @@
 #include "rzxchatlister.h"
 #include "rzxchatconfig.h"
 
+#ifdef Q_OS_MAC
+#	include "ui_rzxchatui_mac.h"
+#else
+#	include "ui_rzxchatui.h"
+#endif
+
 /******************************
 * RzxChat
 ******************************/
@@ -67,7 +73,7 @@ const QColor RzxChat::preDefinedColors[16] = {Qt::black, Qt::red, Qt::darkRed,
 
 ///Constructin d'une fenêtre de chat associée à la machine indiquée
 RzxChat::RzxChat(RzxComputer *c)
-	:QWidget(NULL, Qt::WindowContextHelpButtonHint), RzxChatUI(), lastIP(0)
+	:QWidget(NULL, Qt::WindowContextHelpButtonHint), lastIP(0)
 {
 	init();
 	setComputer(c);
@@ -92,8 +98,9 @@ void RzxChat::init()
 	historyContainer->setLayout(glayout);
 	//Partie 2 : L'éditeur qui est défini dans l'ui RzxChatUI
 	editor = new QWidget();
-	setupUi(editor);
-	edMsg->setChat(this);
+	ui = new Ui::RzxChatUI();
+	ui->setupUi(editor);
+	ui->edMsg->setChat(this);
 	//Construction du splitter
 	splitter = new QSplitter(Qt::Vertical);
 	splitter->addWidget(historyContainer);
@@ -107,16 +114,16 @@ void RzxChat::init()
 	glayout->setMargin(0);
 	glayout->setSpacing(0);
 	glayout->addWidget(splitter);
-	edMsg->setFocus();
+	ui->edMsg->setFocus();
 
 	//Restoration des dimensions
 	RzxChatConfig::restoreChatWidget(this);
 
 	/* Définition des raccourcis claviers */
-	new QShortcut(Qt::CTRL + Qt::Key_Return, btnSend, SIGNAL(clicked()));
-	new QShortcut(Qt::CTRL + Qt::Key_Enter, btnSend, SIGNAL(clicked()));
-	new QShortcut(Qt::Key_Escape, btnClose, SIGNAL(clicked()));
-	new QShortcut(Qt::Key_F1, btnSound, SLOT(toggle()));
+	new QShortcut(Qt::CTRL + Qt::Key_Return, ui->btnSend, SIGNAL(clicked()));
+	new QShortcut(Qt::CTRL + Qt::Key_Enter, ui->btnSend, SIGNAL(clicked()));
+	new QShortcut(Qt::Key_Escape, ui->btnClose, SIGNAL(clicked()));
+	new QShortcut(Qt::Key_F1, ui->btnSound, SLOT(toggle()));
 
 	/* Construction du texte et des icônes des boutons */
 	changeTheme();
@@ -126,37 +133,37 @@ void RzxChat::init()
 	curColor = Qt::black;
 
 	//chargement des fontes
-	cbFontSelect->insertItems(0, RzxChatConfig::getFontList());
-	cbFontSelect->setCurrentIndex(cbFontSelect->findText(edMsg->font()));
+	ui->cbFontSelect->insertItems(0, RzxChatConfig::getFontList());
+	ui->cbFontSelect->setCurrentIndex(ui->cbFontSelect->findText(ui->edMsg->font()));
 	
 	//chargement de la liste des couleurs
-	cbColorSelect->addItem(tr("Custom colours...")); //tjs 0
+	ui->cbColorSelect->addItem(tr("Custom colours...")); //tjs 0
 	for(int i=0; i<16; ++i)
 		addColor(preDefinedColors[i]);
-	cbColorSelect->setCurrentIndex(1); //black par défaut
+	ui->cbColorSelect->setCurrentIndex(1); //black par défaut
 
 	//gestion du formatiage du texte
-	connect(btnBold, SIGNAL(toggled(bool)), edMsg, SLOT(setBold(bool)));
-	connect(btnItalic, SIGNAL(toggled(bool)), edMsg, SLOT(setItalic(bool)));
-	connect(btnUnderline, SIGNAL(toggled(bool)), edMsg, SLOT(setUnderline(bool)));
-	connect(cbColorSelect, SIGNAL(activated(int)), this, SLOT(setColor(int)));
-	connect(cbFontSelect, SIGNAL(activated(int)), this, SLOT(setFont(int)));
-	connect(cbSize, SIGNAL(activated(int)), this, SLOT(setSize(int)));
-	connect(cbSendHTML, SIGNAL(toggled(bool)), this, SLOT(setHtml(bool)));
+	connect(ui->btnBold, SIGNAL(toggled(bool)), ui->edMsg, SLOT(setBold(bool)));
+	connect(ui->btnItalic, SIGNAL(toggled(bool)), ui->edMsg, SLOT(setItalic(bool)));
+	connect(ui->btnUnderline, SIGNAL(toggled(bool)), ui->edMsg, SLOT(setUnderline(bool)));
+	connect(ui->cbColorSelect, SIGNAL(activated(int)), this, SLOT(setColor(int)));
+	connect(ui->cbFontSelect, SIGNAL(activated(int)), this, SLOT(setFont(int)));
+	connect(ui->cbSize, SIGNAL(activated(int)), this, SLOT(setSize(int)));
+	connect(ui->cbSendHTML, SIGNAL(toggled(bool)), this, SLOT(setHtml(bool)));
 
 	/** Connexions **/
 #ifdef WIN32
 	timer = new QTimer( this );
 	connect( timer, SIGNAL(timeout()),this, SLOT(messageReceived()) );
 #endif
-	connect(edMsg, SIGNAL(enterPressed()), this, SLOT(onReturnPressed()));
-	connect(edMsg, SIGNAL(textWritten()), this, SLOT(onTextChanged()));
-	connect(btnHistorique, SIGNAL(toggled(bool)), this, SLOT(on_btnHistorique_toggled(bool)));
-	connect(btnProperties, SIGNAL(toggled(bool)), this, SLOT(on_btnProperties_toggled(bool)));
-	connect(btnPlugins, SIGNAL(toggled(int)), this, SLOT(on_btnPlugins_toggled(int)));
-	connect(btnSmiley, SIGNAL(toggled(bool)), this, SLOT(on_btnSmiley_toggled(bool)));
-	connect(btnSend, SIGNAL(clicked()), this, SLOT(on_btnSend_clicked()));
-	connect(btnClose, SIGNAL(clicked()), this, SLOT(close()));
+	connect(ui->edMsg, SIGNAL(enterPressed()), this, SLOT(onReturnPressed()));
+	connect(ui->edMsg, SIGNAL(textWritten()), this, SLOT(onTextChanged()));
+	connect(ui->btnHistorique, SIGNAL(toggled(bool)), this, SLOT(on_btnHistorique_toggled(bool)));
+	connect(ui->btnProperties, SIGNAL(toggled(bool)), this, SLOT(on_btnProperties_toggled(bool)));
+	connect(ui->btnPlugins, SIGNAL(toggled(int)), this, SLOT(on_btnPlugins_toggled(int)));
+	connect(ui->btnSmiley, SIGNAL(toggled(bool)), this, SLOT(on_btnSmiley_toggled(bool)));
+	connect(ui->btnSend, SIGNAL(clicked()), this, SLOT(on_btnSend_clicked()));
+	connect(ui->btnClose, SIGNAL(clicked()), this, SLOT(close()));
 	
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 
@@ -186,7 +193,8 @@ RzxChat::~RzxChat()
 	
 #ifdef WIN32
 	if(timer) delete timer;
-#endif	
+#endif
+	delete ui;	
 }
 
 ///Défini la machine associée à la fenêtre de chat
@@ -234,10 +242,10 @@ void RzxChat::updateTitle()
 l'utilisateur utilise Return ou Enter pour envoyer son texte */
 void RzxChat::onReturnPressed()
 {
-	int length=edMsg->toPlainText().length();
+	int length = ui->edMsg->toPlainText().length();
 	if(!length)
 	{  //vide + /n
-		edMsg->clear();
+		ui->edMsg->clear();
 		return;
 	}
 	//edMsg->setText(edMsg->text().left(length-1));
@@ -249,7 +257,7 @@ void RzxChat::addColor(QColor color)
 {
 	QPixmap p = QPixmap(50, 15);
 	p.fill(color);
-	cbColorSelect->addItem(p, QString());
+	ui->cbColorSelect->addItem(p, QString());
 }
 
 ///Changement de la couleur du texte
@@ -266,49 +274,49 @@ void RzxChat::setColor(int index)
 			c = QColorDialog::customColor(index - 17);
 	}
 	curColor = c.isValid() ? c : curColor;
-	edMsg->setColor(curColor);
+	ui->edMsg->setColor(curColor);
 }
 
 ///Changement de la police de caractère
 void RzxChat::setFont(int index)
 {
-	QString family = RzxChatConfig::nearestFont(cbFontSelect->itemText(index));
-	btnBold->setEnabled(RzxChatConfig::isBoldSupported(family));
-	btnItalic->setEnabled(RzxChatConfig::isItalicSupported(family));
+	QString family = RzxChatConfig::nearestFont(ui->cbFontSelect->itemText(index));
+	ui->btnBold->setEnabled(RzxChatConfig::isBoldSupported(family));
+	ui->btnItalic->setEnabled(RzxChatConfig::isItalicSupported(family));
 	QList<int> pSize = RzxChatConfig::getSizes(family);
 
-	cbSize->clear();
+	ui->cbSize->clear();
 	foreach(int point, pSize)
 	{
 		QString newItem = QString::number(point);
-		cbSize->addItem(newItem);
+		ui->cbSize->addItem(newItem);
 	}
-	cbSize->setCurrentIndex(cbSize->findText(QString::number(RzxChatConfig::nearestSize(family, edMsg->size()))));
-	edMsg->setFont(family);
+	ui->cbSize->setCurrentIndex(ui->cbSize->findText(QString::number(RzxChatConfig::nearestSize(family, ui->edMsg->size()))));
+	ui->edMsg->setFont(family);
 }
 
 ///Changement de la taille du texte
 void RzxChat::setSize(int index)
 {
-	QString size = cbSize->itemText(index);
+	QString size = ui->cbSize->itemText(index);
 	bool ok;
 	int point = size.toInt(&ok, 10);
 	if(!ok)
 		return;
-	edMsg->setSize(point);
+	ui->edMsg->setSize(point);
 }
 
 ///Activation/Désactivation du formatage HTML du texte
 void RzxChat::setHtml(bool on)
 {
-	const QString &font = edMsg->font();
-	cbFontSelect->setEnabled(on);
-	cbColorSelect->setEnabled(on);
-	cbSize->setEnabled(on);
-	btnBold->setEnabled(RzxChatConfig::isBoldSupported(font));
-	btnUnderline->setEnabled(on);
-	btnItalic->setEnabled(RzxChatConfig::isItalicSupported(font));
-	edMsg->useHtml(on);
+	const QString &font = ui->edMsg->font();
+	ui->cbFontSelect->setEnabled(on);
+	ui->cbColorSelect->setEnabled(on);
+	ui->cbSize->setEnabled(on);
+	ui->btnBold->setEnabled(RzxChatConfig::isBoldSupported(font));
+	ui->btnUnderline->setEnabled(on);
+	ui->btnItalic->setEnabled(RzxChatConfig::isItalicSupported(font));
+	ui->edMsg->useHtml(on);
 }
 
 
@@ -316,7 +324,7 @@ void RzxChat::setHtml(bool on)
 ///En cas d'édition du texte
 void RzxChat::onTextChanged()
 {
-	if(!typing && edMsg->toPlainText().length())
+	if(!typing && ui->edMsg->toPlainText().length())
 	{
 		typing = true;
 		if(computer())
@@ -325,7 +333,7 @@ void RzxChat::onTextChanged()
 		typingTimer.setSingleShot(true);
 		typingTimer.start(10*1000);
 	}
-	if(typing && !edMsg->toPlainText().length())
+	if(typing && !ui->edMsg->toPlainText().length())
 	{
 		typing = false;
 		if(computer())
@@ -379,14 +387,14 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 	textHistorique = textHistorique + tmpD + tmp;
 	txtHistory->textCursor().movePosition(QTextCursor::End);
 	txtHistory->ensureCursorVisible();
-	edMsg->setFocus();
+	ui->edMsg->setFocus();
 }
 
 /** Affiche un message reçu, et emet un son s'il faut */
 void RzxChat::receive(const QString& msg)
 {
 	QString message = msg;
-	if(RzxChatConfig::beep() && !btnSound->isChecked())
+	if(RzxChatConfig::beep() && !ui->btnSound->isChecked())
 		RzxSound::play(RzxChatConfig::beepSound());	
 	
 	if(RzxConfig::autoResponder())
@@ -440,14 +448,14 @@ void RzxChat::receiveChatMessage(Rzx::ChatMessageType type, const QString& msg)
 void RzxChat::on_btnSend_clicked()
 {
 	//Pour que les plug-ins qui en on besoin modifie le texte de chat
-	bool format = cbSendHTML->isChecked();
+	bool format = ui->cbSendHTML->isChecked();
 
 	typingTimer.stop();
 	typing = false;
 	
 	//traitement du message
-	QString htmlMsg = edMsg->toHtml();
-	QString rawMsg = edMsg->toPlainText();
+	QString htmlMsg = ui->edMsg->toHtml();
+	QString rawMsg = ui->edMsg->toPlainText();
 	if(rawMsg.isEmpty()) return;
 
 
@@ -455,7 +463,7 @@ void RzxChat::on_btnSend_clicked()
 	{
 		if(computer())
 			computer()->sendChat(Rzx::Ping);
-		edMsg->clear();
+		ui->edMsg->clear();
 		notify(tr("Ping emitted"));
 		return;
 	}
@@ -478,7 +486,7 @@ void RzxChat::on_btnSend_clicked()
 	append("red", ">&nbsp;", dispMsg);
 	sendChat(msg);	//passage par la sous-couche de gestion du m_socket avant d'émettre
 
-	edMsg->validate();
+	ui->edMsg->validate();
 }
 
 /********* Gestion des propriétés et de l'historique *********/
@@ -493,7 +501,7 @@ void RzxChat::on_btnHistorique_toggled(bool on)
 	}
 
 	if(hist || !lastIP) return;
-	btnProperties->setChecked(false);
+	ui->btnProperties->setChecked(false);
 	
 	//Enregistre l'historique actuel
 	QString temp = textHistorique;
@@ -507,7 +515,7 @@ void RzxChat::on_btnHistorique_toggled(bool on)
 	file.close();
 
 	//Affiche la fenêtre
-	hist = (RzxChatPopup*)RzxChatLister::global()->historique(RzxHostAddress::fromRezix(lastIP), false, this, btnHistorique);
+	hist = (RzxChatPopup*)RzxChatLister::global()->historique(RzxHostAddress::fromRezix(lastIP), false, this, ui->btnHistorique);
 	hist->show();
 }
 
@@ -522,17 +530,17 @@ void RzxChat::on_btnProperties_toggled(bool on)
 	}
 	
 	if(prop) return;
-	btnHistorique->setChecked(false);
+	ui->btnHistorique->setChecked(false);
 	computer()->checkProperties();
 }
 
 ///Demande l'affichage des propriétés
 void RzxChat::receiveProperties(const QString& msg)
 {
-	prop = (RzxChatPopup*)RzxChatLister::global()->showProperties(computer()->ip(), msg, false, this, btnProperties);
+	prop = (RzxChatPopup*)RzxChatLister::global()->showProperties(computer()->ip(), msg, false, this, ui->btnProperties);
 	if(prop.isNull())
 	{
-		btnProperties->setChecked(false);
+		ui->btnProperties->setChecked(false);
 		return;
 	}
 	prop->show();
@@ -614,12 +622,12 @@ bool RzxChat::event(QEvent *e)
 void RzxChat::changeTheme()
 {
 	QIcon sound, pi, hist, send, prop, close;
-	btnSound->setIcon(RzxIconCollection::getSoundIcon());
-	btnPlugins->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PLUGIN));
-	btnHistorique->setIcon(RzxIconCollection::getIcon(Rzx::ICON_HISTORIQUE));
-	btnSend->setIcon(RzxIconCollection::getIcon(Rzx::ICON_SEND));
-	btnProperties->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PROPRIETES));
-	btnClose->setIcon(RzxIconCollection::getIcon(Rzx::ICON_CANCEL));
+	ui->btnSound->setIcon(RzxIconCollection::getSoundIcon());
+	ui->btnPlugins->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PLUGIN));
+	ui->btnHistorique->setIcon(RzxIconCollection::getIcon(Rzx::ICON_HISTORIQUE));
+	ui->btnSend->setIcon(RzxIconCollection::getIcon(Rzx::ICON_SEND));
+	ui->btnProperties->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PROPRIETES));
+	ui->btnClose->setIcon(RzxIconCollection::getIcon(Rzx::ICON_CANCEL));
 }
 
 ///Changement du format d'affichage des icônes
@@ -641,7 +649,7 @@ void RzxChat::changeIconFormat()
 //	setIconSize(QSize(16,16));
 //	setToolButtonStyle(style);
 	
-	if(btnPlugins->icon().isNull()) changeTheme(); //pour recharcher les icônes s'il y a besoin
+	if(ui->btnPlugins->icon().isNull()) changeTheme(); //pour recharcher les icônes s'il y a besoin
 }
 
 ///Changement de la langue...
@@ -650,7 +658,7 @@ void RzxChat::changeEvent(QEvent *e)
 	if(e->type() == QEvent::LanguageChange)
 	{
 		QWidget::languageChange();
-		retranslateUi(editor);
+		ui->retranslateUi(editor);
 		changeIconFormat();
 	}
 }
@@ -662,7 +670,7 @@ void RzxChat::on_btnPlugins_clicked()
 	menuPlugins.clear();
 	if(!menuPlugins.actions().count())
 		menuPlugins.addAction("<none>");
-	menuPlugins.popup(btnPlugins->mapToGlobal(btnPlugins->rect().bottomLeft()));
+	menuPlugins.popup(ui->btnPlugins->mapToGlobal(ui->btnPlugins->rect().bottomLeft()));
 }
 
 /// Affichage du menu des smileys lors d'un clic sur le bouton
@@ -674,8 +682,8 @@ void RzxChat::on_btnSmiley_toggled(bool on)
 			smileyUi->close();
 		return;
 	}
-	smileyUi = new RzxSmileyUi(btnSmiley, this);
-	connect(smileyUi, SIGNAL(clickedSmiley(const QString&)), edMsg, SLOT(insertPlainText(const QString&)));
+	smileyUi = new RzxSmileyUi(ui->btnSmiley, this);
+	connect(smileyUi, SIGNAL(clickedSmiley(const QString&)), ui->edMsg, SLOT(insertPlainText(const QString&)));
 	smileyUi->show();
 }
 

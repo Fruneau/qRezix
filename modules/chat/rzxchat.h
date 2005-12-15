@@ -24,12 +24,6 @@
 
 #include <RzxComputer>
 
-#ifdef Q_OS_MAC
-#	include "ui_rzxchatui_mac.h"
-#else
-#	include "ui_rzxchatui.h"
-#endif
-
 #include "rzxchatpopup.h"
 #include "rzxsmileyui.h"
 
@@ -44,6 +38,7 @@ class QKeyEvent;
 class QEvent;
 class QSplitter;
 class QTextEdit;
+namespace Ui { class RzxChatUI; };
 
 ///Fenêtre de dialogue
 /** (et pas boîte de dialogue ;)... gere la totalité de l'interface de chat.
@@ -51,12 +46,14 @@ class QTextEdit;
  * Cette classe s'interface directement sur un RzxChatSocket pour permettre
  * une gestion des communications totalement autonome.
  */
-class RzxChat : public QWidget, private Ui::RzxChatUI
+class RzxChat : public QWidget
 {
 	Q_OBJECT
 	Q_PROPERTY(RzxComputer* computer READ computer WRITE setComputer)
 	
 	static const QColor preDefinedColors[16];
+
+	Ui::RzxChatUI *ui;
 	
 	QTextEdit *txtHistory;
 	QWidget *editor;
