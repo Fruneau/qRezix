@@ -43,6 +43,8 @@ void RzxComputerList::read()
 	if(!settings) return;
 
 	QStringList confList = settings->value(key).toStringList();
+	if(confList.size() == 1 && confList[0].isEmpty()) return;
+
 	if(type == Name)
 		nameList = confList;
 	else if(type == Address)
