@@ -482,11 +482,11 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Supprimer</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ajouter</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Reconnection&lt;/h3&gt;&lt;p&gt;Defines the parameters of the reconnection.&lt;p&gt;&lt;p&gt;You shouldn&apos;t have to modify this values&lt;/p&gt;</source>
@@ -857,7 +857,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Favoris</translation>
     </message>
     <message>
         <source>Everybody</source>
@@ -963,7 +963,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Your comment is not valid...&lt;br&gt;It cannot contain linebreaks or other special characters</source>
-        <translation>Votre commentaire n&apos;estpas valide...&lt;br&gt;Il ne peut pas contenir de retours à la ligne ou de caractères spéciaux</translation>
+        <translation type="obsolete">Votre commentaire n&apos;estpas valide...&lt;br&gt;Il ne peut pas contenir de retours à la ligne ou de caractères spéciaux</translation>
     </message>
     <message>
         <source>Last name:</source>
@@ -1166,11 +1166,11 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Favoris</translation>
     </message>
     <message>
         <source>Banned</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bannis</translation>
     </message>
     <message>
         <source>Others...</source>
@@ -1677,7 +1677,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>Icon</source>
-        <translation>Icône</translation>
+        <translation type="obsolete">Icône</translation>
     </message>
     <message>
         <source>Command to play a sound :</source>
@@ -1777,7 +1777,7 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&lt;h3&gt;Comment&lt;/h3&gt;&lt;p&gt;Tell here what you want...&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Remarque&lt;/h3&gt;&lt;p&gt;Commentaire personnalisé... chacun voit ce qu&apos;il y met :-)&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Remarque&lt;/h3&gt;&lt;p&gt;Commentaire personnalisé... chacun voit ce qu&apos;il y met :-)&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Themes&lt;/h3&gt;&lt;p&gt;Choose a themes for the icons.&lt;/p&gt;</source>
@@ -1887,6 +1887,14 @@ Les entrées marquées par (*) représente des personnes actuellement déconnect
         <source>Favorites</source>
         <translation>Favoris</translation>
     </message>
+    <message>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>(3 to 32 characters containing only letters, numbers or -)</source>
+        <translation>(de 3 à 32 caractères comprenant lettres, chiffres et -)</translation>
+    </message>
 </context>
 <context>
     <name>qRezixUI</name>
@@ -1903,7 +1911,7 @@ Each item have a menu (right click)&lt;/p&gt;
     </message>
     <message>
         <source>Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Favoris</translation>
     </message>
     <message>
         <source>Everybody</source>
