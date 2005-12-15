@@ -41,6 +41,7 @@ class RZX_CORE_EXPORT RzxProperty : public QDialog, public Ui::frmPref
 	RZX_GLOBAL(RzxProperty)
 
 	QTreeWidgetItem *generalItem;
+	QTreeWidgetItem *favoritesItem;
 	QTreeWidgetItem *layoutItem;
 	QTreeWidgetItem *modulesItem;
 	QTreeWidgetItem *networkItem ;
@@ -48,10 +49,11 @@ class RZX_CORE_EXPORT RzxProperty : public QDialog, public Ui::frmPref
 	///Indexes des différentes pages prédéfinies
 	enum Pages {
 		UserInfo = 0,
-		Layout = 1,
-		Modules = 2,
-		Network = 3,
-		Blank = 4
+		Favorites = 1,
+		Layout = 2,
+		Modules = 3,
+		Network = 4,
+		Blank = 5
 	};
 
 public: 

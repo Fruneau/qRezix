@@ -45,7 +45,8 @@ SOURCES += rzxglobal.cpp \
 	rzxinfomessage.cpp \
 	rzxcomputerlist.cpp \
 	rzxfavoritelist.cpp \
-	rzxbanlist.cpp
+	rzxbanlist.cpp \
+	rzxlistedit.cpp
 
 HEADERS += rzxglobal.h \
 	rzxapplication.h \
@@ -74,14 +75,16 @@ HEADERS += rzxglobal.h \
 	rzxinfomessage.h \
 	rzxcomputerlist.h \
 	rzxfavoritelist.h \
-	rzxbanlist.h
+	rzxbanlist.h \
+	rzxlistedit.h
 		
 FORMS += rzxpropertyui.ui \
 	rzxwrongpassui.ui \
 	rzxchangepassui.ui \
 	rzxintroui.ui \
 	rzxloaderui.ui \
-	rzxinfomessageui.ui
+	rzxinfomessageui.ui \
+	rzxlisteditui.ui
 
 TRANSLATIONS = $$(ROOT)/resources/translations/qrezix_fr.ts
 

@@ -51,6 +51,8 @@ email                : benoit.casoetto@m4x.org
 #include <RzxNetwork>
 #include <RzxTranslator>
 #include <RzxStyle>
+#include <RzxFavoriteList>
+#include <RzxBanList>
 
 RZX_GLOBAL_INIT(RzxProperty)
 
@@ -120,6 +122,13 @@ RzxProperty::RzxProperty(QWidget *parent)
 	generalItem->setData(0, Qt::UserRole, UserInfo);
 	lbMenu->expandItem(generalItem);
 
+	favoritesItem = new QTreeWidgetItem(generalItem);
+	favoritesItem->setText(0, tr("Favorites/Banned"));
+	favoritesItem->setData(0, Qt::UserRole, Favorites);
+	lbMenu->expandItem(favoritesItem);
+	listFavorites->setList(RzxFavoriteList::global());
+	listBanned->setList(RzxBanList::global());
+
 	layoutItem = new QTreeWidgetItem(lbMenu);
 	layoutItem->setText(0, tr("Layout"));
 	layoutItem->setData(0, Qt::UserRole, Layout);
@@ -173,6 +182,7 @@ void RzxProperty::changeTheme()
 	btnMiseAJour->setIcon(RzxIconCollection::getIcon(Rzx::ICON_APPLY));
 
 	generalItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PROPRIETES));
+	favoritesItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_FAVORITE));
 	layoutItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_LAYOUT));
 	modulesItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PLUGIN));
 	networkItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_NETWORK));
@@ -681,6 +691,7 @@ void RzxProperty::changeEvent(QEvent *e)
 		changeTheme();
 		initDlg();
 		generalItem->setText(0, tr("Infos"));
+		favoritesItem->setText(0, tr("Favorites/Banned"));
 		layoutItem->setText(0, tr("Layout"));
 		modulesItem->setText(0, tr("Modules"));
 		networkItem->setText(0, tr("Network"));
