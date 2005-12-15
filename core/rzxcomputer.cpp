@@ -312,11 +312,19 @@ const QString &RzxComputer::name() const
 /********** COMMENTAIRE */
 ///Définition du commentaire
 void RzxComputer::setRemarque(const QString& text)
-{ m_remarque = text; }
+{
+	m_remarque = text;
+	m_remarque.replace("\n", " \\n ");
+}
 
 ///Récupération du commentaire
-const QString &RzxComputer::remarque() const 
-{ return m_remarque; }
+QString RzxComputer::remarque(bool lb) const 
+{
+	QString rem = m_remarque;
+	if(lb)
+		rem.replace(" \\n ", "\n");
+	return rem;
+}
 
 
 /********** IP */

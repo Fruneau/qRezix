@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>741</width>
-    <height>676</height>
+    <width>884</width>
+    <height>685</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -35,8 +35,14 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="maximumSize" >
+      <size>
+       <width>650</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="pageInfo" >
       <layout class="QGridLayout" >
@@ -46,34 +52,214 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item rowspan="2" row="2" column="1" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
+       <item row="0" column="0" colspan="3" >
+        <widget class="QGroupBox" name="groupInfoRezix" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>7</hsizetype>
+           <vsizetype>5</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <property name="sizeType" >
-          <enum>QSizePolicy::Expanding</enum>
+         <property name="title" >
+          <string>Computer infos</string>
          </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>41</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="2" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item rowspan="2" row="2" column="3" >
+           <widget class="Line" name="line_4" >
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1" colspan="2" >
+           <widget class="QLineEdit" name="txtAutoResponderMsg" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>5</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="whatsThis" >
+             <string>&lt;h3>Responder&lt;/h3>&lt;p>When you are away, people who want to chat with you will receive this message&lt;/p></string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" colspan="2" >
+           <widget class="QTextEdit" name="remarque" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>5</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize" >
+             <size>
+              <width>16777215</width>
+              <height>72</height>
+             </size>
+            </property>
+            <property name="html" >
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Terminal [Bitstream]; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;/body>&lt;/html></string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" >
+           <widget class="QLabel" name="lblRem" >
+            <property name="text" >
+             <string>Comment:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>remarque</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" >
+           <widget class="QCheckBox" name="chkAutoResponder" >
+            <property name="whatsThis" >
+             <string>&lt;h3>Away&lt;/h3>&lt;p>Check this case if you want to be marked away by default&lt;/p></string>
+            </property>
+            <property name="text" >
+             <string>Away:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" colspan="3" >
+           <widget class="QLabel" name="label" >
+            <property name="text" >
+             <string>(3 to 32 characters containing only letters, numbers or -)</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="lblHostname" >
+            <property name="text" >
+             <string>Computer name:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>hostname</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="QLineEdit" name="hostname" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>5</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="whatsThis" >
+             <string>&lt;h3>Computer name&lt;/h3>
+&lt;p>Name of your computer on the network. You can choose it here&lt;/p>
+&lt;p>Your name should only contains letters, numbers et '-', should not begin or finish with a '-' and each '-' should be isolated. Moreover, this name can't be more than 24 characters long&lt;/p></string>
+            </property>
+            <property name="cursorPosition" >
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item rowspan="2" row="2" column="4" >
+           <layout class="QVBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="pxmIcon" >
+              <property name="sizePolicy" >
+               <sizepolicy>
+                <hsizetype>5</hsizetype>
+                <vsizetype>0</vsizetype>
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize" >
+               <size>
+                <width>64</width>
+                <height>64</height>
+               </size>
+              </property>
+              <property name="maximumSize" >
+               <size>
+                <width>92</width>
+                <height>64</height>
+               </size>
+              </property>
+              <property name="pixmap" >
+               <pixmap/>
+              </property>
+              <property name="scaledContents" >
+               <bool>false</bool>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignHCenter</set>
+              </property>
+              <property name="buddy" >
+               <cstring>lblStyle</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="btnBrowse" >
+              <property name="sizePolicy" >
+               <sizepolicy>
+                <hsizetype>5</hsizetype>
+                <vsizetype>0</vsizetype>
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text" >
+               <string>Browse...</string>
+              </property>
+              <property name="autoRaise" >
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0" colspan="5" >
+           <widget class="Line" name="line7" >
+            <property name="frameShape" >
+             <enum>QFrame::HLine</enum>
+            </property>
+            <property name="frameShadow" >
+             <enum>QFrame::Sunken</enum>
+            </property>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item row="1" column="1" >
         <widget class="QGroupBox" name="groupServices" >
@@ -138,184 +324,6 @@
             </property>
             <property name="text" >
              <string>Samba</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="3" >
-        <widget class="QGroupBox" name="groupInfoRezix" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>7</hsizetype>
-           <vsizetype>5</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="title" >
-          <string>Computer infos</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>8</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item rowspan="4" row="0" column="2" >
-           <widget class="QGroupBox" name="groupIcon" >
-            <property name="title" >
-             <string>Icon</string>
-            </property>
-            <property name="flat" >
-             <bool>true</bool>
-            </property>
-            <layout class="QVBoxLayout" >
-             <property name="margin" >
-              <number>8</number>
-             </property>
-             <property name="spacing" >
-              <number>6</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="pxmIcon" >
-               <property name="sizePolicy" >
-                <sizepolicy>
-                 <hsizetype>5</hsizetype>
-                 <vsizetype>0</vsizetype>
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize" >
-                <size>
-                 <width>64</width>
-                 <height>64</height>
-                </size>
-               </property>
-               <property name="maximumSize" >
-                <size>
-                 <width>92</width>
-                 <height>64</height>
-                </size>
-               </property>
-               <property name="pixmap" >
-                <pixmap/>
-               </property>
-               <property name="scaledContents" >
-                <bool>false</bool>
-               </property>
-               <property name="alignment" >
-                <set>Qt::AlignHCenter</set>
-               </property>
-               <property name="buddy" >
-                <cstring>lblStyle</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QToolButton" name="btnBrowse" >
-               <property name="sizePolicy" >
-                <sizepolicy>
-                 <hsizetype>5</hsizetype>
-                 <vsizetype>5</vsizetype>
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text" >
-                <string>Browse...</string>
-               </property>
-               <property name="autoRaise" >
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="3" column="1" >
-           <widget class="QLineEdit" name="txtAutoResponderMsg" >
-            <property name="whatsThis" >
-             <string>&lt;h3>Responder&lt;/h3>&lt;p>When you are away, people who want to chat with you will receive this message&lt;/p></string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1" >
-           <widget class="QLineEdit" name="remarque" >
-            <property name="whatsThis" >
-             <string>&lt;h3>Comment&lt;/h3>&lt;p>Tell here what you want...&lt;/p></string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" colspan="2" >
-           <widget class="Line" name="line7" >
-            <property name="frameShape" >
-             <enum>QFrame::HLine</enum>
-            </property>
-            <property name="frameShadow" >
-             <enum>QFrame::Sunken</enum>
-            </property>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="QLineEdit" name="hostname" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>3</hsizetype>
-              <vsizetype>0</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="whatsThis" >
-             <string>&lt;h3>Computer name&lt;/h3>
-&lt;p>Name of your computer on the network. You can choose it here&lt;/p>
-&lt;p>Your name should only contains letters, numbers et '-', should not begin or finish with a '-' and each '-' should be isolated. Moreover, this name can't be more than 24 characters long&lt;/p></string>
-            </property>
-            <property name="cursorPosition" >
-             <number>0</number>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" >
-           <widget class="QCheckBox" name="chkAutoResponder" >
-            <property name="whatsThis" >
-             <string>&lt;h3>Away&lt;/h3>&lt;p>Check this case if you want to be marked away by default&lt;/p></string>
-            </property>
-            <property name="text" >
-             <string>Away:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" >
-           <widget class="QLabel" name="lblRem" >
-            <property name="text" >
-             <string>Comment:</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>remarque</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="lblHostname" >
-            <property name="text" >
-             <string>Computer name:</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>hostname</cstring>
             </property>
            </widget>
           </item>
@@ -670,6 +678,35 @@
           </item>
          </layout>
         </widget>
+       </item>
+       <item row="1" column="2" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item rowspan="2" row="2" column="1" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>41</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -1309,23 +1346,65 @@ Item marked (*) are not connected.</string>
      </widget>
     </widget>
    </item>
-   <item rowspan="2" row="0" column="0" >
-    <widget class="QTreeWidget" name="lbMenu" >
-     <property name="minimumSize" >
-      <size>
-       <width>175</width>
-       <height>0</height>
-      </size>
+   <item row="0" column="1" >
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>0</number>
      </property>
-     <property name="columnCount" >
-      <number>1</number>
+     <property name="spacing" >
+      <number>6</number>
      </property>
-     <column>
-      <property name="text" >
-       <string>0</string>
-      </property>
-     </column>
-    </widget>
+     <item row="0" column="1" >
+      <widget class="QLabel" name="lblTitle" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>7</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize" >
+        <size>
+         <width>0</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>32767</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string>&lt;h2>New Item&lt;/h2></string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" >
+      <widget class="QLabel" name="lblTitleIcon" >
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="2" >
+      <widget class="Line" name="line4" >
+       <property name="frameShape" >
+        <enum>QFrame::HLine</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth" >
+        <number>2</number>
+       </property>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="2" column="0" colspan="2" >
     <layout class="QHBoxLayout" >
@@ -1387,65 +1466,29 @@ Item marked (*) are not connected.</string>
      </item>
     </layout>
    </item>
-   <item row="0" column="1" >
-    <layout class="QGridLayout" >
-     <property name="margin" >
-      <number>0</number>
+   <item rowspan="2" row="0" column="0" >
+    <widget class="QTreeWidget" name="lbMenu" >
+     <property name="minimumSize" >
+      <size>
+       <width>175</width>
+       <height>0</height>
+      </size>
      </property>
-     <property name="spacing" >
-      <number>6</number>
+     <property name="maximumSize" >
+      <size>
+       <width>210</width>
+       <height>16777215</height>
+      </size>
      </property>
-     <item row="0" column="1" >
-      <widget class="QLabel" name="lblTitle" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>7</hsizetype>
-         <vsizetype>0</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>0</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>32767</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="text" >
-        <string>&lt;h2>New Item&lt;/h2></string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0" >
-      <widget class="QLabel" name="lblTitleIcon" >
-       <property name="text" >
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0" colspan="2" >
-      <widget class="Line" name="line4" >
-       <property name="frameShape" >
-        <enum>QFrame::HLine</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="lineWidth" >
-        <number>2</number>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-    </layout>
+     <property name="columnCount" >
+      <number>1</number>
+     </property>
+     <column>
+      <property name="text" >
+       <string>0</string>
+      </property>
+     </column>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -1475,8 +1518,6 @@ Item marked (*) are not connected.</string>
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>hostname</tabstop>
-  <tabstop>remarque</tabstop>
   <tabstop>txtAutoResponderMsg</tabstop>
   <tabstop>chkAutoResponder</tabstop>
   <tabstop>txtName</tabstop>

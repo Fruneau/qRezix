@@ -181,7 +181,7 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 
 	ui->lblIcon->setPixmap(computer->icon());
 	ui->lblName->setText("<h3>" + computer->name() + "</h3>");
-	ui->lblComment->setText(computer->remarque());
+	ui->lblComment->setText(computer->remarque(true));
 	if(computer->hasFtpServer()) ui->lblFtp->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_FTP));
 	if(computer->hasHttpServer()) ui->lblHttp->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_HTTP));
 	if(computer->hasNewsServer()) ui->lblNews->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_NEWS));

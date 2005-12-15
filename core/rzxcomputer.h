@@ -212,7 +212,7 @@ private:
 
 public:
 	const QString &name() const;
-	const QString &remarque() const;
+	QString remarque(bool lb = false) const;
 
 	Rzx::Promal promo() const;
 	QString promoText() const;

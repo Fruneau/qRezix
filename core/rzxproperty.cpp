@@ -18,6 +18,7 @@ email                : benoit.casoetto@m4x.org
 #include <QToolBox>
 #include <QGroupBox>
 #include <QLineEdit>
+#include <QTextEdit>
 #include <QSpinBox>
 #include <QComboBox>
 #include <QCheckBox>
@@ -87,7 +88,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 	hostname->setMaxLength(32);
 
 	//La remarque doit tenir en une seule ligne...
-	remarque->setValidator( new QRegExpValidator(QRegExp("[^\n\r]+"), remarque) );
+	//remarque->setValidator( new QRegExpValidator(QRegExp("[^\n\r]+"), remarque) );
 	
 	//Pour éviter que les gens mettent un | dans leurs propriétés
 	QRegExpValidator *propValidator = new QRegExpValidator(QRegExp("[^|]*"), this);
@@ -382,7 +383,7 @@ void RzxProperty::initDlg(bool def)
 	cbStyleForAll->setChecked(RzxConfig::useStyleForAll());
 	
 	hostname->setText( RzxComputer::localhost()->name() );
-	remarque->setText( RzxComputer::localhost()->remarque() );
+	remarque->setPlainText( RzxComputer::localhost()->remarque(true) );
 
 	chkAutoResponder->setChecked( RzxConfig::autoResponder() );
 
@@ -469,8 +470,8 @@ void RzxProperty::updateLocalHost()
 	RzxComputer::localhost()->lock();
 	if(RzxComputer::localhost()->name().toLower() != hostname->text().toLower())
 		RzxComputer::localhost()->setName(hostname->text());
-	if(RzxComputer::localhost()->remarque() != remarque->text())
-		RzxComputer::localhost() -> setRemarque(remarque -> text());
+	if(RzxComputer::localhost()->remarque(true) != remarque->toPlainText())
+		RzxComputer::localhost()->setRemarque(remarque->toPlainText());
 	if(RzxComputer::localhost()->promo() != cmbPromo->currentIndex()+1)
 		RzxComputer::localhost()->setPromo((Rzx::Promal)(cmbPromo->currentIndex() + 1));
 	if(RzxConfig::autoResponder() != chkAutoResponder->isChecked())
@@ -512,13 +513,13 @@ bool RzxProperty::miseAJour()
 				"It can only contain letters, numbers and '-' signs."));
 		return false;
 	}
-	else if(!remarque->hasAcceptableInput())
+	/*else if(!remarque->hasAcceptableInput())
 	{
 		RzxMessageBox::information(this, tr("Incorrect properties"),
 			tr("Your comment is not valid...<br>"
 				"It cannot contain linebreaks or other special characters"));
 		return false;
-	}
+	}*/
 	
 	// iteration sur l'ensemble des objets QCheckBox
 	QList<QLineEdit*> l = findChildren<QLineEdit*>(QRegExp("txt.*"));
