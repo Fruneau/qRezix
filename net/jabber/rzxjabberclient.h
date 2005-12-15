@@ -54,20 +54,20 @@ class RzxJabberClient : public QThread, MessageHandler, ConnectionListener, Pres
 		void changePass(const QString &newPass);
 		void wantNewAccount(const QString &jid, const QString &pass, const QString &server,int port);
 		void handleRegistrationResult (resultEnum result);
-		void handleRegistrationFields (int fields, std::string instructions){};
+		void handleRegistrationFields (int fields, std::string instructions){ Q_UNUSED(fields) Q_UNUSED(instructions) };
 		void handleAlreadyRegistered ();
 		
-		void itemAdded (const std::string &jid){};
-		void itemSubscribed (const std::string &jid){};
-		void itemRemoved (const std::string &jid){};
-		void itemUpdated (const std::string &jid){};
-		void itemUnsubscribed (const std::string &jid){};
-		void roster (Roster &roster){};
-		void itemChanged (RosterItem &item, int status, const std::string &msg){};
-		void itemAvailable (RosterItem &item, const std::string &msg){};
-		void itemUnavailable (RosterItem &item, const std::string &msg){};
-		bool subscriptionRequest (const std::string &jid, const std::string &msg){return true;};
-		bool unsubscriptionRequest (const std::string &jid, const std::string &msg){return true;};
+		void itemAdded (const std::string &jid){ Q_UNUSED(jid)};
+		void itemSubscribed (const std::string &jid){ Q_UNUSED(jid)};
+		void itemRemoved (const std::string &jid){ Q_UNUSED(jid)};
+		void itemUpdated (const std::string &jid){ Q_UNUSED(jid)};
+		void itemUnsubscribed (const std::string &jid){ Q_UNUSED(jid) };
+		void roster (Roster &roster){ Q_UNUSED(roster)};
+		void itemChanged (RosterItem &item, int status, const std::string &msg){ Q_UNUSED(item) Q_UNUSED(status) Q_UNUSED(msg) };
+		void itemAvailable (RosterItem &item, const std::string &msg){ Q_UNUSED(item) Q_UNUSED(msg) };
+		void itemUnavailable (RosterItem &item, const std::string &msg){ Q_UNUSED(item) Q_UNUSED(msg) };
+		bool subscriptionRequest (const std::string &jid, const std::string &msg){ Q_UNUSED(jid) Q_UNUSED(msg) return true;};
+		bool unsubscriptionRequest (const std::string &jid, const std::string &msg){ Q_UNUSED(jid) Q_UNUSED(msg) return true;};
 		
 	private:
 		Client *j;

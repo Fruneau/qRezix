@@ -110,6 +110,7 @@ QList<QWidget*> RzxJabberProtocole::propWidgets()
 }
 
 void RzxJabberProtocole::changeRosterText(QListWidgetItem *cur,QListWidgetItem *old){
+	Q_UNUSED(old)
 	if(cur)
 		ui->rosterEdit->setText(cur->text());
 };
@@ -149,6 +150,7 @@ QStringList RzxJabberProtocole::propWidgetsName()
 
 void RzxJabberProtocole::propInit(bool def)
 {
+	Q_UNUSED(def)
 	ui->server_name->setText( RzxJabberConfig::serverName() );
 	ui->user->setText( RzxJabberConfig::user() );
 	ui->pass->setText( RzxJabberConfig::pass() );
@@ -331,6 +333,7 @@ void RzxJabberProtocole::recvMsg(QString to, QString msg) {
 }
 
 void RzxJabberProtocole::sendChatMessage(RzxComputer* comp, Rzx::ChatMessageType type, const QString& msg){
+	Q_UNUSED(type)
 	sendMsg(comp->name(),msg);
 }
 
@@ -387,6 +390,7 @@ void RzxJabberProtocole::receivedProperties(RzxJabberComputer* from)
 }
 
 void RzxJabberProtocole::chat(RzxComputer* comp){
+	Q_UNUSED(comp)
 };
 
 void RzxJabberProtocole::sendProperties()
@@ -442,3 +446,4 @@ void RzxJabberProtocole::wantNewAccount()
 	if(client && client->isRunning() && ui)
 		client->wantNewAccount(ui->user->text(),ui->pass->text(),ui->server_name->text(),ui->server_port->value());
 }
+

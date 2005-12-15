@@ -71,7 +71,7 @@ private:
 public slots:
 	/** Demande un envoi d'icone
 	*@param ip ip de l'hote dont on veut l'icone */
-	virtual void getIcon(const RzxHostAddress& ip){};
+	virtual void getIcon(const RzxHostAddress& ip){ Q_UNUSED(ip) };
 	virtual void propInit(bool def = false);
 	virtual void propUpdate();
 	virtual void propClose();
