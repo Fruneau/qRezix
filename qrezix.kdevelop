@@ -1,78 +1,22 @@
-<!DOCTYPE kdevelop>
+<?xml version = '1.0'?>
 <kdevelop>
   <general>
     <author>Florent Bruneau</author>
     <email>florent.bruneau@m4x.org</email>
-    <projectmanagement>KDevKDEAutoProject</projectmanagement>
+    <projectmanagement>KDevTrollProject</projectmanagement>
     <primarylanguage>C++</primarylanguage>
     <keywords>
       <keyword>KDE</keyword>
       <keyword>Qt</keyword>
     </keywords>
     <version>2.0.0</version>
-    <description/>
+    <description></description>
     <ignoreparts/>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
     <secondaryLanguages/>
     <versioncontrol>kdevsubversion</versioncontrol>
   </general>
-  <kdevautoproject>
-    <general>
-      <mainprogram>qrezix</mainprogram>
-      <useconfiguration>default</useconfiguration>
-      <activetarget>qrezix/qrezix</activetarget>
-      <useactivetarget>true</useactivetarget>
-    </general>
-    <configure>
-      <configargs>--with-kde</configargs>
-    </configure>
-    <make>
-      <abortonerror>true</abortonerror>
-      <numberofjobs>1</numberofjobs>
-      <dontact>false</dontact>
-      <makebin>make</makebin>
-      <envvars>
-        <envvar value="1" name="WANT_AUTOCONF_2_5" />
-        <envvar value="1" name="WANT_AUTOMAKE_1_6" />
-      </envvars>
-      <prio>0</prio>
-    </make>
-    <compiler>
-      <cflags/>
-      <cxxflags>\s-O0 -g3 -Wall</cxxflags>
-    </compiler>
-    <run>
-      <mainprogram>qrezix</mainprogram>
-      <programargs/>
-      <directoryradio>executable</directoryradio>
-      <customdirectory>/</customdirectory>
-      <terminal>false</terminal>
-      <autocompile>true</autocompile>
-      <envvars/>
-    </run>
-    <envvars/>
-    <configurations>
-      <default>
-        <configargs>--enable-kde --enable-debug=full</configargs>
-        <builddir/>
-        <ccompiler>GccOptions</ccompiler>
-        <cxxcompiler>GppOptions</cxxcompiler>
-        <f77compiler>G77Options</f77compiler>
-        <ccompilerbinary/>
-        <cxxcompilerbinary/>
-        <f77compilerbinary/>
-        <cflags/>
-        <cxxflags/>
-        <f77flags/>
-        <envvars/>
-      </default>
-    </configurations>
-    <makeenvvars>
-      <envvar value="1" name="WANT_AUTOCONF_2_5" />
-      <envvar value="1" name="WANT_AUTOMAKE_1_6" />
-    </makeenvvars>
-  </kdevautoproject>
   <kdevfileview>
     <groups>
       <group pattern="*.h,*.hh,*.hxx,*.hpp,*.H" name="En-têtes" />
@@ -81,8 +25,6 @@
       <group pattern="*.po" name="Traductions" />
       <group pattern="AUTHORS,COPYING,ChangeLog,INSTALL,README,TODO,NEWS" name="GNU" />
       <group pattern="*" name="Autres" />
-      <hidenonprojectfiles>false</hidenonprojectfiles>
-      <hidenonlocation>false</hidenonlocation>
     </groups>
     <tree>
       <hidenonprojectfiles>false</hidenonprojectfiles>
@@ -99,32 +41,50 @@
       <toc>perl</toc>
     </ignoretocs>
   </kdevdoctreeview>
+  <kdevtrollproject>
+    <run>
+      <mainprogram>qrezix</mainprogram>
+      <programargs></programargs>
+      <directoryradio>executable</directoryradio>
+      <customdirectory>/</customdirectory>
+      <terminal>false</terminal>
+      <autocompile>true</autocompile>
+      <envvars/>
+    </run>
+    <general>
+      <activedir>resources</activedir>
+    </general>
+    <make>
+      <abortonerror>true</abortonerror>
+      <numberofjobs>1</numberofjobs>
+      <dontact>false</dontact>
+      <makebin>make</makebin>
+      <prio>0</prio>
+      <envvars>
+        <envvar value="/usr/share/qt4" name="QTDIR" />
+      </envvars>
+    </make>
+  </kdevtrollproject>
   <kdevdebugger>
     <general>
-      <dbgshell>libtool</dbgshell>
-      <programargs/>
-      <gdbpath/>
-      <breakonloadinglibs>false</breakonloadinglibs>
+      <dbgshell></dbgshell>
+      <breakpoints/>
+      <programargs></programargs>
+      <gdbpath>/usr/bin/</gdbpath>
+      <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
-      <configGdbScript/>
-      <runShellScript/>
-      <runGdbScript/>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
     </general>
-    <breakpoints/>
     <display>
       <staticmembers>false</staticmembers>
       <demanglenames>true</demanglenames>
       <outputradix>10</outputradix>
     </display>
+    <breakpoints/>
   </kdevdebugger>
-  <workspace>
-    <openfiles>
-      <file url="file:/home/doudou/src/qrezix/qrezix/rzxrezal.cpp" />
-      <file url="file:/home/doudou/src/qrezix/qrezix/qrezix.cpp" />
-      <file url="file:/home/doudou/src/qrezix/qrezix/qrezix.h" />
-    </openfiles>
-  </workspace>
   <cppsupportpart>
     <codecompletion>
       <codehinting outputview="1" enablech="0" selectview="0" />
@@ -150,15 +110,6 @@
     <folderhierarchy>true</folderhierarchy>
     <depthoffolders>2</depthoffolders>
   </kdevclassview>
-  <kdevcvs>
-    <cvsoptions>-f</cvsoptions>
-    <commitoptions/>
-    <updateoptions>-dP</updateoptions>
-    <addoptions/>
-    <removeoptions>-f</removeoptions>
-    <diffoptions>-u3 -p</diffoptions>
-    <logoptions/>
-  </kdevcvs>
   <kdevcppsupport>
     <references/>
     <codecompletion>
@@ -174,7 +125,7 @@
       <headerCompletionDelay>250</headerCompletionDelay>
     </codecompletion>
     <creategettersetter>
-      <prefixGet/>
+      <prefixGet></prefixGet>
       <prefixSet>set</prefixSet>
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>value</parameterName>
@@ -184,7 +135,7 @@
     <qt>
       <used>true</used>
       <version>4</version>
-      <root>/usr/qt4/</root>
+      <root>/usr/share/qt4/</root>
     </qt>
   </kdevcppsupport>
   <kdevfilecreate>
@@ -193,13 +144,13 @@
   </kdevfilecreate>
   <kdevdocumentation>
     <projectdoc>
-      <docsystem/>
-      <docurl/>
-      <usermanualurl/>
+      <docsystem></docsystem>
+      <docurl></docurl>
+      <usermanualurl></usermanualurl>
     </projectdoc>
   </kdevdocumentation>
   <ctagspart>
-    <customArguments/>
-    <customTagfilePath/>
+    <customArguments></customArguments>
+    <customTagfilePath></customTagfilePath>
   </ctagspart>
 </kdevelop>
