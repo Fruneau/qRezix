@@ -146,6 +146,9 @@
             <property name="alignment" >
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
+            <property name="buddy" >
+             <cstring>hostname</cstring>
+            </property>
            </widget>
           </item>
           <item row="0" column="0" >
@@ -1518,22 +1521,44 @@ Item marked (*) are not connected.</string>
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>hostname</tabstop>
+  <tabstop>remarque</tabstop>
+  <tabstop>btnBrowse</tabstop>
   <tabstop>txtAutoResponderMsg</tabstop>
   <tabstop>chkAutoResponder</tabstop>
   <tabstop>txtName</tabstop>
   <tabstop>txtFirstname</tabstop>
+  <tabstop>txtSurname</tabstop>
   <tabstop>cmbPromo</tabstop>
   <tabstop>cmbSport</tabstop>
   <tabstop>txtMail</tabstop>
   <tabstop>txtWeb</tabstop>
   <tabstop>txtPhone</tabstop>
   <tabstop>txtCasert</tabstop>
+  <tabstop>CbSamba</tabstop>
+  <tabstop>CbFTP</tabstop>
+  <tabstop>CbHTTP</tabstop>
+  <tabstop>CbNews</tabstop>
+  <tabstop>CbPrinter</tabstop>
+  <tabstop>languageBox</tabstop>
+  <tabstop>cmbIconTheme</tabstop>
+  <tabstop>lstTheme</tabstop>
+  <tabstop>cmbMenuIcons</tabstop>
+  <tabstop>cmbMenuText</tabstop>
+  <tabstop>cmbStyle</tabstop>
+  <tabstop>cbStyleForAll</tabstop>
+  <tabstop>cbRefuseAway</tabstop>
+  <tabstop>clientFtp</tabstop>
+  <tabstop>clientHttp</tabstop>
+  <tabstop>clientNews</tabstop>
+  <tabstop>txtWorkDir</tabstop>
+  <tabstop>btnBrowseWorkDir</tabstop>
+  <tabstop>txtBeepCmd</tabstop>
   <tabstop>btnOK</tabstop>
   <tabstop>btnMiseAJour</tabstop>
   <tabstop>btnAnnuler</tabstop>
+  <tabstop>lbMenu</tabstop>
   <tabstop>btnAboutQt</tabstop>
-  <tabstop>txtSurname</tabstop>
-  <tabstop>cbRefuseAway</tabstop>
  </tabstops>
  <resources/>
  <connections/>
