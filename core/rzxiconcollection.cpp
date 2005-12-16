@@ -124,7 +124,7 @@ RzxIconCollection::RzxIconCollection()
 			{
 				QDir *theme = new QDir(dir);
 				theme->cd(subDir);
-				if(isValid(*theme))
+				if(isValid(*theme) || subDir == "none")
 				{
 					qDebug() << "*" << subDir << "in" << theme->path();
 					themeDir.insert(subDir, theme);
@@ -174,7 +174,7 @@ void RzxIconCollection::setTheme(const QString& theme)
 ///Implémentation de \ref setTheme
 void RzxIconCollection::local_setTheme(const QString& theme)
 {
-	if(theme == activeTheme) return;
+	if(theme == activeTheme || theme == "none") return;
 	if(!themeDir.keys().contains(theme))
 	{
 		if(!activeTheme.isNull()) return;
@@ -202,6 +202,7 @@ QString RzxIconCollection::theme()
 QStringList RzxIconCollection::themeList()
 {
 	QStringList list = global()->themeDir.keys();
+	list.removeAll("none");
 	qSort(list.begin(), list.end(), Rzx::caseInsensitiveLessThan);
 	return list;
 }
@@ -211,9 +212,10 @@ QPixmap RzxIconCollection::loadIcon(const QString& name, const QString& theme) c
 {
 	if(!themeDir.keys().contains(theme)) return QPixmap();
 	QDir *dir = themeDir[theme];
-
-	if(dir->exists(name + ".png"))
+	if(dir && dir->exists(name + ".png"))
 		return QPixmap(dir->absoluteFilePath(name + ".png"), "PNG");
+	if(theme != "none")
+		return loadIcon(name, "none");
 	return QPixmap();
 }
 
