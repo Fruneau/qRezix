@@ -52,7 +52,7 @@
       <envvars/>
     </run>
     <general>
-      <activedir>resources</activedir>
+      <activedir>main</activedir>
     </general>
     <make>
       <abortonerror>true</abortonerror>

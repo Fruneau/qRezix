@@ -29,4 +29,5 @@ RzxFavoriteList::RzxFavoriteList()
 ///Destruction
 RzxFavoriteList::~RzxFavoriteList()
 {
+	RZX_GLOBAL_CLOSE
 }

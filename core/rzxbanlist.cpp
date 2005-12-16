@@ -29,4 +29,5 @@ RzxBanList::RzxBanList()
 ///Destruction
 RzxBanList::~RzxBanList()
 {
+	RZX_GLOBAL_CLOSE
 }
