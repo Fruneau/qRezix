@@ -62,7 +62,7 @@ RzxJabberProtocole::RzxJabberProtocole()
 	connect(client, SIGNAL(connected()), this, SLOT(updateLocalhost()));
 	connect(client, SIGNAL(disconnected()), this, SLOT(deconnection()));
 	connect(client, SIGNAL(rosterUpdated()), this, SLOT(buildRosterList()));
-	setIcon(RzxThemedIcon(Rzx::ICON_NETWORK));
+	setIcon(RzxThemedIcon("jabber"));
 	
 	endLoading();
 }
@@ -331,6 +331,13 @@ void RzxJabberProtocole::sendMsg(QString to, QString msg) {
 void RzxJabberProtocole::recvMsg(QString to, QString msg) {
 	RzxConnectionLister::global()->getComputerByName(to)->receiveChat(Rzx::Chat, msg);
 }
+
+/** \reimp */
+void RzxJabberProtocole::getIcon(const RzxHostAddress& ip)
+{
+	emit receivedIcon(RzxIconCollection::getPixmap("jabber"), ip);
+}
+
 
 void RzxJabberProtocole::sendChatMessage(RzxComputer* comp, Rzx::ChatMessageType type, const QString& msg){
 	Q_UNUSED(type)

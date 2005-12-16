@@ -96,6 +96,7 @@ class RZX_CORE_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader
 	protected slots:
 		void statusChanged(const QString&);
 		void receivedIcon(QImage*, const RzxHostAddress&);
+		void receivedIcon(const QPixmap&, const RzxHostAddress&);
 		void newDisconnection(RzxNetwork*);
 		void newConnection(RzxNetwork*);
 		

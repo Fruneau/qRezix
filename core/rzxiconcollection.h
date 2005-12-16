@@ -112,6 +112,7 @@ class RZX_CORE_EXPORT RzxIconCollection: public QObject
 		void setLocalhostPixmap(const QPixmap&);
 
 		static const QPixmap &getPixmap(Rzx::Icon);
+		static const QPixmap &getPixmap(const QString&);
 
 		static const QPixmap& qRezixIcon();
 		static const QPixmap& qRezixAwayIcon();
@@ -143,6 +144,12 @@ class RZX_CORE_EXPORT RzxIconCollection: public QObject
  */
 inline const QPixmap &RzxIconCollection::getPixmap(Rzx::Icon icon)
 { return global()->pixmap(icon); }
+
+///Surcharge
+/** \sa pixmap
+ */
+inline const QPixmap &RzxIconCollection::getPixmap(const QString& name)
+{ return global()->pixmap(name); }
 
 ///Surcharge
 /** \sa icon

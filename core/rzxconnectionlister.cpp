@@ -418,3 +418,10 @@ void RzxConnectionLister::receivedIcon(QImage* icon, const RzxHostAddress& ip)
 	RzxComputer *computer = getComputerByIP(ip);
 	computer->setIcon(RzxIconCollection::global()->setHashedIcon(computer->stamp(), *icon));
 }
+
+///Attribue une icône à une machine...
+void RzxConnectionLister::receivedIcon(const QPixmap& icon, const RzxHostAddress& ip)
+{
+	RzxComputer *computer = getComputerByIP(ip);
+	computer->setIcon(icon);
+}

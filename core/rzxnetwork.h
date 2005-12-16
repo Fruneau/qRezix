@@ -122,6 +122,9 @@ class RZX_CORE_EXPORT RzxNetwork : public QObject, public RzxBaseModule
 		///Indique qu'on a reçu l'icône pour l'adresse indiquée
 		void receivedIcon(QImage*, const RzxHostAddress&);
 
+		///Indique qu'on attribue une icône pour l'adresse indiquée
+		void receivedIcon(const QPixmap&, const RzxHostAddress&);
+
 		///Avertis de la réception de nouvelles propriétés pour un RzxComputer
 		/** Ce signal indique que de nouvelles propriétés ont été obtenues pour une
 		 * machine. Chacun devra alors utiliser ce signal pour stocker ou afficher les

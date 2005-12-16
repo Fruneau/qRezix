@@ -71,7 +71,7 @@ private:
 public slots:
 	/** Demande un envoi d'icone
 	*@param ip ip de l'hote dont on veut l'icone */
-	virtual void getIcon(const RzxHostAddress& ip){ Q_UNUSED(ip) };
+	virtual void getIcon(const RzxHostAddress&);
 	virtual void propInit(bool def = false);
 	virtual void propUpdate();
 	virtual void propClose();
@@ -96,9 +96,9 @@ public slots:
 	void sendMsg(QString to, QString msg);
 	void recvMsg(QString to, QString msg);
 	
-        virtual void chat(RzxComputer*);
+	virtual void chat(RzxComputer*);
 	virtual void sendChatMessage(RzxComputer*, Rzx::ChatMessageType, const QString& = QString());
-        virtual void properties(RzxComputer*);
+	virtual void properties(RzxComputer*);
 	void receivedProperties(RzxJabberComputer*);
 
 private slots:
