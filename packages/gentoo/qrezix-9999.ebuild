@@ -13,10 +13,12 @@ LICENSE="GPL-2"
 SLOT="0"
 
 KEYWORDS="-*"
-IUSE="chat mainui tray notifier xnet"
+IUSE="chat mainui tray notifier xnet doc"
 
-DEPEND=">=x11-libs/qt-4.0.1"
-
+RDEPEND=">=x11-libs/qt-4.0.1"
+DEPEND="doc? (app-doc/doxygen)
+	>=x11-libs/qt-4.0.1"
+		
 ESVN_REPO_URI="svn://skinwel/qrezix/trunk/"
 
 DEFINES="NO_JABBER"
@@ -29,6 +31,9 @@ use_module() {
 }
 
 src_compile() {
+	ebegin "Cleaning sources"
+	find -type d -name '.svn' -exec rm -rf {} ";" 2>> /dev/null >> /dev/null
+	eend 0
 	use_module chat CHAT
 	use_module mainui MAINUI
 	use_module tray TRAYICON
@@ -36,9 +41,27 @@ src_compile() {
 	use_module xnet XNET
 	qmake "DEFINES=${DEFINES}" "PREFIX=/usr" "DEST=${D}" qrezix.pro || die
 	make || die
+	if use doc; then
+		doxygen Doxyfile
+	fi
 }
 
 src_install() {
-	qmake "PREFIX=/usr" "DEST=${D}" qrezix.pro || die
+    qmake "DEFINES=${DEFINES}" "PREFIX=/usr" "DEST=${D}" qrezix.pro || die
 	make install || die
+    if use doc; then
+        insinto /usr/share/doc/${PF}
+		dohtml -r doc/html/*
+    fi
+	insinto /usr/include/qrezix/
+	doins *.pri
+	insinto /usr/include/qrezix/core
+	doins core/rzx*.h
+	doins core/Rzx*
+	doins core/defaults.h
+	if use mainui; then
+		insinto /usr/include/qrezix/modules/mainui
+		doins modules/mainui/rzx*.h
+		doins modules/mainui/Rzx*
+	fi
 }
