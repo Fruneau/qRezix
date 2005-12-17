@@ -245,6 +245,9 @@
        <property name="text" >
         <string>:-)</string>
        </property>
+       <property name="checkable" >
+        <bool>true</bool>
+       </property>
        <property name="autoRaise" >
         <bool>true</bool>
        </property>
@@ -440,7 +443,7 @@
  <customwidgets>
   <customwidget>
    <class>RzxTextEdit</class>
-   <extends>QTextEdit</extends>
+   <extends></extends>
    <header>rzxtextedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
