@@ -118,8 +118,8 @@
        </property>
        <property name="font" >
         <font>
-         <family>Terminal [Bitstream]</family>
-         <pointsize>8</pointsize>
+         <family></family>
+         <pointsize>14</pointsize>
          <weight>75</weight>
          <italic>false</italic>
          <bold>true</bold>
@@ -157,8 +157,8 @@
        </property>
        <property name="font" >
         <font>
-         <family>Terminal [Bitstream]</family>
-         <pointsize>8</pointsize>
+         <family></family>
+         <pointsize>14</pointsize>
          <weight>50</weight>
          <italic>true</italic>
          <bold>false</bold>
@@ -196,8 +196,8 @@
        </property>
        <property name="font" >
         <font>
-         <family>Terminal [Bitstream]</family>
-         <pointsize>8</pointsize>
+         <family></family>
+         <pointsize>14</pointsize>
          <weight>50</weight>
          <italic>false</italic>
          <bold>false</bold>
