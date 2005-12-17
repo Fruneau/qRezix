@@ -20,7 +20,11 @@
 #include <QDialog>
 #include <RzxGlobal>
 
-#include "ui_rzxintroui.h"
+/**
+ @author Florent Bruneau
+ */
+
+namespace Ui { class RzxIntroUI; };
 
 ///Fenêtre de choix de la configuration initiale
 /** Affiche une fenêtre qui permet de choisir la langue et le thème d'icône
@@ -28,10 +32,11 @@
  *
  * Cette fenêtre est automatiquement affichée au premier démarrage
  */
-class RZX_CORE_EXPORT RzxIntro : public QDialog, private Ui::RzxIntroUI
+class RZX_CORE_EXPORT RzxIntro : public QDialog
 {
 	Q_OBJECT
 
+	Ui::RzxIntroUI *ui;
 	QList<Rzx::Icon> icons;
 
 	public:

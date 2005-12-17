@@ -20,13 +20,12 @@
 #include <QDialog>
 #include <RzxThemedIcon>
 
-#include "ui_rzxinfomessageui.h"
-
 /**
  @author Florent Bruneau
  */
 
 class QSettings;
+namespace Ui { class RzxInfoMessageUI; };
 
 ///Fenêtre d'information offrant la possibilité de ne pas être réaffichée dans le futur
 /** Implémente simplement une fenêtre avec un champs de texte et une icône choisis par
@@ -36,12 +35,13 @@ class QSettings;
  * Cette classe fournit une API permettant de gérer facilement l'enregistrement de l'état
  * et tout ce qui va avec l'intégration à qRezix (thèmes, traductions...).
  */
-class RZX_CORE_EXPORT RzxInfoMessage:public QDialog, private Ui::RzxInfoMessageUI
+class RZX_CORE_EXPORT RzxInfoMessage:public QDialog
 {
 	Q_OBJECT
 	Q_PROPERTY(QString text READ text WRITE setText)
 	Q_PROPERTY(RzxThemedIcon icon READ icon WRITE setIcon)
 
+	Ui::RzxInfoMessageUI *ui;
 	RzxThemedIcon m_icon;
 	QSettings *settings;
 	QString id;

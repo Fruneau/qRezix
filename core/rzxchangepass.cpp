@@ -20,6 +20,7 @@
 #include <RzxNetwork>
 
 #include "rzxchangepass.h"
+#include "ui_rzxchangepassui.h"
 
 ///Fenêtre de changement de mot de passe
 /** Si un module réseau est indiqué, la fenêtre mourra en envoyant les
@@ -46,6 +47,7 @@ RzxChangePass::RzxChangePass(const QString &oldpass)
 ///Destruction de la fenêtre
 RzxChangePass::~RzxChangePass()
 {
+	delete ui;
 }
 
 ///Initialise la fenêtre
@@ -57,19 +59,20 @@ void RzxChangePass::init(const QString& oldPass)
 {
 	if(!oldPass.isNull())
 		setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint);
-	setupUi(this);
+	ui = new Ui::RzxChangePassUI();
+	ui->setupUi(this);
 	
 	//Application du masque pour être sur du formatage du password
-	leNewPass->setValidator(new QRegExpValidator(QRegExp(".{6,63}"), this));
-	connect(leNewPass, SIGNAL(textChanged(const QString&)), this, SLOT(analyseNewPass()));
-	connect(leReenterNewPass, SIGNAL(textChanged(const QString&)), this, SLOT(analyseNewPass()));
-	btnOK->setEnabled(false);
+	ui->leNewPass->setValidator(new QRegExpValidator(QRegExp(".{6,63}"), this));
+	connect(ui->leNewPass, SIGNAL(textChanged(const QString&)), this, SLOT(analyseNewPass()));
+	connect(ui->leReenterNewPass, SIGNAL(textChanged(const QString&)), this, SLOT(analyseNewPass()));
+	ui->btnOK->setEnabled(false);
 	if(oldPass.isNull())
-		btnCancel->hide();
+		ui->btnCancel->hide();
 	
 	//Rajout des icônes aux boutons
-	btnOK->setIcon(RzxThemedIcon(Rzx::ICON_OK));
-	btnCancel->setIcon(RzxThemedIcon(Rzx::ICON_CANCEL));
+	ui->btnOK->setIcon(RzxThemedIcon(Rzx::ICON_OK));
+	ui->btnCancel->setIcon(RzxThemedIcon(Rzx::ICON_CANCEL));
 	
 	//Affichage de la fenêtre
 	raise();
@@ -79,7 +82,7 @@ void RzxChangePass::init(const QString& oldPass)
 ///Retourne le nouveau mot de passe
 QString RzxChangePass::newPass() const
 {
-	return leNewPass->text();
+	return ui->leNewPass->text();
 }
 
 ///Redirection de l'acceptation
@@ -96,5 +99,5 @@ void RzxChangePass::accept()
  */
 void RzxChangePass::analyseNewPass()
 {
-	btnOK->setEnabled(leNewPass->hasAcceptableInput() && leNewPass->text() == leReenterNewPass->text());
+	ui->btnOK->setEnabled(ui->leNewPass->hasAcceptableInput() && ui->leNewPass->text() == ui->leReenterNewPass->text());
 }

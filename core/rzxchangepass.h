@@ -18,21 +18,22 @@
 #define RZXCHANGEPASS_H
 
 #include <QDialog>
-#include "ui_rzxchangepassui.h"
 
 #include <RzxGlobal>
 
 class RzxNetwork;
+namespace Ui { class RzxChangePassUI; };
 
 /**
 @author Florent Bruneau
 */
 
 ///Interface de changement de mot de passe
-class RZX_CORE_EXPORT RzxChangePass: public QDialog, private Ui::RzxChangePassUI
+class RZX_CORE_EXPORT RzxChangePass: public QDialog
 {
 	Q_OBJECT
 
+	Ui::RzxChangePassUI *ui;
 	RzxNetwork *network;
 
 	private:

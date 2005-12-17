@@ -18,6 +18,7 @@
 #include <RzxIconCollection>
 
 #include <RzxInfoMessage>
+#include "ui_rzxinfomessageui.h"
 
 ///Construction
 /** Contrairement aux deux autres constructeur, celui-ci n'affiche pas la boîte de dialogue.
@@ -43,7 +44,7 @@ RzxInfoMessage::RzxInfoMessage(QSettings *m_settings, const QString& m_id, const
 		deleteLater();
 		return;
 	}
-	lblIcon->setVisible(false);
+	ui->lblIcon->setVisible(false);
 	setText(m_text);
 	raise();
 	show();
@@ -67,8 +68,9 @@ RzxInfoMessage::RzxInfoMessage(QSettings *m_settings, const QString& m_id, const
 ///Enregistre les paramètre et ferme
 RzxInfoMessage::~RzxInfoMessage()
 {
+	delete ui;
 	if(settings && !id.isEmpty())
-		settings->setValue(id, cbDont->isChecked());
+		settings->setValue(id, ui->cbDont->isChecked());
 }
 
 ///Initialise la fenêtre
@@ -77,12 +79,13 @@ RzxInfoMessage::~RzxInfoMessage()
  */
 bool RzxInfoMessage::init(QSettings *m_settings, const QString& m_id)
 {
-	setupUi(this);
+	ui = new Ui::RzxInfoMessageUI();
+	ui->setupUi(this);
 	id = m_id;
 	settings = m_settings;
 	if(settings && !id.isEmpty())
 	{
-		cbDont->setChecked(settings->value(id).toBool());
+		ui->cbDont->setChecked(settings->value(id).toBool());
 		if(settings->value(id).toBool()) return false;
 	}
 
@@ -95,7 +98,7 @@ bool RzxInfoMessage::init(QSettings *m_settings, const QString& m_id)
 ///Retourne le texte
 QString RzxInfoMessage::text() const
 {
-	return lblMessage->text();
+	return ui->lblMessage->text();
 }
 
 ///Retourne l'icône
@@ -107,21 +110,21 @@ RzxThemedIcon RzxInfoMessage::icon() const
 ///Change l'icône
 void RzxInfoMessage::setIcon(const RzxThemedIcon& icon)
 {
-	lblIcon->setVisible(true);
+	ui->lblIcon->setVisible(true);
 	m_icon = icon;
-	lblIcon->setPixmap(m_icon.icon().pixmap(32));
+	ui->lblIcon->setPixmap(m_icon.icon().pixmap(32));
 }
 
 ///Défini le texte à afficher
 void RzxInfoMessage::setText(const QString& m_text)
 {
-	lblMessage->setText(m_text);
+	ui->lblMessage->setText(m_text);
 	adjustSize();
 }
 
 ///Change le thème d'icône
 void RzxInfoMessage::changeTheme()
 {
-	lblIcon->setPixmap(m_icon.icon().pixmap(32));
-	btnOK->setIcon(RzxIconCollection::getIcon(Rzx::ICON_OK));
+	ui->lblIcon->setPixmap(m_icon.icon().pixmap(32));
+	ui->btnOK->setIcon(RzxIconCollection::getIcon(Rzx::ICON_OK));
 }

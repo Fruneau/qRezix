@@ -19,17 +19,20 @@
 
 #include <RzxWrongPass>
 
+#include "ui_rzxwrongpassui.h"
+
 ///Construit un RzxWrongPass en le liant à un module réseau
 /** Cette liaison permet une personnalisation du texte etc...
  */
 RzxWrongPass::RzxWrongPass(RzxNetwork *net)
 	:network(net)
 {
-	setupUi(this);
+	ui = new Ui::RzxWrongPassUI();
+	ui->setupUi(this);
 	if(network)
 		setAttribute(Qt::WA_DeleteOnClose);
 	RzxThemedIcon icon(Rzx::ICON_OK);
-	btnOK->setIcon(icon);
+	ui->btnOK->setIcon(icon);
 	raise();
 	show();
 }
@@ -37,12 +40,13 @@ RzxWrongPass::RzxWrongPass(RzxNetwork *net)
 ///Destruction
 RzxWrongPass::~RzxWrongPass()
 {
+	delete ui;
 }
 
 ///Retourne le nouveau mot de passe
 QString RzxWrongPass::newPass() const
 {
-	return ledPassword->text();
+	return ui->ledPassword->text();
 }
 
 ///Si un nouveau mot de passe est défini on l'envoie au module réseau

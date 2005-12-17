@@ -19,56 +19,58 @@
 
 #include <RzxIntro>
 
+#include "ui_rzxintroui.h"
 
 ///Construction de la fenêtre
 RzxIntro::RzxIntro()
 	:QDialog()
 {
 	setAttribute( Qt::WA_DeleteOnClose );
-	setupUi(this);
+	ui = new Ui::RzxIntroUI();
+	ui->setupUi(this);
 
 	icons << Rzx::ICON_JONE << Rzx::ICON_FTP << Rzx::ICON_LAYOUT << Rzx::ICON_SAMEGATEWAY << Rzx::ICON_PLUGIN
 		<< Rzx::ICON_FAVORITE << Rzx::ICON_SAMBA << Rzx::ICON_PROPRIETES << Rzx::ICON_NETWORK << Rzx::ICON_BAN
 		<< Rzx::ICON_HISTORIQUE << Rzx::ICON_HTTP << Rzx::ICON_SOUNDON << Rzx::ICON_OS0 << Rzx::ICON_OS1 << Rzx::ICON_OS2
 		<< Rzx::ICON_OS3 << Rzx::ICON_OS4 << Rzx::ICON_OS5 << Rzx::ICON_OS6;
 
-	connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
-	connect(cbLanguage, SIGNAL(activated(const QString&)), this, SLOT(changeLanguage(const QString&)));
-	connect(cbIcons, SIGNAL(activated(const QString&)), this, SLOT(changeTheme(const QString&)));
+	connect(ui->btnOK, SIGNAL(clicked()), this, SLOT(close()));
+	connect(ui->cbLanguage, SIGNAL(activated(const QString&)), this, SLOT(changeLanguage(const QString&)));
+	connect(ui->cbIcons, SIGNAL(activated(const QString&)), this, SLOT(changeTheme(const QString&)));
 
-	cbLanguage->addItems(RzxTranslator::translationsList());
-	cbLanguage->setCurrentIndex(cbLanguage->findText(RzxTranslator::language()));
+	ui->cbLanguage->addItems(RzxTranslator::translationsList());
+	ui->cbLanguage->setCurrentIndex(ui->cbLanguage->findText(RzxTranslator::language()));
 	changeLanguage(RzxTranslator::language());
 
-	cbIcons->addItems(RzxIconCollection::themeList());
-	cbIcons->setCurrentIndex(cbIcons->findText(RzxIconCollection::theme()));
+	ui->cbIcons->addItems(RzxIconCollection::themeList());
+	ui->cbIcons->setCurrentIndex(ui->cbIcons->findText(RzxIconCollection::theme()));
 	changeTheme(RzxIconCollection::theme());
 }
 
 ///Fermeture...
 RzxIntro::~RzxIntro()
-{ }
+{
+	delete ui;
+}
 
 ///Changement de language
 void RzxIntro::changeLanguage(const QString& language)
 {
-	qDebug() << "change language";
 	RzxTranslator::setLanguage(language);
-	retranslateUi(this); //Attention cette fonction n'est pas documentée
+	ui->retranslateUi(this); //Attention cette fonction n'est pas documentée
 }
 
 ///Changement du thème d'icône
 void RzxIntro::changeTheme(const QString& theme)
 {
-	qDebug() << "change theme";
 	RzxIconCollection::setTheme(theme);
 
-	listIcons->clear();
+	ui->listIcons->clear();
 	foreach(Rzx::Icon i, icons)
 	{
-		QListWidgetItem *item = new QListWidgetItem(listIcons);
+		QListWidgetItem *item = new QListWidgetItem(ui->listIcons);
 		item->setIcon(RzxIconCollection::getIcon(i));
 	}
 
-	btnOK->setIcon(RzxIconCollection::getIcon(Rzx::ICON_OK));
+	ui->btnOK->setIcon(RzxIconCollection::getIcon(Rzx::ICON_OK));
 }

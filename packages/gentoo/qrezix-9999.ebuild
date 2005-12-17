@@ -56,12 +56,12 @@ src_install() {
 	insinto /usr/include/qrezix/
 	doins *.pri
 	insinto /usr/include/qrezix/core
-	doins core/rzx*.h
+	doins core/*.h
 	doins core/Rzx*
 	doins core/defaults.h
 	if use mainui; then
 		insinto /usr/include/qrezix/modules/mainui
-		doins modules/mainui/rzx*.h
+		doins modules/mainui/*.h
 		doins modules/mainui/Rzx*
 	fi
 }
