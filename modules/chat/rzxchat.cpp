@@ -160,7 +160,6 @@ void RzxChat::init()
 	connect(ui->edMsg, SIGNAL(textWritten()), this, SLOT(onTextChanged()));
 	connect(ui->btnHistorique, SIGNAL(toggled(bool)), this, SLOT(on_btnHistorique_toggled(bool)));
 	connect(ui->btnProperties, SIGNAL(toggled(bool)), this, SLOT(on_btnProperties_toggled(bool)));
-	connect(ui->btnPlugins, SIGNAL(toggled(int)), this, SLOT(on_btnPlugins_toggled(int)));
 	connect(ui->btnSmiley, SIGNAL(toggled(bool)), this, SLOT(on_btnSmiley_toggled(bool)));
 	connect(ui->btnSend, SIGNAL(clicked()), this, SLOT(on_btnSend_clicked()));
 	connect(ui->btnClose, SIGNAL(clicked()), this, SLOT(close()));
@@ -623,7 +622,6 @@ void RzxChat::changeTheme()
 {
 	QIcon sound, pi, hist, send, prop, close;
 	ui->btnSound->setIcon(RzxIconCollection::getSoundIcon());
-	ui->btnPlugins->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PLUGIN));
 	ui->btnHistorique->setIcon(RzxIconCollection::getIcon(Rzx::ICON_HISTORIQUE));
 	ui->btnSend->setIcon(RzxIconCollection::getIcon(Rzx::ICON_SEND));
 	ui->btnProperties->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PROPRIETES));
@@ -649,7 +647,7 @@ void RzxChat::changeIconFormat()
 //	setIconSize(QSize(16,16));
 //	setToolButtonStyle(style);
 	
-	if(ui->btnPlugins->icon().isNull()) changeTheme(); //pour recharcher les icônes s'il y a besoin
+	if(ui->btnSound->icon().isNull()) changeTheme(); //pour recharcher les icônes s'il y a besoin
 }
 
 ///Changement de la langue...
@@ -661,16 +659,6 @@ void RzxChat::changeEvent(QEvent *e)
 		ui->retranslateUi(editor);
 		changeIconFormat();
 	}
-}
-
-/// Affichage du menu plug-ins lors d'un clic sur le bouton
-/** Les actions sont gérées directement par le plug-in s'il a bien été programmé */
-void RzxChat::on_btnPlugins_clicked()
-{
-	menuPlugins.clear();
-	if(!menuPlugins.actions().count())
-		menuPlugins.addAction("<none>");
-	menuPlugins.popup(ui->btnPlugins->mapToGlobal(ui->btnPlugins->rect().bottomLeft()));
 }
 
 /// Affichage du menu des smileys lors d'un clic sur le bouton

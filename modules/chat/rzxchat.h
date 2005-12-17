@@ -18,7 +18,6 @@
 #ifndef RZXCHAT_IMPL_H
 #define RZXCHAT_IMPL_H
 
-#include <QMenu>
 #include <QPointer>
 #include <QTimer>
 
@@ -67,7 +66,6 @@ public:
 private:
 	void init();
 	void addColor(QColor color);
-	QMenu menuPlugins;
 	QPointer<RzxChatPopup> hist;
 	QPointer<RzxChatPopup> prop;
 	QPointer<RzxSmileyUi> smileyUi;
@@ -120,7 +118,6 @@ protected slots:
 	void onReturnPressed();
 	void onTextChanged();
 	bool event(QEvent *e);
-	void on_btnPlugins_clicked();
 
 protected: // Protected methods
 	void append(const QString& color, const QString& host, const QString& msg);
