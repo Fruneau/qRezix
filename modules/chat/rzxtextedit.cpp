@@ -249,3 +249,59 @@ void RzxTextEdit::validate(bool val)
 	useHtml(m_html);
 	clear();
 }
+
+///Sort le texte dans un format html simplifié
+/** Le HTML de Qt4 est relavitement complexe (formatage via style CSS)
+ * il faut donc le simplifier pour obtenir qqch de compatible avec
+ * les versions antérieures de qRezix
+ */
+QString RzxTextEdit::toSimpleHtml() const
+{
+	QString text = toHtml();
+
+	//On supprime tous les en-têtes
+	QRegExp mask("<body[^>]*>(.*)</body>");
+	if(mask.indexIn(text) != -1)
+		text = mask.cap(1);
+
+	//On vire les <span style=" font-family:Terminal [DEC]; font-size:22pt; color:#000000;"
+	text = convertStyle(text, "span");
+	text = convertStyle(text, "p", "<br>");
+	if(text.right(4) == "<br>")
+		text = text.left(text.length() - 4);
+	return text;
+}
+
+///Converti du format CSS au format HTML
+QString RzxTextEdit::convertStyle(const QString& m_text, const QString& balise, const QString& suffix) const
+{
+	QRegExp mask("<" + balise + " style=\"([^\"]*)\">((?:[^<]|<(?!/" + balise + ">))*)</" + balise + ">");
+	int pos;
+	QString text = m_text;
+	while((pos = mask.indexIn(text)) != -1)
+	{
+		const QString style = mask.cap(1);
+		QString rep;
+		QRegExp select;
+
+		select.setPattern("font-family:([^;]+);");
+		if(select.indexIn(style) != -1)
+			rep += " face=\"" + select.cap(1) + "\"";
+		select.setPattern("font-size:(\\d+)pt;");
+		if(select.indexIn(style) != -1)
+			rep += " size=" + select.cap(1);
+		select.setPattern("color:([^;]+);");
+		if(select.indexIn(style) != -1)
+			rep += " color=\"" + select.cap(1) + "\"";
+
+		if(rep.isEmpty())
+			rep = mask.cap(2);
+		else
+			rep = "<font" + rep + ">" + mask.cap(2) + "</font>";
+		if(!suffix.isEmpty())
+			rep = rep + suffix;
+		text.replace(pos, mask.matchedLength(), rep);
+	}
+
+	return text;
+}

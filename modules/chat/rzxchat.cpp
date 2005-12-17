@@ -451,9 +451,9 @@ void RzxChat::on_btnSend_clicked()
 
 	typingTimer.stop();
 	typing = false;
-	
+
 	//traitement du message
-	QString htmlMsg = ui->edMsg->toHtml();
+	QString htmlMsg = ui->edMsg->toSimpleHtml();
 	QString rawMsg = ui->edMsg->toPlainText();
 	if(rawMsg.isEmpty()) return;
 

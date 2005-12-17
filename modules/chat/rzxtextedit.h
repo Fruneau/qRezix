@@ -81,6 +81,8 @@ class RzxTextEdit : public QTextEdit
 	bool atBeginning() const;
 	bool atEnd() const;
 
+	QString convertStyle(const QString&, const QString&, const QString& = QString()) const;
+
 public:
 	RzxTextEdit(QWidget *parent=0);
 	~RzxTextEdit();
@@ -92,6 +94,8 @@ public:
 	bool underline() const;
 	const QColor &color() const;
 	bool useHtml() const;
+
+	QString toSimpleHtml() const;
 
 public slots:
 	void validate(bool = true);
