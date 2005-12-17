@@ -62,7 +62,7 @@ RzxJabberProtocole::RzxJabberProtocole()
 	connect(client, SIGNAL(connected()), this, SLOT(updateLocalhost()));
 	connect(client, SIGNAL(disconnected()), this, SLOT(deconnection()));
 	connect(client, SIGNAL(rosterUpdated()), this, SLOT(buildRosterList()));
-	setIcon(RzxThemedIcon("jabber"));
+	setIcon(RzxThemedIcon("jabber_small"));
 	
 	endLoading();
 }
