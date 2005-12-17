@@ -312,9 +312,9 @@ void RzxChat::setHtml(bool on)
 	ui->cbFontSelect->setEnabled(on);
 	ui->cbColorSelect->setEnabled(on);
 	ui->cbSize->setEnabled(on);
-	ui->btnBold->setEnabled(RzxChatConfig::isBoldSupported(font));
+	ui->btnBold->setEnabled(on && RzxChatConfig::isBoldSupported(font));
 	ui->btnUnderline->setEnabled(on);
-	ui->btnItalic->setEnabled(RzxChatConfig::isItalicSupported(font));
+	ui->btnItalic->setEnabled(on && RzxChatConfig::isItalicSupported(font));
 	ui->edMsg->useHtml(on);
 }
 

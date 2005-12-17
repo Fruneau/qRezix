@@ -32,6 +32,9 @@
      </property>
      <item>
       <widget class="QComboBox" name="cbFontSelect" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>3</hsizetype>
@@ -50,6 +53,9 @@
      </item>
      <item>
       <widget class="QComboBox" name="cbSize" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>0</hsizetype>
@@ -87,6 +93,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="btnBold" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
        <property name="minimumSize" >
         <size>
          <width>30</width>
@@ -123,6 +132,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="btnItalic" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
        <property name="minimumSize" >
         <size>
          <width>30</width>
@@ -159,6 +171,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="btnUnderline" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
        <property name="minimumSize" >
         <size>
          <width>30</width>
@@ -194,7 +209,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="cbColorSelect" />
+      <widget class="QComboBox" name="cbColorSelect" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer>
@@ -421,7 +440,7 @@
  <customwidgets>
   <customwidget>
    <class>RzxTextEdit</class>
-   <extends></extends>
+   <extends>QTextEdit</extends>
    <header>rzxtextedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
