@@ -97,24 +97,24 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e)
 				onTextEdited();
 			}
 			break;
-	
-	//Parcours de l'historique
-	case Qt::Key_Down:
-		down=true;
-	case Qt::Key_Up:
-		//Et op, parcours de l'historique si les conditions sont réunies
-		if((eMapped->modifiers() & Qt::ShiftModifier) || (eMapped->modifiers() & Qt::ControlModifier) 
-			|| (down && atEnd()) || (!down && atBeginning()))
-		{
-			onArrowPressed(down);
-			break;
-		}
-		eMapped = new QKeyEvent(QEvent::KeyRelease, e->key(), e->modifiers(), e->text());
-	
-	//Texte normal
-	default:
-		QTextEdit::keyPressEvent(eMapped);
-		onTextEdited();
+
+		//Parcours de l'historique
+		case Qt::Key_Down:
+			down=true;
+		case Qt::Key_Up:
+			//Et op, parcours de l'historique si les conditions sont réunies
+			if((eMapped->modifiers() & Qt::ShiftModifier) || (eMapped->modifiers() & Qt::ControlModifier) 
+				|| (down && atEnd()) || (!down && atBeginning()))
+			{
+				onArrowPressed(down);
+				break;
+			}
+			eMapped = new QKeyEvent(QEvent::KeyRelease, e->key(), e->modifiers(), e->text());
+
+		//Texte normal
+		default:
+			QTextEdit::keyPressEvent(eMapped);
+			onTextEdited();
 	}
 }
 

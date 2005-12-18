@@ -134,6 +134,7 @@ inline void RzxTextEdit::setBold(bool bold)
 {
 	m_bold = bold;
 	setFontWeight(bold ? QFont::Bold : QFont::Normal);
+	setFocus();
 }
 
 ///Retourne l'état de l'utilisation du gras
@@ -150,6 +151,7 @@ inline void RzxTextEdit::setItalic(bool ital)
 {
 	m_italic = ital;
 	setFontItalic(ital);
+	setFocus();
 }
 
 ///Retourne l'état de l'utilisation de l'italique
@@ -166,6 +168,7 @@ inline void RzxTextEdit::setUnderline(bool under)
 {
 	m_underline = under;
 	setFontUnderline(under);
+	setFocus();
 }
 
 ///Retourne l'état de l'utilisation du soulignement
@@ -182,6 +185,7 @@ inline void RzxTextEdit::setFont(const QString& font)
 {
 	m_font = font;
 	setFontFamily(font);
+	setFocus();
 }
 
 ///Retourne l'état de l'utilisation de la police
@@ -198,6 +202,7 @@ inline void RzxTextEdit::setSize(int size)
 {
 	m_size = size;
 	setFontPointSize(size);
+	setFocus();
 }
 
 ///Retourne l'état de l'utilisation de la taille de la police
@@ -214,6 +219,7 @@ inline void RzxTextEdit::setColor(const QColor& c)
 {
 	m_color = c;
 	setTextColor(c);
+	setFocus();
 }
 
 ///Retourne l'état de l'utilisation de la couleur de la police
@@ -248,6 +254,7 @@ inline void RzxTextEdit::useHtml(bool html)
 		setColor(m_color);
 	}
 	setPlainText(toPlainText());
+	setFocus();
 }
 
 ///Retourne l'état de l'utilisation du formatage html
