@@ -460,6 +460,12 @@ QWidget *RzxApplication::mainWindow()
 		return NULL;
 }
 
+///Retourne le fenêtre de préférence
+RzxProperty *RzxApplication::preferencesWindow()
+{
+	return instance()->properties;
+}
+
 ///Retourne la liste des modules chargés
 QList<RzxModule*> RzxApplication::modulesList()
 {

@@ -35,10 +35,9 @@
  * et fournit un menu arborescent qui simplifie l'utilisation de la fenêtre et
  * la compréhension de l'organisation du programme.
  */
-class RZX_CORE_EXPORT RzxProperty : public QDialog, public Ui::frmPref
+class RZX_CORE_EXPORT RzxProperty : public QDialog, private Ui::frmPref
 {
 	Q_OBJECT
-	RZX_GLOBAL(RzxProperty)
 
 	QTreeWidgetItem *generalItem;
 	QTreeWidgetItem *favoritesItem;
@@ -60,7 +59,7 @@ public:
 	RzxProperty(QWidget *parent = NULL);
 	~RzxProperty();
 
-	static QString browse(const QString& name, const QString& title, const QString& glob);
+	static QString browse(const QString& name, const QString& title, const QString& glob, QWidget *parent = NULL);
 
 	QString infoNeeded();
 	int infoCompleteMessage();

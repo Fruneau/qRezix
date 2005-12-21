@@ -183,6 +183,7 @@ bool QRezix::installModule(RzxRezal *rezal)
 			dock = new QDockWidget(rezal->name());
 			if(isFloating)
 				dock->setParent(this);
+			dock->setWindowIcon(rezal->icon());
 			dock->setWidget(rezal->widget());
 			dock->setFeatures(rezal->features());
 			dock->setAllowedAreas(rezal->allowedAreas());
@@ -512,9 +513,9 @@ void QRezix::closeEvent(QCloseEvent * e){
 		}
 		else
 			i = RzxMainUIConfig::quitMode();
-		if(i != RzxQuit::selectQuit)
+		if(i != RzxQuit::Quit)
 		{
-			if(i == RzxQuit::selectMinimize)
+			if(i == RzxQuit::Minimize)
 				showMinimized();
 #ifdef WIN32 //c'est très très très très très très moche, mais g pas trouvé d'autre manière de le faire
 			 //c'est pas ma fautre à moi si windows se comporte comme de la merde

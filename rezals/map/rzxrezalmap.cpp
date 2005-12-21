@@ -44,6 +44,7 @@ RzxRezalMap::RzxRezalMap(QWidget *widget)
 	beginLoading();
 	setType(TYP_ALL);
 	setType(TYP_INDEXED);
+	setIcon(RzxThemedIcon("rzlmap"));
 	setModel(RzxRezalModel::global());
 	currentMap = NULL;
 

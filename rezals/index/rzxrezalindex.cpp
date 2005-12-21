@@ -38,11 +38,13 @@ RzxRezalIndex::RzxRezalIndex(QWidget *parent)
 	beginLoading();
 	setType(TYP_ALL);
 	setType(TYP_INDEX);
+	setIcon(RzxThemedIcon("rzlindex"));
 	setModel(RzxRezalModel::global());
 	for(int i = 1 ; i < RzxRezalModel::numColonnes ; i++)
 		hideColumn(i);
 	resizeColumnToContents(0);
 	setAcceptDrops(true);
+	
 	endLoading();
 }
 

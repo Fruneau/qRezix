@@ -55,13 +55,10 @@ email                : benoit.casoetto@m4x.org
 #include <RzxFavoriteList>
 #include <RzxBanList>
 
-RZX_GLOBAL_INIT(RzxProperty)
-
 ///Construction de la fenêtre de propriétés
 RzxProperty::RzxProperty(QWidget *parent)
 	:QDialog(parent)
 {
-	object = this;
 	setupUi(this);
 	RzxStyle::useStyleOnWindow(this);
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
@@ -159,7 +156,6 @@ RzxProperty::~RzxProperty()
 {
 	closeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList());
 	closeModules<RzxModule>(RzxApplication::modulesList());
-	RZX_GLOBAL_CLOSE
 }
 
 ///Demande le changement du thème actuel
@@ -598,21 +594,20 @@ void RzxProperty::oK() {
 }
 
 ///Fonction générique pour la recherche d'un fichier à charger
-QString RzxProperty::browse(const QString& name, const QString& title, const QString& glob)
+QString RzxProperty::browse(const QString& name, const QString& title, const QString& glob, QWidget *parent)
 {
+	QString filter = name + " (" + glob + ")";
 #ifdef WITH_KDE
-	QString filter = name + " (" + glob + ")";
-	QString file = KFileDialog::getOpenFileName( QString::null, filter, object, title );
+	return KFileDialog::getOpenFileName( QString::null, filter, object, title );
 #else
-	QString filter = name + " (" + glob + ")";
-	QString file = QFileDialog::getOpenFileName(object, title, QString::null, filter);
+	return QFileDialog::getOpenFileName(parent, title, QString::null, filter);
 #endif
-	return file;
 }
 
 ///Affiche la boîte de dialoge due choix d'icône
-void RzxProperty::chooseIcon() {
-	QString file = browse(tr("Icons"), tr("Icon selection"), "*.png *.jpg *.bmp");
+void RzxProperty::chooseIcon()
+{
+	QString file = browse(tr("Icons"), tr("Icon selection"), "*.png *.jpg *.bmp", this);
 	if ( file.isEmpty() ) return ;
 
 	QPixmap icon;

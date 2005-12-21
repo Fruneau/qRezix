@@ -62,6 +62,7 @@ class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<R
 		
 		static RzxApplication *instance();
 		static QWidget *mainWindow();
+		static RzxProperty *preferencesWindow();
 		static QList<RzxModule*> modulesList();
 
 		static RzxModule *chatModule();

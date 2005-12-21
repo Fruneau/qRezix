@@ -45,6 +45,7 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 	beginLoading();
 	setType(TYP_ALL);
 	setType(TYP_INDEXED);
+	setIcon(RzxThemedIcon("rzlitem"));
 	setModel(RzxRezalModel::global());
 	setIconSize(QSize(32,32));
 	header()->setStretchLastSection(false);

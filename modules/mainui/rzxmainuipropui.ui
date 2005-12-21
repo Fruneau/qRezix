@@ -344,175 +344,105 @@
      <property name="title" >
       <string>Columns layout</string>
      </property>
-     <widget class="QCheckBox" name="cbcPrinter" >
-      <property name="geometry" >
-       <rect>
-        <x>190</x>
-        <y>198</y>
-        <width>172</width>
-        <height>23</height>
-       </rect>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
       </property>
-      <property name="text" >
-       <string>Printer</string>
+      <property name="spacing" >
+       <number>6</number>
       </property>
-     </widget>
-     <widget class="QCheckBox" name="cbcSamba" >
-      <property name="geometry" >
-       <rect>
-        <x>190</x>
-        <y>170</y>
-        <width>172</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Samba</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="cbcNews" >
-      <property name="geometry" >
-       <rect>
-        <x>190</x>
-        <y>142</y>
-        <width>172</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>News</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="cbcResal" >
-      <property name="geometry" >
-       <rect>
-        <x>11</x>
-        <y>170</y>
-        <width>173</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Place</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="cbcIP" >
-      <property name="geometry" >
-       <rect>
-        <x>11</x>
-        <y>142</y>
-        <width>173</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>IP</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="cbcGateway" >
-      <property name="geometry" >
-       <rect>
-        <x>11</x>
-        <y>114</y>
-        <width>173</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Same gateway</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="cbcPromo" >
-      <property name="geometry" >
-       <rect>
-        <x>11</x>
-        <y>86</y>
-        <width>173</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Promotion</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="cbcRemarque" >
-      <property name="geometry" >
-       <rect>
-        <x>11</x>
-        <y>58</y>
-        <width>173</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Comment</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="cbcHTTP" >
-      <property name="geometry" >
-       <rect>
-        <x>190</x>
-        <y>114</y>
-        <width>172</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Web</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="cbcClient" >
-      <property name="geometry" >
-       <rect>
-        <x>190</x>
-        <y>30</y>
-        <width>172</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Client</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="cbcOS" >
-      <property name="geometry" >
-       <rect>
-        <x>190</x>
-        <y>58</y>
-        <width>172</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>OS</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="cbcFTP" >
-      <property name="geometry" >
-       <rect>
-        <x>190</x>
-        <y>86</y>
-        <width>172</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>FTP</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="cbcNom" >
-      <property name="geometry" >
-       <rect>
-        <x>11</x>
-        <y>30</y>
-        <width>173</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Name</string>
-      </property>
-     </widget>
+      <item row="0" column="0" >
+       <widget class="QCheckBox" name="cbcNom" >
+        <property name="text" >
+         <string>Name</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" >
+       <widget class="QCheckBox" name="cbcFTP" >
+        <property name="text" >
+         <string>FTP</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="QCheckBox" name="cbcOS" >
+        <property name="text" >
+         <string>OS</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="QCheckBox" name="cbcClient" >
+        <property name="text" >
+         <string>Client</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" >
+       <widget class="QCheckBox" name="cbcHTTP" >
+        <property name="text" >
+         <string>Web</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QCheckBox" name="cbcRemarque" >
+        <property name="text" >
+         <string>Comment</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" >
+       <widget class="QCheckBox" name="cbcPromo" >
+        <property name="text" >
+         <string>Promotion</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QCheckBox" name="cbcGateway" >
+        <property name="text" >
+         <string>Same gateway</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" >
+       <widget class="QCheckBox" name="cbcIP" >
+        <property name="text" >
+         <string>IP</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" >
+       <widget class="QCheckBox" name="cbcResal" >
+        <property name="text" >
+         <string>Place</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1" >
+       <widget class="QCheckBox" name="cbcNews" >
+        <property name="text" >
+         <string>News</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1" >
+       <widget class="QCheckBox" name="cbcSamba" >
+        <property name="text" >
+         <string>Samba</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1" >
+       <widget class="QCheckBox" name="cbcPrinter" >
+        <property name="text" >
+         <string>Printer</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

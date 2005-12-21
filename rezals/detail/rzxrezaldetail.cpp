@@ -44,6 +44,7 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 	setModel(RzxRezalModel::global());
 	ui->setupUi(this);
 	setType(TYP_DOCKABLE);
+	setIcon(RzxThemedIcon("rzldetail"));
 	connect(RzxApplication::instance(), SIGNAL(haveProperties(RzxComputer*, bool*)),
 		this, SLOT(propChanged(RzxComputer*,bool*)));
 	clear();

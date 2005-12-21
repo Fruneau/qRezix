@@ -55,7 +55,10 @@ void RzxBaseLoaderProp::setPropertyParent(QTreeWidgetItem *item)
 void RzxBaseLoaderProp::connectToPropertyWindow(RzxProperty *prop) const
 {
 	if(!prop)
-		prop = RzxProperty::global();
+		prop = RzxApplication::preferencesWindow();
+
+	if(!prop)
+		return;
 
 	connect(this, SIGNAL(notifyLoad(const QString&, QTreeWidgetItem*)), prop, SLOT(addModule(const QString&, QTreeWidgetItem*)));
 	connect(this, SIGNAL(notifyUnload(const QString&, QTreeWidgetItem*)), prop, SLOT(deleteModule(const QString&, QTreeWidgetItem*)));

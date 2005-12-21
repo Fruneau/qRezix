@@ -30,10 +30,12 @@ class RZX_MAINUI_EXPORT RzxQuit : public QDialog, private Ui::RzxQuitUI
 	Q_ENUMS(QuitMode)
 
 	public:
-		enum QuitMode {
-			selectQuit = 0x01,
-			selectMinimize = 0x02,
-			selectAbort = 0x04
+		enum QuitMode
+		{
+			None = 0x00,
+			Quit = 0x01,
+			Minimize = 0x02,
+			Abort = 0x04
 		};
 
 	private:

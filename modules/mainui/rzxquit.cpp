@@ -29,6 +29,7 @@
 RzxQuit::RzxQuit(QWidget* parent)
 	: QDialog(parent)
 {
+	selection = None;
 	setupUi(this);
 	connect((QObject *)radioQuit, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
 	connect((QObject *)radioMinimize, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
@@ -51,17 +52,17 @@ void RzxQuit::quitOptionChange(void)
 {
 	if(radioQuit->isChecked())
 	{
-		selection = selectQuit;
+		selection = Quit;
 		btnApply->setText(tr("Quit now !"));
 	}
 	else if(radioMinimize->isChecked())
 	{
-		selection = selectMinimize;
+		selection = Minimize;
 		btnApply->setText(tr("Minimize me..."));
 	}
 	else if(radioDoNothing->isChecked())
 	{
-		selection = selectAbort;
+		selection = Abort;
 		btnApply->setText(tr("Abort quitting please"));
 	}
 }
