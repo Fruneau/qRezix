@@ -35,7 +35,15 @@
     </message>
     <message>
         <source>The central object of qRezix has been set to %1.&lt;br&gt;&lt;br&gt;You must restart qRezix in order this change to be applied</source>
-        <translation>Vous avez choisi d&apos;installer %1 comme module principale de qRezix. Cependant un autre module est déjà actuellement installé. Il vous faudra donc relancer qRezix pour que cette modification soit prise en compte. Vous pouvez également le faire en rechargeant le module &apos;MainUi&apos; de qRezix via la fenêtre de préférence.</translation>
+        <translation type="obsolete">Vous avez choisi d&apos;installer %1 comme module principale de qRezix. Cependant un autre module est déjà actuellement installé. Il vous faudra donc relancer qRezix pour que cette modification soit prise en compte. Vous pouvez également le faire en rechargeant le module &apos;MainUi&apos; de qRezix via la fenêtre de préférence.</translation>
+    </message>
+    <message>
+        <source>The central widget has been set to %1. You should reload the module in order this changement to take effect. You can do this via this menu.</source>
+        <translation>Vous avez choisi d&apos;installer %1 comme module principale de qRezix. Cependant un autre module est déjà actuellement installé. Il vous faudra donc relancer qRezix pour que cette modification soit prise en compte. Vous pouvez également le faire en rechargeant le module &apos;MainUi&apos; de qRezix via la fenêtre de préférences.</translation>
+    </message>
+    <message>
+        <source>You should restart qRezix</source>
+        <translation>Vous devriez relancer qRezix</translation>
     </message>
 </context>
 <context>
@@ -93,7 +101,7 @@
     </message>
     <message>
         <source>Tab</source>
-        <translation>Tab</translation>
+        <translation type="obsolete">Tab</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Search&lt;/h3&gt;&lt;p&gt;Do you want to see the search tool ?&lt;/p&gt;</source>
@@ -177,31 +185,31 @@
     </message>
     <message>
         <source>Computer icons</source>
-        <translation>Icône de l&apos;ordinateur</translation>
+        <translation type="obsolete">Icône de l&apos;ordinateur</translation>
     </message>
     <message>
         <source>Icon size</source>
-        <translation>Taille des icônes</translation>
+        <translation type="obsolete">Taille des icônes</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Icon size&lt;/h3&gt;&lt;p&gt;Do you prefer big icons (64x64) or small icons (32x32) for the pictures of the users&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Taille des icônes&lt;/h3&gt;&lt;p&gt;Est-ce que vous préférez des grandes (64x64) ou de petites (32x32) icônes ?&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Taille des icônes&lt;/h3&gt;&lt;p&gt;Est-ce que vous préférez des grandes (64x64) ou de petites (32x32) icônes ?&lt;/p&gt;</translation>
     </message>
     <message>
         <source>32*32</source>
-        <translation>32x32</translation>
+        <translation type="obsolete">32x32</translation>
     </message>
     <message>
         <source>64*64</source>
-        <translation>64x64</translation>
+        <translation type="obsolete">64x64</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Highlight&lt;/h3&gt;&lt;p&gt;If you choose to display small icons and check this box then the selected item will be displayed with a big icon.&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Démarquage de la sélection&lt;/h3&gt;&lt;p&gt;Si vous choisissez d&apos;afficher de petites icônes, ceci vous permet d&apos;avoir l&apos;item sélectionné en plus grand.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Démarquage de la sélection&lt;/h3&gt;&lt;p&gt;Si vous choisissez d&apos;afficher de petites icônes, ceci vous permet d&apos;avoir l&apos;item sélectionné en plus grand.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Highlight the selection</source>
-        <translation>Démarque la sélection</translation>
+        <translation type="obsolete">Démarque la sélection</translation>
     </message>
     <message>
         <source>Action on double-clic</source>
@@ -406,11 +414,11 @@
     </message>
     <message>
         <source>Informations :</source>
-        <translation>Informations :</translation>
+        <translation type="obsolete">Informations :</translation>
     </message>
     <message>
         <source>ftp server : </source>
-        <translation>serveur FTP :</translation>
+        <translation type="obsolete">serveur FTP :</translation>
     </message>
     <message>
         <source>&lt;b&gt;on&lt;/b&gt;</source>
@@ -418,19 +426,19 @@
     </message>
     <message>
         <source>web server : </source>
-        <translation>serveur Web :</translation>
+        <translation type="obsolete">serveur Web :</translation>
     </message>
     <message>
         <source>news server : </source>
-        <translation>serveur de News :</translation>
+        <translation type="obsolete">serveur de News :</translation>
     </message>
     <message>
         <source>samba server : </source>
-        <translation>serveur Samba :</translation>
+        <translation type="obsolete">serveur Samba :</translation>
     </message>
     <message>
         <source>features : </source>
-        <translation>fonctionnalités :</translation>
+        <translation type="obsolete">fonctionnalités :</translation>
     </message>
     <message>
         <source>chat</source>
@@ -458,11 +466,39 @@
     </message>
     <message>
         <source>printer : </source>
-        <translation>imprimante :</translation>
+        <translation type="obsolete">imprimante :</translation>
     </message>
     <message>
         <source>&lt;b&gt;yes&lt;/b&gt;</source>
         <translation>&lt;b&gt;oui&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Informations:</source>
+        <translation>Informations :</translation>
+    </message>
+    <message>
+        <source>ftp server:</source>
+        <translation>Serveurs ftp :</translation>
+    </message>
+    <message>
+        <source>web server:</source>
+        <translation>Serveur Web :</translation>
+    </message>
+    <message>
+        <source>news server:</source>
+        <translation>Serveur de news :</translation>
+    </message>
+    <message>
+        <source>samba server:</source>
+        <translation>Serveur Samba :</translation>
+    </message>
+    <message>
+        <source>printer:</source>
+        <translation>Imprimante :</translation>
+    </message>
+    <message>
+        <source>features:</source>
+        <translation>Fonctionalités :</translation>
     </message>
 </context>
 <context>

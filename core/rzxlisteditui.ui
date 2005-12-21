@@ -64,6 +64,29 @@
   </layout>
  </widget>
  <pixmapfunction></pixmapfunction>
+ <tabstops>
+  <tabstop>editNew</tabstop>
+  <tabstop>btnAdd</tabstop>
+  <tabstop>list</tabstop>
+  <tabstop>btnDel</tabstop>
+ </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>editNew</sender>
+   <signal>returnPressed()</signal>
+   <receiver>btnAdd</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>147</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>251</x>
+     <y>26</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

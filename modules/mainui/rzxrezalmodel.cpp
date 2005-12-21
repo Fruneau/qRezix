@@ -555,18 +555,18 @@ QString RzxRezalModel::tooltip(const RzxComputer *computer) const
 	if(tooltipFlags & (int)RzxRezalModel::TipPromo)
 		tooltip += "<i>(" + computer->promoText() + ")</i>";
 	tooltip += "<br/><br/>";
- 	tooltip += "<b><i>" + tr("Informations :") + "</b></i><br/>";
+ 	tooltip += "<b><i>" + tr("Informations:") + " </b></i><br/>";
 	
 	if(computer->hasFtpServer() && (tooltipFlags & (int)RzxRezalModel::TipFtp))
-		tooltip += "<b>-></b>&nbsp;" + tr("ftp server : ") + tr("<b>on</b>") + "<br/>";
+		tooltip += "<b>-></b>&nbsp;" + tr("ftp server:") + " " + tr("<b>on</b>") + "<br/>";
 	if(computer->hasHttpServer() && (tooltipFlags & (int)RzxRezalModel::TipHttp))
-		tooltip += "<b>-></b>&nbsp;" + tr("web server : ") + tr("<b>on</b>") + "<br/>";
+		tooltip += "<b>-></b>&nbsp;" + tr("web server:") + " " + tr("<b>on</b>") + "<br/>";
 	if(computer->hasNewsServer() && (tooltipFlags & (int)RzxRezalModel::TipNews))
-		tooltip += "<b>-></b>&nbsp;" + tr("news server : ") + tr("<b>on</b>") + "<br/>";
+		tooltip += "<b>-></b>&nbsp;" + tr("news server:") + " " + tr("<b>on</b>") + "<br/>";
 	if(computer->hasSambaServer() && (tooltipFlags & (int)RzxRezalModel::TipSamba))
-		tooltip += "<b>-></b>&nbsp;" + tr("samba server : ") + tr("<b>on</b>") + "<br/>";
+		tooltip += "<b>-></b>&nbsp;" + tr("samba server:") + " " + tr("<b>on</b>") + "<br/>";
 	if(computer->hasPrinter() && (tooltipFlags & (int)RzxRezalModel::TipPrinter))
-		tooltip += "<b>-></b>&nbsp;" + tr("printer : ") + tr("<b>yes</b>") + "<br/>";
+		tooltip += "<b>-></b>&nbsp;" + tr("printer:") + " " + tr("<b>yes</b>") + "<br/>";
 	if(tooltipFlags & (int)RzxRezalModel::TipOS)
 		tooltip += "<b>-></b>&nbsp;os : " + computer->sysExText() + "<br/>";
 	if(tooltipFlags & (int)RzxRezalModel::TipClient)
@@ -576,7 +576,7 @@ QString RzxRezalModel::tooltip(const RzxComputer *computer) const
 		if(computer->can(Rzx::CAP_ON))
 		{
 			int nb = 0;
-			tooltip += "<b>-></b>&nbsp;" + tr("features : ");
+			tooltip += "<b>-></b>&nbsp;" + tr("features:");
 			if(computer->can(Rzx::CAP_CHAT))
 			{
 				tooltip += tr("chat");
@@ -594,7 +594,7 @@ QString RzxRezalModel::tooltip(const RzxComputer *computer) const
 	if(tooltipFlags & (int)RzxRezalModel::TipIP)
 		tooltip += "<b>-></b>&nbsp;ip : <i>" + computer->ip().toString() + "</i><br/>";
 	if(tooltipFlags & (int)RzxRezalModel::TipResal)
-		tooltip += "<b>-></b>&nbsp;" + tr("Location : ") + computer->rezalName(false) + "<br/>";
+		tooltip += "<b>-></b>&nbsp;" + tr("Location:") + computer->rezalName(false) + "<br/>";
 	
 	if(tooltipFlags & (int)RzxRezalModel::TipProperties)
 	{
@@ -693,10 +693,7 @@ void RzxRezalModel::login(RzxComputer *computer)
 	switch(computer->promo())
 	{
 		case Rzx::PROMAL_UNK: case Rzx::PROMAL_ORANGE:
-/*			if(computer->rezal() == Rzx::RZL_BINETS || computer->rezal() == Rzx::RZL_BR)
-				insertObject(binetIndex, binet, binetByName, computer);
-			else*/
-				insertObject(oranjeIndex, oranje, oranjeByName, computer);
+			insertObject(oranjeIndex, oranje, oranjeByName, computer);
 			break;
 		case Rzx::PROMAL_JONE:
 			insertObject(joneIndex, jone, joneByName, computer);

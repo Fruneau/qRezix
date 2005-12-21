@@ -30,12 +30,12 @@
 
 //attention a toujours avoir DCCFormat[DCC_message] = messageFormat
 QString RzxChatSocket::DCCFormat[] = {
-	"(^PROPQUERY )\r\n",
-	"(^PROPANSWER )(.*)\r\n",
-	"(^CHAT )(.*)\r\n",
-	"(^PING )\r\n",
-	"(^PONG )\r\n",
-	"(^TYPING )(0|1)\r\n",
+	"^PROPQUERY \r\n",
+	"^PROPANSWER (.*)\r\n",
+	"^CHAT (.*)\r\n",
+	"^PING \r\n",
+	"^PONG \r\n",
+	"^TYPING (0|1)\r\n",
 	0
 };
 
@@ -114,12 +114,12 @@ int RzxChatSocket::parse(const QString& msg)
 					break;
 
 				case DCC_PROPANSWER:
-					if(cmd.cap(2).isEmpty())					// si il n'y a pas les donnees necessaires 
+					if(cmd.cap(1).isEmpty())					// si il n'y a pas les donnees necessaires 
 					{
 						emit notify(tr("has send empty properties"));
 						return DCC_PROPANSWER;		// ou que l'on n'a rien demande on s'arrete
 					}
-					host.computer()->setProperties(cmd.cap(2));
+					host.computer()->setProperties(cmd.cap(1));
 					emit haveProperties(host);
 					if(alone)
 						close();
@@ -131,7 +131,7 @@ int RzxChatSocket::parse(const QString& msg)
 						sendResponder(RzxConfig::autoResponderMsg());
 					if(RzxComputer::localhost()->state() == Rzx::STATE_REFUSE)
 						return DCC_CHAT;
-					host.computer()->receiveChat(Rzx::Chat, cmd.cap(2));
+					host.computer()->receiveChat(Rzx::Chat, cmd.cap(1));
 					host.computer()->receiveChat(Rzx::StopTyping);
 					return DCC_CHAT;
 					break;
@@ -148,10 +148,10 @@ int RzxChatSocket::parse(const QString& msg)
 					break;
 
 				case DCC_TYPING:
-					host.computer()->receiveChat(cmd.cap(2)=="1" ? Rzx::Typing: Rzx::StopTyping);
+					host.computer()->receiveChat(cmd.cap(1)=="1" ? Rzx::Typing: Rzx::StopTyping);
 					return DCC_TYPING;
 					break;
-			};
+			}
 		}
 		i++;
 	}
