@@ -54,7 +54,7 @@
       <envvars/>
     </run>
     <general>
-      <activedir>resources</activedir>
+      <activedir>rezals/view</activedir>
     </general>
     <make>
       <abortonerror>true</abortonerror>

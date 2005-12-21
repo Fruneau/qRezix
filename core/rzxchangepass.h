@@ -32,6 +32,7 @@ namespace Ui { class RzxChangePassUI; };
 class RZX_CORE_EXPORT RzxChangePass: public QDialog
 {
 	Q_OBJECT
+	Q_PROPERTY(QString newPass READ newPass)
 
 	Ui::RzxChangePassUI *ui;
 	RzxNetwork *network;

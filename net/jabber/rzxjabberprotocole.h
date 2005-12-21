@@ -59,7 +59,7 @@ public:
 	virtual bool isStarted() const;
 	
 	
-//Gestion de propriï¿½ï¿½ du module
+//Gestion de propriétés du module
 private:
 	Ui::RzxJabberPropUI *ui;
 	QWidget *propWidget;

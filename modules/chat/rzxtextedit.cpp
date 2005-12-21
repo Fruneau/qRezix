@@ -235,6 +235,33 @@ void RzxTextEdit::onTextEdited()
 	curLine = history;
 }
 
+///Change le formatage du texte
+void RzxTextEdit::useHtml(bool html)
+{
+	m_html = true;
+	if(!html)
+	{
+		setFont(m_defaultFont);
+		setSize(m_defaultSize);
+		setBold(false);
+		setItalic(false);
+		setUnderline(false);
+		setColor(Qt::black);
+	}
+	else
+	{
+		setFont(m_font);
+		setSize(m_size);
+		setBold(m_bold);
+		setItalic(m_italic);
+		setUnderline(m_underline);
+		setColor(m_color);
+	}
+	m_html = html;
+	setPlainText(toPlainText());
+	setFocus();
+}
+
 ///Valide le contenue
 /** La validation consiste à l'envoie du contenu de la fenêtre
  * donc on incrémente l'historique et on vide la fenêtre.

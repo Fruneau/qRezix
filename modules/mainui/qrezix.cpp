@@ -14,13 +14,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <QLabel>
 #include <QLineEdit>
 #include <QMenuBar>
 #include <QString>
-#include <QIcon>
 #include <QPixmap>
-#include <QApplication>
 #include <QCloseEvent>
 #include <QEvent>
 #include <QShortcut>
@@ -40,6 +37,7 @@
 #include <RzxInfoMessage>
 
 #include "qrezix.h"
+#include "ui_rzxstatusui.h"
 
 #include "rzxmainuiconfig.h"
 #include "rzxquit.h"
@@ -73,6 +71,7 @@ QRezix::QRezix(QWidget *parent)
 	central = NULL;
 	index = NULL;
 
+	//Construction de l'interface
 	RzxStyle::useStyleOnWindow(this);
 	statusui = new Ui::RzxStatusUI();
 	QWidget *widget = new QWidget;
@@ -89,10 +88,11 @@ QRezix::QRezix(QWidget *parent)
 
 	RzxMainUIConfig::restoreMainWidget(this);
 
-	///Chargement des plug-ins
+	//Chargement des actions
 	buildActions();
 	
 #ifdef Q_OS_MAC
+	//Mise en place du menu pour Mac OS...
 	QMenuBar *menu = menuBar();
 	QMenu *tool = menu->addMenu("qRezix");
 	tool->addAction("Preferences", this, SIGNAL(wantPreferences()));
@@ -116,7 +116,7 @@ QRezix::QRezix(QWidget *parent)
 	bar->addWidget(leSearch);
 	bar->addWidget(lblSearch);
 
-	QLabel *spacer = new QLabel(); //CRAAAAAAAAAAAAAAAAAAAADE
+	QWidget *spacer = new QWidget();
 	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	bar->addWidget(spacer);
 	bar->addAction(awayAction);

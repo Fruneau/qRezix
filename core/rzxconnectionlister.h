@@ -42,6 +42,10 @@ class RZX_CORE_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader
 {
 	Q_OBJECT
 	Q_PROPERTY(bool initialized READ isInitialized)
+	Q_PROPERTY(bool connected READ isConnected)
+	Q_PROPERTY(bool disconnected READ isDisconnected)
+	Q_PROPERTY(int computerNumber READ computerNumber)
+	Q_PROPERTY(QList<RzxComputer*> computerList READ computerList)
 	RZX_GLOBAL(RzxConnectionLister)
 
 	bool initialized;

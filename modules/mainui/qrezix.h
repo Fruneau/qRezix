@@ -22,7 +22,6 @@
 #include <config.h>
 #endif
 
-#include <QWidget>
 #include <QMainWindow>
 #include <QModelIndex>
 #include <QPointer>
@@ -30,7 +29,6 @@
 #include <RzxBaseLoader>
 
 #include "rzxrezal.h"
-#include "ui_rzxstatusui.h"
 #include "rzxrezalpopup.h"
 #include "rzxmainuiglobal.h"
 
@@ -41,6 +39,7 @@ class QAction;
 class QLineEdit;
 class QLabel;
 class RzxRezalPopup;
+namespace Ui { class RzxStatusUI; };
 
 ///Fenêtre principale
 /** Cette classe qui était la classe principale du programme dans les

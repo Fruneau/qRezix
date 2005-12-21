@@ -10,5 +10,5 @@ qm.commands = lrelease ./jabber_fr.ts; \
 	lrelease ./tray_fr.ts; \
 	lrelease ./detail_fr.ts; \
 	lrelease ./mainui_fr.ts; \
-	lrelease ./qrezix_fr.ts;
+	lrelease ./qrezix_fr.ts
 QMAKE_EXTRA_TARGETS += qm

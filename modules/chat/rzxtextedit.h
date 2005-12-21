@@ -18,7 +18,6 @@
 #define RZXTEXTEDIT_H
 
 #include <QTextEdit>
-#include <QTextLine>
 
 #ifndef Q_OS_WIN
 #	define DefaultFont "Terminal"
@@ -133,7 +132,7 @@ inline void RzxTextEdit::setChat(RzxChat *m_chat)
 inline void RzxTextEdit::setBold(bool bold)
 {
 	m_bold = bold;
-	setFontWeight(bold ? QFont::Bold : QFont::Normal);
+	setFontWeight(m_html && bold ? QFont::Bold : QFont::Normal);
 	setFocus();
 }
 
@@ -150,7 +149,7 @@ inline bool RzxTextEdit::bold() const
 inline void RzxTextEdit::setItalic(bool ital)
 {
 	m_italic = ital;
-	setFontItalic(ital);
+	setFontItalic(m_html && ital);
 	setFocus();
 }
 
@@ -184,7 +183,8 @@ inline bool RzxTextEdit::underline() const
 inline void RzxTextEdit::setFont(const QString& font)
 {
 	m_font = font;
-	setFontFamily(font);
+	if(m_html)
+		setFontFamily(font);
 	setFocus();
 }
 
@@ -201,7 +201,8 @@ inline const QString &RzxTextEdit::font() const
 inline void RzxTextEdit::setSize(int size)
 {
 	m_size = size;
-	setFontPointSize(size);
+	if(m_html)
+		setFontPointSize(size);
 	setFocus();
 }
 
@@ -218,7 +219,8 @@ inline int RzxTextEdit::size() const
 inline void RzxTextEdit::setColor(const QColor& c)
 {
 	m_color = c;
-	setTextColor(c);
+	if(m_html)
+		setTextColor(c);
 	setFocus();
 }
 
@@ -229,32 +231,6 @@ inline void RzxTextEdit::setColor(const QColor& c)
 inline const QColor &RzxTextEdit::color() const
 {
 	return m_color;
-}
-
-///Change le formatage du texte
-inline void RzxTextEdit::useHtml(bool html)
-{
-	m_html = html;
-	if(!html)
-	{
-		setFont(m_defaultFont);
-		setSize(m_defaultSize);
-		setBold(false);
-		setItalic(false);
-		setUnderline(false);
-		setColor(Qt::black);
-	}
-	else
-	{
-		setFont(m_font);
-		setSize(m_size);
-		setBold(m_bold);
-		setItalic(m_italic);
-		setUnderline(m_underline);
-		setColor(m_color);
-	}
-	setPlainText(toPlainText());
-	setFocus();
 }
 
 ///Retourne l'état de l'utilisation du formatage html
