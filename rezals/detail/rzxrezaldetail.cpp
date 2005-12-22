@@ -39,10 +39,11 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 	:QAbstractItemView(widget), RzxRezal(RZX_MODULE_NAME, QT_TR_NOOP("Detail of an item"), RZX_MODULE_VERSION),
 		computer(NULL), waitProp(NULL)
 {
-	ui = new Ui::RzxItemUI();
+	ui = new Ui::RzxItem();
 	beginLoading();
 	setModel(RzxRezalModel::global());
-	ui->setupUi(this);
+	ui->setupUi(viewport());
+	setMinimumSize(viewport()->minimumSize());
 	setType(TYP_DOCKABLE);
 	setIcon(RzxThemedIcon("rzldetail"));
 	connect(RzxApplication::instance(), SIGNAL(haveProperties(RzxComputer*, bool*)),
@@ -262,6 +263,23 @@ void RzxRezalDetail::mouseDoubleClickEvent(QMouseEvent *e)
 	else
 		QAbstractItemView::mouseDoubleClickEvent(e);
 	return;
+}
+
+///Choix des éléments à afficher en fonction de la taille de la fenêtre
+void RzxRezalDetail::resizeEvent(QResizeEvent *)
+{
+	if(size().width() < 300)
+		ui->frmProp->setVisible(false);
+	else
+	{
+		ui->frmProp->setVisible(true);
+		ui->lblDate->setVisible(ui->frmProp->size().width() > 200);
+	}
+
+	ui->lblState->setVisible(ui->frmDetails->size().width() > 210 ||  ui->frmProp->size().width() > 200);
+	ui->lblClient->setVisible(ui->frmDetails->size().width() > 210 ||  ui->frmProp->size().width() > 200);
+	ui->lblIP->setVisible(ui->frmDetails->size().width() > 210 ||  ui->frmProp->size().width() > 200);
+	ui->lblRezal->setVisible(ui->frmDetails->size().width() > 210 ||  ui->frmProp->size().width() > 200);
 }
 
 ///Retourne une fenêtre utilisable pour l'affichage.

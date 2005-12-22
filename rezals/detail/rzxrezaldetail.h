@@ -32,7 +32,7 @@
 #include <RzxRezal>
 
 class RzxComputer;
-namespace Ui { class RzxItemUI; };
+namespace Ui { class RzxItem; };
 
 ///ItemView permettant d'afficher le détail
 class RzxRezalDetail:public QAbstractItemView, public RzxRezal
@@ -42,7 +42,7 @@ class RzxRezalDetail:public QAbstractItemView, public RzxRezal
 	QPointer<RzxComputer> computer;
 	QPointer<RzxComputer> waitProp;
 
-	Ui::RzxItemUI *ui;
+	Ui::RzxItem *ui;
 
 	public:
 		RzxRezalDetail(QWidget* = NULL);
@@ -67,6 +67,7 @@ class RzxRezalDetail:public QAbstractItemView, public RzxRezal
 	protected:
 		virtual void mousePressEvent(QMouseEvent*);
 		virtual void mouseMoveEvent(QMouseEvent*);
+		virtual void resizeEvent(QResizeEvent*);
 		virtual int horizontalOffset() const;
 		virtual bool isIndexHidden(const QModelIndex&) const;
 		virtual QModelIndex moveCursor(CursorAction, Qt::KeyboardModifiers);

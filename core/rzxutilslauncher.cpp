@@ -99,9 +99,10 @@ void RzxUtilsLauncher::ftp(const RzxHostAddress& m_ip, const QString& path)
 #endif //MAC
 #endif //WIN32
 	
-	QProcess process;
-	process.setWorkingDirectory(path);
-	process.start(cmd + " " + tempip);
+	QProcess *process = new QProcess();
+	QObject::connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), process, SLOT(deleteLater()));
+	process->setWorkingDirectory(path);
+	process->start(cmd + " " + tempip);
 	
 }
 
@@ -127,9 +128,10 @@ void RzxUtilsLauncher::samba(const RzxHostAddress& m_ip, const QString& m_path)
 	args << "smb://" + ip + "/" + m_path;
 #endif
 		
-	QProcess process;
-	process.setWorkingDirectory(path);
-	process.start(cmd, args);
+	QProcess *process = new QProcess();
+	QObject::connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), process, SLOT(deleteLater()));
+	process->setWorkingDirectory(path);
+	process->start(cmd, args);
 }
 
 ///Lance le client http
@@ -178,9 +180,10 @@ void RzxUtilsLauncher::http(const RzxHostAddress& m_ip, const QString& m_path)
 	args << tempip;
 #endif
 	
-	QProcess process;
-	process.setWorkingDirectory(path);
-	process.start(cmd, args);
+	QProcess *process = new QProcess();
+	QObject::connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), process, SLOT(deleteLater()));
+	process->setWorkingDirectory(path);
+	process->start(cmd, args);
 }
 
 ///Lance le client news
@@ -207,7 +210,8 @@ void RzxUtilsLauncher::news(const RzxHostAddress& m_ip, const QString& m_path)
 	args << tempip;
 #endif
 	
-	QProcess process;
-	process.setWorkingDirectory(path);
-	process.start(cmd, args);
+	QProcess *process = new QProcess();
+	QObject::connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), process, SLOT(deleteLater()));
+	process->setWorkingDirectory(path);
+	process->start(cmd, args);
 }
