@@ -1,14 +1,23 @@
-[v2.0.0] 2005-11 <br2003@frankiz.polytechnique.fr>
+[v2.0.0] 2005-12 <br2003@frankiz.polytechnique.fr>
+    * Enregistrement des préférences dans HKCU et non plus HKLM [Fruneau]
+    * Ajout-Suppression des favoris/bannis par glisser-lacher [Fruneau]
+    * Désactivation des notifications lorsqu'on est marqué away [Fruneau]
+    * Adaptation automatique de la trayicon à son environnement [Fruneau]
+    * Actions en cliquant sur la fenêtre de notification (gauche=fermeture, droit=chat) [Fruneau]
+    * Fenêtre d'accueil lors du premier démarrage [Fruneau]
+    * Réorganisation et nouvelles fonctionnalités de la fenêtre de préférences [Fruneau]
+    * Emulation des commentaires sur plusieurs lignes [Fruneau]
+    * Gestion des favoris.bannis via les préférences [Fruneau]
     * Nouvelle colonne Imprimante [Fruneau, Idée de sean]
-    * Smileys [Pico]
+    * Intégration des smileys au module de chat [pico]
     * Changement dynamique de thème Qt [Fruneau]
     * Module RzxRezalMap [Fruneau]
     * Module RzxRezalDetail [Fruneau]
-    * Migration en Qt4 [Fruneau]
+    * Migration en Qt4 [Fruneau, GUI]
     * Restructuration et modularisation du programme [Fruneau]
     * Interface jabber [pico]
 
-[v1.6.4] 2005-05 <br2003@frankiz.polytechnique.fr>
+[v1.6.4] 2005-09 <br2003@frankiz.polytechnique.fr>
     * Cache des propriétés [Fruneau]
     * Passage au protocole xNet 4.0 [Fruneau]
     * Intégration du menu préférences [Fruneau]

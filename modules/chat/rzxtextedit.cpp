@@ -59,6 +59,7 @@ RzxTextEdit::RzxTextEdit(QWidget *parent)
 	m_bold = m_italic = m_underline = FALSE;
 	m_color = Qt::black;
 	m_html = false;
+	init = false;
 	validate(false);
 }
 
@@ -223,8 +224,26 @@ void RzxTextEdit::onArrowPressed(bool down)
 ///En cas d'édition du texte, on met à jour l'historique
 void RzxTextEdit::onTextEdited()
 {
+	//Supprime un <span></span> en trop qui apparaît lors de la première édition de l'objet....
+	//J'aimerais bien savoir d'où il sort, mais bon... ce hack crade résoud le problème
+	//C'est transparent pour l'utilisateur et léger (exécuté une seule fois)
+	if(!init)
+	{
+		QString text = toHtml();
+		QRegExp mask("^(.*)<span style=\"([^\"]*)\">((?:[^<]|<(?!/span>))*)</span>(.*)$");
+		if(mask.indexIn(text) != -1)
+		{
+			QTextCursor cursor = textCursor(); //sauvegarde de la position du curseur
+			setHtml(mask.cap(1) + mask.cap(3) + mask.cap(4));
+			setTextCursor(cursor); //restauration de la position du curseur
+			init = true;
+		}
+	}
+
+	//On informe que le texte est édité
 	emit textWritten();
 
+	//Ajout du nouveau texte à l'historique
 	if(!history)
 	{
 		history = new ListText(toHtml(), NULL);

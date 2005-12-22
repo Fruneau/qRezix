@@ -74,7 +74,8 @@ class RzxTextEdit : public QTextEdit
 	bool m_bold;
 	bool m_underline;
 	bool m_html;
-	
+
+	bool init;
 
 	QTextLine currentTextLine() const;
 	bool atBeginning() const;
