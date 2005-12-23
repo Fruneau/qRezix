@@ -27,7 +27,7 @@
 #include "rzxnotifier.h"
 
 #include "rzxtraywindow.h"
-#include "ui_rzxnotifierpropui.h"
+#include "ui_rzxnotifierprop.h"
 #include "rzxnotifierconfig.h"
 
 ///Exporte le module

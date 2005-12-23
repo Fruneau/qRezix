@@ -58,9 +58,9 @@
 #include "rzxchatconfig.h"
 
 #ifdef Q_OS_MAC
-#	include "ui_rzxchatui_mac.h"
+#	include "ui_rzxchat_mac.h"
 #else
-#	include "ui_rzxchatui.h"
+#	include "ui_rzxchat.h"
 #endif
 
 /******************************

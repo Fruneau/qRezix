@@ -20,7 +20,7 @@
 #include <RzxNetwork>
 
 #include "rzxchangepass.h"
-#include "ui_rzxchangepassui.h"
+#include "ui_rzxchangepass.h"
 
 ///Fenêtre de changement de mot de passe
 /** Si un module réseau est indiqué, la fenêtre mourra en envoyant les

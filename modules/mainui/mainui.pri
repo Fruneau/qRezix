@@ -23,9 +23,9 @@ HEADERS += $$ROOT/modules/mainui/rzxui.h \
 	$$ROOT/modules/mainui/rzxmainuiconfig.h \
 	$$ROOT/modules/mainui/rzxmainuiglobal.h
 
-FORMS += $$ROOT/modules/mainui/rzxstatusui.ui \
-	$$ROOT/modules/mainui/rzxquitui.ui \
-	$$ROOT/modules/mainui/rzxmainuipropui.ui
+FORMS += $$ROOT/modules/mainui/rzxstatus.ui \
+	$$ROOT/modules/mainui/rzxquit.ui \
+	$$ROOT/modules/mainui/rzxmainuiprop.ui
 
 contains(DEFINES, RZX_RZLVIEW_BUILTIN):include($$ROOT/rezals/view/view.pri)
 contains(DEFINES, RZX_RZLDETAIL_BUILTIN):include($$ROOT/rezals/detail/detail.pri)

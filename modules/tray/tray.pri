@@ -3,6 +3,6 @@ SOURCES += $$ROOT/modules/tray/rzxtrayicon.cpp
 HEADERS += $$ROOT/modules/tray/rzxtrayicon.h \
 	$$ROOT/modules/tray/rzxtrayconfig.h
 
-FORMS += $$ROOT/modules/tray/rzxtraypropui.ui
+FORMS += $$ROOT/modules/tray/rzxtrayprop.ui
 
 win32:LIBS += -lgdi32 -lshell32 -luser32

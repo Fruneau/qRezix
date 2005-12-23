@@ -23,7 +23,7 @@
 
 #include <RzxGlobal>
 #include <RzxBaseModule>
-#include "ui_rzxpropertyui.h"
+#include "ui_rzxproperty.h"
 
 /**
   *@author Benoit Casoetto

@@ -37,7 +37,7 @@
 #include <RzxInfoMessage>
 
 #include "qrezix.h"
-#include "ui_rzxstatusui.h"
+#include "ui_rzxstatus.h"
 
 #include "rzxmainuiconfig.h"
 #include "rzxquit.h"

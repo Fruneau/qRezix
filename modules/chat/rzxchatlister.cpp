@@ -50,7 +50,7 @@ RZX_MODULE_EXPORT(RzxChatLister)
 
 #include "rzxchat.h"
 #include "rzxclientlistener.h"
-#include "ui_rzxchatpropui.h"
+#include "ui_rzxchatprop.h"
 #include "rzxchatconfig.h"
 
 

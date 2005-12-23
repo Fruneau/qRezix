@@ -1032,7 +1032,7 @@ QPoint RzxTrayIcon::getPos()
 
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
-#include "ui_rzxtraypropui.h"
+#include "ui_rzxtrayprop.h"
 
 /** \reimp */
 QList<QWidget*> RzxTrayIcon::propWidgets()

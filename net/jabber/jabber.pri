@@ -17,7 +17,7 @@ SOURCES += $$ROOT/net/jabber/rzxjabberprotocole.cpp \
 	$$ROOT/net/jabber/rzxjabbercomputer.cpp \
 	$$ROOT/net/jabber/rzxjabberproperty.cpp
 
-FORMS += $$ROOT/net/jabber/rzxjabberpropui.ui
+FORMS += $$ROOT/net/jabber/rzxjabberprop.ui
 
 LIBS += -lgloox
 

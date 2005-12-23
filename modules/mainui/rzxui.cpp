@@ -32,7 +32,7 @@ RZX_MODULE_EXPORT(RzxUi)
 #include "qrezix.h"
 #include "rzxrezalmodel.h"
 #include "rzxmainuiconfig.h"
-#include "ui_rzxmainuipropui.h"
+#include "ui_rzxmainuiprop.h"
 
 ///Initialise la configuration
 RZX_CONFIG_INIT(RzxMainUIConfig)

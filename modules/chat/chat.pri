@@ -17,11 +17,11 @@ HEADERS += $$ROOT/modules/chat/rzxchatlister.h \
 	$$ROOT/modules/chat/rzxsmileyui.h \
 	$$ROOT/modules/chat/rzxchatpopup.h
 
-FORMS += $$ROOT/modules/chat/rzxchatpropui.ui
+FORMS += $$ROOT/modules/chat/rzxchatprop.ui
 mac {
-	FORMS += $$ROOT/modules/chat/rzxchatui_mac.ui
+	FORMS += $$ROOT/modules/chat/rzxchat_mac.ui
 } else {
-	FORMS += $$ROOT/modules/chat/rzxchatui.ui
+	FORMS += $$ROOT/modules/chat/rzxchat.ui
 }
 
 

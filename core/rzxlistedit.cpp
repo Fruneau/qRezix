@@ -19,7 +19,7 @@
 
 #include <RzxListEdit>
 
-#include "ui_rzxlisteditui.h"
+#include "ui_rzxlistedit.h"
 
 ///Constructeur
 RzxListEdit::RzxListEdit(QWidget *parent)

@@ -19,7 +19,7 @@
 
 #include <RzxWrongPass>
 
-#include "ui_rzxwrongpassui.h"
+#include "ui_rzxwrongpass.h"
 
 ///Construit un RzxWrongPass en le liant à un module réseau
 /** Cette liaison permet une personnalisation du texte etc...

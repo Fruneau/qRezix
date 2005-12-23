@@ -21,7 +21,7 @@
 #include <QDialog>
 
 #include "rzxmainuiglobal.h"
-#include "ui_rzxquitui.h"
+#include "ui_rzxquit.h"
 
 class RZX_MAINUI_EXPORT RzxQuit : public QDialog, private Ui::RzxQuit
 {

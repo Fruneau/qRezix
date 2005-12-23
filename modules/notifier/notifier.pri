@@ -5,6 +5,6 @@ HEADERS += $$ROOT/modules/notifier/rzxnotifier.h \
 	$$ROOT/modules/notifier/rzxtraywindow.h \
 	$$ROOT/modules/notifier/rzxnotifierconfig.h
 
-FORMS += $$ROOT/modules/notifier/rzxnotifierpropui.ui
+FORMS += $$ROOT/modules/notifier/rzxnotifierprop.ui
 
 RESOURCES += $$ROOT/modules/notifier/rzxnotifier.qrc

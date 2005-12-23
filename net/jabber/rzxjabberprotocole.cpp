@@ -36,7 +36,7 @@
 
 #include "rzxjabberprotocole.h"
 #include "rzxjabberconfig.h"
-#include "ui_rzxjabberpropui.h"
+#include "ui_rzxjabberprop.h"
 
 using namespace gloox;
 

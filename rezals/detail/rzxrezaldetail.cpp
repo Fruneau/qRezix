@@ -28,7 +28,7 @@
 #include <RzxRezalModel>
 #include <RzxMainUIConfig>
 
-#include "ui_rzxitemui.h"
+#include "ui_rzxitem.h"
 
 RZX_REZAL_EXPORT(RzxRezalDetail)
 

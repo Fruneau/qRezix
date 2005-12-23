@@ -8,4 +8,4 @@ SOURCES += $$ROOT/net/xnet/rzxserverlistener.cpp \
 	$$ROOT/net/xnet/rzxxnetconfig.cpp \
 	$$ROOT/net/xnet/md5.cpp
 
-FORMS += $$ROOT/net/xnet/rzxxnetpropui.ui
+FORMS += $$ROOT/net/xnet/rzxxnetprop.ui

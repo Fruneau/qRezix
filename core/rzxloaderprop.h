@@ -26,7 +26,7 @@
 
 #include <RzxBaseLoader>
 
-#include "ui_rzxloaderui.h"
+#include "ui_rzxloader.h"
 
 class RzxProperty;
 class QTreeWidgetItem;

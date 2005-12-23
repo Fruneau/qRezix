@@ -19,7 +19,7 @@
 
 #include <RzxIntro>
 
-#include "ui_rzxintroui.h"
+#include "ui_rzxintro.h"
 
 ///Construction de la fenêtre
 RzxIntro::RzxIntro()

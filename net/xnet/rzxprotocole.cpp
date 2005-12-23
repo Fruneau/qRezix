@@ -36,7 +36,7 @@
 #include "rzxxnetconfig.h"
 #include "md5.h"
 
-#include "ui_rzxxnetpropui.h"
+#include "ui_rzxxnetprop.h"
 
 #define MD5_ADD "Vive le BR"
 

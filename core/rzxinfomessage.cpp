@@ -18,7 +18,7 @@
 #include <RzxIconCollection>
 
 #include <RzxInfoMessage>
-#include "ui_rzxinfomessageui.h"
+#include "ui_rzxinfomessage.h"
 
 ///Construction
 /** Contrairement aux deux autres constructeur, celui-ci n'affiche pas la boîte de dialogue.

@@ -78,13 +78,13 @@ HEADERS += rzxglobal.h \
 	rzxbanlist.h \
 	rzxlistedit.h
 		
-FORMS += rzxpropertyui.ui \
-	rzxwrongpassui.ui \
-	rzxchangepassui.ui \
-	rzxintroui.ui \
-	rzxloaderui.ui \
-	rzxinfomessageui.ui \
-	rzxlisteditui.ui
+FORMS += rzxproperty.ui \
+	rzxwrongpass.ui \
+	rzxchangepass.ui \
+	rzxintro.ui \
+	rzxloader.ui \
+	rzxinfomessage.ui \
+	rzxlistedit.ui
 
 TRANSLATIONS = $$(ROOT)/resources/translations/qrezix_fr.ts
 
