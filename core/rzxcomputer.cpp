@@ -633,7 +633,7 @@ QString RzxComputer::properties() const
 ///Indique si l'objet est dans les machines ignorées
 bool RzxComputer::isIgnored() const
 {
-	return RzxBanList::global()->isIn(this);
+	return RzxBanList::global()->contains(this);
 }
 
 ///Ban l'ordinateur
@@ -653,7 +653,7 @@ void RzxComputer::unban()
 ///Indique si l'objet est dans les favoris
 bool RzxComputer::isFavorite() const
 {
-	return RzxFavoriteList::global()->isIn(this);
+	return RzxFavoriteList::global()->contains(this);
 }
 
 ///Ajout au favoris

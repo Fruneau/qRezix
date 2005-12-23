@@ -29,20 +29,25 @@
 #include <RzxApplication>
 
 #include "rzxrezalview.h"
+#include "rzxrezalviewconfig.h"
 
 #include <RzxRezalModel>
 #include <RzxRezalPopup>
 #include <RzxRezalDrag>
 #include <RzxMainUIConfig>
 
+#include "ui_rzxrezalviewprop.h"
+
 RZX_REZAL_EXPORT(RzxRezalView)
+RZX_CONFIG_INIT(RzxRezalViewConfig)
 
 ///Construction du RezalView
 RzxRezalView::RzxRezalView( QWidget *parent )
 	: QTreeView( parent ), RzxRezal(RZX_MODULE_NAME, QT_TR_NOOP("Historical way to display computers"), RZX_MODULE_VERSION),
-		search(this)
+		search(this), ui(NULL), propWidget(NULL)
 {
 	beginLoading();
+	RzxRezalViewConfig::global();
 	setType(TYP_ALL);
 	setType(TYP_INDEXED);
 	setIcon(RzxThemedIcon("rzlitem"));
@@ -53,13 +58,14 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 	header()->setClickable(true);
 	header()->setHighlightSections(false);
 	header()->setSortIndicator(RzxMainUIConfig::sortColumn(), RzxMainUIConfig::sortOrder());
+	connect(header(), SIGNAL(sectionMoved(int, int, int)), this, SLOT(columnOrderChanged()));
 	setAcceptDrops(true);
 
 	setUniformRowHeights(false);
 	setAlternatingRowColors(true);
 
 	//Columns stocke les colonnes avec columns[i] == logical index placé en visual index i
-	QList<int> columns = RzxMainUIConfig::columnPositions();
+	QList<int> columns = RzxRezalViewConfig::columnPositions();
 	for(int i = 0 ; i < columns.count() && i < RzxRezalModel::numColonnes ; i++)
 		header()->moveSection(header()->visualIndex(columns[i]), i);
 	
@@ -74,17 +80,7 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 RzxRezalView::~RzxRezalView()
 {
 	beginClosing();
-	QList<int> columns;
-	for(int i = 0 ; i < RzxRezalModel::numColonnes ; i++)
-	{
-		int log = header()->logicalIndex(i);
-		if(log != -1)
-			columns << log;
-		else
-			break;
-	}
-	RzxMainUIConfig::setColumnPositions(columns);
-		
+	delete RzxRezalViewConfig::global();
 	endClosing();
 }
 
@@ -214,7 +210,7 @@ void RzxRezalView::updateLayout()
 ///Affiche les colonnes qui correspondent
 void RzxRezalView::afficheColonnes()
 {
-	int colonnesAffichees = RzxMainUIConfig::colonnes();
+	int colonnesAffichees = RzxRezalViewConfig::colonnes();
 
 	for(int i = 0; i < RzxRezalModel::numColonnes ; i++)
 	{
@@ -259,7 +255,7 @@ void RzxRezalView::afficheColonnes()
  */
 void RzxRezalView::adapteColonnes()
 {
-	int colonnesAffichees = RzxMainUIConfig::colonnes();
+	int colonnesAffichees = RzxRezalViewConfig::colonnes();
 	int somme=0;
 
 	for(int i=0 ; i < RzxRezalModel::numColonnes ; i++)
@@ -335,4 +331,149 @@ Qt::DockWidgetArea RzxRezalView::area() const
 bool RzxRezalView::floating() const
 {
 	return false;
+}
+
+/** \reimp */
+QList<QWidget*> RzxRezalView::propWidgets()
+{
+	if(!ui)
+		ui = new Ui::RzxRezalViewProp;
+	if(!propWidget)
+	{
+		propWidget = new QWidget;
+		ui->setupUi(propWidget);
+		connect(ui->btnMoveUp, SIGNAL(clicked()), this, SLOT(moveUp()));
+		connect(ui->btnMoveDown, SIGNAL(clicked()), this, SLOT(moveDown()));
+		connect(ui->btnInit, SIGNAL(clicked()), this, SLOT(reinitialisedOrder()));
+	}
+	return QList<QWidget*>() << propWidget;
+}
+
+/** \reimp */
+QStringList RzxRezalView::propWidgetsName()
+{
+	return QStringList() << name();
+}
+
+/** \reimp */
+void RzxRezalView::propInit(bool def)
+{
+	uint colonnes = RzxRezalViewConfig::colonnes(def);
+	ui->cbcNom ->setChecked( colonnes & (1<<RzxRezalModel::ColNom) );
+	ui->cbcRemarque->setChecked( colonnes & (1<<RzxRezalModel::ColRemarque) );
+	ui->cbcSamba ->setChecked( colonnes & (1<<RzxRezalModel::ColSamba) );
+	ui->cbcFTP ->setChecked( colonnes & (1<<RzxRezalModel::ColFTP) );
+	ui->cbcHTTP ->setChecked( colonnes & (1<<RzxRezalModel::ColHTTP) );
+	ui->cbcNews ->setChecked( colonnes & (1<<RzxRezalModel::ColNews) );
+	ui->cbcPrinter ->setChecked( colonnes & (1<<RzxRezalModel::ColPrinter) );
+	ui->cbcOS ->setChecked( colonnes & (1<<RzxRezalModel::ColOS) );
+	ui->cbcGateway ->setChecked( colonnes & (1<<RzxRezalModel::ColGateway) );
+	ui->cbcPromo ->setChecked( colonnes & (1<<RzxRezalModel::ColPromo) );
+	ui->cbcResal ->setChecked( colonnes & (1<<RzxRezalModel::ColRezal) );
+	ui->cbcIP ->setChecked( colonnes & (1<<RzxRezalModel::ColIP) );
+	ui->cbcClient ->setChecked( colonnes & (1<<RzxRezalModel::ColClient) );
+
+	dispColumns(columnOrder());
+}
+
+/** \reimp */
+void RzxRezalView::propUpdate()
+{
+	if(!ui) return;
+
+	int colonnesAffichees = 0;
+	if ( ui->cbcNom ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColNom;
+	if ( ui->cbcRemarque->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColRemarque;
+	if ( ui->cbcSamba ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColSamba;
+	if ( ui->cbcFTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColFTP;
+	if ( ui->cbcHTTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColHTTP;
+	if ( ui->cbcNews ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColNews;
+	if ( ui->cbcPrinter ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColPrinter;
+	if ( ui->cbcOS ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColOS;
+	if ( ui->cbcGateway ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColGateway;
+	if ( ui->cbcPromo ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColPromo;
+	if ( ui->cbcResal ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColRezal;
+	if ( ui->cbcClient ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColClient;
+	if ( ui->cbcIP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColIP;
+	RzxRezalViewConfig::setColonnes(colonnesAffichees);
+	updateLayout();
+}
+
+/** \reimp */
+void RzxRezalView::propClose()
+{
+	if(propWidget)
+	{
+		delete propWidget;
+		propWidget = NULL;
+	}
+	if(ui)
+	{
+		delete ui;
+		ui = NULL;
+	}
+}
+
+///Retourne l'ordre des colonnes
+QList<int> RzxRezalView::columnOrder() const
+{
+	QList<int> columns;
+	for(int i = 0 ; i < RzxRezalModel::numColonnes ; i++)
+	{
+		int log = header()->logicalIndex(i);
+		if(log != -1)
+			columns << log;
+		else
+			break;
+	}
+	return columns;
+}
+
+///En cas de déplacement de colonnes
+void RzxRezalView::columnOrderChanged()
+{
+	RzxRezalViewConfig::setColumnPositions(columnOrder());
+	if(ui && propWidget)
+		dispColumns(columnOrder());
+}
+
+///Affichage des colonnes dans la listView qvb
+void RzxRezalView::dispColumns(const QList<int>& columns)
+{
+	if(!ui || !propWidget) return;
+
+	ui->lstColumns->clear();
+	for(int i = 0 ; i < columns.size() ; i++)
+		ui->lstColumns->insertItem(i, RzxRezalModel::global()->columnName((RzxRezalModel::NumColonne)columns[i]));
+}
+
+///Déplace l'item sélectionné vers le bas
+void RzxRezalView::moveDown()
+{
+	const int org = ui->lstColumns->currentRow();
+	if(org < 0) return;
+
+	int dst = org + 1;
+	if(dst >= RzxRezalModel::numColonnes) dst = 0;
+	header()->moveSection(org, dst);
+	ui->lstColumns->setCurrentRow(dst);
+}
+
+///Déplace l'item sélectionné vers le haut
+void RzxRezalView::moveUp()
+{
+	const int org = ui->lstColumns->currentRow();
+	if(org < 0) return;
+
+	int dst = org - 1;
+	if(dst < 0) dst = RzxRezalModel::numColonnes - 1;
+	header()->moveSection(org, dst);
+	ui->lstColumns->setCurrentRow(dst);
+}
+
+///Remet les colonnes dans l'ordre d'origine
+void RzxRezalView::reinitialisedOrder()
+{
+	for(int i = 0 ; i < RzxRezalModel::numColonnes ; i++)
+		header()->moveSection(header()->visualIndex(i), i);
 }

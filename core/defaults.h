@@ -45,9 +45,6 @@
 #endif
 #define QREZIX_AWAY_ICON "../resources/t.xpm"
 
-#define CONCAT(p1, p2) str(p1) p2
-#define str(x) #x
-
 #ifdef Q_OS_MAC
 #	define QREZIX_DATA_DIR "./qRezix.app/Contents/Resources/"
 #	define QREZIX_LIB_DIR "./qRezix.app/Contents/Frameworks/"

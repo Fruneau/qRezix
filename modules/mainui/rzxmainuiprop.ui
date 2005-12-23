@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>770</width>
-    <height>560</height>
+    <width>505</width>
+    <height>381</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -22,7 +22,20 @@
    <property name="spacing" >
     <number>6</number>
    </property>
-   <item row="3" column="0" >
+   <item row="3" column="0" colspan="2" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="1" >
     <spacer>
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
@@ -53,7 +66,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2" >
+   <item row="0" column="1" >
     <widget class="QGroupBox" name="groupMisc" >
      <property name="title" >
       <string>Misc</string>
@@ -65,14 +78,17 @@
       <property name="spacing" >
        <number>6</number>
       </property>
-      <item rowspan="2" row="0" column="1" >
-       <widget class="Line" name="line" >
-        <property name="orientation" >
-         <enum>Qt::Vertical</enum>
+      <item row="3" column="0" >
+       <widget class="QCheckBox" name="cbQuit" >
+        <property name="whatsThis" >
+         <string>&lt;h3>Quitting dialog&lt;/h3>&lt;p>Enable/disable the dialog box which is displayed when you close the qRezix's main window&lt;/p></string>
+        </property>
+        <property name="text" >
+         <string>Show dialog when clicking on X</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="2" >
+      <item row="2" column="0" >
        <widget class="QCheckBox" name="cbSearch" >
         <property name="whatsThis" >
          <string>&lt;h3>Search&lt;/h3>&lt;p>Do you want to see the search tool ?&lt;/p></string>
@@ -83,16 +99,6 @@
        </widget>
       </item>
       <item row="1" column="0" >
-       <widget class="QCheckBox" name="cbQuit" >
-        <property name="whatsThis" >
-         <string>&lt;h3>Quitting dialog&lt;/h3>&lt;p>Enable/disable the dialog box which is displayed when you close the qRezix's main window&lt;/p></string>
-        </property>
-        <property name="text" >
-         <string>Show dialog when clicking on X</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" >
        <layout class="QHBoxLayout" >
         <property name="margin" >
          <number>0</number>
@@ -103,7 +109,7 @@
         <item>
          <widget class="QLabel" name="lblDblClic" >
           <property name="text" >
-           <string>Action on double-clic</string>
+           <string>Action on double-clic:</string>
           </property>
           <property name="buddy" >
            <cstring>cmdDoubleClic</cstring>
@@ -129,7 +135,7 @@
         </item>
        </layout>
       </item>
-      <item row="0" column="2" >
+      <item row="0" column="0" >
        <layout class="QHBoxLayout" >
         <property name="margin" >
          <number>0</number>
@@ -172,7 +178,7 @@
      </layout>
     </widget>
    </item>
-   <item row="0" column="1" >
+   <item rowspan="2" row="0" column="0" >
     <widget class="QGroupBox" name="grpToolTips" >
      <property name="whatsThis" >
       <string>&lt;h3>ToolTips&lt;/h3>&lt;p>ToolTips are little windows that appears when you </string>
@@ -330,115 +336,6 @@
        <widget class="QCheckBox" name="cbTooltips" >
         <property name="text" >
          <string>Enable tooltips</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="0" >
-    <widget class="QGroupBox" name="groupColumn" >
-     <property name="whatsThis" >
-      <string>&lt;h3>Columns layout&lt;/h3>&lt;p>Choose the columns you want to see...&lt;/p></string>
-     </property>
-     <property name="title" >
-      <string>Columns layout</string>
-     </property>
-     <layout class="QGridLayout" >
-      <property name="margin" >
-       <number>9</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-      <item row="0" column="0" >
-       <widget class="QCheckBox" name="cbcNom" >
-        <property name="text" >
-         <string>Name</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1" >
-       <widget class="QCheckBox" name="cbcFTP" >
-        <property name="text" >
-         <string>FTP</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" >
-       <widget class="QCheckBox" name="cbcOS" >
-        <property name="text" >
-         <string>OS</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" >
-       <widget class="QCheckBox" name="cbcClient" >
-        <property name="text" >
-         <string>Client</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1" >
-       <widget class="QCheckBox" name="cbcHTTP" >
-        <property name="text" >
-         <string>Web</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" >
-       <widget class="QCheckBox" name="cbcRemarque" >
-        <property name="text" >
-         <string>Comment</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" >
-       <widget class="QCheckBox" name="cbcPromo" >
-        <property name="text" >
-         <string>Promotion</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" >
-       <widget class="QCheckBox" name="cbcGateway" >
-        <property name="text" >
-         <string>Same gateway</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" >
-       <widget class="QCheckBox" name="cbcIP" >
-        <property name="text" >
-         <string>IP</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0" >
-       <widget class="QCheckBox" name="cbcResal" >
-        <property name="text" >
-         <string>Place</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1" >
-       <widget class="QCheckBox" name="cbcNews" >
-        <property name="text" >
-         <string>News</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1" >
-       <widget class="QCheckBox" name="cbcSamba" >
-        <property name="text" >
-         <string>Samba</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1" >
-       <widget class="QCheckBox" name="cbcPrinter" >
-        <property name="text" >
-         <string>Printer</string>
         </property>
        </widget>
       </item>

@@ -131,22 +131,6 @@ void RzxUi::propInit(bool def)
 	ui->cmdDoubleClic->setCurrentIndex( RzxMainUIConfig::doubleClicRole(def) );
 	ui->cmbDefaultTab -> setCurrentIndex(RzxMainUIConfig::defaultTab(def));
 
-	uint colonnes = RzxMainUIConfig::colonnes(def);
-	ui->cbcNom ->setChecked( colonnes & (1<<RzxRezalModel::ColNom) );
-	ui->cbcRemarque->setChecked( colonnes & (1<<RzxRezalModel::ColRemarque) );
-	ui->cbcSamba ->setChecked( colonnes & (1<<RzxRezalModel::ColSamba) );
-	ui->cbcFTP ->setChecked( colonnes & (1<<RzxRezalModel::ColFTP) );
-	ui->cbcHTTP ->setChecked( colonnes & (1<<RzxRezalModel::ColHTTP) );
-	ui->cbcNews ->setChecked( colonnes & (1<<RzxRezalModel::ColNews) );
-	ui->cbcPrinter ->setChecked( colonnes & (1<<RzxRezalModel::ColPrinter) );
-	ui->cbcOS ->setChecked( colonnes & (1<<RzxRezalModel::ColOS) );
-	ui->cbcGateway ->setChecked( colonnes & (1<<RzxRezalModel::ColGateway) );
-	ui->cbcPromo ->setChecked( colonnes & (1<<RzxRezalModel::ColPromo) );
-	ui->cbcResal ->setChecked( colonnes & (1<<RzxRezalModel::ColRezal) );
-	ui->cbcIP ->setChecked( colonnes & (1<<RzxRezalModel::ColIP) );
-	ui->cbcClient ->setChecked( colonnes & (1<<RzxRezalModel::ColClient) );
-	ui->cbQuit->setChecked(RzxMainUIConfig::showQuit());
-
 	uint tooltip = RzxMainUIConfig::tooltip(def);
 	ui->cbTooltips->setChecked(tooltip & RzxRezalModel::TipEnable);
 	ui->cbTooltipFtp->setChecked(tooltip & RzxRezalModel::TipFtp);
@@ -163,6 +147,7 @@ void RzxUi::propInit(bool def)
 	ui->cbTooltipProperties->setChecked(tooltip & RzxRezalModel::TipProperties);
 
 	ui->cbSearch->setChecked( RzxMainUIConfig::useSearch(def) );
+	ui->cbQuit->setChecked(RzxMainUIConfig::showQuit());
 }
 
 /** \reimp */
@@ -175,22 +160,6 @@ void RzxUi::propUpdate()
 	RzxMainUIConfig::setUseSearch(ui->cbSearch->isChecked());
 	RzxMainUIConfig::setShowQuit(ui->cbQuit->isChecked());
 	qrezix->showSearch(ui->cbSearch->isChecked());
-
-	int colonnesAffichees = 0;
-	if ( ui->cbcNom ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColNom;
-	if ( ui->cbcRemarque->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColRemarque;
-	if ( ui->cbcSamba ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColSamba;
-	if ( ui->cbcFTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColFTP;
-	if ( ui->cbcHTTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColHTTP;
-	if ( ui->cbcNews ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColNews;
-	if ( ui->cbcPrinter ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColPrinter;
-	if ( ui->cbcOS ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColOS;
-	if ( ui->cbcGateway ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColGateway;
-	if ( ui->cbcPromo ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColPromo;
-	if ( ui->cbcResal ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColRezal;
-	if ( ui->cbcClient ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColClient;
-	if ( ui->cbcIP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColIP;
-	RzxMainUIConfig::setColonnes(colonnesAffichees );
 
 	RzxRezalModel::ToolTip tooltip = 0;
 	if(ui->cbTooltips->isChecked()) tooltip |= RzxRezalModel::TipEnable;

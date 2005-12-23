@@ -42,11 +42,9 @@ class RZX_MAINUI_EXPORT RzxMainUIConfig: public RzxAbstractConfig
 		RZX_BOOLPROP("useSearch", useSearch, setUseSearch, true)
 		RZX_BOOLPROP("showQuit", showQuit, setShowQuit, true)
 		RZX_INTPROP("quitmode", quitMode, setQuitMode, 1)
-		RZX_UINTPROP("colonnes", colonnes, setColonnes, 0x37b)
 		RZX_UINTPROP("tooltip", tooltip, setTooltip, 0)
 		RZX_ENUMPROP(Qt::SortOrder, "sortOrder", sortOrder, setSortOrder, Qt::AscendingOrder)
 		RZX_INTPROP("sortColumn", sortColumn, setSortColumn, 0)
-		RZX_LISTPROP(int, "columnpositions", columnPositions, setColumnPositions)
 		RZX_STRINGPROP("centralrezal", centralRezal, setCentralRezal, DEFAULT_REZAL)
 	
 		RZX_WIDGETPROP("main", restoreMainWidget, saveMainWidget, QPoint(2,24), QSize(400, 300))

@@ -168,7 +168,7 @@ void RzxComputerList::remove(const RzxComputer* computer)
 ///Test si un objet est dans la liste
 /** Par nom
  */
-bool RzxComputerList::isIn(const QString& name) const
+bool RzxComputerList::contains(const QString& name) const
 {
 	return nameList.contains(name);
 }
@@ -176,7 +176,7 @@ bool RzxComputerList::isIn(const QString& name) const
 ///Test si un objet est dans la liste
 /** Par adresse
  */
-bool RzxComputerList::isIn(const RzxHostAddress& address) const
+bool RzxComputerList::contains(const RzxHostAddress& address) const
 {
 	return addressList.contains(address);
 }
@@ -184,13 +184,13 @@ bool RzxComputerList::isIn(const RzxHostAddress& address) const
 ///Test si un objet est dans la liste
 /** Par machine associée
  */
-bool RzxComputerList::isIn(const RzxComputer *computer) const
+bool RzxComputerList::contains(const RzxComputer *computer) const
 {
 	if(!computer) return false;
 	if(type == Name)
-		return isIn(computer->name());
+		return contains(computer->name());
 	else //pas de test type == Addres pour éviter les warning le compilation
-		return isIn(computer->ip());
+		return contains(computer->ip());
 }
 
 ///Retourne la liste des noms

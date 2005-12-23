@@ -189,13 +189,32 @@ void RzxRezalMap::loadMap(QSettings &maps, Map *map)
 ///Change la carte active
 void RzxRezalMap::setMap(int map)
 {
-	if(map < mapTable.size() && map >= 0)
+	//Changement de carte active
+	if(map < mapTable.size() && map >= 0 && mapTable[map])
 		currentMap = mapTable[map];
-	scrollTo(currentIndex());
+	else
+		return;
+
+	//Redimensionne les barres de défilement
 	horizontalScrollBar()->setRange(0, currentMap->pixmap.width() - viewport()->width());
 	horizontalScrollBar()->setPageStep(viewport()->width());
 	verticalScrollBar()->setRange(0, currentMap->pixmap.height() - viewport()->height());
 	verticalScrollBar()->setPageStep(viewport()->height());
+
+	//Redimensionne la fenêtre et la vérouille
+	const QSize pixSize = currentMap->pixmap.size();
+	QSize newSize = size();
+	if(newSize.width() > pixSize.width())
+		newSize.setWidth(pixSize.width());
+	if(newSize.height() > pixSize.height())
+		newSize.setHeight(pixSize.height());
+	resize(newSize);
+	setMaximumSize(pixSize);
+
+	//Déplace la vue sur l'index courant
+	scrollTo(currentIndex());
+
+	//Met à jour l'affichage
 	viewport()->update();
 }
 

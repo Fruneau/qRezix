@@ -1,0 +1,278 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>RzxRezalViewProp</class>
+ <widget class="QWidget" name="RzxRezalViewProp" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>469</width>
+    <height>330</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>9</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="0" column="2" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="1" >
+    <widget class="QGroupBox" name="grpOrder" >
+     <property name="title" >
+      <string>Columns order</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="3" column="1" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="1" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item rowspan="4" row="0" column="0" >
+       <widget class="QListWidget" name="lstColumns" >
+        <property name="maximumSize" >
+         <size>
+          <width>170</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2" >
+       <widget class="QToolButton" name="btnInit" >
+        <property name="sizePolicy" >
+         <sizepolicy>
+          <hsizetype>5</hsizetype>
+          <vsizetype>0</vsizetype>
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text" >
+         <string>Reinitialise</string>
+        </property>
+        <property name="autoRaise" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="QToolButton" name="btnMoveUp" >
+        <property name="minimumSize" >
+         <size>
+          <width>28</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>28</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string>-</string>
+        </property>
+        <property name="autoRaise" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" >
+       <widget class="QToolButton" name="btnMoveDown" >
+        <property name="minimumSize" >
+         <size>
+          <width>28</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>28</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string>+</string>
+        </property>
+        <property name="autoRaise" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="0" >
+    <widget class="QGroupBox" name="grpColumn" >
+     <property name="whatsThis" >
+      <string>&lt;h3>Columns layout&lt;/h3>&lt;p>Choose the columns you want to see...&lt;/p></string>
+     </property>
+     <property name="title" >
+      <string>Columns layout</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="0" >
+       <widget class="QCheckBox" name="cbcNom" >
+        <property name="text" >
+         <string>Name</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" >
+       <widget class="QCheckBox" name="cbcFTP" >
+        <property name="text" >
+         <string>FTP</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="QCheckBox" name="cbcOS" >
+        <property name="text" >
+         <string>OS</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="QCheckBox" name="cbcClient" >
+        <property name="text" >
+         <string>Client</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" >
+       <widget class="QCheckBox" name="cbcHTTP" >
+        <property name="text" >
+         <string>Web</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QCheckBox" name="cbcRemarque" >
+        <property name="text" >
+         <string>Comment</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" >
+       <widget class="QCheckBox" name="cbcPromo" >
+        <property name="text" >
+         <string>Promotion</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QCheckBox" name="cbcGateway" >
+        <property name="text" >
+         <string>Same gateway</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" >
+       <widget class="QCheckBox" name="cbcIP" >
+        <property name="text" >
+         <string>IP</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" >
+       <widget class="QCheckBox" name="cbcResal" >
+        <property name="text" >
+         <string>Place</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1" >
+       <widget class="QCheckBox" name="cbcNews" >
+        <property name="text" >
+         <string>News</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1" >
+       <widget class="QCheckBox" name="cbcSamba" >
+        <property name="text" >
+         <string>Samba</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1" >
+       <widget class="QCheckBox" name="cbcPrinter" >
+        <property name="text" >
+         <string>Printer</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <resources/>
+ <connections/>
+</ui>

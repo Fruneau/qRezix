@@ -76,9 +76,9 @@ class RZX_CORE_EXPORT RzxComputerList
 		RzxComputerList& operator>>(const RzxHostAddress&);
 		RzxComputerList& operator>>(const RzxComputer*);
 
-		bool isIn(const QString&) const;
-		bool isIn(const RzxHostAddress&) const;
-		bool isIn(const RzxComputer*) const;
+		bool contains(const QString&) const;
+		bool contains(const RzxHostAddress&) const;
+		bool contains(const RzxComputer*) const;
 
 		QStringList names() const;
 		QList<RzxHostAddress> addresses() const;

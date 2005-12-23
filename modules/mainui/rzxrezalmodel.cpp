@@ -957,3 +957,9 @@ void RzxRezalModel::sort(int column, Qt::SortOrder sortSens)
 		sortList(rezals[i], rezalIndex[i]);
 #undef sortList
 }
+
+///Retourne le nom de la colonne indiquée
+QString RzxRezalModel::columnName(NumColonne column)
+{
+	return tr(colNames[column]);
+}

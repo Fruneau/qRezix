@@ -41,6 +41,7 @@
 
 class QMouseEvent;
 class QPaintEvent;
+namespace Ui { class RzxRezalViewProp; }
 
 ///Implémente une visualisation semblable à celle des anciennes version de qRezix
 /** Comme pour les versions jusqu'à 1.6, cette classe affiche les objets comme une liste
@@ -81,6 +82,30 @@ class RzxRezalView : public QTreeView, public RzxRezal
 
 	signals:
 		void searchPatternChanged(const QString&);
+
+//Préférences
+	private:
+		Ui::RzxRezalViewProp *ui;
+		QWidget *propWidget;
+
+		void dispColumns(const QList<int>&);
+
+	protected slots:
+		virtual void columnOrderChanged();
+		QList<int> columnOrder() const;
+
+		virtual void moveDown();
+		virtual void moveUp();
+		virtual void reinitialisedOrder();
+
+	public:
+		virtual QList<QWidget*> propWidgets();
+		virtual QStringList propWidgetsName();
+
+	public slots:
+		virtual void propInit(bool def = false);
+		virtual void propUpdate();
+		virtual void propClose();
 };
 
 #endif

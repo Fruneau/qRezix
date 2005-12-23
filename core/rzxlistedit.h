@@ -19,9 +19,22 @@
 
 #include <QWidget>
 
+/**
+ @author Florent Bruneau
+ */
+
 class RzxComputerList;
 namespace Ui { class RzxListEdit; }
 
+///Fenêtre d'édition des listes d'ordinateurs
+/** Cette classe permet l'édition simple des RzxComputerList de façon
+ * totalement transparente pour l'utilisateur qui n'a à choisir que des
+ * informations choisies pour être lisibles...
+ *
+ * Cette objet ce présente sous la forme de :
+ * 	- une ligne d'édition et un bouton ajouter
+ * 	- une liste d'élément et un bouton supprimer
+ */
 class RzxListEdit: public QWidget
 {
 	Q_OBJECT
