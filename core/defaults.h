@@ -12,9 +12,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 #define DEFAULT_MAIL "Inscris toi sur polytechnique.org"
-#define DEFAULT_THEME "krystal"
+#define DEFAULT_THEME "Krystal"
 
 #ifdef Q_OS_WIN
 #	define DEFAULT_SAMBACMD "standard"
@@ -49,15 +48,18 @@
 #define CONCAT(p1, p2) str(p1) p2
 #define str(x) #x
 
-#ifdef HAVE_CONFIG_H
-#	include "../../config.h"
+#ifdef Q_OS_MAC
+#	define QREZIX_DATA_DIR "./qRezix.app/Contents/Resources/"
+#	define QREZIX_LIB_DIR "./qRezix.app/Contents/Frameworks/"
+#	define QREZIX_SYSTEM_DIR "./qRezix.app/Contents/MacOS/"
 #else
-#	ifdef Q_OS_MAC
-#		define QREZIX_DATA_DIR "./qRezix.app/Contents/Resources/"
-#		define QREZIX_LIB_DIR "./qRezix.app/Contents/Frameworks/"
-#		define QREZIX_SYSTEM_DIR "./qRezix.app/Contents/MacOS/"
-#	else
+#	ifndef PREFIX
+#		define PREFIX "/usr"
+#	endif
+#	ifndef QREZIX_DATA_DIR
 #		define QREZIX_DATA_DIR PREFIX "/share/qrezix"
+#	endif
+#	ifndef QREZIX_LIB_DIR
 #		define QREZIX_LIB_DIR PREFIX "/lib/qrezix"
 #	endif
 #endif
@@ -80,4 +82,5 @@
 	"> cwd     /home/celine euh, c'est pas plutôt cwd /femme/celine ? -+- MS in GFA : homme, sweet homme -+-\n" \
 	"qRezix v" + Rzx::versionToString(RzxApplication::version()) + " is running... oupa\n" \
 	"qRezix v" + Rzx::versionToString(RzxApplication::version()) + " la nouvelle version de qRezix...\n" \
-	"Je suis un boulet sans imagination, et donc j'ai laissé la phrase par défaut de qRezix (which is running...)\n"
+	"Je suis un boulet sans imagination, et donc j'ai laissé la phrase par défaut de qRezix (which is running...)\n" \
+	"Inscris toi à Polytechnique.org\n"

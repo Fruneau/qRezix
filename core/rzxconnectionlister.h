@@ -105,22 +105,48 @@ class RZX_CORE_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader
 		void newConnection(RzxNetwork*);
 		
 	signals:
+		///Informe qu'un nouvel ordinateur s'est connecté
 		void login(RzxComputer*);
+		///Informe qu'un ordinateur à été mis à jour
 		void update(RzxComputer*);
+		///Informe qu'un ordinateur s'est déconnecté
+		/** C'est à dire que son protocole réseau ataché ne le gère plus et non pas
+		 * que son état passe en Rzx::STATE_DISCONNECTED
+		 */
 		void logout(RzxComputer*);
+		///Informe que le nombre de connectés à changé
+		/** Sous la forme d'un texte "xxx connectés" */
 		void countChange(const QString& newCount);
+		///Informe que le nombre de connectés à changé
 		void countChange(int);
 
-		void clear();
+		///Indique si on est en phase d'initialisation de connexions
+		/** Lorsqu'on est en phase d'initialisation, il est probable qu'on
+		 * reçoive un grand nombre de connexions en peu de temps...
+		 *
+		 * La connexion à ce signal permet d'ignorer ce qui ce passe dans une
+		 * période de grand nombre de connexions.
+		 */
 		void initialLoging(bool);
+		///Indique qu'une connexion est fermée
 		void connectionClosed(RzxNetwork*);
+		///Indique qu'une nouvelle connexion est enregistrée		
 		void connectionEstablished(RzxNetwork*);
+		///Indique que le statut a changé
+		/** Le statut est donné sous la forme d'un booléen qui donne l'état
+		 * global de connexion, et d'un message indiquant les dernières
+		 * information en provenance des RzxNetwork
+		 */
 		void status(const QString& msg, bool fatal);
 
+		///Ce signal est émis lorsqu'un ordinateur recherche l'icône associée
 		void wantIcon(const RzxHostAddress&);
 
+		///Ce signal est émis lorsqu'on demande un chat avec un ordinateur
 		void wantChat(RzxComputer*);
+		///Ce signal est émis lorsquon demande les propriétés d'un ordinateur
 		void wantProperties(RzxComputer*);
+		///Ce signal est émis lorsqu'on demande l'affichage de l'historique des discussions avec un ordinateur
 		void wantHistorique(RzxComputer*);
 };
 

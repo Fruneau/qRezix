@@ -289,9 +289,6 @@ void RzxConnectionLister::newConnection(RzxNetwork* network)
 		connectionNumber++;
 	else
 		qDebug("Invalid connection");
-	
-	if(connectionNumber == 1)
-		emit clear();
 }
 
 ///Retire de la liste des ordinateurs ceux associé au module réseau donné
