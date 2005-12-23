@@ -27,7 +27,7 @@
 RzxWrongPass::RzxWrongPass(RzxNetwork *net)
 	:network(net)
 {
-	ui = new Ui::RzxWrongPassUI();
+	ui = new Ui::RzxWrongPass();
 	ui->setupUi(this);
 	if(network)
 		setAttribute(Qt::WA_DeleteOnClose);

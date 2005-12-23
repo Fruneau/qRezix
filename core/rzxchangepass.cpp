@@ -59,7 +59,7 @@ void RzxChangePass::init(const QString& oldPass)
 {
 	if(!oldPass.isNull())
 		setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint);
-	ui = new Ui::RzxChangePassUI();
+	ui = new Ui::RzxChangePass();
 	ui->setupUi(this);
 	
 	//Application du masque pour être sur du formatage du password

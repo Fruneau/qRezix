@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>RzxJabberPropUI</class>
- <widget class="QWidget" name="RzxJabberPropUI" >
+ <class>RzxJabberProp</class>
+ <widget class="QWidget" name="RzxJabberProp" >
   <property name="geometry" >
    <rect>
     <x>0</x>

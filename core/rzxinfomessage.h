@@ -25,7 +25,7 @@
  */
 
 class QSettings;
-namespace Ui { class RzxInfoMessageUI; };
+namespace Ui { class RzxInfoMessage; };
 
 ///Fenêtre d'information offrant la possibilité de ne pas être réaffichée dans le futur
 /** Implémente simplement une fenêtre avec un champs de texte et une icône choisis par
@@ -41,7 +41,7 @@ class RZX_CORE_EXPORT RzxInfoMessage:public QDialog
 	Q_PROPERTY(QString text READ text WRITE setText)
 	Q_PROPERTY(RzxThemedIcon icon READ icon WRITE setIcon)
 
-	Ui::RzxInfoMessageUI *ui;
+	Ui::RzxInfoMessage *ui;
 	RzxThemedIcon m_icon;
 	QSettings *settings;
 	QString id;

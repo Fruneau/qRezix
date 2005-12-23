@@ -25,7 +25,7 @@
 RzxListEdit::RzxListEdit(QWidget *parent)
 	:QWidget(parent), list(NULL)
 {
-	ui = new Ui::RzxListEditUI();
+	ui = new Ui::RzxListEdit();
 	ui->setupUi(this);
 	ui->btnAdd->setEnabled(false);
 	ui->btnDel->setEnabled(false);

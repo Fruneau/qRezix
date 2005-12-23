@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>RzxMainuiPropUI</class>
- <widget class="QWidget" name="RzxMainuiPropUI" >
+ <class>RzxMainuiProp</class>
+ <widget class="QWidget" name="RzxMainuiProp" >
   <property name="geometry" >
    <rect>
     <x>0</x>

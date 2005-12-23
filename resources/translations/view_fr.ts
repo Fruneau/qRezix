@@ -3,7 +3,7 @@
     <name>RzxRezalView</name>
     <message>
         <source>Historical way to display computers</source>
-        <translation type="unfinished"></translation>
+        <translation>Affichage classique des objets</translation>
     </message>
 </context>
 </TS>

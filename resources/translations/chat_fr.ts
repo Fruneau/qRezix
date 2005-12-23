@@ -37,6 +37,90 @@
         <source>Chat closed</source>
         <translation>Discussion terminée</translation>
     </message>
+    <message>
+        <source>Chat [Qt]</source>
+        <translation>Chat [Qt]</translation>
+    </message>
+    <message>
+        <source>B</source>
+        <translation>G</translation>
+    </message>
+    <message>
+        <source>I</source>
+        <translation>I</translation>
+    </message>
+    <message>
+        <source>U</source>
+        <translation>S</translation>
+    </message>
+    <message>
+        <source>:-)</source>
+        <translation>:-)</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Input&lt;/h3&gt;&lt;p&gt;This is the place where you can type your messages.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Shortcuts :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Enter : &lt;/b&gt;Send your message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] : &lt;/b&gt;Navigate through the messages you have already typed&lt;br&gt;&lt;b&gt;Ctrl+Enter : &lt;/b&gt; Add a line-break&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Edition&lt;/h3&gt;&lt;p&gt;C&apos;est la fenêtre dans laquelle vous devez taper votre message.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Raccourcis :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Entrée : &lt;/b&gt;Envoie votre message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] :&lt;/b&gt;Permet de naviguer entre les messages que vous avez déjà envoyés&lt;br&gt;&lt;b&gt;Ctrl+Enter : &lt;/b&gt;Saut de ligne&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Send&lt;/h3&gt;&lt;p&gt;Send the message you have typed...&lt;br&gt;It&apos;s a lot easier to use &lt;b&gt;Enter&lt;/b&gt;&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Envoyer&lt;/h3&gt;&lt;p&gt;Envoie le message en cours de frappe...&lt;br&gt;Le plus simple est d&apos;utiliser &lt;b&gt;Entrée&lt;/b&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Envoyer</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Send as HTML&lt;/h3&gt;&lt;p&gt;When this case is checked, you can format your text&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning : &lt;/b&gt;some clients don&apos;t support HTML...&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Envoyer en HTML&lt;/h3&gt;&lt;p&gt;Si cette case est cochée, vous pouvez formater votre texte&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt;certains clients peuvent ne pas supporter le texte formaté en HTML...&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Send as &amp;HTML</source>
+        <translation>Envoyer en &amp;HTML</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Sound&lt;/h3&gt;&lt;p&gt;Enables/disables the sound which is played when a new message arrives&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Son&lt;/h3&gt;&lt;p&gt;Active/Désactive le son qui est émis lorsqu&apos;un message arrive&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Properties&lt;/h3&gt;&lt;p&gt;Ask for the properties of the person you are talking to.&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Propriétés&lt;/h3&gt;&lt;p&gt;Demande les propriétés de la personne avec qui vous discuttez&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Properties</source>
+        <translation>Propriétés</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;History&lt;/h3&gt;&lt;p&gt;If you want to read all your old chats with this person&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Historique&lt;/h3&gt;&lt;p&gt;Permet de voire l&apos;historique de vos communication avec cette personne&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>History</source>
+        <translation>Historique</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Close&lt;/h3&gt;&lt;p&gt;Ends the chat et close the window&lt;/p&gt;</source>
+        <translation>&lt;/h3&gt;Fermer&lt;/h3&gt;&lt;p&gt;Ferme la fenêtre et met fin à la discussion&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Fermer</translation>
+    </message>
+    <message>
+        <source>&amp;Send</source>
+        <translation>&amp;Envoyer</translation>
+    </message>
+    <message>
+        <source>Alt+S</source>
+        <translation>Alt+E</translation>
+    </message>
+    <message>
+        <source>Alt+H</source>
+        <translation>Alt+H</translation>
+    </message>
+    <message>
+        <source>Ctrl+S</source>
+        <translation>Ctrl+S</translation>
+    </message>
 </context>
 <context>
     <name>RzxChatConfig</name>
@@ -107,10 +191,26 @@ Chat and properties browsing are disabled</source>
     </message>
 </context>
 <context>
-    <name>RzxChatPropUI</name>
+    <name>RzxChatProp</name>
     <message>
         <source>Form</source>
         <translation>Formulaire</translation>
+    </message>
+    <message>
+        <source>Chat</source>
+        <translation>Conversation</translation>
+    </message>
+    <message>
+        <source>Print hh:mm:ss in chat</source>
+        <translation>Afficher l&apos;heure de réception</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;warning&lt;/h3&gt;&lt;p&gt;If you check this you will receive an notification each time somebody check you properties&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning :&lt;/b&gt; in some cases, this option can be used to spam you with notification windows&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Attention&lt;/h3&gt;&lt;p&gt;Si vous cochez cette case, vous recevrez une notification à chaque fois que quelqu&apos;un demande vos propriétés. Dans certains cas, cette option peut être utilisé par une personne malveillante pour vous surcharger de fenêtre de notification&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Warn me when properties are being checked</source>
+        <translation>Me prévenir lorsque mes propriétés sont regardées</translation>
     </message>
     <message>
         <source>Beep</source>
@@ -119,6 +219,10 @@ Chat and properties browsing are disabled</source>
     <message>
         <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive en message&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez qu&apos;un son soit émis à la réception d&apos;un message.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Beep on message reception</source>
+        <translation>Bip à la réception des messages</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Select the sound to play when you receive a new message&lt;/p&gt;</source>
@@ -139,26 +243,6 @@ Chat and properties browsing are disabled</source>
     <message>
         <source>Port:</source>
         <translation>Port :</translation>
-    </message>
-    <message>
-        <source>Chat</source>
-        <translation>Conversation</translation>
-    </message>
-    <message>
-        <source>Print hh:mm:ss in chat</source>
-        <translation>Afficher l&apos;heure de réception</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;warning&lt;/h3&gt;&lt;p&gt;If you check this you will receive an notification each time somebody check you properties&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning :&lt;/b&gt; in some cases, this option can be used to spam you with notification windows&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Attention&lt;/h3&gt;&lt;p&gt;Si vous cochez cette case, vous recevrez une notification à chaque fois que quelqu&apos;un demande vos propriétés. Dans certains cas, cette option peut être utilisé par une personne malveillante pour vous surcharger de fenêtre de notification&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Warn me when properties are being checked</source>
-        <translation>Me prévenir lorsque mes propriétés sont regardées</translation>
-    </message>
-    <message>
-        <source>Beep on message reception</source>
-        <translation>Bip à la réception des messages</translation>
     </message>
     <message>
         <source>Smileys</source>
@@ -222,151 +306,6 @@ Chat and properties browsing are disabled</source>
     <message>
         <source>has sent corrupt data... CONNECTION ERROR</source>
         <translation>a envoyé des données corrompues</translation>
-    </message>
-</context>
-<context>
-    <name>RzxChatUI</name>
-    <message>
-        <source>Chat [Qt]</source>
-        <translation>Chat [Qt]</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Input&lt;/h3&gt;&lt;p&gt;This is the place where you can type your messages.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Shortcuts :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Enter : &lt;/b&gt;Send your message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] : &lt;/b&gt;Navigate through the messages you have already typed&lt;br&gt;&lt;b&gt;Ctrl+Enter : &lt;/b&gt; Add a line-break&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Edition&lt;/h3&gt;&lt;p&gt;C&apos;est la fenêtre dans laquelle vous devez taper votre message.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Raccourcis :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Entrée : &lt;/b&gt;Envoie votre message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] :&lt;/b&gt;Permet de naviguer entre les messages que vous avez déjà envoyés&lt;br&gt;&lt;b&gt;Ctrl+Enter : &lt;/b&gt;Saut de ligne&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Plug-ins&lt;/h3&gt;
-&lt;p&gt;Shows a menu which helps you to use the extra-features provided by qRezix&apos;s plug-ins&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Plug-ins&lt;/h3&gt;
-&lt;p&gt;Affiche un menu qui vous aide a utiliser les fonctionnalités supplémentaires de qRezix&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Plug-ins</source>
-        <translation>Plug-ins</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Font&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, you can choose here the font to use&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Police&lt;/h3&gt;&lt;p&gt;Permet de choisir la police de caractère de votre message si celui-ci est édité en HTML&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Color&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, you can choose here the color to use&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Couleur&lt;/h3&gt;&lt;p&gt;Permet de choisir la couleur du texte du message si celui-ci est édité en HTML&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Size&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, you can choose here the size of the text &lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Taille&lt;/h3&gt;&lt;p&gt;Permet de choisir la taille de la police de caractère si vous choisissez d&apos;éditer le message en HTML&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Bold&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the bold style for the text&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Gras&lt;/h3&gt;&lt;p&gt;Permet de mettre le texte en gras si vous éditez en HTML&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>B</source>
-        <translation>G</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Underlined&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the underlined style for the text&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Souligné&lt;/h3&gt;&lt;p&gt;Permet de souligner le texte si vous éditez votre message en HTML&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>U</source>
-        <translation>S</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Italic&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the italic style for the text&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Italique&lt;/h3&gt;&lt;p&gt;Permet de mettre le texte en italique si vous éditez votre message en HTML&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>I</source>
-        <translation>I</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Send&lt;/h3&gt;&lt;p&gt;Send the message you have typed...&lt;br&gt;It&apos;s a lot easier to use &lt;b&gt;Enter&lt;/b&gt;&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Envoyer&lt;/h3&gt;&lt;p&gt;Envoie le message en cours de frappe...&lt;br&gt;Le plus simple est d&apos;utiliser &lt;b&gt;Entrée&lt;/b&gt;&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Send</source>
-        <translation>Envoyer</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Send as HTML&lt;/h3&gt;&lt;p&gt;When this case is checked, you can format your text&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning : &lt;/b&gt;some clients don&apos;t support HTML...&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Envoyer en HTML&lt;/h3&gt;&lt;p&gt;Si cette case est cochée, vous pouvez formater votre texte&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt;certains clients peuvent ne pas supporter le texte formaté en HTML...&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Send as &amp;HTML</source>
-        <translation>Envoyer en &amp;HTML</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Sound&lt;/h3&gt;&lt;p&gt;Enables/disables the sound which is played when a new message arrives&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Son&lt;/h3&gt;&lt;p&gt;Active/Désactive le son qui est émis lorsqu&apos;un message arrive&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Properties&lt;/h3&gt;&lt;p&gt;Ask for the properties of the person you are talking to.&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Propriétés&lt;/h3&gt;&lt;p&gt;Demande les propriétés de la personne avec qui vous discuttez&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Properties</source>
-        <translation>Propriétés</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;History&lt;/h3&gt;&lt;p&gt;If you want to read all your old chats with this person&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Historique&lt;/h3&gt;&lt;p&gt;Permet de voire l&apos;historique de vos communication avec cette personne&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>History</source>
-        <translation>Historique</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Close&lt;/h3&gt;&lt;p&gt;Ends the chat et close the window&lt;/p&gt;</source>
-        <translation>&lt;/h3&gt;Fermer&lt;/h3&gt;&lt;p&gt;Ferme la fenêtre et met fin à la discussion&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation>Fermer</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Envoyer</translation>
-    </message>
-    <message>
-        <source>Alt+S</source>
-        <translation>Alt+E</translation>
-    </message>
-    <message>
-        <source>Alt+H</source>
-        <translation>Alt+H</translation>
-    </message>
-    <message>
-        <source>Ctrl+S</source>
-        <translation>Ctrl+S</translation>
-    </message>
-    <message>
-        <source>Pl&amp;ug-ins</source>
-        <translation>Pl&amp;ug-ins</translation>
-    </message>
-    <message>
-        <source>Alt+U</source>
-        <translation>Alt+U</translation>
-    </message>
-    <message>
-        <source>Ctrl+B</source>
-        <translation>Ctrl+B</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation>Ctrl+I</translation>
-    </message>
-    <message>
-        <source>Ctrl+U</source>
-        <translation>Ctrl+U</translation>
-    </message>
-    <message>
-        <source>:-)</source>
-        <translation>:-)</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Smiley&lt;/h3&gt;&lt;p&gt;Click to add a smiley&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Smiley&lt;/h3&gt;&lt;p&gt;Cliquer pour ajouter un smiley&lt;/p&gt;</translation>
     </message>
 </context>
 <context>

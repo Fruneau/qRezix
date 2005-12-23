@@ -26,7 +26,7 @@ RzxIntro::RzxIntro()
 	:QDialog()
 {
 	setAttribute( Qt::WA_DeleteOnClose );
-	ui = new Ui::RzxIntroUI();
+	ui = new Ui::RzxIntro();
 	ui->setupUi(this);
 
 	icons << Rzx::ICON_JONE << Rzx::ICON_FTP << Rzx::ICON_LAYOUT << Rzx::ICON_SAMEGATEWAY << Rzx::ICON_PLUGIN

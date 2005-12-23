@@ -20,13 +20,13 @@
 #include <QWidget>
 
 class RzxComputerList;
-namespace Ui { class RzxListEditUI; }
+namespace Ui { class RzxListEdit; }
 
 class RzxListEdit: public QWidget
 {
 	Q_OBJECT
 
-	Ui::RzxListEditUI *ui;
+	Ui::RzxListEdit *ui;
 	RzxComputerList *list;
 
 	public:

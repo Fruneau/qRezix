@@ -23,8 +23,7 @@ HEADERS += $$ROOT/modules/mainui/rzxui.h \
 	$$ROOT/modules/mainui/rzxmainuiconfig.h \
 	$$ROOT/modules/mainui/rzxmainuiglobal.h
 
-FORMS += $$ROOT/modules/mainui/qrezixui.ui \
-	$$ROOT/modules/mainui/rzxstatusui.ui \
+FORMS += $$ROOT/modules/mainui/rzxstatusui.ui \
 	$$ROOT/modules/mainui/rzxquitui.ui \
 	$$ROOT/modules/mainui/rzxmainuipropui.ui
 

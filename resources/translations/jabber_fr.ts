@@ -31,7 +31,7 @@
     </message>
 </context>
 <context>
-    <name>RzxJabberPropUI</name>
+    <name>RzxJabberProp</name>
     <message>
         <source>Form</source>
         <translation></translation>
@@ -232,7 +232,7 @@
     <name>RzxJabberProtocole</name>
     <message>
         <source>Native support for the jabber protocole</source>
-        <translation type="unfinished"></translation>
+        <translation>Support natif du protocole Jabber</translation>
     </message>
 </context>
 </TS>

@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>RzxNotifierPropUI</class>
- <widget class="QWidget" name="RzxNotifierPropUI" >
+ <class>RzxNotifierProp</class>
+ <widget class="QWidget" name="RzxNotifierProp" >
   <property name="geometry" >
    <rect>
     <x>0</x>

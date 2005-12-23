@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>RzxXNetPropUI</class>
- <widget class="QWidget" name="RzxXNetPropUI" >
+ <class>RzxXNetProp</class>
+ <widget class="QWidget" name="RzxXNetProp" >
   <property name="geometry" >
    <rect>
     <x>0</x>

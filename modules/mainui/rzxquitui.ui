@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>RzxQuitUI</class>
- <widget class="QDialog" name="RzxQuitUI" >
+ <class>RzxQuit</class>
+ <widget class="QDialog" name="RzxQuit" >
   <property name="geometry" >
    <rect>
     <x>0</x>

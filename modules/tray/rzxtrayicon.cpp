@@ -1038,7 +1038,7 @@ QPoint RzxTrayIcon::getPos()
 QList<QWidget*> RzxTrayIcon::propWidgets()
 {
 	if(!ui)
-		ui = new Ui::RzxTrayPropUI;
+		ui = new Ui::RzxTrayProp;
 	if(!propWidget)
 	{
 		propWidget = new QWidget;

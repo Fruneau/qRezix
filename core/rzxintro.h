@@ -24,7 +24,7 @@
  @author Florent Bruneau
  */
 
-namespace Ui { class RzxIntroUI; };
+namespace Ui { class RzxIntro; };
 
 ///Fenêtre de choix de la configuration initiale
 /** Affiche une fenêtre qui permet de choisir la langue et le thème d'icône
@@ -36,7 +36,7 @@ class RZX_CORE_EXPORT RzxIntro : public QDialog
 {
 	Q_OBJECT
 
-	Ui::RzxIntroUI *ui;
+	Ui::RzxIntro *ui;
 	QList<Rzx::Icon> icons;
 
 	public:

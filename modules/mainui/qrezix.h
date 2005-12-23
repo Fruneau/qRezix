@@ -39,7 +39,7 @@ class QAction;
 class QLineEdit;
 class QLabel;
 class RzxRezalPopup;
-namespace Ui { class RzxStatusUI; };
+namespace Ui { class RzxStatus; };
 
 ///Fenêtre principale
 /** Cette classe qui était la classe principale du programme dans les
@@ -87,7 +87,7 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	QAction *awayAction;
 	QAction *restartAction;
 
-	Ui::RzxStatusUI *statusui;
+	Ui::RzxStatus *statusui;
 
 	void buildActions();
 

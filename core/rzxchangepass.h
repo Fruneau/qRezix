@@ -22,7 +22,7 @@
 #include <RzxGlobal>
 
 class RzxNetwork;
-namespace Ui { class RzxChangePassUI; };
+namespace Ui { class RzxChangePass; };
 
 /**
 @author Florent Bruneau
@@ -34,7 +34,7 @@ class RZX_CORE_EXPORT RzxChangePass: public QDialog
 	Q_OBJECT
 	Q_PROPERTY(QString newPass READ newPass)
 
-	Ui::RzxChangePassUI *ui;
+	Ui::RzxChangePass *ui;
 	RzxNetwork *network;
 
 	private:

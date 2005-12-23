@@ -15,38 +15,18 @@
     </message>
 </context>
 <context>
-    <name>RzxNotifierPropUI</name>
+    <name>RzxNotifierProp</name>
     <message>
         <source>Form</source>
         <translation>Formulaire</translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Si vous cochez, une fenêtre de notification s&apos;affichera chaque fois qu&apos;un favoris se connecte, se déconnecte ou change d&apos;état&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Show a notification window on favorite&apos;s state modification</source>
-        <translation>Afficher les fenêtre de notification des favoris</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when a favorite get connected&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Si vous cochez, un son sera joué à chaque connexion de favoris&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Beep on connection of one of your favorites</source>
-        <translation>Bip à la connexion des favoris</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Select the sound to play when a favorite get connected&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Choisissez le son à jouer à la connexion des favoris&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation>...</translation>
-    </message>
-    <message>
         <source>When ?</source>
         <translation>Quand ?</translation>
+    </message>
+    <message>
+        <source>Notify when favorite go away</source>
+        <translation>Notifier lorsqu&apos;un favoris est marqué absent</translation>
     </message>
     <message>
         <source>No notification when I am away</source>
@@ -57,16 +37,36 @@
         <translation>Notifier la déconnexion des favoris</translation>
     </message>
     <message>
+        <source>Notify when favorite arrive or come back</source>
+        <translation>Notifier l&apos;arrivée et le retour des favoris</translation>
+    </message>
+    <message>
         <source>What ?</source>
         <translation>Comment ?</translation>
     </message>
     <message>
-        <source>Notify when favorite go away</source>
-        <translation>Notifier lorsqu&apos;un favoris est marqué absent</translation>
+        <source>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Si vous cochez, une fenêtre de notification s&apos;affichera chaque fois qu&apos;un favoris se connecte, se déconnecte ou change d&apos;état&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>Notify when favorite arrive or come back</source>
-        <translation>Notifier l&apos;arrivée et le retour des favoris</translation>
+        <source>Show a notification window on favorite&apos;s state modification</source>
+        <translation>Afficher les fenêtre de notification des favoris</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Select the sound to play when a favorite get connected&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Choisissez le son à jouer à la connexion des favoris&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when a favorite get connected&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Bip à la connexion&lt;/h3&gt;&lt;p&gt;Si vous cochez, un son sera joué à chaque connexion de favoris&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Beep on connection of one of your favorites</source>
+        <translation>Bip à la connexion des favoris</translation>
     </message>
 </context>
 </TS>

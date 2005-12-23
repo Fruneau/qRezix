@@ -98,7 +98,7 @@ void RzxChat::init()
 	historyContainer->setLayout(glayout);
 	//Partie 2 : L'éditeur qui est défini dans l'ui RzxChatUI
 	editor = new QWidget();
-	ui = new Ui::RzxChatUI();
+	ui = new Ui::RzxChat();
 	ui->setupUi(editor);
 	ui->edMsg->setChat(this);
 	//Construction du splitter

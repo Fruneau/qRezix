@@ -79,7 +79,7 @@ RzxInfoMessage::~RzxInfoMessage()
  */
 bool RzxInfoMessage::init(QSettings *m_settings, const QString& m_id)
 {
-	ui = new Ui::RzxInfoMessageUI();
+	ui = new Ui::RzxInfoMessage();
 	ui->setupUi(this);
 	id = m_id;
 	settings = m_settings;

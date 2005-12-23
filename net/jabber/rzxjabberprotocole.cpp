@@ -93,7 +93,7 @@ void RzxJabberProtocole::deconnection(){
 QList<QWidget*> RzxJabberProtocole::propWidgets()
 {
 	if(!ui)
-		ui = new Ui::RzxJabberPropUI;
+		ui = new Ui::RzxJabberProp;
 	if(!propWidget)
 	{
 		propWidget = new QWidget;

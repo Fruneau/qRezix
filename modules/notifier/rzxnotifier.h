@@ -28,7 +28,7 @@
 #include <RzxModule>
 
 class RzxComputer;
-namespace Ui { class RzxNotifierPropUI; }
+namespace Ui { class RzxNotifierProp; }
 
 /**
 @author Florent Bruneau
@@ -41,7 +41,7 @@ class RzxNotifier : public RzxModule
 
 	bool favoriteWarn;
 
-	Ui::RzxNotifierPropUI *ui;
+	Ui::RzxNotifierProp *ui;
 	QWidget *propWidget;
 
 	public:

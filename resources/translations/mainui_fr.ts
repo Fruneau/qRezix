@@ -34,10 +34,6 @@
         <translation>Fenêtre principale</translation>
     </message>
     <message>
-        <source>The central object of qRezix has been set to %1.&lt;br&gt;&lt;br&gt;You must restart qRezix in order this change to be applied</source>
-        <translation type="obsolete">Vous avez choisi d&apos;installer %1 comme module principale de qRezix. Cependant un autre module est déjà actuellement installé. Il vous faudra donc relancer qRezix pour que cette modification soit prise en compte. Vous pouvez également le faire en rechargeant le module &apos;MainUi&apos; de qRezix via la fenêtre de préférence.</translation>
-    </message>
-    <message>
         <source>The central widget has been set to %1. You should reload the module in order this changement to take effect. You can do this via this menu.</source>
         <translation>Vous avez choisi d&apos;installer %1 comme module principale de qRezix. Cependant un autre module est déjà actuellement installé. Il vous faudra donc relancer qRezix pour que cette modification soit prise en compte. Vous pouvez également le faire en rechargeant le module &apos;MainUi&apos; de qRezix via la fenêtre de préférences.</translation>
     </message>
@@ -47,7 +43,7 @@
     </message>
 </context>
 <context>
-    <name>RzxItemUI</name>
+    <name>RzxItem</name>
     <message>
         <source>Form</source>
         <translation type="unfinished"></translation>
@@ -66,42 +62,18 @@
     </message>
 </context>
 <context>
-    <name>RzxMainuiPropUI</name>
+    <name>RzxMainuiProp</name>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Layout</source>
         <translation>Affichage</translation>
     </message>
     <message>
-        <source>0</source>
-        <translation type="obsolete">0</translation>
-    </message>
-    <message>
-        <source>1</source>
-        <translation type="obsolete">1</translation>
-    </message>
-    <message>
-        <source>2</source>
-        <translation type="obsolete">2</translation>
-    </message>
-    <message>
         <source>Misc</source>
         <translation>Divers</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Quitting dialog&lt;/h3&gt;&lt;p&gt;Enable/disable the dialog box which is displayed when you close the qRezix&apos;s main window&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Boîte de dialogue de fermetue&lt;/h3&gt;&lt;p&gt;Active/Désactive la boîte de dialogue qui s&apos;affiche à la fermeture de qRezix via la fenêtre principale&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Show dialog when clicking on X</source>
-        <translation>Afficher la boîte de dialogue en cliquant sur X</translation>
-    </message>
-    <message>
-        <source>Tab</source>
-        <translation type="obsolete">Tab</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Search&lt;/h3&gt;&lt;p&gt;Do you want to see the search tool ?&lt;/p&gt;</source>
@@ -112,104 +84,12 @@
         <translation>Affiche la recherche</translation>
     </message>
     <message>
-        <source>Tab to select on start:</source>
-        <translation>Onglet au démarrage :</translation>
+        <source>&lt;h3&gt;Quitting dialog&lt;/h3&gt;&lt;p&gt;Enable/disable the dialog box which is displayed when you close the qRezix&apos;s main window&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Boîte de dialogue de fermetue&lt;/h3&gt;&lt;p&gt;Active/Désactive la boîte de dialogue qui s&apos;affiche à la fermeture de qRezix via la fenêtre principale&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Onglet&lt;/h3&gt;&lt;p&gt;Défini l&apos;onglet affiché au démarrage de qRezix&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation>Favoris</translation>
-    </message>
-    <message>
-        <source>Everybody</source>
-        <translation>Tout le monde</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Colonnes affichées&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir...&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Columns layout</source>
-        <translation>Colonnes à afficher</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation>Nom</translation>
-    </message>
-    <message>
-        <source>FTP</source>
-        <translation>FTP</translation>
-    </message>
-    <message>
-        <source>OS</source>
-        <translation>Système d&apos;exploitation</translation>
-    </message>
-    <message>
-        <source>Client</source>
-        <translation>Client</translation>
-    </message>
-    <message>
-        <source>Web</source>
-        <translation>Web</translation>
-    </message>
-    <message>
-        <source>Comment</source>
-        <translation>Remarque</translation>
-    </message>
-    <message>
-        <source>Promotion</source>
-        <translation>Promotion</translation>
-    </message>
-    <message>
-        <source>Same gateway</source>
-        <translation>Même passerelle</translation>
-    </message>
-    <message>
-        <source>IP</source>
-        <translation>Adresse IP</translation>
-    </message>
-    <message>
-        <source>Place</source>
-        <translation>Bâtiment</translation>
-    </message>
-    <message>
-        <source>News</source>
-        <translation>News</translation>
-    </message>
-    <message>
-        <source>Samba</source>
-        <translation>Samba (Partage Windows)</translation>
-    </message>
-    <message>
-        <source>Computer icons</source>
-        <translation type="obsolete">Icône de l&apos;ordinateur</translation>
-    </message>
-    <message>
-        <source>Icon size</source>
-        <translation type="obsolete">Taille des icônes</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Icon size&lt;/h3&gt;&lt;p&gt;Do you prefer big icons (64x64) or small icons (32x32) for the pictures of the users&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;h3&gt;Taille des icônes&lt;/h3&gt;&lt;p&gt;Est-ce que vous préférez des grandes (64x64) ou de petites (32x32) icônes ?&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>32*32</source>
-        <translation type="obsolete">32x32</translation>
-    </message>
-    <message>
-        <source>64*64</source>
-        <translation type="obsolete">64x64</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Highlight&lt;/h3&gt;&lt;p&gt;If you choose to display small icons and check this box then the selected item will be displayed with a big icon.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;h3&gt;Démarquage de la sélection&lt;/h3&gt;&lt;p&gt;Si vous choisissez d&apos;afficher de petites icônes, ceci vous permet d&apos;avoir l&apos;item sélectionné en plus grand.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Highlight the selection</source>
-        <translation type="obsolete">Démarque la sélection</translation>
+        <source>Show dialog when clicking on X</source>
+        <translation>Afficher la boîte de dialogue en cliquant sur X</translation>
     </message>
     <message>
         <source>Action on double-clic</source>
@@ -228,6 +108,22 @@
         <translation>Connexion en FTP</translation>
     </message>
     <message>
+        <source>Tab to select on start:</source>
+        <translation>Onglet au démarrage :</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Onglet&lt;/h3&gt;&lt;p&gt;Défini l&apos;onglet affiché au démarrage de qRezix&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favoris</translation>
+    </message>
+    <message>
+        <source>Everybody</source>
+        <translation>Tout le monde</translation>
+    </message>
+    <message>
         <source>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;ToolTips are little windows that appears when you </source>
         <translation>&lt;h3&gt;Détails&lt;/h3&gt;&lt;p&gt;Les détails sont de petites fenêtres qui apparaissent lorsque vous restés sur un objet pour décrire son contenu.&lt;/p&gt;</translation>
     </message>
@@ -236,36 +132,84 @@
         <translation>Détails</translation>
     </message>
     <message>
-        <source>Enable tooltips</source>
-        <translation>Activer les fenêtres de détail</translation>
+        <source>Printer</source>
+        <translation>Imprimante</translation>
     </message>
     <message>
-        <source>Features</source>
-        <translation>Fonctionnalités</translation>
+        <source>Samba</source>
+        <translation>Samba</translation>
     </message>
     <message>
-        <source>Client version</source>
-        <translation>Version du client</translation>
-    </message>
-    <message>
-        <source>Ip address</source>
-        <translation>Adresse IP</translation>
+        <source>Promotion</source>
+        <translation>Promotion</translation>
     </message>
     <message>
         <source>Properties</source>
         <translation>Propriétés</translation>
     </message>
     <message>
-        <source>Printer</source>
-        <translation>Imprimante</translation>
+        <source>Ip address</source>
+        <translation>Adresse IP</translation>
     </message>
     <message>
-        <source>Version</source>
-        <translation type="obsolete">Version</translation>
+        <source>News</source>
+        <translation>News</translation>
     </message>
     <message>
-        <source>Description</source>
-        <translation type="obsolete">Description</translation>
+        <source>Client version</source>
+        <translation>Version du client</translation>
+    </message>
+    <message>
+        <source>Web</source>
+        <translation>Web</translation>
+    </message>
+    <message>
+        <source>OS</source>
+        <translation>Système d&apos;exploitation</translation>
+    </message>
+    <message>
+        <source>FTP</source>
+        <translation>FTP</translation>
+    </message>
+    <message>
+        <source>Place</source>
+        <translation>Bâtiment</translation>
+    </message>
+    <message>
+        <source>Features</source>
+        <translation>Fonctionnalités</translation>
+    </message>
+    <message>
+        <source>Enable tooltips</source>
+        <translation>Activer les fenêtres de détail</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Colonnes affichées&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir...&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Columns layout</source>
+        <translation>Colonnes à afficher</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <translation>Client</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation>Remarque</translation>
+    </message>
+    <message>
+        <source>Same gateway</source>
+        <translation>Même passerelle</translation>
+    </message>
+    <message>
+        <source>IP</source>
+        <translation>Adresse IP</translation>
     </message>
 </context>
 <context>
@@ -282,9 +226,6 @@
         <source>Abort quitting please</source>
         <translation>Ne rien faire</translation>
     </message>
-</context>
-<context>
-    <name>RzxQuitUI</name>
     <message>
         <source>Quit</source>
         <translation>Quitter</translation>
@@ -413,32 +354,8 @@
         <translation>Oranjes</translation>
     </message>
     <message>
-        <source>Informations :</source>
-        <translation type="obsolete">Informations :</translation>
-    </message>
-    <message>
-        <source>ftp server : </source>
-        <translation type="obsolete">serveur FTP :</translation>
-    </message>
-    <message>
         <source>&lt;b&gt;on&lt;/b&gt;</source>
         <translation>&lt;b&gt;ouvert&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>web server : </source>
-        <translation type="obsolete">serveur Web :</translation>
-    </message>
-    <message>
-        <source>news server : </source>
-        <translation type="obsolete">serveur de News :</translation>
-    </message>
-    <message>
-        <source>samba server : </source>
-        <translation type="obsolete">serveur Samba :</translation>
-    </message>
-    <message>
-        <source>features : </source>
-        <translation type="obsolete">fonctionnalités :</translation>
     </message>
     <message>
         <source>chat</source>
@@ -453,20 +370,12 @@
         <translation>Propriétés récupérées le</translation>
     </message>
     <message>
-        <source>Location : </source>
-        <translation>Bâtiment :</translation>
-    </message>
-    <message>
         <source>No properties cached</source>
         <translation>Pas de propriétés en cache</translation>
     </message>
     <message>
         <source>Printer</source>
         <translation>Imprimante</translation>
-    </message>
-    <message>
-        <source>printer : </source>
-        <translation type="obsolete">imprimante :</translation>
     </message>
     <message>
         <source>&lt;b&gt;yes&lt;/b&gt;</source>
@@ -499,6 +408,10 @@
     <message>
         <source>features:</source>
         <translation>Fonctionalités :</translation>
+    </message>
+    <message>
+        <source>Location:</source>
+        <translation>Lieux :</translation>
     </message>
 </context>
 <context>
@@ -553,10 +466,10 @@
     </message>
 </context>
 <context>
-    <name>RzxStatusUI</name>
+    <name>RzxStatus</name>
     <message>
         <source>Form</source>
-        <translation>Formulaire</translation>
+        <translation></translation>
     </message>
     <message>
         <source>&lt;h3&gt;Status bar&lt;/h3&gt;
@@ -576,41 +489,6 @@
     <message>
         <source>Main UI for qRezix</source>
         <translation>Interface principale de qRezix</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="obsolete">Nom</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="obsolete">Version</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="obsolete">Description</translation>
-    </message>
-</context>
-<context>
-    <name>qRezixUI</name>
-    <message>
-        <source>qRezix</source>
-        <translation>qRezix</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Main view&lt;/h3&gt;
-&lt;p&gt;You can choose if you want to see Everybody or only your favorites.&lt;br&gt;
-Each item have a menu (right click)&lt;/p&gt;
-&lt;p&gt;To switch you can use &lt;b&gt;Shift+Tab&lt;/b&gt;&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Vue principale&lt;/h3&gt;
-&lt;p&gt;Vous pouvez choisir ce que vous voulez afficher&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation>Favoris</translation>
-    </message>
-    <message>
-        <source>Everybody</source>
-        <translation>Tout le monde</translation>
     </message>
 </context>
 </TS>

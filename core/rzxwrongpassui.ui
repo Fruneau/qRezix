@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>RzxWrongPassUI</class>
- <widget class="QDialog" name="RzxWrongPassUI" >
+ <class>RzxWrongPass</class>
+ <widget class="QDialog" name="RzxWrongPass" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -122,7 +122,7 @@ If you're sure that you entered the good Computer Name then reenter your passwor
   <connection>
    <sender>btnOK</sender>
    <signal>clicked()</signal>
-   <receiver>RzxWrongPassUI</receiver>
+   <receiver>RzxWrongPass</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -138,7 +138,7 @@ If you're sure that you entered the good Computer Name then reenter your passwor
   <connection>
    <sender>btnOK</sender>
    <signal>clicked()</signal>
-   <receiver>RzxWrongPassUI</receiver>
+   <receiver>RzxWrongPass</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >

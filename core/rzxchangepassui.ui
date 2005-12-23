@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>RzxChangePassUI</class>
- <widget class="QDialog" name="RzxChangePassUI" >
+ <class>RzxChangePass</class>
+ <widget class="QDialog" name="RzxChangePass" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -82,7 +82,7 @@ It must be at least&lt;b> 6 characters long&lt;/b>.</string>
       <string>&amp;Cancel</string>
      </property>
      <property name="shortcut" >
-      <string>⌥C</string>
+      <string/>
      </property>
     </widget>
    </item>
@@ -118,7 +118,7 @@ It must be at least&lt;b> 6 characters long&lt;/b>.</string>
   <connection>
    <sender>btnOK</sender>
    <signal>clicked()</signal>
-   <receiver>RzxChangePassUI</receiver>
+   <receiver>RzxChangePass</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -134,7 +134,7 @@ It must be at least&lt;b> 6 characters long&lt;/b>.</string>
   <connection>
    <sender>btnCancel</sender>
    <signal>clicked()</signal>
-   <receiver>RzxChangePassUI</receiver>
+   <receiver>RzxChangePass</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >

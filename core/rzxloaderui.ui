@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>RzxLoaderUI</class>
- <widget class="QWidget" name="RzxLoaderUI" >
+ <class>RzxLoader</class>
+ <widget class="QWidget" name="RzxLoader" >
   <property name="geometry" >
    <rect>
     <x>0</x>

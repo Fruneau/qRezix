@@ -41,7 +41,7 @@
 #include <RzxModule>
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
-namespace Ui { class RzxTrayPropUI; }
+namespace Ui { class RzxTrayProp; }
 #endif
 
 ///Gestion de l'icône système (systray, 'tableau de bord'...)
@@ -111,7 +111,7 @@ private:
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 private:
-	Ui::RzxTrayPropUI *ui;
+	Ui::RzxTrayProp *ui;
 	QWidget *propWidget;
 
 public:

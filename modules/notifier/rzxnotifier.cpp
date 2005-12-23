@@ -118,7 +118,7 @@ void RzxNotifier::favoriteUpdated(RzxComputer *computer)
 QList<QWidget*> RzxNotifier::propWidgets()
 {
 	if(!ui)
-		ui = new Ui::RzxNotifierPropUI;
+		ui = new Ui::RzxNotifierProp;
 	if(!propWidget)
 	{
 		propWidget = new QWidget;

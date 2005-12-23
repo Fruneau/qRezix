@@ -35,7 +35,7 @@
  * et fournit un menu arborescent qui simplifie l'utilisation de la fenêtre et
  * la compréhension de l'organisation du programme.
  */
-class RZX_CORE_EXPORT RzxProperty : public QDialog, private Ui::frmPref
+class RZX_CORE_EXPORT RzxProperty : public QDialog, private Ui::RzxProperty
 {
 	Q_OBJECT
 

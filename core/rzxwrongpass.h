@@ -26,7 +26,7 @@
  */
 
 class RzxNetwork;
-namespace Ui { class RzxWrongPassUI; };
+namespace Ui { class RzxWrongPass; };
 
 ///Système centralisé pour permettre à l'utilisateur d'être alerté que son mot de passe est erroné
 /** Cette classe est fortement liée à RzxNetwork mais peut très bien être
@@ -37,7 +37,7 @@ class RZX_CORE_EXPORT RzxWrongPass: public QDialog
 	Q_OBJECT
 
 	RzxNetwork *network;
-	Ui::RzxWrongPassUI *ui;
+	Ui::RzxWrongPass *ui;
 
 	public:
 		RzxWrongPass(RzxNetwork* = NULL);

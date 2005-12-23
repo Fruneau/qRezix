@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>RzxIntroUI</class>
- <widget class="QDialog" name="RzxIntroUI" >
+ <class>RzxIntro</class>
+ <widget class="QDialog" name="RzxIntro" >
   <property name="geometry" >
    <rect>
     <x>0</x>

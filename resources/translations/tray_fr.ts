@@ -23,7 +23,7 @@
     </message>
 </context>
 <context>
-    <name>RzxTrayPropUI</name>
+    <name>RzxTrayProp</name>
     <message>
         <source>Form</source>
         <translation>Formulaire</translation>
@@ -37,16 +37,16 @@
         <translation>Systray</translation>
     </message>
     <message>
-        <source>Size of tray icon :</source>
-        <translation>Taille de l&apos;icône du systray :</translation>
-    </message>
-    <message>
         <source>&lt;h3&gt;Auto-scale&lt;/h3&gt;&lt;p&gt;If enabled, qRezix will try to automaticly adjust the trayicon size to fit its container&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Dimensionnement automatique&lt;/h3&gt;&lt;p&gt;Si la case est cochée, qRezix tentera d&apos;ajuster automatiquement la taille de la trayicon à celle de la fenêtre qui la contient&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Auto scale the tray icon</source>
         <translation>Ajuster automatiquement la taille</translation>
+    </message>
+    <message>
+        <source>Size of tray icon :</source>
+        <translation>Taille de l&apos;icône du systray :</translation>
     </message>
 </context>
 </TS>

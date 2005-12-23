@@ -36,7 +36,7 @@
 
 class QStringList;
 class RzxComputer;
-namespace Ui { class RzxXNetPropUI; };
+namespace Ui { class RzxXNetProp; };
 
 class RzxProtocole : public RzxNetwork
 {
@@ -113,7 +113,7 @@ public slots:
 
 //Gestion de propriétés du module
 private:
-	Ui::RzxXNetPropUI *ui;
+	Ui::RzxXNetProp *ui;
 	QWidget *propWidget;
 
 public:

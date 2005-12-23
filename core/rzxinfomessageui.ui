@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>RzxInfoMessageUI</class>
- <widget class="QDialog" name="RzxInfoMessageUI" >
+ <class>RzxInfoMessage</class>
+ <widget class="QDialog" name="RzxInfoMessage" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -137,7 +137,7 @@
   <connection>
    <sender>btnOK</sender>
    <signal>clicked()</signal>
-   <receiver>RzxInfoMessageUI</receiver>
+   <receiver>RzxInfoMessage</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >

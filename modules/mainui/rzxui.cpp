@@ -109,7 +109,7 @@ QWidget *RzxUi::mainWindow() const
 QList<QWidget*> RzxUi::propWidgets()
 {
 	if(!ui)
-		ui = new Ui::RzxMainuiPropUI;
+		ui = new Ui::RzxMainuiProp;
 	if(!propWidget)
 	{
 		propWidget = new QWidget;

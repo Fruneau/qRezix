@@ -36,7 +36,7 @@
  */
 
 class QRezix;
-namespace Ui { class RzxMainuiPropUI; }
+namespace Ui { class RzxMainuiProp; }
 
 ///Interface de module pour l'interface principale de qRezix
 /** Cette classe existe parce que le double héritage par QObjet
@@ -48,7 +48,7 @@ class RZX_MAINUI_EXPORT RzxUi:public RzxModule
 
 	QRezix *qrezix;
 
-	Ui::RzxMainuiPropUI *ui;
+	Ui::RzxMainuiProp *ui;
 	QWidget *propWidget;
 
 	public:

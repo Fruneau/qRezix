@@ -23,7 +23,7 @@
 #include "rzxmainuiglobal.h"
 #include "ui_rzxquitui.h"
 
-class RZX_MAINUI_EXPORT RzxQuit : public QDialog, private Ui::RzxQuitUI
+class RZX_MAINUI_EXPORT RzxQuit : public QDialog, private Ui::RzxQuit
 {
 	Q_OBJECT
 	Q_PROPERTY(QuitMode quitMode READ quitMode)

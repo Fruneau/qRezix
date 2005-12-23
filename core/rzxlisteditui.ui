@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>RzxListEditUI</class>
- <widget class="QWidget" name="RzxListEditUI" >
+ <class>RzxListEdit</class>
+ <widget class="QWidget" name="RzxListEdit" >
   <property name="geometry" >
    <rect>
     <x>0</x>

@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>RzxChatPropUI</class>
- <widget class="QWidget" name="RzxChatPropUI" >
+ <class>RzxChatProp</class>
+ <widget class="QWidget" name="RzxChatProp" >
   <property name="geometry" >
    <rect>
     <x>0</x>

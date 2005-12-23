@@ -73,7 +73,7 @@ QRezix::QRezix(QWidget *parent)
 
 	//Construction de l'interface
 	RzxStyle::useStyleOnWindow(this);
-	statusui = new Ui::RzxStatusUI();
+	statusui = new Ui::RzxStatus();
 	QWidget *widget = new QWidget;
 	statusui->setupUi(widget);
 	statusBar()->addWidget(widget, 1);

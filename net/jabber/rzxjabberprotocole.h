@@ -45,7 +45,7 @@
 
 class QStringList;
 class RzxComputer;
-namespace Ui { class RzxJabberPropUI; };
+namespace Ui { class RzxJabberProp; };
 
 class RzxJabberProtocole : public RzxNetwork
 {
@@ -61,7 +61,7 @@ public:
 	
 //Gestion de propriétés du module
 private:
-	Ui::RzxJabberPropUI *ui;
+	Ui::RzxJabberProp *ui;
 	QWidget *propWidget;
 	RzxJabberClient *client;
 	QHash<QString,RzxJabberComputer*> computerList;

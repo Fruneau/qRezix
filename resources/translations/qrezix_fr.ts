@@ -3,17 +3,25 @@
     <name>@default</name>
     <message>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Charger</translation>
     </message>
     <message>
         <source>Unload</source>
-        <translation type="unfinished"></translation>
+        <translation>Décharger</translation>
     </message>
 </context>
 <context>
     <name>QRezix</name>
     <message>
+        <source>Preferences</source>
+        <translation type="unfinished">Préférences</translation>
+    </message>
+    <message>
         <source>Main</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The central widget has been set to %1. You should reload the module in order this changement to take effect. You can do this via this menu.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -29,10 +37,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Preferences</source>
-        <translation type="unfinished">Préférences</translation>
-    </message>
-    <message>
         <source>Adjust columns</source>
         <translation type="unfinished"></translation>
     </message>
@@ -41,15 +45,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Search</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The central widget has been set to %1. You should reload the module in order this changement to take effect. You can do this via this menu.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You should restart qRezix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -65,22 +65,20 @@
     </message>
 </context>
 <context>
-    <name>RzxChangePassUI</name>
+    <name>RzxChangePass</name>
     <message>
         <source>Change your pass</source>
         <translation>Changez votre mot de passe</translation>
     </message>
     <message>
-        <source>New pass:</source>
-        <translation>Nouveau mdp :</translation>
+        <source>Your password can contains any character.&lt;br&gt;
+It must be at least&lt;b&gt; 6 characters long&lt;/b&gt;.</source>
+        <translation>Votre mot de passe peut contenir n&apos;importe quel caractère,&lt;br&gt;
+mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</translation>
     </message>
     <message>
         <source>Reenter you new pass:</source>
         <translation>Confirmation :</translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation>&amp;Annuler</translation>
     </message>
     <message>
         <source>OK</source>
@@ -91,108 +89,18 @@
         <translation>Return</translation>
     </message>
     <message>
-        <source>Your password can contains any character.&lt;br&gt;
-It must be at least&lt;b&gt; 6 characters long&lt;/b&gt;.</source>
-        <translation>Votre mot de passe peut contenir n&apos;importe quel caractère,&lt;br&gt;
-mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</translation>
+        <source>&amp;Cancel</source>
+        <translation>&amp;Annuler</translation>
     </message>
-    <message encoding="UTF-8">
-        <source>⌥C</source>
-        <translation>⌥C</translation>
+    <message>
+        <source>New pass:</source>
+        <translation>Nouveau mdp :</translation>
     </message>
 </context>
 <context>
-    <name>RzxChatPropUI</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Chat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Print hh:mm:ss in chat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;warning&lt;/h3&gt;&lt;p&gt;If you check this you will receive an notification each time somebody check you properties&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning :&lt;/b&gt; in some cases, this option can be used to spam you with notification windows&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Warn me when properties are being checked</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Beep</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive en message&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Beep on message reception</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Select the sound to play when you receive a new message&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network</source>
-        <translation type="unfinished">Réseau</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Peer2peer port&lt;/h3&gt;&lt;p&gt;Define the port of the chat&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Smileys</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>RzxChatUI</name>
+    <name>RzxChat</name>
     <message>
         <source>Chat [Qt]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Input&lt;/h3&gt;&lt;p&gt;This is the place where you can type your messages.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Shortcuts :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Enter : &lt;/b&gt;Send your message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] : &lt;/b&gt;Navigate through the messages you have already typed&lt;br&gt;&lt;b&gt;Ctrl+Enter : &lt;/b&gt; Add a line-break&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Plug-ins&lt;/h3&gt;
-&lt;p&gt;Shows a menu which helps you to use the extra-features provided by qRezix&apos;s plug-ins&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Plug-ins</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Font&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, you can choose here the font to use&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Color&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, you can choose here the color to use&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Size&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, you can choose here the size of the text &lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Bold&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the bold style for the text&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -200,7 +108,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Underlined&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the underlined style for the text&lt;/p&gt;</source>
+        <source>I</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -208,15 +116,11 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Italic&lt;/h3&gt;&lt;p&gt;When you decided to send your messages as HTML, this button can enable/disable the italic style for the text&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>I</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>:-)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Input&lt;/h3&gt;&lt;p&gt;This is the place where you can type your messages.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Shortcuts :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Enter : &lt;/b&gt;Send your message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] : &lt;/b&gt;Navigate through the messages you have already typed&lt;br&gt;&lt;b&gt;Ctrl+Enter : &lt;/b&gt; Add a line-break&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -264,30 +168,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Pl&amp;ug-ins</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+U</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ctrl+B</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ctrl+U</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Smiley&lt;/h3&gt;&lt;p&gt;Click to add a smiley&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Send</source>
         <translation type="unfinished"></translation>
     </message>
@@ -301,6 +181,65 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Ctrl+S</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RzxChatProp</name>
+    <message>
+        <source>Network</source>
+        <translation type="unfinished">Réseau</translation>
+    </message>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print hh:mm:ss in chat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;warning&lt;/h3&gt;&lt;p&gt;If you check this you will receive an notification each time somebody check you properties&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning :&lt;/b&gt; in some cases, this option can be used to spam you with notification windows&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Warn me when properties are being checked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Beep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive en message&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Beep on message reception</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Select the sound to play when you receive a new message&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Peer2peer port&lt;/h3&gt;&lt;p&gt;Define the port of the chat&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Smileys</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -330,20 +269,8 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation>Il vous sera impossible de sauvegarder vos paramètres</translation>
     </message>
     <message>
-        <source>qRezix error</source>
-        <translation type="obsolete">Erreur qRéziX</translation>
-    </message>
-    <message>
-        <source>Unable to open favorites file %1</source>
-        <translation type="obsolete">Impossible de lire le fichier de favoris %1</translation>
-    </message>
-    <message>
         <source>English</source>
         <translation>Français</translation>
-    </message>
-    <message>
-        <source>Unable to open ignoreList file %1</source>
-        <translation type="obsolete">Impossible d&apos;ouvrir le fichier de l&apos;ignore-list %1</translation>
     </message>
     <message>
         <source>qRezix cannot create %1, which is the folder in which its configuration is saved
@@ -377,9 +304,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <source>You want to load module %1, but this module is compiled into qRezix as a built-in.&lt;br&gt;To load this module you have to restart qRezix.</source>
         <translation>Vous êtes sur le point de charger le module %1 qui est compilé dans le coeur même de qRezix. Cette opération n&apos;est possible à chaud que pour les modules compilé séparémments (plug-in). Il vous faudra donc relancer qRezix pour que la modification soit prise en compte.</translation>
     </message>
-</context>
-<context>
-    <name>RzxInfoMessageUI</name>
     <message>
         <source>Information</source>
         <translation>Information</translation>
@@ -394,7 +318,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
 </context>
 <context>
-    <name>RzxIntroUI</name>
+    <name>RzxIntro</name>
     <message>
         <source>Welcome</source>
         <translation>Bienvenue</translation>
@@ -413,7 +337,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
 </context>
 <context>
-    <name>RzxItemUI</name>
+    <name>RzxItem</name>
     <message>
         <source>Form</source>
         <translation type="unfinished"></translation>
@@ -463,7 +387,23 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
 </context>
 <context>
-    <name>RzxJabberPropUI</name>
+    <name>RzxJabberProp</name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Supprimer</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Ajouter</translation>
+    </message>
+    <message>
+        <source>Misc</source>
+        <translation type="unfinished">Divers</translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation type="unfinished">Pass :</translation>
+    </message>
     <message>
         <source>Form</source>
         <translation type="unfinished"></translation>
@@ -481,20 +421,8 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation type="unfinished">Supprimer</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="unfinished">Ajouter</translation>
-    </message>
-    <message>
         <source>&lt;h3&gt;Reconnection&lt;/h3&gt;&lt;p&gt;Defines the parameters of the reconnection.&lt;p&gt;&lt;p&gt;You shouldn&apos;t have to modify this values&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Misc</source>
-        <translation type="unfinished">Divers</translation>
     </message>
     <message>
         <source>Auto-reconnect delay:</source>
@@ -523,10 +451,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     <message>
         <source>&lt;h3&gt;Server&lt;/h3&gt;&lt;p&gt;Define the address of the xnetserver&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation type="unfinished">Pass :</translation>
     </message>
     <message>
         <source>User name:</source>
@@ -624,6 +548,10 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
 <context>
     <name>RzxJabberProperty</name>
     <message>
+        <source>Description</source>
+        <translation type="unfinished">Description</translation>
+    </message>
+    <message>
         <source>Email</source>
         <translation type="unfinished"></translation>
     </message>
@@ -648,10 +576,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Description</source>
-        <translation type="unfinished">Description</translation>
-    </message>
-    <message>
         <source>Address</source>
         <translation type="unfinished"></translation>
     </message>
@@ -668,11 +592,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
 </context>
 <context>
-    <name>RzxListEditUI</name>
-    <message>
-        <source>Form</source>
-        <translation></translation>
-    </message>
+    <name>RzxListEdit</name>
     <message>
         <source>Add</source>
         <translation>Ajouter</translation>
@@ -681,38 +601,114 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
-</context>
-<context>
-    <name>RzxLoaderUI</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
-    <message>
-        <source>Name</source>
-        <translation type="unfinished"></translation>
-    </message>
+</context>
+<context>
+    <name>RzxLoader</name>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Version</translation>
+        <translation>Version</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation>Description</translation>
     </message>
     <message>
         <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation>Recharger</translation>
     </message>
     <message>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Charger</translation>
+    </message>
+    <message>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nom</translation>
     </message>
 </context>
 <context>
-    <name>RzxMainuiPropUI</name>
+    <name>RzxMainuiProp</name>
+    <message>
+        <source>Layout</source>
+        <translation type="unfinished">Affichage</translation>
+    </message>
+    <message>
+        <source>Misc</source>
+        <translation type="unfinished">Divers</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">Favoris</translation>
+    </message>
+    <message>
+        <source>Printer</source>
+        <translation type="unfinished">Imprimante</translation>
+    </message>
+    <message>
+        <source>Samba</source>
+        <translation type="unfinished">Samba</translation>
+    </message>
+    <message>
+        <source>News</source>
+        <translation type="unfinished">News</translation>
+    </message>
+    <message>
+        <source>FTP</source>
+        <translation type="unfinished">FTP</translation>
+    </message>
     <message>
         <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Search&lt;/h3&gt;&lt;p&gt;Do you want to see the search tool ?&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Search Tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Quitting dialog&lt;/h3&gt;&lt;p&gt;Enable/disable the dialog box which is displayed when you close the qRezix&apos;s main window&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show dialog when clicking on X</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Action on double-clic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Define the action to execute when you double click on an item&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open FTP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tab to select on start:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Everybody</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -722,14 +718,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     <message>
         <source>ToolTips</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Printer</source>
-        <translation type="unfinished">Imprimante</translation>
-    </message>
-    <message>
-        <source>Samba</source>
-        <translation type="unfinished">Samba</translation>
     </message>
     <message>
         <source>Promotion</source>
@@ -744,10 +732,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>News</source>
-        <translation type="unfinished">News</translation>
-    </message>
-    <message>
         <source>Client version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -758,10 +742,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     <message>
         <source>OS</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>FTP</source>
-        <translation type="unfinished">FTP</translation>
     </message>
     <message>
         <source>Place</source>
@@ -784,15 +764,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>IP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Same gateway</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Comment</source>
+        <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -800,110 +772,22 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Name</source>
+        <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Misc</source>
-        <translation type="unfinished">Divers</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Quitting dialog&lt;/h3&gt;&lt;p&gt;Enable/disable the dialog box which is displayed when you close the qRezix&apos;s main window&lt;/p&gt;</source>
+        <source>Same gateway</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show dialog when clicking on X</source>
+        <source>IP</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>32*32</source>
-        <translation type="obsolete">32*32</translation>
-    </message>
-    <message>
-        <source>64*64</source>
-        <translation type="obsolete">64*64</translation>
-    </message>
-    <message>
-        <source>Action on double-clic</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Define the action to execute when you double click on an item&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Chat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open FTP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Search&lt;/h3&gt;&lt;p&gt;Do you want to see the search tool ?&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show Search Tools</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tab to select on start:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation type="unfinished">Favoris</translation>
-    </message>
-    <message>
-        <source>Everybody</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Layout</source>
-        <translation type="unfinished">Affichage</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="obsolete">Version</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="obsolete">Description</translation>
     </message>
 </context>
 <context>
-    <name>RzxNotifierPropUI</name>
+    <name>RzxNotifierProp</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show a notification window on favorite&apos;s state modification</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when a favorite get connected&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Beep on connection of one of your favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Select the sound to play when a favorite get connected&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -928,6 +812,30 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>What ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show a notification window on favorite&apos;s state modification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Select the sound to play when a favorite get connected&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when a favorite get connected&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Beep on connection of one of your favorites</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -962,10 +870,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation>Le nom de votre ordinateur est invalide...&lt;br&gt;Il ne peux conteir que des lettres, des chiffres et des signes &apos;-&apos;.</translation>
     </message>
     <message>
-        <source>Your comment is not valid...&lt;br&gt;It cannot contain linebreaks or other special characters</source>
-        <translation type="obsolete">Votre commentaire n&apos;estpas valide...&lt;br&gt;Il ne peut pas contenir de retours à la ligne ou de caractères spéciaux</translation>
-    </message>
-    <message>
         <source>Last name:</source>
         <translation>Nom :</translation>
     </message>
@@ -996,10 +900,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation>Fichier invalide sélectionné.</translation>
     </message>
     <message>
-        <source>Settings</source>
-        <translation type="obsolete">Réglages</translation>
-    </message>
-    <message>
         <source>Network</source>
         <translation>Réseau</translation>
     </message>
@@ -1023,6 +923,358 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <source>Favorites/Banned</source>
         <translation>Favoris/Bannis</translation>
     </message>
+    <message>
+        <source>Preferences</source>
+        <translation>Préférences</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Menu&lt;/h3&gt;&lt;p&gt;Define the appearance of the menus and butons of the interface&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Menu&lt;/h3&gt;&lt;p&gt;Permet de configurer l&apos;apparence du menu et des boutons de l&apos;interface&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Personnal information&lt;/h3&gt;&lt;p&gt;Give here some informations about you.&lt;/p&gt;&lt;p&gt;This informations can be very useful, so you should fill it with honesty&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Informations personnelles&lt;/h3&gt;&lt;p&gt;Donne des informatios vous concernant.&lt;/p&gt;&lt;p&gt;Ces informations peuvent être très utiles, il est donc conseillé de les remplir avec la plus grande honnêteté.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Personnal information</source>
+        <translation>Informations personnelles</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Aucun</translation>
+    </message>
+    <message>
+        <source>Athletism</source>
+        <translation>Athlé</translation>
+    </message>
+    <message>
+        <source>Rowing</source>
+        <translation>Aviron</translation>
+    </message>
+    <message>
+        <source>Basketball</source>
+        <translation>Basket</translation>
+    </message>
+    <message>
+        <source>Orienting</source>
+        <translation>CO</translation>
+    </message>
+    <message>
+        <source>Riding</source>
+        <translation>Équitation</translation>
+    </message>
+    <message>
+        <source>Climbing</source>
+        <translation>Escalade</translation>
+    </message>
+    <message>
+        <source>Fencing</source>
+        <translation>Escrime</translation>
+    </message>
+    <message>
+        <source>Football</source>
+        <translation>Foot</translation>
+    </message>
+    <message>
+        <source>Golf</source>
+        <translation>Golf</translation>
+    </message>
+    <message>
+        <source>Handball</source>
+        <translation>Hand</translation>
+    </message>
+    <message>
+        <source>Judo</source>
+        <translation>Judo</translation>
+    </message>
+    <message>
+        <source>Swimming</source>
+        <translation>Natation</translation>
+    </message>
+    <message>
+        <source>Rugby</source>
+        <translation>Rugby</translation>
+    </message>
+    <message>
+        <source>Tennis</source>
+        <translation>Tennis</translation>
+    </message>
+    <message>
+        <source>Sailing</source>
+        <translation>Voile</translation>
+    </message>
+    <message>
+        <source>Volleyball</source>
+        <translation>Volley</translation>
+    </message>
+    <message>
+        <source>Sport:</source>
+        <translation>Sport :</translation>
+    </message>
+    <message>
+        <source>orange</source>
+        <translation>oRanJe</translation>
+    </message>
+    <message>
+        <source>rouje</source>
+        <translation>Rouje</translation>
+    </message>
+    <message>
+        <source>jone</source>
+        <translation>Jône</translation>
+    </message>
+    <message>
+        <source>Promo:</source>
+        <translation>Promo :</translation>
+    </message>
+    <message>
+        <source>Nick:</source>
+        <translation>Surnom :</translation>
+    </message>
+    <message>
+        <source>First name:</source>
+        <translation>Prénom :</translation>
+    </message>
+    <message>
+        <source>Surname:</source>
+        <translation>Nom :</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Open services&lt;/h3&gt;&lt;p&gt;Select the servers you want to share with all the users of the network. If a server is not present, it won&apos;t be displayed as present&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Services&lt;/h3&gt;&lt;p&gt;Indique les services que vous voulez partager avec les autres utilisateurs.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt; Ce sont les services que vous hébergés qui sont attendu ici, et nous ceux auxquels vous désirez accéder.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Open services</source>
+        <translation>Services</translation>
+    </message>
+    <message>
+        <source>Printer</source>
+        <translation>Imprimante</translation>
+    </message>
+    <message>
+        <source>Samba</source>
+        <translation>Samba</translation>
+    </message>
+    <message>
+        <source>FTP</source>
+        <translation>FTP</translation>
+    </message>
+    <message>
+        <source>News</source>
+        <translation>News</translation>
+    </message>
+    <message>
+        <source>HTTP</source>
+        <translation>Web</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;How to contact&lt;/h3&gt;&lt;p&gt;Some informations which give ways to contact you&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Contacts&lt;/h3&gt;&lt;p&gt;Quelques informations pour vous contacter...&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>How to contact</source>
+        <translation>Contacts</translation>
+    </message>
+    <message>
+        <source>Web page:</source>
+        <translation>Page Web :</translation>
+    </message>
+    <message>
+        <source>e-mail:</source>
+        <translation>Courriel :</translation>
+    </message>
+    <message>
+        <source>Computer infos</source>
+        <translation>Informations sur l&apos;ordinateur</translation>
+    </message>
+    <message>
+        <source>Comment:</source>
+        <translation>Commentaire :</translation>
+    </message>
+    <message>
+        <source>Computer name:</source>
+        <translation>Nom d&apos;ordinateur :</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Computer name&lt;/h3&gt;
+&lt;p&gt;Name of your computer on the network. You can choose it here&lt;/p&gt;
+&lt;p&gt;Your name should only contains letters, numbers et &apos;-&apos;, should not begin or finish with a &apos;-&apos; and each &apos;-&apos; should be isolated. Moreover, this name can&apos;t be more than 24 characters long&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Nom d&apos;ordinateur&lt;/h3&gt;
+&lt;p&gt;Ce nom permet d&apos;identifier votre ordinateur sur le réseau (nom DNS).&lt;/p&gt;
+&lt;p&gt;Ce nom doit respecter quelques règles. Il ne peut contenir que des lettres, des chiffres et des tirets (&apos;-&apos;). Les tirets ne peuvent ni commencer, ni finir le nom et doivent être isolés. De plus le nom est limité à 24 caractères&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>(3 to 32 characters containing only letters, numbers or -)</source>
+        <translation>(de 3 à 32 caractères comprenant lettres, chiffres et -)</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Away&lt;/h3&gt;&lt;p&gt;Check this case if you want to be marked away by default&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Loin&lt;/p&gt;&lt;p&gt;Cochez cette case pour être sur répondeur par défaut.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Away:</source>
+        <translation>Marquer absent :</translation>
+    </message>
+    <message>
+        <source>Browse...</source>
+        <translation>Parcourir...</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Responder&lt;/h3&gt;&lt;p&gt;When you are away, people who want to chat with you will receive this message&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Répondeur&lt;/h3&gt;&lt;p&gt;Message envoyé aux personnes qui tentent de discuter avec vous lorsques vous être marqué &apos;Loin&apos;.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>This page aims at giving a way to administrate the lists of your favorites and ignored computers.
+
+Item marked (*) are not connected.</source>
+        <translation>Le but de cette page est de permettre d&apos;administrer la liste des personnes que vous avez choisies comme favories ou bannies.
+
+Les entrées marquées par (*) représente des personnes actuellement déconnectées.</translation>
+    </message>
+    <message>
+        <source>Banned</source>
+        <translation>Bannis</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favoris</translation>
+    </message>
+    <message>
+        <source>Interface</source>
+        <translation>Interface</translation>
+    </message>
+    <message>
+        <source>Themes:</source>
+        <translation>Thèmes :</translation>
+    </message>
+    <message>
+        <source>Text position:</source>
+        <translation>Position du texte :</translation>
+    </message>
+    <message>
+        <source>No text</source>
+        <translation>Pas de texte</translation>
+    </message>
+    <message>
+        <source>Beside icon</source>
+        <translation>A côté de l&apos;icône</translation>
+    </message>
+    <message>
+        <source>Below icon</source>
+        <translation>En dessous de l&apos;icône</translation>
+    </message>
+    <message>
+        <source>Icon size:</source>
+        <translation>Taille des icônes :</translation>
+    </message>
+    <message>
+        <source>No icon</source>
+        <translation>Pas d&apos;icône</translation>
+    </message>
+    <message>
+        <source>Small icons</source>
+        <translation>Petites icônes</translation>
+    </message>
+    <message>
+        <source>Big icons</source>
+        <translation>Grandes icônes</translation>
+    </message>
+    <message>
+        <source>Language:</source>
+        <translation>Langue :</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Themes&lt;/h3&gt;&lt;p&gt;Choose a themes for the icons.&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Thèmes&lt;/h3&gt;&lt;p&gt;Choisissez le thème des icônes qui illustrent qRezix.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Misc</source>
+        <translation>Divers</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Responder mode&lt;/h3&gt;&lt;p&gt;There are 2 kinds of responder&lt;p&gt;&lt;p&gt;&lt;b&gt;Refuse,&lt;/b&gt; in this mode, all the messages you receive while away are lost&lt;/p&gt;&lt;p&gt;&lt;b&gt;Store,&lt;/b&gt; in this mode, you can read you messages as if you were not marked away&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Mode du répondeur&lt;/h3&gt;&lt;p&gt;Deux modes sont disponibles pour le répondeur. Soit vous refusez tous les messages dès lors que vous êtes marquez &apos;Loin&apos;, soit vous continuez à les recevoir. Dans les deux cas, votre correspondant recevra votre message de réponse automatique.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Refuse messages when away</source>
+        <translation>Refuser les messages du répondeur</translation>
+    </message>
+    <message>
+        <source>Style</source>
+        <translation>Style</translation>
+    </message>
+    <message>
+        <source>Use style on all windows</source>
+        <translation>Utiliser sur toutes les fenêtres</translation>
+    </message>
+    <message>
+        <source>Style:</source>
+        <translation>Style :</translation>
+    </message>
+    <message>
+        <source>Commands</source>
+        <translation>Programmes externes</translation>
+    </message>
+    <message>
+        <source>News reader:</source>
+        <translation>Lecteur de news :</translation>
+    </message>
+    <message>
+        <source>Web browser:</source>
+        <translation>Navigateur web :</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Sound command&lt;/h3&gt;&lt;p&gt;Select the commant to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Commande de son&lt;/h3&gt;&lt;p&gt;Choisissez la command à utiliser quand qRezix doit jouer un son (artsplay pour arts, esdplay pour esound, alsaplayer pour alsa, ...).&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Command to play a sound :</source>
+        <translation>Commande pour jouer un son :</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Working directory&lt;/h3&gt;&lt;p&gt;Define the default directory where you want your clients store the files you download&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Répertoire de travail&lt;/h3&gt;&lt;p&gt;Répertoire par défaut dans lequel sont stockés les fichiers téléchargés par vos clients (FTP surtout).&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Working directory :</source>
+        <translation>Répertoire de travail :</translation>
+    </message>
+    <message>
+        <source>FTP client:</source>
+        <translation>Client FTP :</translation>
+    </message>
+    <message>
+        <source>Network protocols</source>
+        <translation>Protocoles réseau</translation>
+    </message>
+    <message>
+        <source>&lt;h2&gt;New Item&lt;/h2&gt;</source>
+        <translation>&lt;h2&gt;Nouvel élément&lt;/h2&gt;</translation>
+    </message>
+    <message>
+        <source>About Qt</source>
+        <translation>A propos de Qt</translation>
+    </message>
+    <message>
+        <source>Accept</source>
+        <translation>Valider</translation>
+    </message>
+    <message>
+        <source>Apply</source>
+        <translation>Appliquer</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuler</translation>
+    </message>
+    <message>
+        <source>0</source>
+        <translation>0</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>RzxProtocole</name>
@@ -1043,20 +1295,9 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
 <context>
     <name>RzxQuit</name>
     <message>
-        <source>Quit now !</source>
-        <translation type="unfinished"></translation>
+        <source>Return</source>
+        <translation type="unfinished">Return</translation>
     </message>
-    <message>
-        <source>Minimize me...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Abort quitting please</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>RzxQuitUI</name>
     <message>
         <source>Quit</source>
         <translation type="unfinished"></translation>
@@ -1086,10 +1327,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Return</source>
-        <translation type="unfinished">Return</translation>
-    </message>
-    <message>
         <source>&amp;Always do like that</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1097,17 +1334,21 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <source>⌥A</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Quit now !</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimize me...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Abort quitting please</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxRezalModel</name>
-    <message>
-        <source>Computer name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Comment</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Samba</source>
         <translation type="unfinished">Samba</translation>
@@ -1117,16 +1358,32 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished">FTP</translation>
     </message>
     <message>
-        <source>Web</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>News</source>
         <translation type="unfinished">News</translation>
     </message>
     <message>
         <source>Printer</source>
         <translation type="unfinished">Imprimante</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">Favoris</translation>
+    </message>
+    <message>
+        <source>Banned</source>
+        <translation type="unfinished">Bannis</translation>
+    </message>
+    <message>
+        <source>Computer name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Web</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OS</source>
@@ -1165,14 +1422,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorites</source>
-        <translation type="unfinished">Favoris</translation>
-    </message>
-    <message>
-        <source>Banned</source>
-        <translation type="unfinished">Bannis</translation>
-    </message>
-    <message>
         <source>Others...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1189,11 +1438,11 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Informations :</source>
+        <source>Informations:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ftp server : </source>
+        <source>ftp server:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1201,19 +1450,19 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>web server : </source>
+        <source>web server:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>news server : </source>
+        <source>news server:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>samba server : </source>
+        <source>samba server:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>printer : </source>
+        <source>printer:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1221,7 +1470,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>features : </source>
+        <source>features:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1233,7 +1482,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Location : </source>
+        <source>Location:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1247,6 +1496,10 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
 </context>
 <context>
     <name>RzxRezalPopup</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annuler</translation>
+    </message>
     <message>
         <source>Samba connect</source>
         <translation type="unfinished"></translation>
@@ -1290,10 +1543,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     <message>
         <source>Add to ignore list</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
     </message>
 </context>
 <context>
@@ -1374,7 +1623,7 @@ DNS request failed</source>
     </message>
 </context>
 <context>
-    <name>RzxStatusUI</name>
+    <name>RzxStatus</name>
     <message>
         <source>Form</source>
         <translation type="unfinished"></translation>
@@ -1398,7 +1647,7 @@ DNS request failed</source>
     </message>
 </context>
 <context>
-    <name>RzxTrayPropUI</name>
+    <name>RzxTrayProp</name>
     <message>
         <source>Form</source>
         <translation type="unfinished"></translation>
@@ -1432,18 +1681,10 @@ DNS request failed</source>
     </message>
 </context>
 <context>
-    <name>RzxWrongPassUI</name>
+    <name>RzxWrongPass</name>
     <message>
         <source>Enter you Password</source>
         <translation>Entrez votre pass</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation>Pass :</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>&lt;b&gt;Wrong Password&lt;/b&gt;&lt;br&gt;&lt;br&gt;
@@ -1453,9 +1694,17 @@ If you&apos;re sure that you entered the good Computer Name then reenter your pa
 Si vous n&apos;avez jamais été connecté au xnetserver, il est possible que le nom d&apos;ordinateur que vous avez choisi soit déjà utilisé par un autre utilisateur. Dans ce cas : &lt;br&gt;&lt;i&gt;Essayez de changer votre nom d&apos;ordinateur&lt;/i&gt;&lt;br&gt;&lt;br&gt;
 Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot de passe.</translation>
     </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation>Pass :</translation>
+    </message>
 </context>
 <context>
-    <name>RzxXNetPropUI</name>
+    <name>RzxXNetProp</name>
     <message>
         <source>Form</source>
         <translation type="unfinished"></translation>
@@ -1506,415 +1755,6 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;The xNet protocole is the original protocole of qRezix.&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This module support xNet v4.0 which include authentification and 32bits icons support. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>frmPref</name>
-    <message>
-        <source>Preferences</source>
-        <translation>Préférences</translation>
-    </message>
-    <message>
-        <source>Computer name:</source>
-        <translation>Nom d&apos;ordinateur:</translation>
-    </message>
-    <message>
-        <source>Browse...</source>
-        <translation>Parcourir...</translation>
-    </message>
-    <message>
-        <source>Away:</source>
-        <translation>Marqué &quot;Loin&quot;:</translation>
-    </message>
-    <message>
-        <source>How to contact</source>
-        <translation>Contacts</translation>
-    </message>
-    <message>
-        <source>Phone number:</source>
-        <translation>Téléphone:</translation>
-    </message>
-    <message>
-        <source>Web page:</source>
-        <translation>Page Web:</translation>
-    </message>
-    <message>
-        <source>Room:</source>
-        <translation>Kazert:</translation>
-    </message>
-    <message>
-        <source>Sport:</source>
-        <translation>Sport:</translation>
-    </message>
-    <message>
-        <source>None</source>
-        <translation>Aucun</translation>
-    </message>
-    <message>
-        <source>Athletism</source>
-        <translation>Athlé</translation>
-    </message>
-    <message>
-        <source>Rowing</source>
-        <translation>Aviron</translation>
-    </message>
-    <message>
-        <source>Basketball</source>
-        <translation>Basket</translation>
-    </message>
-    <message>
-        <source>Orienting</source>
-        <translation>CO</translation>
-    </message>
-    <message>
-        <source>Riding</source>
-        <translation>Équitation</translation>
-    </message>
-    <message>
-        <source>Climbing</source>
-        <translation>Escalade</translation>
-    </message>
-    <message>
-        <source>Fencing</source>
-        <translation>Escrime</translation>
-    </message>
-    <message>
-        <source>Football</source>
-        <translation>Foot</translation>
-    </message>
-    <message>
-        <source>Golf</source>
-        <translation>Golf</translation>
-    </message>
-    <message>
-        <source>Handball</source>
-        <translation>Hand</translation>
-    </message>
-    <message>
-        <source>Judo</source>
-        <translation>Judo</translation>
-    </message>
-    <message>
-        <source>Swimming</source>
-        <translation>Natation</translation>
-    </message>
-    <message>
-        <source>Rugby</source>
-        <translation>Rugby</translation>
-    </message>
-    <message>
-        <source>Tennis</source>
-        <translation>Tennis</translation>
-    </message>
-    <message>
-        <source>Sailing</source>
-        <translation>Voile</translation>
-    </message>
-    <message>
-        <source>Volleyball</source>
-        <translation>Volley</translation>
-    </message>
-    <message>
-        <source>e-mail:</source>
-        <translation>Courriel:</translation>
-    </message>
-    <message>
-        <source>Personnal information</source>
-        <translation>Informations personnelles</translation>
-    </message>
-    <message>
-        <source>First name:</source>
-        <translation>Prénom:</translation>
-    </message>
-    <message>
-        <source>Nick:</source>
-        <translation>Surnom:</translation>
-    </message>
-    <message>
-        <source>Surname:</source>
-        <translation>Nom:</translation>
-    </message>
-    <message>
-        <source>Promo:</source>
-        <translation>Promâl:</translation>
-    </message>
-    <message>
-        <source>orange</source>
-        <translation>oRanJe</translation>
-    </message>
-    <message>
-        <source>rouje</source>
-        <translation>Rouje</translation>
-    </message>
-    <message>
-        <source>jone</source>
-        <translation>Jône</translation>
-    </message>
-    <message>
-        <source>Working directory :</source>
-        <translation>Répertoire de travail:</translation>
-    </message>
-    <message>
-        <source>Open services</source>
-        <translation>Services</translation>
-    </message>
-    <message>
-        <source>FTP</source>
-        <translation>FTP</translation>
-    </message>
-    <message>
-        <source>Samba</source>
-        <translation>Samba</translation>
-    </message>
-    <message>
-        <source>News</source>
-        <translation>News</translation>
-    </message>
-    <message>
-        <source>HTTP</source>
-        <translation>Web</translation>
-    </message>
-    <message>
-        <source>Icon</source>
-        <translation type="obsolete">Icône</translation>
-    </message>
-    <message>
-        <source>Command to play a sound :</source>
-        <translation>Commande pour jouer un son :</translation>
-    </message>
-    <message>
-        <source>Apply</source>
-        <translation>Appliquer</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Annuler</translation>
-    </message>
-    <message>
-        <source>Accept</source>
-        <translation>Valider</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="obsolete">Description</translation>
-    </message>
-    <message>
-        <source>No text</source>
-        <translation>Pas de texte</translation>
-    </message>
-    <message>
-        <source>Beside icon</source>
-        <translation>A côté de l&apos;icône</translation>
-    </message>
-    <message>
-        <source>Below icon</source>
-        <translation>En dessous de l&apos;icône</translation>
-    </message>
-    <message>
-        <source>Text position:</source>
-        <translation>Position du texte :</translation>
-    </message>
-    <message>
-        <source>No icon</source>
-        <translation>Pas d&apos;icône</translation>
-    </message>
-    <message>
-        <source>Small icons</source>
-        <translation>Petites icônes</translation>
-    </message>
-    <message>
-        <source>Big icons</source>
-        <translation>Grandes icônes</translation>
-    </message>
-    <message>
-        <source>Icon size:</source>
-        <translation>Taille des icônes :</translation>
-    </message>
-    <message>
-        <source>About Qt</source>
-        <translation>A propos de Qt</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="obsolete">Version</translation>
-    </message>
-    <message>
-        <source>Comment:</source>
-        <translation>Commentaire :</translation>
-    </message>
-    <message>
-        <source>Refuse messages when away</source>
-        <translation>Refuser les messages du répondeur</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Menu&lt;/h3&gt;&lt;p&gt;Define the appearance of the menus and butons of the interface&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Menu&lt;/h3&gt;&lt;p&gt;Permet de configurer l&apos;apparence du menu et des boutons de l&apos;interface&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Personnal information&lt;/h3&gt;&lt;p&gt;Give here some informations about you.&lt;/p&gt;&lt;p&gt;This informations can be very useful, so you should fill it with honesty&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Informations personnelles&lt;/h3&gt;&lt;p&gt;Donne des informatios vous concernant.&lt;/p&gt;&lt;p&gt;Ces informations peuvent être très utiles, il est donc conseillé de les remplir avec la plus grande honnêteté.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;How to contact&lt;/h3&gt;&lt;p&gt;Some informations which give ways to contact you&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Contacts&lt;/h3&gt;&lt;p&gt;Quelques informations pour vous contacter...&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Computer name&lt;/h3&gt;
-&lt;p&gt;Name of your computer on the network. You can choose it here&lt;/p&gt;
-&lt;p&gt;Your name should only contains letters, numbers et &apos;-&apos;, should not begin or finish with a &apos;-&apos; and each &apos;-&apos; should be isolated. Moreover, this name can&apos;t be more than 24 characters long&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Nom d&apos;ordinateur&lt;/h3&gt;
-&lt;p&gt;Ce nom permet d&apos;identifier votre ordinateur sur le réseau (nom DNS).&lt;/p&gt;
-&lt;p&gt;Ce nom doit respecter quelques règles. Il ne peut contenir que des lettres, des chiffres et des tirets (&apos;-&apos;). Les tirets ne peuvent ni commencer, ni finir le nom et doivent être isolés. De plus le nom est limité à 24 caractères&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Away&lt;/h3&gt;&lt;p&gt;Check this case if you want to be marked away by default&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Loin&lt;/p&gt;&lt;p&gt;Cochez cette case pour être sur répondeur par défaut.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Responder&lt;/h3&gt;&lt;p&gt;When you are away, people who want to chat with you will receive this message&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Répondeur&lt;/h3&gt;&lt;p&gt;Message envoyé aux personnes qui tentent de discuter avec vous lorsques vous être marqué &apos;Loin&apos;.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Comment&lt;/h3&gt;&lt;p&gt;Tell here what you want...&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;h3&gt;Remarque&lt;/h3&gt;&lt;p&gt;Commentaire personnalisé... chacun voit ce qu&apos;il y met :-)&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Themes&lt;/h3&gt;&lt;p&gt;Choose a themes for the icons.&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Thèmes&lt;/h3&gt;&lt;p&gt;Choisissez le thème des icônes qui illustrent qRezix.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Working directory&lt;/h3&gt;&lt;p&gt;Define the default directory where you want your clients store the files you download&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Répertoire de travail&lt;/h3&gt;&lt;p&gt;Répertoire par défaut dans lequel sont stockés les fichiers téléchargés par vos clients (FTP surtout).&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Open services&lt;/h3&gt;&lt;p&gt;Select the servers you want to share with all the users of the network. If a server is not present, it won&apos;t be displayed as present&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Services&lt;/h3&gt;&lt;p&gt;Indique les services que vous voulez partager avec les autres utilisateurs.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt; Ce sont les services que vous hébergés qui sont attendu ici, et nous ceux auxquels vous désirez accéder.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Responder mode&lt;/h3&gt;&lt;p&gt;There are 2 kinds of responder&lt;p&gt;&lt;p&gt;&lt;b&gt;Refuse,&lt;/b&gt; in this mode, all the messages you receive while away are lost&lt;/p&gt;&lt;p&gt;&lt;b&gt;Store,&lt;/b&gt; in this mode, you can read you messages as if you were not marked away&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Mode du répondeur&lt;/h3&gt;&lt;p&gt;Deux modes sont disponibles pour le répondeur. Soit vous refusez tous les messages dès lors que vous êtes marquez &apos;Loin&apos;, soit vous continuez à les recevoir. Dans les deux cas, votre correspondant recevra votre message de réponse automatique.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Sound command&lt;/h3&gt;&lt;p&gt;Select the commant to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Commande de son&lt;/h3&gt;&lt;p&gt;Choisissez la command à utiliser quand qRezix doit jouer un son (artsplay pour arts, esdplay pour esound, alsaplayer pour alsa, ...).&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;New Item&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;Nouvel élément&lt;/h2&gt;</translation>
-    </message>
-    <message>
-        <source>0</source>
-        <translation>0</translation>
-    </message>
-    <message>
-        <source>Computer infos</source>
-        <translation>Informations sur l&apos;ordinateur</translation>
-    </message>
-    <message>
-        <source>Interface</source>
-        <translation>Interface</translation>
-    </message>
-    <message>
-        <source>Commands</source>
-        <translation>Programmes externes</translation>
-    </message>
-    <message>
-        <source>Modules</source>
-        <translation>Modules</translation>
-    </message>
-    <message>
-        <source>Misc</source>
-        <translation>Divers</translation>
-    </message>
-    <message>
-        <source>UI Language:</source>
-        <translation type="obsolete">Langue :</translation>
-    </message>
-    <message>
-        <source>Themes:</source>
-        <translation>Thèmes :</translation>
-    </message>
-    <message>
-        <source>News reader:</source>
-        <translation>Lecteur de news :</translation>
-    </message>
-    <message>
-        <source>Web browser:</source>
-        <translation>Navigateur web :</translation>
-    </message>
-    <message>
-        <source>FTP client:</source>
-        <translation>Client FTP :</translation>
-    </message>
-    <message>
-        <source>Network protocols</source>
-        <translation>Protocoles réseau</translation>
-    </message>
-    <message>
-        <source>Style</source>
-        <translation>Style</translation>
-    </message>
-    <message>
-        <source>Use style on all windows</source>
-        <translation>Utiliser sur toutes les fenêtres</translation>
-    </message>
-    <message>
-        <source>Style:</source>
-        <translation>Style :</translation>
-    </message>
-    <message>
-        <source>Printer</source>
-        <translation>Imprimante</translation>
-    </message>
-    <message>
-        <source>Language:</source>
-        <translation>Langue :</translation>
-    </message>
-    <message>
-        <source>This page aims at giving a way to administrate the lists of your favorites and ignored computers.
-
-Item marked (*) are not connected.</source>
-        <translation>Le but de cette page est de permettre d&apos;administrer la liste des personnes que vous avez choisies comme favories ou bannies.
-
-Les entrées marquées par (*) représente des personnes actuellement déconnectées.</translation>
-    </message>
-    <message>
-        <source>Banned</source>
-        <translation>Bannis</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation>Favoris</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>(3 to 32 characters containing only letters, numbers or -)</source>
-        <translation>(de 3 à 32 caractères comprenant lettres, chiffres et -)</translation>
-    </message>
-</context>
-<context>
-    <name>qRezixUI</name>
-    <message>
-        <source>qRezix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Main view&lt;/h3&gt;
-&lt;p&gt;You can choose if you want to see Everybody or only your favorites.&lt;br&gt;
-Each item have a menu (right click)&lt;/p&gt;
-&lt;p&gt;To switch you can use &lt;b&gt;Shift+Tab&lt;/b&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation type="unfinished">Favoris</translation>
-    </message>
-    <message>
-        <source>Everybody</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

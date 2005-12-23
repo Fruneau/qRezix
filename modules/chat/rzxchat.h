@@ -37,7 +37,7 @@ class QKeyEvent;
 class QEvent;
 class QSplitter;
 class QTextEdit;
-namespace Ui { class RzxChatUI; };
+namespace Ui { class RzxChat; };
 
 ///Fenêtre de dialogue
 /** (et pas boîte de dialogue ;)... gere la totalité de l'interface de chat.
@@ -52,7 +52,7 @@ class RzxChat : public QWidget
 	
 	static const QColor preDefinedColors[16];
 
-	Ui::RzxChatUI *ui;
+	Ui::RzxChat *ui;
 	
 	QTextEdit *txtHistory;
 	QWidget *editor;

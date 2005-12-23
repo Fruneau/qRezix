@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>frmPref</class>
- <widget class="QDialog" name="frmPref" >
+ <class>RzxProperty</class>
+ <widget class="QDialog" name="RzxProperty" >
   <property name="geometry" >
    <rect>
     <x>0</x>

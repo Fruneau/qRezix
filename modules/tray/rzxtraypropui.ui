@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>RzxTrayPropUI</class>
- <widget class="QWidget" name="RzxTrayPropUI" >
+ <class>RzxTrayProp</class>
+ <widget class="QWidget" name="RzxTrayProp" >
   <property name="geometry" >
    <rect>
     <x>0</x>

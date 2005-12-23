@@ -39,7 +39,7 @@
 class QPoint;
 class RzxComputer;
 class RzxClientListener;
-namespace Ui { class RzxChatPropUI; }
+namespace Ui { class RzxChatProp; }
 
 /**
 @author Florent Bruneau
@@ -69,7 +69,7 @@ class RzxChatLister:public RzxModule
 	RzxClientListener *client;
 
 	QWidget *propWidget;
-	Ui::RzxChatPropUI *ui;
+	Ui::RzxChatProp *ui;
 
 	bool wellInit;
 

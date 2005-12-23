@@ -410,7 +410,7 @@ QWidget *RzxChatLister::historique(RzxComputer *computer, bool withFrame, QWidge
 QList<QWidget*> RzxChatLister::propWidgets()
 {
 	if(!ui)
-		ui = new Ui::RzxChatPropUI;
+		ui = new Ui::RzxChatProp;
 	if(!propWidget)
 	{
 		propWidget = new QWidget;

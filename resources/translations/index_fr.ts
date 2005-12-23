@@ -3,7 +3,7 @@
     <name>RzxRezalIndex</name>
     <message>
         <source>Index view for easy navigation</source>
-        <translation type="unfinished"></translation>
+        <translation>Index pour naviguer simplement entre les catégories</translation>
     </message>
 </context>
 </TS>

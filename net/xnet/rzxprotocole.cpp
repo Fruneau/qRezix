@@ -245,7 +245,7 @@ void RzxProtocole::changePass(const QString& newPass)
 QList<QWidget*> RzxProtocole::propWidgets()
 {
 	if(!ui)
-		ui = new Ui::RzxXNetPropUI;
+		ui = new Ui::RzxXNetProp;
 	if(!propWidget)
 	{
 		propWidget = new QWidget;
