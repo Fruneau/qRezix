@@ -108,16 +108,16 @@ class RZX_CORE_EXPORT RzxNetwork : public QObject, public RzxBaseModule
 		void logout(const RzxHostAddress&);
 
 		///Le protocole demande l'affichage d'un message d'erreur
-		void fatal(const QString&);
+		void fatal(RzxNetwork*, const QString&);
 
 		///Le protocole demande l'affichage d'un message d'avertissement
-		void warning(const QString&);
+		void warning(RzxNetwork*, const QString&);
 
 		///Le protocole demande l'affichage d'un message d'information
-		void info(const QString&);
+		void info(RzxNetwork*, const QString&);
 
 		///L'état de connexion a changé
-		void status(const QString&);
+		void status(RzxNetwork*, const QString&);
 
 		///Indique qu'on a reçu l'icône pour l'adresse indiquée
 		void receivedIcon(QImage*, const RzxHostAddress&);

@@ -234,5 +234,13 @@
         <source>Native support for the jabber protocole</source>
         <translation>Support natif du protocole Jabber</translation>
     </message>
+    <message>
+        <source>connected</source>
+        <translation>connecté</translation>
+    </message>
+    <message>
+        <source>disconnected</source>
+        <translation>déconnecté</translation>
+    </message>
 </context>
 </TS>

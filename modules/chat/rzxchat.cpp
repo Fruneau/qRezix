@@ -56,6 +56,7 @@
 #include "rzxtextedit.h"
 #include "rzxchatlister.h"
 #include "rzxchatconfig.h"
+#include "rzxsmileys.h"
 
 #ifdef Q_OS_MAC
 #	include "ui_rzxchat_mac.h"
@@ -377,7 +378,7 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 		tmpH = ("<font color=\"%1\">"+head+"</font>").arg(color);
 	}
 	// Gestion des smileys
-	tmp = replaceSmiley(tmp);
+	RzxSmileys::replace(tmp);
 	
 	if(RzxChatConfig::printTime())
 		txtHistory->append(tmpH + tmp);
@@ -673,18 +674,4 @@ void RzxChat::on_btnSmiley_toggled(bool on)
 	smileyUi = new RzxSmileyUi(ui->btnSmiley, this);
 	connect(smileyUi, SIGNAL(clickedSmiley(const QString&)), ui->edMsg, SLOT(insertPlainText(const QString&)));
 	smileyUi->show();
-}
-
-/// Remplace les smileys par des images dans une string
-QString RzxChat::replaceSmiley(const QString& txt)
-{
-	QString msg = txt;
-	for(int i = 0 ; i < RzxChatConfig::global()->smileys.size() ; i++)
-	{
-		if(QFile::exists(RzxChatConfig::global()->smileyDir[RzxChatConfig::smileyTheme()]->absolutePath()+"/"+RzxChatConfig::global()->smileys[i][1]))
-		{
-			msg.replace(RzxChatConfig::global()->smileys[i][0], "<img src=\""+RzxChatConfig::global()->smileyDir[RzxChatConfig::smileyTheme()]->absolutePath()+"/"+RzxChatConfig::global()->smileys[i][1]+ "\" alt=\"" + RzxChatConfig::global()->smileys[i][0] + "\">");
-		}
-	}
-	return msg;
 }

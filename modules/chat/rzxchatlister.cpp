@@ -52,6 +52,7 @@ RZX_MODULE_EXPORT(RzxChatLister)
 #include "rzxclientlistener.h"
 #include "ui_rzxchatprop.h"
 #include "rzxchatconfig.h"
+#include "rzxsmileys.h"
 
 
 RZX_CONFIG_INIT(RzxChatConfig)
@@ -434,9 +435,8 @@ void RzxChatLister::propInit(bool def)
 	ui->cbPropertiesWarning->setChecked(RzxChatConfig::warnWhenChecked(def));
 	ui->cbPrintTime->setChecked(RzxChatConfig::printTime(def));
 	ui->chat_port->setValue(RzxChatConfig::chatPort(def));
-	ui->smileyCombo->clear();
-	ui->smileyCombo->addItems(RzxChatConfig::global()->smileyDir.keys());
-	ui->smileyCombo->setCurrentIndex(ui->smileyCombo->findText(RzxChatConfig::smileyTheme()));
+	ui->smileyCombo->addItems(RzxSmileys::themeList());
+	ui->smileyCombo->setCurrentIndex(ui->smileyCombo->findText(RzxSmileys::theme()));
 }
 
 /** \reimp */
@@ -449,8 +449,7 @@ void RzxChatLister::propUpdate()
 	RzxChatConfig::setWarnWhenChecked(ui->cbPropertiesWarning->isChecked());
 	RzxChatConfig::setPrintTime(ui->cbPrintTime->isChecked());
 	RzxChatConfig::setChatPort(ui->chat_port->value());
-	RzxChatConfig::setSmileyTheme(ui->smileyCombo->currentText());
-	RzxChatConfig::loadSmileys();
+	RzxSmileys::setTheme(ui->smileyCombo->currentText());
 }
 
 /** \reimp */

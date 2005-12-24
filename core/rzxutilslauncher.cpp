@@ -99,11 +99,7 @@ void RzxUtilsLauncher::ftp(const RzxHostAddress& m_ip, const QString& path)
 #endif //MAC
 #endif //WIN32
 	
-	QProcess *process = new QProcess();
-	QObject::connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), process, SLOT(deleteLater()));
-	process->setWorkingDirectory(path);
-	process->start(cmd + " " + tempip);
-	
+	launchCommand(cmd + " " + tempip, QStringList(), path);
 }
 
 ///Lance le client samba
@@ -128,10 +124,7 @@ void RzxUtilsLauncher::samba(const RzxHostAddress& m_ip, const QString& m_path)
 	args << "smb://" + ip + "/" + m_path;
 #endif
 		
-	QProcess *process = new QProcess();
-	QObject::connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), process, SLOT(deleteLater()));
-	process->setWorkingDirectory(path);
-	process->start(cmd, args);
+	launchCommand(cmd, args, path);
 }
 
 ///Lance le client http
@@ -173,17 +166,14 @@ void RzxUtilsLauncher::http(const RzxHostAddress& m_ip, const QString& m_path)
 	}
 #else
 	cmd = RzxConfig::global()->httpCmd();
-	#ifdef Q_OS_MAC
+#	ifdef Q_OS_MAC
 	if(cmd == "Default")
 		cmd = "open";
-	#endif
+#	endif
 	args << tempip;
 #endif
 	
-	QProcess *process = new QProcess();
-	QObject::connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), process, SLOT(deleteLater()));
-	process->setWorkingDirectory(path);
-	process->start(cmd, args);
+	launchCommand(cmd, args, path);
 }
 
 ///Lance le client news
@@ -203,15 +193,31 @@ void RzxUtilsLauncher::news(const RzxHostAddress& m_ip, const QString& m_path)
 	else
 		args << tempip;
 #else
-	#ifdef Q_OS_MAC
+#	ifdef Q_OS_MAC
 	if(cmd == "Default")
 		cmd = "open";
-	#endif
+#	endif
 	args << tempip;
 #endif
 	
+	launchCommand(cmd, args, path);
+}
+
+///Lance une commande
+/** En lui définissant la commande à passer, ses paramètres, et le répertoire de travail.
+ *
+ * La commande lancée sera killée à la fermeture et le QProcess sera automatique détruit
+ * à la fin de l'exécution de la commande indiquée...
+ */
+QProcess *RzxUtilsLauncher::launchCommand(const QString& cmd, const QStringList& args, const QString& path)
+{
 	QProcess *process = new QProcess();
 	QObject::connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), process, SLOT(deleteLater()));
-	process->setWorkingDirectory(path);
-	process->start(cmd, args);
+	if(!path.isNull())
+		process->setWorkingDirectory(path);
+	if(args.isEmpty())
+		process->start(cmd);
+	else
+		process->start(cmd, args);
+	return process;
 }

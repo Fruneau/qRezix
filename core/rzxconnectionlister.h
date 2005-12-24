@@ -84,9 +84,9 @@ class RZX_CORE_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader
 		void stop();
 		void refresh();
 		
-		void info(const QString& msg);
-		void warning(const QString& msg);
-		void fatal(const QString& msg);
+		void informationMessage(RzxNetwork*, const QString& msg);
+		void warningMessage(RzxNetwork*, const QString& msg);
+		void fatalMessage(RzxNetwork*, const QString& msg);
 
 	protected:
 		virtual void loadBuiltins();
@@ -98,7 +98,7 @@ class RZX_CORE_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader
 		void emitCountChange();
 	
 	protected slots:
-		void statusChanged(const QString&);
+		void statusChanged(RzxNetwork*, const QString&);
 		void receivedIcon(QImage*, const RzxHostAddress&);
 		void receivedIcon(const QPixmap&, const RzxHostAddress&);
 		void newDisconnection(RzxNetwork*);

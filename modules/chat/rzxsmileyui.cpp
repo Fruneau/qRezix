@@ -14,19 +14,23 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "rzxsmileyui.h"
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QTextStream>
 #include <QFile>
+
+#include "rzxsmileyui.h"
+
 #include "rzxchatconfig.h"
+#include "rzxsmileys.h"
 
 
 RzxSmileyButton::RzxSmileyButton(const QString& text, const QIcon & ic, QWidget * parent )
 	:QPushButton(ic, text, parent )
 {
 	msg = text;
-	if(!icon().isNull()){
+	if(!icon().isNull())
+	{
 		setToolTip(text);
 		setText("");
 	}
@@ -40,34 +44,22 @@ RzxSmileyUi::RzxSmileyUi(QAbstractButton *btn, QWidget *parent)
 	setWindowTitle(tr("Smileys"));
 	
 	// chargement de la config
-	QDir *dir = RzxChatConfig::global()->smileyDir[RzxChatConfig::smileyTheme()];
 	QGridLayout *smileyLayout = new QGridLayout;
+	const QStringList smileys = RzxSmileys::baseSmileyList();
 	int rowcpt=0;
 	int colcpt=0;
-	if (dir){
-		QString text;
-		QFile file(dir->absolutePath()+"/theme");
-		if(file.exists()){
-			file.open(QIODevice::ReadOnly);
-			QTextStream stream(&file);
-			stream.setCodec("UTF-8");
-			while(!stream.atEnd()) {
-				text = stream.readLine();
-				QStringList list = text.split("###");
-				if(list.count() == 2){
-					QStringList rep = list[0].split("$$");
-					RzxSmileyButton *tmp = new RzxSmileyButton(rep[0],QIcon(dir->absolutePath()+"/"+list[1]),this);
-					connect(tmp,SIGNAL(clicked(const QString&)), this, SIGNAL(clickedSmiley(const QString&)));
-					smileyLayout->addWidget(tmp,colcpt,rowcpt++);
-					if(rowcpt > 4){
-						rowcpt = 0;
-						colcpt++;
-					}
-				}
-			}
-			file.close();
+	foreach(QString smiley, smileys)
+	{
+		RzxSmileyButton *tmp = new RzxSmileyButton(smiley, RzxSmileys::pixmap(smiley), this);
+		connect(tmp, SIGNAL(clicked(const QString&)), this, SIGNAL(clickedSmiley(const QString&)));
+		smileyLayout->addWidget(tmp, colcpt, rowcpt++);
+		if(rowcpt > 4)
+		{
+			rowcpt = 0;
+			colcpt++;
 		}
 	}
+
 	setLayout(smileyLayout);
 	raise();
 }

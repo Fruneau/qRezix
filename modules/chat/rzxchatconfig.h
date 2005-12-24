@@ -49,13 +49,6 @@ class RzxChatConfig:public RzxAbstractConfig
 		static QString historique(quint32, const QString&);
 
 // Smileys
-	private:
-		void loadSmileysList();
-
-	public:
-		QHash<QString, QDir*> smileyDir;
-		QList<QStringList> smileys;
-		static void loadSmileys();
 		RZX_STRINGPROP("smileyTheme", smileyTheme, setSmileyTheme, QString())
 
 

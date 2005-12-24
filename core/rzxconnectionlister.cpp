@@ -90,15 +90,15 @@ bool RzxConnectionLister::installModule(RzxNetwork *network)
 		connect(network, SIGNAL( receivedIcon( QImage*, const RzxHostAddress& ) ),
 				this, SLOT( receivedIcon( QImage*, const RzxHostAddress& )));
 		connect(network, SIGNAL( disconnected(RzxNetwork*) ), this, SLOT( newDisconnection() ) );
-		connect(network, SIGNAL(status(const QString&)), this, SLOT(statusChanged(const QString&)));
+		connect(network, SIGNAL(status(RzxNetwork*, const QString&)), this, SLOT(statusChanged(RzxNetwork*, const QString&)));
 		connect(network, SIGNAL( connected(RzxNetwork*) ), this, SLOT( newConnection(RzxNetwork*) ) );
 		connect(network, SIGNAL( connected(RzxNetwork*) ), this, SIGNAL( connectionEstablished(RzxNetwork*)));
 		connect(network, SIGNAL( disconnected(RzxNetwork*) ), this, SIGNAL( connectionClosed(RzxNetwork*) ) );
 		connect(network, SIGNAL( receiveAddress(const RzxHostAddress& )), RzxComputer::localhost(), SLOT(setIP(const RzxHostAddress& )));
 	
-		connect(network, SIGNAL(info(const QString&)), this, SLOT(info(const QString&)));
-		connect(network, SIGNAL(warning(const QString&)), this, SLOT(warning(const QString&)));
-		connect(network, SIGNAL(fatal(const QString&)), this, SLOT(fatal(const QString&)));
+		connect(network, SIGNAL(info(RzxNetwork*, const QString&)), this, SLOT(informationMessage(RzxNetwork*, const QString&)));
+		connect(network, SIGNAL(warning(RzxNetwork*, const QString&)), this, SLOT(warningMessage(RzxNetwork*, const QString&)));
+		connect(network, SIGNAL(fatal(RzxNetwork*, const QString&)), this, SLOT(fatalMessage(RzxNetwork*, const QString&)));
 		connect( this, SIGNAL(wantIcon(const RzxHostAddress&)), network, SLOT(getIcon(const RzxHostAddress&)));
 		connect(network, SIGNAL(haveProperties(RzxComputer*)), RzxApplication::instance(), SLOT(relayProperties(RzxComputer*)));
 
@@ -365,10 +365,12 @@ void RzxConnectionLister::refresh()
  *
  * \sa warning, fatal
  */
-void RzxConnectionLister::info( const QString& msg )
+void RzxConnectionLister::informationMessage(RzxNetwork *network, const QString& msg)
 {
+	if(!network) return;
+
 	// Boîte de dialogue non modale, pour que les comms continuent.
-	RzxMessageBox::information(NULL, tr( "XNet Server message:" ), msg );
+	RzxMessageBox::information(NULL, tr("Information message from ") + network->name(), msg );
 }
 
 ///Affiche un avertissement
@@ -376,10 +378,12 @@ void RzxConnectionLister::info( const QString& msg )
  *
  * \sa info, fatal
  */
-void RzxConnectionLister::warning( const QString& msg )
+void RzxConnectionLister::warningMessage(RzxNetwork *network, const QString& msg)
 {
+	if(!network) return;
+
 	// Boîte de dialogue non modale, pour que les comms continuent.
-	RzxMessageBox::warning(NULL, tr( "XNet Server message:" ), msg );
+	RzxMessageBox::warning(NULL, tr("Warning message from ") + network->name(), msg );
 }
 
 ///Affiche un message d'erreur
@@ -387,16 +391,20 @@ void RzxConnectionLister::warning( const QString& msg )
  *
  * \sa info, warning
  */
-void RzxConnectionLister::fatal( const QString& msg )
+void RzxConnectionLister::fatalMessage(RzxNetwork *network, const QString& msg)
 {
-	// Boîte de dialogue modale
-	RzxMessageBox::critical(NULL, tr( "Error" ) + " - " + tr( "XNet Server message" ), msg, true );
+	if(!network) return;
+
+	// Boîte de dialogue non modale
+	RzxMessageBox::critical(NULL, tr("Error message from ") + network->name(), msg);
 }
 
 ///Emet un changement de status en mettant à jour le flag qvb
-void RzxConnectionLister::statusChanged(const QString& msg)
+void RzxConnectionLister::statusChanged(RzxNetwork* network, const QString& msg)
 {
-	emit status(msg, isConnected());
+	if(!network) return;
+
+	emit status(network->name() + ": " + msg, isConnected());
 }
 
 ///Emet des signaux indiquant le changement du nombre de connectés

@@ -110,7 +110,7 @@ protected slots:
 ///Notifie de la modification du statut de la connexion
 inline void RzxServerListener::notify(const QString& text)
 {
-    emit status(text);
+    emit status(this, text);
 }
 
 #endif

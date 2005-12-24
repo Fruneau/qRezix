@@ -77,12 +77,12 @@ RzxJabberProtocole::~RzxJabberProtocole(){
 
 void RzxJabberProtocole::connection(){
 	emit connected(this);
-	emit status("Connection jabber");
+	emit status(this, tr("connected"));
 }
 
 void RzxJabberProtocole::deconnection(){
 	emit disconnected(this);
-	emit status("deconnection jabber");
+	emit status(this, tr("disconnected"));
 }
 
 /****************************************************************************

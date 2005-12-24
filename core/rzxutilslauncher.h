@@ -21,6 +21,7 @@
 #include <RzxGlobal>
 
 class RzxHostAddress;
+class QProcess;
 
 /**
  @author Florent Bruneau
@@ -36,6 +37,7 @@ namespace RzxUtilsLauncher
 	RZX_CORE_EXPORT void http(const RzxHostAddress&, const QString& path = QString());
 	RZX_CORE_EXPORT void news(const RzxHostAddress&, const QString& path = QString());
 	RZX_CORE_EXPORT void samba(const RzxHostAddress&, const QString& path = QString());
+	RZX_CORE_EXPORT QProcess *launchCommand(const QString&, const QStringList& = QStringList(), const QString& path = QString());
 };
 
 #endif

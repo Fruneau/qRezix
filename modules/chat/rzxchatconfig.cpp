@@ -15,90 +15,22 @@
  *                                                                         *
  ***************************************************************************/
 #include <QFontDatabase>
-#include <RzxTranslator>
+#include <QPixmap>
+
 #include "rzxchatconfig.h"
+#include "rzxsmileys.h"
 
 /// Initialisation
 void RzxChatConfig::init()
 {
 	loadFontList();
-	loadSmileysList();
-	RzxTranslator::connect(this, SLOT(loadSmileysList()));
+	RzxSmileys::global();
 }
 
 /// Fermeture
 void RzxChatConfig::destroy()
 {
-}
-
-///Chargement de la liste des thèmes
-void RzxChatConfig::loadSmileysList()
-{
-	smileyDir.clear();
-	smileyDir.insert(tr("none"),0);
-	
-	//Recherche des thèmes de smileys installés
-	qDebug("Searching smileys themes...");
-	QList<QDir> path = RzxConfig::dirList(RzxConfig::AllDirsExceptTemp, "smileys");
-
-	foreach(QDir dir, path)
-	{
-		QStringList subDirs = dir.entryList(QDir::Dirs, QDir::Name | QDir::IgnoreCase);
-		foreach(QString subDir, subDirs)
-		{
-			//on utilise .keys().contain() car value[] fait un insert dans le QHash
-			//ce qui tendrait donc à rajouter des clés parasites dans la liste
-			if(!smileyDir.keys().contains(subDir))
-			{
-				QDir *theme = new QDir(dir);
-				theme->cd(subDir);
-				if(theme->exists("theme"))
-				{
-					qDebug() << "*" << subDir << "in" << theme->path();
-					smileyDir.insert(subDir, theme);
-				}
-				else
-					delete theme;
-			}
-		}
-	}
-	loadSmileys();
-}
-
-/// Chargement des correspondances motif/smiley
-void RzxChatConfig::loadSmileys()
-{
-	global()->smileys.clear();
-	// chargement de la config
-	QDir *dir = global()->smileyDir[RzxChatConfig::smileyTheme()];
-	if (dir)
-	{
-		QString text;
-		QFile file(dir->absolutePath()+"/theme");
-		if(file.exists())
-		{
-			file.open(QIODevice::ReadOnly);
-			QTextStream stream(&file);
-			stream.setCodec("UTF-8");
-			while(!stream.atEnd())
-			{
-				text = stream.readLine();
-				QStringList list = text.split("###");
-				if(list.count() == 2)
-				{
-					QStringList rep = list[0].split("$$");
-					for (int i = 0; i < rep.size(); ++i)
-					{
-						QStringList item;
-						item << rep[i].trimmed();
-						item << list[1];
-						global()->smileys << item;
-					}
-				}
-			}
-			file.close();
-		}
-	}
+	delete RzxSmileys::global();
 }
 
 ///Chargement de la liste des polices de caractères
