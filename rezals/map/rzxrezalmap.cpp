@@ -51,9 +51,6 @@ RzxRezalMap::RzxRezalMap(QWidget *widget)
 	mapChooser = new QComboBox(this);
 	mapChooser->move(3, 3);
 	connect(mapChooser, SIGNAL(activated(int)), this, SLOT(setMap(int)));
-	debugText = new QLineEdit(this);	//DEBUG
-	debugText->move (150,150);			//DEBUG
-	debug =0;		//DEBUG
 	placeSearch = new QComboBox(this);
 	placeSearch->move(3,22);
 	placeSearch->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
@@ -242,8 +239,6 @@ void RzxRezalMap::setMap(int map)
 
 	//Met à jour la Combo des lieux importants.
 	placeSearch->clear();
-	QString str = QString("%1").arg(currentMap->places.count());	//DEBUG
-	debugText->setText(str);		//DEBUG
 	foreach(QString name, currentMap->places.keys())
 	{
 		placeSearch->addItem(name);

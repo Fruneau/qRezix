@@ -87,8 +87,7 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 
 	QVector<Map*> mapTable;
 	Map *currentMap;
-	int debug; //DEBUG
-	QLineEdit *debugText;  //DEBUG
+	
 	QComboBox *mapChooser;
 	QComboBox *placeSearch;
 	QString currentPlace;
