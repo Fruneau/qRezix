@@ -646,6 +646,7 @@ void QRezix::menuFormatChange()
 				QPixmap emptyIcon;
 				statusui->lblStatusIcon->hide();
 				statusui->lblCountIcon->hide();
+				lblSearch->setText(tr("Search"));
 			}
 			break;
 		case 1: //petites icônes
@@ -667,7 +668,6 @@ void QRezix::menuFormatChange()
 	{
 		statusui->lblStatus->show();
 		statusui->lblCountIcon->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-		lblSearch->setText(tr("Search"));
 	}
 	else
 	{

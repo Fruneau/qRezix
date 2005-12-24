@@ -87,6 +87,7 @@ class RzxRezalView : public QTreeView, public RzxRezal
 	private:
 		Ui::RzxRezalViewProp *ui;
 		QWidget *propWidget;
+		QList<int> saveColumns;
 
 		void dispColumns(const QList<int>&);
 

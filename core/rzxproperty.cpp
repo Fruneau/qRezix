@@ -184,6 +184,8 @@ void RzxProperty::changeTheme()
 	modulesItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PLUGIN));
 	networkItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_NETWORK));
 
+	setWindowIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
+
 	changeThemeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), networkItem);
 	changeThemeModules<RzxModule>(RzxApplication::modulesList(), modulesItem);
 
@@ -581,13 +583,16 @@ int RzxProperty::infoCompleteMessage()
 }
 
 ///L'utilisateur ne veut pas que ses modications soient prises en compte
-void RzxProperty::annuler() {
+void RzxProperty::annuler()
+{
 	if(RzxConfig::infoCompleted() || (infoCompleteMessage() == QMessageBox::Cancel))
 		close();
+	initDlg();
 }
 
 ///L'utilisateur veut que ses modifications soient prises en compte
-void RzxProperty::oK() {
+void RzxProperty::oK()
+{
 	if(!miseAJour())
 		return;
 	annuler();

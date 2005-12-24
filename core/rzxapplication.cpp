@@ -255,8 +255,6 @@ void RzxApplication::relinkModules(RzxModule *newMod, RzxModule *oldMod)
 		{
 			foreach(RzxModule *hider, hiders)
 				installHider(hider);
-			if(properties)
-				properties->setParent(mainWindow());
 		}
 	}
 
@@ -301,8 +299,6 @@ bool RzxApplication::installModule(RzxModule *mod)
 void RzxApplication::unloadModule(RzxModule *module)
 {
 	hiders.removeAll(module);
-	if(module == mainui && properties)
-		properties->setParent(NULL);
 
 #define clear(var) if(var == module) var = NULL
 	clear(mainui);
@@ -358,7 +354,7 @@ void RzxApplication::preferences()
 	}
 	else
 	{
-		properties = new RzxProperty(mainWindow());
+		properties = new RzxProperty(NULL);
 		properties -> show();
 	}
 }

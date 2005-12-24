@@ -139,7 +139,6 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 		void setMap(const QString&);
 		void setPlace(int);
 		void checkPlace(const QString &);
-
 };
 
 #endif

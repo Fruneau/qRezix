@@ -208,10 +208,16 @@ void RzxUi::setTreeItem(QTreeWidgetItem *item)
 void RzxUi::reload()
 {
 	if(qrezix)
+	{
+		beginClosing();
 		delete qrezix;
+		endClosing();
+	}
+	beginLoading();
 	qrezix = QRezix::global();
 	connect(qrezix, SIGNAL(wantQuit()), this, SIGNAL(wantQuit()));
 	connect(qrezix, SIGNAL(wantPreferences()), this, SIGNAL(wantPreferences()));
 	connect(qrezix, SIGNAL(wantToggleResponder()), this, SIGNAL(wantToggleResponder()));
 	connect(qrezix, SIGNAL(wantReload()), this, SLOT(reload()));
+	endLoading();
 }

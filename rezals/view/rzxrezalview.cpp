@@ -373,7 +373,12 @@ void RzxRezalView::propInit(bool def)
 	ui->cbcIP ->setChecked( colonnes & (1<<RzxRezalModel::ColIP) );
 	ui->cbcClient ->setChecked( colonnes & (1<<RzxRezalModel::ColClient) );
 
-	dispColumns(columnOrder());
+	if(!saveColumns.isEmpty())
+		for(int i = 0 ; i < saveColumns.count() && i < RzxRezalModel::numColonnes ; i++)
+			header()->moveSection(header()->visualIndex(saveColumns[i]), i);
+	else
+		saveColumns = columnOrder();
+	dispColumns(saveColumns);
 }
 
 /** \reimp */
@@ -396,6 +401,7 @@ void RzxRezalView::propUpdate()
 	if ( ui->cbcClient ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColClient;
 	if ( ui->cbcIP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColIP;
 	RzxRezalViewConfig::setColonnes(colonnesAffichees);
+	saveColumns = QList<int>();
 	updateLayout();
 }
 
