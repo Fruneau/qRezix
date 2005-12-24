@@ -25,7 +25,7 @@
   !define USE_MSVCR_DLL
 
 ;Pour pouvoir copier les dll dans l'installeur
-  !define QTDIR "D:\Programmes\Qt\4.0.1"
+  !define QTDIR "C:\Qt\4.0.1"
   !define SOURCESYSDIR "C:\windows\system32"
   !ifdef RZX_DEBUG
      !define QTCOREDLL "QtCored4.dll"
@@ -80,6 +80,7 @@
   !define MUI_STARTMENUPAGE
     !define MUI_STARTMENUPAGE_DEFAULTFOLDER "${MUI_PRODUCT}"
   !define MUI_FINISHPAGE
+	;!define MUI_FINISHPAGE_NOAUTOCLOSE   			;Pour debugger
     !define MUI_FINISHPAGE_RUN "$INSTDIR\qRezix.exe"
     !define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\ReadMe.txt"
     !define MUI_FINISHPAGE_NOREBOOTSUPPORT
@@ -87,6 +88,7 @@
 
   !define MUI_UNINSTALLER
   !define MUI_UNCONFIRMPAGE
+  ;!define MUI_UNFINISHPAGE_NOAUTOCLOSE   			;Pour debugger
 
 ;variable pour le menu démarrer
   var STARTMENU_FOLDER  
@@ -174,12 +176,12 @@ FunctionEnd
 
 
 
-!macro INSTALL_SMILEY_IMAGES THEME
-  SetOutPath "$INSTDIR\plugins\smiley"
-  CreateDirectory "${THEME}"
-  SetOutPath "$INSTDIR\plugins\smileys\${THEME}"
-  File "..\..\resources\smileys\${THEME}\*.png"
-!macroend
+;!macro INSTALL_SMILEY_IMAGES THEME
+;  SetOutPath "$INSTDIR\plugins\smiley"
+;  CreateDirectory "${THEME}"
+;  SetOutPath "$INSTDIR\plugins\smileys\${THEME}"
+;  File "..\..\resources\smileys\${THEME}\*.png"
+;!macroend
   
 ;--------------------------------
 ;Languages
@@ -282,7 +284,7 @@ Section "Fichiers de base de qRezix" SecBase
   File "..\..\rezals\map\*.png"
 
   SetOutPath "$INSTDIR"
-  File /r "..\..\resources\smileys"
+  File /r /x .svn "..\..\resources\smileys"
   File "..\..\core\subnet.ini"
   File "..\..\rezals\map\map.ini"
 
@@ -521,15 +523,19 @@ Section "un.Suppression de qRezix" Uninstall
   SectionIn RO
 
   Delete "$INSTDIR\qRezix.exe"
+  Delete "$INSTDIR\qrezix2.dll"
   IfErrors "" +3
     Push "Impossible de supprimer $INSTDIR\qRezix.exe.$\nQuittez ${MUI_PRODUCT} avant de lancer la désinstallation."
     Call un.ShowAbort
 
   Delete "$INSTDIR\Uninstall.exe"
   Delete "$INSTDIR\ReadMe.txt"
-  RMDir "$INSTDIR\translations"
+  RMDir /r "$INSTDIR\translations"
+  RMDir /r "$INSTDIR\smileys"
   RMDir /r "$INSTDIR\themes"
-  RMDir /r "$INSTDIR\plugins"
+  RMDir /r "$INSTDIR\maps"
+  ;RMDir /r "$INSTDIR\plugins"
+  Delete "$INSTDIR\*.*"
   RMDir "$INSTDIR"
 
   ;Suppression si nécessaire des DLL partagées
@@ -537,11 +543,11 @@ Section "un.Suppression de qRezix" Uninstall
     Push "$SYSDIR\${MSVCR_DLL}"
     Call un.RemoveSharedDLL
   !endif
-  Push "$SYSDIR\${QTCOREDLL}"
+  Push "$INSTDIR\${QTCOREDLL}"
   Call un.RemoveSharedDLL
-  Push "$SYSDIR\${QTNETDLL}"
+  Push "$INSTDIR\${QTNETDLL}"
   Call un.RemoveSharedDLL
-  Push "$SYSDIR\${QTGUIDLL}"
+  Push "$INSTDIR\${QTGUIDLL}"
   Call un.RemoveSharedDLL
 
   ;Suppression des raccourcis
