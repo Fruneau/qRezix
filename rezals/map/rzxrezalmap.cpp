@@ -52,6 +52,16 @@ RzxRezalMap::RzxRezalMap(QWidget *widget)
 	mapChooser->move(3, 3);
 	connect(mapChooser, SIGNAL(activated(int)), this, SLOT(setMap(int)));
 
+	placeSearch = new QComboBox(this);
+	placeSearch-> move(3,22);
+	placeSearch->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
+	placeSearch->setMinimumContentsLength(10);
+	placeSearch->setEditable(true);
+	placeSearch->setAutoCompletion(true);
+	connect(placeSearch, SIGNAL(activated(int)),this, SLOT(setPlace(int)));
+	connect(placeSearch, SIGNAL(editTextChanged(const QString &)),this, SLOT(checkPlace(const QString &)));
+	currentPlace = "";
+
 	QStringList mapNames = loadMaps();
 	if(mapNames.size())
 	{
@@ -184,6 +194,39 @@ void RzxRezalMap::loadMap(QSettings &maps, Map *map)
 		}
 	}
 	maps.endGroup();
+	loadPlaces(maps, map);
+}
+
+///Charge les lieux particuliers de la carte indiquées
+/** Les données de la carte sont constituées des associations polygone/nom du lieu
+ */
+void RzxRezalMap::loadPlaces(QSettings &maps, Map *map)
+{
+	maps.beginGroup("Place_" + map->name);
+	QStringList keys = maps.childKeys();
+	foreach(QString key, keys)
+	{
+		//Analyse des valeurs...
+		QString value = maps.value(key).toString();
+		QStringList subs = value.split(" ", QString::SkipEmptyParts);
+		int size = subs.size();
+		QVector<QPoint> points(size);
+		int i = 0;
+		foreach(QString sub, subs)
+		{
+			static QRegExp point("(\\d+)x(\\d+)");
+			if(point.indexIn(sub) != -1)
+				points[i] = QPoint(point.cap(1).toInt(), point.cap(2).toInt());
+			else
+			{
+				qDebug() << "* invalid point(" << i << ")" << sub << "in" << map->name + "/" + key;
+				points[i] = QPoint();
+			}
+			i++;
+		}
+		map->places.insert(key, QPolygon(points));		
+	}
+	maps.endGroup();
 }
 
 ///Change la carte active
@@ -194,6 +237,18 @@ void RzxRezalMap::setMap(int map)
 		currentMap = mapTable[map];
 	else
 		return;
+
+	//Met à jour la Combo des lieux importants.
+	placeSearch->clear();
+	foreach(QString name, currentMap->places.keys())
+	{
+		placeSearch->addItem(name);
+	}
+	placeSearch->setEditText("Rechercher un lieu");
+	if (placeSearch->count())
+		placeSearch->show();
+	else
+		placeSearch->hide();
 
 	//Redimensionne les barres de défilement
 	horizontalScrollBar()->setRange(0, currentMap->pixmap.width() - viewport()->width());
@@ -243,6 +298,26 @@ void RzxRezalMap::setMap(const QString& name)
 		}
 	}
 }
+
+///Déplace la carte vers le lieux demandé
+void RzxRezalMap::setPlace(int place)
+{
+	if(currentMap && place < currentMap->places.size() && place >= 0)
+	{
+		currentPlace = placeSearch->currentText();
+		QRect rect = currentMap->places[currentPlace].boundingRect();
+		scrollTo(rect, PositionCentered);
+	}
+	else
+		return;
+}
+
+///Vérifie que le nom de lieu tapé correspond bien à un existant
+void RzxRezalMap::checkPlace(const QString &)
+{
+	//TODO
+}
+
 
 ///Retourne une fenêtre utilisable pour l'affichage.
 QAbstractItemView *RzxRezalMap::widget()
@@ -299,12 +374,31 @@ QModelIndex RzxRezalMap::indexAt(const QPoint &point) const
 void RzxRezalMap::scrollTo(const QModelIndex& index, ScrollHint hint)
 {
 	QRect rect = visualRect(index);
+	rect.translate(horizontalOffset(), verticalOffset());
+	switch (hint)
+	{
+		case QAbstractItemView::EnsureVisible:
+			scrollTo(rect, EnsureVisible);
+			break;
+
+		case QAbstractItemView::PositionAtTop:
+			scrollTo(rect, PositionAtTop);
+			break;
+
+		case QAbstractItemView::PositionAtBottom:
+			scrollTo(rect, PositionAtBottom);
+			break;
+	}
+}
+
+///Déplace la vue pour rendre le rectangle visible
+void RzxRezalMap::scrollTo(QRect rect, ScrollHintExt hint)
+{
 	if(rect.isNull()) return;
 
-	rect.translate(horizontalOffset(), verticalOffset());
 	int width = viewport()->width();
 	int height = viewport()->height();
-	int xOffset = verticalOffset();
+	int xOffset = horizontalOffset();
 	int yOffset = verticalOffset();
 
 	switch(hint)
@@ -327,6 +421,11 @@ void RzxRezalMap::scrollTo(const QModelIndex& index, ScrollHint hint)
 
 		case PositionAtBottom:
 			xOffset = rect.bottom() - width;
+			break;
+
+		case PositionCentered:
+			xOffset = (rect.left() + rect.right() - width)/2;
+			yOffset = (rect.top() + rect.bottom() - height)/2;
 			break;
 	}
 	horizontalScrollBar()->setValue(xOffset);
@@ -427,6 +526,20 @@ QPolygon RzxRezalMap::polygon(const RzxHostAddress& ip) const
 	return poly;
 }
 
+///Retourne le polygone associé à l'adresse
+/** Le polygon prend en compte la position de l'affichage...
+ */
+QPolygon RzxRezalMap::polygon(QString place) const
+{
+	if(!currentMap)
+		return QPolygon();
+
+	QPolygon poly = currentMap->places[place];
+	poly.translate(-horizontalOffset(), -verticalOffset());
+	return poly;
+}
+
+
 ///Affichage... réalise simplement le dessin
 void RzxRezalMap::paintEvent(QPaintEvent*)
 {
@@ -447,6 +560,9 @@ void RzxRezalMap::drawSelection(QPainter& painter)
 
 	painter.setBrush(QColor(00, 00, 0xa0, 0xc0));
 	painter.drawPolygon(polygon(currentIndex()));
+
+	painter.setBrush(QColor(00, 00, 0xa0, 0xc0)); //TODO voir la couleur
+	painter.drawPolygon(polygon(currentPlace));
 }
 
 ///Raffraichi l'affichage lors d'un changement de sélection

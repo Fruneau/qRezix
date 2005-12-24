@@ -74,17 +74,29 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 		QList<RzxSubnet> subnets;
 		QHash<RzxHostAddress, QPolygon> polygons;
 		QHash<RzxHostAddress, QString> links;
+		QHash<QString, QPolygon> places;
+	};
+
+	enum ScrollHintExt
+	{
+		EnsureVisible = 0,
+		PositionAtTop = 1,
+		PositionAtBottom = 2,
+		PositionCentered = 3,
 	};
 
 	QVector<Map*> mapTable;
 	Map *currentMap;
-
+	
 	QComboBox *mapChooser;
+	QComboBox *placeSearch;
+	QString currentPlace;
 	bool initialised;
 
 	private:
 		QStringList loadMaps();
 		void loadMap(QSettings&, Map*);
+		void loadPlaces(QSettings&, Map*);
 	
 	public:
 		RzxRezalMap(QWidget *parent = 0);
@@ -100,7 +112,7 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 		virtual void updateLayout();
 		
 		virtual QModelIndex indexAt(const QPoint&) const;
-		virtual void scrollTo(const QModelIndex&, ScrollHint hint = EnsureVisible);
+		virtual void scrollTo(const QModelIndex&, ScrollHint hint = QAbstractItemView::EnsureVisible);
 		virtual QRect visualRect(const QModelIndex&) const;
 		
 	protected:
@@ -118,11 +130,16 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 
 		QPolygon polygon(const QModelIndex&) const;
 		QPolygon polygon(const RzxHostAddress&) const;
+		QPolygon polygon(QString) const;
+		void scrollTo(QRect , ScrollHintExt);
 
 	protected slots:
 		virtual void currentChanged(const QModelIndex&, const QModelIndex&);
 		void setMap(int);
 		void setMap(const QString&);
+		void setPlace(int);
+		void checkPlace(const QString &);
+
 };
 
 #endif
