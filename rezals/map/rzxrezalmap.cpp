@@ -137,38 +137,30 @@ QStringList RzxRezalMap::loadMaps()
  */
 void RzxRezalMap::loadMap(QSettings &maps, Map *map)
 {
+	loadPlaces(maps, map);
 	maps.beginGroup("Attrib_" + map->name);
-	QStringList keys = maps.childKeys();
+	const QStringList keys = maps.childKeys();
 	foreach(QString key, keys)
 	{
+		QString place;
+		QString linkedMap;
+
 		//Analyse des valeurs...
 		//Ceci inclus la définition des polygones et des liens
-		QString value = maps.value(key).toString();
-		QStringList subs = value.split(" ", QString::SkipEmptyParts);
-		int size = subs.size();
-		if(value.contains("goto"))
-			size--;
-		QVector<QPoint> points(size);
-		QString linkedMap;
-		int i = 0;
+		const QString value = maps.value(key).toString();
+		const QStringList subs = value.split(" ", QString::SkipEmptyParts);
 		foreach(QString sub, subs)
 		{
-			static QRegExp point("(\\d+)x(\\d+)");
-			static QRegExp link("goto_(.+)");
-			if(point.indexIn(sub) != -1)
-				points[i] = QPoint(point.cap(1).toInt(), point.cap(2).toInt());
-			else if(link.indexIn(sub) != -1)
-			{
-				i--;
-				linkedMap = link.cap(1);
-			}
-			else
-			{
-				qDebug() << "* invalid point(" << i << ")" << sub << "in" << map->name + "/" + key;
-				points[i] = QPoint();
-			}
-			i++;
+			static QRegExp linkMask("goto_(.+)");
+			static QRegExp placeMask("place_(.+)");
+			if(linkMask.indexIn(sub) != -1)
+				linkedMap = linkMask.cap(1);
+			if(placeMask.indexIn(sub) != -1)
+				place = placeMask.cap(1);
 		}
+
+		//L'emplacement associé n'est pas défini pour cette carte
+		if(place.isEmpty() || !map->places.keys().contains(place)) continue;
 	
 		//Analyse des adresses
 		//Ce qui inclus la gestion des adresses et des sous-réseaux
@@ -187,13 +179,12 @@ void RzxRezalMap::loadMap(QSettings &maps, Map *map)
 			}
 			else
 				base = RzxHostAddress(QHostAddress(ip));
-			map->polygons.insert(base, QPolygon(points));
+			map->polygons.insert(base, place);
 			if(!linkedMap.isEmpty())
 				map->links.insert(base, linkedMap);
 		}
 	}
 	maps.endGroup();
-	loadPlaces(maps, map);
 }
 
 ///Charge les lieux particuliers de la carte indiquées
@@ -239,9 +230,12 @@ void RzxRezalMap::setMap(int map)
 
 	//Met à jour la Combo des lieux importants.
 	placeSearch->clear();
-	foreach(QString name, currentMap->places.keys())
+	QStringList placeList = currentMap->places.keys();
+	qSort(placeList);
+	foreach(QString name, placeList)
 	{
-		placeSearch->addItem(name);
+		if(!currentMap->places[name].isEmpty())
+			placeSearch->addItem(name);
 	}
 	placeSearch->setEditText("Rechercher un lieu");
 	if (placeSearch->count())
@@ -517,14 +511,14 @@ QPolygon RzxRezalMap::polygon(const RzxHostAddress& ip) const
 		{
 			if(net.contains(ip))
 			{
-				QPolygon poly = currentMap->polygons[net.network()];
+				QPolygon poly = currentMap->places[currentMap->polygons[net.network()]];
 				poly.translate(-horizontalOffset(), -verticalOffset());
 				return poly;
 			}
 		}
 	}
 
-	QPolygon poly = currentMap->polygons[ip];
+	QPolygon poly = currentMap->places[currentMap->polygons[ip]];
 	poly.translate(-horizontalOffset(), -verticalOffset());
 	return poly;
 }
@@ -562,13 +556,10 @@ void RzxRezalMap::drawSelection(QPainter& painter)
 {
 	painter.setPen(Qt::NoPen);
 
-	painter.setBrush(QColor(00, 0xa0, 00, 0xd0));
-	painter.drawPolygon(polygon(RzxComputer::localhost()->ip()));
-
 	painter.setBrush(QColor(00, 00, 0xa0, 0xc0));
 	painter.drawPolygon(polygon(currentIndex()));
 
-	painter.setBrush(QColor(00, 00, 0xa0, 0xc0)); //TODO voir la couleur
+	painter.setBrush(QColor(00, 0xa0, 00, 0xd0)); //TODO voir la couleur
 	painter.drawPolygon(polygon(currentPlace));
 }
 

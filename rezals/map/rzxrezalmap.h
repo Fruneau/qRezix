@@ -54,12 +54,49 @@ class QSettings;
  * 		- x_map = chemin de l'image de la carte
  * 		- x_map_name = nom interne de la carte
  * 		- x_map_human_name = nom humainement compréhensible de la carte
- * 	- une section [Attrib_nnnn] par carte, où nnnn est le nom interne de la carte. Cette section est composée d'une série d'entrées
+ * 	- une section [Place_nnnn] par carte, où nnnn est le nom interne de la carte. Cette section est composée d'une série d'entrées
  * qui comportent chacune 2 parties :
- * 		- une liste d'ip ou de subnets (ip-masque) séparées par des virgules comme nom de la clé
- * 		- une liste de point de la forme XXXxYYY séparés par des espaces comme valeur. Si l'objet est décrit par des subnets les
- * valeurs peuvent également contenir une entrée goto_nnnn qui renvoie vers une autre carte. La sélection de l'objet renverra vers une
- * carte détaillée de l'objet sélectionné.
+ * 		- un nom pppp donnée à chaque polygone
+ * 		- une liste de point de la forme XXXxYYY séparés par des espaces comme valeur.
+ * 	- une section [Attrib_nnnn] par carte, ou nnnn est le nom interne de la carte. Cette section est composée d'une série d'entrées
+ * permettant d'associer des lieux aux adresses réseau :
+ * 		- une liste d'ip ou de subnet sous la forme ip,ip,ip ou ip-mask,ip-mask,ip-mask
+ * 		- les informations de traitement sous la forme d'un place_pppp qui référencie une entrée de la section précédente, et si
+ * la section décrit une liste de subnets, un champs goto_nnnn permet de créer un lien vers une autre carte.
+ *
+ * Un exemple plus ou moins complet avec 2 cartes :
+ * \code
+ * [%General]
+ * map_number=2
+ * 0_map=maps/ma_carte1.png
+ * 0_map_human_name=Ma première carte
+ * 0_map_name=carte1
+ * 1_map=maps/ma_carte2.png
+ * 1_map_human_name=Ma deuxième carte
+ * 1_map_name_carte2
+ *
+ *
+ * [Place_carte1]
+ * Place1 = 0x0 0x10 20x10 20x0
+ * Place2 = 42x69 62x69 62x49 42x49
+ *
+ * [Attrib_carte1]
+ * 129.104.201.51=place_Place1
+ * 129.104.207.0-24=place_Place2 goto_carte2
+ *
+ *
+ * [Place_carte2]
+ * Place1 = ...
+ * Place2 = ...
+ * Place3 = ...
+ * Place4 = ...
+ * Place5 = ...
+ *
+ * [Attrib_carte2]
+ * 129.104.207.153=place_Place1
+ * 129.104.207.83=place_Place2
+ * 129.104.227.161=place_Place3
+ * \endcode
  */
 class RzxRezalMap : public QAbstractItemView, public RzxRezal
 {
@@ -72,7 +109,7 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 		QString humanName;
 		bool useSubnets;
 		QList<RzxSubnet> subnets;
-		QHash<RzxHostAddress, QPolygon> polygons;
+		QHash<RzxHostAddress, QString> polygons;
 		QHash<RzxHostAddress, QString> links;
 		QHash<QString, QPolygon> places;
 	};
