@@ -51,9 +51,11 @@ RzxRezalMap::RzxRezalMap(QWidget *widget)
 	mapChooser = new QComboBox(this);
 	mapChooser->move(3, 3);
 	connect(mapChooser, SIGNAL(activated(int)), this, SLOT(setMap(int)));
-
+	debugText = new QLineEdit(this);	//DEBUG
+	debugText->move (150,150);			//DEBUG
+	debug =0;		//DEBUG
 	placeSearch = new QComboBox(this);
-	placeSearch-> move(3,22);
+	placeSearch->move(3,22);
 	placeSearch->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
 	placeSearch->setMinimumContentsLength(10);
 	placeSearch->setEditable(true);
@@ -224,7 +226,7 @@ void RzxRezalMap::loadPlaces(QSettings &maps, Map *map)
 			}
 			i++;
 		}
-		map->places.insert(key, QPolygon(points));		
+		map->places.insert(key, QPolygon(points));
 	}
 	maps.endGroup();
 }
@@ -240,6 +242,8 @@ void RzxRezalMap::setMap(int map)
 
 	//Met à jour la Combo des lieux importants.
 	placeSearch->clear();
+	QString str = QString("%1").arg(currentMap->places.count());	//DEBUG
+	debugText->setText(str);		//DEBUG
 	foreach(QString name, currentMap->places.keys())
 	{
 		placeSearch->addItem(name);
@@ -305,8 +309,12 @@ void RzxRezalMap::setPlace(int place)
 	if(currentMap && place < currentMap->places.size() && place >= 0)
 	{
 		currentPlace = placeSearch->currentText();
-		QRect rect = currentMap->places[currentPlace].boundingRect();
-		scrollTo(rect, PositionCentered);
+		QRect rect;
+		if (currentMap->places.contains(currentPlace))
+		{
+			rect = currentMap->places[currentPlace].boundingRect();
+			scrollTo(rect, PositionCentered);
+		}
 	}
 	else
 		return;
@@ -392,7 +400,7 @@ void RzxRezalMap::scrollTo(const QModelIndex& index, ScrollHint hint)
 }
 
 ///Déplace la vue pour rendre le rectangle visible
-void RzxRezalMap::scrollTo(QRect rect, ScrollHintExt hint)
+void RzxRezalMap::scrollTo(const QRect& rect, ScrollHintExt hint)
 {
 	if(rect.isNull()) return;
 
@@ -529,12 +537,16 @@ QPolygon RzxRezalMap::polygon(const RzxHostAddress& ip) const
 ///Retourne le polygone associé à l'adresse
 /** Le polygon prend en compte la position de l'affichage...
  */
-QPolygon RzxRezalMap::polygon(QString place) const
+QPolygon RzxRezalMap::polygon(const QString& place) const
 {
 	if(!currentMap)
 		return QPolygon();
 
-	QPolygon poly = currentMap->places[place];
+	QPolygon poly;
+	if (currentMap->places.contains(place))
+		poly = currentMap->places[place];
+	else
+		poly = QPolygon();
 	poly.translate(-horizontalOffset(), -verticalOffset());
 	return poly;
 }

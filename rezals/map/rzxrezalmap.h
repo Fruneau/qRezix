@@ -87,7 +87,8 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 
 	QVector<Map*> mapTable;
 	Map *currentMap;
-	
+	int debug; //DEBUG
+	QLineEdit *debugText;  //DEBUG
 	QComboBox *mapChooser;
 	QComboBox *placeSearch;
 	QString currentPlace;
@@ -130,8 +131,8 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 
 		QPolygon polygon(const QModelIndex&) const;
 		QPolygon polygon(const RzxHostAddress&) const;
-		QPolygon polygon(QString) const;
-		void scrollTo(QRect , ScrollHintExt);
+		QPolygon polygon(const QString&) const;
+		void scrollTo(const QRect& , ScrollHintExt);
 
 	protected slots:
 		virtual void currentChanged(const QModelIndex&, const QModelIndex&);
