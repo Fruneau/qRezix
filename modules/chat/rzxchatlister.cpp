@@ -437,6 +437,7 @@ void RzxChatLister::propInit(bool def)
 	ui->cbPrintTime->setChecked(RzxChatConfig::printTime(def));
 	ui->chat_port->setValue(RzxChatConfig::chatPort(def));
 
+	ui->smileyCombo->clear();
 	QStringList themes = RzxSmileys::themeList();
 	for(int i = 0 ; i < themes.size() ; i++)
 		ui->smileyCombo->addItem(RzxSmileys::pixmap(":-)", themes[i]), themes[i]);
