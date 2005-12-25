@@ -17,7 +17,7 @@
 #ifndef RZXSMILEYUI_H
 #define RZXSMILEYUI_H
 
-#include <QPushButton>
+#include <QToolButton>
 #include <QtDebug>
 
 #include "rzxchatpopup.h"
@@ -25,11 +25,11 @@
 /**
 @author Pico
 */
-class RzxSmileyButton : public QPushButton
+class RzxSmileyButton : public QToolButton
 {
 	Q_OBJECT
 	public:
-		RzxSmileyButton(const QString& test, const QIcon & icon, QWidget * parent = 0 );
+		RzxSmileyButton(const QIcon & icon, const QString& test, QWidget * parent = 0 );
 	private:
 		QString msg;
 	signals:

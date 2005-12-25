@@ -36,11 +36,22 @@ class RzxSmileys: public QObject
 	Q_OBJECT
 	RZX_GLOBAL(RzxSmileys)
 
-	QHash<QString, QDir*> smileyDir;
-	QHash<QString, QString> smileys;
-	QStringList baseSmileys;
+	///Données décrivant un thème de smileys
+	struct SmileyTheme
+	{
+		///Association masque - url de l'image
+		QHash<QString, QString> smileys;
+		///Liste des smileys disponibles
+		QStringList baseSmileys;
+	};
+
+	QHash<QString, SmileyTheme*> themes;
+	SmileyTheme *currentTheme;
+
 	void loadSmileysList();
-	void loadSmileys();
+	void loadSmileys(SmileyTheme *, QDir*);
+
+	SmileyTheme *smileyTheme(const QString& theme);
 
 	RzxSmileys();
 
@@ -50,11 +61,44 @@ class RzxSmileys: public QObject
 		static QString theme();
 
 		static QStringList themeList();
-		static QStringList baseSmileyList();
+		static QStringList baseSmileyList(const QString& thm = QString());
 
-		static QString smiley(const QString&);
-		static QPixmap pixmap(const QString&);
-		static void replace(QString &);
+		static QString smiley(const QString&, const QString& thm = QString());
+		static QPixmap pixmap(const QString&, const QString& thm = QString());
+		static void replace(QString &, const QString& thm = QString());
+
+		static bool isValid(const QString& thm = QString());
+
+		static bool connect(const QObject * receiver, const char * method, Qt::ConnectionType type = Qt::AutoCompatConnection);
+		static bool disconnect(const QObject * receiver);
+
+	signals:
+		///Ce signal est émis lorsque le theme change
+		/** \sa connect, disconnect */
+		void themeChanged(const QString&);
 };
+
+///Retourne un thème correspondant à celui indiqué ou NULL
+/** Si theme est vide, retourne le thème courant
+ */
+inline RzxSmileys::SmileyTheme *RzxSmileys::smileyTheme(const QString& theme)
+{
+	if(theme.isEmpty())
+		return currentTheme;
+
+	return themes[theme];
+}
+
+///Connexion pour le changement de traduction
+inline bool RzxSmileys::connect(const QObject *receiver, const char *method, Qt::ConnectionType type)
+{
+	return QObject::connect(global(), SIGNAL(themeChanged(const QString&)), receiver, method, type);
+}
+
+///Déconnecte un objet du message de changement de traduction
+inline bool RzxSmileys::disconnect(const QObject *receiver)
+{
+	return global()->QObject::disconnect(SIGNAL(themeChanged(const QString&)), receiver);
+}
 
 #endif

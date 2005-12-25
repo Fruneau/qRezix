@@ -25,14 +25,18 @@ RZX_GLOBAL_INIT(RzxSmileys)
 ///Construction : chargement de base
 RzxSmileys::RzxSmileys()
 {
+	Rzx::beginModuleLoading("Smileys");
 	object = this;
+	currentTheme = NULL;
 	loadSmileysList();
 	setTheme(theme());
+	Rzx::endModuleLoading("Smileys");
 }
 
 ///Destruction
 RzxSmileys::~RzxSmileys()
 {
+	qDeleteAll(themes);
 	RZX_GLOBAL_CLOSE
 }
 
@@ -40,7 +44,8 @@ RzxSmileys::~RzxSmileys()
 void RzxSmileys::setTheme(const QString& theme)
 {
 	RzxChatConfig::setSmileyTheme(theme);
-	global()->loadSmileys();
+	global()->currentTheme = global()->smileyTheme(theme);
+	emit global()->themeChanged(theme);
 }
 
 ///Retourne le thème actuel
@@ -49,10 +54,20 @@ QString RzxSmileys::theme()
 	return RzxChatConfig::smileyTheme();
 }
 
+///Indique si le thème est valide
+bool RzxSmileys::isValid(const QString& thm)
+{
+	SmileyTheme *theme = global()->smileyTheme(thm);
+	if(!theme)
+		return false;
+
+	return theme->baseSmileys.size();
+}
+
 ///Chargement de la liste des thèmes
 void RzxSmileys::loadSmileysList()
 {
-	smileyDir.clear();
+	themes.clear();
 	
 	//Recherche des thèmes de smileys installés
 	qDebug("Searching smileys themes...");
@@ -61,34 +76,37 @@ void RzxSmileys::loadSmileysList()
 	foreach(QDir dir, path)
 	{
 		QStringList subDirs = dir.entryList(QDir::Dirs, QDir::Name | QDir::IgnoreCase);
-		foreach(QString subDir, subDirs)
+		foreach(QString theme, subDirs)
 		{
 			//on utilise .keys().contain() car value[] fait un insert dans le QHash
 			//ce qui tendrait donc à rajouter des clés parasites dans la liste
-			if(!smileyDir.keys().contains(subDir))
+			if(!themes.keys().contains(theme))
 			{
-				QDir *theme = new QDir(dir);
-				theme->cd(subDir);
-				if(theme->exists("theme"))
+				QDir *subDir = new QDir(dir);
+				subDir->cd(theme);
+				if(subDir->exists("theme"))
 				{
-					qDebug() << "*" << subDir << "in" << theme->path();
-					smileyDir.insert(subDir, theme);
+					qDebug() << "*" << theme << "in" << subDir->path();
+					SmileyTheme *sml = new SmileyTheme;
+					loadSmileys(sml, subDir);
+					themes.insert(theme, sml);
 				}
 				else
-					delete theme;
+					delete subDir;
 			}
 		}
 	}
-	loadSmileys();
 }
 
 /// Chargement des correspondances motif/smiley
-void RzxSmileys::loadSmileys()
+void RzxSmileys::loadSmileys(SmileyTheme *thm, QDir *dir)
 {
-	smileys.clear();
-	baseSmileys.clear();
+	if(!thm || !dir) return;
+
+	thm->smileys.clear();
+	thm->baseSmileys.clear();
+
 	// chargement de la config
-	QDir *dir = smileyDir[theme()];
 	if(dir)
 	{
 		QString text;
@@ -102,10 +120,10 @@ void RzxSmileys::loadSmileys()
 			{
 				text = stream.readLine();
 				QStringList list = text.split("###");
-				if(list.count() == 3 && QFile::exists(dir->absoluteFilePath(list[2])))
+				if(list.count() == 3 && dir->exists(list[2]))
 				{
-					baseSmileys << list[0];
-					smileys.insert(list[1], dir->absoluteFilePath(list[2]));
+					thm->baseSmileys << list[0];
+					thm->smileys.insert(list[1], dir->absoluteFilePath(list[2]));
 				}
 			}
 			file.close();
@@ -118,40 +136,52 @@ QStringList RzxSmileys::themeList()
 {
 	QStringList list;
 	list << tr("None");
-	list += global()->smileyDir.keys();
+	list += global()->themes.keys();
 	return list;
 }
 
 /// Retourne la liste des smileys de démonstration
-QStringList RzxSmileys::baseSmileyList()
+QStringList RzxSmileys::baseSmileyList(const QString& thm)
 {
-	return global()->baseSmileys;
+	SmileyTheme *theme = global()->smileyTheme(thm);
+	if(!theme)
+		return QStringList();
+
+	return theme->baseSmileys;
 }
 
 /// Retourne le smiley associé au texte indiqué
-void RzxSmileys::replace(QString & msg)
+void RzxSmileys::replace(QString & msg, const QString& thm)
 {
-	foreach(QString text, global()->smileys.keys())
+	SmileyTheme *theme = global()->smileyTheme(thm);
+	if(!theme)
+		return;
+
+	foreach(QString text, theme->smileys.keys())
 	{
-		QRegExp mask(text);
-		msg.replace(mask,  "<img src=\"" + global()->smileys[text] + "\" alt=\"\\1\">");
+		QRegExp mask("(" + text + ")");
+		msg.replace(mask,  "<img src=\"" + theme->smileys[text] + "\" alt=\"\\1\">");
 	}
 }
 
 ///Retourne le chemin associé au smiley donné
-QString RzxSmileys::smiley(const QString& sml)
+QString RzxSmileys::smiley(const QString& sml, const QString& thm)
 {
-	foreach(QString text, global()->smileys.keys())
+	SmileyTheme *theme = global()->smileyTheme(thm);
+	if(!theme)
+		return QString();
+
+	foreach(QString text, theme->smileys.keys())
 	{
 		QRegExp mask(text);
 		if(mask.indexIn(sml) != -1)
-			return global()->smileys[text];
+			return theme->smileys[text];
 	}
 	return QString();
 }
 
 ///Idem que précédent mais retourne le pixmap associé
-QPixmap RzxSmileys::pixmap(const QString& sml)
+QPixmap RzxSmileys::pixmap(const QString& sml, const QString& thm)
 {
-	return QPixmap(smiley(sml));
+	return QPixmap(smiley(sml, thm));
 }

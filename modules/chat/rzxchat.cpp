@@ -128,6 +128,7 @@ void RzxChat::init()
 
 	/* Construction du texte et des icônes des boutons */
 	changeTheme();
+	changeSmileyTheme();
 	changeIconFormat();
 
 	/**** Préparation des données ****/
@@ -166,6 +167,7 @@ void RzxChat::init()
 	connect(ui->btnClose, SIGNAL(clicked()), this, SLOT(close()));
 	
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
+	RzxSmileys::connect(this, SLOT(changeSmileyTheme()));
 
 	setFont(0);
 	setHtml(false);
@@ -621,12 +623,18 @@ bool RzxChat::event(QEvent *e)
 ///Changement du thème d'icône
 void RzxChat::changeTheme()
 {
-	QIcon sound, pi, hist, send, prop, close;
 	ui->btnSound->setIcon(RzxIconCollection::getSoundIcon());
 	ui->btnHistorique->setIcon(RzxIconCollection::getIcon(Rzx::ICON_HISTORIQUE));
 	ui->btnSend->setIcon(RzxIconCollection::getIcon(Rzx::ICON_SEND));
 	ui->btnProperties->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PROPRIETES));
 	ui->btnClose->setIcon(RzxIconCollection::getIcon(Rzx::ICON_CANCEL));
+}
+
+///Changement du thème de smileys
+void RzxChat::changeSmileyTheme()
+{
+	ui->btnSmiley->setIcon(RzxSmileys::pixmap(":-)"));
+	ui->btnSmiley->setEnabled(RzxSmileys::isValid());
 }
 
 ///Changement du format d'affichage des icônes
@@ -645,8 +653,10 @@ void RzxChat::changeIconFormat()
 	if(icons && !texts) style = Qt::ToolButtonIconOnly;
 	else if(!icons && texts) style = Qt::ToolButtonTextOnly;
 	else if(icons && texts) style = Qt::ToolButtonTextBesideIcon;
-//	setIconSize(QSize(16,16));
-//	setToolButtonStyle(style);
+
+	QList<QToolButton*> toolButtons = editor->findChildren<QToolButton*>();
+	foreach(QToolButton *button, toolButtons)
+		button->setToolButtonStyle(style);
 	
 	if(ui->btnSound->icon().isNull()) changeTheme(); //pour recharcher les icônes s'il y a besoin
 }

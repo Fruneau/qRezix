@@ -24,19 +24,18 @@
 #include "rzxchatconfig.h"
 #include "rzxsmileys.h"
 
-
-RzxSmileyButton::RzxSmileyButton(const QString& text, const QIcon & ic, QWidget * parent )
-	:QPushButton(ic, text, parent )
+///Construit un bouton associé au smiley text qui est représenté par l'icône
+RzxSmileyButton::RzxSmileyButton(const QIcon & ic, const QString& text, QWidget * parent )
+	:QToolButton(parent)
 {
 	msg = text;
-	if(!icon().isNull())
-	{
-		setToolTip(text);
-		setText("");
-	}
+	setIcon(ic);
+	setAutoRaise(true);
+	setToolTip(text);
 	connect(this, SIGNAL(clicked(bool)), this, SLOT(wantAdd()));
 }
 
+///Construit une fenêtre de choix de smiley
 RzxSmileyUi::RzxSmileyUi(QAbstractButton *btn, QWidget *parent)
 	:RzxChatPopup(btn, parent)
 {
@@ -45,12 +44,13 @@ RzxSmileyUi::RzxSmileyUi(QAbstractButton *btn, QWidget *parent)
 	
 	// chargement de la config
 	QGridLayout *smileyLayout = new QGridLayout;
+	smileyLayout->setMargin(0);
 	const QStringList smileys = RzxSmileys::baseSmileyList();
 	int rowcpt=0;
 	int colcpt=0;
 	foreach(QString smiley, smileys)
 	{
-		RzxSmileyButton *tmp = new RzxSmileyButton(smiley, RzxSmileys::pixmap(smiley), this);
+		RzxSmileyButton *tmp = new RzxSmileyButton(RzxSmileys::pixmap(smiley), smiley, this);
 		connect(tmp, SIGNAL(clicked(const QString&)), this, SIGNAL(clickedSmiley(const QString&)));
 		smileyLayout->addWidget(tmp, colcpt, rowcpt++);
 		if(rowcpt > 4)

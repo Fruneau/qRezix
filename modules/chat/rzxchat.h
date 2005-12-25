@@ -92,6 +92,7 @@ public slots: // Public slots
 	void info(const QString&);
 	void notify(const QString&, bool withHostname = false);
 	void changeTheme();
+	void changeSmileyTheme();
 	void changeIconFormat();
 	void receiveProperties(const QString&);
 	void peerTypingStateChanged(bool);

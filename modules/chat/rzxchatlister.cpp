@@ -417,6 +417,7 @@ QList<QWidget*> RzxChatLister::propWidgets()
 		propWidget = new QWidget;
 		ui->setupUi(propWidget);
 		connect( ui->btnBeepBrowse, SIGNAL( clicked() ), this, SLOT( chooseBeep() ) );
+		//ui->smileyCombo->setIconSize(16);
 	}
 	return QList<QWidget*>() << propWidget;
 }
@@ -435,7 +436,10 @@ void RzxChatLister::propInit(bool def)
 	ui->cbPropertiesWarning->setChecked(RzxChatConfig::warnWhenChecked(def));
 	ui->cbPrintTime->setChecked(RzxChatConfig::printTime(def));
 	ui->chat_port->setValue(RzxChatConfig::chatPort(def));
-	ui->smileyCombo->addItems(RzxSmileys::themeList());
+
+	QStringList themes = RzxSmileys::themeList();
+	for(int i = 0 ; i < themes.size() ; i++)
+		ui->smileyCombo->addItem(RzxSmileys::pixmap(":-)", themes[i]), themes[i]);
 	ui->smileyCombo->setCurrentIndex(ui->smileyCombo->findText(RzxSmileys::theme()));
 }
 

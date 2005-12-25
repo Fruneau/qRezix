@@ -32,6 +32,12 @@
 /**
 @author Florent Bruneau
 */
+
+///Index arborescent
+/** Ce rezal affiche une arborescence complète de la structure stockée
+ * par RzxRezalModel. Ce module permet de créer un index pour accéder
+ * aux différents objets par catégorie.
+ */
 class RzxRezalIndex : public QTreeView, public RzxRezal
 {
 	Q_OBJECT

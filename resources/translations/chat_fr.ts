@@ -126,7 +126,7 @@
     <name>RzxChatConfig</name>
     <message>
         <source>none</source>
-        <translation>aucun</translation>
+        <translation type="obsolete">aucun</translation>
     </message>
 </context>
 <context>
@@ -326,6 +326,13 @@ Chat and properties browsing are disabled</source>
     <message>
         <source>Smileys</source>
         <translation>Smileys</translation>
+    </message>
+</context>
+<context>
+    <name>RzxSmileys</name>
+    <message>
+        <source>None</source>
+        <translation>Aucun</translation>
     </message>
 </context>
 </TS>
