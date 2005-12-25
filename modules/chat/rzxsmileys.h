@@ -86,6 +86,9 @@ inline RzxSmileys::SmileyTheme *RzxSmileys::smileyTheme(const QString& theme)
 	if(theme.isEmpty())
 		return currentTheme;
 
+	if(!themes.keys().contains(theme))
+		return NULL;
+
 	return themes[theme];
 }
 
