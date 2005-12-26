@@ -93,7 +93,7 @@
     </message>
     <message>
         <source>Action on double-clic</source>
-        <translation>Action du double-clic</translation>
+        <translation type="obsolete">Action du double-clic</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Define the action to execute when you double click on an item&lt;/p&gt;</source>
@@ -185,31 +185,35 @@
     </message>
     <message>
         <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Colonnes affichées&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir...&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Colonnes affichées&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir...&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Columns layout</source>
-        <translation>Colonnes à afficher</translation>
+        <translation type="obsolete">Colonnes à afficher</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
     <message>
         <source>Client</source>
-        <translation>Client</translation>
+        <translation type="obsolete">Client</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation>Remarque</translation>
+        <translation type="obsolete">Remarque</translation>
     </message>
     <message>
         <source>Same gateway</source>
-        <translation>Même passerelle</translation>
+        <translation type="obsolete">Même passerelle</translation>
     </message>
     <message>
         <source>IP</source>
-        <translation>Adresse IP</translation>
+        <translation type="obsolete">Adresse IP</translation>
+    </message>
+    <message>
+        <source>Action on double-clic:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -463,6 +467,89 @@
     <message>
         <source>Cancel</source>
         <translation>Annuler</translation>
+    </message>
+</context>
+<context>
+    <name>RzxRezalViewProp</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Columns order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reinitialise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>-</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;h3&gt;Colonnes affichées&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir...&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>Columns layout</source>
+        <translation type="unfinished">Colonnes à afficher</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Nom</translation>
+    </message>
+    <message>
+        <source>FTP</source>
+        <translation type="unfinished">FTP</translation>
+    </message>
+    <message>
+        <source>OS</source>
+        <translation type="unfinished">Système d&apos;exploitation</translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <translation type="unfinished">Client</translation>
+    </message>
+    <message>
+        <source>Web</source>
+        <translation type="unfinished">Web</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished">Remarque</translation>
+    </message>
+    <message>
+        <source>Promotion</source>
+        <translation type="unfinished">Promotion</translation>
+    </message>
+    <message>
+        <source>Same gateway</source>
+        <translation type="unfinished">Même passerelle</translation>
+    </message>
+    <message>
+        <source>IP</source>
+        <translation type="unfinished">Adresse IP</translation>
+    </message>
+    <message>
+        <source>Place</source>
+        <translation type="unfinished">Bâtiment</translation>
+    </message>
+    <message>
+        <source>News</source>
+        <translation type="unfinished">News</translation>
+    </message>
+    <message>
+        <source>Samba</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Printer</source>
+        <translation type="unfinished">Imprimante</translation>
     </message>
 </context>
 <context>

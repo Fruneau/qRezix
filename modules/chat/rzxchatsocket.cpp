@@ -93,7 +93,7 @@ void RzxChatSocket::setSocketDescriptor(int socket)
 	RzxChatLister::global()->listener()->attach(this);
 }
 
-////Parser des messages
+///Parser des messages
 /** C'est cette méthode qui va vraiment faire le tri entre un chat et une demande de propriété. Lorsqu'un chat est envoyé, le message est émis vers rzxrezal qui alors redonne le message à la bonne fenêtre de chat si elle existe, ou la crée dans le cas contraire */
 int RzxChatSocket::parse(const QString& msg)
 {

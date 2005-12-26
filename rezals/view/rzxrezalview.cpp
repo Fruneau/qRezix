@@ -73,6 +73,7 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 
 	connect(&search, SIGNAL(findItem(const QModelIndex& )), this, SLOT(setCurrentIndex(const QModelIndex&)));
 	connect(&search, SIGNAL(searchPatternChanged(const QString& )), this, SIGNAL(searchPatternChanged(const QString& )));
+	RzxIconCollection::connect(this, SLOT(themeChanged()));
 	endLoading();
 }
 
@@ -345,6 +346,8 @@ QList<QWidget*> RzxRezalView::propWidgets()
 		connect(ui->btnMoveUp, SIGNAL(clicked()), this, SLOT(moveUp()));
 		connect(ui->btnMoveDown, SIGNAL(clicked()), this, SLOT(moveDown()));
 		connect(ui->btnInit, SIGNAL(clicked()), this, SLOT(reinitialisedOrder()));
+		ui->btnInit->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+		themeChanged();
 	}
 	return QList<QWidget*>() << propWidget;
 }
@@ -482,4 +485,12 @@ void RzxRezalView::reinitialisedOrder()
 {
 	for(int i = 0 ; i < RzxRezalModel::numColonnes ; i++)
 		header()->moveSection(header()->visualIndex(i), i);
+}
+
+///Change les icônes
+void RzxRezalView::themeChanged()
+{
+	if(!ui || !propWidget) return;
+
+	ui->btnInit->setIcon(RzxIconCollection::getIcon(Rzx::ICON_RELOAD));
 }

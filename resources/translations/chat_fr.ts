@@ -139,7 +139,7 @@
         <source>Cannot create peer to peer socket !
 
 Chat and properties browsing are disabled</source>
-        <translation>Impossible de créer le socket p2p ! Le chat et les propriétés sont désactivés</translation>
+        <translation type="obsolete">Impossible de créer le socket p2p ! Le chat et les propriétés sont désactivés</translation>
     </message>
     <message>
         <source>reconnected</source>
@@ -188,6 +188,14 @@ Chat and properties browsing are disabled</source>
     <message>
         <source>Sound file selection</source>
         <translation>Sélection du son</translation>
+    </message>
+    <message>
+        <source>Cannot create peer to peer socket!
+
+Chat and properties browsing are disabled</source>
+        <translation>Impossible de lancer l&apos;écoute pour le chat !
+
+Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous ou obtenir vos propriétés... par contre il vous est possible de contacter les autres personnes</translation>
     </message>
 </context>
 <context>

@@ -396,6 +396,7 @@ void RzxConnectionLister::fatalMessage(RzxNetwork *network, const QString& msg)
 	if(!network) return;
 
 	// Boîte de dialogue non modale
+	
 	RzxMessageBox::critical(NULL, tr("Error message from ") + network->name(), msg);
 }
 
