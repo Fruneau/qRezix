@@ -379,6 +379,10 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 		tmpD = QString("<font color=\"%1\"><i>%2 - %3</i></font>").arg(color).arg(tmpD, head);
 		tmpH = ("<font color=\"%1\">"+head+"</font>").arg(color);
 	}
+
+	// Enregistrement des logs...
+	textHistorique = textHistorique + tmpD + tmp;
+
 	// Gestion des smileys
 	RzxSmileys::replace(tmp);
 	
@@ -386,7 +390,6 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 		txtHistory->append(tmpH + tmp);
 	else
 		txtHistory->append(tmp);
-	textHistorique = textHistorique + tmpD + tmp;
 	txtHistory->textCursor().movePosition(QTextCursor::End);
 	txtHistory->ensureCursorVisible();
 	ui->edMsg->setFocus();
@@ -515,6 +518,9 @@ void RzxChat::on_btnHistorique_toggled(bool on)
 	file.open(QIODevice::ReadWrite |QIODevice::Append);
 	file.write(temp.toUtf8());
 	file.close();
+
+	//Vide le buffer...
+	textHistorique = "";
 
 	//Affiche la fenêtre
 	hist = (RzxChatPopup*)RzxChatLister::global()->historique(RzxHostAddress::fromRezix(lastIP), false, this, ui->btnHistorique);

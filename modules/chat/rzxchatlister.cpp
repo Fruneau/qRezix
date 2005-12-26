@@ -368,6 +368,9 @@ QWidget *RzxChatLister::historique(RzxComputer *computer, bool withFrame, QWidge
 		text += stream.readLine();
 	}
 	file.close();
+
+	// Incruste des smileys pour l'affichage
+	RzxSmileys::replace(text);
  
 	// construction de la boite de dialogue
 	QWidget *histoDialog;
