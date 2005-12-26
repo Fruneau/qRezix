@@ -110,6 +110,7 @@ class RzxChatLister:public RzxModule
 		virtual void propInit(bool def = false);
 		virtual void propUpdate();
 		virtual void propClose();
+		void previewSmileys(const QString&);
 
 	protected slots:
 		void chooseBeep();

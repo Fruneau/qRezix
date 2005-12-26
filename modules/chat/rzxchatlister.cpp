@@ -416,7 +416,8 @@ QList<QWidget*> RzxChatLister::propWidgets()
 	{
 		propWidget = new QWidget;
 		ui->setupUi(propWidget);
-		connect( ui->btnBeepBrowse, SIGNAL( clicked() ), this, SLOT( chooseBeep() ) );
+		connect(ui->btnBeepBrowse, SIGNAL( clicked() ), this, SLOT( chooseBeep() ) );
+		connect(ui->smileyCombo, SIGNAL(activated(const QString&)), this, SLOT(previewSmileys(const QString&)));
 		//ui->smileyCombo->setIconSize(16);
 	}
 	return QList<QWidget*>() << propWidget;
@@ -442,6 +443,19 @@ void RzxChatLister::propInit(bool def)
 	for(int i = 0 ; i < themes.size() ; i++)
 		ui->smileyCombo->addItem(RzxSmileys::pixmap(":-)", themes[i]), themes[i]);
 	ui->smileyCombo->setCurrentIndex(ui->smileyCombo->findText(RzxSmileys::theme()));
+	previewSmileys(RzxSmileys::theme());
+}
+
+///Affiche l'aperçu du thème de smileys sélectionné
+void RzxChatLister::previewSmileys(const QString& theme)
+{
+	ui->lstSmileys->clear();
+	QList<QPixmap> preview = RzxSmileys::preview(theme);
+	foreach(QPixmap sml, preview)
+	{
+		QListWidgetItem *item = new QListWidgetItem(ui->lstSmileys);
+		item->setIcon(sml);
+	}
 }
 
 /** \reimp */

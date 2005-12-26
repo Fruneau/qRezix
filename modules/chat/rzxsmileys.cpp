@@ -185,3 +185,13 @@ QPixmap RzxSmileys::pixmap(const QString& sml, const QString& thm)
 {
 	return QPixmap(smiley(sml, thm));
 }
+
+///Donne un aperçu du theme
+QList<QPixmap> RzxSmileys::preview(const QString& thm)
+{
+	QList<QPixmap> ret;
+	QStringList base = baseSmileyList(thm);
+	foreach(QString sml, base)
+		ret << pixmap(sml, thm);
+	return ret;
+}

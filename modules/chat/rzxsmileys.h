@@ -72,6 +72,8 @@ class RzxSmileys: public QObject
 		static bool connect(const QObject * receiver, const char * method, Qt::ConnectionType type = Qt::AutoCompatConnection);
 		static bool disconnect(const QObject * receiver);
 
+		static QList<QPixmap> preview(const QString& thm = QString());
+
 	signals:
 		///Ce signal est émis lorsque le theme change
 		/** \sa connect, disconnect */
