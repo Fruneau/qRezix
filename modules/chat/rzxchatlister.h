@@ -70,6 +70,7 @@ class RzxChatLister:public RzxModule
 
 	QWidget *propWidget;
 	Ui::RzxChatProp *ui;
+	QHash<RzxHostAddress, QPointer<QWidget> > warnWindow;
 
 	bool wellInit;
 

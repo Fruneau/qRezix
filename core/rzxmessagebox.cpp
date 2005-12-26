@@ -24,13 +24,13 @@
  *  Pour permettre le fonctionnement asynchrône du programme, il faut absolument 
  * éviter les fenêtre modales.
  */
-int RzxMessageBox::information( QWidget *parent, const QString& caption,
+QWidget *RzxMessageBox::information( QWidget *parent, const QString& caption,
 	const QString& text, bool modal )
 {
 	if(QApplication::type() == QApplication::Tty)
 		qDebug("[%s] %s", caption.toLatin1().constData(), text.toLatin1().constData());
 	else if(modal)
-		return QMessageBox::information(parent, caption, text, QMessageBox::Ok);
+		QMessageBox::information(parent, caption, text, QMessageBox::Ok);
 	else
 	{
 		QMessageBox *mb = new QMessageBox(caption, text, QMessageBox::Information,
@@ -38,8 +38,9 @@ int RzxMessageBox::information( QWidget *parent, const QString& caption,
 		mb->setAttribute(Qt::WA_DeleteOnClose);
 		mb->setModal(modal);
 		mb->show();
+		return mb;
 	}
-	return 0;
+	return NULL;
 }
 
 
@@ -49,13 +50,13 @@ int RzxMessageBox::information( QWidget *parent, const QString& caption,
 *  Pour permettre le fonctionnement asynchrône du programme, il faut absolument 
 * éviter les fenêtre modales.
 */
-int RzxMessageBox::warning( QWidget *parent, const QString& caption,
+QWidget *RzxMessageBox::warning( QWidget *parent, const QString& caption,
 	const QString& text, bool modal )
 {
 	if(QApplication::type() == QApplication::Tty)
 		qDebug("[%s] %s", caption.toLatin1().constData(), text.toLatin1().constData());
 	else if(modal)
-		return QMessageBox::warning(parent, caption, text, QMessageBox::Ok, QMessageBox::NoButton);
+		QMessageBox::warning(parent, caption, text, QMessageBox::Ok, QMessageBox::NoButton);
 	else
 	{
 		QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Warning,
@@ -63,8 +64,9 @@ int RzxMessageBox::warning( QWidget *parent, const QString& caption,
 		mb->setAttribute(Qt::WA_DeleteOnClose);
 		mb->setModal(modal);
 		mb->show();
+		return mb;
 	}
-	return 0;
+	return NULL;
 }
 
 
@@ -74,13 +76,13 @@ int RzxMessageBox::warning( QWidget *parent, const QString& caption,
 *  Pour permettre le fonctionnement asynchrône du programme, il faut absolument 
 * éviter les fenêtre modales.
 */
-int RzxMessageBox::critical( QWidget *parent, const QString& caption,
+QWidget *RzxMessageBox::critical( QWidget *parent, const QString& caption,
 	const QString& text, bool modal )
 {
 	if(QApplication::type() == QApplication::Tty)
 		qDebug("[%s] %s", caption.toLatin1().constData(), text.toLatin1().constData());
 	else if(modal)
-		return QMessageBox::critical(parent, caption, text, QMessageBox::Ok, QMessageBox::NoButton);
+		QMessageBox::critical(parent, caption, text, QMessageBox::Ok, QMessageBox::NoButton);
 	else
 	{
 		QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Critical,
@@ -88,7 +90,8 @@ int RzxMessageBox::critical( QWidget *parent, const QString& caption,
 		mb->setAttribute(Qt::WA_DeleteOnClose);
 		mb->setModal(modal);
 		mb->show();
+		return mb;
 	}
-	return 0;
+	return NULL;
 }
 

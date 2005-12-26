@@ -27,13 +27,13 @@ class QWidget;
  */
 namespace RzxMessageBox
 {
-	RZX_CORE_EXPORT int information( QWidget *parent, const QString& caption,
+	RZX_CORE_EXPORT QWidget *information( QWidget *parent, const QString& caption,
 		const QString& text, bool modal =false );
 
-	RZX_CORE_EXPORT int warning( QWidget *parent, const QString& caption,
+	RZX_CORE_EXPORT QWidget *warning( QWidget *parent, const QString& caption,
 		const QString& text, bool modal =false );
 
-	RZX_CORE_EXPORT int critical( QWidget *parent, const QString& caption,
+	RZX_CORE_EXPORT QWidget *critical( QWidget *parent, const QString& caption,
 		const QString& text, bool modal =false );
 }
 

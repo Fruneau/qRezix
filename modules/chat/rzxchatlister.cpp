@@ -232,25 +232,31 @@ void RzxChatLister::properties(RzxComputer *computer)
 ///Indique que les propriétés ont été checkées par \a peer
 void RzxChatLister::warnProperties(RzxComputer *computer)
 {
-	if(!computer) return;
+	if(!computer || !RzxChatConfig::warnWhenChecked()) return;
 
 	RzxChat *chat = getChatByIP(computer->ip());
+
+	if(chat)
+	{
+		chat->notify( tr( "has checked your properties" ), true );
+		return;
+	}
+
+	// On affiche pas simultanément deux fenêtres de notification
+	// Pour la même machine... sécurité anti-flood
+	if(warnWindow[computer->ip()])
+		return;
+
 	const QTime cur = QTime::currentTime();
 	const QString heure = cur.toString("hh:mm:ss");
 
-	if(!chat)
-	{
-		if(!RzxChatConfig::warnWhenChecked())
-			return ;
-		RzxMessageBox::information(NULL, tr("Properties sent to %1").arg(computer->name()),
+	QWidget *warn = RzxMessageBox::information(NULL, tr("Properties sent to %1").arg(computer->name()),
 			tr("name : <i>%1</i><br>"
 				"address : <i>%2</i><br>"
 				"client : <i>%3</i><br>"
 				"time : <i>%4</i>")
 				.arg(computer->name()).arg(computer->ip().toString()).arg(computer->client()).arg(heure));
-		return ;
-	}
-	chat->notify( tr( "has checked your properties" ), true );
+	warnWindow.insert(computer->ip(), warn);
 }
 
 ///Demande l'affichage des propriétés

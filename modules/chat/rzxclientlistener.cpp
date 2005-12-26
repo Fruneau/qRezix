@@ -48,7 +48,8 @@ void RzxClientListener::attach(RzxChatSocket *sock)
  *		-# On analyse les données envoyées jusqu'à obtenir un message 'compréhensible'
  *		-# On dispatch alors ce message sur les différentes possibilités (pour l'instant chat ou prop)
  */
-void RzxClientListener::incomingConnection(int socketDescriptor) {
+void RzxClientListener::incomingConnection(int socketDescriptor)
+{
 	//Récupération de la connexion
 	RzxChatSocket *sock = new RzxChatSocket();
 	sock->setSocketDescriptor(socketDescriptor);
@@ -56,13 +57,13 @@ void RzxClientListener::incomingConnection(int socketDescriptor) {
 	// On vérifie au passage que la connexion est valide
 	QHostAddress host;
 	host = sock->peerAddress();
-	if(!RzxBanList::global()->contains(host)) 
-		qDebug("Accept connexion to client %s", host.toString().toAscii().constData());
-	else {
-		qDebug("Message from client %s has been ignored", host.toString().toAscii().constData());
+	if(!RzxBanList::global()->contains(host))
+		qDebug() << "New connection from " << host.toString() << ": accepted";
+	else
+	{
+		qDebug() << "New connection from " << host.toString() << ": refused (in ban list)";
 		sock->abort();
 		delete sock;
-		return;
 	}
 }
 
