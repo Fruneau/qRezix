@@ -74,6 +74,9 @@ class RZX_MAINUI_EXPORT RzxUi:public RzxModule
 		virtual void propClose();
 		virtual void setTreeItem(QTreeWidgetItem *item);
 		void reload();
+
+	protected slots:
+		void fillComboBoxes();
 };
 
 #endif

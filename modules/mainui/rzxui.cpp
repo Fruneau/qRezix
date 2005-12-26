@@ -22,6 +22,7 @@
 #include <RzxGlobal>
 #include <RzxConfig>
 #include <RzxIconCollection>
+#include <RzxTranslator>
 #include <RzxApplication>
 
 #include "rzxui.h"
@@ -51,6 +52,8 @@ RzxUi::RzxUi()
 	connect(qrezix, SIGNAL(wantPreferences()), this, SIGNAL(wantPreferences()));
 	connect(qrezix, SIGNAL(wantToggleResponder()), this, SIGNAL(wantToggleResponder()));
 	connect(qrezix, SIGNAL(wantReload()), this, SLOT(reload()));
+	RzxIconCollection::connect(this, SLOT(fillComboBoxes()));
+	RzxTranslator::connect(this, SLOT(fillComboBoxes()));
 	setIcon(Rzx::ICON_SYSTRAYHERE);
 	endLoading();
 }
@@ -115,6 +118,7 @@ QList<QWidget*> RzxUi::propWidgets()
 		propWidget = new QWidget;
 		ui->setupUi(propWidget);
 		ui->rezalLoader->setLoader(qrezix);
+		fillComboBoxes();
 	}
 	return QList<QWidget*>() << propWidget;
 }
@@ -129,7 +133,7 @@ QStringList RzxUi::propWidgetsName()
 void RzxUi::propInit(bool def)
 {
 	ui->cmdDoubleClic->setCurrentIndex( RzxMainUIConfig::doubleClicRole(def) );
-	ui->cmbDefaultTab -> setCurrentIndex(RzxMainUIConfig::defaultTab(def));
+	ui->cmbDefaultTab->setCurrentIndex(RzxMainUIConfig::defaultTab(def));
 
 	uint tooltip = RzxMainUIConfig::tooltip(def);
 	ui->cbTooltips->setChecked(tooltip & RzxRezalModel::TipEnable);
@@ -148,6 +152,31 @@ void RzxUi::propInit(bool def)
 
 	ui->cbSearch->setChecked( RzxMainUIConfig::useSearch(def) );
 	ui->cbQuit->setChecked(RzxMainUIConfig::showQuit());
+}
+
+///Construit les combos box
+void RzxUi::fillComboBoxes()
+{
+	if(!ui || !propWidget) return;
+
+	int i;
+
+	// Choix de l'affichage
+	i = ui->cmbDefaultTab->currentIndex();
+	ui->cmbDefaultTab->clear();
+	ui->cmbDefaultTab->addItem(RzxIconCollection::getIcon(Rzx::ICON_FAVORITE), tr("Favorites"));
+	ui->cmbDefaultTab->addItem(RzxIconCollection::getIcon(Rzx::ICON_NOTFAVORITE), tr("Everybody"));
+	ui->cmbDefaultTab->setCurrentIndex(i);
+
+	// Choix de l'action
+	i = ui->cmdDoubleClic->currentIndex();
+	ui->cmdDoubleClic->clear();
+	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_CHAT), tr("Chat"));
+	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_FTP), tr("Open FTP"));
+	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_HTTP), tr("Open Web page"));
+	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_NEWS), tr("Read News"));
+	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_SAMBA), tr("Open Samba"));
+	ui->cmdDoubleClic->setCurrentIndex(i);
 }
 
 /** \reimp */

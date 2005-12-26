@@ -26,6 +26,7 @@
 
 #include <RzxRezalDrag>
 #include <RzxRezalModel>
+#include <RzxRezalAction>
 #include <RzxMainUIConfig>
 
 #include "ui_rzxitem.h"
@@ -254,15 +255,9 @@ void RzxRezalDetail::mouseDoubleClickEvent(QMouseEvent *e)
 	else if(child == ui->lblState || child == ui->lblStateIcon)
 		computer->chat();
 	else if(child == ui->lblName || child == ui->lblIcon)
-	{
-		if(RzxMainUIConfig::doubleClicRole() && computer->hasFtpServer())
-			computer->ftp();
-		else if(!computer->isOnResponder() && computer->can(Rzx::CAP_CHAT) && RzxComputer::localhost()->can(Rzx::CAP_CHAT))
-			computer->chat();
-	}
+		RzxRezalAction::run(computer);
 	else
 		QAbstractItemView::mouseDoubleClickEvent(e);
-	return;
 }
 
 ///Choix des éléments à afficher en fonction de la taille de la fenêtre

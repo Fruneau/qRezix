@@ -213,7 +213,7 @@
     </message>
     <message>
         <source>Action on double-clic:</source>
-        <translation type="unfinished"></translation>
+        <translation>Action du double-clic :</translation>
     </message>
 </context>
 <context>
@@ -576,6 +576,34 @@
     <message>
         <source>Main UI for qRezix</source>
         <translation>Interface principale de qRezix</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation>Favoris</translation>
+    </message>
+    <message>
+        <source>Everybody</source>
+        <translation>Tout le monde</translation>
+    </message>
+    <message>
+        <source>Chat</source>
+        <translation>Discussion</translation>
+    </message>
+    <message>
+        <source>Open FTP</source>
+        <translation>Connexion en FTP</translation>
+    </message>
+    <message>
+        <source>Open Web page</source>
+        <translation>Ouvrir la page Web</translation>
+    </message>
+    <message>
+        <source>Read News</source>
+        <translation>Lire les News</translation>
+    </message>
+    <message>
+        <source>Open Samba</source>
+        <translation>Connexion en Samba</translation>
     </message>
 </context>
 </TS>

@@ -30,7 +30,7 @@ RzxStyle::RzxStyle()
 
 	object = this;
 
-	styles << "default";
+	styles << "Default";
 #ifdef Q_OS_MAC
 	styles << "Mac Metal";
 #endif
@@ -91,7 +91,7 @@ void RzxStyle::local_setStyle(const QString& newStyle)
 	}
 
 	metalStyle = (currentName == "Mac Metal");
-	defaultStyle = (currentName == "default" || metalStyle);
+	defaultStyle = (currentName == "Default" || metalStyle);
 }
 
 ///Ajoute la fenêtre à la liste des fenêtres qui utilisent le style de qRezix

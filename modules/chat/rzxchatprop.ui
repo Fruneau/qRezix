@@ -63,7 +63,7 @@
         </property>
         <property name="sizeIncrement" >
          <size>
-          <width>16</width>
+          <width>17</width>
           <height>0</height>
          </size>
         </property>
@@ -84,7 +84,7 @@
         </property>
         <property name="gridSize" >
          <size>
-          <width>16</width>
+          <width>17</width>
           <height>16</height>
          </size>
         </property>

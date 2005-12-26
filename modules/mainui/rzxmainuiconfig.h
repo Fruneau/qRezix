@@ -33,12 +33,25 @@ class RZX_MAINUI_EXPORT RzxMainUIConfig: public RzxAbstractConfig
 	RZX_CONFIG(RzxMainUIConfig)
 
 	public:
-		/** Renvoie la taille des icones des utilsiateurs
-		 * 0 pour 32x32
-		 * 1 pour 64x64
-		 */
-		RZX_INTPROP("doubleClic", doubleClicRole, setDoubleClicRole, 0)
-		RZX_INTPROP("defaultTab", defaultTab, setDefaultTab, 0)
+		///Enumère les actions pour le double clic
+		enum DoubleClicAction
+		{
+			Chat = 0,
+			Ftp = 1,
+			Http = 2,
+			News = 3,
+			Samba = 4
+		};
+
+		///Enumère les tabs accessibles pour l'ouverture
+		enum Tab
+		{
+			Favorites = 0,
+			Everybody = 1
+		};
+
+		RZX_INTPROP("doubleClic", doubleClicRole, setDoubleClicRole, Chat)
+		RZX_INTPROP("defaultTab", defaultTab, setDefaultTab, Favorites)
 		RZX_BOOLPROP("useSearch", useSearch, setUseSearch, true)
 		RZX_BOOLPROP("showQuit", showQuit, setShowQuit, true)
 		RZX_INTPROP("quitmode", quitMode, setQuitMode, 1)

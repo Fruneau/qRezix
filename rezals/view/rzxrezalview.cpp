@@ -34,6 +34,7 @@
 #include <RzxRezalModel>
 #include <RzxRezalPopup>
 #include <RzxRezalDrag>
+#include <RzxRezalAction>
 #include <RzxMainUIConfig>
 
 #include "ui_rzxrezalviewprop.h"
@@ -152,13 +153,8 @@ void RzxRezalView::mouseDoubleClickEvent(QMouseEvent *e)
 		case RzxRezalModel::ColHTTP: computer->http(); break;
 		case RzxRezalModel::ColSamba: computer->samba(); break;
 		case RzxRezalModel::ColNews: computer->news(); break;
-		default:
-			if(RzxMainUIConfig::doubleClicRole() && computer->hasFtpServer())
-				computer->ftp();
-			else if(!computer->isOnResponder() && computer->can(Rzx::CAP_CHAT) && RzxComputer::localhost()->can(Rzx::CAP_CHAT))
-				computer->chat();
+		default: RzxRezalAction::run(computer);
 	}
-	return;
 }
 
 ///Pour le drag&drop
