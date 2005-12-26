@@ -121,16 +121,6 @@
           <property name="whatsThis" >
            <string>&lt;h3>Double clic&lt;/h3>&lt;p>Define the action to execute when you double click on an item&lt;/p></string>
           </property>
-          <item>
-           <property name="text" >
-            <string>Chat</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>Open FTP</string>
-           </property>
-          </item>
          </widget>
         </item>
        </layout>
@@ -159,18 +149,8 @@
            <string>&lt;h3>Tab&lt;/h3>&lt;p>When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p></string>
           </property>
           <property name="currentIndex" >
-           <number>0</number>
+           <number>-1</number>
           </property>
-          <item>
-           <property name="text" >
-            <string>Favorites</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>Everybody</string>
-           </property>
-          </item>
          </widget>
         </item>
        </layout>
