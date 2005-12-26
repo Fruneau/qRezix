@@ -71,80 +71,80 @@ namespace Rzx
 
 	///Identifiant des icônes
 	enum Icon {
-		ICON_ACTION = 0,
-		ICON_APPLY = 1,
-		ICON_OK = 2,
-		ICON_CANCEL = 3,
-		ICON_AWAY = 4,
-		ICON_HERE = 5,
-		ICON_CHAT = 6,
-		ICON_FTP = 7,
-		ICON_HTTP = 8,
-		ICON_SAMBA = 9,
-		ICON_NEWS = 10,
-		ICON_HOTLINE = 11,
-		ICON_NOFTP = 12,
-		ICON_NOHTTP = 13,
-		ICON_NOSAMBA = 14,
-		ICON_NONEWS = 15,
-		ICON_NOHOTLINE = 16,
-		ICON_BAN = 17,
-		ICON_UNBAN = 18,
-		ICON_FAVORITE = 19,
-		ICON_NOTFAVORITE = 20,
-		ICON_SAMEGATEWAY = 21,
-		ICON_OTHERGATEWAY = 22,
-		ICON_COLUMN = 23,
-		ICON_SEARCH = 24,
-		ICON_PREFERENCES = 25,
-		ICON_PLUGIN = 26,
-		ICON_SOUNDON = 27,
-		ICON_SOUNDOFF = 28,
-		ICON_PROPRIETES = 29,
-		ICON_HISTORIQUE = 30,
-		ICON_JONE = 31,
-		ICON_ROUJE = 32,
-		ICON_ORANJE = 33,
-		ICON_QUIT = 34,
-		ICON_ON = 35,
-		ICON_OFF = 36,
-		ICON_SEND = 37,
-		ICON_SYSTRAYHERE = 38,
-		ICON_SYSTRAYAWAY = 39,
-		ICON_LAYOUT = 40,
-		ICON_NETWORK = 41,
-		ICON_OS0 = 42,
-		ICON_OS0_LARGE = 43,
-		ICON_OS1 = 44,
-		ICON_OS1_LARGE = 45,
-		ICON_OS2 = 46,
-		ICON_OS2_LARGE = 47,
-		ICON_OS3 = 48,
-		ICON_OS3_LARGE = 49,
-		ICON_OS4 = 50,
-		ICON_OS4_LARGE = 41,
-		ICON_OS5 = 52,
-		ICON_OS5_LARGE = 53,
-		ICON_OS6 = 54,
-		ICON_OS6_LARGE = 55,
-		ICON_PRINTER = 56,
-		ICON_NOPRINTER = 57,
-		ICON_LOAD = 58,
-		ICON_UNLOAD = 59,
-		ICON_RELOAD = 60,
-		ICON_NUMBER = 61
+		ICON_ACTION = 0,				/**< Icône Action */
+		ICON_APPLY = 1,				/**< Icône Appliquer */
+		ICON_OK = 2,					/**< Icône OK */
+		ICON_CANCEL = 3,				/**< Icône Annuler */
+		ICON_AWAY = 4,					/**< Icône Absent */
+		ICON_HERE = 5,					/**< Icône Présent */
+		ICON_CHAT = 6,					/**< Icône Discussion */
+		ICON_FTP = 7,					/**< Icône Ftp */
+		ICON_HTTP = 8,					/**< Icône Http */
+		ICON_SAMBA = 9,				/**< Icône Samba */
+		ICON_NEWS = 10,				/**< Icône News */
+		ICON_HOTLINE = 11,			/**< Icône Hotline */
+		ICON_NOFTP = 12,				/**< Icône Pas de Ftp */
+		ICON_NOHTTP = 13,				/**< Icône Pas de Http */
+		ICON_NOSAMBA = 14,			/**< Icône Pas de Samba */
+		ICON_NONEWS = 15,				/**< Icône Pas de News */
+		ICON_NOHOTLINE = 16,			/**< Icône Pas de Hotline */
+		ICON_BAN = 17,					/**< Icône Banni */
+		ICON_UNBAN = 18,				/**< Icône Débanni */
+		ICON_FAVORITE = 19,			/**< Icône Favoris */
+		ICON_NOTFAVORITE = 20,		/**< Icône Retirer des Favoris */
+		ICON_SAMEGATEWAY = 21,		/**< Icône Même passerelle */
+		ICON_OTHERGATEWAY = 22,		/**< Icône Autre passerelle */
+		ICON_COLUMN = 23,				/**< Icône Ajuster les colonnes */
+		ICON_SEARCH = 24,				/**< Icône Recherche */
+		ICON_PREFERENCES = 25,		/**< Icône Préférences */
+		ICON_PLUGIN = 26,				/**< Icône Plugins - Modules */
+		ICON_SOUNDON = 27,			/**< Icône Son activé */
+		ICON_SOUNDOFF = 28,			/**< Icône Son désactivé */
+		ICON_PROPRIETES = 29,		/**< Icône Propriétés de la personne */
+		ICON_HISTORIQUE = 30,		/**< Icône Historique */
+		ICON_JONE = 31,				/**< Icône Promotion Jône (Chic à la jône) */
+		ICON_ROUJE = 32,				/**< Icône Promotion Rouje */
+		ICON_ORANJE = 33,				/**< Icône Promotion Oranje */
+		ICON_QUIT = 34,				/**< Icône Quitter */
+		ICON_ON = 35,					/**< Icône Activé, Allumé, Connecté */
+		ICON_OFF = 36,					/**< Icône Désactivé, Eteind, Déconnecté */
+		ICON_SEND = 37,				/**< Icône Envoyer */
+		ICON_SYSTRAYHERE = 38,		/**< Icône Trayicon en cas de présence */
+		ICON_SYSTRAYAWAY = 39,		/**< Icône Trayicon en cas d'absence */
+		ICON_LAYOUT = 40,				/**< Icône Affichage */
+		ICON_NETWORK = 41,			/**< Icône Réseau */
+		ICON_OS0 = 42,					/**< Icône OS Iconnu 32x32 */
+		ICON_OS0_LARGE = 43,			/**< Icône OS Iconnu 64x64 */
+		ICON_OS1 = 44,					/**< Icône OS Win9x 32x32 */
+		ICON_OS1_LARGE = 45,			/**< Icône OS Win9x 64x64 */
+		ICON_OS2 = 46,					/**< Icône OS WinNT 32x32 */
+		ICON_OS2_LARGE = 47,			/**< Icône OS WinNT 64x64 */
+		ICON_OS3 = 48,					/**< Icône OS Linux 32x32 */
+		ICON_OS3_LARGE = 49,			/**< Icône OS Linux 64x64 */
+		ICON_OS4 = 50,					/**< Icône OS MacOS9 32x32 */
+		ICON_OS4_LARGE = 41,			/**< Icône OS MacOS9 64x64 */
+		ICON_OS5 = 52,					/**< Icône OS MacOSX 32x32 */
+		ICON_OS5_LARGE = 53,			/**< Icône OS MacOSX 64x64 */
+		ICON_OS6 = 54,					/**< Icône OS BSD 32x32 */
+		ICON_OS6_LARGE = 55,			/**< Icône OS BSD 64x64 */
+		ICON_PRINTER = 56,			/**< Icône Imprimante */
+		ICON_NOPRINTER = 57,			/**< Icône Pas d'imprimante */
+		ICON_LOAD = 58,				/**< Icône Charger */
+		ICON_UNLOAD = 59,				/**< Icône Décharger */
+		ICON_RELOAD = 60,				/**< Icône Recharger */
+		ICON_NUMBER = 61				/**< Nombre d'icône... */
 	};
 
 	///Types de messages auxquel on peut s'attendre dans un protocole de chat
 	enum ChatMessageType {
-		Chat = 0,
-		Responder = 1,
-		Ping = 2,
-		Pong = 3,
-		Typing = 4,
-		StopTyping = 5,
-		InfoMessage = 6,
-		Closed = 7
+		Chat = 0,			/**< Message de discussion */
+		Responder = 1,		/**< Message de répondeur */
+		Ping = 2,			/**< Demande de ping */
+		Pong = 3,			/**< Réponse à un ping */
+		Typing = 4,			/**< Informe qu'un message est en cours d'édition */
+		StopTyping = 5,	/**< Informe que l'édition du message a été annulée */
+		InfoMessage = 6,	/**< Envoie d'un message d'information */
+		Closed = 7			/**< Notification de la fin de la discussion */
 	};
 
 	///Défini une version
@@ -164,14 +164,14 @@ namespace Rzx
 	///Flags pour retrouver les parties du numéro de version
 	enum VersionPartFlags
 	{
-		NoVersion = 0,
-		MajorVersion = 1,
-		MinorVersion = 2,
-		BuildVersion = 4,
-		TagVersion = 8,
-		ShortVersion = MajorVersion | MinorVersion,
-		LongVersion = ShortVersion | BuildVersion,
-		CompleteVersion = LongVersion | TagVersion
+		NoVersion = 0,			/**< Pas de numéro de version */
+		MajorVersion = 1,		/**< Demande d'affichage du numéro de version majeure */
+		MinorVersion = 2,		/**< Demande d'affichage du numéro de version mineure */
+		BuildVersion = 4,		/**< Demande d'affichage du numéro de build */
+		TagVersion = 8,		/**< Demande d'affichage du tag */
+		ShortVersion = MajorVersion | MinorVersion,	/**< Demande d'affichage d'un numéro de version court major.minor */
+		LongVersion = ShortVersion | BuildVersion,	/**< Demande d'affichage d'un numéro de version long major.minor.build */
+		CompleteVersion = LongVersion | TagVersion	/**< Demande d'affichage d'un numéro de version complète major.minor.build-tag */
 	};
 	Q_DECLARE_FLAGS(VersionParts, VersionPartFlags)
 	RZX_CORE_EXPORT QString versionToString(const Rzx::Version&, VersionParts = CompleteVersion);

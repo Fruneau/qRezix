@@ -25,6 +25,8 @@
 /**
 @author Pico
 */
+
+///Bouton de choix de smiley à insérer
 class RzxSmileyButton : public QToolButton
 {
 	Q_OBJECT
@@ -39,6 +41,7 @@ class RzxSmileyButton : public QToolButton
 };
 
 
+///Fenêtre popup de choix de smiley à insérer
 class RzxSmileyUi : public RzxChatPopup
 {
 	Q_OBJECT

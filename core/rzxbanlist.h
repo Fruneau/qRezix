@@ -23,7 +23,7 @@
  @author Florent Bruneau
  */
 
-///Liste des favoris...
+///Liste des personnes ignorées...
 class RZX_CORE_EXPORT RzxBanList: public RzxComputerList
 {
 	RZX_GLOBAL(RzxBanList)

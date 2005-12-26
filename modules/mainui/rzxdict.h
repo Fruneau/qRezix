@@ -39,6 +39,7 @@ class RzxDictNode
 		static bool find_nearest(RzxDictNode<KEY, VALUE>* const &root, KEY nkey, KEY &nkey_lower, KEY &nkey_higher );
 };
 
+///Table de hashage basée sur un arbre binaire de recherche
 template <class KEY, class VALUE>
 class RzxDict
 {

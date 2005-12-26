@@ -23,6 +23,7 @@
  @author Florent Bruneau
  */
 
+///Données de configuration du module de notification
 class RzxNotifierConfig:public RzxAbstractConfig
 {
 	RZX_CONFIG(RzxNotifierConfig)

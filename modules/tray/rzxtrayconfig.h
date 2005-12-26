@@ -23,6 +23,7 @@
  @author Florent Bruneau
  */
 
+///Gestion de données de configuration de la trayicon
 class RzxTrayConfig:public RzxAbstractConfig
 {
 	RZX_CONFIG(RzxTrayConfig)

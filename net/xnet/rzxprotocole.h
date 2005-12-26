@@ -24,20 +24,22 @@
 #include <RzxHostAddress>
 #include <RzxNetwork>
 
-
 /**
-	*Gere le protocole Xnet. Attention, les messages SERVER_ICON sont definis mais
-	* ne sont pas geres - pb de gestion des donnees binaires.
-	* RzxServerListener gere lui les icones.
-	* NB: on remarquera que pour la meme raison, aucune fonction n'est definie pour
-	* envoyer des icones au serveur
-  * @author Sylvain Joyeux
-  */
+ @author Sylvain Joyeux
+ */
 
 class QStringList;
 class RzxComputer;
 namespace Ui { class RzxXNetProp; };
 
+///Gere le protocole Xnet.
+/** Attention, les messages SERVER_ICON sont definis mais
+ * ne sont pas geres - pb de gestion des donnees binaires.
+ * RzxServerListener gere lui les icones.
+ *
+ * NB: on remarquera que pour la meme raison, aucune fonction n'est definie pour
+ * envoyer des icones au serveur
+ */
 class RzxProtocole : public RzxNetwork
 {
 	Q_OBJECT

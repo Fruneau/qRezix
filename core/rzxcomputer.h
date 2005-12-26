@@ -60,6 +60,9 @@ class  RZX_CORE_EXPORT RzxComputer : public QObject {
 
 
 /************* Définition des différentes données *********************/
+///Décrit différentes informations concernant l'ordinateur
+/** Cette structure provient du protocole xNet
+ */
 #if defined(__BYTE_ORDER) && __BYTE_ORDER == __LITTLE_ENDIAN
 	struct options_t
 	{
@@ -88,7 +91,10 @@ class  RZX_CORE_EXPORT RzxComputer : public QObject {
 		REP_REFUSE = 2
 	};
 	
-public: 
+public:
+///Description de la verion du client xNet
+/** La structure de ce numéro hérite du protocole xNet
+ */
 #if defined(__BYTE_ORDER) && __BYTE_ORDER == __LITTLE_ENDIAN
 	struct version_t
 	{

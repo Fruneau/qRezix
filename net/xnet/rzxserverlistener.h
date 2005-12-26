@@ -41,7 +41,12 @@ class QStringList;
 class QPixmap;
 class RzxComputer;
 
-class RzxServerListener : public RzxProtocole 
+///Gestion de la couche réseau du module xNet
+/** Gestion brute de la couche réseau... RzxProtocole gère la partie
+ * haut niveau du protocole, RzxServerListener gère le niveau socket
+ * et transfert de données binaires...
+ */
+class RzxServerListener : public RzxProtocole
 {
 	Q_OBJECT
 

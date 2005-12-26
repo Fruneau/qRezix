@@ -41,6 +41,7 @@ char* PrintMD5(uchar md5Digest[16]);
 char* MD5String(const char* szString);
 char* MD5File(char* szFilename);
 
+///Hashage MD5
 class md5
 {
 // Methods
