@@ -84,15 +84,11 @@ RzxChatLister::RzxChatLister()
 	connect(lister, SIGNAL(logout(RzxComputer* )), this, SLOT(logout(RzxComputer* )));
 
 	if(!client->listen(RzxChatConfig::chatPort()) )
-	{
-		RzxMessageBox::warning( (QWidget *) parent(), "qRezix",
-			tr("Cannot create peer to peer socket !\n\nChat and properties browsing are disabled") );
-	}
+		RzxMessageBox::warning((QWidget *)parent(), "qRezix",
+			tr("Cannot create peer to peer socket!\n\nChat and properties browsing are disabled") );
 	else
-	{
 		RzxComputer::localhost()->addCapabilities(Rzx::CAP_CHAT);
-		wellInit = true;
-	}
+	wellInit = true;
 	
 	endLoading();
 }
