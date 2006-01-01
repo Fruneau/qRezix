@@ -18,6 +18,7 @@
 #define RZXTEXTEDIT_H
 
 #include <QTextEdit>
+#include <QTextLine>
 
 #ifndef Q_OS_WIN
 #	define DefaultFont "Terminal"
