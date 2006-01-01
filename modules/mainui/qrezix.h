@@ -70,6 +70,7 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	QHash<QAction*, RzxRezal*> choseCentral;
 	QItemSelectionModel *sel;
 
+	QToolBar *bar;
 	QLineEdit *leSearch;
 	QLabel *lblSearch;
 	QMenu menuPlugins;
@@ -86,6 +87,7 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	QAction *columnsAction;
 	QAction *awayAction;
 	QAction *restartAction;
+	QAction *spacerAction;
 
 	Ui::RzxStatus *statusui;
 

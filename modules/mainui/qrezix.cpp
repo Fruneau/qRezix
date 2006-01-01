@@ -70,6 +70,9 @@ QRezix::QRezix(QWidget *parent)
 	closing = false;
 	central = NULL;
 	index = NULL;
+	leSearch = NULL;
+	lblSearch = NULL;
+	bar = NULL;
 
 	//Construction de l'interface
 	RzxStyle::useStyleOnWindow(this);
@@ -86,8 +89,6 @@ QRezix::QRezix(QWidget *parent)
 	setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 	setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
 
-	RzxMainUIConfig::restoreMainWidget(this);
-
 	//Chargement des actions
 	buildActions();
 	
@@ -101,29 +102,20 @@ QRezix::QRezix(QWidget *parent)
 	setMenu();
 #endif
 
-	//Construction de la ligne d'édtion des recherche
-	leSearch = new QLineEdit();
-	leSearch->setMinimumSize(50, 22);
-	leSearch->setMaximumSize(150, 22);
-	connect(leSearch, SIGNAL(textEdited(const QString&)), this, SIGNAL(searchPatternChanged(const QString&)));
-	
-	lblSearch = new QLabel();
-	
 	//Construction des barres d'outils
-	QToolBar *bar = addToolBar(tr("Main"));
+	bar = addToolBar(tr("Main"));
 	bar->addAction(pluginsAction);
 	bar->addSeparator();
-	bar->addWidget(leSearch);
-	bar->addWidget(lblSearch);
 
 	QWidget *spacer = new QWidget();
 	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	bar->addWidget(spacer);
+	spacerAction = bar->addWidget(spacer);
 	bar->addAction(awayAction);
 	bar->addAction(columnsAction);
 	bar->addAction(prefAction);
 	bar->setMovable(false);
 
+	RzxMainUIConfig::restoreMainWidget(this);
 
 	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(toggleAutoResponder()));
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
@@ -137,10 +129,9 @@ QRezix::QRezix(QWidget *parent)
 	
 	connect(RzxConfig::global(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
 
-	showSearch(RzxMainUIConfig::useSearch());
-	
 	//Raccourcis claviers particuliers
 	menuFormatChange();
+	showSearch(RzxMainUIConfig::useSearch());
 
 	wellInit = TRUE;
 }
@@ -585,8 +576,23 @@ void QRezix::toggleVisible()
 ///Montre/cache la parte de recherche
 void QRezix::showSearch(bool state)
 {
-	leSearch->setVisible(state);
-	lblSearch->setVisible(state);
+	if(!leSearch && state)
+	{
+		//Construction de la ligne d'édtion des recherche
+		leSearch = new QLineEdit();
+		leSearch->setMinimumSize(50, 22);
+		leSearch->setMaximumSize(150, 22);
+		connect(leSearch, SIGNAL(textEdited(const QString&)), this, SIGNAL(searchPatternChanged(const QString&)));
+		lblSearch = new QLabel();	
+	
+		bar->insertWidget(spacerAction, leSearch);
+		bar->insertWidget(spacerAction, lblSearch);
+		menuFormatChange();
+	}
+	if(leSearch)
+		leSearch->setVisible(state);
+	if(lblSearch)
+		lblSearch->setVisible(state);
 }
 
 ///Change le pattern de la recherche
@@ -609,7 +615,7 @@ void QRezix::changeTheme()
 	prefAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
 	statusui->lblCountIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_NOTFAVORITE)
 		.scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-	if(RzxConfig::menuIconSize())
+	if(RzxConfig::menuIconSize() && lblSearch)
 		lblSearch->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_SEARCH));
 	if(statusFlag)
 		statusui->lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_ON));
@@ -623,7 +629,8 @@ void QRezix::menuFormatChange()
 {
 	int icons = RzxConfig::menuIconSize();
 	int texts = RzxConfig::menuTextPosition();
-	lblSearch->clear();
+	if(lblSearch)
+		lblSearch->clear();
 
 	//On transforme le cas 'pas d'icônes et pas de texte' en 'petites icônes et pas de texte'
 	if(!texts && !icons) icons = 1;
@@ -646,7 +653,8 @@ void QRezix::menuFormatChange()
 				QPixmap emptyIcon;
 				statusui->lblStatusIcon->hide();
 				statusui->lblCountIcon->hide();
-				lblSearch->setText(tr("Search"));
+				if(lblSearch)
+					lblSearch->setText(tr("Search"));
 			}
 			break;
 		case 1: //petites icônes
@@ -658,7 +666,8 @@ void QRezix::menuFormatChange()
 				setIconSize(size);
 				statusui->lblStatusIcon->show();
 				statusui->lblCountIcon->show();
-				lblSearch->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_SEARCH));
+				if(lblSearch)
+					lblSearch->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_SEARCH));
 			}
 			break;
 	}
