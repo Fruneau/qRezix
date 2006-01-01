@@ -598,7 +598,8 @@ void QRezix::showSearch(bool state)
 ///Change le pattern de la recherche
 void QRezix::setSearchPattern(const QString& pattern)
 {
-	leSearch->setText(pattern);
+	if(leSearch)
+		leSearch->setText(pattern);
 }
 
 /// Changement du thème d'icone
