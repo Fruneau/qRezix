@@ -229,9 +229,6 @@ void RzxApplication::installHider(RzxModule *hider)
 void RzxApplication::linkModules()
 {
 	//Installation des intéractions entre les modules
-	if(properties)
-		properties->setParent(mainWindow());
-
 	foreach(RzxModule *hider, hiders)
 	{
 		installHider(hider);
