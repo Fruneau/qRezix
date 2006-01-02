@@ -442,7 +442,7 @@ void RzxProperty::initDlg(bool def)
 #endif //WIN32
 
 #define setValue(cb, cmd) \
-	if(!cb->findText(cmd)) cb->addItem(cmd); \
+	if(cb->findText(cmd) == -1) cb->addItem(cmd); \
 	cb->setCurrentIndex(cb->findText(cmd))
 
 	if(!def)
