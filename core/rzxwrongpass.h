@@ -18,6 +18,8 @@
 #define RZXWRONGPASS_H
 
 #include <QDialog>
+#include <QHash>
+#include <QPointer>
 
 #include <RzxGlobal>
 
@@ -35,6 +37,8 @@ namespace Ui { class RzxWrongPass; };
 class RZX_CORE_EXPORT RzxWrongPass: public QDialog
 {
 	Q_OBJECT
+
+	static QHash<RzxNetwork*, QPointer<RzxWrongPass> > wrongpassWindows;
 
 	RzxNetwork *network;
 	Ui::RzxWrongPass *ui;

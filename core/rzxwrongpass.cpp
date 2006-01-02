@@ -21,12 +21,20 @@
 
 #include "ui_rzxwrongpass.h"
 
+QHash<RzxNetwork*, QPointer<RzxWrongPass> > RzxWrongPass::wrongpassWindows = QHash<RzxNetwork*, QPointer<RzxWrongPass> >();
+
 ///Construit un RzxWrongPass en le liant à un module réseau
 /** Cette liaison permet une personnalisation du texte etc...
  */
 RzxWrongPass::RzxWrongPass(RzxNetwork *net)
 	:network(net)
 {
+	if(wrongpassWindows[net])
+	{
+		deleteLater();
+		return;
+	}
+	wrongpassWindows.insert(net, this);
 	ui = new Ui::RzxWrongPass();
 	ui->setupUi(this);
 	if(network)
