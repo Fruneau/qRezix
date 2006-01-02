@@ -22,7 +22,7 @@
    <property name="spacing" >
     <number>6</number>
    </property>
-   <item row="4" column="0" >
+   <item row="3" column="0" >
     <spacer>
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
@@ -35,12 +35,69 @@
      </property>
     </spacer>
    </item>
-   <item row="3" column="0" >
+   <item row="1" column="1" >
+    <widget class="QGroupBox" name="groupNetwork" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>5</hsizetype>
+       <vsizetype>0</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title" >
+      <string>Network</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>8</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="1" >
+       <widget class="QSpinBox" name="chat_port" >
+        <property name="toolTip" >
+         <string>&lt;h3>Peer2peer port&lt;/h3>&lt;p>Define the port of the chat&lt;/p>&lt;p>You shouldn't have to modify this value&lt;/p></string>
+        </property>
+        <property name="maximum" >
+         <number>32768</number>
+        </property>
+        <property name="value" >
+         <number>5050</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="lblServerport" >
+        <property name="text" >
+         <string>Port:</string>
+        </property>
+        <property name="textFormat" >
+         <enum>Qt::PlainText</enum>
+        </property>
+        <property name="buddy" >
+         <cstring>chat_port</cstring>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" >
     <widget class="QGroupBox" name="groupBox" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>5</hsizetype>
+       <vsizetype>0</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="maximumSize" >
       <size>
        <width>16777215</width>
-       <height>64</height>
+       <height>16777215</height>
       </size>
      </property>
      <property name="title" >
@@ -55,6 +112,12 @@
       </property>
       <item row="0" column="1" >
        <widget class="QListWidget" name="lstSmileys" >
+        <property name="minimumSize" >
+         <size>
+          <width>0</width>
+          <height>24</height>
+         </size>
+        </property>
         <property name="maximumSize" >
          <size>
           <width>16777215</width>
@@ -99,20 +162,7 @@
      </layout>
     </widget>
    </item>
-   <item rowspan="3" row="2" column="1" >
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>262</width>
-       <height>347</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item rowspan="2" row="1" column="0" >
+   <item row="2" column="0" >
     <widget class="QGroupBox" name="groupChat" >
      <property name="title" >
       <string>Chat</string>
@@ -218,56 +268,31 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="1" >
-    <widget class="QGroupBox" name="groupNetwork" >
-     <property name="title" >
-      <string>Network</string>
+   <item rowspan="2" row="2" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
      </property>
-     <layout class="QGridLayout" >
-      <property name="margin" >
-       <number>8</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-      <item row="0" column="1" >
-       <widget class="QSpinBox" name="chat_port" >
-        <property name="toolTip" >
-         <string>&lt;h3>Peer2peer port&lt;/h3>&lt;p>Define the port of the chat&lt;/p>&lt;p>You shouldn't have to modify this value&lt;/p></string>
-        </property>
-        <property name="maximum" >
-         <number>32768</number>
-        </property>
-        <property name="value" >
-         <number>5050</number>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="lblServerport" >
-        <property name="text" >
-         <string>Port:</string>
-        </property>
-        <property name="textFormat" >
-         <enum>Qt::PlainText</enum>
-        </property>
-        <property name="buddy" >
-         <cstring>chat_port</cstring>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+     <property name="sizeHint" >
+      <size>
+       <width>221</width>
+       <height>321</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
  <pixmapfunction></pixmapfunction>
  <tabstops>
-  <tabstop>cbPropertiesWarning</tabstop>
-  <tabstop>cbPrintTime</tabstop>
   <tabstop>chkBeep</tabstop>
   <tabstop>beepSound</tabstop>
   <tabstop>btnBeepBrowse</tabstop>
+  <tabstop>smileyCombo</tabstop>
+  <tabstop>chat_port</tabstop>
+  <tabstop>cbPropertiesWarning</tabstop>
+  <tabstop>cbPrintTime</tabstop>
+  <tabstop>lstSmileys</tabstop>
  </tabstops>
  <resources/>
  <connections>
