@@ -286,16 +286,16 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation>%1 clients connectés</translation>
     </message>
     <message>
-        <source>XNet Server message:</source>
-        <translation>Message du serveur XNet:</translation>
+        <source>Information message from </source>
+        <translation>Message d&apos;information de </translation>
     </message>
     <message>
-        <source>Error</source>
-        <translation>Erreur</translation>
+        <source>Warning message from </source>
+        <translation>Message d&apos;avertissement de </translation>
     </message>
     <message>
-        <source>XNet Server message</source>
-        <translation>Message du serveur XNet</translation>
+        <source>Error message from </source>
+        <translation>Message d&apos;erreur de </translation>
     </message>
 </context>
 <context>
@@ -590,6 +590,14 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <source>Native support for the jabber protocole</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>connected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>disconnected</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxListEdit</name>
@@ -644,10 +652,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished">Divers</translation>
     </message>
     <message>
-        <source>Favorites</source>
-        <translation type="unfinished">Favoris</translation>
-    </message>
-    <message>
         <source>Printer</source>
         <translation type="unfinished">Imprimante</translation>
     </message>
@@ -684,19 +688,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Action on double-clic</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Define the action to execute when you double click on an item&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Chat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open FTP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -705,10 +697,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Everybody</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -756,31 +744,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Columns layout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Client</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Comment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Same gateway</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>IP</source>
+        <source>Action on double-clic:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1112,10 +1076,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation>&lt;h3&gt;Loin&lt;/p&gt;&lt;p&gt;Cochez cette case pour être sur répondeur par défaut.&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>Away:</source>
-        <translation>Marquer absent :</translation>
-    </message>
-    <message>
         <source>Browse...</source>
         <translation>Parcourir...</translation>
     </message>
@@ -1197,7 +1157,7 @@ Les entrées marquées par (*) représente des personnes actuellement déconnect
     </message>
     <message>
         <source>Refuse messages when away</source>
-        <translation>Refuser les messages du répondeur</translation>
+        <translation>Refuser les messages en cas d&apos;absence</translation>
     </message>
     <message>
         <source>Style</source>
@@ -1272,8 +1232,8 @@ Les entrées marquées par (*) représente des personnes actuellement déconnect
         <translation>0</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <source>Responder:</source>
+        <translation>Répondeur :</translation>
     </message>
 </context>
 <context>
@@ -1546,6 +1506,89 @@ Les entrées marquées par (*) représente des personnes actuellement déconnect
     </message>
 </context>
 <context>
+    <name>RzxRezalViewProp</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Columns order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reinitialise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>-</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Columns layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>FTP</source>
+        <translation type="unfinished">FTP</translation>
+    </message>
+    <message>
+        <source>OS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Web</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Promotion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Same gateway</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Place</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>News</source>
+        <translation type="unfinished">News</translation>
+    </message>
+    <message>
+        <source>Samba</source>
+        <translation type="unfinished">Samba</translation>
+    </message>
+    <message>
+        <source>Printer</source>
+        <translation type="unfinished">Imprimante</translation>
+    </message>
+</context>
+<context>
     <name>RzxServerListener</name>
     <message>
         <source>Server name and port are not configured</source>
@@ -1677,6 +1720,34 @@ DNS request failed</source>
     <name>RzxUi</name>
     <message>
         <source>Main UI for qRezix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">Favoris</translation>
+    </message>
+    <message>
+        <source>Everybody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open FTP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Web page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Read News</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Samba</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
