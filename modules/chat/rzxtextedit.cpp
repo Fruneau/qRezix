@@ -277,6 +277,7 @@ void RzxTextEdit::useHtml(bool html)
 		setColor(m_color);
 	}
 	m_html = html;
+	setAcceptRichText(html);
 	setPlainText(toPlainText());
 	setFocus();
 }

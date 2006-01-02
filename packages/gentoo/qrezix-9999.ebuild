@@ -15,9 +15,9 @@ SLOT="0"
 KEYWORDS="-*"
 IUSE="chat mainui tray notifier xnet doc"
 
-RDEPEND=">=x11-libs/qt-4.0.1"
+RDEPEND=">=x11-libs/qt-4.1.0"
 DEPEND="doc? (app-doc/doxygen)
-	>=x11-libs/qt-4.0.1"
+	>=x11-libs/qt-4.1.0"
 		
 ESVN_REPO_URI="svn://skinwel/qrezix/trunk/"
 
