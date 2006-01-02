@@ -110,6 +110,10 @@ RzxProperty::RzxProperty(QWidget *parent)
 	txtBeepCmd->hide();
 #endif
 
+#ifdef Q_OS_MAC
+	lstTheme->setSizeIncrement(QSize(1,1));
+#endif
+
 	//fenêtre pour les props vides, index == 3
 	prefStack->addWidget(new QWidget());
 	
