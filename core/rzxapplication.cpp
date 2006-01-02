@@ -491,3 +491,13 @@ void RzxApplication::displayHelp()
 	qDebug("\nqRezix %s", Rzx::versionToString(version()).toAscii().constData());
 	qDebug("Contact or bug reporting: <mailto:qrezix@frankiz.polytechnique.fr>");
 }
+
+#ifdef Q_OS_MAC
+#include <Carbon/Carbon.h>
+bool RzxApplication::macEventFilter( EventHandlerCallRef caller, EventRef event )
+{
+	if(GetEventClass(event) == kEventClassApplication && GetEventKind(event) == kEventAppActivated && mainui)
+		mainui->show();
+	return QApplication::macEventFilter(caller,event );
+}
+#endif

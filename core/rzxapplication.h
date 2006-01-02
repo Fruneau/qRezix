@@ -20,6 +20,7 @@
 #include <QApplication>
 #include <QPointer>
 #include <QList>
+#include <QEvent>
 
 #include <RzxBaseLoader>
 #include <RzxModule>
@@ -68,6 +69,10 @@ class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<R
 		static RzxModule *chatModule();
 		static RzxModule *propertiesModule();
 		static RzxModule *chatUiModule();
+
+#ifdef Q_OS_MAC
+		virtual bool macEventFilter ( EventHandlerCallRef caller, EventRef event );
+#endif
 		
 	protected:
 		bool loadCore();

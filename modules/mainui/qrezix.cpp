@@ -494,6 +494,7 @@ void QRezix::updateLayout()
 void QRezix::closeEvent(QCloseEvent * e){
 	//pour éviter de fermer rezix par mégarde, on affiche un boite de dialogue laissant le choix
 	//de fermer qrezix, de minimiser la fenêtre principale --> trayicon, ou d'annuler l'action
+#ifndef Q_OS_MAC
 	if(!isHidden() && !isMinimized())
 	{
 		int i;
@@ -522,6 +523,11 @@ void QRezix::closeEvent(QCloseEvent * e){
 	//Il semble en tout cas que ce soit le cas sous OS X
 	saveState();
 	emit wantQuit();
+#else
+	saveState();
+	hide();
+	e->ignore();
+#endif
 }
 
 bool QRezix::event(QEvent * e)
