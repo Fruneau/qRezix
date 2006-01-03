@@ -125,7 +125,10 @@ void RzxChat::init()
 	new QShortcut(Qt::CTRL + Qt::Key_Enter, ui->btnSend, SIGNAL(clicked()));
 	new QShortcut(Qt::Key_Escape, ui->btnClose, SIGNAL(clicked()));
 	new QShortcut(Qt::Key_F1, ui->btnSound, SLOT(toggle()));
-
+#ifdef Q_OS_MAC
+	new QShortcut(QKeySequence("Ctrl+M"), this, SLOT(showMinimized()));
+#endif
+		
 	/* Construction du texte et des icônes des boutons */
 	changeTheme();
 	changeSmileyTheme();

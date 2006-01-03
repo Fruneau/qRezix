@@ -99,6 +99,8 @@ QRezix::QRezix(QWidget *parent)
 	tool->addAction("Quit", this, SIGNAL(wantQuit()));
 	popup = NULL;
 	setMenu();
+
+	new QShortcut(QKeySequence("Ctrl+M"), this, SLOT(showMinimized()));
 #endif
 
 	//Construction des barres d'outils
@@ -132,7 +134,6 @@ QRezix::QRezix(QWidget *parent)
 	menuFormatChange();
 	showSearch(RzxMainUIConfig::useSearch());
 	status("", RzxConnectionLister::global()->isConnected());
-
 
 	wellInit = TRUE;
 }

@@ -32,6 +32,7 @@ email                : benoit.casoetto@m4x.org
 #include <QSize>
 #include <QHeaderView>
 #include <QStack>
+#include <QShortcut>
 
 #ifdef WITH_KDE
 #include <kfiledialog.h>
@@ -112,6 +113,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 
 #ifdef Q_OS_MAC
 	lstTheme->setSizeIncrement(QSize(1,1));
+        new QShortcut(QKeySequence("Ctrl+M"), this, SLOT(showMinimized()));
 #endif
 
 	//fenêtre pour les props vides, index == 3
