@@ -160,9 +160,9 @@ int RzxChatSocket::parse(const QString& msg)
 
 /*Les méthodes qui suivent servent à l'émission des différents messages*/
 ///Envoi d'une demande de propriété
-void RzxChatSocket::sendPropQuery() {
+void RzxChatSocket::sendPropQuery()
+{
 	send("PROPQUERY \r\n\0");
-	emit propertiesSent(host);
 }
 
 ///Envoi d'une requête ping

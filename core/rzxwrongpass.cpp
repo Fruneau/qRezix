@@ -21,6 +21,7 @@
 
 #include "ui_rzxwrongpass.h"
 
+///Pour éviter qu'un module réseau lance plusieurs fenêtre simultanément
 QHash<RzxNetwork*, QPointer<RzxWrongPass> > RzxWrongPass::wrongpassWindows = QHash<RzxNetwork*, QPointer<RzxWrongPass> >();
 
 ///Construit un RzxWrongPass en le liant à un module réseau
