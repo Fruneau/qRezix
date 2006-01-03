@@ -3,4 +3,6 @@
 install_name_tool -change $QTDIR/lib/QtCore.framework/Versions/4.1/QtCore '@executable_path/../Frameworks/QtCore' $1
 install_name_tool -change $QTDIR/lib/QtGui.framework/Versions/4.1/QtGui '@executable_path/../Frameworks/QtGui' $1
 install_name_tool -change $QTDIR/lib/QtNetwork.framework/Versions/4.1/QtNetwork '@executable_path/../Frameworks/QtNetwork' $1
-			
+install_name_tool -change $QTDIR/lib/QtCore.framework/Versions/4.0/QtCore '@executable_path/../Frameworks/QtCore' $1
+install_name_tool -change $QTDIR/lib/QtGui.framework/Versions/4.0/QtGui '@executable_path/../Frameworks/QtGui' $1
+install_name_tool -change $QTDIR/lib/QtNetwork.framework/Versions/4.0/QtNetwork '@executable_path/../Frameworks/QtNetwork' $1
