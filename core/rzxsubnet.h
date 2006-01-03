@@ -57,6 +57,7 @@ class RZX_CORE_EXPORT RzxSubnet
 		static QHostAddress maskFromSize(int, QAbstractSocket::NetworkLayerProtocol);
 
 		QString toString() const;
+		bool operator==(const RzxSubnet&) const;
 };
 
 #endif

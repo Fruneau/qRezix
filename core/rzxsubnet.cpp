@@ -193,3 +193,9 @@ QString RzxSubnet::toString() const
 {
 	return m_network.toString() + "/" + m_netmask.toString();
 }
+
+///Teste l'égalité de 2 subnets
+bool RzxSubnet::operator==(const RzxSubnet& subnet) const
+{
+	return network() == subnet.network() && netmask() == subnet.netmask();
+}

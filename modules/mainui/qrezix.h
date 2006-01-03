@@ -65,7 +65,7 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	RZX_GLOBAL(QRezix)
 
 	RzxRezal *central;
-	RzxRezal *index;
+	QList<RzxRezal*> indexes;
 	QList<RzxRezal*> centralisable;
 	QHash<QAction*, RzxRezal*> choseCentral;
 	QItemSelectionModel *sel;

@@ -69,7 +69,6 @@ QRezix::QRezix(QWidget *parent)
 	alreadyOpened=false;
 	closing = false;
 	central = NULL;
-	index = NULL;
 	leSearch = NULL;
 	lblSearch = NULL;
 	bar = NULL;
@@ -184,8 +183,8 @@ bool QRezix::installModule(RzxRezal *rezal)
 				addDockWidget(area, dock);
 		}
 
-		if((rezal->type() & RzxRezal::TYP_INDEX) && !index)
-			index = rezal;
+		if((rezal->type() & RzxRezal::TYP_INDEX))
+			indexes << rezal;
 		conf->endGroup();
 
 		//Après endGroup, car contient un changement de répertoire...
@@ -205,11 +204,14 @@ void QRezix::linkModules()
 	sel = new QItemSelectionModel(RzxRezalModel::global());
 	foreach(RzxRezal *rezal, moduleList())
 	{
-		if((rezal->type() & RzxRezal::TYP_INDEXED) && index)
+		if((rezal->type() & RzxRezal::TYP_INDEXED) && indexes.count())
 		{
 			rezal->widget()->setRootIndex(RzxRezalModel::global()->everybodyGroup);
-			connect(index->widget(), SIGNAL(clicked(const QModelIndex&)), rezal->widget(), SLOT(setRootIndex(const QModelIndex&)));
-			connect(index->widget(), SIGNAL(activated(const QModelIndex&)), rezal->widget(), SLOT(setRootIndex(const QModelIndex&)));
+			foreach(RzxRezal *index, indexes)
+			{
+				connect(index->widget(), SIGNAL(clicked(const QModelIndex&)), rezal->widget(), SLOT(setRootIndex(const QModelIndex&)));
+				connect(index->widget(), SIGNAL(activated(const QModelIndex&)), rezal->widget(), SLOT(setRootIndex(const QModelIndex&)));
+			}
 		}
 		rezal->widget()->setSelectionModel(sel);
 	}
@@ -238,7 +240,7 @@ void QRezix::unloadModule(RzxRezal *rezal)
 	QDockWidget *dock = rezal->dockWidget();
 
 	if(central == rezal) central = NULL;
-	if(index == rezal) index = NULL;
+	indexes.removeAll(rezal);
 	centralisable.removeAll(rezal);
 	QList<QAction*> actions = choseCentral.keys(rezal);
 	foreach(QAction *action, actions)

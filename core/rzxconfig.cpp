@@ -358,6 +358,22 @@ uint RzxConfig::rezalNumber()
 	return (uint)global()->rezalSubnets.count();
 }
 
+///Retourne l'index du sous-réseau dans la liste si il existe
+int RzxConfig::rezal(const RzxSubnet& m_subnet)
+{
+	int i = 0;
+	foreach(QList<RzxSubnet> rezal, global()->rezalSubnets)
+	{
+		foreach(RzxSubnet subnet, rezal)
+		{
+			if(subnet == m_subnet)
+				return i;
+		}
+		i++;
+	}
+	return -1;
+}
+
 ///Retourne le rezal auquel appartient le QHostAddress
 /** Retourne -1 si aucun sous-réseau correspondant n'est trouvé
  */

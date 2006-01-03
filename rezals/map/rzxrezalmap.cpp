@@ -43,6 +43,7 @@ RzxRezalMap::RzxRezalMap(QWidget *widget)
 {
 	beginLoading();
 	setType(TYP_ALL);
+	setType(TYP_INDEX);
 	setType(TYP_INDEXED);
 	setIcon(RzxThemedIcon("rzlmap"));
 	setModel(RzxRezalModel::global());
@@ -359,9 +360,20 @@ QModelIndex RzxRezalMap::indexAt(const QPoint &point) const
 	{
 		if(QRegion(polygon(ip)).contains(point))
 		{
-			RzxComputer *computer = ip.computer();
-			if(computer)
-				return RzxRezalModel::global()->index(computer, RzxRezalModel::global()->everybodyGroup);
+			if(!currentMap->useSubnets)
+			{
+				RzxComputer *computer = ip.computer();
+				if(computer)
+					return RzxRezalModel::global()->index(computer, RzxRezalModel::global()->everybodyGroup);
+			}
+			else
+			{
+				foreach(RzxSubnet subnet, currentMap->subnets)
+				{
+					if(subnet.contains(ip))
+						return RzxRezalModel::global()->index(subnet);
+				}
+			}
 		}
 	}
 	return QModelIndex();

@@ -271,6 +271,14 @@ QModelIndex RzxRezalModel::index(RzxComputer *computer, const QModelIndex& paren
 		return QModelIndex();
 }
 
+///Recherche l'index associé au subnet donné
+QModelIndex RzxRezalModel::index(const RzxSubnet& subnet) const
+{
+	int i = RzxConfig::rezal(subnet);
+	if(i == -1) return QModelIndex();
+	return rezalIndex[i];
+}
+
 ///Retourne l'arbre des fils
 const RzxRezalSearchTree *RzxRezalModel::childrenByName(const QModelIndex& index) const
 {

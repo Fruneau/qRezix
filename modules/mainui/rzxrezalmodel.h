@@ -26,6 +26,7 @@
 #include <QPointer>
 
 #include <RzxGlobal>
+#include <RzxSubnet>
 
 #include "rzxmainuiglobal.h"
 #include "rzxdict.h"
@@ -227,6 +228,7 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 
 		virtual QModelIndex index(int, int, const QModelIndex& index = QModelIndex()) const;
 		virtual QModelIndex index(RzxComputer*, const QModelIndex& index = QModelIndex()) const;
+		virtual QModelIndex index(const RzxSubnet&) const;
 		virtual QModelIndex parent(const QModelIndex&) const;
 		virtual bool isIndex(const QModelIndex&) const;
 		
