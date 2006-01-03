@@ -2,7 +2,7 @@ SOURCES += $$ROOT/rezals/map/rzxrezalmap.cpp
 
 HEADERS += $$ROOT/rezals/map/rzxrezalmap.h
 
-maps.files = $$ROOT/rezals/map/*.png $$ROOT/rezals/map/*.jpg
+maps.files = $$ROOT/resources/maps/*
 mapini.files = $$ROOT/rezals/map/map.ini
 mac {
         maps.path = $$ROOT/qRezix.app/Contents/Resources/maps

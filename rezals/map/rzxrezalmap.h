@@ -112,6 +112,8 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 		QHash<RzxHostAddress, QString> polygons;
 		QHash<RzxHostAddress, QString> links;
 		QHash<QString, QPolygon> places;
+		QHash<QString, QString> masks;
+		QHash<QString, QPoint> maskPositions;
 	};
 
 	enum ScrollHintExt
@@ -132,8 +134,9 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 
 	private:
 		QStringList loadMaps();
-		void loadMap(QSettings&, Map*);
+		void loadMap(QSettings&, const QDir&, Map*);
 		void loadPlaces(QSettings&, Map*);
+		void loadMasks(QSettings&, const QDir&, Map*);
 	
 	public:
 		RzxRezalMap(QWidget *parent = 0);
@@ -164,6 +167,10 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 		virtual void mouseDoubleClickEvent(QMouseEvent *e);
 		virtual void paintEvent(QPaintEvent*);
 		void drawSelection(QPainter&);
+		void drawPlace(const QString&, QPainter&, const QColor&);
+
+		QString place(const QModelIndex&) const;
+		QString place(const RzxHostAddress&) const;
 
 		QPolygon polygon(const QModelIndex&) const;
 		QPolygon polygon(const RzxHostAddress&) const;

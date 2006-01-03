@@ -127,7 +127,7 @@ QStringList RzxRezalMap::loadMaps()
 
 	//Récupération des cartes
 	for(int i = 0 ; i < mapNb ; i++)
-		loadMap(maps, mapTable[i]);
+		loadMap(maps, dir, mapTable[i]);
 
 	return mapNames;
 }
@@ -136,9 +136,11 @@ QStringList RzxRezalMap::loadMaps()
 /** Les données de la carte sont constituées des associations polygone/ip qui permet
  * de gérer totalement la carte de façon dynamique
  */
-void RzxRezalMap::loadMap(QSettings &maps, Map *map)
+void RzxRezalMap::loadMap(QSettings &maps, const QDir& dir, Map *map)
 {
 	loadPlaces(maps, map);
+	loadMasks(maps, dir, map);
+
 	maps.beginGroup("Attrib_" + map->name);
 	const QStringList keys = maps.childKeys();
 	foreach(QString key, keys)
@@ -220,6 +222,44 @@ void RzxRezalMap::loadPlaces(QSettings &maps, Map *map)
 	maps.endGroup();
 }
 
+///Charge les masques associés à la carte donnée
+/** Les données doivent être des liens vers des fichiers associés à la coordonnée supérieure gauche
+ * à laquelle affiché le masque
+ */
+void RzxRezalMap::loadMasks(QSettings &maps, const QDir& dir, Map *map)
+{
+	maps.beginGroup("Mask_" + map->name);
+	QStringList keys = maps.childKeys();
+	foreach(QString key, keys)
+	{
+		if(!map->places.keys().contains(key))
+			continue;
+
+		//Analyse des valeurs...
+		QString value = maps.value(key).toString();
+		QStringList subs = value.split(" ", QString::SkipEmptyParts);
+		if(subs.size() > 2 || !subs.size())
+			continue;
+
+		QPoint p(0,0);
+		int i=0;
+		if(subs.size() == 2)
+		{
+			static QRegExp point("(\\d+)x(\\d+)");
+			if(point.indexIn(subs[i++]) != -1)
+				p = QPoint(point.cap(1).toInt(), point.cap(2).toInt());
+		}
+
+		if(dir.exists(subs[i]))
+		{
+			map->masks.insert(key, dir.absoluteFilePath(subs[i]));
+			map->maskPositions.insert(key, p);
+			qDebug() << "Add mask" << dir.absoluteFilePath(subs[i]) << p << "for" << key;
+		}
+	}
+	maps.endGroup();
+}
+
 ///Change la carte active
 void RzxRezalMap::setMap(int map)
 {
@@ -238,7 +278,7 @@ void RzxRezalMap::setMap(int map)
 		if(!currentMap->places[name].isEmpty())
 			placeSearch->addItem(name);
 	}
-	placeSearch->setEditText("Rechercher un lieu");
+	placeSearch->setEditText(tr("Search a place"));
 	if (placeSearch->count())
 		placeSearch->show();
 	else
@@ -490,23 +530,51 @@ QRegion RzxRezalMap::visualRegionForSelection(const QItemSelection& sel) const
 	return region;
 }
 
+///Retourne le lieu associé à l'index
+QString RzxRezalMap::place(const QModelIndex& index) const
+{
+	if(!index.isValid() || !currentMap)
+		return QString();
+
+	QVariant value = index.model()->data(index, Qt::UserRole);
+	if(!value.canConvert<RzxComputer*>())
+		return QString();
+
+	RzxComputer *computer = value.value<RzxComputer*>();
+	if(!computer)
+		return QString();
+
+	return place(computer->ip());
+}
+
+///Retourne le lieu associé à l'ip indiquée
+QString RzxRezalMap::place(const RzxHostAddress& ip) const
+{
+	if(!currentMap)
+		return QString();
+
+	if(currentMap->useSubnets)
+	{
+		foreach(RzxSubnet net, currentMap->subnets)
+		{
+			if(net.contains(ip))
+				return currentMap->polygons[net.network()];
+		}
+	}
+
+	return currentMap->polygons[ip];
+}
+
 ///Retourne le polygone associé à un index
 /** Le polygon prend en compte la position de l'affichage...
  */
 QPolygon RzxRezalMap::polygon(const QModelIndex& index) const
 {
-	if(!index.isValid() || !currentMap)
+	QString plc = place(index);
+	if(plc.isNull())
 		return QPolygon();
-
-	QVariant value = index.model()->data(index, Qt::UserRole);
-	if(!value.canConvert<RzxComputer*>())
-		return QPolygon();
-
-	RzxComputer *computer = value.value<RzxComputer*>();
-	if(computer)
-		return polygon(computer->ip());
 	else
-		return QPolygon();
+		return polygon(plc);
 }
 
 ///Retourne le polygone associé à l'adresse
@@ -514,25 +582,11 @@ QPolygon RzxRezalMap::polygon(const QModelIndex& index) const
  */
 QPolygon RzxRezalMap::polygon(const RzxHostAddress& ip) const
 {
-	if(!currentMap)
+	QString plc = place(ip);
+	if(plc.isNull())
 		return QPolygon();
-
-	if(currentMap->useSubnets)
-	{
-		foreach(RzxSubnet net, currentMap->subnets)
-		{
-			if(net.contains(ip))
-			{
-				QPolygon poly = currentMap->places[currentMap->polygons[net.network()]];
-				poly.translate(-horizontalOffset(), -verticalOffset());
-				return poly;
-			}
-		}
-	}
-
-	QPolygon poly = currentMap->places[currentMap->polygons[ip]];
-	poly.translate(-horizontalOffset(), -verticalOffset());
-	return poly;
+	else
+		return polygon(plc);
 }
 
 ///Retourne le polygone associé à l'adresse
@@ -568,11 +622,23 @@ void RzxRezalMap::drawSelection(QPainter& painter)
 {
 	painter.setPen(Qt::NoPen);
 
-	painter.setBrush(QColor(00, 00, 0xa0, 0xc0));
-	painter.drawPolygon(polygon(currentIndex()));
+	drawPlace(place(currentIndex()), painter, QColor(00, 00, 0xa0, 0xc0));
+	drawPlace(currentPlace, painter, QColor(00, 0xa0, 00, 0xd0)); //TODO voir la couleur
+}
 
-	painter.setBrush(QColor(00, 0xa0, 00, 0xd0)); //TODO voir la couleur
-	painter.drawPolygon(polygon(currentPlace));
+///Dessine le lieu indiqué avec la couleur indiquée en cas d'absence de masque
+void RzxRezalMap::drawPlace(const QString& place, QPainter& painter, const QColor& color)
+{
+	if(place.isEmpty()) return;
+
+	if(currentMap->masks.keys().contains(place))
+		painter.drawPixmap(currentMap->maskPositions[place] - QPoint(horizontalOffset(),verticalOffset()),
+			 QPixmap(currentMap->masks[place]));
+	else
+	{
+		painter.setBrush(color);
+		painter.drawPolygon(polygon(place));
+	}
 }
 
 ///Raffraichi l'affichage lors d'un changement de sélection
