@@ -703,7 +703,7 @@ void RzxRezalMap::currentChanged(const QModelIndex &current, const QModelIndex &
 ///On clique sur un objet...
 /** Le clic active la sélection des lieux
  */
-void RzxRezalMap::mouseReleaseEvent(QMouseEvent *e)
+void RzxRezalMap::mousePressEvent(QMouseEvent *e)
 {
 	if(e->button() == Qt::LeftButton)
 	{
@@ -720,10 +720,14 @@ void RzxRezalMap::mouseReleaseEvent(QMouseEvent *e)
 					setPlace(i);
 				}
 			}
-			return;
+		}
+		else
+		{
+			setCurrentIndex(index);
+			emit activated(index);
+			emit clicked(index);
 		}
 	}
-	QAbstractItemView::mousePressEvent(e);
 }
 
 ///On double clique sur un objet...
