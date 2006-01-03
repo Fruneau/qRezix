@@ -231,6 +231,7 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 		virtual QModelIndex index(const RzxSubnet&) const;
 		virtual QModelIndex parent(const QModelIndex&) const;
 		virtual bool isIndex(const QModelIndex&) const;
+		virtual int rezal(const QModelIndex&) const;
 		
 		virtual int rowCount(const QModelIndex&) const;
 		virtual int columnCount(const QModelIndex&) const;

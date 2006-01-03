@@ -358,6 +358,20 @@ bool RzxRezalModel::isIndex(const QModelIndex& index) const
 	return false;
 }
 
+///Indique si le QModelIndex est un index d'un rezal
+/** C'est à dire que son contenu est tous les RzxComputer d'un subnet
+ */
+int RzxRezalModel::rezal(const QModelIndex& index) const
+{
+	if(!index.isValid()) return true;
+	
+	const int category = index.internalId();
+	const int value = index.row();
+	if(category == TREE_FLAG_REZAL && value < RzxConfig::rezalNumber())
+		return value;
+	return -1;
+}
+
 ///Indique si l'index a des fils
 bool RzxRezalModel::hasChildren(const QModelIndex& index) const
 {

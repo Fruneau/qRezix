@@ -343,12 +343,12 @@ void RzxRezalMap::setPlace(int place)
 		QRect rect;
 		if (currentMap->places.contains(currentPlace))
 		{
+			selection = Place;
 			rect = currentMap->places[currentPlace].boundingRect();
 			scrollTo(rect, PositionCentered);
+			viewport()->update();
 		}
 	}
-	else
-		return;
 }
 
 ///Vérifie que le nom de lieu tapé correspond bien à un existant
@@ -537,15 +537,28 @@ QString RzxRezalMap::place(const QModelIndex& index) const
 	if(!index.isValid() || !currentMap)
 		return QString();
 
-	QVariant value = index.model()->data(index, Qt::UserRole);
-	if(!value.canConvert<RzxComputer*>())
-		return QString();
+	if(!currentMap->useSubnets || RzxRezalModel::global()->rezal(index) == -1)
+	{
+		QVariant value = index.model()->data(index, Qt::UserRole);
+		if(!value.canConvert<RzxComputer*>())
+			return QString();
 
-	RzxComputer *computer = value.value<RzxComputer*>();
-	if(!computer)
-		return QString();
+		RzxComputer *computer = value.value<RzxComputer*>();
+		if(!computer)
+			return QString();
 
-	return place(computer->ip());
+		return place(computer->ip());
+	}
+	else
+	{
+		const int rezal = RzxRezalModel::global()->rezal(index);
+		foreach(RzxHostAddress ip, currentMap->polygons.keys())
+		{
+			if(RzxConfig::rezal(ip) == rezal)
+				return currentMap->polygons[ip];
+		}
+		return QString();
+	}
 }
 
 ///Retourne le lieu associé à l'ip indiquée
@@ -623,8 +636,16 @@ void RzxRezalMap::drawSelection(QPainter& painter)
 {
 	painter.setPen(Qt::NoPen);
 
-	drawPlace(place(currentIndex()), painter, QColor(00, 00, 0xa0, 0xc0));
-	drawPlace(currentPlace, painter, QColor(00, 0xa0, 00, 0xd0)); //TODO voir la couleur
+	switch(selection)
+	{
+		case Index:
+			drawPlace(place(currentIndex()), painter, QColor(00, 00, 0xa0, 0xc0));
+			break;
+
+		case Place:
+			drawPlace(currentPlace, painter, QColor(00, 0xa0, 00, 0xd0)); //TODO voir la couleur
+			break;
+	}
 }
 
 ///Dessine le lieu indiqué avec la couleur indiquée en cas d'absence de masque
@@ -646,6 +667,13 @@ void RzxRezalMap::drawPlace(const QString& place, QPainter& painter, const QColo
 void RzxRezalMap::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
 	QAbstractItemView::currentChanged(current, previous);
+	if(RzxRezalModel::global()->rezal(current) != -1)
+	{
+		placeSearch->setCurrentIndex(placeSearch->findText(place(current)));
+		return;
+	}
+
+	selection = Index;
 	scrollTo(current);
 	viewport()->update();
 }

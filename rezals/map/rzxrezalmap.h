@@ -124,6 +124,12 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 		PositionCentered = 3,
 	};
 
+	enum SelectionType
+	{
+		Index = 0,
+		Place = 1
+	};
+
 	QVector<Map*> mapTable;
 	Map *currentMap;
 	
@@ -131,6 +137,8 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 	QComboBox *placeSearch;
 	QString currentPlace;
 	bool initialised;
+
+	SelectionType selection;
 
 	private:
 		QStringList loadMaps();
