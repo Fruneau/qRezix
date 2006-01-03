@@ -66,6 +66,7 @@ RzxProtocole::RzxProtocole()
 		 ui(NULL), propWidget(NULL)
 {
 	setIcon(RzxThemedIcon(Rzx::ICON_NETWORK));
+	auth = false;
 }
 
 ///Destruction...
@@ -129,6 +130,7 @@ void RzxProtocole::parse(const QString& msg)
 				{
 					new RzxWrongPass(this);
 					RzxXNetConfig::global()->setOldPass();
+					stop();
 				}
 				break;
 
@@ -201,7 +203,13 @@ void RzxProtocole::sendAuth(const QString& passcode)
 	msg = msg + "PASS " + passcode + "\r\n";
 	msg = msg + "JOIN " + RzxComputer::localhost()->serialize(serialPattern) + "\r\n";
 	
-	send(msg);	
+	//On ne lance pas de process d'authentification si la connexion est déjà établie
+	if(!auth)
+	{
+		if(!isStarted()) start();
+		send(msg);
+	}
+	auth = true;
 }
 
 void RzxProtocole::sendRefresh() {

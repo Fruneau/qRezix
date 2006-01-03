@@ -232,6 +232,7 @@ void RzxServerListener::serverDisconnected(const QString& msg)
 	if(reconnectionTimer.isActive() || isStarted()) return;
 
 	emit disconnected(this);
+	auth = false;
 	if(!wantDisconnection)
 	{
 		if(!msg.isNull())

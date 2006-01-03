@@ -50,6 +50,9 @@ class RzxProtocole : public RzxNetwork
 	///Patron de formatage des objets
 	static const QString serialPattern;
 
+protected:
+	bool auth;
+
 public: 
 	RzxProtocole();
 	~RzxProtocole();
