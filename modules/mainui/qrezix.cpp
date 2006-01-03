@@ -131,6 +131,8 @@ QRezix::QRezix(QWidget *parent)
 	//Raccourcis claviers particuliers
 	menuFormatChange();
 	showSearch(RzxMainUIConfig::useSearch());
+	status("", RzxConnectionLister::global()->isConnected());
+
 
 	wellInit = TRUE;
 }
