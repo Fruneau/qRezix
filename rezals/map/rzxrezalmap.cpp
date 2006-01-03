@@ -420,6 +420,19 @@ QModelIndex RzxRezalMap::indexAt(const QPoint &point) const
 	return QModelIndex();
 }
 
+///Recherche le lieu situé au point indiqué
+QString RzxRezalMap::placeAt(const QPoint& point) const
+{
+	if(!currentMap) return QString();
+
+	foreach(QString place, currentMap->places.keys())
+	{
+		if(QRegion(polygon(place)).contains(point))
+			return place;
+	}
+	return QString();
+}
+
 ///Déplace la vue pour rendre l'objet visible
 void RzxRezalMap::scrollTo(const QModelIndex& index, ScrollHint hint)
 {
@@ -669,13 +682,48 @@ void RzxRezalMap::currentChanged(const QModelIndex &current, const QModelIndex &
 	QAbstractItemView::currentChanged(current, previous);
 	if(RzxRezalModel::global()->rezal(current) != -1)
 	{
-		placeSearch->setCurrentIndex(placeSearch->findText(place(current)));
+		const QString plc = place(current);
+		if(!plc.isNull())
+		{
+			const int i = placeSearch->findText(plc);
+			if(i != -1)
+			{
+				placeSearch->setCurrentIndex(i);
+				setPlace(i);
+			}
+		}
 		return;
 	}
 
 	selection = Index;
 	scrollTo(current);
 	viewport()->update();
+}
+
+///On clique sur un objet...
+/** Le clic active la sélection des lieux
+ */
+void RzxRezalMap::mouseReleaseEvent(QMouseEvent *e)
+{
+	if(e->button() == Qt::LeftButton)
+	{
+		const QModelIndex index = indexAt(e->pos());
+		if(!index.isValid())
+		{
+			const QString plc = placeAt(e->pos());
+			if(!plc.isNull())
+			{
+				const int i = placeSearch->findText(plc);
+				if(i != -1)
+				{
+					placeSearch->setCurrentIndex(i);
+					setPlace(i);
+				}
+			}
+			return;
+		}
+	}
+	QAbstractItemView::mousePressEvent(e);
 }
 
 ///On double clique sur un objet...
