@@ -254,7 +254,6 @@ void RzxRezalMap::loadMasks(QSettings &maps, const QDir& dir, Map *map)
 		{
 			map->masks.insert(key, dir.absoluteFilePath(subs[i]));
 			map->maskPositions.insert(key, p);
-			qDebug() << "Add mask" << dir.absoluteFilePath(subs[i]) << p << "for" << key;
 		}
 	}
 	maps.endGroup();
