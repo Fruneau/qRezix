@@ -63,6 +63,14 @@ class QSettings;
  * 		- une liste d'ip ou de subnet sous la forme ip,ip,ip ou ip-mask,ip-mask,ip-mask
  * 		- les informations de traitement sous la forme d'un place_pppp qui référencie une entrée de la section précédente, et si
  * la section décrit une liste de subnets, un champs goto_nnnn permet de créer un lien vers une autre carte.
+ * 	- une section [Mask_nnnn] par carte, ou nnnn est le nom interne de la carte. Cette section est composée d'une série d'entréees
+ * permettant d'associer à chaque lieu une image servant de masque pour repérer ce lieu. Chaque entrée est défini comme suit :
+ * 		- le nom du lieu à traiter
+ * 		- les informations du masque : la coordonnée du point supérieur droit du masque sur l'image de la carte suivi du chemin relatif
+ * du masque par rapport au fichier map.ini. La coordonnée est facultative... si elle est absente, le point est automatique 0x0
+ *
+ * La section [Mask_nnnn]. En cas d'absence d'entrée pour un lieu dans [Mask], un masque par défaut sera généré par le module à partir
+ * des coordonnées du polygone définissant le lieu.
  *
  * Un exemple plus ou moins complet avec 2 cartes :
  * \code
@@ -83,6 +91,10 @@ class QSettings;
  * [Attrib_carte1]
  * 129.104.201.51=place_Place1
  * 129.104.207.0-24=place_Place2 goto_carte2
+ *
+ * [Mask_carte1]
+ * Place1 = carte1/place1.png
+ * Place2 = 40x60 carte1/place2.png
  *
  *
  * [Place_carte2]
