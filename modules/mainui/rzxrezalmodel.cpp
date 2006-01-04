@@ -358,12 +358,24 @@ bool RzxRezalModel::isIndex(const QModelIndex& index) const
 	return false;
 }
 
+///Indique si le QModelIndex représente un ordinateur...
+/** C'est à dire si on peut en extraire un RzxComputer valide
+ */
+bool RzxRezalModel::isComputer(const QModelIndex& index) const
+{
+	if(!index.isValid()) return false;
+
+	if(data(index, Qt::UserRole).canConvert<RzxComputer*>())
+		return true;
+	return false;
+}
+
 ///Indique si le QModelIndex est un index d'un rezal
 /** C'est à dire que son contenu est tous les RzxComputer d'un subnet
  */
 int RzxRezalModel::rezal(const QModelIndex& index) const
 {
-	if(!index.isValid()) return true;
+	if(!index.isValid()) return -1;
 	
 	const int category = index.internalId();
 	const int value = index.row();
