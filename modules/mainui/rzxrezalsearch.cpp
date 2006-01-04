@@ -107,7 +107,8 @@ void RzxRezalSearch::setPattern(const QString& pattern)
 	}
 	itemByName->find(lower, item);
 	emit searchPatternChanged(searchPattern);
-	emit findItem(model()->index(*item, view()->rootIndex()));
+	if(item)
+		emit findItem(model()->index(*item, view()->rootIndex()));
 }
 
 ///Réinitialise le filtre de la rechercher
