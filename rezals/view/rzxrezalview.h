@@ -23,6 +23,7 @@
 #include <QRegion>
 #include <QItemSelectionModel>
 #include <QPoint>
+#include <QTime>
 
 #undef RZX_BUILTIN
 #undef RZX_PLUGIN
@@ -52,6 +53,7 @@ class RzxRezalView : public QTreeView, public RzxRezal
 	Q_OBJECT
 
 	RzxRezalSearch search;
+	QTime delayRedraw;
 
 	public:
 		RzxRezalView(QWidget *parent = 0);
@@ -79,6 +81,8 @@ class RzxRezalView : public QTreeView, public RzxRezal
 		virtual void dragEnterEvent(QDragEnterEvent*e);
 		virtual void dragMoveEvent(QDragMoveEvent*e);
 		virtual void dropEvent(QDropEvent*e);
+
+		virtual void rowsInserted(const QModelIndex&, int, int);
 
 	signals:
 		void searchPatternChanged(const QString&);

@@ -85,6 +85,12 @@ bool RzxRezalIndex::floating() const
 	return false;
 }
 
+///Pour que le changement de sélection entraînte toujours la mise à jour de l'index
+void RzxRezalIndex::currentChanged(const QModelIndex& current, const QModelIndex&)
+{
+	emit activated(current);
+}
+
 ///Pour le drag du drag&drop
 void RzxRezalIndex::mousePressEvent(QMouseEvent *e)
 {

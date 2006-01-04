@@ -209,7 +209,6 @@ void QRezix::linkModules()
 	{
 		if((rezal->type() & RzxRezal::TYP_INDEXED) && indexes.count())
 		{
-			rezal->widget()->setRootIndex(RzxRezalModel::global()->everybodyGroup);
 			foreach(RzxRezal *index, indexes)
 			{
 				connect(index->widget(), SIGNAL(clicked(const QModelIndex&)), rezal->widget(), SLOT(setRootIndex(const QModelIndex&)));
@@ -222,6 +221,18 @@ void QRezix::linkModules()
 	connect(sel, SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)),
 			this, SLOT(setMenu(const QModelIndex&, const QModelIndex&)));
 #endif
+
+	QModelIndex index;
+	switch((RzxMainUIConfig::Tab)RzxMainUIConfig::defaultTab())
+	{
+		case RzxMainUIConfig::Favorites:
+			index = RzxRezalModel::global()->favoriteIndex;
+			break;
+		case RzxMainUIConfig::Everybody:
+			index = RzxRezalModel::global()->everybodyGroup;
+			break;
+	}
+	sel->setCurrentIndex(index, QItemSelectionModel::SelectCurrent);
 }
 
 ///Recrée les liens entre rezals

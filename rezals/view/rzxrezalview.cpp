@@ -62,7 +62,7 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 	connect(header(), SIGNAL(sectionMoved(int, int, int)), this, SLOT(columnOrderChanged()));
 	setAcceptDrops(true);
 
-	setUniformRowHeights(false);
+	setUniformRowHeights(true);
 	setAlternatingRowColors(true);
 
 	//Columns stocke les colonnes avec columns[i] == logical index placé en visual index i
@@ -75,6 +75,7 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 	connect(&search, SIGNAL(findItem(const QModelIndex& )), this, SLOT(setCurrentIndex(const QModelIndex&)));
 	connect(&search, SIGNAL(searchPatternChanged(const QString& )), this, SIGNAL(searchPatternChanged(const QString& )));
 	RzxIconCollection::connect(this, SLOT(themeChanged()));
+	delayRedraw.start();
 	endLoading();
 }
 
@@ -192,7 +193,8 @@ void RzxRezalView::dropEvent(QDropEvent *e)
 
 ///Surcharge le redimensionnement
 /** Uniquement dans le but de bien réadapter les colonnes */
-void RzxRezalView::resizeEvent(QResizeEvent * e) {
+void RzxRezalView::resizeEvent(QResizeEvent * e)
+{
 	QTreeView::resizeEvent(e);
 	adapteColonnes();
 }
@@ -278,6 +280,20 @@ void RzxRezalView::setRootIndex(const QModelIndex& index)
 	else
 		QTreeView::setRootIndex(index);
 	setRootIsDecorated(((RzxRezalModel*)model())->isIndex(rootIndex()));
+}
+
+///Mets à jour l'affichage lorsque des objets sont insérés
+void RzxRezalView::rowsInserted(const QModelIndex& parent, int start, int end)
+{
+	QTreeView::rowsInserted(parent, start, end);
+
+	//Pour éviter de boulétiser le proc, on ne met à jour qu'une fois toutes les secondes maximum
+	if(delayRedraw.elapsed() > 1000)
+	{
+		QTreeView::setRootIndex(rootIndex());
+		scrollTo(currentIndex());
+		delayRedraw.restart();
+	}
 }
 
 ///Dessine la ligne

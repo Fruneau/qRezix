@@ -58,6 +58,9 @@ class RzxRezalIndex : public QTreeView, public RzxRezal
 		virtual void dragEnterEvent(QDragEnterEvent*);
 		virtual void dragMoveEvent(QDragMoveEvent*);
 		virtual void dropEvent(QDropEvent*);
+
+	protected slots:
+		virtual void currentChanged(const QModelIndex&, const QModelIndex&);
 };
 
 #endif
