@@ -29,6 +29,7 @@
 #include <RzxComputer>
 
 #include <RzxRezalModel>
+#include <RzxRezalPopup>
 
 #include "rzxrezalmap.h"
 
@@ -704,7 +705,9 @@ void RzxRezalMap::currentChanged(const QModelIndex &current, const QModelIndex &
  */
 void RzxRezalMap::mousePressEvent(QMouseEvent *e)
 {
-	if(e->button() == Qt::LeftButton)
+	if(e->button() == Qt::RightButton)
+		new RzxRezalPopup(indexAt(e->pos()), e->globalPos(), this);
+	else if(e->button() == Qt::LeftButton)
 	{
 		const QModelIndex index = indexAt(e->pos());
 		if(!index.isValid())
