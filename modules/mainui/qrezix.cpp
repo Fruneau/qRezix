@@ -126,6 +126,7 @@ QRezix::QRezix(QWidget *parent)
 
 	RzxConnectionLister *lister = RzxConnectionLister::global();
 	connect(lister, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
+	connect(lister, SIGNAL(receiveAddress(const RzxHostAddress&)), this, SLOT(setSelection(const RzxHostAddress&)));
 	connect(lister, SIGNAL(countChange(const QString&)), statusui->lblCount, SLOT(setText(const QString&)));
 	
 	connect(RzxConfig::global(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
@@ -221,18 +222,6 @@ void QRezix::linkModules()
 	connect(sel, SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)),
 			this, SLOT(setMenu(const QModelIndex&, const QModelIndex&)));
 #endif
-
-	QModelIndex index;
-	switch((RzxMainUIConfig::Tab)RzxMainUIConfig::defaultTab())
-	{
-		case RzxMainUIConfig::Favorites:
-			index = RzxRezalModel::global()->favoriteIndex;
-			break;
-		case RzxMainUIConfig::Everybody:
-			index = RzxRezalModel::global()->everybodyGroup;
-			break;
-	}
-	sel->setCurrentIndex(index, QItemSelectionModel::SelectCurrent);
 }
 
 ///Recrée les liens entre rezals
@@ -264,6 +253,50 @@ void QRezix::unloadModule(RzxRezal *rezal)
 
 	if(dock)
 		delete dock;
+}
+
+///Défini la sélection initiale
+void QRezix::setSelection(const RzxHostAddress& ip)
+{
+	QModelIndex index;
+	switch((RzxMainUIConfig::Tab)RzxMainUIConfig::defaultTab())
+	{
+		case RzxMainUIConfig::Favorites:
+			index = RzxRezalModel::global()->favoriteIndex;
+			break;
+
+		case RzxMainUIConfig::Promo:
+			switch(RzxComputer::localhost()->promo())
+			{
+				case Rzx::PROMAL_UNK: case Rzx::PROMAL_ORANGE:
+					index = RzxRezalModel::global()->oranjeIndex;
+					break;
+				case Rzx::PROMAL_ROUJE:
+					index = RzxRezalModel::global()->roujeIndex;
+					break;
+				case Rzx::PROMAL_JONE:
+					index = RzxRezalModel::global()->joneIndex;
+					break;
+			}
+			break;
+
+		case RzxMainUIConfig::Subnet:
+		{
+			int i = RzxConfig::rezal(ip);
+			if(i != -1)
+			{
+				index = RzxRezalModel::global()->rezalIndex[i];
+				break;
+			}
+		}
+
+		case RzxMainUIConfig::Everybody:
+			index = RzxRezalModel::global()->everybodyGroup;
+			break;
+	}
+	sel->setCurrentIndex(index, QItemSelectionModel::SelectCurrent);
+	disconnect(RzxConnectionLister::global(), SIGNAL(receivedAddress(const RzxHostAddress&)),
+		this, SLOT(setSelection(const RzxHostAddress&)));
 }
 
 ///Change la fenêtre centrale

@@ -101,11 +101,11 @@
     </message>
     <message>
         <source>Chat</source>
-        <translation>Discussion</translation>
+        <translation type="obsolete">Discussion</translation>
     </message>
     <message>
         <source>Open FTP</source>
-        <translation>Connexion en FTP</translation>
+        <translation type="obsolete">Connexion en FTP</translation>
     </message>
     <message>
         <source>Tab to select on start:</source>
@@ -117,11 +117,11 @@
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoris</translation>
+        <translation type="obsolete">Favoris</translation>
     </message>
     <message>
         <source>Everybody</source>
-        <translation>Tout le monde</translation>
+        <translation type="obsolete">Tout le monde</translation>
     </message>
     <message>
         <source>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;ToolTips are little windows that appears when you </source>
@@ -604,6 +604,14 @@
     <message>
         <source>Open Samba</source>
         <translation>Connexion en Samba</translation>
+    </message>
+    <message>
+        <source>My Promo</source>
+        <translation>Ma Promo</translation>
+    </message>
+    <message>
+        <source>My Subnet</source>
+        <translation>Mon Sous-Réseau</translation>
     </message>
 </context>
 </TS>

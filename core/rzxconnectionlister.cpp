@@ -95,6 +95,7 @@ bool RzxConnectionLister::installModule(RzxNetwork *network)
 		connect(network, SIGNAL( connected(RzxNetwork*) ), this, SIGNAL( connectionEstablished(RzxNetwork*)));
 		connect(network, SIGNAL( disconnected(RzxNetwork*) ), this, SIGNAL( connectionClosed(RzxNetwork*) ) );
 		connect(network, SIGNAL( receiveAddress(const RzxHostAddress& )), RzxComputer::localhost(), SLOT(setIP(const RzxHostAddress& )));
+		connect(network, SIGNAL( receiveAddress(const RzxHostAddress& )), this, SIGNAL(receiveAddress(const RzxHostAddress&)));
 	
 		connect(network, SIGNAL(info(RzxNetwork*, const QString&)), this, SLOT(informationMessage(RzxNetwork*, const QString&)));
 		connect(network, SIGNAL(warning(RzxNetwork*, const QString&)), this, SLOT(warningMessage(RzxNetwork*, const QString&)));

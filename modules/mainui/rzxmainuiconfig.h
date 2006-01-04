@@ -47,7 +47,9 @@ class RZX_MAINUI_EXPORT RzxMainUIConfig: public RzxAbstractConfig
 		enum Tab
 		{
 			Favorites = 0,
-			Everybody = 1
+			Promo = 1,
+			Subnet = 2,
+			Everybody = 3
 		};
 
 		RZX_INTPROP("doubleClic", doubleClicRole, setDoubleClicRole, Chat)

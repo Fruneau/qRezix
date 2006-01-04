@@ -137,6 +137,8 @@ protected slots:
 	void setCentralRezal(RzxRezal *rezal = NULL);
 	void setCentralRezal(QAction *);
 
+	void setSelection(const RzxHostAddress&);
+
 #ifdef Q_OS_MAC
 	private:
 		QPointer<RzxRezalPopup> popup;

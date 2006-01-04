@@ -24,6 +24,7 @@
 #include <RzxIconCollection>
 #include <RzxTranslator>
 #include <RzxApplication>
+#include <RzxComputer>
 
 #include "rzxui.h"
 
@@ -165,6 +166,8 @@ void RzxUi::fillComboBoxes()
 	i = ui->cmbDefaultTab->currentIndex();
 	ui->cmbDefaultTab->clear();
 	ui->cmbDefaultTab->addItem(RzxIconCollection::getIcon(Rzx::ICON_FAVORITE), tr("Favorites"));
+	ui->cmbDefaultTab->addItem(RzxThemedIcon(RzxComputer::localhost()->promo()), tr("My Promo"));
+	ui->cmbDefaultTab->addItem(RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY), tr("My Subnet"));
 	ui->cmbDefaultTab->addItem(RzxIconCollection::getIcon(Rzx::ICON_NOTFAVORITE), tr("Everybody"));
 	ui->cmbDefaultTab->setCurrentIndex(i);
 

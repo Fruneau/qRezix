@@ -138,6 +138,8 @@ class RZX_CORE_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader
 		 * information en provenance des RzxNetwork
 		 */
 		void status(const QString& msg, bool fatal);
+		///Indique qu'on a obtenu l'ip locale
+		void receiveAddress(const RzxHostAddress&);
 
 		///Ce signal est émis lorsqu'un ordinateur recherche l'icône associée
 		void wantIcon(const RzxHostAddress&);
