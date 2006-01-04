@@ -1,10 +1,12 @@
+qrezix-theme-ms_2.0-0.svn_all.deb net optional
 qrezix-all_2.0-0.svn_all.deb net optional
 qrezix_2.0-0.svn_i386.deb net optional
 qrezix-dev_2.0-0.svn_i386.deb net optional
+qrezix-network-jabber_2.0-0.svn_i386.deb net optional
+qrezix-theme-common_2.0-0.svn_all.deb net optional
 qrezix-theme-noia-warm_2.0-0.svn_all.deb net optional
 qrezix-theme-classic_2.0-0.svn_all.deb net optional
 qrezix-theme-krystal_2.0-0.svn_all.deb net optional
-qrezix-theme-ms_2.0-0.svn_all.deb net optional
 qrezix-theme-macosx_2.0-0.svn_all.deb net optional
 qrezix-theme-kids_2.0-0.svn_all.deb net optional
 qrezix-translations-fr_2.0-0.svn_i386.deb net optional

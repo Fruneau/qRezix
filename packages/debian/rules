@@ -14,18 +14,9 @@ build: 	checkdir
 	$(MAKE) install
 	
 	#Installation des libs
-	#Modules reseau
-	#mv $(CURDIR)/debian/qrezix-bin/usr/lib/librzxnet* $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/net
-	#Modules
-	#mv $(CURDIR)/debian/qrezix-bin/usr/lib/librzx*.so*  $(CURDIR)/debian/qrezix-bin/usr/lib/qrezix/modules
-	
-	#Installation des binaires
-	#mkdir -p $(CURDIR)/debian/qrezix-bin/usr/bin
-	#cp -a qrezix/qrezix $(CURDIR)/debian/qrezix-bin/usr/bin
-	
-	#qMake ne gère pas les liens symboliques lors de l'install, ce qui rend le système pas très bon, alors on fait la copie à sa place
-	rm $(CURDIR)/debian/qrezix/usr/lib/libqrezix.so*
-	cp -a $(CURDIR)/libqrezix.so* $(CURDIR)/debian/qrezix/usr/lib/
+	#Module Jabber
+	mkdir -p $(CURDIR)/debian/qrezix-network-jabber/usr/lib/qrezix/net/
+	mv $(CURDIR)/debian/qrezix/usr/lib/qrezix/net/librzxnetjabber.so $(CURDIR)/debian/qrezix-network-jabber/usr/lib/qrezix/net/
 	
 	# Paquets séparés pour les Traductions
 	mkdir -p $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
@@ -42,6 +33,8 @@ build: 	checkdir
 	cp -a $(CURDIR)/debian/qrezix/usr/share/qrezix/themes/Kids/*.png $(CURDIR)/debian/qrezix-theme-kids/usr/share/qrezix/themes/Kids
 	mkdir -p $(CURDIR)/debian/qrezix-theme-classic/usr/share/qrezix/themes/classic
 	cp -a $(CURDIR)/debian/qrezix/usr/share/qrezix/themes/Classic/*.png $(CURDIR)/debian/qrezix-theme-classic/usr/share/qrezix/themes/classic
+	mkdir -p $(CURDIR)/debian/qrezix-theme-common/usr/share/qrezix/themes/none
+	cp -a $(CURDIR)/debian/qrezix/usr/share/qrezix/themes/none/*.png $(CURDIR)/debian/qrezix-theme-common/usr/share/qrezix/themes/none
 	rm -rf $(CURDIR)/debian/qrezix/usr/share/qrezix/themes
 	
 	#Paquet de headers
