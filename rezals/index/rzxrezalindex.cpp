@@ -89,6 +89,8 @@ bool RzxRezalIndex::floating() const
 void RzxRezalIndex::currentChanged(const QModelIndex& current, const QModelIndex&)
 {
 	emit activated(current);
+	if(!RzxRezalModel::global()->isIndex(current) && !RzxRezalModel::global()->isComputer(current))
+		expand(current.parent());
 }
 
 ///Pour le drag du drag&drop
