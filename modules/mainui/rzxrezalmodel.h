@@ -247,7 +247,7 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 		virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
 		virtual const RzxRezalSearchTree *childrenByName(const QModelIndex&) const;
-		virtual QString columnName(NumColonne);
+		virtual QString columnName(NumColonne) const;
 
 	public slots:
 		virtual void login(RzxComputer *);

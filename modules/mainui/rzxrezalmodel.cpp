@@ -379,7 +379,7 @@ int RzxRezalModel::rezal(const QModelIndex& index) const
 	
 	const int category = index.internalId();
 	const int value = index.row();
-	if(category == TREE_FLAG_REZAL && value < RzxConfig::rezalNumber())
+	if(category == TREE_FLAG_REZAL && value < (int)RzxConfig::rezalNumber())
 		return value;
 	return -1;
 }
@@ -698,6 +698,10 @@ QVariant RzxRezalModel::headerData(int column, Qt::Orientation orientation, int 
 				case ColPromo: return RzxIconCollection::global()->promoIcon(Rzx::PROMAL_ORANGE);
 				default: return QVariant();
 			}
+
+		case Qt::ToolTipRole:
+			return columnName((NumColonne)column);
+
 		default: return QVariant();
 	}
 }
@@ -993,7 +997,7 @@ void RzxRezalModel::sort(int column, Qt::SortOrder sortSens)
 }
 
 ///Retourne le nom de la colonne indiquée
-QString RzxRezalModel::columnName(NumColonne column)
+QString RzxRezalModel::columnName(NumColonne column) const
 {
 	return tr(colNames[column]);
 }
