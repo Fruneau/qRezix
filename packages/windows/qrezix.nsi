@@ -39,8 +39,13 @@
 
 ;Pour le cas ou on utilise VC++ pour compiler
   !ifdef USE_MSVCR_DLL
-     !define MSVCR_DLL "msvcr71.dll"
-     !define MSVCP_DLL "msvcp71.dll"
+     !ifdef RZX_DEBUG
+        !define MSVCR_DLL "msvcr71d.dll"
+        !define MSVCP_DLL "msvcp71d.dll"
+     !else       
+        !define MSVCR_DLL "msvcr71.dll"
+        !define MSVCP_DLL "msvcp71.dll"
+     !endif
   !endif
 
 ;--------------------------------
@@ -279,12 +284,9 @@ Section "Fichiers de base de qRezix" SecBase
 
   CreateDirectory "maps"
 
-  SetOutPath "$INSTDIR\maps"
-  File "..\..\rezals\map\*.jpg"
-  File "..\..\rezals\map\*.png"
-
   SetOutPath "$INSTDIR"
   File /r /x .svn "..\..\resources\smileys"
+  File /r /x .svn "..\..\resources\maps"
   File "..\..\core\subnet.ini"
   File "..\..\rezals\map\map.ini"
 
