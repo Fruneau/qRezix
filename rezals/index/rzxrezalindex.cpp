@@ -145,3 +145,12 @@ void RzxRezalIndex::rowsRemoved(const QModelIndex& parent, int start, int end)
 	if(expanded ^ isExpanded(parent))
 		setExpanded(parent, expanded);
 }
+
+///Pour éviter que les branches soient ouvertes lors de la suppression d'une ligne...
+void RzxRezalIndex::rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end)
+{
+	bool expanded = isExpanded(parent);
+	QTreeView::rowsAboutToBeRemoved(parent, start, end);
+	if(expanded ^ isExpanded(parent))
+		setExpanded(parent, expanded);
+}

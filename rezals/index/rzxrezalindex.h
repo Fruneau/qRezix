@@ -62,6 +62,7 @@ class RzxRezalIndex : public QTreeView, public RzxRezal
 	protected slots:
 		virtual void currentChanged(const QModelIndex&, const QModelIndex&);
 		virtual void rowsRemoved(const QModelIndex&, int, int);
+		virtual void rowsAboutToBeRemoved(const QModelIndex&, int, int);
 };
 
 #endif
