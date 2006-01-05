@@ -158,10 +158,7 @@ void RzxChat::init()
 	connect(ui->cbSendHTML, SIGNAL(toggled(bool)), this, SLOT(setHtml(bool)));
 
 	/** Connexions **/
-#ifdef WIN32
-	timer = new QTimer( this );
-	connect( timer, SIGNAL(timeout()),this, SLOT(messageReceived()) );
-#endif
+
 	connect(ui->edMsg, SIGNAL(enterPressed()), this, SLOT(onReturnPressed()));
 	connect(ui->edMsg, SIGNAL(textWritten()), this, SLOT(onTextChanged()));
 	connect(ui->btnHistorique, SIGNAL(toggled(bool)), this, SLOT(on_btnHistorique_toggled(bool)));
@@ -197,9 +194,6 @@ RzxChat::~RzxChat()
 		file.close();
 	}
 	
-#ifdef WIN32
-	if(timer) delete timer;
-#endif
 	delete ui;	
 }
 
@@ -415,9 +409,6 @@ void RzxChat::receive(const QString& msg)
 		unread++;
 		updateTitle();
 	}
-#ifdef WIN32
-  if(!timer->isActive()) timer->start( 1000);
-#endif
 }
 
 
@@ -581,11 +572,6 @@ void RzxChat::sendChat(const QString& msg)
 }
 
 /******************* Gestion des événements ***************************/
-#ifdef WIN32
-void RzxChat::showEvent ( QShowEvent *){
-	timer->stop();
-}
-#endif
 
 /// Exécution à la fermeture
 void RzxChat::closeEvent(QCloseEvent * e)
@@ -620,10 +606,6 @@ bool RzxChat::event(QEvent *e)
 		if(!smileyUi.isNull()) smileyUi->raise();
 #endif
 	}
-#ifdef WIN32
-	if(isActiveWindow())
-		timer->stop();
-#endif
 
 	return QWidget::event(e);
 }

@@ -76,7 +76,6 @@ protected:
 	QString lastName;
 
 	QString textHistorique;
-	QTimer *timer;
 	QColor curColor;
 	bool typing, peerTyping;
 	QTimer typingTimer;
@@ -122,9 +121,7 @@ protected slots:
 
 protected: // Protected methods
 	void append(const QString& color, const QString& host, const QString& msg);
-#ifdef WIN32
-	virtual void showEvent ( QShowEvent * e);
-#endif
+
 	virtual void closeEvent(QCloseEvent * e);
 	virtual void moveEvent(QMoveEvent *e);
 	virtual void changeEvent(QEvent *e);
