@@ -44,7 +44,6 @@ RzxRezalIndex::RzxRezalIndex(QWidget *parent)
 		hideColumn(i);
 	resizeColumnToContents(0);
 	setAcceptDrops(true);
-//	disconnect(this, SLOT(rowsRemoved(const QModelIndex&, int, int)));
 	
 	endLoading();
 }
@@ -91,10 +90,7 @@ void RzxRezalIndex::currentChanged(const QModelIndex& current, const QModelIndex
 {
 	emit activated(current);
 	if(!RzxRezalModel::global()->isIndex(current) && !RzxRezalModel::global()->isComputer(current))
-	{
-		setState(ExpandingState);
 		expand(current.parent());
-	}
 }
 
 ///Pour le drag du drag&drop
