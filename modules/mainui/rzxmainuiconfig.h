@@ -63,6 +63,7 @@ class RZX_MAINUI_EXPORT RzxMainUIConfig: public RzxAbstractConfig
 		RZX_STRINGPROP("centralrezal", centralRezal, setCentralRezal, DEFAULT_REZAL)
 	
 		RZX_WIDGETPROP("main", restoreMainWidget, saveMainWidget, QPoint(2,24), QSize(400, 300))
+		RZX_PROP(QByteArray, "mainuiState", restoreState, saveState, QByteArray());
 };
 
 #endif

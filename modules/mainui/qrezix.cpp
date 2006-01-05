@@ -222,6 +222,8 @@ void QRezix::linkModules()
 	connect(sel, SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)),
 			this, SLOT(setMenu(const QModelIndex&, const QModelIndex&)));
 #endif
+
+	restoreState(RzxMainUIConfig::restoreState());
 }
 
 ///Recrée les liens entre rezals
@@ -419,6 +421,7 @@ QRezix::~QRezix()
 {
 	closing = true;
 	closeModules();
+	RzxMainUIConfig::saveState(QMainWindow::saveState());
 	RZX_GLOBAL_CLOSE
 }
 
