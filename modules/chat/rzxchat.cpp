@@ -102,6 +102,7 @@ void RzxChat::init()
 	ui = new Ui::RzxChat();
 	ui->setupUi(editor);
 	ui->edMsg->setChat(this);
+	ui->cbSendHTML->setChecked(false);
 	//Construction du splitter
 	splitter = new QSplitter(Qt::Vertical);
 	splitter->addWidget(historyContainer);
