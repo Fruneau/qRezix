@@ -44,6 +44,7 @@ RzxRezalIndex::RzxRezalIndex(QWidget *parent)
 		hideColumn(i);
 	resizeColumnToContents(0);
 	setAcceptDrops(true);
+//	disconnect(this, SLOT(rowsRemoved(const QModelIndex&, int, int)));
 	
 	endLoading();
 }
@@ -90,7 +91,10 @@ void RzxRezalIndex::currentChanged(const QModelIndex& current, const QModelIndex
 {
 	emit activated(current);
 	if(!RzxRezalModel::global()->isIndex(current) && !RzxRezalModel::global()->isComputer(current))
+	{
+		setState(ExpandingState);
 		expand(current.parent());
+	}
 }
 
 ///Pour le drag du drag&drop
@@ -135,4 +139,13 @@ void RzxRezalIndex::dragMoveEvent(QDragMoveEvent *e)
 void RzxRezalIndex::dropEvent(QDropEvent *e)
 {
 	RzxRezalDrag::dropEvent(e, indexAt(e->pos()));
+}
+
+///Pour éviter que les branches soient ouvertes lors de la suppression d'une ligne...
+void RzxRezalIndex::rowsRemoved(const QModelIndex& parent, int start, int end)
+{
+	bool expanded = isExpanded(parent);
+	QTreeView::rowsRemoved(parent, start, end);
+	if(expanded ^ isExpanded(parent))
+		setExpanded(parent, expanded);
 }
