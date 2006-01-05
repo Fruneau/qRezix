@@ -53,7 +53,7 @@ RzxSmileyUi::RzxSmileyUi(QAbstractButton *btn, QWidget *parent)
 		RzxSmileyButton *tmp = new RzxSmileyButton(RzxSmileys::pixmap(smiley), smiley, this);
 		connect(tmp, SIGNAL(clicked(const QString&)), this, SIGNAL(clickedSmiley(const QString&)));
 		smileyLayout->addWidget(tmp, colcpt, rowcpt++);
-		if(rowcpt > 4)
+		if(rowcpt > 3)
 		{
 			rowcpt = 0;
 			colcpt++;

@@ -143,7 +143,7 @@ void RzxChat::init()
 	ui->cbFontSelect->setCurrentIndex(ui->cbFontSelect->findText(ui->edMsg->font()));
 	
 	//chargement de la liste des couleurs
-	ui->cbColorSelect->addItem(tr("Custom colours...")); //tjs 0
+	ui->cbColorSelect->addItem(tr("Custom...")); //tjs 0
 	for(int i=0; i<16; ++i)
 		addColor(preDefinedColors[i]);
 	ui->cbColorSelect->setCurrentIndex(1); //black par défaut

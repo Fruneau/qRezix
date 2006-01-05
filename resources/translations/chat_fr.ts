@@ -3,7 +3,7 @@
     <name>RzxChat</name>
     <message>
         <source>Custom colours...</source>
-        <translation>Couleurs personnalisées...</translation>
+        <translation type="obsolete">Couleurs personnalisées...</translation>
     </message>
     <message>
         <source>Pong received within %1 msecs</source>
@@ -120,6 +120,10 @@
     <message>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
+    </message>
+    <message>
+        <source>Custom...</source>
+        <translation>Personnaliser...</translation>
     </message>
 </context>
 <context>
