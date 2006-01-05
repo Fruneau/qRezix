@@ -88,7 +88,12 @@ bool RzxRezalIndex::floating() const
 ///Pour que le changement de sélection entraînte toujours la mise à jour de l'index
 void RzxRezalIndex::currentChanged(const QModelIndex& current, const QModelIndex&)
 {
-	emit activated(current);
+	static bool first = true;
+	if(first)
+	{
+		emit activated(current);
+		first = false;
+	}
 	if(!RzxRezalModel::global()->isIndex(current) && !RzxRezalModel::global()->isComputer(current))
 		expand(current.parent());
 }
