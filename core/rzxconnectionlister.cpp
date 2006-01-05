@@ -89,7 +89,7 @@ bool RzxConnectionLister::installModule(RzxNetwork *network)
 		connect(network, SIGNAL( logout( const RzxHostAddress& ) ), this, SLOT( logout( const RzxHostAddress& ) ) );
 		connect(network, SIGNAL( receivedIcon( QImage*, const RzxHostAddress& ) ),
 				this, SLOT( receivedIcon( QImage*, const RzxHostAddress& )));
-		connect(network, SIGNAL( disconnected(RzxNetwork*) ), this, SLOT( newDisconnection() ) );
+		connect(network, SIGNAL( disconnected(RzxNetwork*) ), this, SLOT( newDisconnection(RzxNetwork*) ) );
 		connect(network, SIGNAL(status(RzxNetwork*, const QString&)), this, SLOT(statusChanged(RzxNetwork*, const QString&)));
 		connect(network, SIGNAL( connected(RzxNetwork*) ), this, SLOT( newConnection(RzxNetwork*) ) );
 		connect(network, SIGNAL( connected(RzxNetwork*) ), this, SIGNAL( connectionEstablished(RzxNetwork*)));

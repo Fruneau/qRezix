@@ -46,7 +46,7 @@ RzxChatSocket::RzxChatSocket()
 	alone = false;
 	connect(this, SIGNAL(disconnected()), this, SLOT(chatConnexionClosed()));
 	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
-	connect(this, SIGNAL(error(SocketError)), this, SLOT(chatConnexionError(SocketError)));
+	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(chatConnexionError(QAbstractSocket::SocketError)));
 	connect(this, SIGNAL(connected()), this, SLOT(chatConnexionEtablished()));
 	connect(&timeOut, SIGNAL(timeout()), this, SLOT(chatConnexionTimeout()));
 }
@@ -58,7 +58,7 @@ RzxChatSocket::RzxChatSocket(RzxComputer *c, bool salone)
 	alone = salone;
 	connect(this, SIGNAL(disconnected()), this, SLOT(chatConnexionClosed()));
 	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
-	connect(this, SIGNAL(error(SocketError)), this, SLOT(chatConnexionError(SocketError)));
+	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(chatConnexionError(QAbstractSocket::SocketError)));
 	connect(this, SIGNAL(connected()), this, SLOT(chatConnexionEtablished()));
 	connect(&timeOut, SIGNAL(timeout()), this, SLOT(chatConnexionTimeout()));
 	if(alone)
@@ -303,7 +303,7 @@ void RzxChatSocket::chatConnexionClosed()
 }
 
 /** Gestion des erreurs lors de la connexion et de la communication chaque erreur donne lieu a une mise en garde de l'utilisateur*/
-void RzxChatSocket::chatConnexionError(SocketError error)
+void RzxChatSocket::chatConnexionError(QAbstractSocket::SocketError error)
 {
 	switch(error)
 	{

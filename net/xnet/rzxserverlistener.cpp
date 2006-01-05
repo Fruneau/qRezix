@@ -41,11 +41,11 @@ RzxServerListener::RzxServerListener()
 	new RzxXNetConfig(this);
 
 	connect(&pingTimer, SIGNAL(timeout()), this, SLOT(timeout()));
-	connect(&socket, SIGNAL(bytesWritten(qint64)), this, SLOT(hasActivity()));
-	connect(&socket, SIGNAL(readyRead()), this, SLOT(hasActivity()));
+	connect(&socket, SIGNAL(bytesWritten(qint64)), this, SLOT(haveActivity()));
+	connect(&socket, SIGNAL(readyRead()), this, SLOT(haveActivity()));
 	connect(&socket, SIGNAL(readyRead()), this, SLOT(read()));
 	
-	connect(&socket, SIGNAL(error(QTcpSocket::SocketError)), this, SLOT(error(QTcpSocket::SocketError)));
+	connect(&socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
 	connect(&socket, SIGNAL(disconnected()), this, SLOT(serverDisconnected()));
 	connect(&socket, SIGNAL(connected()), this, SLOT(serverConnected()));
 	
@@ -167,7 +167,7 @@ void RzxServerListener::waitReconnection()
 
 ///Gestion des erreurs du socket
 /** Erreur à la connexion au serveur. On rééssaie en SERVER_RECONNECTION ms */
-void RzxServerListener::error(QTcpSocket::SocketError error)
+void RzxServerListener::error(QAbstractSocket::SocketError error)
 {
 	pingTimer.stop();
 	QString reconnectionMsg;

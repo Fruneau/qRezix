@@ -155,7 +155,6 @@ RzxChat *RzxChatLister::createChat(RzxComputer *computer)
 	{
 		chat = new RzxChat(computer);
 
-		connect(chat, SIGNAL(send(const QString&)), this, SIGNAL(wantDeactivateResponder()));
 		connect( chat, SIGNAL( closed(RzxComputer*) ), this, SLOT( deleteChat(RzxComputer*) ) );
 		connect( RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), chat, SLOT( changeTheme() ) );
 		connect( RzxConfig::global(), SIGNAL( iconFormatChange() ), chat, SLOT( changeIconFormat() ) );

@@ -297,7 +297,7 @@ void QRezix::setSelection(const RzxHostAddress& ip)
 			break;
 	}
 	sel->setCurrentIndex(index, QItemSelectionModel::SelectCurrent);
-	disconnect(RzxConnectionLister::global(), SIGNAL(receivedAddress(const RzxHostAddress&)),
+	disconnect(RzxConnectionLister::global(), SIGNAL(receiveAddress(const RzxHostAddress&)),
 		this, SLOT(setSelection(const RzxHostAddress&)));
 }
 

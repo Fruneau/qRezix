@@ -96,7 +96,7 @@ protected slots:
 	void serverFound();
 	void serverDisconnected(const QString& = QString());
 	void serverConnected();
-	void error(QTcpSocket::SocketError);
+	void error(QAbstractSocket::SocketError);
 	
 
 //Echange de données

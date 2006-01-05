@@ -92,7 +92,7 @@ class RzxChatSocket : public QTcpSocket
 	protected slots:
 		void chatConnexionEtablished();
 		void chatConnexionClosed();
-		void chatConnexionError(SocketError);
+		void chatConnexionError(QAbstractSocket::SocketError);
 		void chatConnexionTimeout();
 		int readSocket();
 
