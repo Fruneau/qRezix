@@ -197,10 +197,7 @@ void RzxConnectionLister::login()
 	//et le traitement de cette connexion.
 	if(computer)
 	{
-		connect(computer, SIGNAL(needIcon( const RzxHostAddress& ) ), this, SIGNAL( needIcon( const RzxHostAddress& ) ) );
-		connect(computer, SIGNAL(wantChat(RzxComputer*)), this, SIGNAL(wantChat(RzxComputer* )));
-		connect(computer, SIGNAL(wantProperties(RzxComputer*)), this, SIGNAL(wantProperties(RzxComputer* )));
-		connect(computer, SIGNAL(wantHistorique(RzxComputer*)), this, SIGNAL(wantHistorique(RzxComputer* )));
+		connect(computer, SIGNAL(needIcon( const RzxHostAddress& ) ), this, SIGNAL( wantIcon( const RzxHostAddress& ) ) );
 
 		// Recherche si cet ordinateur était déjà présent (refresh ou login)
 		QString tempIP = computer->ip().toString();
