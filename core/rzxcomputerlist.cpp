@@ -90,6 +90,7 @@ void RzxComputerList::add(const QString& name)
 		addressList << computer->ip();
 		nameList << computer->name();
 	}
+	write();
 }
 
 ///Ajout d'un élément
@@ -110,6 +111,7 @@ void RzxComputerList::add(const RzxHostAddress& address)
 		if(!computer) nameList << QString();
 		else nameList << computer->name();
 	}
+	write();
 }
 
 ///Ajout d'un élément
@@ -122,6 +124,7 @@ void RzxComputerList::add(const RzxComputer* computer)
 	nameList << computer->name();
 	if(type == Address)
 		addressList << computer->ip();
+	write();
 }
 
 ///Suppression d'un élément
@@ -131,6 +134,7 @@ void RzxComputerList::remove(int i)
 {
 	if(nameList.size() >= i) nameList.removeAt(i);
 	if(addressList.size() >= i) addressList.removeAt(i);
+	write();
 }
 
 ///Suppression d'un élément
