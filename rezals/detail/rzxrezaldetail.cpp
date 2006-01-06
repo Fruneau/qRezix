@@ -163,6 +163,7 @@ void RzxRezalDetail::clear()
 	ui->lblHttp->clear();
 	ui->lblNews->clear();
 	ui->lblSamba->clear();
+	ui->lblPrinter->clear();
 	ui->lblIcon->clear();
 	ui->lblName->clear();
 	ui->lblComment->clear();
@@ -189,10 +190,11 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	ui->lblIcon->setPixmap(computer->icon());
 	ui->lblName->setText("<h3>" + computer->name() + "</h3>");
 	ui->lblComment->setText(computer->remarque(true));
-	if(computer->hasFtpServer()) ui->lblFtp->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_FTP));
-	if(computer->hasHttpServer()) ui->lblHttp->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_HTTP));
-	if(computer->hasNewsServer()) ui->lblNews->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_NEWS));
-	if(computer->hasSambaServer()) ui->lblSamba->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_SAMBA));
+	ui->lblFtp->setPixmap(RzxIconCollection::getPixmap(computer->hasFtpServer()?Rzx::ICON_FTP:Rzx::ICON_NOFTP));
+	ui->lblHttp->setPixmap(RzxIconCollection::getPixmap(computer->hasHttpServer()?Rzx::ICON_HTTP:Rzx::ICON_NOHTTP));
+	ui->lblNews->setPixmap(RzxIconCollection::getPixmap(computer->hasNewsServer()?Rzx::ICON_NEWS:Rzx::ICON_NONEWS));
+	ui->lblSamba->setPixmap(RzxIconCollection::getPixmap(computer->hasSambaServer()?Rzx::ICON_SAMBA:Rzx::ICON_NOSAMBA));
+	ui->lblPrinter->setPixmap(RzxIconCollection::getPixmap(computer->hasPrinter()?Rzx::ICON_PRINTER:Rzx::ICON_NOPRINTER));
 	ui->lblOS->setPixmap(RzxIconCollection::global()->osPixmap(computer->sysEx(), false));
 	ui->lblClient->setText(computer->client());
 	ui->lblPromo->setPixmap(RzxIconCollection::global()->promoPixmap(computer->promo()));
@@ -306,6 +308,8 @@ bool RzxRezalDetail::viewportEvent(QEvent *e)
 		column = RzxRezalModel::ColSamba;
 	else if(child == ui->lblNews)
 		column = RzxRezalModel::ColNews;
+	else if(child == ui->lblPrinter)
+		column = RzxRezalModel::ColPrinter;
 	else if(child == ui->lblPromo)
 		column = RzxRezalModel::ColPromo;
 	else if(child == ui->lblOS)
