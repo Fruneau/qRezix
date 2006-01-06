@@ -270,6 +270,14 @@
         <source>⌥A</source>
         <translation>S</translation>
     </message>
+    <message>
+        <source>no, I want to hide qRezix</source>
+        <translation>non, Je veux masquer qRezix</translation>
+    </message>
+    <message>
+        <source>Hide me...</source>
+        <translation>Masquer la fenêtre...</translation>
+    </message>
 </context>
 <context>
     <name>RzxRezalModel</name>

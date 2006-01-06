@@ -546,7 +546,6 @@ void QRezix::updateLayout()
 void QRezix::closeEvent(QCloseEvent * e){
 	//pour éviter de fermer rezix par mégarde, on affiche un boite de dialogue laissant le choix
 	//de fermer qrezix, de minimiser la fenêtre principale --> trayicon, ou d'annuler l'action
-#ifndef Q_OS_MAC
 	if(!isHidden() && !isMinimized())
 	{
 		int i;
@@ -560,12 +559,19 @@ void QRezix::closeEvent(QCloseEvent * e){
 		if(i != RzxQuit::Quit)
 		{
 			if(i == RzxQuit::Minimize)
+			{
+#ifdef Q_OS_MAC
+				saveState();
+				hide();
+#else
 				showMinimized();
+#endif //Q_OS_MAC
+			}
 #ifdef WIN32 //c'est très très très très très très moche, mais g pas trouvé d'autre manière de le faire
 			 //c'est pas ma fautre à moi si windows se comporte comme de la merde
 			QEvent ev(QEvent::WindowDeactivate); 
 			event(&ev);
-#endif
+#endif //WIN32
 			e -> ignore();
 			return;
 		}
@@ -575,11 +581,6 @@ void QRezix::closeEvent(QCloseEvent * e){
 	//Il semble en tout cas que ce soit le cas sous OS X
 	saveState();
 	emit wantQuit();
-#else
-	saveState();
-	hide();
-	e->ignore();
-#endif
 }
 
 bool QRezix::event(QEvent * e)

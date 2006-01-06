@@ -34,6 +34,11 @@ RzxQuit::RzxQuit(QWidget* parent)
 	connect((QObject *)radioQuit, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
 	connect((QObject *)radioMinimize, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
 	connect((QObject *)radioDoNothing, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
+
+#ifdef Q_OS_MAC
+	radioMinimize->setText(tr("no, I want to hide qRezix"));
+#endif
+
 	quitOptionChange();
 }
 
@@ -58,7 +63,11 @@ void RzxQuit::quitOptionChange(void)
 	else if(radioMinimize->isChecked())
 	{
 		selection = Minimize;
+#ifndef Q_OS_MAC
 		btnApply->setText(tr("Minimize me..."));
+#else
+		btnApply->setText(tr("Hide me..."));
+#endif
 	}
 	else if(radioDoNothing->isChecked())
 	{
