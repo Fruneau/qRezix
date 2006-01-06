@@ -464,6 +464,9 @@ void RzxProperty::initDlg(bool def)
 
 	cmbSport->setCurrentIndex( RzxConfig::numSport(def) );
 
+	listFavorites->refresh();
+	listBanned->refresh();
+
 	initModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), def);
 	initModules<RzxModule>(RzxApplication::modulesList(), def);
 }

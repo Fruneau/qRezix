@@ -569,7 +569,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nom</translation>
     </message>
     <message>
         <source>Birthday</source>
@@ -1087,7 +1087,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <source>This page aims at giving a way to administrate the lists of your favorites and ignored computers.
 
 Item marked (*) are not connected.</source>
-        <translation>Le but de cette page est de permettre d&apos;administrer la liste des personnes que vous avez choisies comme favories ou bannies.
+        <translation type="obsolete">Le but de cette page est de permettre d&apos;administrer la liste des personnes que vous avez choisies comme favories ou bannies.
 
 Les entrées marquées par (*) représente des personnes actuellement déconnectées.</translation>
     </message>
@@ -1234,6 +1234,10 @@ Les entrées marquées par (*) représente des personnes actuellement déconnect
     <message>
         <source>Responder:</source>
         <translation>Répondeur :</translation>
+    </message>
+    <message>
+        <source>This page aims at giving a way to administrate the lists of your favorites and ignored computers.</source>
+        <translation>Le but de cette page est de permettre d&apos;administrer la liste des personnes que vous avez choisies comme favories ou bannies.</translation>
     </message>
 </context>
 <context>
@@ -1537,7 +1541,7 @@ Les entrées marquées par (*) représente des personnes actuellement déconnect
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nom</translation>
     </message>
     <message>
         <source>FTP</source>
@@ -1748,6 +1752,14 @@ DNS request failed</source>
     </message>
     <message>
         <source>Open Samba</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My Promo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My Subnet</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

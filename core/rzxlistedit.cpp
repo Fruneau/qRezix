@@ -55,6 +55,7 @@ void RzxListEdit::changeTheme()
 {
 	ui->btnAdd->setIcon(RzxIconCollection::getIcon(Rzx::ICON_LOAD));
 	ui->btnDel->setIcon(RzxIconCollection::getIcon(Rzx::ICON_UNLOAD));
+	refresh();
 }
 
 ///Raffraîchi l'affichage de la liste
@@ -62,7 +63,14 @@ void RzxListEdit::refresh()
 {
 	ui->list->clear();
 	if(!list) return;
-	ui->list->addItems(list->humanReadable(true));
+	QStringList lst = list->humanReadable(true);
+	foreach(QString name, lst)
+	{
+		if(name.size() >= 3 && name.right(3) == "(*)")
+			new QListWidgetItem(RzxIconCollection::getIcon(Rzx::ICON_AWAY), name.left(name.size() - 3), ui->list);
+		else
+			new QListWidgetItem(RzxIconCollection::getIcon(Rzx::ICON_HERE), name, ui->list);
+	}
 }
 
 ///Ajoute l'élément en cours d'édition à la liste

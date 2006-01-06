@@ -50,7 +50,7 @@
       </size>
      </property>
      <property name="currentIndex" >
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="pageInfo" >
       <layout class="QGridLayout" >
@@ -744,9 +744,7 @@
        <item row="1" column="0" colspan="2" >
         <widget class="QLabel" name="lblFavorites" >
          <property name="text" >
-          <string>This page aims at giving a way to administrate the lists of your favorites and ignored computers.
-
-Item marked (*) are not connected.</string>
+          <string>This page aims at giving a way to administrate the lists of your favorites and ignored computers.</string>
          </property>
          <property name="textFormat" >
           <enum>Qt::PlainText</enum>

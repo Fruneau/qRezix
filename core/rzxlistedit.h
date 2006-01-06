@@ -49,9 +49,9 @@ class RzxListEdit: public QWidget
 	public slots:
 		void setList(RzxComputerList *);
 		void changeTheme();
+		void refresh();
 
 	protected slots:
-		void refresh();
 		void add();
 		void remove();
 		void edited(const QString&);
