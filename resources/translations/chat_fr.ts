@@ -260,6 +260,14 @@ Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous o
         <source>Smileys</source>
         <translation>Smileys</translation>
     </message>
+    <message>
+        <source>Print user icon</source>
+        <translation>Afficher l&apos;icône de l&apos;utilisateur</translation>
+    </message>
+    <message>
+        <source>Print user nicknames</source>
+        <translation>Afficher le pseudonyme</translation>
+    </message>
 </context>
 <context>
     <name>RzxChatSocket</name>

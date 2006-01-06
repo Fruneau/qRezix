@@ -207,16 +207,35 @@ QStringList RzxIconCollection::themeList()
 	return list;
 }
 
+///Retourne le nom du fichier associé à l'image
+QString RzxIconCollection::pixmapFileName(const QString& name, const QString& theme) const
+{
+	QDir *dir;
+	if(theme.isNull()) dir = themeDir[activeTheme];
+	else dir = themeDir[theme];
+	if(dir && dir->exists(name + ".png"))
+		return dir->absoluteFilePath(name + ".png");
+	if(theme != "none")
+		return pixmapFileName(name, "none");
+	return QString();
+}
+
+///Retourne le nom du fichier associé à l'image
+QString RzxIconCollection::pixmapFileName(Rzx::Icon icon, const QString& theme) const
+{
+	if(icon < Rzx::ICON_NUMBER)
+		return pixmapFileName(data[icon].filename, theme);
+	return QString();
+}
+
 ///Chargement d'une icône située à un endroit donné
 QPixmap RzxIconCollection::loadIcon(const QString& name, const QString& theme) const
 {
 	if(!themeDir.keys().contains(theme)) return QPixmap();
-	QDir *dir = themeDir[theme];
-	if(dir && dir->exists(name + ".png"))
-		return QPixmap(dir->absoluteFilePath(name + ".png"), "PNG");
-	if(theme != "none")
-		return loadIcon(name, "none");
-	return QPixmap();
+	const QString file = pixmapFileName(name, theme);
+	if(file.isNull())
+		return QPixmap();
+	return QPixmap(file, "PNG");
 }
 
 ///Récupération d'une icône
@@ -274,12 +293,7 @@ QIcon RzxIconCollection::icon(const QString& icon)
 ///Récupération des icônes des OS
 const QPixmap &RzxIconCollection::osPixmap(Rzx::SysEx sysex, bool large)
 {
-	QString name = "os_" + QString::number(sysex);
-	if(large)
-		name += "_large";
-	if(icons[name].isNull())
-		icons.insert(name, loadIcon(name, activeTheme));
-	return icons[name];
+	return pixmap(toIcon(sysex, large));
 }
 
 ///Récupération de l'icône de l'OS
@@ -294,12 +308,7 @@ QIcon RzxIconCollection::osIcon(Rzx::SysEx sysex)
 ///Récupération des icônes de promo
 const QPixmap &RzxIconCollection::promoPixmap(Rzx::Promal promo)
 {
-	switch(promo)
-	{
-		case Rzx::PROMAL_JONE: return pixmap(Rzx::ICON_JONE);
-		case Rzx::PROMAL_ROUJE: return pixmap(Rzx::ICON_ROUJE);
-		default: return pixmap(Rzx::ICON_ORANJE);
-	}
+	return pixmap(Rzx::toIcon(promo));
 }
 
 ///Récupération de l'icône de la promo
@@ -377,17 +386,29 @@ const QPixmap &RzxIconCollection::hashedIcon(quint32 hash)
 {
 	QString filename = QString::number(hash, 16) + ".png";
 	if(hash)
-		userIcons.insert(hash, QPixmap(RzxConfig::computerIconsDir().absoluteFilePath(filename)));
+		userIcons.insert(hash, QPixmap(hashedIconFileName(hash, true)));
 	return userIcons[hash];
 }
 
 ///Enregistrement d'une icône utilisateur
 const QPixmap &RzxIconCollection::setHashedIcon(quint32 hash, const QImage& image)
 {
-	QString filename = QString::number(hash, 16) + ".png";
-	image.save(RzxConfig::computerIconsDir().absoluteFilePath(filename), "PNG");
+	image.save(hashedIconFileName(hash, true), "PNG");
 	userIcons.insert(hash, QPixmap::fromImage(image));
 	return userIcons[hash];
+}
+
+///Retourne le nom de fichier pour l'icône indiquée
+/** Si force est faux, on teste l'existence du fichier avant de répondre
+ */
+QString RzxIconCollection::hashedIconFileName(quint32 hash, bool force) const
+{
+	QString filename = QString::number(hash, 16) + ".png";
+	if(force || RzxConfig::computerIconsDir().exists(filename))
+		filename = RzxConfig::computerIconsDir().absoluteFilePath(filename);
+	else
+		filename = "";
+	return filename;
 }
 
 ///Récupération de localhost

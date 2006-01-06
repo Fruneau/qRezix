@@ -197,6 +197,11 @@ namespace Rzx
 	RZX_CORE_EXPORT bool operator==(const Version&, const Version&);
 	RZX_CORE_EXPORT bool operator<(const Version&, const Version&);
 	RZX_CORE_EXPORT bool operator>=(const Version&, const Version&);
+
+	///Conversion des différents types en icône
+	RZX_CORE_EXPORT Icon toIcon(SysEx, bool = true);
+	RZX_CORE_EXPORT Icon toIcon(Promal);
+	RZX_CORE_EXPORT Icon toIcon(ConnectionState);
 };
 
 ///Défini les fonctions nécessaire pour générer un objet global

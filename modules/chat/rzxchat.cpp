@@ -412,12 +412,11 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 		//Recherche de l'icône à utiliser
 		if(RzxChatConfig::printIcon())
 		{
-			icon = QString::number(computer->stamp(), 16) + ".png";
-			if(RzxConfig::computerIconsDir().exists(icon))
-				icon = "<img src=\"" + RzxConfig::computerIconsDir().absoluteFilePath(icon) + 
-					"\" alt=\"" + computer->name() + "\" width=16 height=16>";
-			else
-				icon = "";
+			icon = RzxIconCollection::global()->hashedIconFileName(computer->stamp());
+			if(icon.isEmpty())
+				icon = RzxIconCollection::global()->pixmapFileName(Rzx::toIcon(computer->sysEx()));
+			if(!icon.isEmpty())
+				icon = "<img src=\"" + icon + "\" alt=\"" + computer->name() + "\" width=16 height=16>";
 		}
 
 		//Composition de l'entête

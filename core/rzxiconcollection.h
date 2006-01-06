@@ -95,6 +95,9 @@ class RZX_CORE_EXPORT RzxIconCollection: public QObject
 		QIcon osIcon(Rzx::SysEx);
 		const QPixmap &promoPixmap(Rzx::Promal);
 		QIcon promoIcon(Rzx::Promal);
+		
+		QString pixmapFileName(const QString&, const QString& = QString()) const;
+		QString pixmapFileName(Rzx::Icon, const QString& = QString()) const;
 
 		//icône à plusieurs états prédéfinies
 		QIcon responderIcon();
@@ -106,6 +109,7 @@ class RZX_CORE_EXPORT RzxIconCollection: public QObject
 		//gestion des icônes hors-thème : les icônes des personnes
 		const QPixmap &hashedIcon(quint32 hash);
 		const QPixmap &setHashedIcon(quint32 hash, const QImage& icon);
+		QString hashedIconFileName(quint32 hash, bool force = false) const;
 
 		//gestion de l'icône de localhost
 		QPixmap localhostPixmap();

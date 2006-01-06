@@ -209,3 +209,36 @@ bool Rzx::operator>=(const Rzx::Version& a, const Rzx::Version& b)
 {
 	return !(a < b);
 }
+
+///Converti le système d'exploitation en identifiant d'icône
+Rzx::Icon Rzx::toIcon(Rzx::SysEx os, bool large)
+{
+	switch(os)
+	{
+		case SYSEX_WIN9X:  return large ? ICON_OS1_LARGE : ICON_OS1;
+		case SYSEX_WINNT: return large ? ICON_OS2_LARGE : ICON_OS2;
+		case SYSEX_LINUX: return large ? ICON_OS3_LARGE : ICON_OS3;
+		case SYSEX_MACOS: return large ? ICON_OS4_LARGE : ICON_OS4;
+		case SYSEX_MACOSX: return large ? ICON_OS5_LARGE : ICON_OS5;
+		case SYSEX_BSD: return large ? ICON_OS6_LARGE : ICON_OS6;
+		default: return large ? ICON_OS0_LARGE : ICON_OS0;
+	}
+}
+
+///Converti la promo en identifiant d'icône
+Rzx::Icon Rzx::toIcon(Rzx::Promal promo)
+{
+	switch(promo)
+	{
+		case PROMAL_ROUJE: return ICON_ROUJE;
+		case PROMAL_JONE: return ICON_JONE;
+		default: return ICON_ORANJE;
+	}
+}
+
+///Converti l'état du répondeur en icône
+Rzx::Icon Rzx::toIcon(Rzx::ConnectionState state)
+{
+	if(state == STATE_HERE) return ICON_HERE;
+	return ICON_AWAY;
+}
