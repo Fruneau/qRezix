@@ -305,7 +305,6 @@ void RzxTextEdit::validate(bool val)
 QString RzxTextEdit::toSimpleHtml() const
 {
 	QString text = toHtml();
-
 	//On supprime tous les en-têtes
 	QRegExp mask("<body[^>]*>(.*)</body>");
 	if(mask.indexIn(text) != -1)
@@ -329,6 +328,8 @@ QString RzxTextEdit::convertStyle(const QString& m_text, const QString& balise, 
 	{
 		const QString style = mask.cap(1);
 		QString rep;
+		QString tagDebut;
+		QString tagFin;
 		QRegExp select;
 
 		select.setPattern("font-family:([^;]+);");
@@ -340,15 +341,32 @@ QString RzxTextEdit::convertStyle(const QString& m_text, const QString& balise, 
 		select.setPattern("color:([^;]+);");
 		if(select.indexIn(style) != -1)
 			rep += " color=\"" + select.cap(1) + "\"";
+		select.setPattern("font-weight:600;");
+		if(select.indexIn(style) != -1)
+		{
+			tagDebut += "<B>";
+			tagFin += "</B>";
+		}
+		select.setPattern("font-style:italic;");
+		if(select.indexIn(style) != -1)
+		{
+			tagDebut += "<I>";
+			tagFin += "</I>";
+		}
+		select.setPattern("text-decoration: underline;");
+		if(select.indexIn(style) != -1)
+		{
+			tagDebut += "<U>";
+			tagFin += "</U>";
+		}
 
-		if(rep.isEmpty())
+		if(rep.isEmpty() && tagDebut.isEmpty())
 			rep = mask.cap(2);
 		else
-			rep = "<font" + rep + ">" + mask.cap(2) + "</font>";
+			rep = "<font" + rep + ">" +tagDebut + mask.cap(2)+ tagFin + "</font>";
 		if(!suffix.isEmpty())
 			rep = rep + suffix;
 		text.replace(pos, mask.matchedLength(), rep);
 	}
-
 	return text;
 }
