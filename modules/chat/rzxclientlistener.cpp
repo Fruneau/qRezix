@@ -71,7 +71,11 @@ void RzxClientListener::incomingConnection(int socketDescriptor)
 /** Crée un socket pour la demande des propriétés à l'utilisateur en face */
 void RzxClientListener::checkProperty(const RzxHostAddress& host)
 {
-	connect(new RzxChatSocket(host, true), SIGNAL(info(const QString&)), this, SLOT(info(const QString&)));
+	RzxChatSocket *socket = sockets[host];
+	if(!socket)
+		connect(new RzxChatSocket(host, true), SIGNAL(info(const QString&)), this, SLOT(info(const QString&)));
+	else
+		socket->sendPropQuery();
 }
 
 ///Permet l'affichage des messages d'erreur des socket conçus uniquement pour le check de propriétés
