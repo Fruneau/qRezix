@@ -112,7 +112,6 @@ RzxRezalModel::RzxRezalModel()
 	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(RzxConnectionLister::global(), SIGNAL(logout(RzxComputer* )), this, SLOT(logout(RzxComputer* )));
 	connect(RzxConnectionLister::global(), SIGNAL(update(RzxComputer* )), this, SLOT(update(RzxComputer* )));
-	connect(RzxConnectionLister::global(), SIGNAL(clear()), this, SLOT(clear()));
 }
 
 ///Détruit le modèle
