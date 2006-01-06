@@ -17,6 +17,9 @@
 #define RZX_MODULE_NAME "Item details"
 
 #include <QMouseEvent>
+#include <QHelpEvent>
+#include <QEvent>
+#include <QToolTip>
 
 #include <RzxComputer>
 #include <RzxIconCollection>
@@ -171,6 +174,7 @@ void RzxRezalDetail::clear()
 	ui->lblDate->clear();
 	ui->lblStateIcon->clear();
 	ui->lblState->clear();
+	ui->lblFavorite->clear();
 	ui->propsView->clear();
 	ui->propsView->setEnabled(false);
 	ui->btnProperties->setEnabled(false);
@@ -196,6 +200,10 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	ui->lblIP->setText(computer->ip().toString());
 	ui->lblStateIcon->setPixmap(RzxIconCollection::getPixmap(computer->isOnResponder()?Rzx::ICON_AWAY:Rzx::ICON_HERE));
 	ui->lblState->setText(QString(computer->isOnResponder()?tr("away"):tr("connected")));
+	if(computer->isFavorite())
+		ui->lblFavorite->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_FAVORITE));
+	if(computer->isIgnored())
+		ui->lblFavorite->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_BAN));
 
 	// Remplissage
 	ui->propsView->clear();
@@ -242,7 +250,7 @@ void RzxRezalDetail::propChanged(RzxComputer *m_computer, bool *displayed)
  */
 void RzxRezalDetail::mouseDoubleClickEvent(QMouseEvent *e)
 {
-	QWidget *child = childAt(e->pos());
+	const QWidget *child = childAt(e->pos());
 
 	if(child == ui->lblFtp)
 		computer->ftp();
@@ -275,6 +283,46 @@ void RzxRezalDetail::resizeEvent(QResizeEvent *)
 	ui->lblClient->setVisible(ui->frmDetails->size().width() > 210 ||  ui->frmProp->size().width() > 200);
 	ui->lblIP->setVisible(ui->frmDetails->size().width() > 210 ||  ui->frmProp->size().width() > 200);
 	ui->lblRezal->setVisible(ui->frmDetails->size().width() > 210 ||  ui->frmProp->size().width() > 200);
+}
+
+///Réimplémentation de l'affichage des tooltips...
+bool RzxRezalDetail::viewportEvent(QEvent *e)
+{
+	if(e->type() != QEvent::ToolTip)
+		return QAbstractItemView::viewportEvent(e);
+
+	if (!isActiveWindow())
+		return false;
+	QHelpEvent *he = static_cast<QHelpEvent*>(e);
+
+	//Recherche de l'item sur lequel on affiche le ToolTip
+	const QWidget *child = childAt(he->pos());
+	int column = -1;
+	if(child == ui->lblFtp)
+		column = RzxRezalModel::ColFTP;
+	else if(child == ui->lblHttp)
+		column = RzxRezalModel::ColHTTP;
+	else if(child == ui->lblSamba)
+		column = RzxRezalModel::ColSamba;
+	else if(child == ui->lblNews)
+		column = RzxRezalModel::ColNews;
+	else if(child == ui->lblPromo)
+		column = RzxRezalModel::ColPromo;
+	else if(child == ui->lblOS)
+		column = RzxRezalModel::ColOS;
+	else if(child == ui->lblRezal)
+		column = RzxRezalModel::ColRezal;
+	else if(child == ui->lblIP)
+		column = RzxRezalModel::ColIP;
+
+	//Si ça ne correspond pas à un item à décrire, on n'affiche rien
+	if(column == -1) return true;
+
+	//Sinon on affiche le ToolTip
+	const QString tooltip = model()->headerData(column, Qt::Horizontal, Qt::ToolTipRole).toString();
+	if(!tooltip.isEmpty())
+		QToolTip::showText(he->globalPos(), tooltip, this);
+	return true;
 }
 
 ///Retourne une fenêtre utilisable pour l'affichage.
