@@ -708,6 +708,8 @@ QVariant RzxRezalModel::headerData(int column, Qt::Orientation orientation, int 
 ///Enregistrement de l'arrivée d'un nouvel élément
 void RzxRezalModel::login(RzxComputer *computer)
 {
+	if(!computer) return;
+
 	connect(computer, SIGNAL(update(RzxComputer* )), this, SLOT(update(RzxComputer* )));
 	if(everybody.contains(computer))
 	{
@@ -749,6 +751,8 @@ void RzxRezalModel::login(RzxComputer *computer)
 ///Un computer vient de se déconnecter...
 void RzxRezalModel::logout(RzxComputer *computer)
 {
+	if(!computer) return;
+
 	//Un objet est supprimé :/
 	removeObject(everybodyGroup, everybody, everybodyByName, computer);
 
@@ -764,10 +768,7 @@ void RzxRezalModel::logout(RzxComputer *computer)
 	switch(computer->promo())
 	{
 		case Rzx::PROMAL_UNK: case Rzx::PROMAL_ORANGE:
-/*			if(computer->rezal() == Rzx::RZL_BINETS || computer->rezal() == Rzx::RZL_BR)
-				removeObject(binetIndex, binet, binetByName, computer);
-			else*/
-				removeObject(oranjeIndex, oranje, oranjeByName, computer);
+			removeObject(oranjeIndex, oranje, oranjeByName, computer);
 			break;
 		case Rzx::PROMAL_JONE:
 			removeObject(joneIndex, jone, joneByName, computer);
@@ -786,6 +787,8 @@ void RzxRezalModel::logout(RzxComputer *computer)
 ///Un computer vient de mettre à jours les informations qui le concerne
 void RzxRezalModel::update(RzxComputer *computer)
 {
+	if(!computer) return;
+
 	updateObject(everybodyGroup, everybody, computer);
 
 	//Tri entre favoris, ban...
