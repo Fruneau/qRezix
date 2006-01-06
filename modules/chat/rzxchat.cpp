@@ -49,6 +49,7 @@
 #include <RzxConfig>
 #include <RzxStyle>
 #include <RzxIconCollection>
+#include <RzxConnectionLister>
 #include <RzxSound>
 
 #include "rzxchat.h"
@@ -129,7 +130,7 @@ void RzxChat::init()
 #ifdef Q_OS_MAC
 	new QShortcut(QKeySequence("Ctrl+M"), this, SLOT(showMinimized()));
 #endif
-		
+
 	/* Construction du texte et des icônes des boutons */
 	changeTheme();
 	changeSmileyTheme();
@@ -354,51 +355,88 @@ void RzxChat::onTextChanged()
 }
 
 ///Ajoute les en-têtes qui vont bien pour l'affichage
-void RzxChat::append(const QString& color, const QString& host, const QString& argMsg)
+void RzxChat::append(const QString& color, const QString& host, const QString& argMsg, RzxComputer *computer)
 {
-	QDateTime date = QDateTime::currentDateTime();
-	QString tmp, tmpH, head="", tmpD;
-	tmpD = date.toString("ddd d MMMM yy");
-	head = date.toString("<i>hh:mm:ss") + "&nbsp;";
-	tmp.sprintf("<i>");
-	
+	const QDateTime dater = QDateTime::currentDateTime();
+	QString time = dater.toString("hh:mm:ss") + "&nbsp;";
+	QString date = dater.toString("ddd d MMMM yy") + " " + time;
+	QString name;
+	QString icon;
+	QString tmp;
+
 	//Nettoyage du html du message
 	QString msg(argMsg);
 	msg.remove(QRegExp("<head>.*</head>")).remove("<html>")
 		.remove(QRegExp("<body[^<>]*>")).remove("</html>").remove("</body>");
 
+#define addColor(text, tmpcolor) QString("<font color=\"") + tmpcolor + "\">" + text + "</font>"
+	
 	//Distinction du /me et d'un message normal
 	QRegExp action("^(\\s*<[^<>]+>)*/me(<[^<>]+>|\\s)(.*)");
-	if(!action.indexIn(msg))
+	if(computer && !action.indexIn(msg))
 	{
-		QString entete = action.cap(1);
-		QString entext = action.cap(2);
-		QString pieddp = action.cap(3);
-		if(host == ">&nbsp;") tmp = ("<font color=\"purple\">" + tmp + " * %1%2%3%4</i></font><br>")
-					.arg(entete).arg(RzxComputer::localhost()->name()).arg(entext).arg(pieddp);
-		else tmp = ("<font color=\"purple\">" + tmp + " * %1%2%3%4</i></font><br>")
-					.arg(entete).arg(host.mid(0, host.length()-7)).arg(entext).arg(pieddp);
-		tmpD = QString("<font color=\"purple\"><i>%1 - %2</i></font>").arg(tmpD, head);
-		tmpH = ("<font color=\"purple\">"+head+"</font>");
-		 
+		const QString purple("purple");
+		const QString entete = action.cap(1);
+		const QString entext = action.cap(2);
+		const QString pieddp = action.cap(3);
+		msg = addColor("<i>* " + entete + computer->name() + entext + pieddp + "</i><br>", purple);
+		date = addColor(date, purple);
+		time = addColor(time, purple);
+		tmp = msg;
+		computer = NULL;
 	}
-	else {
-		tmp = ("<font color=\"%1\">" + tmp + " %2</i> %3</font><br>")
-					.arg(color).arg(host).arg(msg);
-		tmpD = QString("<font color=\"%1\"><i>%2 - %3</i></font>").arg(color).arg(tmpD, head);
-		tmpH = ("<font color=\"%1\">"+head+"</font>").arg(color);
+	else
+	{
+		date = addColor(date, color);
+		time = addColor(time, color);
+		//Si computer != NULL, l'en-tête définitive sera composée ensuite
+		if(computer)
+		{
+			msg = addColor("&nbsp;" + msg + "<br>", color);
+			if(!computer->isLocalhost()) name = addColor(computer->name(), color);
+			tmp = addColor("<i>" + name + host + "</i>", color) + msg;
+		}
+		else
+			tmp = msg = addColor("<i>" + host + "</i>&nbsp;" + msg + "<br>", color);
 	}
 
 	// Enregistrement des logs...
-	textHistorique = textHistorique + tmpD + tmp;
+	textHistorique = textHistorique + date + tmp;
 
 	// Gestion des smileys
-	RzxSmileys::replace(tmp);
-	
+	RzxSmileys::replace(msg);
+
+	//Composition de l'entête du message en fonction des options
+	if(computer)
+	{
+		//Recherche de l'icône à utiliser
+		if(RzxChatConfig::printIcon())
+		{
+			icon = QString::number(computer->stamp(), 16) + ".png";
+			if(RzxConfig::computerIconsDir().exists(icon))
+				icon = "<img src=\"" + RzxConfig::computerIconsDir().absoluteFilePath(icon) + 
+					"\" alt=\"" + computer->name() + "\" width=16 height=16>";
+			else
+				icon = "";
+		}
+
+		//Composition de l'entête
+		QString prepend;
+		if(RzxChatConfig::printName() || icon.isEmpty())
+			prepend = name;
+		if(RzxChatConfig::printIcon() && !icon.isEmpty())
+			prepend = icon + prepend;
+		msg = addColor("<i>" + prepend + host + "</i>", color) + msg;
+	}
+
+#undef addColor
+
+	//Ajout de l'heure du message si demandé
 	if(RzxChatConfig::printTime())
-		txtHistory->append(tmpH + tmp);
+		txtHistory->append(time + msg);
 	else
-		txtHistory->append(tmp);
+		txtHistory->append(msg);
+
 	txtHistory->textCursor().movePosition(QTextCursor::End);
 	txtHistory->ensureCursorVisible();
 	ui->edMsg->setFocus();
@@ -412,9 +450,9 @@ void RzxChat::receive(const QString& msg)
 		RzxSound::play(RzxChatConfig::beepSound());	
 	
 	if(RzxConfig::autoResponder())
-		append("darkgray", name() + ">&nbsp;", message);
+		append("darkgray", ">", message, m_computer);
 	else
-		append("blue", name() + ">&nbsp;", message);
+		append("blue", ">", message, m_computer);
 	if(!isActiveWindow())
 	{
 		unread++;
@@ -426,7 +464,7 @@ void RzxChat::receive(const QString& msg)
 /// Affiche une info de status (deconnexion, reconnexion)
 void RzxChat::info(const QString& msg)
 {
-	append( "darkgreen", name() + " ", msg );
+	append("darkgreen", name() + "", msg);
 }
 
 /// Affiche un message de notification (envoie de prop, ping, pong...)
@@ -435,8 +473,8 @@ void RzxChat::notify(const QString& msg, bool withHostname)
 	if(!RzxChatConfig::warnWhenChecked())
 		return;
 
-	QString header = "***&nbsp;";
-	if(withHostname) header += name() + "&nbsp;";
+	QString header = "***";
+	if(withHostname) header += "&nbsp;" + name();
 	append("gray", header, msg);
 }
 
@@ -494,7 +532,7 @@ void RzxChat::on_btnSend_clicked()
 		msg = rawMsg;
 		
 	QString dispMsg = msg;
-	append("red", ">&nbsp;", dispMsg);
+	append("red", ">", dispMsg, RzxConnectionLister::global()->getComputerByName(RzxComputer::localhost()->name()));
 	sendChat(msg);	//passage par la sous-couche de gestion du m_socket avant d'émettre
 
 	ui->edMsg->validate();

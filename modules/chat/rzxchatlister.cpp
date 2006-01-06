@@ -440,6 +440,8 @@ void RzxChatLister::propInit(bool def)
 	ui->beepSound->setText(RzxChatConfig::beepSound(def));
 	ui->cbPropertiesWarning->setChecked(RzxChatConfig::warnWhenChecked(def));
 	ui->cbPrintTime->setChecked(RzxChatConfig::printTime(def));
+	ui->cbPrintName->setChecked(RzxChatConfig::printName(def));
+	ui->cbPrintIcon->setChecked(RzxChatConfig::printIcon(def));
 	ui->chat_port->setValue(RzxChatConfig::chatPort(def));
 
 	ui->smileyCombo->clear();
@@ -471,6 +473,8 @@ void RzxChatLister::propUpdate()
 	RzxChatConfig::setBeepSound(ui->beepSound->text());
 	RzxChatConfig::setWarnWhenChecked(ui->cbPropertiesWarning->isChecked());
 	RzxChatConfig::setPrintTime(ui->cbPrintTime->isChecked());
+	RzxChatConfig::setPrintName(ui->cbPrintName->isChecked());
+	RzxChatConfig::setPrintIcon(ui->cbPrintIcon->isChecked());
 	RzxChatConfig::setChatPort(ui->chat_port->value());
 	RzxSmileys::setTheme(ui->smileyCombo->currentText());
 }

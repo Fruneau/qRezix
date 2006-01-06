@@ -120,7 +120,7 @@ protected slots:
 	bool event(QEvent *e);
 
 protected: // Protected methods
-	void append(const QString& color, const QString& host, const QString& msg);
+	void append(const QString& color, const QString& host, const QString& msg, RzxComputer* = NULL);
 	void initHtmlText();
 
 	virtual void closeEvent(QCloseEvent * e);

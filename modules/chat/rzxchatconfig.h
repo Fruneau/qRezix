@@ -41,6 +41,8 @@ class RzxChatConfig:public RzxAbstractConfig
 
 		RZX_BOOLPROP("warnWhenChecked", warnWhenChecked, setWarnWhenChecked, false)
 		RZX_BOOLPROP("printTime", printTime, setPrintTime, true)
+		RZX_BOOLPROP("printName", printName, setPrintName, false)
+		RZX_BOOLPROP("printIcon", printIcon, setPrintIcon, true)
 		RZX_UINTPROP("chatPort", chatPort, setChatPort, 5050)
 
 		RZX_WIDGETPROP("chat", restoreChatWidget, saveChatWidget, QPoint(150,100), QSize(300, 200))
