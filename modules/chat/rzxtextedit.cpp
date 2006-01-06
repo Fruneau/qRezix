@@ -345,19 +345,19 @@ QString RzxTextEdit::convertStyle(const QString& m_text, const QString& balise, 
 		if(select.indexIn(style) != -1)
 		{
 			tagDebut += "<B>";
-			tagFin += "</B>";
+			tagFin = "</B>" + tagFin;
 		}
 		select.setPattern("font-style:italic;");
 		if(select.indexIn(style) != -1)
 		{
 			tagDebut += "<I>";
-			tagFin += "</I>";
+			tagFin = "</I>" + tagFin;
 		}
 		select.setPattern("text-decoration: underline;");
 		if(select.indexIn(style) != -1)
 		{
 			tagDebut += "<U>";
-			tagFin += "</U>";
+			tagFin = "</U>" + tagFin;
 		}
 
 		if(rep.isEmpty() && tagDebut.isEmpty())
