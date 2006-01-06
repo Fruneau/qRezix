@@ -235,6 +235,9 @@ void RzxChat::updateTitle()
 	if(peerTyping && isActiveWindow()) title += " - " + tr("Is typing a message");
 	if(unread) title += " - " + QString::number(unread) + " " + tr("unread");
 	setWindowTitle(title);
+
+	if(m_computer)
+		setWindowIcon(m_computer->icon());
 }
 
 /*********************** Gestion des actions ********************************/
