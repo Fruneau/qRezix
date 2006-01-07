@@ -148,6 +148,9 @@ void RzxChat::init()
 		addColor(preDefinedColors[i]);
 	ui->cbColorSelect->setCurrentIndex(1); //black par défaut
 
+	//Défini l'activation par défaut du bouton du son
+	ui->btnSound->setChecked(RzxChatConfig::beep());
+
 	//gestion du formatiage du texte
 	connect(ui->btnBold, SIGNAL(toggled(bool)), ui->edMsg, SLOT(setBold(bool)));
 	connect(ui->btnItalic, SIGNAL(toggled(bool)), ui->edMsg, SLOT(setItalic(bool)));
@@ -447,7 +450,7 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 void RzxChat::receive(const QString& msg)
 {
 	QString message = msg;
-	if(RzxChatConfig::beep() && !ui->btnSound->isChecked())
+	if(ui->btnSound->isChecked())
 		RzxSound::play(RzxChatConfig::beepSound());	
 	
 	if(RzxConfig::autoResponder())
