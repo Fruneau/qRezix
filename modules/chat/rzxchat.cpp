@@ -397,7 +397,7 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 			histText = addColor("<i>" + name + host + "</i>", color) + msg;
 		}
 		else if(!host.isEmpty())
-			histText = msg = addColor("<i>" + host + "</i>&nbsp;" + msg, color);
+			histText = msg = addColor("<i>" + host + "</i>&nbsp;" + msg + "<br>", color);
 		else
 			histText = msg = addColor(msg + "<br>", color);
 	}
