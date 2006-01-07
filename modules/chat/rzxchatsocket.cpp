@@ -308,20 +308,24 @@ void RzxChatSocket::chatConnexionError(QAbstractSocket::SocketError error)
 	switch(error)
 	{
 		case ConnectionRefusedError:
-			host.computer()->receiveChat(Rzx::InfoMessage, tr("can't be contacted, check his firewall... CONNECTION ERROR"));
-			qDebug("Connexion has been refused by the client");
+			host.computer()->receiveChat(Rzx::InfoMessage, tr("Connection error: connection refused"));
+			qDebug("Connection has been refused by the client");
 			close();
 			break;
 		case HostNotFoundError:
-			host.computer()->receiveChat(Rzx::InfoMessage, tr("can't be found... CONNECTION ERROR"));
+			host.computer()->receiveChat(Rzx::InfoMessage, tr("Connection error: host not found"));
 			qDebug("Can't find client");
+			close();
+			break;
+		case QAbstractSocket::SocketTimeoutError:
+			host.computer()->receiveChat(Rzx::InfoMessage, tr("Connection error: timeout"));
+			qDebug("Connection timeout");
 			close();
 			break;
 		case QAbstractSocket::RemoteHostClosedError:
 			break;
-//		case SocketRead:
 		default:
-			host.computer()->receiveChat(Rzx::InfoMessage, tr("has sent corrupt data... CONNECTION ERROR"));
+			host.computer()->receiveChat(Rzx::InfoMessage, tr("Connection error: data corruption"));
 			qDebug("Error while reading datas %d", error);
 			break;
 	}

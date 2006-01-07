@@ -362,9 +362,7 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 	const QDateTime dater = QDateTime::currentDateTime();
 	QString time = dater.toString("hh:mm:ss") + "&nbsp;";
 	QString date = dater.toString("ddd d MMMM yy") + " " + time;
-	QString name;
-	QString icon;
-	QString histText;
+	QString name, icon, histText;
 
 	//Nettoyage du html du message
 	QString msg(argMsg);
@@ -398,8 +396,10 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 			if(!computer->isLocalhost()) name = addColor(computer->name(), color);
 			histText = addColor("<i>" + name + host + "</i>", color) + msg;
 		}
+		else if(!host.isEmpty())
+			histText = msg = addColor("<i>" + host + "</i>&nbsp;" + msg, color);
 		else
-			histText = msg = addColor("<i>" + host + "</i>&nbsp;" + msg + "<br>", color);
+			histText = msg = addColor(msg + "<br>", color);
 	}
 
 	// Enregistrement des logs...
@@ -465,7 +465,7 @@ void RzxChat::receive(const QString& msg)
 /// Affiche une info de status (deconnexion, reconnexion)
 void RzxChat::info(const QString& msg)
 {
-	append("darkgreen", name() + "", msg);
+	append("darkgreen", "", msg);
 }
 
 /// Affiche un message de notification (envoie de prop, ping, pong...)

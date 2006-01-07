@@ -301,7 +301,7 @@ Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous o
     </message>
     <message>
         <source>can&apos;t be found... CONNECTION ERROR</source>
-        <translation>ne peut pas être trouvé sur le réseau</translation>
+        <translation type="obsolete">ne peut pas être trouvé sur le réseau</translation>
     </message>
     <message>
         <source>Name</source>
@@ -321,11 +321,27 @@ Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous o
     </message>
     <message>
         <source>can&apos;t be contacted, check his firewall... CONNECTION ERROR</source>
-        <translation>ne peut pas être contacté, son firewall est peut-être mal configuré</translation>
+        <translation type="obsolete">ne peut pas être contacté, son firewall est peut-être mal configuré</translation>
     </message>
     <message>
         <source>has sent corrupt data... CONNECTION ERROR</source>
-        <translation>a envoyé des données corrompues</translation>
+        <translation type="obsolete">a envoyé des données corrompues</translation>
+    </message>
+    <message>
+        <source>Connection error: connection refused</source>
+        <translation>Erreur de connexion : connexion refusée</translation>
+    </message>
+    <message>
+        <source>Connection error: host not found</source>
+        <translation>Erreur de connexion : hôte introuvable</translation>
+    </message>
+    <message>
+        <source>Connection error: timeout</source>
+        <translation>Erreur de connexion : dépassement du délai d&apos;attente</translation>
+    </message>
+    <message>
+        <source>Connection error: data corruption</source>
+        <translation>Erreur de connexion : données corrompues</translation>
     </message>
 </context>
 <context>
