@@ -227,13 +227,23 @@ void QRezix::linkModules()
 }
 
 ///Recrée les liens entre rezals
-void QRezix::relinkModules(RzxRezal *newRezal, RzxRezal *)
+void QRezix::relinkModules(RzxRezal *rezal, RzxRezal *)
 {
 	buildModuleMenus();
+	qDebug() << "humpf" << closing << rezal;
 	if(closing) return;
 
-	if(newRezal)
-		newRezal->widget()->setSelectionModel(sel);
+	if(!rezal) return;
+
+	if((rezal->type() & RzxRezal::TYP_INDEXED) && indexes.count())
+	{
+		foreach(RzxRezal *index, indexes)
+		{
+			connect(index->widget(), SIGNAL(clicked(const QModelIndex&)), rezal->widget(), SLOT(setRootIndex(const QModelIndex&)));
+			connect(index->widget(), SIGNAL(activated(const QModelIndex&)), rezal->widget(), SLOT(setRootIndex(const QModelIndex&)));
+		}
+	}
+	rezal->widget()->setSelectionModel(sel);
 }
 
 ///Décharge le module indiqué

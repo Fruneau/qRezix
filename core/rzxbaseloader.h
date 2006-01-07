@@ -328,6 +328,7 @@ bool RzxBaseLoader<T>::installModule(const QString& file)
 		if(!installModule(module))
 			return false;
 		files.insert(module->name(), file);
+		return true;
 	}
 	return false;
 }
@@ -444,7 +445,7 @@ bool RzxBaseLoader<T>::loadModule(const QString& moduleName)
 		return false;
 	}
 	bool ret = installModule(files[moduleName]);
-	if(ret)
+//	if(ret)
 		relinkModules(modules[moduleName], NULL);
 	return ret;
 }
