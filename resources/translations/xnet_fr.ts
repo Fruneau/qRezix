@@ -1,5 +1,12 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>RzxBaseModule</name>
+    <message>
+        <source>Native support for the xNet protocole version 4.0</source>
+        <translation>Support natif du protocole xNet version 4.0</translation>
+    </message>
+</context>
+<context>
     <name>RzxProtocole</name>
     <message>
         <source>Your password has been successfully changed on the server. Remember it carefully, it can be useful.</source>
@@ -13,7 +20,7 @@
     </message>
     <message>
         <source>Native support for the xNet protocole version 4.0</source>
-        <translation>Support natif du protocole xNet version 4.0</translation>
+        <translation type="obsolete">Support natif du protocole xNet version 4.0</translation>
     </message>
 </context>
 <context>

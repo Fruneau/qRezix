@@ -1,9 +1,16 @@
 <!DOCTYPE TS><TS>
 <context>
-    <name>RzxNotifier</name>
+    <name>RzxBaseModule</name>
     <message>
         <source>Notify that a favorite state has changed</source>
         <translation>Notifie qu&apos;un favoris a changé d&apos;état</translation>
+    </message>
+</context>
+<context>
+    <name>RzxNotifier</name>
+    <message>
+        <source>Notify that a favorite state has changed</source>
+        <translation type="obsolete">Notifie qu&apos;un favoris a changé d&apos;état</translation>
     </message>
     <message>
         <source>All files</source>

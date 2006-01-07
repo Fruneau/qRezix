@@ -144,7 +144,7 @@ class RZX_CORE_EXPORT RzxModule:public QObject, public RzxBaseModule
 
 	//Chargement du module
 	protected:
-		RzxModule(const QString&, const QString&, const Rzx::Version&);
+		RzxModule(const QString&, const char*, const Rzx::Version&);
 
 	public:
 		~RzxModule();

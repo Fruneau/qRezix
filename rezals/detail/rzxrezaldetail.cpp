@@ -40,7 +40,7 @@ RZX_REZAL_EXPORT(RzxRezalDetail)
 /** Il n'affiche en effet qu'un item... le currentIndex.
  */
 RzxRezalDetail::RzxRezalDetail(QWidget *widget)
-	:QAbstractItemView(widget), RzxRezal(RZX_MODULE_NAME, QT_TR_NOOP("Detail of an item"), RZX_MODULE_VERSION),
+	:QAbstractItemView(widget), RzxRezal(RZX_MODULE_NAME, QT_TRANSLATE_NOOP("RzxBaseModule", "Detail of an item"), RZX_MODULE_VERSION),
 		computer(NULL), waitProp(NULL)
 {
 	ui = new Ui::RzxItem();

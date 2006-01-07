@@ -38,7 +38,7 @@ RZX_CONFIG_INIT(RzxNotifierConfig)
 /** La construction consiste juste à mettre en place les connexions qvb
  */
 RzxNotifier::RzxNotifier()
-	:RzxModule(RZX_MODULE_NAME, QT_TR_NOOP("Notify that a favorite state has changed"), RZX_MODULE_VERSION)
+	:RzxModule(RZX_MODULE_NAME, QT_TRANSLATE_NOOP("RzxBaseModule", "Notify that a favorite state has changed"), RZX_MODULE_VERSION)
 {
 	beginLoading();
 	favoriteWarn = false;

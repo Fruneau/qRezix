@@ -45,7 +45,7 @@ RZX_CONFIG_INIT(RzxJabberConfig)
 
 ///Construction... RAS
 RzxJabberProtocole::RzxJabberProtocole()
-	: RzxNetwork(RZX_MODULE_NAME, QT_TR_NOOP("Native support for the jabber protocole"), RZX_MODULE_VERSION)
+	: RzxNetwork(RZX_MODULE_NAME, QT_TRANSLATE_NOOP("RzxBaseModule", "Native support for the jabber protocole"), RZX_MODULE_VERSION)
 {
 	setType(RzxNetwork::TYP_CHAT);
 	setType(RzxNetwork::TYP_PROPERTIES);

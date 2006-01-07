@@ -43,6 +43,13 @@
     </message>
 </context>
 <context>
+    <name>RzxBaseModule</name>
+    <message>
+        <source>Main UI for qRezix</source>
+        <translation>Interface principale de qRezix</translation>
+    </message>
+</context>
+<context>
     <name>RzxItem</name>
     <message>
         <source>Form</source>
@@ -583,7 +590,7 @@
     <name>RzxUi</name>
     <message>
         <source>Main UI for qRezix</source>
-        <translation>Interface principale de qRezix</translation>
+        <translation type="obsolete">Interface principale de qRezix</translation>
     </message>
     <message>
         <source>Favorites</source>

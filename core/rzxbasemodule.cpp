@@ -16,6 +16,7 @@
  ***************************************************************************/
 #include <QList>
 #include <QWidget>
+#include <QApplication>
 
 #include <RzxBaseModule>
 
@@ -25,7 +26,7 @@
  * 	- description du plugin qui est juste un texte expliquant le plugin à l'utilisateur
  * 	- numéro de version major.minor.build-tag
  */
-RzxBaseModule::RzxBaseModule(const QString& name, const QString& description, const Rzx::Version& version)
+RzxBaseModule::RzxBaseModule(const QString& name, const char* description, const Rzx::Version& version)
 	:m_name(name), m_description(description), m_version(version), m_lib(NULL)
 {
 }
@@ -96,9 +97,9 @@ const QString& RzxBaseModule::name() const
 }
 
 ///Récupération de la description du module
-const QString& RzxBaseModule::description() const
+QString RzxBaseModule::description() const
 {
-	return m_description;
+	return QApplication::translate("RzxBaseModule", m_description);
 }
 
 ///Récupération de la version du module

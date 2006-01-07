@@ -115,7 +115,7 @@ class RZX_CORE_EXPORT RzxBaseModule
 {
 	//Propriétés du modules
 	QString m_name;
-	QString m_description;
+	const char* m_description;
 	QString m_author;
 	QString m_copyright;
 	Rzx::Version m_version;
@@ -124,7 +124,7 @@ class RZX_CORE_EXPORT RzxBaseModule
 
 	//Chargement du module
 	protected:
-		RzxBaseModule(const QString&, const QString&, const Rzx::Version&);
+		RzxBaseModule(const QString&, const char*, const Rzx::Version&);
 
 		void beginLoading() const;
 		void endLoading() const;
@@ -139,7 +139,7 @@ class RZX_CORE_EXPORT RzxBaseModule
 		virtual ~RzxBaseModule();
 		virtual bool isInitialised() const = 0;
 		const QString &name() const;
-		const QString &description() const;
+		QString description() const;
 		const Rzx::Version &version() const;
 		QString versionString() const;
 		const RzxThemedIcon &icon() const;

@@ -59,7 +59,7 @@ class RZX_CORE_EXPORT RzxNetwork : public QObject, public RzxBaseModule
 		Type m_type;
 
 	public:
-		RzxNetwork(const QString&, const QString&, const Rzx::Version&);
+		RzxNetwork(const QString&, const char*, const Rzx::Version&);
 		virtual ~RzxNetwork();
 
 		const Type &type() const;

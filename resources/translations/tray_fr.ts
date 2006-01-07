@@ -1,9 +1,16 @@
 <!DOCTYPE TS><TS>
 <context>
-    <name>RzxTrayIcon</name>
+    <name>RzxBaseModule</name>
     <message>
         <source>qRezix tray icon</source>
         <translation>Tray icon de qRezix</translation>
+    </message>
+</context>
+<context>
+    <name>RzxTrayIcon</name>
+    <message>
+        <source>qRezix tray icon</source>
+        <translation type="obsolete">Tray icon de qRezix</translation>
     </message>
     <message>
         <source>&amp;Preference</source>

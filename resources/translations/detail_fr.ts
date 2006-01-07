@@ -1,5 +1,12 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>RzxBaseModule</name>
+    <message>
+        <source>Detail of an item</source>
+        <translation>Détail d&apos;un ordinateur</translation>
+    </message>
+</context>
+<context>
     <name>RzxItem</name>
     <message>
         <source>Form</source>
@@ -34,7 +41,7 @@
     </message>
     <message>
         <source>Detail of an item</source>
-        <translation>Détail d&apos;un ordinateur</translation>
+        <translation type="obsolete">Détail d&apos;un ordinateur</translation>
     </message>
 </context>
 </TS>

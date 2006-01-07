@@ -1,9 +1,16 @@
 <!DOCTYPE TS><TS>
 <context>
-    <name>RzxRezalView</name>
+    <name>RzxBaseModule</name>
     <message>
         <source>Historical way to display computers</source>
         <translation>Affichage classique des objets</translation>
+    </message>
+</context>
+<context>
+    <name>RzxRezalView</name>
+    <message>
+        <source>Historical way to display computers</source>
+        <translation type="obsolete">Affichage classique des objets</translation>
     </message>
 </context>
 <context>

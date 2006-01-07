@@ -1,5 +1,12 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>RzxBaseModule</name>
+    <message>
+        <source>qRezix graphical chat interface</source>
+        <translation>Interface graphique de qRezix pour le chat</translation>
+    </message>
+</context>
+<context>
     <name>RzxChat</name>
     <message>
         <source>Custom colours...</source>
@@ -137,7 +144,7 @@
     <name>RzxChatLister</name>
     <message>
         <source>qRezix graphical chat interface</source>
-        <translation>Interface graphique de qRezix pour le chat</translation>
+        <translation type="obsolete">Interface graphique de qRezix pour le chat</translation>
     </message>
     <message>
         <source>Cannot create peer to peer socket !

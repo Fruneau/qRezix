@@ -62,7 +62,7 @@ const QString RzxProtocole::serialPattern = "$nn $xo $xv $xf $rem";
 
 ///Construction... RAS
 RzxProtocole::RzxProtocole()
-	: RzxNetwork(RZX_MODULE_NAME, QT_TR_NOOP("Native support for the xNet protocole version 4.0"), RZX_MODULE_VERSION),
+	: RzxNetwork(RZX_MODULE_NAME, QT_TRANSLATE_NOOP("RzxBaseModule", "Native support for the xNet protocole version 4.0"), RZX_MODULE_VERSION),
 		 ui(NULL), propWidget(NULL)
 {
 	setIcon(RzxThemedIcon(Rzx::ICON_NETWORK));

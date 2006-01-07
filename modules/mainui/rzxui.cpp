@@ -41,7 +41,7 @@ RZX_CONFIG_INIT(RzxMainUIConfig)
 
 /** \reimp */
 RzxUi::RzxUi()
-	:RzxModule(RZX_MODULE_NAME, QT_TR_NOOP("Main UI for qRezix"), RZX_MODULE_VERSION)
+	:RzxModule(RZX_MODULE_NAME, QT_TRANSLATE_NOOP("RzxBaseModule", "Main UI for qRezix"), RZX_MODULE_VERSION)
 {
 	beginLoading();
 	setType(MOD_MAINGUI);

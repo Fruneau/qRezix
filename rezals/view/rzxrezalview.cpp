@@ -44,7 +44,7 @@ RZX_CONFIG_INIT(RzxRezalViewConfig)
 
 ///Construction du RezalView
 RzxRezalView::RzxRezalView( QWidget *parent )
-	: QTreeView( parent ), RzxRezal(RZX_MODULE_NAME, QT_TR_NOOP("Historical way to display computers"), RZX_MODULE_VERSION),
+	: QTreeView( parent ), RzxRezal(RZX_MODULE_NAME, QT_TRANSLATE_NOOP("RzxBaseModule", "Historical way to display computers"), RZX_MODULE_VERSION),
 		search(this), ui(NULL), propWidget(NULL)
 {
 	beginLoading();

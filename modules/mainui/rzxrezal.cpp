@@ -24,7 +24,7 @@
  * 	- description du plugin qui est juste un texte expliquant le plugin à l'utilisateur
  * 	- numéro de version major.minor.build-tag
  */
-RzxRezal::RzxRezal(const QString& name, const QString& description, const Rzx::Version& version)
+RzxRezal::RzxRezal(const QString& name, const char* description, const Rzx::Version& version)
 	:RzxBaseModule(name, description, version), dock(NULL)
 {
 }

@@ -40,7 +40,8 @@ RZX_REZAL_EXPORT(RzxRezalMap)
  * du fichier de configuration avec la liste des cartes à charger
  */
 RzxRezalMap::RzxRezalMap(QWidget *widget)
-	:QAbstractItemView(widget), RzxRezal(RZX_MODULE_NAME, QT_TR_NOOP("Show an interactive map of the campus"), RZX_MODULE_VERSION)
+	:QAbstractItemView(widget), RzxRezal(RZX_MODULE_NAME,
+		QT_TRANSLATE_NOOP("RzxBaseModule", "Show an interactive map of the campus"), RZX_MODULE_VERSION)
 {
 	beginLoading();
 	setType(TYP_ALL);

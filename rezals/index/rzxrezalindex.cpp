@@ -33,7 +33,7 @@ RZX_REZAL_EXPORT(RzxRezalIndex)
 
 ///Construction
 RzxRezalIndex::RzxRezalIndex(QWidget *parent)
- : QTreeView(parent), RzxRezal(RZX_MODULE_NAME, QT_TR_NOOP("Index view for easy navigation"), RZX_MODULE_VERSION)
+ : QTreeView(parent), RzxRezal(RZX_MODULE_NAME, QT_TRANSLATE_NOOP("RzxBaseModule", "Index view for easy navigation"), RZX_MODULE_VERSION)
 {
 	beginLoading();
 	setType(TYP_ALL);

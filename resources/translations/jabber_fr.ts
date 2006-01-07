@@ -1,5 +1,12 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>RzxBaseModule</name>
+    <message>
+        <source>Native support for the jabber protocole</source>
+        <translation>Support natif du protocole Jabber</translation>
+    </message>
+</context>
+<context>
     <name>RzxJabberClient</name>
     <message>
         <source>Jabber: Authentification Error</source>
@@ -232,7 +239,7 @@
     <name>RzxJabberProtocole</name>
     <message>
         <source>Native support for the jabber protocole</source>
-        <translation>Support natif du protocole Jabber</translation>
+        <translation type="obsolete">Support natif du protocole Jabber</translation>
     </message>
     <message>
         <source>connected</source>
