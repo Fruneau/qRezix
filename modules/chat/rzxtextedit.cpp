@@ -370,3 +370,10 @@ QString RzxTextEdit::convertStyle(const QString& m_text, const QString& balise, 
 	}
 	return text;
 }
+
+///Surcharge de l'insertion de text pour corriger le problème de formatage initial
+void RzxTextEdit::insertPlainText(const QString& text)
+{
+	QTextEdit::insertPlainText(text);
+	onTextEdited();
+}

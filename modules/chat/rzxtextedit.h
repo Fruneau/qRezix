@@ -107,6 +107,7 @@ public slots:
 	void setSize(int);
 	void setUnderline(bool);
 	void useHtml(bool);
+	void insertPlainText(const QString&);
 	
 protected:
 	void setChat(RzxChat*);
