@@ -364,7 +364,7 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 	QString date = dater.toString("ddd d MMMM yy") + " " + time;
 	QString name;
 	QString icon;
-	QString tmp;
+	QString histText;
 
 	//Nettoyage du html du message
 	QString msg(argMsg);
@@ -384,7 +384,7 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 		msg = addColor("<i>* " + entete + computer->name() + entext + pieddp + "</i><br>", purple);
 		date = addColor(date, purple);
 		time = addColor(time, purple);
-		tmp = msg;
+		histText = msg;
 		computer = NULL;
 	}
 	else
@@ -396,14 +396,14 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 		{
 			msg = addColor("&nbsp;" + msg + "<br>", color);
 			if(!computer->isLocalhost()) name = addColor(computer->name(), color);
-			tmp = addColor("<i>" + name + host + "</i>", color) + msg;
+			histText = addColor("<i>" + name + host + "</i>", color) + msg;
 		}
 		else
-			tmp = msg = addColor("<i>" + host + "</i>&nbsp;" + msg + "<br>", color);
+			histText = msg = addColor("<i>" + host + "</i>&nbsp;" + msg + "<br>", color);
 	}
 
 	// Enregistrement des logs...
-	textHistorique = textHistorique + date + tmp;
+	textHistorique = textHistorique + date + histText;
 
 	// Gestion des smileys
 	RzxSmileys::replace(msg);
