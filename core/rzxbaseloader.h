@@ -70,6 +70,7 @@ class RzxBaseLoader
 	QSettings *settings;
 
 	QHash<QString, QString> files;
+	QHash<QString, Rzx::Version> versions;
 	QHash<QString, T*> modules;
 
 	public:
@@ -291,6 +292,8 @@ T *RzxBaseLoader<T>::resolve(const QString& file)
 		files.insert(moduleName, file);
 		modules.insert(moduleName, NULL);
 	}
+	if(!versions.keys().contains(moduleName) || versions[moduleName] < moduleVersion)
+		versions[moduleName] = moduleVersion;
 	if(!load || module && module->version() >= moduleVersion)
 	{
 		lib->unload();

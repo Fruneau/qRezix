@@ -154,6 +154,7 @@ void RzxLoaderProp<T>::init()
 		else
 		{
 			item->setText(0, name);
+			item->setText(1, Rzx::versionToString(loader->versions[name]));
 			item->setText(2, loader->files[name]);
 		}
 	}
