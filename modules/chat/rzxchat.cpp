@@ -49,7 +49,6 @@
 #include <RzxConfig>
 #include <RzxStyle>
 #include <RzxIconCollection>
-#include <RzxConnectionLister>
 #include <RzxSound>
 
 #include "rzxchat.h"
@@ -534,7 +533,7 @@ void RzxChat::on_btnSend_clicked()
 		msg = rawMsg;
 		
 	QString dispMsg = msg;
-	append("red", ">", dispMsg, RzxConnectionLister::global()->getComputerByName(RzxComputer::localhost()->name()));
+	append("red", ">", dispMsg, RzxComputer::localhost());
 	sendChat(msg);	//passage par la sous-couche de gestion du m_socket avant d'émettre
 
 	ui->edMsg->validate();
