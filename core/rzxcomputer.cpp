@@ -71,6 +71,8 @@ RzxComputer::RzxComputer(RzxNetwork *network, const RzxHostAddress& c_ip, const 
 	loadIcon();
 	connected = false;
 	locked = false;
+	if(isLocalhost())
+		RzxComputer::localhost()->m_stamp = c_stamp;
 }	
 
 ///Destruction...
@@ -182,6 +184,8 @@ void RzxComputer::update(const QString& c_name, quint32 c_options, quint32 c_sta
 	{
 		m_stamp = c_stamp;
 		loadIcon();
+		if(isLocalhost())
+			RzxComputer::localhost()->m_stamp = c_stamp;
 	}
 
 	if(oldState != state())
@@ -456,6 +460,8 @@ QString RzxComputer::promoText() const
 ///Définition de l'icône
 void RzxComputer::setIcon(const QPixmap& image){
 	m_icon = image;
+	if(isLocalhost())
+		RzxComputer::localhost()->m_icon = image;
 	emit update(this);
 }
 
