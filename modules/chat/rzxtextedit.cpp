@@ -341,20 +341,17 @@ QString RzxTextEdit::convertStyle(const QString& m_text, const QString& balise, 
 		select.setPattern("color:([^;]+);");
 		if(select.indexIn(style) != -1)
 			rep += " color=\"" + select.cap(1) + "\"";
-		select.setPattern("font-weight:600;");
-		if(select.indexIn(style) != -1)
+		if(style.contains("font-weight:600;"))
 		{
 			tagDebut += "<B>";
 			tagFin = "</B>" + tagFin;
 		}
-		select.setPattern("font-style:italic;");
-		if(select.indexIn(style) != -1)
+		if(style.contains("font-style:italic;"))
 		{
 			tagDebut += "<I>";
 			tagFin = "</I>" + tagFin;
 		}
-		select.setPattern("text-decoration: underline;");
-		if(select.indexIn(style) != -1)
+		if(style.contains("text-decoration: underline;"))
 		{
 			tagDebut += "<U>";
 			tagFin = "</U>" + tagFin;
