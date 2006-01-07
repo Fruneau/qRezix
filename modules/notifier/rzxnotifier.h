@@ -64,6 +64,7 @@ class RzxNotifier : public RzxModule
 		virtual void propClose();
 
 	protected slots:
+		void showTestWindow() const;
 		void chooseBeepConnection();
 };
 

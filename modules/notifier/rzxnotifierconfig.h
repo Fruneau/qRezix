@@ -19,6 +19,14 @@
 
 #include <RzxAbstractConfig>
 
+#include "rzxtraywindow.h"
+
+#ifndef Q_WS_X11
+#	define WINDOWSTYLE_DEFAULT RzxTrayWindow::Nice
+#else
+#	define WINDOWSTYLE_DEFAULT RzxTrayWindow::Old
+#endif
+
 /**
  @author Florent Bruneau
  */
@@ -36,6 +44,8 @@ class RzxNotifierConfig:public RzxAbstractConfig
 		RZX_BOOLPROP("notifyHere", notifyHere, setNotifyHere, true)
 		RZX_BOOLPROP("notifyDisconnection", notifyDisconnection, setNotifyDisconnection, true)
 		RZX_BOOLPROP("notifyAway", notifyAway, setNotifyAway, true)
+
+		RZX_INTPROP("windowStyle", windowStyle, setWindowStyle, WINDOWSTYLE_DEFAULT)
 
 		RZX_BOOLPROP("whenIAmAway", notNotifyWhenILeave, setNotNotifyWhenILeave, false)
 };

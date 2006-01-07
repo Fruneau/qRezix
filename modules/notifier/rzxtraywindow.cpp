@@ -34,10 +34,38 @@
 
 ///Construction de la fenêtre de notification d'état de connexion de computer
 /** La fenêtre est construite pour disparaître automatiquement au bout de time secondes */
-RzxTrayWindow::RzxTrayWindow( RzxComputer* c, unsigned int time )
+RzxTrayWindow::RzxTrayWindow(Theme theme, RzxComputer* c, unsigned int time )
 		: QFrame( NULL, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint ), computer(c)
 {
 	setAttribute( Qt::WA_DeleteOnClose );
+
+	//Composition de la fenêtre dans le thème choisi
+	switch(theme)
+	{
+		case Nice: niceTheme(); break;
+		case Old: oldTheme(); break;
+		default: close(); return;
+	}
+
+	//Affichage
+	setFocusPolicy( Qt::NoFocus );
+	show();
+
+	//Timer pour déclencher la destruction de le fenêtre
+	connect( &timer, SIGNAL( timeout() ), this, SLOT( close() ) );
+	timer.setSingleShot(true);
+	timer.start( time * 1000 );
+}
+
+///Destruction de la fenêtre
+/** Rien à faire ici */
+RzxTrayWindow::~RzxTrayWindow()
+{}
+
+
+///Compose une fenêtre de notification dans le style 'nice'
+void RzxTrayWindow::niceTheme()
+{
 	setMinimumWidth( 150 );
 	setMinimumHeight( 70 );
 	setWindowOpacity( 0.70 );
@@ -104,19 +132,65 @@ RzxTrayWindow::RzxTrayWindow( RzxComputer* c, unsigned int time )
 	QPoint point( x, y );
 
 	move( point );
-	setFocusPolicy( Qt::NoFocus );
-	show();
-
-	//Timer pour déclencher la destruction de le fenêtre
-	connect( &timer, SIGNAL( timeout() ), this, SLOT( close() ) );
-	timer.setSingleShot(true);
-	timer.start( time * 1000 );
 }
 
-///Destruction de la fenêtre
-/** Rien à faire ici */
-RzxTrayWindow::~RzxTrayWindow()
-{}
+///Compose une fenêtre de notification de style 'old'
+/** Correspond au thème des fenêtre de notification de qRezix > 1.6.1
+ */
+void RzxTrayWindow::oldTheme()
+{
+	setMinimumWidth( 150 );
+	setMinimumHeight( 70 );
+
+	bool connected = true;;
+	QPalette palette ;
+	switch(computer->state())
+	{
+		case Rzx::STATE_DISCONNECTED:
+			palette.setColor( backgroundRole(), QColor(0xff, 0x20, 0x20));
+			connected = false;
+			break;
+		case Rzx::STATE_AWAY: case Rzx::STATE_REFUSE:
+			palette.setColor( backgroundRole(), 0xFFEE7C);
+			break;
+		case Rzx::STATE_HERE:
+			palette.setColor( backgroundRole(), 0xffffff);
+			break;
+	}
+	setPalette( palette );
+
+	//insertion de l'icône
+	// Layout, pour le resize libre
+	QHBoxLayout *layout = new QHBoxLayout();
+	QVBoxLayout *textLayout = new QVBoxLayout();
+
+	QLabel *icone = new QLabel();
+	QLabel *name = new QLabel();
+	QLabel *description = new QLabel();
+
+	layout->addWidget(icone, 0, Qt::AlignVCenter | Qt::AlignLeft);
+	textLayout->addWidget(name, 0, Qt::AlignTop | Qt::AlignLeft);
+	textLayout->addWidget(description, 0, Qt::AlignVCenter | Qt::AlignLeft);
+	layout->addLayout(textLayout, 1);
+
+	icone->setPixmap(computer->icon());
+	name->setTextFormat(Qt::RichText);
+	name->setText("<h2>" + computer->name() + "</h2>");
+	if(connected)
+		description->setText(computer->isOnResponder() ? tr("is now away") : tr("is now here"));
+	else
+		description->setText(tr("is now disconnected"));
+	setLayout(layout);
+
+	//Pour avoir un cadre plus soft...
+	adjustSize();
+	QPixmap fond(":/notifier_fond.png");
+	setMask(fond.scaled(size()).createHeuristicMask());
+
+	//Dans le coin en haut à gauche
+	QPoint point(0,0);
+	move(point);
+}
 
 ///Capture de l'action de la souris
 /** On applique quelques règles simples :

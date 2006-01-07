@@ -13,6 +13,14 @@
         <source>Sound file selection</source>
         <translation>Choix du son</translation>
     </message>
+    <message>
+        <source>Nice style - transparent window</source>
+        <translation>Style &apos;Sympa&apos; - fenêtre transparente</translation>
+    </message>
+    <message>
+        <source>Old style - like qRezix 1.6</source>
+        <translation>Style &apos;Vieux&apos; - comme qRezix 1.6</translation>
+    </message>
 </context>
 <context>
     <name>RzxNotifierProp</name>
@@ -67,6 +75,29 @@
     <message>
         <source>Beep on connection of one of your favorites</source>
         <translation>Bip à la connexion des favoris</translation>
+    </message>
+    <message>
+        <source>Notification windows style:</source>
+        <translation>Style des fenêtres de notification :</translation>
+    </message>
+    <message>
+        <source>Test</source>
+        <translation>Tester</translation>
+    </message>
+</context>
+<context>
+    <name>RzxTrayWindow</name>
+    <message>
+        <source>is now away</source>
+        <translation>s&apos;est absenté</translation>
+    </message>
+    <message>
+        <source>is now here</source>
+        <translation>est là</translation>
+    </message>
+    <message>
+        <source>is now disconnected</source>
+        <translation>s&apos;est déconnecté</translation>
     </message>
 </context>
 </TS>

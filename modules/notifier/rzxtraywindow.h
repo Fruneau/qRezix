@@ -15,6 +15,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef RZXTRAYWINDOW_H
+#define RZXTRAYWINDOW_H
 
 #include <QFrame>
 #include <QTimer>
@@ -43,9 +45,22 @@ class RzxTrayWindow: public QFrame
 	QPointer<RzxComputer> computer;
 	
 	public:
-		RzxTrayWindow(RzxComputer *computer, unsigned int time = 5);
+		enum Theme {
+			None = 0,
+			Nice = 1,
+			Old = 2
+		};
+		Q_ENUMS(Theme)
+
+		RzxTrayWindow(Theme, RzxComputer *computer, unsigned int time = 5);
 		~RzxTrayWindow();
+
+	protected:
+		void niceTheme();
+		void oldTheme();
 
 	protected slots:
 		virtual void mousePressEvent(QMouseEvent*);
 };
+
+#endif

@@ -110,7 +110,7 @@ void RzxNotifier::favoriteUpdated(RzxComputer *computer)
 				if(!RzxNotifierConfig::notifyHere()) return;
 				break;
 		}
-		new RzxTrayWindow(computer);
+		new RzxTrayWindow((RzxTrayWindow::Theme)RzxNotifierConfig::windowStyle(), computer);
 	}
 }
 
@@ -124,6 +124,7 @@ QList<QWidget*> RzxNotifier::propWidgets()
 		propWidget = new QWidget;
 		ui->setupUi(propWidget);
 		connect( ui->btnBeepBrowse, SIGNAL( clicked()), this, SLOT(chooseBeepConnection())) ;
+		connect( ui->btnTestStyle, SIGNAL(clicked()), this, SLOT(showTestWindow()));
 	}
 	return QList<QWidget*>() << propWidget;
 }
@@ -144,6 +145,11 @@ void RzxNotifier::propInit(bool def)
 	ui->cbDisconnect->setChecked(RzxNotifierConfig::notifyDisconnection(def));
 	ui->cbAway->setChecked(RzxNotifierConfig::notifyAway(def));
 	ui->cbILeave->setChecked(RzxNotifierConfig::notNotifyWhenILeave(def));
+
+	ui->cbStyle->clear();
+	ui->cbStyle->addItem(tr("Nice style - transparent window"));
+	ui->cbStyle->addItem(tr("Old style - like qRezix 1.6"));
+	ui->cbStyle->setCurrentIndex(RzxNotifierConfig::windowStyle()-1);
 }
 
 /** \reimp */
@@ -158,6 +164,7 @@ void RzxNotifier::propUpdate()
 	RzxNotifierConfig::setNotifyDisconnection(ui->cbDisconnect->isChecked());
 	RzxNotifierConfig::setNotifyAway(ui->cbAway->isChecked());
 	RzxNotifierConfig::setNotNotifyWhenILeave(ui->cbILeave->isChecked());
+	RzxNotifierConfig::setWindowStyle(ui->cbStyle->currentIndex()+1);
 }
 
 /** \reimp */
@@ -173,6 +180,14 @@ void RzxNotifier::propClose()
 		delete ui;
 		ui = NULL;
 	}
+}
+
+///Affiche une fenêtre de test du style courant
+void RzxNotifier::showTestWindow() const
+{
+	if(!ui) return;
+
+	new RzxTrayWindow((RzxTrayWindow::Theme)(ui->cbStyle->currentIndex() +1), RzxComputer::localhost());
 }
 
 ///Choix du son à jouer à la connexion d'un favoris
