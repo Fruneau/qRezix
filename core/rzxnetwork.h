@@ -147,6 +147,7 @@ inline bool RzxNetwork::isInitialised() const
 typedef RzxLoaderProp<RzxNetwork> RzxNetworkLoaderProp;
 
 ///Définition de la fonction d'export d'un module network
-#define RZX_NETWORK_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getNetwork, getNetworkName, getNetworkVersion, RzxNetwork, MODULE)
+#define RZX_NETWORK_EXPORT(MODULE) \
+	RZX_BASEMODULE_EXPORT(getNetwork, getNetworkName, getNetworkVersion, getNetworkDescription, getNetworkIcon, RzxNetwork, MODULE)
 
 #endif

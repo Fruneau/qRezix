@@ -109,6 +109,7 @@ class RZX_MAINUI_EXPORT RzxRezal:public RzxBaseModule
 
 typedef RzxLoaderProp<RzxRezal> RzxRezalLoaderProp;
 
-#define RZX_REZAL_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getRezal, getRezalName, getRezalVersion, RzxRezal, MODULE)
+#define RZX_REZAL_EXPORT(MODULE) \
+	RZX_BASEMODULE_EXPORT(getRezal, getRezalName, getRezalVersion, getRezalDescription, getRezalIcon, RzxRezal, MODULE)
 
 #endif

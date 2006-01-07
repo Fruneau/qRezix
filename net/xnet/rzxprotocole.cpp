@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 #define RZX_MODULE_NAME "xNet"
+#define RZX_MODULE_DESCRIPTION "Native support for the xNet protocole version 4.0"
+#define RZX_MODULE_ICON RzxThemedIcon(Rzx::ICON_NETWORK)
 
 #include <QStringList>
 #include <QRegExp>
@@ -65,7 +67,7 @@ RzxProtocole::RzxProtocole()
 	: RzxNetwork(RZX_MODULE_NAME, QT_TRANSLATE_NOOP("RzxBaseModule", "Native support for the xNet protocole version 4.0"), RZX_MODULE_VERSION),
 		 ui(NULL), propWidget(NULL)
 {
-	setIcon(RzxThemedIcon(Rzx::ICON_NETWORK));
+	setIcon(RZX_MODULE_ICON);
 	auth = false;
 }
 

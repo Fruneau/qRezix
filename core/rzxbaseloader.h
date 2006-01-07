@@ -61,20 +61,26 @@ class RzxBaseLoader
 	typedef T *(*loadTModuleProc)(void);
 	typedef QString (*loadNameProc)(void);
 	typedef Rzx::Version (*loadVersionProc)(void);
+	typedef const char* (*loadDescriptionProc)(void);
+	typedef RzxThemedIcon (*loadIconProc)(void);
 
 	QString rep;
 	QString pattern;
 	const char *symbol;
 	const char *name;
 	const char *version;
+	const char *description;
+	const char *icon;
 	QSettings *settings;
 
 	QHash<QString, QString> files;
 	QHash<QString, Rzx::Version> versions;
+	QHash<QString, const char*> descriptions;
+	QHash<QString, RzxThemedIcon> icons;
 	QHash<QString, T*> modules;
 
 	public:
-		RzxBaseLoader(const QString&, const QString&, const char*, const char*, const char*, bool = false);
+		RzxBaseLoader(const QString&, const QString&, const char*, const char*, const char*, const char*, const char*, bool = false);
 		virtual ~RzxBaseLoader();
 
 		QList<T*> moduleList() const;
@@ -107,8 +113,9 @@ class RzxBaseLoader
 ///Construit un loader en lançant automatiquement le chargement
 template <class T>
 RzxBaseLoader<T>::RzxBaseLoader(const QString& m_rep, const QString& m_pattern,
-		const char* m_symbol, const char* m_name, const char* m_version, bool load)
-	:rep(m_rep), pattern(m_pattern), symbol(m_symbol), name(m_name), version(m_version)
+		const char* m_symbol, const char* m_name, const char* m_version, 
+		const char* m_desc, const char* m_icon, bool load)
+	:rep(m_rep), pattern(m_pattern), symbol(m_symbol), name(m_name), version(m_version), description(m_desc), icon(m_icon)
 {
 	settings = NULL;
 	if(load)
@@ -282,8 +289,26 @@ T *RzxBaseLoader<T>::resolve(const QString& file)
 		return NULL;
 	}
 
-	QString moduleName = getName();
-	Rzx::Version moduleVersion = getVersion();
+	loadDescriptionProc getDescription = (loadDescriptionProc)lib->resolve(file, description);
+	if(!getVersion)
+	{
+		lib->unload();
+		delete lib;
+		return NULL;
+	}
+
+	loadIconProc getIcon = (loadIconProc)lib->resolve(file, icon);
+	if(!getVersion)
+	{
+		lib->unload();
+		delete lib;
+		return NULL;
+	}
+
+	const QString moduleName = getName();
+	const Rzx::Version moduleVersion = getVersion();
+	const RzxThemedIcon moduleIcon = getIcon();
+	const char* moduleDescription = getDescription();
 
 	T* module = modules[moduleName];
 	bool load = shouldLoad(moduleName);
@@ -293,7 +318,11 @@ T *RzxBaseLoader<T>::resolve(const QString& file)
 		modules.insert(moduleName, NULL);
 	}
 	if(!versions.keys().contains(moduleName) || versions[moduleName] < moduleVersion)
+	{
 		versions[moduleName] = moduleVersion;
+		icons[moduleName] = moduleIcon;
+		descriptions[moduleName] = moduleDescription;
+	}
 	if(!load || module && module->version() >= moduleVersion)
 	{
 		lib->unload();
@@ -445,7 +474,7 @@ bool RzxBaseLoader<T>::loadModule(const QString& moduleName)
 		return false;
 	}
 	bool ret = installModule(files[moduleName]);
-//	if(ret)
+	if(ret)
 		relinkModules(modules[moduleName], NULL);
 	return ret;
 }

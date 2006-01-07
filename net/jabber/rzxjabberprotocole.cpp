@@ -16,6 +16,8 @@
  ***************************************************************************/
 #define RZX_MODULE_NAME "Jabber"
 #define RZX_MODULE_VERSIONSTR "0.0.1-svn"
+#define RZX_MODULE_DESCRIPTION "Native support for the jabber protocole"
+#define RZX_MODULE_ICON RzxThemedIcon("jabber_small")
 
 #include <QStringList>
 #include <QRegExp>
@@ -62,7 +64,7 @@ RzxJabberProtocole::RzxJabberProtocole()
 	connect(client, SIGNAL(connected()), this, SLOT(updateLocalhost()));
 	connect(client, SIGNAL(disconnected()), this, SLOT(deconnection()));
 	connect(client, SIGNAL(rosterUpdated()), this, SLOT(buildRosterList()));
-	setIcon(RzxThemedIcon("jabber_small"));
+	setIcon(RZX_MODULE_ICON);
 	
 	endLoading();
 }

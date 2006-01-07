@@ -61,7 +61,7 @@ RZX_GLOBAL_INIT(QRezix)
 ///Construction de la fenêtre principale
 QRezix::QRezix(QWidget *parent)
 	: QMainWindow(parent, Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowContextHelpButtonHint | Qt::WindowContextHelpButtonHint),
-	RzxBaseLoader<RzxRezal>("rezals", "rezal*", "getRezal", "getRezalName", "getRezalVersion")
+	RzxBaseLoader<RzxRezal>("rezals", "rezal*", "getRezal", "getRezalName", "getRezalVersion", "getRezalDescription", "getRezalIcon")
 {
 	object = this;
 	statusFlag = false;
@@ -230,7 +230,6 @@ void QRezix::linkModules()
 void QRezix::relinkModules(RzxRezal *rezal, RzxRezal *)
 {
 	buildModuleMenus();
-	qDebug() << "humpf" << closing << rezal;
 	if(closing) return;
 
 	if(!rezal) return;

@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 #define RZX_MODULE_NAME "Chat"
+#define RZX_MODULE_DESCRIPTION "qRezix graphical chat interface"
+#define RZX_MODULE_ICON Rzx::ICON_CHAT
 
 //Pour les fenêtres historique/proprités
 #include <QFrame>
@@ -70,7 +72,7 @@ RzxChatLister::RzxChatLister()
 	setType(MOD_CHAT);
 	setType(MOD_PROPERTIES);
 	setType(MOD_PROPGUI);
-	setIcon(Rzx::ICON_CHAT);
+	setIcon(RZX_MODULE_ICON);
 
 	new RzxChatConfig(this);
 
@@ -436,6 +438,8 @@ QStringList RzxChatLister::propWidgetsName()
 /** \reimp */
 void RzxChatLister::propInit(bool def)
 {
+	if(!ui) return;
+
 	ui->chkBeep->setChecked(RzxChatConfig::beep(def));
 	ui->beepSound->setText(RzxChatConfig::beepSound(def));
 	ui->cbPropertiesWarning->setChecked(RzxChatConfig::warnWhenChecked(def));

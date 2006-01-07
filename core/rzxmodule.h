@@ -259,6 +259,7 @@ typedef RzxLoaderProp<RzxModule> RzxModuleLoaderProp;
  * variables sont en effet 'undefined' à la fin de rzxmodule.h sauf si RZX_PRESERVE_MODULETYPE
  * est défini.
  */
-#define RZX_MODULE_EXPORT(MODULE) RZX_BASEMODULE_EXPORT(getModule, getModuleName, getModuleVersion, RzxModule, MODULE)
+#define RZX_MODULE_EXPORT(MODULE) \
+	RZX_BASEMODULE_EXPORT(getModule, getModuleName, getModuleVersion, getModuleDescription, getModuleIcon, RzxModule, MODULE)
 
 #endif

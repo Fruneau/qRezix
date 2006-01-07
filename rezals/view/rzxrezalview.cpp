@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 #define RZX_MODULE_NAME "Item view"
+#define RZX_MODULE_DESCRIPTION "Historical way to display computers"
+#define RZX_MODULE_ICON RzxThemedIcon("rzlitem")
 
 #include <QKeyEvent>
 #include <QHeaderView>
@@ -51,7 +53,7 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 	RzxRezalViewConfig::global();
 	setType(TYP_ALL);
 	setType(TYP_INDEXED);
-	setIcon(RzxThemedIcon("rzlitem"));
+	setIcon(RZX_MODULE_ICON);
 	setModel(RzxRezalModel::global());
 	setIconSize(QSize(32,32));
 	header()->setStretchLastSection(false);

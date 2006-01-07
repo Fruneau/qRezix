@@ -3,7 +3,7 @@
     <name>RzxBaseModule</name>
     <message>
         <source>qRezix graphical chat interface</source>
-        <translation>Interface graphique de qRezix pour le chat</translation>
+        <translation type="unfinished">Interface graphique de qRezix pour le chat</translation>
     </message>
 </context>
 <context>

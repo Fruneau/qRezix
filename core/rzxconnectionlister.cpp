@@ -40,7 +40,7 @@ RZX_GLOBAL_INIT(RzxConnectionLister)
  * réseaux disponibles.
  */
 RzxConnectionLister::RzxConnectionLister( QObject *parent)
-	: QObject(parent), RzxBaseLoader<RzxNetwork>("net", "rzxnet*", "getNetwork", "getNetworkName", "getNetworkVersion")
+	: QObject(parent), RzxBaseLoader<RzxNetwork>("net", "rzxnet*", "getNetwork", "getNetworkName", "getNetworkVersion", "getNetworkDescription", "getNetworkIcon")
 {
 	Rzx::beginModuleLoading("Connection lister");
 	object = this;

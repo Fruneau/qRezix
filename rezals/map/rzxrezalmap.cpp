@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 #define RZX_MODULE_NAME "Platal"
+#define RZX_MODULE_DESCRIPTION "Show an interactive map of the campus"
+#define RZX_MODULE_ICON RzxThemedIcon("rzlmap")
 
 #include <QPaintEvent>
 #include <QPainter>
@@ -46,7 +48,7 @@ RzxRezalMap::RzxRezalMap(QWidget *widget)
 	beginLoading();
 	setType(TYP_ALL);
 	setType(TYP_INDEX);
-	setIcon(RzxThemedIcon("rzlmap"));
+	setIcon(RZX_MODULE_ICON);
 	setModel(RzxRezalModel::global());
 	currentMap = NULL;
 

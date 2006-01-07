@@ -175,6 +175,12 @@ class RZX_CORE_EXPORT RzxBaseModule
 #else
 #	define RZX_MODULE_VERSION Rzx::versionFromString(RZX_MODULE_VERSIONSTR)
 #endif
+#ifndef RZX_MODULE_DESCRIPTION
+#	define RZX_MODULE_DESCRIPTION "No description"
+#endif
+#ifndef RZX_MODULE_ICON
+#	define RZX_MODULE_ICON RzxThemedIcon()
+#endif
 
 ///Exportation du module
 /** Défini une fonction qui exporte le module. Cette macro doit être appelée pour tout
@@ -189,18 +195,22 @@ class RZX_CORE_EXPORT RzxBaseModule
  * est défini.
  */
 #ifndef RZX_PLUGIN
-#	define RZX_BASEMODULE_EXPORT(modExp, nameExp, versExp, type, MODULE)
+#	define RZX_BASEMODULE_EXPORT(modExp, nameExp, versExp, descExp, iconExp, type, MODULE)
 #else
 #	ifdef Q_OS_WIN
-#		define RZX_BASEMODULE_EXPORT(modExp, nameExp, versExp, type, MODULE) \
+#		define RZX_BASEMODULE_EXPORT(modExp, nameExp, versExp, descExp, iconExp, type, MODULE) \
 			extern "C" __declspec(dllexport) type *modExp(void) { return (type*)(new MODULE); } \
 			extern "C" __declspec(dllexport) QString nameExp(void) { return RZX_MODULE_NAME; } \
-			extern "C" __declspec(dllexport) Rzx::Version versExp(void) { return RZX_MODULE_VERSION; }
+			extern "C" __declspec(dllexport) Rzx::Version versExp(void) { return RZX_MODULE_VERSION; } \
+			extern "C" __declspec(dllexport) const char *descExp(void) { return RZX_MODULE_DESCRIPTION; } \
+			extern "C" __declspec(dllexport) RzxThemedIcon iconExp(void) { return RZX_MODULE_ICON; }
 #	else
-#		define RZX_BASEMODULE_EXPORT(modExp, nameExp, versExp, type, MODULE) \
+#		define RZX_BASEMODULE_EXPORT(modExp, nameExp, versExp, descExp, iconExp, type, MODULE) \
 			extern "C" type *modExp(void) { return (type*)(new MODULE); } \
 			extern "C" QString nameExp(void) { return RZX_MODULE_NAME; } \
-			extern "C" Rzx::Version versExp(void) { return RZX_MODULE_VERSION; }
+			extern "C" Rzx::Version versExp(void) { return RZX_MODULE_VERSION; } \
+			extern "C" const char *descExp(void) { return RZX_MODULE_DESCRIPTION; } \
+			extern "C" RzxThemedIcon iconExp(void) { return RZX_MODULE_ICON; }
 #	endif
 #endif
 

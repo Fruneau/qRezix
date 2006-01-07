@@ -55,6 +55,7 @@ email                : benoit.casoetto@m4x.org
 #include <RzxStyle>
 #include <RzxFavoriteList>
 #include <RzxBanList>
+#include <RzxLoaderProp>
 
 ///Construction de la fenêtre de propriétés
 RzxProperty::RzxProperty(QWidget *parent)
@@ -151,6 +152,10 @@ RzxProperty::RzxProperty(QWidget *parent)
 	lbMenu->expandItem(networkItem);
 	buildModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), networkItem);
 	networkLoader->setPropertyParent(networkItem);
+
+	QList<RzxBaseLoaderProp*> loaders = findChildren<RzxBaseLoaderProp*>();
+	foreach(RzxBaseLoaderProp *loader, loaders)
+		loader->connectToPropertyWindow(this);
 
 	initDlg();
 	changeTheme();

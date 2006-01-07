@@ -153,9 +153,13 @@ void RzxLoaderProp<T>::init()
 		}
 		else
 		{
+			item->setIcon(0, loader->icons[name]);
 			item->setText(0, name);
 			item->setText(1, Rzx::versionToString(loader->versions[name]));
-			item->setText(2, loader->files[name]);
+			if(loader->descriptions[name])
+				item->setText(2, QApplication::translate("RzxBaseModule", loader->descriptions[name]));
+			else
+				item->setText(2, loader->files[name]);
 		}
 	}
 }

@@ -16,6 +16,8 @@
  *                                                                         *
  ***************************************************************************/
 #define RZX_MODULE_NAME "Main UI"
+#define RZX_MODULE_DESCRIPTION "Main UI for qRezix"
+#define RZX_MODULE_ICON Rzx::ICON_SYSTRAYHERE
 
 #include <QWidget>
 
@@ -55,7 +57,7 @@ RzxUi::RzxUi()
 	connect(qrezix, SIGNAL(wantReload()), this, SLOT(reload()));
 	RzxIconCollection::connect(this, SLOT(fillComboBoxes()));
 	RzxTranslator::connect(this, SLOT(fillComboBoxes()));
-	setIcon(Rzx::ICON_SYSTRAYHERE);
+	setIcon(RZX_MODULE_ICON);
 	endLoading();
 }
 

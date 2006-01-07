@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 #define RZX_MODULE_NAME "Index"
+#define RZX_MODULE_DESCRIPTION "Index view for easy navigation"
+#define RZX_MODULE_ICON RzxThemedIcon("rzlindex")
 
 #include <QMouseEvent>
 #include <QDragEnterEvent>
@@ -38,7 +40,7 @@ RzxRezalIndex::RzxRezalIndex(QWidget *parent)
 	beginLoading();
 	setType(TYP_ALL);
 	setType(TYP_INDEX);
-	setIcon(RzxThemedIcon("rzlindex"));
+	setIcon(RZX_MODULE_ICON);
 	setModel(RzxRezalModel::global());
 	for(int i = 1 ; i < RzxRezalModel::numColonnes ; i++)
 		hideColumn(i);

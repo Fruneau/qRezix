@@ -19,6 +19,8 @@
 * Adaptation to qRezix by Florent Bruneau, Copyright (C) 2004-2005 Binet Réseau
 */
 #define RZX_MODULE_NAME "Tray icon"
+#define RZX_MODULE_DESCRIPTION "qRezix tray icon"
+#define RZX_MODULE_ICON Rzx::ICON_SYSTRAYAWAY
 
 #include <QImage>
 #include <QPixmap>
@@ -69,7 +71,7 @@ RzxTrayIcon::RzxTrayIcon()
 #ifndef Q_WS_MAC
 	setType(MOD_HIDE);
 #endif
-	setIcon(Rzx::ICON_SYSTRAYAWAY);
+	setIcon(RZX_MODULE_ICON);
 	new RzxTrayConfig(this);
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 	ui = NULL;

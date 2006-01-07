@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 #define RZX_MODULE_NAME "Favorite Notifier"
+#define RZX_MODULE_DESCRIPTION "Notify that a favorite state has changed"
+#define RZX_MODULE_ICON Rzx::ICON_FAVORITE
 
 #include <RzxGlobal>
 #include <RzxComputer>
@@ -45,7 +47,7 @@ RzxNotifier::RzxNotifier()
 	ui = NULL;
 	propWidget = NULL;
 	setType(MOD_GUI);
-	setIcon(Rzx::ICON_FAVORITE);
+	setIcon(RZX_MODULE_ICON);
 	new RzxNotifierConfig(this);
 	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(RzxConnectionLister::global(), SIGNAL(initialLoging(bool)), this, SLOT(ignoreLoging(bool)));

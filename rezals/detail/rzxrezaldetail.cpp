@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 #define RZX_MODULE_NAME "Item details"
+#define RZX_MODULE_DESCRIPTION "Detail of an item"
+#define RZX_MODULE_ICON RzxThemedIcon("rzldetail")
 
 #include <QMouseEvent>
 #include <QHelpEvent>
@@ -49,7 +51,7 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 	ui->setupUi(viewport());
 	setMinimumSize(viewport()->minimumSize());
 	setType(TYP_DOCKABLE);
-	setIcon(RzxThemedIcon("rzldetail"));
+	setIcon(RZX_MODULE_ICON);
 	connect(RzxApplication::instance(), SIGNAL(haveProperties(RzxComputer*, bool*)),
 		this, SLOT(propChanged(RzxComputer*,bool*)));
 	clear();

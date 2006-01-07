@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 #define RZX_MODULE_NAME "xNet"
+#define RZX_MODULE_DESCRIPTION "Native support for the xNet protocole version 4.0"
+#define RZX_MODULE_ICON RzxThemedIcon(Rzx::ICON_NETWORK)
 
 #include <QRegExp>
 #include <QStringList>
