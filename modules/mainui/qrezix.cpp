@@ -519,12 +519,12 @@ void QRezix::buildModuleMenus()
 		
 		if(dock)
 		{
-			action->setChecked(dock->isVisible());
+			action->setChecked(dock->isVisibleTo(this));
 			connect(action, SIGNAL(toggled(bool)), dock, SLOT(setVisible(bool)));
 		}
 		else
 		{
-			action->setChecked(rezal->widget()->isVisible());
+			action->setChecked(rezal->widget()->isVisibleTo(this));
 			connect(action, SIGNAL(toggled(bool)), rezal->widget(), SLOT(setVisible(bool)));
 		}
 	}
