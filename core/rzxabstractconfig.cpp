@@ -93,12 +93,22 @@ void RzxAbstractConfig::restoreWidget(const QString& name, QWidget *widget, cons
 		p = QPoint(QApplication::desktop()->width() - s.width(), QApplication::desktop()->height() - s.height());
 	widget->move(p);
 
+	const bool visible = value("visible", false).toBool();
 	if(value("maximized", false).toBool())
+	{
 		widget->setWindowState(widget->windowState() | Qt::WindowMaximized);
+		if(visible) widget->showMaximized();
+	}
 	else if(value("minimized", false).toBool())
+	{
 		widget->setWindowState(widget->windowState() | Qt::WindowMinimized);
-	widget->setVisible(value("visible", false).toBool());
+		if(visible) widget->showMinimized();
+	}
+	else if(visible)
+		widget->show();
 
+	if(!visible)
+		widget->hide();
 
 	if(!def)
 	{
