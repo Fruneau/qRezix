@@ -35,6 +35,9 @@
  @author Florent Bruneau
  */
 
+class QPainter;
+class QComboBox;
+class QColor;
 class QRezix;
 namespace Ui { class RzxMainuiProp; }
 
@@ -47,6 +50,7 @@ class RZX_MAINUI_EXPORT RzxUi:public RzxModule
 	Q_OBJECT
 
 	QRezix *qrezix;
+	QPixmap corners;
 
 	Ui::RzxMainuiProp *ui;
 	QWidget *propWidget;
@@ -77,6 +81,9 @@ class RZX_MAINUI_EXPORT RzxUi:public RzxModule
 
 	protected slots:
 		void fillComboBoxes();
+		void redrawCorners();
+		void drawCorner(QPainter &, QComboBox *, int, int);
+		void drawRect(QPainter &, const QColor&, int, int, int, int);
 };
 
 #endif

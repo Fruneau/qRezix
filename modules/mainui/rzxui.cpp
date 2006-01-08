@@ -20,6 +20,9 @@
 #define RZX_MODULE_ICON Rzx::ICON_SYSTRAYHERE
 
 #include <QWidget>
+#include <QPainter>
+#include <QBrush>
+#include <QPen>
 
 #include <RzxGlobal>
 #include <RzxConfig>
@@ -121,6 +124,10 @@ QList<QWidget*> RzxUi::propWidgets()
 		propWidget = new QWidget;
 		ui->setupUi(propWidget);
 		ui->rezalLoader->setLoader(qrezix);
+		connect(ui->cbTopLeft, SIGNAL(activated(int)), this, SLOT(redrawCorners()));
+		connect(ui->cbBottomLeft, SIGNAL(activated(int)), this, SLOT(redrawCorners()));
+		connect(ui->cbTopRight, SIGNAL(activated(int)), this, SLOT(redrawCorners()));
+		connect(ui->cbBottomRight, SIGNAL(activated(int)), this, SLOT(redrawCorners()));
 		fillComboBoxes();
 	}
 	return QList<QWidget*>() << propWidget;
@@ -155,6 +162,12 @@ void RzxUi::propInit(bool def)
 
 	ui->cbSearch->setChecked( RzxMainUIConfig::useSearch(def) );
 	ui->cbQuit->setChecked(RzxMainUIConfig::showQuit());
+
+	ui->cbTopLeft->setCurrentIndex(RzxMainUIConfig::topLeftCorner() == Qt::LeftDockWidgetArea ? 1 : 0);
+	ui->cbBottomLeft->setCurrentIndex(RzxMainUIConfig::bottomLeftCorner() == Qt::LeftDockWidgetArea ? 1 : 0);
+	ui->cbTopRight->setCurrentIndex(RzxMainUIConfig::topRightCorner() == Qt::RightDockWidgetArea ? 1 : 0);
+	ui->cbBottomRight->setCurrentIndex(RzxMainUIConfig::bottomRightCorner() == Qt::RightDockWidgetArea ? 1 : 0);
+	redrawCorners();
 }
 
 ///Construit les combos box
@@ -184,11 +197,60 @@ void RzxUi::fillComboBoxes()
 	ui->cmdDoubleClic->setCurrentIndex(i);
 }
 
+///Construit l'image des coins
+/** Pour donner un aperçu de l'utilisation des coins de l'ui par les 
+ * rezals qui y sont
+ */
+void RzxUi::redrawCorners()
+{
+	corners = QPixmap(80, 60);
+	QPainter painter(&corners);
+	const QBrush brush = QBrush(Qt::darkGray);
+	const QPen pen = QPen(Qt::black);
+
+	painter.setBrush(brush);
+	painter.setPen(pen);
+	painter.drawRect(0, 0, 79, 59);
+
+	drawRect(painter, Qt::blue, 20, 1, 39, 18);
+	drawRect(painter, Qt::blue, 20, 40, 39, 18);
+	drawRect(painter, Qt::red, 1, 20, 18, 19);
+	drawRect(painter, Qt::red, 60, 20, 18, 19);
+
+	drawCorner(painter, ui->cbTopLeft, 1, 1);
+	drawCorner(painter, ui->cbBottomLeft, 1, 40);
+	drawCorner(painter, ui->cbTopRight, 60, 1);
+	drawCorner(painter, ui->cbBottomRight, 60, 40);
+
+	ui->lblCorners->setPixmap(corners);
+}
+
+///Dessine un coin en fonction des données de la combobox
+void RzxUi::drawCorner(QPainter &painter, QComboBox *cb, int x, int y)
+{
+	const QColor color = cb->currentIndex() ? Qt::red : Qt::blue;
+	drawRect(painter, color, x, y, 18, 18);
+}
+
+///Dessine un rectange de couleur donnée
+void RzxUi::drawRect(QPainter &painter, const QColor& color, int x, int y, int w, int h)
+{
+	const QBrush brush = QBrush(color);
+	const QPen pen = QPen(color);
+	painter.setBrush(brush);
+	painter.setPen(pen);
+	painter.drawRect(x, y, w, h);
+}
+
 /** \reimp */
 void RzxUi::propUpdate()
 {
 	if(!ui) return;
 
+	RzxMainUIConfig::setTopLeftCorner(ui->cbTopLeft->currentIndex()?Qt::LeftDockWidgetArea :Qt::TopDockWidgetArea);
+	RzxMainUIConfig::setBottomLeftCorner(ui->cbBottomLeft->currentIndex()?Qt::LeftDockWidgetArea :Qt::BottomDockWidgetArea);
+	RzxMainUIConfig::setTopRightCorner(ui->cbTopRight->currentIndex()?Qt::RightDockWidgetArea :Qt::TopDockWidgetArea);
+	RzxMainUIConfig::setBottomRightCorner(ui->cbBottomRight->currentIndex()?Qt::RightDockWidgetArea :Qt::BottomDockWidgetArea);
 	RzxMainUIConfig::setDoubleClicRole(ui->cmdDoubleClic->currentIndex());
 	RzxMainUIConfig::setDefaultTab(ui->cmbDefaultTab ->currentIndex());
 	RzxMainUIConfig::setUseSearch(ui->cbSearch->isChecked());
