@@ -1084,14 +1084,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation>&lt;h3&gt;Répondeur&lt;/h3&gt;&lt;p&gt;Message envoyé aux personnes qui tentent de discuter avec vous lorsques vous être marqué &apos;Loin&apos;.&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>This page aims at giving a way to administrate the lists of your favorites and ignored computers.
-
-Item marked (*) are not connected.</source>
-        <translation type="obsolete">Le but de cette page est de permettre d&apos;administrer la liste des personnes que vous avez choisies comme favories ou bannies.
-
-Les entrées marquées par (*) représente des personnes actuellement déconnectées.</translation>
-    </message>
-    <message>
         <source>Banned</source>
         <translation>Bannis</translation>
     </message>

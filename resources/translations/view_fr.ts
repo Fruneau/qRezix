@@ -7,13 +7,6 @@
     </message>
 </context>
 <context>
-    <name>RzxRezalView</name>
-    <message>
-        <source>Historical way to display computers</source>
-        <translation type="obsolete">Affichage classique des objets</translation>
-    </message>
-</context>
-<context>
     <name>RzxRezalViewProp</name>
     <message>
         <source>Form</source>

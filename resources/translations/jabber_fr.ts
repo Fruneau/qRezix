@@ -238,10 +238,6 @@
 <context>
     <name>RzxJabberProtocole</name>
     <message>
-        <source>Native support for the jabber protocole</source>
-        <translation type="obsolete">Support natif du protocole Jabber</translation>
-    </message>
-    <message>
         <source>connected</source>
         <translation>connecté</translation>
     </message>

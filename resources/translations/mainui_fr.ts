@@ -99,20 +99,8 @@
         <translation>Afficher la boîte de dialogue en cliquant sur X</translation>
     </message>
     <message>
-        <source>Action on double-clic</source>
-        <translation type="obsolete">Action du double-clic</translation>
-    </message>
-    <message>
         <source>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Define the action to execute when you double click on an item&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Défini l&apos;action réalisée lors d&apos;un double clique sur un item&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Chat</source>
-        <translation type="obsolete">Discussion</translation>
-    </message>
-    <message>
-        <source>Open FTP</source>
-        <translation type="obsolete">Connexion en FTP</translation>
     </message>
     <message>
         <source>Tab to select on start:</source>
@@ -121,14 +109,6 @@
     <message>
         <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Onglet&lt;/h3&gt;&lt;p&gt;Défini l&apos;onglet affiché au démarrage de qRezix&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation type="obsolete">Favoris</translation>
-    </message>
-    <message>
-        <source>Everybody</source>
-        <translation type="obsolete">Tout le monde</translation>
     </message>
     <message>
         <source>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;ToolTips are little windows that appears when you </source>
@@ -191,36 +171,32 @@
         <translation>Activer les fenêtres de détail</translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;h3&gt;Colonnes affichées&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir...&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Columns layout</source>
-        <translation type="obsolete">Colonnes à afficher</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="obsolete">Nom</translation>
-    </message>
-    <message>
-        <source>Client</source>
-        <translation type="obsolete">Client</translation>
-    </message>
-    <message>
-        <source>Comment</source>
-        <translation type="obsolete">Remarque</translation>
-    </message>
-    <message>
-        <source>Same gateway</source>
-        <translation type="obsolete">Même passerelle</translation>
-    </message>
-    <message>
-        <source>IP</source>
-        <translation type="obsolete">Adresse IP</translation>
-    </message>
-    <message>
         <source>Action on double-clic:</source>
         <translation>Action du double-clic :</translation>
+    </message>
+    <message>
+        <source>Corners</source>
+        <translation>Coins</translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation>Haut</translation>
+    </message>
+    <message>
+        <source>Left</source>
+        <translation>Gauche</translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation>Bas</translation>
+    </message>
+    <message>
+        <source>Right</source>
+        <translation>Droite</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Corners&lt;/h3&gt;&lt;p&gt;Choose the edge which use each corner of the window...&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Coins&lt;/h3&gt;&lt;p&gt;Choisissez l&apos;arrête de la fenêtre qui va occuper chacun des coins...&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -588,10 +564,6 @@
 </context>
 <context>
     <name>RzxUi</name>
-    <message>
-        <source>Main UI for qRezix</source>
-        <translation type="obsolete">Interface principale de qRezix</translation>
-    </message>
     <message>
         <source>Favorites</source>
         <translation>Favoris</translation>

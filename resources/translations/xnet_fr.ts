@@ -18,10 +18,6 @@
         <translation>Le serveur n&apos;a pas pu changer votre mot de passe :
 </translation>
     </message>
-    <message>
-        <source>Native support for the xNet protocole version 4.0</source>
-        <translation type="obsolete">Support natif du protocole xNet version 4.0</translation>
-    </message>
 </context>
 <context>
     <name>RzxServerListener</name>

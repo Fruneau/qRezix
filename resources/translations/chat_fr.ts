@@ -9,10 +9,6 @@
 <context>
     <name>RzxChat</name>
     <message>
-        <source>Custom colours...</source>
-        <translation type="obsolete">Couleurs personnalisées...</translation>
-    </message>
-    <message>
         <source>Pong received within %1 msecs</source>
         <translation>Réponse reçue en %1 ms</translation>
     </message>
@@ -134,24 +130,7 @@
     </message>
 </context>
 <context>
-    <name>RzxChatConfig</name>
-    <message>
-        <source>none</source>
-        <translation type="obsolete">aucun</translation>
-    </message>
-</context>
-<context>
     <name>RzxChatLister</name>
-    <message>
-        <source>qRezix graphical chat interface</source>
-        <translation type="obsolete">Interface graphique de qRezix pour le chat</translation>
-    </message>
-    <message>
-        <source>Cannot create peer to peer socket !
-
-Chat and properties browsing are disabled</source>
-        <translation type="obsolete">Impossible de créer le socket p2p ! Le chat et les propriétés sont désactivés</translation>
-    </message>
     <message>
         <source>reconnected</source>
         <translation>reconnecté</translation>
@@ -307,10 +286,6 @@ Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous o
         <translation>Impossible d&apos;envoyer des données... writeBlock a renvoyé -1</translation>
     </message>
     <message>
-        <source>can&apos;t be found... CONNECTION ERROR</source>
-        <translation type="obsolete">ne peut pas être trouvé sur le réseau</translation>
-    </message>
-    <message>
         <source>Name</source>
         <translation>Prénom</translation>
     </message>
@@ -325,14 +300,6 @@ Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous o
     <message>
         <source>Class</source>
         <translation>Promo</translation>
-    </message>
-    <message>
-        <source>can&apos;t be contacted, check his firewall... CONNECTION ERROR</source>
-        <translation type="obsolete">ne peut pas être contacté, son firewall est peut-être mal configuré</translation>
-    </message>
-    <message>
-        <source>has sent corrupt data... CONNECTION ERROR</source>
-        <translation type="obsolete">a envoyé des données corrompues</translation>
     </message>
     <message>
         <source>Connection error: connection refused</source>

@@ -9,10 +9,6 @@
 <context>
     <name>RzxTrayIcon</name>
     <message>
-        <source>qRezix tray icon</source>
-        <translation type="obsolete">Tray icon de qRezix</translation>
-    </message>
-    <message>
         <source>&amp;Preference</source>
         <translation>&amp;Préférences</translation>
     </message>

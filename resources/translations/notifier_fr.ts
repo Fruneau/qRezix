@@ -9,10 +9,6 @@
 <context>
     <name>RzxNotifier</name>
     <message>
-        <source>Notify that a favorite state has changed</source>
-        <translation type="obsolete">Notifie qu&apos;un favoris a changé d&apos;état</translation>
-    </message>
-    <message>
         <source>All files</source>
         <translation>Tous les fichiers</translation>
     </message>

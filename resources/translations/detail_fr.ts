@@ -39,9 +39,5 @@
         <source>Never checked</source>
         <translation>Jamais récupérées</translation>
     </message>
-    <message>
-        <source>Detail of an item</source>
-        <translation type="obsolete">Détail d&apos;un ordinateur</translation>
-    </message>
 </context>
 </TS>
