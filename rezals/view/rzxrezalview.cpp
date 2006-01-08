@@ -29,6 +29,7 @@
 #include <RzxComputer>
 #include <RzxConfig>
 #include <RzxApplication>
+#include <RzxConnectionLister>
 
 #include "rzxrezalview.h"
 #include "rzxrezalviewconfig.h"
@@ -77,6 +78,10 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 	connect(&search, SIGNAL(findItem(const QModelIndex& )), this, SLOT(setCurrentIndex(const QModelIndex&)));
 	connect(&search, SIGNAL(searchPatternChanged(const QString& )), this, SIGNAL(searchPatternChanged(const QString& )));
 	RzxIconCollection::connect(this, SLOT(themeChanged()));
+
+	force = true;
+	connect(RzxConnectionLister::global(), SIGNAL(initialLoging(bool)), this, SLOT(setDelayRefresh(bool)));
+
 	delayRedraw.start();
 	endLoading();
 }
@@ -290,12 +295,24 @@ void RzxRezalView::rowsInserted(const QModelIndex& parent, int start, int end)
 	QTreeView::rowsInserted(parent, start, end);
 
 	//Pour éviter de boulétiser le proc, on ne met à jour qu'une fois toutes les secondes maximum
-	if(delayRedraw.elapsed() > 1000)
-	{
-		QTreeView::setRootIndex(rootIndex());
-		scrollTo(currentIndex());
-		delayRedraw.restart();
-	}
+	if(force || delayRedraw.elapsed() > 1000)
+		forceRefresh();
+}
+
+///Indique si on doit afficher les nouvelles connexion immédiatement ou au contraire ralentir le rafraichissement
+void RzxRezalView::setDelayRefresh(bool delay)
+{
+	force = !delay;
+	if(force)
+		forceRefresh();
+}
+
+///Force le rafraichissement de la fenêtre
+void RzxRezalView::forceRefresh()
+{
+	QTreeView::setRootIndex(rootIndex());
+	scrollTo(currentIndex());
+	delayRedraw.restart();
 }
 
 ///Dessine la ligne

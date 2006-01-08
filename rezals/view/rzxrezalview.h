@@ -54,6 +54,7 @@ class RzxRezalView : public QTreeView, public RzxRezal
 
 	RzxRezalSearch search;
 	QTime delayRedraw;
+	bool force;
 
 	public:
 		RzxRezalView(QWidget *parent = 0);
@@ -83,6 +84,10 @@ class RzxRezalView : public QTreeView, public RzxRezal
 		virtual void dropEvent(QDropEvent*e);
 
 		virtual void rowsInserted(const QModelIndex&, int, int);
+
+	protected slots:
+		void forceRefresh();
+		void setDelayRefresh(bool);
 
 	signals:
 		void searchPatternChanged(const QString&);
