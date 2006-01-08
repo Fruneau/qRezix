@@ -32,6 +32,7 @@ RzxQuit::RzxQuit(QWidget* parent)
 	: QDialog(parent)
 {
 	selection = None;
+	ui = new Ui::RzxQuit();
 	ui->setupUi(this);
 	connect(ui->radioQuit, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
 	connect(ui->radioMinimize, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
