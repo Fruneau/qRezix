@@ -83,10 +83,6 @@ QRezix::QRezix(QWidget *parent)
 
 	setSettings(RzxMainUIConfig::global());
 	loadModules();
-	setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
-	setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
-	setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
-	setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
 
 	//Chargement des actions
 	buildActions();
@@ -135,6 +131,7 @@ QRezix::QRezix(QWidget *parent)
 	menuFormatChange();
 	showSearch(RzxMainUIConfig::useSearch());
 	status("", RzxConnectionLister::global()->isConnected());
+	updateLayout();
 
 	wellInit = TRUE;
 }
@@ -547,6 +544,11 @@ void QRezix::status(const QString& msg, bool connected)
 ///Met à jour l'affichage des Rezals
 void QRezix::updateLayout()
 {
+	setCorner(Qt::BottomLeftCorner, (Qt::DockWidgetArea)RzxMainUIConfig::bottomLeftCorner());
+	setCorner(Qt::TopLeftCorner, (Qt::DockWidgetArea)RzxMainUIConfig::topLeftCorner());
+	setCorner(Qt::BottomRightCorner, (Qt::DockWidgetArea)RzxMainUIConfig::bottomRightCorner());
+	setCorner(Qt::TopRightCorner, (Qt::DockWidgetArea)RzxMainUIConfig::topRightCorner());
+
 	foreach(RzxRezal *rezal, moduleList())
 		rezal->updateLayout();
 }
