@@ -82,6 +82,7 @@ QRezix::QRezix(QWidget *parent)
 	setWindowTitle("qRezix v" + Rzx::versionToString(RzxApplication::version(), Rzx::ShortVersion));
 
 	setSettings(RzxMainUIConfig::global());
+	updateLayout();
 	loadModules();
 
 	//Chargement des actions
@@ -131,7 +132,6 @@ QRezix::QRezix(QWidget *parent)
 	menuFormatChange();
 	showSearch(RzxMainUIConfig::useSearch());
 	status("", RzxConnectionLister::global()->isConnected());
-	updateLayout();
 
 	wellInit = TRUE;
 }
