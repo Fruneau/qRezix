@@ -46,6 +46,7 @@ RzxRezalIndex::RzxRezalIndex(QWidget *parent)
 		hideColumn(i);
 	resizeColumnToContents(0);
 	setAcceptDrops(true);
+	setMinimumWidth(150);
 	
 	endLoading();
 }
