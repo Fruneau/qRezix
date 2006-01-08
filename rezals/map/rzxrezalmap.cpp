@@ -384,7 +384,7 @@ Qt::DockWidgetAreas RzxRezalMap::allowedAreas() const
 ///Retourne la position par défaut du rezal en tant que dock
 Qt::DockWidgetArea RzxRezalMap::area() const
 {
-	return Qt::TopDockWidgetArea;
+	return Qt::BottomDockWidgetArea;
 }
 
 ///Retourne l'état par défaut du rezal
