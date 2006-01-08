@@ -22,6 +22,8 @@
  */
 
 #include <QWidget>
+#include <QColor>
+
 #include <RzxIconCollection>
 
 #include <RzxBaseLoader>
@@ -160,6 +162,9 @@ void RzxLoaderProp<T>::init()
 				item->setText(2, QApplication::translate("RzxBaseModule", loader->descriptions[name]));
 			else
 				item->setText(2, loader->files[name]);
+			item->setTextColor(0, Qt::darkGray);
+			item->setTextColor(1, Qt::darkGray);
+			item->setTextColor(2, Qt::darkGray);
 		}
 	}
 }
@@ -199,16 +204,22 @@ void RzxLoaderProp<T>::itemChanged(QTreeWidgetItem * current, QTreeWidgetItem *)
 template <class T>
 void RzxLoaderProp<T>::load()
 {
+	QTreeWidgetItem *item = treeModules->currentItem();
 	if(module)
 	{
 		emitNotifyUnload(module->name());
 		loader->unloadModule(module);
+		if(item)
+		{
+			item->setTextColor(0, Qt::darkGray);
+			item->setTextColor(1, Qt::darkGray);
+			item->setTextColor(2, Qt::darkGray);
+		}
 	}
 	else if(!name.isNull())
 	{
 		loader->loadModule(name);
 		emitNotifyLoad(name);
-		QTreeWidgetItem *item = treeModules->currentItem();
 		T *module = loader->modules[name];
 		if(module && item)
 		{
@@ -216,6 +227,9 @@ void RzxLoaderProp<T>::load()
 			item->setText(0, module->name());
 			item->setText(1, module->versionString());
 			item->setText(2, module->description());
+			item->setTextColor(0, Qt::black);
+			item->setTextColor(1, Qt::black);
+			item->setTextColor(2, Qt::black);
 		}
 	}
 	itemChanged(treeModules->currentItem());

@@ -631,6 +631,9 @@ void QRezix::closeEvent(QCloseEvent * e){
 	emit wantQuit();
 }
 
+///Gestion de l'affichage de la fenêtre...
+/** Converti minimiser en cacher si un hider existe
+ */
 bool QRezix::event(QEvent * e)
 {
 	if(e->type()==QEvent::WindowDeactivate)
@@ -645,11 +648,13 @@ bool QRezix::event(QEvent * e)
 	return QMainWindow::event(e);
 }
 
+///Prend en compte l'état du répondeur qui vient de changer...
 void QRezix::toggleAutoResponder()
 {
 	activateAutoResponder( RzxComputer::localhost()->isOnResponder());
 }
 
+///Affiche l'état du répondeur...
 void QRezix::activateAutoResponder( bool state )
 {
 	if(!state == awayAction->isChecked())
