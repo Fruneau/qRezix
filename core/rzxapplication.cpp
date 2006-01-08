@@ -27,6 +27,11 @@
 #include <RzxProperty>
 #include <RzxIntro>
 
+#ifdef Q_OS_MAC
+#	include <Carbon/Carbon.h>
+#endif
+
+
 #ifdef RZX_MAINUI_BUILTIN
 #	include "../modules/mainui/rzxui.h"
 #endif
@@ -149,6 +154,17 @@ bool RzxApplication::loadCore()
 	//Chargement des configs
 	setSettings(new RzxConfig());
 	setWindowIcon(RzxIconCollection::qRezixIcon());
+#ifdef Q_OS_MAC
+	const QPixmap pixmap = RzxIconCollection::qRezixIcon();
+  	if(pixmap.isNull()) {
+		RestoreApplicationDockTileImage();
+        } else {
+	        QPixmap scaled_pixmap = pixmap.scaled(128, 128);
+	        CGImageRef ir = (CGImageRef)scaled_pixmap.macCGHandle();
+	        SetApplicationDockTileImage(ir);
+	}
+#endif
+  
 
 	//Initialisation de l'objet représentant localhost
 	RzxComputer::localhost();
@@ -493,7 +509,6 @@ void RzxApplication::displayHelp()
 }
 
 #ifdef Q_OS_MAC
-#include <Carbon/Carbon.h>
 bool RzxApplication::macEventFilter( EventHandlerCallRef caller, EventRef event )
 {
 	if(GetEventClass(event) == kEventClassApplication && GetEventKind(event) == kEventAppActivated && mainui)
