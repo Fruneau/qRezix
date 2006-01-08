@@ -76,7 +76,7 @@ void RzxRezalSearch::setPattern(const QString& pattern)
 	const RzxRezalSearchTree *itemByName = model()->childrenByName(view()->rootIndex());
 	if(!itemByName) return;
 
-	QPointer<RzxComputer> *item;
+	QPointer<RzxComputer> *item = NULL;
 	QString lower, higher;
 	if(!itemByName->find_nearest(searchPattern, lower, higher ))
 	{
