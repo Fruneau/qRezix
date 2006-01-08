@@ -21,17 +21,20 @@
 #include <QDialog>
 
 #include "rzxmainuiglobal.h"
-#include "ui_rzxquit.h"
+
+namespace Ui { class RzxQuit; }
 
 ///Fenêtre de confirmation fermeture
 /** Cette fenêtre demande quelle action effectuer lorsque l'utilisateur ferme
  * la fenêtre principale...
  */
-class RZX_MAINUI_EXPORT RzxQuit : public QDialog, private Ui::RzxQuit
+class RZX_MAINUI_EXPORT RzxQuit : public QDialog
 {
 	Q_OBJECT
 	Q_PROPERTY(QuitMode quitMode READ quitMode)
 	Q_ENUMS(QuitMode)
+
+	Ui::RzxQuit *ui;
 
 	public:
 		enum QuitMode

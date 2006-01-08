@@ -23,6 +23,8 @@
 #include <RzxConfig>
 
 #include "rzxquit.h"
+#include "ui_rzxquit.h"
+
 #include "rzxmainuiconfig.h"
 
 ///connexion des boutons à leurs action respectives
@@ -30,13 +32,13 @@ RzxQuit::RzxQuit(QWidget* parent)
 	: QDialog(parent)
 {
 	selection = None;
-	setupUi(this);
-	connect((QObject *)radioQuit, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
-	connect((QObject *)radioMinimize, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
-	connect((QObject *)radioDoNothing, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
+	ui->setupUi(this);
+	connect(ui->radioQuit, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
+	connect(ui->radioMinimize, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
+	connect(ui->radioDoNothing, SIGNAL(clicked()), this, SLOT(quitOptionChange()));
 
 #ifdef Q_OS_MAC
-	radioMinimize->setText(tr("no, I want to hide qRezix"));
+	ui->radioMinimize->setText(tr("no, I want to hide qRezix"));
 #endif
 
 	quitOptionChange();
@@ -55,24 +57,24 @@ RzxQuit::QuitMode RzxQuit::quitMode() const
 ///Recherche du bouton coché, et extraction d'un numéro
 void RzxQuit::quitOptionChange(void)
 {
-	if(radioQuit->isChecked())
+	if(ui->radioQuit->isChecked())
 	{
 		selection = Quit;
-		btnApply->setText(tr("Quit now !"));
+		ui->btnApply->setText(tr("Quit now !"));
 	}
-	else if(radioMinimize->isChecked())
+	else if(ui->radioMinimize->isChecked())
 	{
 		selection = Minimize;
 #ifndef Q_OS_MAC
-		btnApply->setText(tr("Minimize me..."));
+		ui->btnApply->setText(tr("Minimize me..."));
 #else
-		btnApply->setText(tr("Hide me..."));
+		ui->btnApply->setText(tr("Hide me..."));
 #endif
 	}
-	else if(radioDoNothing->isChecked())
+	else if(ui->radioDoNothing->isChecked())
 	{
 		selection = Abort;
-		btnApply->setText(tr("Abort quitting please"));
+		ui->btnApply->setText(tr("Abort quitting please"));
 	}
 }
 
@@ -80,6 +82,6 @@ void RzxQuit::quitOptionChange(void)
 void RzxQuit::on_btnApply_clicked()
 {
 	RzxMainUIConfig::setQuitMode(selection);
-	RzxMainUIConfig::setShowQuit(!cbSave->isChecked());
+	RzxMainUIConfig::setShowQuit(!ui->cbSave->isChecked());
 	QDialog::done(selection);
 }
