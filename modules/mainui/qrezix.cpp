@@ -161,9 +161,10 @@ bool QRezix::installModule(RzxRezal *rezal)
 		RzxMainUIConfig *conf = RzxMainUIConfig::global();
 		conf->beginGroup(rezal->name());
 
-		bool isFloating = conf->value("isFloating", rezal->floating()).toBool();
-		Qt::DockWidgetArea area = (Qt::DockWidgetArea)conf->value("area", rezal->area()).toInt();
-		bool isVisible = conf->value("isVisible", true).toBool();
+		const bool isFloating = conf->value("isFloating", rezal->floating()).toBool();
+		const Qt::DockWidgetArea area = (Qt::DockWidgetArea)conf->value("area", rezal->area()).toInt();
+		const bool isVisible = conf->value("isVisible", true).toBool();
+		const QPoint point = conf->value("position", QPoint()).toPoint();
 		QDockWidget *dock = NULL;
 
 		if(rezal->type() & RzxRezal::TYP_CENTRAL)
@@ -181,7 +182,13 @@ bool QRezix::installModule(RzxRezal *rezal)
 			dock->setFloating(isFloating);
 			rezal->setDockWidget(dock);
 			if(!isFloating)
-				addDockWidget(area, dock);
+			{
+				DockPosition pos;
+				pos.dock = dock;
+				pos.visible = isVisible;
+				pos.point = (area == Qt::TopDockWidgetArea || area == Qt::BottomDockWidgetArea) ? point.x() : point.y();
+				docks[area] += pos;
+			}
 		}
 
 		if((rezal->type() & RzxRezal::TYP_INDEX))
@@ -190,9 +197,11 @@ bool QRezix::installModule(RzxRezal *rezal)
 
 		//Après endGroup, car contient un changement de répertoire...
 		if(dock && isFloating)
+		{
 			conf->restoreWidget(rezal->name(), dock, dock->pos(), dock->size());
-		if(dock && !isVisible)
-			dock->hide();
+			if(!isVisible)
+				dock->hide();
+		}
 		return true;
 	}
 	return false;
@@ -215,6 +224,20 @@ void QRezix::linkModules()
 		}
 		rezal->widget()->setSelectionModel(sel);
 	}
+
+	//Mise en place des dock widget
+	foreach(Qt::DockWidgetArea area, docks.keys())
+	{
+		QList<DockPosition> dockWidget = docks[area];
+		qSort(dockWidget.begin(), dockWidget.end(), sortDockPosition);
+		foreach(DockPosition dock, dockWidget)
+		{
+			if(dock.dock)
+				addDockWidget(area, dock.dock);
+		}
+	}
+	docks.clear();
+
 #ifdef Q_OS_MAC
 	connect(sel, SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)),
 			this, SLOT(setMenu(const QModelIndex&, const QModelIndex&)));
@@ -240,6 +263,19 @@ void QRezix::relinkModules(RzxRezal *rezal, RzxRezal *)
 		}
 	}
 	rezal->widget()->setSelectionModel(sel);
+
+	//Mise en place des dock widget
+	foreach(Qt::DockWidgetArea area, docks.keys())
+	{
+		QList<DockPosition> dockWidget = docks[area];
+		qSort(dockWidget.begin(), dockWidget.end(), sortDockPosition);
+		foreach(DockPosition dock, dockWidget)
+		{
+			if(dock.dock)
+				addDockWidget(area, dock.dock);
+		}
+	}
+	docks.clear();
 }
 
 ///Décharge le module indiqué
@@ -454,6 +490,7 @@ void QRezix::saveState(RzxRezal *rezal)
 		conf->setValue("isFloating", dock->isFloating());
 		conf->setValue("area", dockWidgetArea(dock));
 		conf->setValue("isVisible", dock->isVisible());
+		conf->setValue("position", dock->pos());
 	}
 	conf->endGroup();
 	if(dock && dock->isFloating())
@@ -754,4 +791,11 @@ void QRezix::menuFormatChange()
 		statusui->lblStatus->hide();
 		statusui->lblCountIcon->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 	}
+}
+
+
+///Auxiliaire pour trier les DockPosition
+bool sortDockPosition(const QRezix::DockPosition& a, const QRezix::DockPosition& b)
+{
+	return a.point < b.point;
 }

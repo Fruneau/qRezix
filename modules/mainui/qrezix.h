@@ -64,9 +64,21 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	Q_PROPERTY(bool initialised READ isInitialised)
 	RZX_GLOBAL(QRezix)
 
+	///Enregistre les informations nécessaire pour order des dockWidgets avant de les afficher
+	struct DockPosition
+	{
+		//QPointer car le dockWidget peut être supprimé (ex: si la fenêtre devient centralWidget)
+		QPointer<QDockWidget> dock;
+		bool visible;
+		int point;
+	};
+
+	friend bool sortDockPosition(const DockPosition&, const DockPosition&);
+
 	RzxRezal *central;
 	QList<RzxRezal*> indexes;
 	QList<RzxRezal*> centralisable;
+	QHash<Qt::DockWidgetArea, QList<DockPosition> > docks;
 	QHash<QAction*, RzxRezal*> choseCentral;
 	QItemSelectionModel *sel;
 
