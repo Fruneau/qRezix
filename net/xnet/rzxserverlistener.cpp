@@ -128,7 +128,7 @@ void RzxServerListener::connectToXnetserver()
 void RzxServerListener::setupReconnection(const QString& msg)
 {
 	unsigned int time = RzxXNetConfig::reconnection();
-	disconnect(&reconnectionTimer, SLOT(timeout()), this, SLOT(waitReconnection()));
+	disconnect(&reconnectionTimer, SIGNAL(timeout()), this, SLOT(waitReconnection()));
 	if(!reconnection)
 	{
 		timeToReconnection = 500;
@@ -145,7 +145,7 @@ void RzxServerListener::setupReconnection(const QString& msg)
 			time += rand() % (time<<1);
 		timeToReconnection = time;
 
-		connect(&reconnectionTimer, SLOT(timeout()), this, SLOT(waitReconnection()));
+		connect(&reconnectionTimer, SIGNAL(timeout()), this, SLOT(waitReconnection()));
 		reconnectionTimer.setSingleShot(false);
 		reconnectionTimer.start(1000);
 

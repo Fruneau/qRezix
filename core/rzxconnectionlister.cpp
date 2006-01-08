@@ -346,7 +346,7 @@ void RzxConnectionLister::stop()
 {
 	foreach(RzxNetwork *network, moduleList())
 	{
-		disconnect(network, SIGNAL(disconnected()), this, SLOT(serverDisconnected()));
+		disconnect(network, SIGNAL(disconnected(RzxNetwork*)), this, SLOT(newDisconnection(RzxNetwork*)));
 		network->stop();
 	}
 }
