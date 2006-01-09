@@ -194,8 +194,10 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	ui->lblState->setText(QString(computer->isOnResponder()?tr("away"):tr("connected")));
 	if(computer->isFavorite())
 		ui->lblFavorite->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_FAVORITE));
-	if(computer->isIgnored())
+	else if(computer->isIgnored())
 		ui->lblFavorite->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_BAN));
+	else
+		ui->lblFavorite->clear();
 
 	// Pour que localhost apparaisse en grisé...
 	const QList<QLabel*> labels = findChildren<QLabel*>();
