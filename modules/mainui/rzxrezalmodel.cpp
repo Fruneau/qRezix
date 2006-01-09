@@ -134,6 +134,8 @@ RzxRezalModel::~RzxRezalModel()
 ///Retourne l'index correspondant à l'objet indiqué
 QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent) const
 {
+	if(column < 0 || column >= numColonnes) return QModelIndex();
+
 	//Le parent est invalide, c'est donc la racine...
 	//Ses fils sont donc les début de branche :
 	//	- Tout le monde... (BASE_EVERYBODY)
