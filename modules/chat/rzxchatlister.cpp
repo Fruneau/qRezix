@@ -424,7 +424,7 @@ QList<QWidget*> RzxChatLister::propWidgets()
 		ui->setupUi(propWidget);
 		connect(ui->btnBeepBrowse, SIGNAL( clicked() ), this, SLOT( chooseBeep() ) );
 		connect(ui->smileyCombo, SIGNAL(activated(const QString&)), this, SLOT(previewSmileys(const QString&)));
-		//ui->smileyCombo->setIconSize(16);
+		ui->lstSmileys->installEventFilter(this);
 	}
 	return QList<QWidget*>() << propWidget;
 }
@@ -505,4 +505,12 @@ void RzxChatLister::chooseBeep()
 	if (file.isEmpty()) return;
 
 	ui->beepSound->setText(file);
+}
+
+///Pour que la resize de la fenêtre rafraichisse l'aperçu des smileys
+bool RzxChatLister::eventFilter(QObject *obj, QEvent *e)
+{
+	if(obj == ui->lstSmileys && e->type() == QEvent::Resize)
+		previewSmileys(ui->smileyCombo->currentText());
+	return false;
 }

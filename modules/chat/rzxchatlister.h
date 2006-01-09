@@ -115,6 +115,9 @@ class RzxChatLister:public RzxModule
 
 	protected slots:
 		void chooseBeep();
+
+	protected:
+		virtual bool eventFilter(QObject *, QEvent *);
 };
 
 ///Indique si l'objet est bien initialisé
