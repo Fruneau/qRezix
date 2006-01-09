@@ -21,7 +21,7 @@
   !include "Sections.nsh"
 
 ;Informations sur la compilation du programme
-  !define RZX_DEBUG
+;  !define RZX_DEBUG
   !define USE_MSVCR_DLL
 
 ;Pour pouvoir copier les dll dans l'installeur
