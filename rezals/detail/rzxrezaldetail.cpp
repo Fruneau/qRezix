@@ -161,33 +161,21 @@ void RzxRezalDetail::rowsAboutToBeRemoved(const QModelIndex& parent, int start, 
 ///Vide l'affichage
 void RzxRezalDetail::clear()
 {
-	ui->lblFtp->clear();
-	ui->lblHttp->clear();
-	ui->lblNews->clear();
-	ui->lblSamba->clear();
-	ui->lblPrinter->clear();
-	ui->lblIcon->clear();
-	ui->lblName->clear();
-	ui->lblComment->clear();
-	ui->lblOS->clear();
-	ui->lblClient->clear();
-	ui->lblPromo->clear();
-	ui->lblRezal->clear();
-	ui->lblIP->clear();
-	ui->lblDate->clear();
-	ui->lblStateIcon->clear();
-	ui->lblState->clear();
-	ui->lblFavorite->clear();
-	ui->propsView->clear();
+	const QList<QLabel*> labels = findChildren<QLabel*>();
+	foreach(QLabel *label, labels)
+		label->clear();
 	ui->propsView->setEnabled(false);
+	ui->propsView->clear();
 	ui->btnProperties->setEnabled(false);
 	QAbstractItemView::disconnect(ui->btnProperties, SIGNAL(clicked()), 0, 0);
+	drawComputer(NULL);
 }
 
 ///Affichage l'object défini par le RzxComputer
 void RzxRezalDetail::drawComputer(RzxComputer *computer)
 {
-	if(!computer) return;
+	const bool active = computer;
+	if(!computer) computer = RzxComputer::localhost();
 
 	ui->lblIcon->setPixmap(computer->icon());
 	ui->lblName->setText("<h3>" + computer->name() + "</h3>");
@@ -208,6 +196,12 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 		ui->lblFavorite->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_FAVORITE));
 	if(computer->isIgnored())
 		ui->lblFavorite->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_BAN));
+
+	// Pour que localhost apparaisse en grisé...
+	const QList<QLabel*> labels = findChildren<QLabel*>();
+	foreach(QLabel *label, labels)
+		label->setEnabled(active);
+	if(!active) return;
 
 	// Remplissage
 	ui->propsView->clear();
