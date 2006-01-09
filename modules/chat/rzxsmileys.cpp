@@ -51,7 +51,10 @@ void RzxSmileys::setTheme(const QString& theme)
 ///Retourne le thème actuel
 QString RzxSmileys::theme()
 {
-	return RzxChatConfig::smileyTheme();
+	QString thm = RzxChatConfig::smileyTheme();
+	if(thm.isNull())
+		thm = themeList()[0];
+	return thm;
 }
 
 ///Indique si le thème est valide
