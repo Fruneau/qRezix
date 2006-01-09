@@ -94,12 +94,12 @@ RzxComputer *RzxRezalDrag::dragEvent(QDropEvent *e, const QModelIndex& index)
 {
 	const QModelIndex model = index.parent();
 
-	if(model == RzxRezalModel::global()->favoriteIndex ||
-		model == RzxRezalModel::global()->ignoredIndex ||
-		model == RzxRezalModel::global()->neutralIndex ||
-		model == RzxRezalModel::global()->favoritesGroup || 
-		model == RzxRezalModel::global()->everybodyGroup ||
-		index == RzxRezalModel::global()->everybodyGroup)
+	if(model == RzxRezalModel::global()->favoriteIndex[0] ||
+		model == RzxRezalModel::global()->ignoredIndex[0] ||
+		model == RzxRezalModel::global()->neutralIndex[0] ||
+		model == RzxRezalModel::global()->favoritesGroup[0] || 
+		model == RzxRezalModel::global()->everybodyGroup[0] ||
+		index == RzxRezalModel::global()->everybodyGroup[0])
 		return RzxRezalDrag::dragEvent(e);
 	return NULL;
 }
@@ -108,10 +108,10 @@ RzxComputer *RzxRezalDrag::dragEvent(QDropEvent *e, const QModelIndex& index)
 void RzxRezalDrag::dropEvent(QDropEvent *e, const QModelIndex& index)
 {
 	const QModelIndex parent = index.parent();
-	const QModelIndex favorite = RzxRezalModel::global()->favoriteIndex;
-	const QModelIndex neutral = RzxRezalModel::global()->neutralIndex;
-	const QModelIndex ignored = RzxRezalModel::global()->ignoredIndex;
-	const QModelIndex everybody = RzxRezalModel::global()->everybodyGroup;
+	const QModelIndex favorite = RzxRezalModel::global()->favoriteIndex[0];
+	const QModelIndex neutral = RzxRezalModel::global()->neutralIndex[0];
+	const QModelIndex ignored = RzxRezalModel::global()->ignoredIndex[0];
+	const QModelIndex everybody = RzxRezalModel::global()->everybodyGroup[0];
 	RzxComputer *computer = dragEvent(e);
 
 	if(!computer) return;

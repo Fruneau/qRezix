@@ -215,13 +215,13 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 
 	public:
 		//Modèles qui servent de repère pour les entrées
-		QPersistentModelIndex everybodyGroup; //fils directs
-		QPersistentModelIndex favoritesGroup;
-		QPersistentModelIndex favoriteIndex, ignoredIndex, neutralIndex;
-		QPersistentModelIndex promoGroup;
-		QPersistentModelIndex joneIndex, roujeIndex, oranjeIndex;
-		QPersistentModelIndex rezalGroup;
-		QPersistentModelIndex *rezalIndex;
+		QVector<QPersistentModelIndex> everybodyGroup; //fils directs
+		QVector<QPersistentModelIndex> favoritesGroup;
+		QVector<QPersistentModelIndex> favoriteIndex, ignoredIndex, neutralIndex;
+		QVector<QPersistentModelIndex> promoGroup;
+		QVector<QPersistentModelIndex> joneIndex, roujeIndex, oranjeIndex;
+		QVector<QPersistentModelIndex> rezalGroup;
+		QVector<QPersistentModelIndex> *rezalIndex;
 
 	public:
 		virtual ~RzxRezalModel();

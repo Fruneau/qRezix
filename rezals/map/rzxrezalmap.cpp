@@ -410,7 +410,7 @@ QModelIndex RzxRezalMap::indexAt(const QPoint &point) const
 			{
 				RzxComputer *computer = ip.computer();
 				if(computer)
-					return RzxRezalModel::global()->index(computer, RzxRezalModel::global()->everybodyGroup);
+					return RzxRezalModel::global()->index(computer, RzxRezalModel::global()->everybodyGroup[0]);
 			}
 			else
 			{

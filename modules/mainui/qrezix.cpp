@@ -306,20 +306,20 @@ void QRezix::setSelection(const RzxHostAddress& ip)
 	switch((RzxMainUIConfig::Tab)RzxMainUIConfig::defaultTab())
 	{
 		case RzxMainUIConfig::Favorites:
-			index = RzxRezalModel::global()->favoriteIndex;
+			index = RzxRezalModel::global()->favoriteIndex[0];
 			break;
 
 		case RzxMainUIConfig::Promo:
 			switch(RzxComputer::localhost()->promo())
 			{
 				case Rzx::PROMAL_UNK: case Rzx::PROMAL_ORANGE:
-					index = RzxRezalModel::global()->oranjeIndex;
+					index = RzxRezalModel::global()->oranjeIndex[0];
 					break;
 				case Rzx::PROMAL_ROUJE:
-					index = RzxRezalModel::global()->roujeIndex;
+					index = RzxRezalModel::global()->roujeIndex[0];
 					break;
 				case Rzx::PROMAL_JONE:
-					index = RzxRezalModel::global()->joneIndex;
+					index = RzxRezalModel::global()->joneIndex[0];
 					break;
 			}
 			break;
@@ -329,13 +329,13 @@ void QRezix::setSelection(const RzxHostAddress& ip)
 			int i = RzxConfig::rezal(ip);
 			if(i != -1)
 			{
-				index = RzxRezalModel::global()->rezalIndex[i];
+				index = RzxRezalModel::global()->rezalIndex[i][0];
 				break;
 			}
 		}
 
 		case RzxMainUIConfig::Everybody:
-			index = RzxRezalModel::global()->everybodyGroup;
+			index = RzxRezalModel::global()->everybodyGroup[0];
 			break;
 	}
 	sel->setCurrentIndex(index, QItemSelectionModel::SelectCurrent);
