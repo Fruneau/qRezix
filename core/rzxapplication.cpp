@@ -359,14 +359,14 @@ void RzxApplication::preferences()
 	if(properties)
 	{
 		if(!properties -> isVisible())
-		{
 			properties -> initDlg();
-			properties -> show();
-		}
+		properties -> raise();
+		properties -> show();
 	}
 	else
 	{
 		properties = new RzxProperty(NULL);
+		properties -> raise();
 		properties -> show();
 	}
 }

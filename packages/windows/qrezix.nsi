@@ -289,7 +289,8 @@ Section "Fichiers de base de qRezix" SecBase
   File /r /x .svn "..\..\resources\maps"
   File "..\..\core\subnet.ini"
   File "..\..\rezals\map\map.ini"
-
+  !insertmacro INSTALL_THEME "none"
+  
   ;Install the shortcuts in start menu
   !insertmacro MUI_STARTMENU_WRITE_BEGIN "qRezix"
     CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
