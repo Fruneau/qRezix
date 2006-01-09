@@ -12,7 +12,7 @@
 ;Définition de versions
   !define MUI_PRODUCT "qRezix"
   !define MUI_VERSION "v2.0"
-  !define MUI_COMPLETEVERSION "v2.0.0"
+  !define MUI_COMPLETEVERSION "v2.0.0-beta1"
   !define MUI_NAME "${MUI_PRODUCT} ${MUI_VERSION}"
   !define MUI_COMPLETENAME "${MUI_PRODUCT} ${MUI_COMPLETEVERSION}"
 
