@@ -29,11 +29,10 @@ void RzxUtilsLauncher::ftp(const RzxHostAddress& m_ip, const QString& path)
 	QString tempip = m_ip.toString();
 	QString ip=tempip;
 	tempip="ftp://"+tempip+"/"+path;
-
 	QString cmd;
 #ifdef WIN32
 	QString sFtpClient=RzxConfig::ftpCmd();
-
+	
 	// LeechFTP
 	if(sFtpClient == "LeechFTP")
 	{
@@ -51,23 +50,25 @@ void RzxUtilsLauncher::ftp(const RzxHostAddress& m_ip, const QString& path)
 	// SmartFTP
 	else if(sFtpClient == "SmartFTP")
 	{
-		QSettings regReader(QSettings::SystemScope, "SmartFTP");
+		QSettings regReaderUser("HKEY_CURRENT_USER\\Software\\SmartFTP", QSettings::NativeFormat);
+		QSettings regReader("HKEY_LOCAL_MACHINE\\Software\\SmartFTP", QSettings::NativeFormat);
+		
 		if(regReader.contains("Install Directory"))
 		{
 			//Réglage des paramètres du proxy
-			regReader.beginGroup("ProxySettings");
+			regReaderUser.beginGroup("ProxySettings");
 			if(QSysInfo::WindowsVersion & QSysInfo::WV_NT_based)
 			{
-				QString proxyExcpt = regReader.value("Proxy Exceptions").toString();
+				QString proxyExcpt = regReaderUser.value("Proxy Exceptions").toString();
 				if(!proxyExcpt.contains(ip + ";"))
-					regReader.setValue("Proxy Exceptions", ip + ";" + proxyExcpt);
+					regReaderUser.setValue("Proxy Exceptions", ip + ";" + proxyExcpt);
 			}
 			else
-				regReader.setValue("Proxy Type", 0);
-			regReader.endGroup();
+				regReaderUser.setValue("Proxy Type", 0);
+			regReaderUser.endGroup();
 
 			//Récupération du chemin d'accès
-			regReader.setValue("Network/Default Path", tempPath);
+			regReaderUser.setValue("Network/Default Path", tempPath);
 			cmd = regReader.value("Install Directory").toString() + "smartftp.exe";
 		}
 	}
