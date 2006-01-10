@@ -49,26 +49,51 @@ const char *RzxRezalModel::colNames[RzxRezalModel::numColonnes] = {
 bool sortComputer(RzxComputer *c1, RzxComputer *c2)
 {
 	RzxRezalModel::NumColonne order = RzxRezalModel::global()->order;
-	if(RzxRezalModel::global()->sens != Qt::AscendingOrder)
+	if(RzxRezalModel::global()->sens == Qt::AscendingOrder)
 		qSwap(c1, c2);
 	if(!c1) return false;
 	if(!c2) return true;
+	const bool nameTest = c1->name().toLower() < c2->name().toLower();
+	bool test;
+	bool testEq;
 	switch(order)
 	{
-		case RzxRezalModel::ColNom: return c1->name().toLower() < c2->name().toLower();
-		case RzxRezalModel::ColRemarque: return c1->remarque().toLower() < c2->remarque().toLower();
-		case RzxRezalModel::ColSamba: return c1->hasSambaServer() && !c2->hasSambaServer();
-		case RzxRezalModel::ColFTP: return c1->hasFtpServer() && !c2->hasFtpServer();
-		case RzxRezalModel::ColHTTP: return c1->hasHttpServer() && !c2->hasHttpServer();
-		case RzxRezalModel::ColNews: return c1->hasNewsServer() && !c2->hasNewsServer();
-		case RzxRezalModel::ColOS: return c1->sysEx() < c2->sysEx();
-		case RzxRezalModel::ColGateway: return c1->isSameGateway(c2);
-		case RzxRezalModel::ColPromo: return c1->promo() < c2->promo();
-		case RzxRezalModel::ColRezal: return c1->rezal() < c2->rezal();
-		case RzxRezalModel::ColIP: return (qint32)c1->ip() < (qint32)c2->ip();
-		case RzxRezalModel::ColClient: return c1->client() < c2->client();
+		case RzxRezalModel::ColNom:
+			return nameTest;
+		case RzxRezalModel::ColRemarque:
+			return c1->remarque().toLower() < c2->remarque().toLower();
+		case RzxRezalModel::ColSamba: 
+			testEq = c1->hasSambaServer() == c2->hasSambaServer();
+			test = c1->hasSambaServer() && !c2->hasSambaServer(); break;
+		case RzxRezalModel::ColFTP:
+			testEq = c1->hasFtpServer() == c2->hasFtpServer();
+			test = c1->hasFtpServer() && !c2->hasFtpServer(); break;
+		case RzxRezalModel::ColHTTP:
+			testEq = c1->hasHttpServer() == c2->hasHttpServer();
+			test = c1->hasHttpServer() && !c2->hasHttpServer(); break;
+		case RzxRezalModel::ColNews:
+			testEq = c1->hasNewsServer() == c2->hasNewsServer();
+			test = c1->hasNewsServer() && !c2->hasNewsServer(); break;
+		case RzxRezalModel::ColOS:
+			testEq = c1->sysEx() == c2->sysEx();
+			test = c1->sysEx() < c2->sysEx(); break;
+		case RzxRezalModel::ColGateway:
+			testEq = test = c1->isSameGateway(c2); break;
+		case RzxRezalModel::ColPromo:
+			testEq = c1->promo() == c2->promo();
+			test = c1->promo() < c2->promo(); break;
+		case RzxRezalModel::ColRezal:
+			testEq = c1->rezal() == c2->rezal();
+			test = c1->rezal() < c2->rezal(); break;
+		case RzxRezalModel::ColIP:
+			testEq = c1->ip() == c2->ip();
+			test = (qint32)c1->ip() < (qint32)c2->ip(); break;
+		case RzxRezalModel::ColClient:
+			testEq = c1->client() == c2->client();
+			test = c1->client() < c2->client(); break;
 		default: return false;
 	}
+	return test || (testEq && nameTest);
 }
 
 ///Construction du Model
@@ -915,10 +940,11 @@ void RzxRezalModel::clear()
 ///Insertion d'un objet dans la liste et le groupe correspondant
 void RzxRezalModel::insertObject(const QModelIndex& parent, RzxRezalSearchList& list, RzxRezalSearchTree& tree, RzxComputer *computer)
 {
-	list << computer;
-	qSort(list.begin(), list.end(), sortComputer);
-	const int row = list.indexOf(computer);
+	int row = 0;
+	while(row < list.count() && sortComputer(list[row], computer))
+		row++;
 	beginInsertRows(parent, row, row);
+	list.insert(row, computer);
 	tree.insert(computer->name().toLower(), new QPointer<RzxComputer>(computer));
 	endInsertRows();
 }
