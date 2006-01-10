@@ -289,6 +289,17 @@ void RzxRezalView::setRootIndex(const QModelIndex& index)
 	setRootIsDecorated(((RzxRezalModel*)model())->isIndex(rootIndex()));
 }
 
+///Change l'index courant
+/** Mets en particulier à jour le root index si le changement a modifié
+ */
+void RzxRezalView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
+{
+	QTreeView::currentChanged(current, previous);
+	if(!current.isValid() || rootIndex() == current.parent()) return;
+	if(current.parent() == rootIndex().parent() || (!rootIndex().isValid() && current.parent().isValid()))
+		setRootIndex(current.parent());
+}
+
 ///Mets à jour l'affichage lorsque des objets sont insérés
 void RzxRezalView::rowsInserted(const QModelIndex& parent, int start, int end)
 {
