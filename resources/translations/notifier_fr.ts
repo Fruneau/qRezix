@@ -3,7 +3,7 @@
     <name>RzxBaseModule</name>
     <message>
         <source>Notify that a favorite state has changed</source>
-        <translation>Notifie qu&apos;un favoris a changé d&apos;état</translation>
+        <translation>Notifie qu&apos;un favori a changé d&apos;état</translation>
     </message>
 </context>
 <context>
@@ -37,7 +37,7 @@
     </message>
     <message>
         <source>Notify when favorite go away</source>
-        <translation>Notifier lorsqu&apos;un favoris est marqué absent</translation>
+        <translation>Notifier lorsqu&apos;un favori est marqué absent</translation>
     </message>
     <message>
         <source>No notification when I am away</source>

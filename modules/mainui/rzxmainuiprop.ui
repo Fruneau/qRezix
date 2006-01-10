@@ -258,7 +258,7 @@
         <item>
          <widget class="QComboBox" name="cmbDefaultTab" >
           <property name="whatsThis" >
-           <string>&lt;h3>Tab&lt;/h3>&lt;p>When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p></string>
+           <string>&lt;h3>Tab&lt;/h3>&lt;p>When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose the Favorites tab&lt;/p></string>
           </property>
           <property name="currentIndex" >
            <number>-1</number>
@@ -273,7 +273,7 @@
    <item rowspan="2" row="0" column="0" >
     <widget class="QGroupBox" name="grpToolTips" >
      <property name="whatsThis" >
-      <string>&lt;h3>ToolTips&lt;/h3>&lt;p>ToolTips are little windows that appears when you </string>
+      <string>&lt;h3>ToolTips&lt;/h3>&lt;p>Tooltips are small help windows appearing when you do not move your mouse over an item during a couple of seconds</string>
      </property>
      <property name="title" >
       <string>ToolTips</string>

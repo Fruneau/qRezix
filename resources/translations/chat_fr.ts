@@ -101,7 +101,7 @@
         <translation>Historique</translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Close&lt;/h3&gt;&lt;p&gt;Ends the chat et close the window&lt;/p&gt;</source>
+        <source>&lt;h3&gt;Close&lt;/h3&gt;&lt;p&gt;Ends the chat and close the window&lt;/p&gt;</source>
         <translation>&lt;/h3&gt;Fermer&lt;/h3&gt;&lt;p&gt;Ferme la fenêtre et met fin à la discussion&lt;/p&gt;</translation>
     </message>
     <message>
@@ -215,7 +215,7 @@ Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous o
         <translation>Bip</translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive en message&lt;/p&gt;</source>
+        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive a message&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez qu&apos;un son soit émis à la réception d&apos;un message.&lt;/p&gt;</translation>
     </message>
     <message>

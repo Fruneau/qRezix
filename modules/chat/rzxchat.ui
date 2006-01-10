@@ -205,7 +205,7 @@
         </sizepolicy>
        </property>
        <property name="whatsThis" >
-        <string>&lt;h3>Close&lt;/h3>&lt;p>Ends the chat et close the window&lt;/p></string>
+        <string>&lt;h3>Close&lt;/h3>&lt;p>Ends the chat and close the window&lt;/p></string>
        </property>
        <property name="text" >
         <string>Close</string>

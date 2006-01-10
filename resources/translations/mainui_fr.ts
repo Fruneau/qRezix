@@ -84,7 +84,7 @@
     </message>
     <message>
         <source>&lt;h3&gt;Search&lt;/h3&gt;&lt;p&gt;Do you want to see the search tool ?&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Recherche&lt;/h3&gt;&lt;p&gt;Voulez-vous avoir accès à l&apos;utilitaire de rechercher ?&lt;/p&gt;</translation>
+        <translation>&lt;h3&gt;Recherche&lt;/h3&gt;&lt;p&gt;Voulez-vous avoir accès à l&apos;utilitaire de recherche ?&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Show Search Tools</source>
@@ -107,12 +107,12 @@
         <translation>Onglet au démarrage :</translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</source>
+        <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose the Favorites tab&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Onglet&lt;/h3&gt;&lt;p&gt;Défini l&apos;onglet affiché au démarrage de qRezix&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;ToolTips are little windows that appears when you </source>
-        <translation>&lt;h3&gt;Détails&lt;/h3&gt;&lt;p&gt;Les détails sont de petites fenêtres qui apparaissent lorsque vous restés sur un objet pour décrire son contenu.&lt;/p&gt;</translation>
+        <source>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;Tooltips are small help windows appearing when you do not move your mouse over an item during a couple of seconds</source>
+        <translation>&lt;h3&gt;Détails&lt;/h3&gt;&lt;p&gt;Les détails sont de petites fenêtres d&apos;aide qui apparaissent lorsque vous laissez votre souris immobile sur un objet&lt;/p&gt;</translation>
     </message>
     <message>
         <source>ToolTips</source>
@@ -382,7 +382,7 @@
     </message>
     <message>
         <source>ftp server:</source>
-        <translation>Serveurs ftp :</translation>
+        <translation>Serveur ftp :</translation>
     </message>
     <message>
         <source>web server:</source>

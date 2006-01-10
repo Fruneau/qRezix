@@ -65,6 +65,21 @@
     </message>
 </context>
 <context>
+    <name>RzxBaseModule</name>
+    <message>
+        <source>Main UI for qRezix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Native support for the xNet protocole version 4.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Native support for the jabber protocole</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RzxChangePass</name>
     <message>
         <source>Change your pass</source>
@@ -72,12 +87,12 @@
     </message>
     <message>
         <source>Your password can contains any character.&lt;br&gt;
-It must be at least&lt;b&gt; 6 characters long&lt;/b&gt;.</source>
-        <translation>Votre mot de passe peut contenir n&apos;importe quel caractère,&lt;br&gt;
+It must be at least &lt;b&gt; 6 characters long&lt;/b&gt;.</source>
+        <translation type="obsolete">Votre mot de passe peut contenir n&apos;importe quel caractère,&lt;br&gt;
 mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</translation>
     </message>
     <message>
-        <source>Reenter you new pass:</source>
+        <source>Reenter your new pass:</source>
         <translation>Confirmation :</translation>
     </message>
     <message>
@@ -95,6 +110,11 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     <message>
         <source>New pass:</source>
         <translation>Nouveau mdp :</translation>
+    </message>
+    <message>
+        <source>Your password can contains any character.&lt;br&gt;
+It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -160,10 +180,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Close&lt;/h3&gt;&lt;p&gt;Ends the chat et close the window&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -181,6 +197,10 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Ctrl+S</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Close&lt;/h3&gt;&lt;p&gt;Ends the chat and close the window&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -215,10 +235,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive en message&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Beep on message reception</source>
         <translation type="unfinished"></translation>
     </message>
@@ -240,6 +256,18 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Smileys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print user icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print user nicknames</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive a message&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -587,10 +615,6 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
 <context>
     <name>RzxJabberProtocole</name>
     <message>
-        <source>Native support for the jabber protocole</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>connected</source>
         <translation type="unfinished"></translation>
     </message>
@@ -747,6 +771,30 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <source>Action on double-clic:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&lt;h3&gt;Corners&lt;/h3&gt;&lt;p&gt;Choose the edge which use each corner of the window...&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Corners</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxNotifierProp</name>
@@ -802,6 +850,14 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <source>Beep on connection of one of your favorites</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Notification windows style:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxProperty</name>
@@ -831,7 +887,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Your computer name is not valid...&lt;br&gt;It can only contain letters, numbers and &apos;-&apos; signs.</source>
-        <translation>Le nom de votre ordinateur est invalide...&lt;br&gt;Il ne peux conteir que des lettres, des chiffres et des signes &apos;-&apos;.</translation>
+        <translation>Le nom de votre ordinateur est invalide...&lt;br&gt;Il ne peux contenir que des lettres, des chiffres et des signes &apos;-&apos;.</translation>
     </message>
     <message>
         <source>Last name:</source>
@@ -897,7 +953,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>&lt;h3&gt;Personnal information&lt;/h3&gt;&lt;p&gt;Give here some informations about you.&lt;/p&gt;&lt;p&gt;This informations can be very useful, so you should fill it with honesty&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Informations personnelles&lt;/h3&gt;&lt;p&gt;Donne des informatios vous concernant.&lt;/p&gt;&lt;p&gt;Ces informations peuvent être très utiles, il est donc conseillé de les remplir avec la plus grande honnêteté.&lt;/p&gt;</translation>
+        <translation>&lt;h3&gt;Informations personnelles&lt;/h3&gt;&lt;p&gt;Donne des informations vous concernant.&lt;/p&gt;&lt;p&gt;Ces informations peuvent être très utiles, il est donc conseillé de les remplir avec la plus grande honnêteté.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Personnal information</source>
@@ -1005,11 +1061,11 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>&lt;h3&gt;Open services&lt;/h3&gt;&lt;p&gt;Select the servers you want to share with all the users of the network. If a server is not present, it won&apos;t be displayed as present&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Services&lt;/h3&gt;&lt;p&gt;Indique les services que vous voulez partager avec les autres utilisateurs.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt; Ce sont les services que vous hébergés qui sont attendu ici, et nous ceux auxquels vous désirez accéder.&lt;/p&gt;</translation>
+        <translation>&lt;h3&gt;Services proposés&lt;/h3&gt;&lt;p&gt;Indique les services que vous voulez partager avec les autres utilisateurs.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt; Ce sont les services que vous hébergés qui sont attendu ici, et non ceux auxquels vous désirez accéder.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Open services</source>
-        <translation>Services</translation>
+        <translation>Services proposés</translation>
     </message>
     <message>
         <source>Printer</source>
@@ -1062,7 +1118,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     <message>
         <source>&lt;h3&gt;Computer name&lt;/h3&gt;
 &lt;p&gt;Name of your computer on the network. You can choose it here&lt;/p&gt;
-&lt;p&gt;Your name should only contains letters, numbers et &apos;-&apos;, should not begin or finish with a &apos;-&apos; and each &apos;-&apos; should be isolated. Moreover, this name can&apos;t be more than 24 characters long&lt;/p&gt;</source>
+&lt;p&gt;Your name should only contains letters, numbers and &apos;-&apos;, should not begin or finish with a &apos;-&apos; and each &apos;-&apos; should be isolated. Moreover, this name can&apos;t be more than 24 characters long&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Nom d&apos;ordinateur&lt;/h3&gt;
 &lt;p&gt;Ce nom permet d&apos;identifier votre ordinateur sur le réseau (nom DNS).&lt;/p&gt;
 &lt;p&gt;Ce nom doit respecter quelques règles. Il ne peut contenir que des lettres, des chiffres et des tirets (&apos;-&apos;). Les tirets ne peuvent ni commencer, ni finir le nom et doivent être isolés. De plus le nom est limité à 24 caractères&lt;/p&gt;</translation>
@@ -1073,7 +1129,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>&lt;h3&gt;Away&lt;/h3&gt;&lt;p&gt;Check this case if you want to be marked away by default&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Loin&lt;/p&gt;&lt;p&gt;Cochez cette case pour être sur répondeur par défaut.&lt;/p&gt;</translation>
+        <translation>&lt;h3&gt;Absent&lt;/p&gt;&lt;p&gt;Cochez cette case pour être sur répondeur par défaut.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Browse...</source>
@@ -1081,7 +1137,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>&lt;h3&gt;Responder&lt;/h3&gt;&lt;p&gt;When you are away, people who want to chat with you will receive this message&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Répondeur&lt;/h3&gt;&lt;p&gt;Message envoyé aux personnes qui tentent de discuter avec vous lorsques vous être marqué &apos;Loin&apos;.&lt;/p&gt;</translation>
+        <translation>&lt;h3&gt;Répondeur&lt;/h3&gt;&lt;p&gt;Message envoyé aux personnes qui tentent de discuter avec vous lorsques vous être marqué &apos;Absent&apos;.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Banned</source>
@@ -1136,7 +1192,7 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation>Langue :</translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Themes&lt;/h3&gt;&lt;p&gt;Choose a themes for the icons.&lt;/p&gt;</source>
+        <source>&lt;h3&gt;Themes&lt;/h3&gt;&lt;p&gt;Choose a theme for the icons.&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Thèmes&lt;/h3&gt;&lt;p&gt;Choisissez le thème des icônes qui illustrent qRezix.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -1144,8 +1200,8 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation>Divers</translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Responder mode&lt;/h3&gt;&lt;p&gt;There are 2 kinds of responder&lt;p&gt;&lt;p&gt;&lt;b&gt;Refuse,&lt;/b&gt; in this mode, all the messages you receive while away are lost&lt;/p&gt;&lt;p&gt;&lt;b&gt;Store,&lt;/b&gt; in this mode, you can read you messages as if you were not marked away&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Mode du répondeur&lt;/h3&gt;&lt;p&gt;Deux modes sont disponibles pour le répondeur. Soit vous refusez tous les messages dès lors que vous êtes marquez &apos;Loin&apos;, soit vous continuez à les recevoir. Dans les deux cas, votre correspondant recevra votre message de réponse automatique.&lt;/p&gt;</translation>
+        <source>&lt;h3&gt;Responder mode&lt;/h3&gt;&lt;p&gt;There are 2 kinds of responder&lt;p&gt;&lt;p&gt;&lt;b&gt;Refuse,&lt;/b&gt; in this mode, all the messages you receive while away are lost&lt;/p&gt;&lt;p&gt;&lt;b&gt;Store,&lt;/b&gt; in this mode, you can read your messages as if you were not marked away&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Mode du répondeur&lt;/h3&gt;&lt;p&gt;Deux modes sont disponibles pour le répondeur. Soit vous refusez tous les messages dès lors que vous êtes marquez &apos;Absent&apos;, soit vous continuez à les recevoir. Dans les deux cas, votre correspondant recevra votre message de réponse automatique.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Refuse messages when away</source>
@@ -1176,8 +1232,8 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
         <translation>Navigateur web :</translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Sound command&lt;/h3&gt;&lt;p&gt;Select the commant to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Commande de son&lt;/h3&gt;&lt;p&gt;Choisissez la command à utiliser quand qRezix doit jouer un son (artsplay pour arts, esdplay pour esound, alsaplayer pour alsa, ...).&lt;/p&gt;</translation>
+        <source>&lt;h3&gt;Sound command&lt;/h3&gt;&lt;p&gt;Select the command to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Commande de son&lt;/h3&gt;&lt;p&gt;Choisissez la commande à utiliser quand qRezix doit jouer un son (artsplay pour arts, esdplay pour esound, alsaplayer pour alsa, ...).&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Command to play a sound :</source>
@@ -1229,15 +1285,15 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>This page aims at giving a way to administrate the lists of your favorites and ignored computers.</source>
-        <translation>Le but de cette page est de permettre d&apos;administrer la liste des personnes que vous avez choisies comme favories ou bannies.</translation>
+        <translation>Le but de cette page est de permettre d&apos;administrer la liste des personnes que vous avez choisies comme favorites ou bannies.</translation>
+    </message>
+    <message>
+        <source>Badminton</source>
+        <translation>Badminton</translation>
     </message>
 </context>
 <context>
     <name>RzxProtocole</name>
-    <message>
-        <source>Native support for the xNet protocole version 4.0</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Your password has been successfully changed on the server. Remember it carefully, it can be useful.</source>
         <translation type="unfinished"></translation>
@@ -1300,6 +1356,14 @@ mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</transla
     </message>
     <message>
         <source>Abort quitting please</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>no, I want to hide qRezix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide me...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1714,10 +1778,6 @@ DNS request failed</source>
 </context>
 <context>
     <name>RzxUi</name>
-    <message>
-        <source>Main UI for qRezix</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Favorites</source>
         <translation type="unfinished">Favoris</translation>

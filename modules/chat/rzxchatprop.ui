@@ -109,7 +109,7 @@
       <item row="0" column="0" >
        <widget class="QCheckBox" name="chkBeep" >
         <property name="whatsThis" >
-         <string>&lt;h3>Beep on message&lt;/h3>&lt;p>Check this if you want qRezix to play a sound when you receive en message&lt;/p></string>
+         <string>&lt;h3>Beep on message&lt;/h3>&lt;p>Check this if you want qRezix to play a sound when you receive a message&lt;/p></string>
         </property>
         <property name="text" >
          <string>Beep on message reception</string>
