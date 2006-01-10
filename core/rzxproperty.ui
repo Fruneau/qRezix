@@ -50,7 +50,7 @@
       </size>
      </property>
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="pageInfo" >
       <layout class="QGridLayout" >
@@ -117,6 +117,11 @@
             <item>
              <property name="text" >
               <string>Rowing</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Badminton</string>
              </property>
             </item>
             <item>
@@ -1500,13 +1505,6 @@
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>RzxModuleLoaderProp</class>
-   <extends>QWidget</extends>
-   <header>rzxmodule.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>RzxNetworkLoaderProp</class>
    <extends>QWidget</extends>
    <header>rzxnetwork.h</header>
@@ -1517,6 +1515,13 @@
    <class>RzxListEdit</class>
    <extends>QFrame</extends>
    <header>rzxlistedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>RzxModuleLoaderProp</class>
+   <extends>QWidget</extends>
+   <header>rzxmodule.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

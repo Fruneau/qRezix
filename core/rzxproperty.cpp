@@ -201,6 +201,12 @@ void RzxProperty::changeTheme()
 	CbNews->setIcon(RzxIconCollection::getIcon(Rzx::ICON_NEWS));
 	CbPrinter->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PRINTER));
 
+	cmbPromo->setItemIcon(0, RzxIconCollection::getIcon(Rzx::ICON_ORANJE));
+	cmbPromo->setItemIcon(1, RzxIconCollection::getIcon(Rzx::ICON_ROUJE));
+	cmbPromo->setItemIcon(2, RzxIconCollection::getIcon(Rzx::ICON_JONE));
+
+	chkAutoResponder->setIcon(RzxIconCollection::getResponderIcon());
+
 	setWindowIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
 
 	changeThemeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), networkItem);
