@@ -153,7 +153,11 @@ void RzxRezalView::mouseDoubleClickEvent(QMouseEvent *e)
 	QModelIndex model = indexAt(e->pos());
 	if(!model.isValid()) return;
 	RzxComputer *computer = model.model()->data(model, Qt::UserRole).value<RzxComputer*>();
-	if(!computer) return;
+	if(!computer)
+	{
+		setRootIndex(model);
+		return;
+	}
 
 	switch(model.column())
 	{
