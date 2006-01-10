@@ -195,6 +195,12 @@ void RzxProperty::changeTheme()
 	modulesItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PLUGIN));
 	networkItem->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_NETWORK));
 
+	CbSamba->setIcon(RzxIconCollection::getIcon(Rzx::ICON_SAMBA));
+	CbFTP->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FTP));
+	CbHTTP->setIcon(RzxIconCollection::getIcon(Rzx::ICON_HTTP));
+	CbNews->setIcon(RzxIconCollection::getIcon(Rzx::ICON_NEWS));
+	CbPrinter->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PRINTER));
+
 	setWindowIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
 
 	changeThemeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), networkItem);
