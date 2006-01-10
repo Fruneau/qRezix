@@ -30,6 +30,8 @@
 
 #include <RzxRezalModel>
 #include <RzxRezalDrag>
+#include <RzxRezalPopup>
+#include <RzxRezalAction>
 
 RZX_REZAL_EXPORT(RzxRezalIndex)
 
@@ -101,15 +103,39 @@ void RzxRezalIndex::currentChanged(const QModelIndex& current, const QModelIndex
 		expand(current.parent());
 }
 
-///Pour le drag du drag&drop
+///Pour affichier le menu contextuel et le drag&drop
+/** Ce menu fournit les actions de bases accessibles depuis l'item */
 void RzxRezalIndex::mousePressEvent(QMouseEvent *e)
+{
+	if(e->button() == Qt::RightButton)
+		new RzxRezalPopup(indexAt(e->pos()), e->globalPos(), this);
+	else
+	{
+		QModelIndex model = indexAt(e->pos());
+		if(!model.isValid()) return;
+		RzxComputer *computer = model.model()->data(model, Qt::UserRole).value<RzxComputer*>();
+		RzxRezalDrag::mouseEvent(this, e, computer);
+
+		QTreeView::mousePressEvent(e);
+	}
+}
+
+///Pour lancer le client qui va bien en fonction de la position du clic
+void RzxRezalIndex::mouseDoubleClickEvent(QMouseEvent *e)
 {
 	QModelIndex model = indexAt(e->pos());
 	if(!model.isValid()) return;
 	RzxComputer *computer = model.model()->data(model, Qt::UserRole).value<RzxComputer*>();
-	RzxRezalDrag::mouseEvent(this, e, computer);
+	if(!computer) return;
 
-	QTreeView::mousePressEvent(e);
+	switch(model.column())
+	{
+		case RzxRezalModel::ColFTP: computer->ftp(); break;
+		case RzxRezalModel::ColHTTP: computer->http(); break;
+		case RzxRezalModel::ColSamba: computer->samba(); break;
+		case RzxRezalModel::ColNews: computer->news(); break;
+		default: RzxRezalAction::run(computer);
+	}
 }
 
 ///Pour le drag du drag&drop

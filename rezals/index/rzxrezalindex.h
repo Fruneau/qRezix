@@ -54,6 +54,7 @@ class RzxRezalIndex : public QTreeView, public RzxRezal
 
 	protected:
 		virtual void mousePressEvent(QMouseEvent*);
+		virtual void mouseDoubleClickEvent(QMouseEvent *e);
 		virtual void mouseMoveEvent(QMouseEvent*);
 		virtual void dragEnterEvent(QDragEnterEvent*);
 		virtual void dragMoveEvent(QDragMoveEvent*);
