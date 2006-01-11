@@ -57,7 +57,7 @@ const RzxIconCollection::IconData RzxIconCollection::data[] = {
 	{ Rzx::ICON_NOTFAVORITE, "not_favorite", true },
 	{ Rzx::ICON_SAMEGATEWAY, "same_gateway", true },
 	{ Rzx::ICON_OTHERGATEWAY, "diff_gateway", false },
-	{ Rzx::ICON_COLUMN, "column", true },
+	{ Rzx::ICON_COLUMN, "column", false },
 	{ Rzx::ICON_SEARCH, "search", true },
 	{ Rzx::ICON_PREFERENCES, "pref", true },
 	{ Rzx::ICON_PLUGIN, "plugin", true },
