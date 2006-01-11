@@ -31,6 +31,9 @@
 
 #include "rzxrezaldetail.h"
 
+RZX_REZAL_EXPORT(RzxRezalDetail)
+
+#include <QRezix>
 #include <RzxRezalDrag>
 #include <RzxRezalModel>
 #include <RzxRezalAction>
@@ -39,8 +42,6 @@
 #include "rzxrezaldetailconfig.h"
 #include "ui_rzxitem.h"
 #include "ui_rzxprops.h"
-
-RZX_REZAL_EXPORT(RzxRezalDetail)
 
 RZX_CONFIG_INIT(RzxRezalDetailConfig)
 
@@ -311,6 +312,30 @@ void RzxRezalDetail::resizeEvent(QResizeEvent *)
 	uiDetails->lblRezal->setVisible(uiDetails->frmDetails->size().width() > 210);
 }
 
+///Reçois les informations du QDockWidget auquel la fenêtre est rattachée
+bool RzxRezalDetail::eventFilter(QObject *dock, QEvent *e)
+{
+	if(dock == dockWidget() && e->type() == QEvent::Move)
+	{
+		const Qt::DockWidgetArea area = QRezix::global()->dockWidgetArea(dockWidget());
+		const Qt::Orientation orientation = splitter->orientation();
+		switch(area)
+		{
+			case Qt::BottomDockWidgetArea: case Qt::TopDockWidgetArea:
+				if(orientation == Qt::Vertical)
+					splitter->setOrientation(Qt::Horizontal);
+				break;
+			case Qt::RightDockWidgetArea: case Qt::LeftDockWidgetArea:
+				if(orientation == Qt::Horizontal)
+					splitter->setOrientation(Qt::Vertical);
+				break;
+			default:
+				break;
+		}
+	}
+	return false;
+}
+
 ///Réimplémentation de l'affichage des tooltips...
 bool RzxRezalDetail::viewportEvent(QEvent *e)
 {
@@ -371,7 +396,7 @@ QDockWidget::DockWidgetFeatures RzxRezalDetail::features() const
 ///Retourne les positions autorisées du rezal en tant que dock
 Qt::DockWidgetAreas RzxRezalDetail::allowedAreas() const
 {
-	return Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea;
+	return Qt::AllDockWidgetAreas;
 }
 
 ///Retourne la position par défaut du rezal en tant que dock

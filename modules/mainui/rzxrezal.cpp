@@ -63,6 +63,8 @@ const RzxRezal::Type& RzxRezal::type() const
 void RzxRezal::setDockWidget(QDockWidget *dck)
 {
 	dock = dck;
+	if(dck)
+		dck->installEventFilter(widget());
 }
 
 ///Retourne la DockWidget associée au module

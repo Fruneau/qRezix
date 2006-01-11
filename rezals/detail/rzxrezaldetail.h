@@ -65,6 +65,7 @@ class RzxRezalDetail:public QAbstractItemView, public RzxRezal
 		virtual bool floating() const;
 		
 		virtual void updateLayout();
+		virtual bool eventFilter(QObject*, QEvent*);
 
 	public slots:
 		void clear();
