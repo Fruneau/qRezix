@@ -134,14 +134,14 @@ void RzxConfig::loadDirs()
 {
 	Rzx::beginModuleLoading("Config Path");
 
-#ifdef Q_OS_MAC
-	m_systemDir.setPath(QREZIX_SYSTEM_DIR);
-	m_userDir.setPath(QREZIX_DATA_DIR);
-	m_libDir.setPath(QREZIX_LIB_DIR);
-#else
 	QString userSubdir;
 	m_userDir = QDir::home();
 
+#ifdef Q_OS_MAC
+	m_systemDir.setPath(QREZIX_SYSTEM_DIR);
+	m_libDir.setPath(QREZIX_LIB_DIR);
+	userSubdir = "Library/Application Support/qRezix";
+#else
 	#ifdef WIN32
 		QSettings regReader(QSettings::SystemScope, "BR", "qRezix");
 		QString dir = regReader.value("InstDir").toString();
@@ -156,6 +156,7 @@ void RzxConfig::loadDirs()
 		m_systemDir.setPath(QREZIX_DATA_DIR);
 		m_libDir.setPath(QREZIX_LIB_DIR);
 	#endif //WIN32
+#endif
 
 	if (!m_userDir.cd(userSubdir))
 	{
@@ -170,13 +171,14 @@ void RzxConfig::loadDirs()
 		else
 			m_userDir.cd(userSubdir);
 	}
-	
+
+#ifndef Q_OS_MAC
 	if (!m_systemDir.exists())
 		m_systemDir = m_userDir;
 
 	if(!m_libDir.exists())
 		m_libDir = m_systemDir;
-#endif //Q_OS_MAC
+#endif //!Q_OS_MAC
 
 	qDebug() << "Current path is" << QDir::current().path();
 	qDebug() << "Personnal path set to" << m_userDir.path();
