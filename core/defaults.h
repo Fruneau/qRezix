@@ -46,9 +46,8 @@
 #define QREZIX_AWAY_ICON "../resources/t.xpm"
 
 #ifdef Q_OS_MAC
-#	define QREZIX_DATA_DIR "./qRezix.app/Contents/Resources/"
 #	define QREZIX_LIB_DIR "./qRezix.app/Contents/Frameworks/"
-#	define QREZIX_SYSTEM_DIR "./qRezix.app/Contents/MacOS/"
+#	define QREZIX_SYSTEM_DIR "./qRezix.app/Contents/Resources/"
 #else
 #	ifndef PREFIX
 #		define PREFIX "/usr"
