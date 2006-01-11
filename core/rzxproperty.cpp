@@ -201,10 +201,6 @@ void RzxProperty::changeTheme()
 	CbNews->setIcon(RzxIconCollection::getIcon(Rzx::ICON_NEWS));
 	CbPrinter->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PRINTER));
 
-	cmbPromo->setItemIcon(0, RzxIconCollection::getIcon(Rzx::ICON_ORANJE));
-	cmbPromo->setItemIcon(1, RzxIconCollection::getIcon(Rzx::ICON_ROUJE));
-	cmbPromo->setItemIcon(2, RzxIconCollection::getIcon(Rzx::ICON_JONE));
-
 	chkAutoResponder->setIcon(RzxIconCollection::getResponderIcon());
 
 	setWindowIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
@@ -213,6 +209,7 @@ void RzxProperty::changeTheme()
 	changeThemeModules<RzxModule>(RzxApplication::modulesList(), modulesItem);
 
 	fillThemeView();
+	initPromoCombo();
 }
 
 ///Rempli la listview d'affichage du thème d'icône
@@ -389,6 +386,12 @@ void RzxProperty::initStyleCombo()
 ///Initialise la liste des sports
 void RzxProperty::initSportCombo()
 {
+	int index;
+	if(!cmbSport->count())
+		index = -1;
+	else
+		index = cmbSport->currentIndex();
+
 	cmbSport->clear();
 	cmbSport->addItem(tr("None"), 0);
 	cmbSport->addItem(tr("Athletism"), 1);
@@ -408,7 +411,31 @@ void RzxProperty::initSportCombo()
 	cmbSport->addItem(tr("Tennis"), 14);
 	cmbSport->addItem(tr("Sailing"), 15);
 	cmbSport->addItem(tr("Volleyball"), 16);
-	cmbSport->setCurrentIndex(cmbSport->findData(RzxConfig::numSport()));
+
+	if(index == -1)
+		cmbSport->setCurrentIndex(cmbSport->findData(RzxConfig::numSport()));
+	else
+		cmbSport->setCurrentIndex(index);
+}
+
+///Initialise la liste des promos
+void RzxProperty::initPromoCombo()
+{
+	int index;
+	if(!cmbPromo->count())
+		index = -1;
+	else
+		index = cmbPromo->currentIndex();
+
+	cmbPromo->clear();
+	cmbPromo->addItem(RzxIconCollection::getIcon(Rzx::ICON_ORANJE), tr("orange"));
+	cmbPromo->addItem(RzxIconCollection::getIcon(Rzx::ICON_ROUJE), tr("rouje"));
+	cmbPromo->addItem(RzxIconCollection::getIcon(Rzx::ICON_JONE), tr("jone"));
+
+	if(index == -1)
+		cmbPromo->setCurrentIndex( RzxComputer::localhost()->promo() - 1 );
+	else
+		cmbPromo->setCurrentIndex(index);
 }
 
 ///Initialise la boîte de dialogue avec les données courante de configuration
@@ -427,6 +454,8 @@ void RzxProperty::initDlg(bool def)
 	initLangCombo();
 	initStyleCombo();
 	initSportCombo();
+	initPromoCombo();
+
 	cbStyleForAll->setChecked(RzxConfig::useStyleForAll());
 	
 	hostname->setText( RzxComputer::localhost()->name() );
@@ -434,7 +463,6 @@ void RzxProperty::initDlg(bool def)
 
 	chkAutoResponder->setChecked( RzxConfig::autoResponder() );
 
-	cmbPromo->setCurrentIndex( RzxComputer::localhost()->promo() - 1 );
 
 	cmbMenuIcons->setCurrentIndex(RzxConfig::menuIconSize(def));
 	cmbMenuText->setCurrentIndex(RzxConfig::menuTextPosition(def));
@@ -738,6 +766,8 @@ void RzxProperty::changeEvent(QEvent *e)
 		layoutItem->setText(0, tr("Layout"));
 		modulesItem->setText(0, tr("Modules"));
 		networkItem->setText(0, tr("Network"));
+		initSportCombo();
+		initPromoCombo();
 		changePage(item, item);
 	}
 }
