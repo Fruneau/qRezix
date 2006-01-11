@@ -65,6 +65,8 @@ class RZX_CORE_EXPORT RzxTranslator:public QObject
 		static bool connect(const QObject * receiver, const char * method, Qt::ConnectionType type = Qt::AutoCompatConnection);
 		static bool disconnect(const QObject * receiver);
 
+		static bool backTranslate(const QString&, const char*, const char*);
+
 	signals:
 		///Indique que le language actuel a changé
 		void languageChanged(const QString&);

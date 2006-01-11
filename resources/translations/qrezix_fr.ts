@@ -306,6 +306,42 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <translation>qRezix ne peut pas créer le répertoire %1 nécessaire pour stocker les données de configuration
 </translation>
     </message>
+    <message>
+        <source>Name</source>
+        <translation>Prénom</translation>
+    </message>
+    <message>
+        <source>Last name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <source>Nick</source>
+        <translation>Surnom</translation>
+    </message>
+    <message>
+        <source>Phone</source>
+        <translation>Téléphone</translation>
+    </message>
+    <message>
+        <source>E-Mail</source>
+        <translation>e-mail</translation>
+    </message>
+    <message>
+        <source>Web Page</source>
+        <translation>Page Web</translation>
+    </message>
+    <message>
+        <source>Room</source>
+        <translation>Salle</translation>
+    </message>
+    <message>
+        <source>Sport</source>
+        <translation>Sport</translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation>Promo</translation>
+    </message>
 </context>
 <context>
     <name>RzxConnectionLister</name>
@@ -585,7 +621,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>Phone</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Téléphone</translation>
     </message>
     <message>
         <source>Website</source>
@@ -720,14 +756,6 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose de Favorites tab&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;ToolTips are little windows that appears when you </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>ToolTips</source>
         <translation type="unfinished"></translation>
     </message>
@@ -793,6 +821,14 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose the Favorites tab&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;Tooltips are small help windows appearing when you do not move your mouse over an item during a couple of seconds</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1119,7 +1155,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <source>&lt;h3&gt;Computer name&lt;/h3&gt;
 &lt;p&gt;Name of your computer on the network. You can choose it here&lt;/p&gt;
 &lt;p&gt;Your name should only contains letters, numbers and &apos;-&apos;, should not begin or finish with a &apos;-&apos; and each &apos;-&apos; should be isolated. Moreover, this name can&apos;t be more than 24 characters long&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Nom d&apos;ordinateur&lt;/h3&gt;
+        <translation type="obsolete">&lt;h3&gt;Nom d&apos;ordinateur&lt;/h3&gt;
 &lt;p&gt;Ce nom permet d&apos;identifier votre ordinateur sur le réseau (nom DNS).&lt;/p&gt;
 &lt;p&gt;Ce nom doit respecter quelques règles. Il ne peut contenir que des lettres, des chiffres et des tirets (&apos;-&apos;). Les tirets ne peuvent ni commencer, ni finir le nom et doivent être isolés. De plus le nom est limité à 24 caractères&lt;/p&gt;</translation>
     </message>
@@ -1193,7 +1229,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>&lt;h3&gt;Themes&lt;/h3&gt;&lt;p&gt;Choose a theme for the icons.&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Thèmes&lt;/h3&gt;&lt;p&gt;Choisissez le thème des icônes qui illustrent qRezix.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Thèmes&lt;/h3&gt;&lt;p&gt;Choisissez le thème des icônes qui illustrent qRezix.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Misc</source>
@@ -1201,7 +1237,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>&lt;h3&gt;Responder mode&lt;/h3&gt;&lt;p&gt;There are 2 kinds of responder&lt;p&gt;&lt;p&gt;&lt;b&gt;Refuse,&lt;/b&gt; in this mode, all the messages you receive while away are lost&lt;/p&gt;&lt;p&gt;&lt;b&gt;Store,&lt;/b&gt; in this mode, you can read your messages as if you were not marked away&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Mode du répondeur&lt;/h3&gt;&lt;p&gt;Deux modes sont disponibles pour le répondeur. Soit vous refusez tous les messages dès lors que vous êtes marquez &apos;Absent&apos;, soit vous continuez à les recevoir. Dans les deux cas, votre correspondant recevra votre message de réponse automatique.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Mode du répondeur&lt;/h3&gt;&lt;p&gt;Deux modes sont disponibles pour le répondeur. Soit vous refusez tous les messages dès lors que vous êtes marquez &apos;Absent&apos;, soit vous continuez à les recevoir. Dans les deux cas, votre correspondant recevra votre message de réponse automatique.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Refuse messages when away</source>
@@ -1233,7 +1269,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>&lt;h3&gt;Sound command&lt;/h3&gt;&lt;p&gt;Select the command to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Commande de son&lt;/h3&gt;&lt;p&gt;Choisissez la commande à utiliser quand qRezix doit jouer un son (artsplay pour arts, esdplay pour esound, alsaplayer pour alsa, ...).&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Commande de son&lt;/h3&gt;&lt;p&gt;Choisissez la commande à utiliser quand qRezix doit jouer un son (artsplay pour arts, esdplay pour esound, alsaplayer pour alsa, ...).&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Command to play a sound :</source>
@@ -1290,6 +1326,24 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     <message>
         <source>Badminton</source>
         <translation>Badminton</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Computer name&lt;/h3&gt;
+&lt;p&gt;Name of your computer on the network. You can choose it here&lt;/p&gt;
+&lt;p&gt;Your name should only contains letters, numbers et &apos;-&apos;, should not begin or finish with a &apos;-&apos; and each &apos;-&apos; should be isolated. Moreover, this name can&apos;t be more than 24 characters long&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Themes&lt;/h3&gt;&lt;p&gt;Choose a themes for the icons.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Responder mode&lt;/h3&gt;&lt;p&gt;There are 2 kinds of responder&lt;p&gt;&lt;p&gt;&lt;b&gt;Refuse,&lt;/b&gt; in this mode, all the messages you receive while away are lost&lt;/p&gt;&lt;p&gt;&lt;b&gt;Store,&lt;/b&gt; in this mode, you can read you messages as if you were not marked away&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Sound command&lt;/h3&gt;&lt;p&gt;Select the commant to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

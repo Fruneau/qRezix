@@ -88,6 +88,7 @@ private:
 	void initLangCombo();
 	void initThemeCombo();
 	void initStyleCombo();
+	void initSportCombo();
 
 	void updateLocalHost();
 	QPixmap localhostIcon;

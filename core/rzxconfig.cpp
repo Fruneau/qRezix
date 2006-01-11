@@ -44,6 +44,41 @@
 
 RZX_CONFIG_INIT(RzxConfig)
 
+///Définition pour les traductions des propriétés
+const char *RzxConfig::propStrings[][2] = {
+	{ QT_TR_NOOP("Name"), "RzxConfig" },
+	{ QT_TR_NOOP("Last name"), "RzxConfig" },
+	{ QT_TR_NOOP("Nick"), "RzxConfig" },
+	{ QT_TR_NOOP("Phone"), "RzxConfig" },
+	{ QT_TR_NOOP("E-Mail"), "RzxConfig" },
+	{ QT_TR_NOOP("Web Page"), "RzxConfig" },
+	{ QT_TR_NOOP("Room"), "RzxConfig" },
+	{ QT_TR_NOOP("Sport"), "RzxConfig" },
+	{ QT_TR_NOOP("Class"), "RzxConfig" },
+	{ "Orange", "RzxComputer" },
+	{ "Rouje", "RzxComputer" },
+	{ "Jone", "RzxComputer" },
+	{ "None", "RzxProperty" },
+	{ "Athletism", "RzxProperty" },
+	{ "Rowing", "RzxProperty" },
+	{ "Basketball", "RzxProperty" },
+	{ "Orienting", "RzxProperty" },
+	{ "Riding", "RzxProperty" },
+	{ "Climbing", "RzxProperty" },
+	{ "Fencing", "RzxProperty" },
+	{ "Football", "RzxProperty" },
+	{ "Golf", "RzxProperty" },
+	{ "Handball", "RzxProperty" },
+	{ "Judo", "RzxProperty" },
+	{ "Swimming", "RzxProperty" },
+	{ "Rugby", "RzxProperty" },
+	{ "Tennis", "RzxProperty" },
+	{ "Sailing", "RzxProperty" },
+	{ "Volleyball", "RzxProperty" },
+	{ "Badminton", "RzxProperty" }
+};
+#define propStringsSize 12
+
 ///Initialisation des données de configuration
 void RzxConfig::init()
 {
@@ -476,17 +511,42 @@ bool RzxConfig::infoCompleted()
 /******************************************************************************
 * GESTION DE LA CACHE DES PROPRIÉTÉS
 ******************************************************************************/
+///Enregistre la cache...
+/** Avant de l'enregistrer, on essaye de faire la traduction inverse des différents
+ * textes pour pouvoir afficher à terme les propriétés dans la langue actuelle de
+ * qRezix
+ */
 void RzxConfig::addCache(const RzxHostAddress& address, const QString& msg)
 {
-	global() -> setValue("cacheprop-" + address.toString(), msg);
+	//back translations...
+	//on recherche dans les traductions disponibles si ça correspond à une chaîne connue
+	QStringList list = msg.split("|");
+	for(int i = 0 ; i < list.size() ; i++)
+	{
+		for(int j = 0 ; j < propStringsSize ; j++)
+		{
+			if(RzxTranslator::backTranslate(list[i], propStrings[j][1], propStrings[j][0]))
+			{
+				list[i] = QString(propStrings[j][0]);
+				break;
+			}
+		}
+	}
+
+	global() -> setValue("cacheprop-" + address.toString(), list.join("|"));
 	global() ->setValue("cachedate-" + address.toString(),  QDate::currentDate().toString("dd MMMM yyyy"));
 }
 
+///Retourne les props après avoir appliqué les traductions
 QString RzxConfig::cache(const RzxHostAddress& address)
 {
-	return global()->value("cacheprop-" + address.toString()).toString();
+	QStringList list = global()->value("cacheprop-" + address.toString()).toString().split("|");
+	for(int i = 0 ; i < list.size() ; i++)
+		list[i] = tr(list[i].toAscii().constData());
+	return list.join("|");
 }
 
+///Retourne la date d'enregistrement des propriétés
 QString RzxConfig::getCacheDate(const RzxHostAddress& address)
 {
 	return global()->value("cachedate-" + address.toString()).toString();

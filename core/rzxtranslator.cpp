@@ -134,3 +134,20 @@ QString RzxTranslator::language()
 {
 	return RzxConfig::language();
 }
+
+///Indique si la chaîne indiquée est la traduction dans une des langues disponibles de la deuxième chaîne
+/** Utile pour pouvoir faire du reverse-translation...
+ */
+bool RzxTranslator::backTranslate(const QString& string, const char *context, const char *orig)
+{
+	if(string.isEmpty() || !context || !orig)
+		return false;
+
+	foreach(QList<QTranslator*> list, global()->translations)
+	{
+		foreach(QTranslator *trans, list)
+			if(string == trans->translate(context, orig))
+				return true;
+	}
+	return false;
+}

@@ -190,15 +190,15 @@ void RzxChatSocket::sendTyping(bool state)
 void RzxChatSocket::sendProperties()
 {
 	QStringList strList;
-	strList << tr("Name") << RzxConfig::propName();
-	strList << tr("Last name") << RzxConfig::propLastName();
-	strList << tr("Nick") << RzxConfig::propSurname();
-	strList << tr("Phone") << RzxConfig::propTel();
-	strList << tr("E-Mail") << RzxConfig::propMail();
-	strList << tr("Web Page") << RzxConfig::propWebPage();
-	strList << tr("Room") << RzxConfig::propCasert();
-	strList << tr("Sport") << RzxConfig::propSport();
-	strList << tr("Class") << RzxConfig::propPromo();
+	strList << QApplication::translate("RzxConfig", "Name") << RzxConfig::propName();
+	strList << QApplication::translate("RzxConfig", "Last name") << RzxConfig::propLastName();
+	strList << QApplication::translate("RzxConfig", "Nick") << RzxConfig::propSurname();
+	strList << QApplication::translate("RzxConfig", "Phone") << RzxConfig::propTel();
+	strList << QApplication::translate("RzxConfig", "E-Mail") << RzxConfig::propMail();
+	strList << QApplication::translate("RzxConfig", "Web Page") << RzxConfig::propWebPage();
+	strList << QApplication::translate("RzxConfig", "Room") << RzxConfig::propCasert();
+	strList << QApplication::translate("RzxConfig", "Sport") << RzxConfig::propSport();
+	strList << QApplication::translate("RzxConfig", "Class") << RzxConfig::propPromo();
 
 	QString msg = strList.join("|");
 	send("PROPANSWER " + msg + "\r\n\0");

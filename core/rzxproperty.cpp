@@ -386,6 +386,31 @@ void RzxProperty::initStyleCombo()
 	cmbStyle->setCurrentIndex(cmbStyle->findText(RzxStyle::style()));
 }
 
+///Initialise la liste des sports
+void RzxProperty::initSportCombo()
+{
+	cmbSport->clear();
+	cmbSport->addItem(tr("None"), 0);
+	cmbSport->addItem(tr("Athletism"), 1);
+	cmbSport->addItem(tr("Rowing"), 2);
+	cmbSport->addItem(tr("Badminton"), 17);
+	cmbSport->addItem(tr("Basketball"), 3);
+	cmbSport->addItem(tr("Orienting"), 4);
+	cmbSport->addItem(tr("Riding"), 5);
+	cmbSport->addItem(tr("Climbing"), 6);
+	cmbSport->addItem(tr("Fencing"), 7);
+	cmbSport->addItem(tr("Football"), 8);
+	cmbSport->addItem(tr("Golf"), 9);
+	cmbSport->addItem(tr("Handball"), 10);
+	cmbSport->addItem(tr("Judo"), 11);
+	cmbSport->addItem(tr("Swimming"), 12);
+	cmbSport->addItem(tr("Rugby"), 13);
+	cmbSport->addItem(tr("Tennis"), 14);
+	cmbSport->addItem(tr("Sailing"), 15);
+	cmbSport->addItem(tr("Volleyball"), 16);
+	cmbSport->setCurrentIndex(cmbSport->findData(RzxConfig::numSport()));
+}
+
 ///Initialise la boîte de dialogue avec les données courante de configuration
 /** ou si def = true, avec les données par défaut
  */
@@ -401,6 +426,7 @@ void RzxProperty::initDlg(bool def)
 	initThemeCombo();
 	initLangCombo();
 	initStyleCombo();
+	initSportCombo();
 	cbStyleForAll->setChecked(RzxConfig::useStyleForAll());
 	
 	hostname->setText( RzxComputer::localhost()->name() );
@@ -478,8 +504,6 @@ void RzxProperty::initDlg(bool def)
 	txtWorkDir->setText( RzxConfig::ftpPath(def) );
 	
 	pxmIcon->setPixmap(RzxIconCollection::global()->localhostPixmap());
-
-	cmbSport->setCurrentIndex( RzxConfig::numSport(def) );
 
 	listFavorites->refresh();
 	listBanned->refresh();
@@ -559,7 +583,7 @@ bool RzxProperty::miseAJour()
 
 	RzxConfig::setFtpPath(txtWorkDir->text() );
 	RzxConfig::setPropSport(cmbSport->currentText() );
-	RzxConfig::setNumSport(cmbSport->currentIndex());
+	RzxConfig::setNumSport(cmbSport->itemData(cmbSport->currentIndex()).toInt());
 	
 	RzxConfig::setRefuseWhenAway(cbRefuseAway->isChecked());
 	RzxConfig::setAutoResponder(RzxConfig::autoResponder());

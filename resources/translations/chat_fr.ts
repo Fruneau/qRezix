@@ -3,7 +3,7 @@
     <name>RzxBaseModule</name>
     <message>
         <source>qRezix graphical chat interface</source>
-        <translation type="unfinished">Interface graphique de qRezix pour le chat</translation>
+        <translation>Interface graphique de qRezix pour le chat</translation>
     </message>
 </context>
 <context>
@@ -263,23 +263,23 @@ Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous o
     </message>
     <message>
         <source>Nick</source>
-        <translation>Surnom</translation>
+        <translation type="obsolete">Surnom</translation>
     </message>
     <message>
         <source>Phone</source>
-        <translation>Téléphone</translation>
+        <translation type="obsolete">Téléphone</translation>
     </message>
     <message>
         <source>E-Mail</source>
-        <translation>e-mail</translation>
+        <translation type="obsolete">e-mail</translation>
     </message>
     <message>
         <source>Room</source>
-        <translation>Salle</translation>
+        <translation type="obsolete">Salle</translation>
     </message>
     <message>
         <source>Sport</source>
-        <translation>Sport</translation>
+        <translation type="obsolete">Sport</translation>
     </message>
     <message>
         <source>Unable to send data... writeBlock returns -1</source>
@@ -287,19 +287,19 @@ Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous o
     </message>
     <message>
         <source>Name</source>
-        <translation>Prénom</translation>
+        <translation type="obsolete">Prénom</translation>
     </message>
     <message>
         <source>Last name</source>
-        <translation>Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
     <message>
         <source>Web Page</source>
-        <translation>Page Web</translation>
+        <translation type="obsolete">Page Web</translation>
     </message>
     <message>
         <source>Class</source>
-        <translation>Promo</translation>
+        <translation type="obsolete">Promo</translation>
     </message>
     <message>
         <source>Connection error: connection refused</source>
@@ -329,6 +329,45 @@ Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous o
 </source>
         <translation>Une erreur s&apos;est produite lors de l&apos;obtention des propriétés :
 </translation>
+    </message>
+</context>
+<context>
+    <name>RzxConfig</name>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Prénom</translation>
+    </message>
+    <message>
+        <source>Last name</source>
+        <translation type="unfinished">Nom</translation>
+    </message>
+    <message>
+        <source>Nick</source>
+        <translation type="unfinished">Surnom</translation>
+    </message>
+    <message>
+        <source>Phone</source>
+        <translation type="unfinished">Téléphone</translation>
+    </message>
+    <message>
+        <source>E-Mail</source>
+        <translation type="unfinished">e-mail</translation>
+    </message>
+    <message>
+        <source>Web Page</source>
+        <translation type="unfinished">Page Web</translation>
+    </message>
+    <message>
+        <source>Room</source>
+        <translation type="unfinished">Salle</translation>
+    </message>
+    <message>
+        <source>Sport</source>
+        <translation type="unfinished">Sport</translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation type="unfinished">Promo</translation>
     </message>
 </context>
 <context>

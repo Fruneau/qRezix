@@ -48,6 +48,7 @@ private:
 	QDir m_systemDir;
 	QDir m_userDir;
 	QDir m_libDir;
+	static const char* propStrings[][2];
 
 public:
 	// Données
