@@ -1,16 +1,2 @@
-BUGFIXES
-
-* Blocage du programme suite aux fenêtre de notification
-
-UPGRADES
-
-* skinnage de qRezix (partiel)
-* permettre le chat à plus de 2 personnes
-* interface de chat personnalisée
-* plan intéractif du campus (partiel)
-
-DONE
-
-* ordre des colonnes à sauvegarder dans le fichier de conf
-* commenter le programme
-* multi interfaces réseau
+Le suivi de qRezix est dÃ©sormais assurÃ© par un Bugtracker Ã  l'adresse :
+http://bugs.frankiz/index.php?project=2&tasks=all&do=index&show=Afficher

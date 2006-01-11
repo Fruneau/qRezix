@@ -1,4 +1,6 @@
-[v2.0.0] 2005-12 <br2003@frankiz.polytechnique.fr>
+[v2.0.0] 2006-01 <br2003@frankiz.polytechnique.fr>
+    * Correction et amélioration des textes [GUI]
+    * Traduction des propriétés [Fruneau]
     * Enregistrement des préférences dans HKCU et non plus HKLM [Fruneau]
     * Ajout-Suppression des favoris/bannis par glisser-lacher [Fruneau]
     * Désactivation des notifications lorsqu'on est marqué away [Fruneau]
