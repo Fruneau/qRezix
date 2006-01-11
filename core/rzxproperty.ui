@@ -458,7 +458,7 @@
             <property name="whatsThis" >
              <string>&lt;h3>Computer name&lt;/h3>
 &lt;p>Name of your computer on the network. You can choose it here&lt;/p>
-&lt;p>Your name should only contains letters, numbers et '-', should not begin or finish with a '-' and each '-' should be isolated. Moreover, this name can't be more than 24 characters long&lt;/p></string>
+&lt;p>Your name should only contains letters, numbers and '-', should not begin or finish with a '-' and each '-' should be isolated. Moreover, this name can't be more than 24 characters long&lt;/p></string>
             </property>
             <property name="cursorPosition" >
              <number>0</number>
@@ -902,7 +902,7 @@
              </size>
             </property>
             <property name="whatsThis" >
-             <string>&lt;h3>Themes&lt;/h3>&lt;p>Choose a themes for the icons.&lt;/p></string>
+             <string>&lt;h3>Themes&lt;/h3>&lt;p>Choose a theme for the icons.&lt;/p></string>
             </property>
            </widget>
           </item>
@@ -924,7 +924,7 @@
           <item row="0" column="0" >
            <widget class="QCheckBox" name="cbRefuseAway" >
             <property name="whatsThis" >
-             <string>&lt;h3>Responder mode&lt;/h3>&lt;p>There are 2 kinds of responder&lt;p>&lt;p>&lt;b>Refuse,&lt;/b> in this mode, all the messages you receive while away are lost&lt;/p>&lt;p>&lt;b>Store,&lt;/b> in this mode, you can read you messages as if you were not marked away&lt;/p></string>
+             <string>&lt;h3>Responder mode&lt;/h3>&lt;p>There are 2 kinds of responder&lt;p>&lt;p>&lt;b>Refuse,&lt;/b> in this mode, all the messages you receive while away are lost&lt;/p>&lt;p>&lt;b>Store,&lt;/b> in this mode, you can read your messages as if you were not marked away&lt;/p></string>
             </property>
             <property name="text" >
              <string>Refuse messages when away</string>
@@ -1108,7 +1108,7 @@
           <item row="4" column="2" colspan="5" >
            <widget class="QLineEdit" name="txtBeepCmd" >
             <property name="whatsThis" >
-             <string>&lt;h3>Sound command&lt;/h3>&lt;p>Select the commant to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p></string>
+             <string>&lt;h3>Sound command&lt;/h3>&lt;p>Select the command to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p></string>
             </property>
             <property name="text" >
              <string/>
