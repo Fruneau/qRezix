@@ -1,0 +1,418 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>RzxProps</class>
+ <widget class="QWidget" name="RzxProps" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>300</width>
+    <height>267</height>
+   </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy>
+    <hsizetype>5</hsizetype>
+    <vsizetype>3</vsizetype>
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize" >
+   <size>
+    <width>150</width>
+    <height>256</height>
+   </size>
+  </property>
+  <property name="baseSize" >
+   <size>
+    <width>700</width>
+    <height>186</height>
+   </size>
+  </property>
+  <property name="palette" >
+   <palette>
+    <active>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>127</red>
+      <green>127</green>
+      <blue>127</blue>
+     </color>
+     <color>
+      <red>170</red>
+      <green>170</green>
+      <blue>170</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+     <color>
+      <red>103</red>
+      <green>141</green>
+      <blue>178</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>238</blue>
+     </color>
+     <color>
+      <red>82</red>
+      <green>24</green>
+      <blue>139</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </active>
+    <inactive>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>127</red>
+      <green>127</green>
+      <blue>127</blue>
+     </color>
+     <color>
+      <red>170</red>
+      <green>170</green>
+      <blue>170</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+     <color>
+      <red>103</red>
+      <green>141</green>
+      <blue>178</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>238</blue>
+     </color>
+     <color>
+      <red>82</red>
+      <green>24</green>
+      <blue>139</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </inactive>
+    <disabled>
+     <color>
+      <red>127</red>
+      <green>127</green>
+      <blue>127</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>127</red>
+      <green>127</green>
+      <blue>127</blue>
+     </color>
+     <color>
+      <red>170</red>
+      <green>170</green>
+      <blue>170</blue>
+     </color>
+     <color>
+      <red>127</red>
+      <green>127</green>
+      <blue>127</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>127</red>
+      <green>127</green>
+      <blue>127</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+     <color>
+      <red>86</red>
+      <green>117</green>
+      <blue>148</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>238</blue>
+     </color>
+     <color>
+      <red>82</red>
+      <green>24</green>
+      <blue>139</blue>
+     </color>
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </disabled>
+   </palette>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>9</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="0" column="0" >
+    <widget class="QFrame" name="frmProp" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>5</hsizetype>
+       <vsizetype>7</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="1" column="0" colspan="2" >
+       <widget class="QTreeWidget" name="propsView" >
+        <property name="sizePolicy" >
+         <sizepolicy>
+          <hsizetype>7</hsizetype>
+          <vsizetype>7</vsizetype>
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize" >
+         <size>
+          <width>0</width>
+          <height>128</height>
+         </size>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>300</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="baseSize" >
+         <size>
+          <width>300</width>
+          <height>128</height>
+         </size>
+        </property>
+        <property name="alternatingRowColors" >
+         <bool>true</bool>
+        </property>
+        <property name="rootIsDecorated" >
+         <bool>false</bool>
+        </property>
+        <property name="uniformRowHeights" >
+         <bool>true</bool>
+        </property>
+        <property name="itemsExpandable" >
+         <bool>false</bool>
+        </property>
+        <property name="columnCount" >
+         <number>2</number>
+        </property>
+        <column>
+         <property name="text" >
+          <string>Property</string>
+         </property>
+        </column>
+        <column>
+         <property name="text" >
+          <string>Value</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="QPushButton" name="btnProperties" >
+        <property name="text" >
+         <string>Get Now !</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="lblDate" >
+        <property name="text" >
+         <string/>
+        </property>
+        <property name="buddy" >
+         <cstring>btnProperties</cstring>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="0" />
+ <pixmapfunction></pixmapfunction>
+ <tabstops>
+  <tabstop>btnProperties</tabstop>
+  <tabstop>propsView</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

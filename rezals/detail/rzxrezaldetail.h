@@ -31,8 +31,12 @@
 
 #include <RzxRezal>
 
+class QSplitter;
 class RzxComputer;
-namespace Ui { class RzxItem; };
+namespace Ui {
+	class RzxItem;
+	class RzxProps;
+};
 
 ///ItemView permettant d'afficher le détail
 class RzxRezalDetail:public QAbstractItemView, public RzxRezal
@@ -42,7 +46,9 @@ class RzxRezalDetail:public QAbstractItemView, public RzxRezal
 	QPointer<RzxComputer> computer;
 	QPointer<RzxComputer> waitProp;
 
-	Ui::RzxItem *ui;
+	QSplitter *splitter;
+	Ui::RzxItem *uiDetails;
+	Ui::RzxProps *uiProps;
 
 	public:
 		RzxRezalDetail(QWidget* = NULL);
@@ -67,7 +73,6 @@ class RzxRezalDetail:public QAbstractItemView, public RzxRezal
 	protected:
 		virtual void mousePressEvent(QMouseEvent*);
 		virtual void mouseMoveEvent(QMouseEvent*);
-		virtual void resizeEvent(QResizeEvent*);
 		virtual int horizontalOffset() const;
 		virtual bool isIndexHidden(const QModelIndex&) const;
 		virtual QModelIndex moveCursor(CursorAction, Qt::KeyboardModifiers);
@@ -78,6 +83,7 @@ class RzxRezalDetail:public QAbstractItemView, public RzxRezal
 		virtual bool viewportEvent(QEvent *e);
 
 	protected slots:
+		virtual void resizeEvent(QResizeEvent* = NULL);
 		virtual void currentChanged(const QModelIndex&, const QModelIndex&);
 		virtual void dataChanged( const QModelIndex & topLeft, const QModelIndex & bottomRight);
 		virtual void rowsAboutToBeRemoved(const QModelIndex&, int, int);

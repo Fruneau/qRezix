@@ -22,6 +22,8 @@
 #include <QHelpEvent>
 #include <QEvent>
 #include <QToolTip>
+#include <QSplitter>
+#include <QWidget>
 
 #include <RzxComputer>
 #include <RzxIconCollection>
@@ -34,9 +36,13 @@
 #include <RzxRezalAction>
 #include <RzxMainUIConfig>
 
+#include "rzxrezaldetailconfig.h"
 #include "ui_rzxitem.h"
+#include "ui_rzxprops.h"
 
 RZX_REZAL_EXPORT(RzxRezalDetail)
+
+RZX_CONFIG_INIT(RzxRezalDetailConfig)
 
 ///Le RzxRezalDetail est un ItemView extrêmement simple
 /** Il n'affiche en effet qu'un item... le currentIndex.
@@ -45,10 +51,32 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 	:QAbstractItemView(widget), RzxRezal(RZX_MODULE_NAME, QT_TRANSLATE_NOOP("RzxBaseModule", "Detail of an item"), RZX_MODULE_VERSION),
 		computer(NULL), waitProp(NULL)
 {
-	ui = new Ui::RzxItem();
 	beginLoading();
 	setModel(RzxRezalModel::global());
-	ui->setupUi(viewport());
+
+	new RzxRezalDetailConfig(this);
+
+	uiDetails = new Ui::RzxItem();
+	QWidget *details = new QWidget;
+	uiDetails->setupUi(details);
+
+	uiProps = new Ui::RzxProps();
+	QWidget *props = new QWidget;
+	uiProps->setupUi(props);
+	
+	splitter = new QSplitter;
+	splitter->addWidget(details);
+	splitter->addWidget(props);
+	connect(splitter, SIGNAL(splitterMoved(int, int)), this, SLOT(resizeEvent()));
+	
+	QGridLayout *glayout = new QGridLayout(viewport());
+	viewport()->setLayout(glayout);
+	glayout->setMargin(0);
+	glayout->setSpacing(0);
+	glayout->addWidget(splitter);
+
+	splitter->setSizes(QList<int>() << RzxRezalDetailConfig::detailSize() << RzxRezalDetailConfig::propsSize());
+
 	setMinimumSize(viewport()->minimumSize());
 	setType(TYP_DOCKABLE);
 	setIcon(RZX_MODULE_ICON);
@@ -62,7 +90,13 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 RzxRezalDetail::~RzxRezalDetail()
 {
 	beginClosing();
-	delete ui;
+	const QList<int> sizes = splitter->sizes();
+	RzxRezalDetailConfig::setDetailSize(sizes[0]);
+	RzxRezalDetailConfig::setPropsSize(sizes[1]);
+
+	delete uiDetails;
+	delete uiProps;
+	delete RzxRezalDetailConfig::global();
 	endClosing();
 }
 
@@ -136,7 +170,7 @@ void RzxRezalDetail::currentChanged(const QModelIndex& current, const QModelInde
 	computer = RzxRezalModel::global()->data(current, Qt::UserRole).value<RzxComputer*>();
 	if(!computer) return;
 	drawComputer(computer);
-	connect(ui->btnProperties, SIGNAL(clicked()), this, SLOT(checkProp()));
+	connect(uiProps->btnProperties, SIGNAL(clicked()), this, SLOT(checkProp()));
 }
 
 ///Mets à jour l'affichage si nécessaire
@@ -164,10 +198,10 @@ void RzxRezalDetail::clear()
 	const QList<QLabel*> labels = findChildren<QLabel*>();
 	foreach(QLabel *label, labels)
 		label->clear();
-	ui->propsView->setEnabled(false);
-	ui->propsView->clear();
-	ui->btnProperties->setEnabled(false);
-	QAbstractItemView::disconnect(ui->btnProperties, SIGNAL(clicked()), 0, 0);
+	uiProps->propsView->setEnabled(false);
+	uiProps->propsView->clear();
+	uiProps->btnProperties->setEnabled(false);
+	QAbstractItemView::disconnect(uiProps->btnProperties, SIGNAL(clicked()), 0, 0);
 	drawComputer(NULL);
 }
 
@@ -177,27 +211,27 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	const bool active = computer;
 	if(!computer) computer = RzxComputer::localhost();
 
-	ui->lblIcon->setPixmap(computer->icon());
-	ui->lblName->setText("<h3>" + computer->name() + "</h3>");
-	ui->lblComment->setText(computer->remarque(true));
-	ui->lblFtp->setPixmap(RzxIconCollection::getPixmap(computer->hasFtpServer()?Rzx::ICON_FTP:Rzx::ICON_NOFTP));
-	ui->lblHttp->setPixmap(RzxIconCollection::getPixmap(computer->hasHttpServer()?Rzx::ICON_HTTP:Rzx::ICON_NOHTTP));
-	ui->lblNews->setPixmap(RzxIconCollection::getPixmap(computer->hasNewsServer()?Rzx::ICON_NEWS:Rzx::ICON_NONEWS));
-	ui->lblSamba->setPixmap(RzxIconCollection::getPixmap(computer->hasSambaServer()?Rzx::ICON_SAMBA:Rzx::ICON_NOSAMBA));
-	ui->lblPrinter->setPixmap(RzxIconCollection::getPixmap(computer->hasPrinter()?Rzx::ICON_PRINTER:Rzx::ICON_NOPRINTER));
-	ui->lblOS->setPixmap(RzxIconCollection::global()->osPixmap(computer->sysEx(), false));
-	ui->lblClient->setText(computer->client());
-	ui->lblPromo->setPixmap(RzxIconCollection::global()->promoPixmap(computer->promo()));
-	ui->lblRezal->setText(computer->rezalName());
-	ui->lblIP->setText(computer->ip().toString());
-	ui->lblStateIcon->setPixmap(RzxIconCollection::getPixmap(computer->isOnResponder()?Rzx::ICON_AWAY:Rzx::ICON_HERE));
-	ui->lblState->setText(QString(computer->isOnResponder()?tr("away"):tr("connected")));
+	uiDetails->lblIcon->setPixmap(computer->icon());
+	uiDetails->lblName->setText("<h3>" + computer->name() + "</h3>");
+	uiDetails->lblComment->setText(computer->remarque(true));
+	uiDetails->lblFtp->setPixmap(RzxIconCollection::getPixmap(computer->hasFtpServer()?Rzx::ICON_FTP:Rzx::ICON_NOFTP));
+	uiDetails->lblHttp->setPixmap(RzxIconCollection::getPixmap(computer->hasHttpServer()?Rzx::ICON_HTTP:Rzx::ICON_NOHTTP));
+	uiDetails->lblNews->setPixmap(RzxIconCollection::getPixmap(computer->hasNewsServer()?Rzx::ICON_NEWS:Rzx::ICON_NONEWS));
+	uiDetails->lblSamba->setPixmap(RzxIconCollection::getPixmap(computer->hasSambaServer()?Rzx::ICON_SAMBA:Rzx::ICON_NOSAMBA));
+	uiDetails->lblPrinter->setPixmap(RzxIconCollection::getPixmap(computer->hasPrinter()?Rzx::ICON_PRINTER:Rzx::ICON_NOPRINTER));
+	uiDetails->lblOS->setPixmap(RzxIconCollection::global()->osPixmap(computer->sysEx(), false));
+	uiDetails->lblClient->setText(computer->client());
+	uiDetails->lblPromo->setPixmap(RzxIconCollection::global()->promoPixmap(computer->promo()));
+	uiDetails->lblRezal->setText(computer->rezalName());
+	uiDetails->lblIP->setText(computer->ip().toString());
+	uiDetails->lblStateIcon->setPixmap(RzxIconCollection::getPixmap(computer->isOnResponder()?Rzx::ICON_AWAY:Rzx::ICON_HERE));
+	uiDetails->lblState->setText(QString(computer->isOnResponder()?tr("away"):tr("connected")));
 	if(computer->isFavorite())
-		ui->lblFavorite->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_FAVORITE));
+		uiDetails->lblFavorite->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_FAVORITE));
 	else if(computer->isIgnored())
-		ui->lblFavorite->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_BAN));
+		uiDetails->lblFavorite->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_BAN));
 	else
-		ui->lblFavorite->clear();
+		uiDetails->lblFavorite->clear();
 
 	// Pour que localhost apparaisse en grisé...
 	const QList<QLabel*> labels = findChildren<QLabel*>();
@@ -206,23 +240,23 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	if(!active) return;
 
 	// Remplissage
-	ui->propsView->clear();
-	ui->btnProperties->setEnabled(true);
+	uiProps->propsView->clear();
+	uiProps->btnProperties->setEnabled(true);
 	QStringList props = computer->properties().split('|');
 	if(props.size())
 	{
 		QTreeWidgetItem *item = NULL;
-		ui->propsView->setEnabled(true);
+		uiProps->propsView->setEnabled(true);
 		for(int i = 0 ; i < props.size() - 1 ; i+=2)
 		{
-			item = new QTreeWidgetItem(ui->propsView, item);
+			item = new QTreeWidgetItem(uiProps->propsView, item);
 			item->setText(0, props[i]);
 			item->setText(1, props[i+1]);
 		}
-		ui->lblDate->setText(RzxConfig::getCacheDate(computer->ip()));
+		uiProps->lblDate->setText(RzxConfig::getCacheDate(computer->ip()));
 	}
 	else
-		ui->lblDate->setText(tr("Never checked"));
+		uiProps->lblDate->setText(tr("Never checked"));
 }
 
 ///Demande les propriétés de l'object actuel
@@ -252,17 +286,17 @@ void RzxRezalDetail::mouseDoubleClickEvent(QMouseEvent *e)
 {
 	const QWidget *child = childAt(e->pos());
 
-	if(child == ui->lblFtp)
+	if(child == uiDetails->lblFtp)
 		computer->ftp();
-	else if(child == ui->lblHttp)
+	else if(child == uiDetails->lblHttp)
 		computer->http();
-	else if(child == ui->lblSamba)
+	else if(child == uiDetails->lblSamba)
 		computer->samba();
-	else if(child == ui->lblNews)
+	else if(child == uiDetails->lblNews)
 		computer->news();
-	else if(child == ui->lblState || child == ui->lblStateIcon)
+	else if(child == uiDetails->lblState || child == uiDetails->lblStateIcon)
 		computer->chat();
-	else if(child == ui->lblName || child == ui->lblIcon)
+	else if(child == uiDetails->lblName || child == uiDetails->lblIcon)
 		RzxRezalAction::run(computer);
 	else
 		QAbstractItemView::mouseDoubleClickEvent(e);
@@ -271,23 +305,18 @@ void RzxRezalDetail::mouseDoubleClickEvent(QMouseEvent *e)
 ///Choix des éléments à afficher en fonction de la taille de la fenêtre
 void RzxRezalDetail::resizeEvent(QResizeEvent *)
 {
-	if(size().width() < 300)
-		ui->frmProp->setVisible(false);
-	else
-	{
-		ui->frmProp->setVisible(true);
-		ui->lblDate->setVisible(ui->frmProp->size().width() > 200);
-	}
-
-	ui->lblState->setVisible(ui->frmDetails->size().width() > 210 ||  ui->frmProp->size().width() > 200);
-	ui->lblClient->setVisible(ui->frmDetails->size().width() > 210 ||  ui->frmProp->size().width() > 200);
-	ui->lblIP->setVisible(ui->frmDetails->size().width() > 210 ||  ui->frmProp->size().width() > 200);
-	ui->lblRezal->setVisible(ui->frmDetails->size().width() > 210 ||  ui->frmProp->size().width() > 200);
+	uiDetails->lblState->setVisible(uiDetails->frmDetails->size().width() > 200);
+	uiDetails->lblClient->setVisible(uiDetails->frmDetails->size().width() > 200);
+	uiDetails->lblIP->setVisible(uiDetails->frmDetails->size().width() > 200);
+	uiDetails->lblRezal->setVisible(uiDetails->frmDetails->size().width() > 210);
 }
 
 ///Réimplémentation de l'affichage des tooltips...
 bool RzxRezalDetail::viewportEvent(QEvent *e)
 {
+	if(e->type() == QEvent::Show)
+		resizeEvent();
+
 	if(e->type() != QEvent::ToolTip)
 		return QAbstractItemView::viewportEvent(e);
 
@@ -298,23 +327,23 @@ bool RzxRezalDetail::viewportEvent(QEvent *e)
 	//Recherche de l'item sur lequel on affiche le ToolTip
 	const QWidget *child = childAt(he->pos());
 	int column = -1;
-	if(child == ui->lblFtp)
+	if(child == uiDetails->lblFtp)
 		column = RzxRezalModel::ColFTP;
-	else if(child == ui->lblHttp)
+	else if(child == uiDetails->lblHttp)
 		column = RzxRezalModel::ColHTTP;
-	else if(child == ui->lblSamba)
+	else if(child == uiDetails->lblSamba)
 		column = RzxRezalModel::ColSamba;
-	else if(child == ui->lblNews)
+	else if(child == uiDetails->lblNews)
 		column = RzxRezalModel::ColNews;
-	else if(child == ui->lblPrinter)
+	else if(child == uiDetails->lblPrinter)
 		column = RzxRezalModel::ColPrinter;
-	else if(child == ui->lblPromo)
+	else if(child == uiDetails->lblPromo)
 		column = RzxRezalModel::ColPromo;
-	else if(child == ui->lblOS)
+	else if(child == uiDetails->lblOS)
 		column = RzxRezalModel::ColOS;
-	else if(child == ui->lblRezal)
+	else if(child == uiDetails->lblRezal)
 		column = RzxRezalModel::ColRezal;
-	else if(child == ui->lblIP)
+	else if(child == uiDetails->lblIP)
 		column = RzxRezalModel::ColIP;
 
 	//Si ça ne correspond pas à un item à décrire, on n'affiche rien
