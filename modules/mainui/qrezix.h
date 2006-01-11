@@ -96,7 +96,6 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	
 	QAction *pluginsAction;
 	QAction *prefAction;
-	QAction *columnsAction;
 	QAction *awayAction;
 	QAction *restartAction;
 	QAction *spacerAction;

@@ -109,7 +109,6 @@ QRezix::QRezix(QWidget *parent)
 	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	spacerAction = bar->addWidget(spacer);
 	bar->addAction(awayAction);
-	bar->addAction(columnsAction);
 	bar->addAction(prefAction);
 	bar->setMovable(false);
 
@@ -439,7 +438,7 @@ QString QRezix::centralRezal() const
 /** Les actions définissent les appels de base des menus/barre d'outils */
 void QRezix::buildActions()
 {
-	pluginsAction = new QAction(tr("Plug-ins"), this);
+	pluginsAction = new QAction(tr("Modules"), this);
 	menuView.setTitle(tr("View"));
 	menuCentral.setTitle(tr("Central"));
 	buildModuleMenus();
@@ -447,12 +446,10 @@ void QRezix::buildActions()
 	menuPlugins.addMenu(&menuView);
 	menuPlugins.addMenu(&menuCentral);
 	pluginsAction->setMenu(&menuPlugins);
+	connect(pluginsAction, SIGNAL(triggered()), this, SLOT(updateLayout()));
 
 	prefAction = new QAction(tr("Preferences"), this);
 	connect(prefAction, SIGNAL(triggered()), this, SIGNAL(wantPreferences()));
-	
-	columnsAction = new QAction(tr("Adjust columns"), this);
-	connect(columnsAction, SIGNAL(triggered()), this, SLOT(updateLayout()));
 	
 	awayAction = new QAction(tr("Away"), this);
 	awayAction->setCheckable(true);	
@@ -738,7 +735,6 @@ void QRezix::changeTheme()
 	if(restartAction)
 		restartAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_RELOAD));
 	awayAction->setIcon(RzxIconCollection::getResponderIcon());
-	columnsAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_COLUMN));
 	prefAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
 	statusui->lblCountIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_NOTFAVORITE)
 		.scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));

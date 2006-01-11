@@ -3,7 +3,7 @@
     <name>QRezix</name>
     <message>
         <source>Plug-ins</source>
-        <translation>Plug-ins</translation>
+        <translation type="obsolete">Plug-ins</translation>
     </message>
     <message>
         <source>Preferences</source>
@@ -11,7 +11,7 @@
     </message>
     <message>
         <source>Adjust columns</source>
-        <translation>Ajuster les colonnes</translation>
+        <translation type="obsolete">Ajuster les colonnes</translation>
     </message>
     <message>
         <source>Search</source>
@@ -41,6 +41,10 @@
         <source>You should restart qRezix</source>
         <translation>Vous devriez relancer qRezix</translation>
     </message>
+    <message>
+        <source>Modules</source>
+        <translation>Modules</translation>
+    </message>
 </context>
 <context>
     <name>RzxBaseModule</name>
@@ -53,18 +57,6 @@
     <name>RzxItem</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Property</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Get Now !</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -197,6 +189,25 @@
     <message>
         <source>&lt;h3&gt;Corners&lt;/h3&gt;&lt;p&gt;Choose the edge which use each corner of the window...&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Coins&lt;/h3&gt;&lt;p&gt;Choisissez l&apos;arrête de la fenêtre qui va occuper chacun des coins...&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>RzxProps</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Property</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get Now !</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
