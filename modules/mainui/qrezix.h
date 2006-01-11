@@ -106,11 +106,13 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	void buildActions();
 
 	QRezix(QWidget* parent = NULL);
+
 public:
 	~QRezix();
 	bool isInitialised() const;
 	QStringList centralRezals() const;
 	QString centralRezal() const;
+	virtual bool eventFilter(QObject *, QEvent*);
 
 signals:
 	void wantQuit();

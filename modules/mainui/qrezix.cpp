@@ -173,6 +173,7 @@ bool QRezix::installModule(RzxRezal *rezal)
 		if(rezal->type() & RzxRezal::TYP_DOCKABLE)
 		{
 			dock = new QDockWidget(rezal->name());
+			dock->installEventFilter(this);
 			if(isFloating)
 				dock->setParent(this);
 			dock->setWindowIcon(rezal->icon());
@@ -629,6 +630,19 @@ void QRezix::closeEvent(QCloseEvent * e){
 	//Il semble en tout cas que ce soit le cas sous OS X
 	saveState();
 	emit wantQuit();
+}
+
+///Intercepte les changements de visibilité des QDockWidget
+/** Pour mettre à jour le menu des modules
+ */
+bool QRezix::eventFilter(QObject *obj, QEvent *e)
+{
+	if(qobject_cast<QDockWidget*>(obj))
+	{
+		if( e->type() == QEvent::HideToParent || e->type() == QEvent::ShowToParent)
+			buildModuleMenus();
+	}
+	return QMainWindow::eventFilter(obj, e);
 }
 
 ///Gestion de l'affichage de la fenêtre...
