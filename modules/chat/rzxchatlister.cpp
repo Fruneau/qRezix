@@ -446,6 +446,9 @@ void RzxChatLister::propInit(bool def)
 	ui->cbPrintTime->setChecked(RzxChatConfig::printTime(def));
 	ui->cbPrintName->setChecked(RzxChatConfig::printName(def));
 	ui->cbPrintIcon->setChecked(RzxChatConfig::printIcon(def));
+	ui->cbPrintPrompt->setChecked(RzxChatConfig::printPrompt(def));
+	ui->iconSize->setValue(RzxChatConfig::iconSize());
+	ui->prompt->setText(RzxChatConfig::prompt());
 	ui->chat_port->setValue(RzxChatConfig::chatPort(def));
 
 	ui->smileyCombo->clear();
@@ -479,6 +482,9 @@ void RzxChatLister::propUpdate()
 	RzxChatConfig::setPrintTime(ui->cbPrintTime->isChecked());
 	RzxChatConfig::setPrintName(ui->cbPrintName->isChecked());
 	RzxChatConfig::setPrintIcon(ui->cbPrintIcon->isChecked());
+	RzxChatConfig::setPrintPrompt(ui->cbPrintPrompt->isChecked());
+	RzxChatConfig::setIconSize(ui->iconSize->value());
+	RzxChatConfig::setPrompt(ui->prompt->text());
 	RzxChatConfig::setChatPort(ui->chat_port->value());
 	RzxSmileys::setTheme(ui->smileyCombo->currentText());
 }

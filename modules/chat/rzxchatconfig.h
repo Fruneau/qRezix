@@ -43,6 +43,9 @@ class RzxChatConfig:public RzxAbstractConfig
 		RZX_BOOLPROP("printTime", printTime, setPrintTime, true)
 		RZX_BOOLPROP("printName", printName, setPrintName, false)
 		RZX_BOOLPROP("printIcon", printIcon, setPrintIcon, true)
+		RZX_INTPROP("iconSize", iconSize, setIconSize, 16)
+		RZX_BOOLPROP("printPrompt", printPrompt, setPrintPrompt, true)
+		RZX_STRINGPROP("prompt", prompt, setPrompt, ">")
 		RZX_UINTPROP("chatPort", chatPort, setChatPort, 5050)
 
 		RZX_WIDGETPROP("chat", restoreChatWidget, saveChatWidget, QPoint(150,100), QSize(300, 200))

@@ -254,6 +254,18 @@ Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous o
         <source>Print user nicknames</source>
         <translation>Afficher le pseudonyme</translation>
     </message>
+    <message>
+        <source>Size:</source>
+        <translation>Taille :</translation>
+    </message>
+    <message>
+        <source>Prompt:</source>
+        <translation>Invite :</translation>
+    </message>
+    <message>
+        <source>Print prompt</source>
+        <translation>Afficher l&apos;invite</translation>
+    </message>
 </context>
 <context>
     <name>RzxChatSocket</name>

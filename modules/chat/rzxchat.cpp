@@ -421,7 +421,10 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 			if(icon.isEmpty())
 				icon = RzxIconCollection::global()->pixmapFileName(Rzx::toIcon(computer->sysEx()));
 			if(!icon.isEmpty())
-				icon = "<img src=\"" + icon + "\" alt=\"" + computer->name() + "\" width=16 height=16>";
+			{
+				const QString size = QString::number(RzxChatConfig::iconSize());
+				icon = "<img src=\"" + icon + "\" alt=\"" + computer->name() + "\" width=" + size + " height=" + size + ">";
+			}
 		}
 
 		//Composition de l'entête
@@ -430,7 +433,9 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 			prepend = name;
 		if(RzxChatConfig::printIcon() && !icon.isEmpty())
 			prepend = icon + prepend;
-		msg = addColor("<i>" + prepend + host + "</i>", color) + msg;
+		if(RzxChatConfig::printPrompt() && !host.isEmpty())
+			prepend += host;
+		msg = addColor("<i>" + prepend + "</i>", color) + msg;
 	}
 
 #undef addColor
@@ -454,9 +459,9 @@ void RzxChat::receive(const QString& msg)
 		RzxSound::play(RzxChatConfig::beepSound());	
 	
 	if(RzxConfig::autoResponder())
-		append("darkgray", ">", message, m_computer);
+		append("darkgray", RzxChatConfig::prompt(), message, m_computer);
 	else
-		append("blue", ">", message, m_computer);
+		append("blue", RzxChatConfig::prompt(), message, m_computer);
 	if(!isActiveWindow())
 	{
 		unread++;
@@ -536,7 +541,7 @@ void RzxChat::on_btnSend_clicked()
 		msg = rawMsg;
 		
 	QString dispMsg = msg;
-	append("red", ">", dispMsg, RzxComputer::localhost());
+	append("red", RzxChatConfig::prompt(), dispMsg, RzxComputer::localhost());
 	sendChat(msg);	//passage par la sous-couche de gestion du m_socket avant d'émettre
 
 	ui->edMsg->validate();
