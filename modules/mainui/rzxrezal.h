@@ -20,6 +20,7 @@
 #define RZXREZAL_H
 
 #include <QDockWidget>
+#include <QPointer>
 #include <RzxLoaderProp>
 
 #include "rzxmainuiglobal.h"
@@ -80,7 +81,7 @@ class RZX_MAINUI_EXPORT RzxRezal:public RzxBaseModule
 	
 	private:
 		Type m_type;
-		QDockWidget *dock;
+		QPointer<QDockWidget> dock;
 
 	public:
 		RzxRezal(const QString&, const char*, const Rzx::Version&);

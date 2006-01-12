@@ -313,11 +313,12 @@ void RzxRezalDetail::resizeEvent(QResizeEvent *)
 }
 
 ///Reçois les informations du QDockWidget auquel la fenêtre est rattachée
-bool RzxRezalDetail::eventFilter(QObject *dock, QEvent *e)
+bool RzxRezalDetail::eventFilter(QObject *dck, QEvent *e)
 {
-	if(dock == dockWidget() && e->type() == QEvent::Move)
+	QDockWidget *dock = qobject_cast<QDockWidget*>(dck);
+	if(dock && dock == dockWidget() && !dock->isFloating() && e->type() == QEvent::Move)
 	{
-		const Qt::DockWidgetArea area = QRezix::global()->dockWidgetArea(dockWidget());
+		const Qt::DockWidgetArea area = QRezix::global()->dockWidgetArea(dock);
 		const Qt::Orientation orientation = splitter->orientation();
 		switch(area)
 		{
