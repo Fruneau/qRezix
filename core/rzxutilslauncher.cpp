@@ -94,8 +94,8 @@ void RzxUtilsLauncher::ftp(const QString& host, const QString& path)
 			if(QSysInfo::WindowsVersion & QSysInfo::WV_NT_based)
 			{
 				QString proxyExcpt = regReaderUser.value("Proxy Exceptions").toString();
-				if(!proxyExcpt.contains(ip + ";"))
-					regReaderUser.setValue("Proxy Exceptions", ip + ";" + proxyExcpt);
+				if(!proxyExcpt.contains(host + ";"))
+					regReaderUser.setValue("Proxy Exceptions", host + ";" + proxyExcpt);
 			}
 			else
 				regReaderUser.setValue("Proxy Type", 0);
