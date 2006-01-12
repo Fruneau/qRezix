@@ -62,6 +62,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 	:QDialog(parent)
 {
 	setupUi(this);
+	setAttribute(Qt::WA_QuitOnClose,false);
 	RzxStyle::useStyleOnWindow(this);
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 

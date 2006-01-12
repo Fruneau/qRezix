@@ -85,6 +85,7 @@ RzxChat::RzxChat(RzxComputer *c)
 void RzxChat::init()
 {
 	setAttribute(Qt::WA_DeleteOnClose);
+	setAttribute(Qt::WA_QuitOnClose,false);
 	RzxStyle::useStyleOnWindow(this);
 
 	/**** Construction de l'UI ****/
