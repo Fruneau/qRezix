@@ -299,7 +299,8 @@ void RzxRezalView::setRootIndex(const QModelIndex& index)
 void RzxRezalView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
 	QTreeView::currentChanged(current, previous);
-	if(!current.isValid() || rootIndex() == current.parent()) return;
+	if(!current.isValid() || rootIndex() == current.parent() || 
+		(current.parent() == rootIndex().parent() && current.row() == rootIndex().row())) return;
 	if(current.parent() == rootIndex().parent() || (!rootIndex().isValid() && current.parent().isValid()))
 		setRootIndex(current.parent());
 }
