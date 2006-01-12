@@ -78,7 +78,7 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 
 	splitter->setSizes(QList<int>() << RzxRezalDetailConfig::detailSize() << RzxRezalDetailConfig::propsSize());
 
-	setMinimumSize(viewport()->minimumSize());
+	setMinimumHeight(256);
 	setType(TYP_DOCKABLE);
 	setIcon(RZX_MODULE_ICON);
 	connect(RzxApplication::instance(), SIGNAL(haveProperties(RzxComputer*, bool*)),
@@ -306,9 +306,10 @@ void RzxRezalDetail::mouseDoubleClickEvent(QMouseEvent *e)
 ///Choix des éléments à afficher en fonction de la taille de la fenêtre
 void RzxRezalDetail::resizeEvent(QResizeEvent *)
 {
-	uiDetails->lblState->setVisible(uiDetails->frmDetails->size().width() > 200);
-	uiDetails->lblClient->setVisible(uiDetails->frmDetails->size().width() > 200);
-	uiDetails->lblRezal->setVisible(uiDetails->frmDetails->size().width() > 200);
+	const bool display = uiDetails->frmDetails->size().width() > 200 && height() > 275;
+	uiDetails->lblState->setVisible(display);
+	uiDetails->lblClient->setVisible(display);
+	uiDetails->lblRezal->setVisible(display);
 	uiDetails->lblFavorite->setVisible(uiDetails->frmName->size().width() > 120);
 	uiDetails->lblIP->setVisible(uiDetails->frmName->size().width() > 150);
 }
