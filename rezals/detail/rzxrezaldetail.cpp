@@ -58,11 +58,11 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 	new RzxRezalDetailConfig(this);
 
 	uiDetails = new Ui::RzxItem();
-	QWidget *details = new QWidget;
+	details = new QWidget;
 	uiDetails->setupUi(details);
 
 	uiProps = new Ui::RzxProps();
-	QWidget *props = new QWidget;
+	props = new QWidget;
 	uiProps->setupUi(props);
 	
 	splitter = new QSplitter;
@@ -306,7 +306,7 @@ void RzxRezalDetail::mouseDoubleClickEvent(QMouseEvent *e)
 ///Choix des éléments à afficher en fonction de la taille de la fenêtre
 void RzxRezalDetail::resizeEvent(QResizeEvent *)
 {
-	const bool display = uiDetails->frmDetails->size().width() > 200 && height() > 275;
+	const bool display = uiDetails->frmDetails->size().width() > 200 && details->height() > 275;
 	uiDetails->lblState->setVisible(display);
 	uiDetails->lblClient->setVisible(display);
 	uiDetails->lblRezal->setVisible(display);

@@ -48,7 +48,9 @@ class RzxRezalDetail:public QAbstractItemView, public RzxRezal
 
 	QSplitter *splitter;
 	Ui::RzxItem *uiDetails;
+	QWidget *details;
 	Ui::RzxProps *uiProps;
+	QWidget *props;
 
 	public:
 		RzxRezalDetail(QWidget* = NULL);
