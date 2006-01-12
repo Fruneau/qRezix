@@ -224,7 +224,7 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	uiDetails->lblClient->setText(computer->client());
 	uiDetails->lblPromo->setPixmap(RzxIconCollection::global()->promoPixmap(computer->promo()));
 	uiDetails->lblRezal->setText(computer->rezalName());
-	uiDetails->lblIP->setText(computer->ip().toString());
+	uiDetails->lblIP->setText("<i>" + computer->ip().toString() + "</i>");
 	uiDetails->lblStateIcon->setPixmap(RzxIconCollection::getPixmap(computer->isOnResponder()?Rzx::ICON_AWAY:Rzx::ICON_HERE));
 	uiDetails->lblState->setText(QString(computer->isOnResponder()?tr("away"):tr("connected")));
 	if(computer->isFavorite())
@@ -308,8 +308,9 @@ void RzxRezalDetail::resizeEvent(QResizeEvent *)
 {
 	uiDetails->lblState->setVisible(uiDetails->frmDetails->size().width() > 200);
 	uiDetails->lblClient->setVisible(uiDetails->frmDetails->size().width() > 200);
-	uiDetails->lblIP->setVisible(uiDetails->frmDetails->size().width() > 200);
-	uiDetails->lblRezal->setVisible(uiDetails->frmDetails->size().width() > 210);
+	uiDetails->lblRezal->setVisible(uiDetails->frmDetails->size().width() > 200);
+	uiDetails->lblFavorite->setVisible(uiDetails->frmName->size().width() > 120);
+	uiDetails->lblIP->setVisible(uiDetails->frmName->size().width() > 150);
 }
 
 ///Reçois les informations du QDockWidget auquel la fenêtre est rattachée
