@@ -1,5 +1,14 @@
 unix {
 	isEmpty(PREFIX):PREFIX = /usr
+	isEmpty(LIBDIR) {
+		LIBDIR = $$PREFIX/lib/qrezix
+		LIBREL = qrezix/
+	}
+	isEmpty(SYSDIR):SYSDIR = $$PREFIX/share/qrezix
+	isEmpty(BINDIR):BINDIR = $$PREFIX/bin
+	LIBDEST = $$DEST/$$LIBDIR
+	SYSDEST = $$DEST/$$SYSDIR
+	BINDEST = $$DEST/$$BINDIR
 	DEST = $$DEST/$$PREFIX
 }
 

@@ -8,8 +8,8 @@ mac {
         maps.path = $$ROOT/qRezix.app/Contents/Resources/maps
 	mapini.path = $$ROOT/qRezix.app/Contents/Resources
 } else:unix {
-	maps.path = $$DEST/share/qrezix/maps
-	mapini.path = $$DEST/share/qrezix
+	maps.path = $$SYSDEST/maps
+	mapini.path = $$SYSDEST/
 } else:win32 {
 	maps.path = $$DEST/maps
 	mapini.path = $$DEST/

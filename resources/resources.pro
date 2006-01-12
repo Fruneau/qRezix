@@ -21,8 +21,8 @@ mac {
         INSTALLS += icone \
                 info
 } else:unix {
-	themes.path = $$DEST/share/qrezix/themes
-        translations.path = $$DEST/share/qrezix/translations
+	themes.path = $$SYSDEST/themes
+        translations.path = $$SYSDEST/translations
 } else:win32 {
         themes.path = $$DEST/themes
         translations.path = $$DEST/translations

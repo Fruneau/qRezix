@@ -3,7 +3,7 @@ Instructions d'installation :
 
 1 - Configurer la compilation :
 qRezix utilise l'outil qmake de Trolltech pour simplier la configuration du programme. Ceci n'empêche pas de pouvoir choisir les modules via la ligne de configuration de qmake. Il suffit de lancer :
-	qmake "DEFINE+=OPT1 OPT2 OPT3" "PREFIX=monprefix" "DEST=madest" qrezix.pro
+	qmake "DEFINE+=OPT1 OPT2 OPT3" "PREFIX=monprefix" "LIBDIR=malibdir" "SYSDIR=monsysdir" "BINDIR=monbindir" "LIBREL=monlibrelatif" "DEST=madest" qrezix.pro
 
 * Les options OPT1 OPT2 OPT3 sont les options de compilation des différents modules. Ils sont de la forme
 	RZX_$(MODULE)_BUILTIN
@@ -25,6 +25,12 @@ RZLMAP - Module de la mainui permettant de situer géographiquement les personne
 L'option peut également être RZX_ALL_BUILTIN qui entraîne que tous les modules seront construit en built-in à l'exception de ceux que l'utilisateur à choisi de ne pas compiler (via NO_$(MODULE))
 
 * Le préfixe, valide uniquement sous Unix (non MacOS X) donne la base du répertoire d'installation. Par défaut PREFIX=/usr. Le PREFIX est utilisé lors de la compilation pour spécifier à qRezix son lieu d'installation. En cas de changement de PREFIX, il faut recompiler la corelib.
+
+* Le répertoire des bibliothèque, valide uniquement sous Unix (non MacOS X) donne la base du répertoire de stockage des bibliothèques utiles au fonctionnement de qRezix... Par défaut ce répertoire est LIBDIR = PREFIX/lib/qrezix... Si ce répertoire et ses sous-répertoires ne sont pas dans le répertoire des libs du système, il peut être utile de définir LIBREL qui défini un lien relatif de PREFIX/lib vers LIBDIR
+
+* Le répertoire de stockage de données, valide uniquement sous Unix (non MacOS X) donnne la base du répertoire de stockage des différentes ressources de qRezix... Par défaut ce répertoire est SYSDIR = PREFIX/share/qrezix
+
+* Le répertoire de stockage du binaire, valide uniquement sous Unix (non MacOS X) donne la base du répertoire de stockage de l'exécutation... Par défaut ce répertoire est BINDIR = PREFIX/bin
 
 * Le préfixe d'installation. Valide uniquement sous unix, permet l'installation dans une arborescence virtuelle (utile pour la création de package). Le répertoire d'installation sera alors $$DEST/$$PREFIX. $$DEST n'est absolument pas pris en compte pour la compilation du programme mais uniquement lors de l'installation
 

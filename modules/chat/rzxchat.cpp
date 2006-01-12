@@ -411,7 +411,7 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 	textHistorique = textHistorique + date + histText;
 
 	//Création des liens hypertextes
-	static QRegExp hyperText("("
+	static const QRegExp hyperText("("
 		"([a-zA-Z0-9]+://|[-a-zA-Z0-9]+\\.)[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*" // (protocole://)?hostname
 		"(/~?[-%_a-zA-Z0-9.]*)*"	//directory*
 		"(#|\\?[-%_a-zA-Z0-9=+]+(&[-_a-zA-Z0-9=+]+)*)?" //paramètres?

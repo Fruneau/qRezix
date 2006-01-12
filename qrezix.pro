@@ -15,7 +15,7 @@ mac {
 	qrezix.path = packages/macosx/
 } else:unix {
 	qrezix.files = qrezix
-	qrezix.path = $$DEST/bin
+	qrezix.path = $$BINDEST/
 } else:win32 {
 	qrezix.files = qrezix.exe
 	qrezix.path = $$DEST/
