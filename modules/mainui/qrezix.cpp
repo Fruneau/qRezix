@@ -459,6 +459,7 @@ void QRezix::buildActions()
 ///energistre l'état de la fenêtre et quitte....
 QRezix::~QRezix()
 {
+	saveState();
 	closing = true;
 	closeModules();
 	RzxMainUIConfig::saveState(QMainWindow::saveState());
@@ -589,43 +590,42 @@ void QRezix::updateLayout()
 }
 
 ///Gestion de la fermeture de la fenêtre
-void QRezix::closeEvent(QCloseEvent * e){
+void QRezix::closeEvent(QCloseEvent * e)
+{
 	//pour éviter de fermer rezix par mégarde, on affiche un boite de dialogue laissant le choix
 	//de fermer qrezix, de minimiser la fenêtre principale --> trayicon, ou d'annuler l'action
-	if(!isHidden() && !isMinimized())
+	int i;
+	if(RzxMainUIConfig::showQuit())
 	{
-		int i;
-		if(RzxMainUIConfig::showQuit())
+		RzxQuit quitDialog(this);
+		i = quitDialog.exec();
+	}
+	else
+		i = RzxMainUIConfig::quitMode();
+	if(i != RzxQuit::Quit)
+	{
+		if(i == RzxQuit::Minimize)
 		{
-			RzxQuit quitDialog(this);
-			i = quitDialog.exec();
-		}
-		else
-			i = RzxMainUIConfig::quitMode();
-		if(i != RzxQuit::Quit)
-		{
-			if(i == RzxQuit::Minimize)
-			{
 #ifdef Q_OS_MAC
-				saveState();
-				hide();
+			saveState();
+			hide();
 #else
-				showMinimized();
+			showMinimized();
 #endif //Q_OS_MAC
-			}
-#ifdef WIN32 //c'est très très très très très très moche, mais g pas trouvé d'autre manière de le faire
-			 //c'est pas ma fautre à moi si windows se comporte comme de la merde
-			QEvent ev(QEvent::WindowDeactivate); 
-			event(&ev);
-#endif //WIN32
-			e -> ignore();
-			return;
 		}
+#ifdef WIN32 //c'est très très très très très très moche, mais g pas trouvé d'autre manière de le faire
+		 //c'est pas ma fautre à moi si windows se comporte comme de la merde
+		QEvent ev(QEvent::WindowDeactivate); 
+		event(&ev);
+#endif //WIN32
+		e -> ignore();
+		return;
 	}
 
 	//On enregistre l'état avant que le destructeur soit lancé pour éviter que l'affichage des fenêtre soit modifié
 	//Il semble en tout cas que ce soit le cas sous OS X
 	saveState();
+	closing = true;
 	emit wantQuit();
 }
 
