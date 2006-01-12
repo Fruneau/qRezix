@@ -30,6 +30,8 @@ QHash<RzxNetwork*, QPointer<RzxWrongPass> > RzxWrongPass::wrongpassWindows = QHa
 RzxWrongPass::RzxWrongPass(RzxNetwork *net)
 	:network(net)
 {
+	setAttribute(Qt::WA_QuitOnClose,false);
+
 	if(wrongpassWindows[net])
 	{
 		deleteLater();

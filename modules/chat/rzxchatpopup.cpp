@@ -27,6 +27,7 @@ RzxChatPopup::RzxChatPopup(QAbstractButton *btn, QWidget *parent)
 #endif
 {
 	button = btn;
+	setAttribute(Qt::WA_QuitOnClose,false);
 	setAttribute(Qt::WA_DeleteOnClose);
 	if(!button)
 	{

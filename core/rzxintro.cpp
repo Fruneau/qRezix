@@ -26,6 +26,7 @@ RzxIntro::RzxIntro()
 	:QDialog()
 {
 	setAttribute( Qt::WA_DeleteOnClose );
+	setAttribute(Qt::WA_QuitOnClose,false);
 	ui = new Ui::RzxIntro();
 	ui->setupUi(this);
 

@@ -31,6 +31,7 @@
 RzxChangePass::RzxChangePass(RzxNetwork *net, const QString &oldpass)
 	:network(net)
 {
+	setAttribute(Qt::WA_QuitOnClose,false);
 	init(oldpass);
 	if(net)
 		setAttribute(Qt::WA_DeleteOnClose);
@@ -41,6 +42,7 @@ RzxChangePass::RzxChangePass(RzxNetwork *net, const QString &oldpass)
 RzxChangePass::RzxChangePass(const QString &oldpass)
 	:network(NULL)
 {
+	setAttribute(Qt::WA_QuitOnClose,false);
 	init(oldpass);
 }
 

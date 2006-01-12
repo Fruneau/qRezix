@@ -31,6 +31,7 @@
 RzxQuit::RzxQuit(QWidget* parent)
 	: QDialog(parent)
 {
+	setAttribute(Qt::WA_QuitOnClose,false);
 	selection = None;
 	ui = new Ui::RzxQuit();
 	ui->setupUi(this);
