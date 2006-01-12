@@ -6,7 +6,8 @@ SOURCES += $$ROOT/modules/chat/rzxchatlister.cpp \
 	$$ROOT/modules/chat/rzxtextedit.cpp \
 	$$ROOT/modules/chat/rzxsmileyui.cpp \
 	$$ROOT/modules/chat/rzxsmileys.cpp \
-	$$ROOT/modules/chat/rzxchatpopup.cpp
+	$$ROOT/modules/chat/rzxchatpopup.cpp \
+	$$ROOT/modules/chat/rzxchatbrowser.cpp
 	
 
 HEADERS += $$ROOT/modules/chat/rzxchatlister.h \
@@ -17,7 +18,8 @@ HEADERS += $$ROOT/modules/chat/rzxchatlister.h \
 	$$ROOT/modules/chat/rzxtextedit.h \
 	$$ROOT/modules/chat/rzxsmileyui.h \
 	$$ROOT/modules/chat/rzxsmileys.h \
-	$$ROOT/modules/chat/rzxchatpopup.h
+	$$ROOT/modules/chat/rzxchatpopup.h \
+	$$ROOT/modules/chat/rzxchatbrowser.h
 
 FORMS += $$ROOT/modules/chat/rzxchatprop.ui
 mac {

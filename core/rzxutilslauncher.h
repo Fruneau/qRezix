@@ -18,10 +18,13 @@
 #ifndef RZXUTILSLAUNCHER_H
 #define RZXUTILSLAUNCHER_H
 
+#include <QStringList>
+
 #include <RzxGlobal>
 
 class RzxHostAddress;
 class QProcess;
+class QUrl;
 
 /**
  @author Florent Bruneau
@@ -33,10 +36,15 @@ class QProcess;
  */
 namespace RzxUtilsLauncher
 {
+	RZX_CORE_EXPORT void run(const QUrl&);
 	RZX_CORE_EXPORT void ftp(const RzxHostAddress&, const QString& path = QString());
+	RZX_CORE_EXPORT void ftp(const QString&, const QString& path = QString());
 	RZX_CORE_EXPORT void http(const RzxHostAddress&, const QString& path = QString());
+	RZX_CORE_EXPORT void http(const QString&, const QString& path = QString());
 	RZX_CORE_EXPORT void news(const RzxHostAddress&, const QString& path = QString());
+	RZX_CORE_EXPORT void news(const QString&, const QString& path = QString());
 	RZX_CORE_EXPORT void samba(const RzxHostAddress&, const QString& path = QString());
+	RZX_CORE_EXPORT void samba(const QString&, const QString& path = QString());
 	RZX_CORE_EXPORT QProcess *launchCommand(const QString&, const QStringList& = QStringList(), const QString& path = QString());
 };
 

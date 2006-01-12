@@ -57,6 +57,7 @@
 #include "rzxchatlister.h"
 #include "rzxchatconfig.h"
 #include "rzxsmileys.h"
+#include "rzxchatbrowser.h"
 
 #ifdef Q_OS_MAC
 #	include "ui_rzxchat_mac.h"
@@ -91,7 +92,7 @@ void RzxChat::init()
 	/**** Construction de l'UI ****/
 	/* Splitter avec 2 partie dont une est l'ui */
 	//Partie 1 : L'afficheur de discussion
-	txtHistory = new QTextEdit();
+	txtHistory = new RzxChatBrowser();
 	txtHistory->setReadOnly(true);
 	txtHistory->setFrameStyle(QFrame::Panel | QFrame::Sunken);
 	QWidget *historyContainer = new QWidget();
@@ -408,6 +409,14 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 
 	// Enregistrement des logs...
 	textHistorique = textHistorique + date + histText;
+
+	//Création des liens hypertextes
+	QRegExp hyperText("("
+		"([-a-zA-Z0-9]+://|[-a-zA-Z0-9]+\\.)[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*" // (protocole://)?hostname
+		"(/[-_a-zA-Z0-9.]*)*"	//directory*
+		"(#|\\?[-_a-zA-Z0-9=+]+(&[-_a-zA-Z0-9=+]+)*)?" //paramètres?
+		")");
+	msg.replace(hyperText, "<a href=\"\\1\">\\1</a>");
 
 	// Gestion des smileys
 	RzxSmileys::replace(msg);

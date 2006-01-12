@@ -16,19 +16,43 @@
  ***************************************************************************/
 
 #include <QProcess>
+#include <QUrl>
 
 #include <RzxUtilsLauncher>
 
 #include <RzxHostAddress>
 #include <RzxConfig>
 
-///Lance le client ftp
+///Tente d'ouvrir une URL avec le bon client
+void RzxUtilsLauncher::run(const QUrl& m_url)
+{
+	const QString url = m_url.toString();
+	QRegExp fullMatch("([^:]+://)?([^/:]+)(/.*)?");
+	if(fullMatch.indexIn(url) != -1)
+	{
+		const QString proto = fullMatch.cap(1);
+		const QString host = fullMatch.cap(2);
+		const QString path = fullMatch.cap(3);
+		if(proto == "http://" || proto == "https://" || proto.isEmpty())
+			http(host, path);
+		else if(proto == "ftp://")
+			ftp(host, path);
+		else if(proto == "news://")
+			news(host, path);
+	}
+}
+
+///Lance un client ftp
 void RzxUtilsLauncher::ftp(const RzxHostAddress& m_ip, const QString& path)
 {
-	QString tempPath = RzxConfig::ftpPath();
-	QString tempip = m_ip.toString();
-	QString ip=tempip;
-	tempip="ftp://"+tempip+"/"+path;
+	ftp(m_ip.toString(), path);
+}
+
+///Lance le client ftp
+void RzxUtilsLauncher::ftp(const QString& host, const QString& path)
+{
+	const QString tempPath = RzxConfig::ftpPath();
+	const QString tempip= "ftp://"+host+"/"+path;
 	QString cmd;
 #ifdef WIN32
 	QString sFtpClient=RzxConfig::ftpCmd();
@@ -106,8 +130,13 @@ void RzxUtilsLauncher::ftp(const RzxHostAddress& m_ip, const QString& path)
 ///Lance le client samba
 void RzxUtilsLauncher::samba(const RzxHostAddress& m_ip, const QString& m_path)
 {
-	QString ip = m_ip.toString();
-	QString path = RzxConfig::ftpPath();
+	samba(m_ip.toString(), m_path);
+}
+
+///Lance le client samba
+void RzxUtilsLauncher::samba(const QString& host, const QString& m_path)
+{
+	const QString path = RzxConfig::ftpPath();
 
 	// Composition de la ligne de commande
 	QString cmd;
@@ -115,14 +144,14 @@ void RzxUtilsLauncher::samba(const RzxHostAddress& m_ip, const QString& m_path)
 
 #ifdef WIN32
 	cmd = "explorer";
-	args << "\\\\" + ip + "\\" + m_path;
+	args << "\\\\" + host + "\\" + m_path;
 #else
 	#ifdef Q_OS_MAC
 	cmd = "open";
 	#else
 	cmd = "konqueror";
 	#endif //MAC
-	args << "smb://" + ip + "/" + m_path;
+	args << "smb://" + host + "/" + m_path;
 #endif
 		
 	launchCommand(cmd, args, path);
@@ -131,9 +160,14 @@ void RzxUtilsLauncher::samba(const RzxHostAddress& m_ip, const QString& m_path)
 ///Lance le client http
 void RzxUtilsLauncher::http(const RzxHostAddress& m_ip, const QString& m_path)
 {
-	QString ip = m_ip.toString();
-	QString path = RzxConfig::ftpPath();
-	QString tempip = "http://" + ip + "/" + m_path;
+	http(m_ip.toString(), m_path);
+}
+
+///Lance le client http
+void RzxUtilsLauncher::http(const QString& host, const QString& m_path)
+{
+	const QString path = RzxConfig::ftpPath();
+	const QString tempip = "http://" + host + "/" + m_path;
 	
 	// Composition de la ligne de commande
 	QString cmd = RzxConfig::httpCmd();
@@ -180,9 +214,14 @@ void RzxUtilsLauncher::http(const RzxHostAddress& m_ip, const QString& m_path)
 ///Lance le client news
 void RzxUtilsLauncher::news(const RzxHostAddress& m_ip, const QString& m_path)
 {
-	QString ip = m_ip.toString();
-	QString path = RzxConfig::ftpPath();
-	QString tempip = "news://" + ip + "/" + m_path;
+	news(m_ip.toString(), m_path);
+}
+
+///Lance le client news
+void RzxUtilsLauncher::news(const QString& host, const QString& m_path)
+{
+	const QString path = RzxConfig::ftpPath();
+	const QString tempip = "news://" + host + "/" + m_path;
 	
 	// Composition de la ligne de commande
 	QString cmd = RzxConfig::newsCmd();

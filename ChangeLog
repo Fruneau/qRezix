@@ -1,4 +1,5 @@
 [v2.0.0] 2006-01 <br2003@frankiz.polytechnique.fr>
+    * URL cliquables dans le chat [Fruneau]
     * Correction et amélioration des textes [GUI]
     * Traduction des propriétés [Fruneau]
     * Enregistrement des préférences dans HKCU et non plus HKLM [Fruneau]
