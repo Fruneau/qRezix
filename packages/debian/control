@@ -7,7 +7,7 @@ Standards-Version: 3.6.0
 
 Package: qrezix-all
 Architecture: all
-Depends: qrezix,qrezix-theme-noia-warm,qrezix-theme-classic,qrezix-theme-krystal,qrezix-theme-ms,qrezix-theme-macosx,qrezix-theme-kids,qrezix-translations-fr
+Depends: qrezix,qrezix-theme-noia-warm,qrezix-theme-classic,qrezix-theme-krystal,qrezix-theme-macosx,qrezix-theme-kids,qrezix-translations-fr
 Suggests: qrezix-network-jabber
 Description: qRezix (meta-package)
  Permet d'intaller l'ensemble des composants qRezix.

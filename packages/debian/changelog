@@ -1,3 +1,26 @@
+qrezix (2.0-0.beta1-2+svn) experimental; urgency=low
+
+  * Paquet de devel avec les corrections apportées à la bêta 1
+
+ -- Guillaume Porcher <pico@brownie.chez-pico.net>  Thu, 12 Jan 2006 18:17:02 +0100
+
+qrezix (2.0-0.beta1-2) unstable; urgency=low
+
+  * Corrige un problème de dépendance vis-à-vis du paquet qrezix-theme-ms, qui a été supprimé
+
+ -- Guillaume Porcher <pico@brownie.chez-pico.net>  Tue, 10 Jan 2006 08:17:25 +0100
+
+qrezix (2.0-0.beta1-1) unstable; urgency=medium
+
+  * Première bêta de qRezix 2
+  * Suppression du paquet qrezix-theme-ms
+  * Création d'un paquet séparé pour le module jabber
+  * Création d'un paquet qui contient les icônes commmunes à tous les thêmes
+  * Les binaires sont dans le paquets qrezix et non plus qrezix-bin
+  * création d'un paquet qrezix-all pour installer tous les plugins et thêmes disponibles
+
+ -- Guillaume Porcher <pico@brownie.chez-pico.net>  Tue, 10 Jan 2006 07:54:17 +0100
+
 qrezix (2.0-0.svn) experimental; urgency=low
 
   * Passage à la version 2
