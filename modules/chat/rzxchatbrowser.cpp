@@ -1,8 +1,8 @@
 /***************************************************************************
-           rzxfavoritelist  -  gestion d'une liste de favoris
+              rzxchatbrowser  -  permet de parcourir les chats
                              -------------------
-    begin                : Wed Dec 14 2005
-    copyright            : (C) 2005 by Florent Bruneau
+    begin                : Wed Jan 12 2006
+    copyright            : (C) 2006 by Florent Bruneau
     email                : florent.bruneau@m4x.org
  ***************************************************************************/
 
