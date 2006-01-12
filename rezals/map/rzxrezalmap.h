@@ -152,6 +152,8 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 
 	SelectionType selection;
 
+	QPoint initialPoint;
+
 	private:
 		QStringList loadMaps();
 		void loadMap(QSettings&, const QDir&, Map*);
@@ -186,6 +188,8 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 
 		virtual void resizeEvent(QResizeEvent*);
 		virtual void mousePressEvent(QMouseEvent *e);
+		virtual void mouseMoveEvent(QMouseEvent *e);
+		virtual void mouseReleaseEvent(QMouseEvent *e);
 		virtual void mouseDoubleClickEvent(QMouseEvent *e);
 		virtual void paintEvent(QPaintEvent*);
 		void drawSelection(QPainter&);

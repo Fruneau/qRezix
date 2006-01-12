@@ -74,6 +74,7 @@ RzxRezalMap::RzxRezalMap(QWidget *widget)
 	}
 	else
 		initialised = false;
+	setCursor(Qt::PointingHandCursor);
 	endLoading();
 }
 
@@ -714,6 +715,7 @@ void RzxRezalMap::mousePressEvent(QMouseEvent *e)
 		new RzxRezalPopup(indexAt(e->pos()), e->globalPos(), this);
 	else if(e->button() == Qt::LeftButton)
 	{
+		initialPoint = e->pos();
 		const QModelIndex index = indexAt(e->pos());
 		if(!index.isValid())
 		{
@@ -735,6 +737,21 @@ void RzxRezalMap::mousePressEvent(QMouseEvent *e)
 			emit clicked(index);
 		}
 	}
+}
+
+///Lorsque la souris bouge...
+void RzxRezalMap::mouseMoveEvent(QMouseEvent *e)
+{
+	setCursor(Qt::SizeAllCursor);
+	horizontalScrollBar()->setValue(horizontalOffset() + initialPoint.x() - e->pos().x());
+	verticalScrollBar()->setValue(verticalOffset() + initialPoint.y() - e->pos().y());
+	initialPoint = e->pos();
+}
+
+///Lorsque la souris est relachée, on remet l'ancien curseur
+void RzxRezalMap::mouseReleaseEvent(QMouseEvent *)
+{
+	setCursor(Qt::PointingHandCursor);
 }
 
 ///On double clique sur un objet...
