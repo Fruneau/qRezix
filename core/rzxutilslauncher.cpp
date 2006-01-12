@@ -27,7 +27,15 @@
 void RzxUtilsLauncher::run(const QUrl& m_url)
 {
 	const QString url = m_url.toString();
-	QRegExp fullMatch("([^:]+://)?([^/:]+)(/.*)?");
+
+	static QRegExp sambaMatch("\\\\\\\\([^\\\\]+)(\\\\.*)?");
+	if(sambaMatch.indexIn(url) != -1)
+	{
+		samba(sambaMatch.cap(1), sambaMatch.cap(2));
+		return;
+	}
+
+	static QRegExp fullMatch("([^:]+://)?([^/:]+)(/.*)?");
 	if(fullMatch.indexIn(url) != -1)
 	{
 		const QString proto = fullMatch.cap(1);
@@ -39,6 +47,8 @@ void RzxUtilsLauncher::run(const QUrl& m_url)
 			ftp(host, path);
 		else if(proto == "news://")
 			news(host, path);
+		else if(proto == "smb://")
+			samba(host, path);
 	}
 }
 
