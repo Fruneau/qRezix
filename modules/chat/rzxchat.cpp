@@ -413,7 +413,7 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 	//Création des liens hypertextes
 	static QRegExp hyperText("("
 		"([a-zA-Z0-9]+://|[-a-zA-Z0-9]+\\.)[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*" // (protocole://)?hostname
-		"(/[-%_a-zA-Z0-9.]*)*"	//directory*
+		"(/~?[-%_a-zA-Z0-9.]*)*"	//directory*
 		"(#|\\?[-%_a-zA-Z0-9=+]+(&[-_a-zA-Z0-9=+]+)*)?" //paramètres?
 		"|(\\\\\\\\[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*(\\\\[-%_a-zA-Z0-9.]*)*)" // samba
 		")");
