@@ -322,7 +322,7 @@ void RzxRezalMap::resizeEvent(QResizeEvent *e)
 	setHorizontalScrollBarPolicy((Qt::ScrollBarPolicy)(size().width() == maximumSize().width() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAlwaysOn));
 	setVerticalScrollBarPolicy((Qt::ScrollBarPolicy)(size().height() == maximumSize().height() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAlwaysOn));
 
-	placeSearch->move(width() - placeSearch->width() - 3, 3);
+	placeSearch->move(width() - placeSearch->width() - 3 - (verticalScrollBar()->isVisible() ? verticalScrollBar()->width() : 0), 3);
 }
 
 ///Change la carte active vers la carte indiquée
