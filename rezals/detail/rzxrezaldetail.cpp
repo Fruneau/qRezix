@@ -326,11 +326,17 @@ bool RzxRezalDetail::eventFilter(QObject *dck, QEvent *e)
 		{
 			case Qt::BottomDockWidgetArea: case Qt::TopDockWidgetArea:
 				if(orientation == Qt::Vertical)
+				{
 					splitter->setOrientation(Qt::Horizontal);
+					setMinimumHeight(256);
+				}
 				break;
 			case Qt::RightDockWidgetArea: case Qt::LeftDockWidgetArea:
 				if(orientation == Qt::Horizontal)
+				{
 					splitter->setOrientation(Qt::Vertical);
+					setMinimumHeight(400);
+				}
 				break;
 			default:
 				break;
