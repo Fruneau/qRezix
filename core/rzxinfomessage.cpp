@@ -68,9 +68,9 @@ RzxInfoMessage::RzxInfoMessage(QSettings *m_settings, const QString& m_id, const
 ///Enregistre les paramètre et ferme
 RzxInfoMessage::~RzxInfoMessage()
 {
-	delete ui;
 	if(settings && !id.isEmpty())
 		settings->setValue(id, ui->cbDont->isChecked());
+	delete ui;
 }
 
 ///Initialise la fenêtre
