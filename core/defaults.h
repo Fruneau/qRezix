@@ -46,6 +46,8 @@
 #define QREZIX_AWAY_ICON "../resources/t.xpm"
 
 #ifdef Q_OS_MAC
+#	undef QREZIX_LIB_DIR
+#	undef QREZIX_SYSTEM_DIR
 #	define QREZIX_LIB_DIR "./qRezix.app/Contents/Frameworks/"
 #	define QREZIX_SYSTEM_DIR "./qRezix.app/Contents/Resources/"
 #else
