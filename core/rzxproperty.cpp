@@ -764,7 +764,6 @@ void RzxProperty::changeEvent(QEvent *e)
 		QTreeWidgetItem *item = lbMenu->currentItem();
 		retranslateUi(this);
 		changeTheme();
-		initDlg();
 		generalItem->setText(0, tr("Infos"));
 		favoritesItem->setText(0, tr("Favorites/Banned"));
 		layoutItem->setText(0, tr("Layout"));
