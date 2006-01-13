@@ -25,19 +25,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Plug-ins</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Central</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Adjust columns</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -51,6 +43,10 @@
     <message>
         <source>Search</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modules</source>
+        <translation type="unfinished">Modules</translation>
     </message>
 </context>
 <context>
@@ -270,6 +266,18 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive a message&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Prompt:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print prompt</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxComputer</name>
@@ -404,18 +412,6 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     <name>RzxItem</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Property</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Get Now !</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -699,6 +695,10 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     <message>
         <source>Name</source>
         <translation>Nom</translation>
+    </message>
+    <message>
+        <source>(Re)Loading this module requires to restart qRezix</source>
+        <translation>(Re)Charger ce module nécessite le redémarrage de qRezix</translation>
     </message>
 </context>
 <context>
@@ -1326,6 +1326,25 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     <message>
         <source>Badminton</source>
         <translation>Badminton</translation>
+    </message>
+</context>
+<context>
+    <name>RzxProps</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get Now !</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Property</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

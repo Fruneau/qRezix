@@ -201,6 +201,10 @@ void RzxLoaderProp<T>::itemChanged(QTreeWidgetItem * current, QTreeWidgetItem *)
 		btnLoad->setText(tr("Unload"));
 		btnLoad->setIcon(RzxIconCollection::getIcon(Rzx::ICON_UNLOAD));
 	}
+	if(loader->files[name].isNull())
+		lblReboot->setText("<i>" + QApplication::translate("RzxLoader", "(Re)Loading this module requires to restart qRezix") + "</i>");
+	else
+		lblReboot->clear();
 }
 
 ///Demande le (dé)chargement du module
