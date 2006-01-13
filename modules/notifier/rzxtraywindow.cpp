@@ -38,6 +38,7 @@ RzxTrayWindow::RzxTrayWindow(Theme theme, RzxComputer* c, unsigned int time )
 		: QFrame( NULL, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint ), computer(c)
 {
 	setAttribute( Qt::WA_DeleteOnClose );
+	setAttribute( Qt::WA_QuitOnClose,false);
 
 	//Composition de la fenêtre dans le thème choisi
 	switch(theme)
