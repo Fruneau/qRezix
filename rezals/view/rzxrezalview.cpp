@@ -75,7 +75,7 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 	
 	afficheColonnes();
 
-	connect(&search, SIGNAL(findItem(const QModelIndex& )), this, SLOT(setCurrentIndex(const QModelIndex&)));
+	connect(&search, SIGNAL(findItem(const QModelIndex& )), this, SLOT(findIndex(const QModelIndex&)));
 	connect(&search, SIGNAL(searchPatternChanged(const QString& )), this, SIGNAL(searchPatternChanged(const QString& )));
 	RzxIconCollection::connect(this, SLOT(themeChanged()));
 
@@ -303,6 +303,13 @@ void RzxRezalView::currentChanged(const QModelIndex& current, const QModelIndex&
 		(current.parent() == rootIndex().parent() && current.row() == rootIndex().row())) return;
 	if(current.parent() == rootIndex().parent() || (!rootIndex().isValid() && current.parent().isValid()))
 		setRootIndex(current.parent());
+}
+
+///Sélection l'index trouvé par la recherche
+void RzxRezalView::findIndex(const QModelIndex& index)
+{
+	setCurrentIndex(index);
+	scrollTo(index, PositionAtTop);
 }
 
 ///Mets à jour l'affichage lorsque des objets sont insérés

@@ -89,6 +89,7 @@ class RzxRezalView : public QTreeView, public RzxRezal
 		void forceRefresh();
 		void setDelayRefresh(bool);
 		virtual void currentChanged(const QModelIndex&, const QModelIndex&);
+		void findIndex(const QModelIndex&);
 
 	signals:
 		void searchPatternChanged(const QString&);
