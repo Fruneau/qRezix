@@ -211,6 +211,7 @@ void RzxProperty::changeTheme()
 
 	fillThemeView();
 	initPromoCombo();
+	initSportCombo();
 }
 
 ///Rempli la listview d'affichage du thème d'icône
@@ -395,23 +396,25 @@ void RzxProperty::initSportCombo()
 
 	cmbSport->clear();
 	cmbSport->addItem(tr("None"), 0);
-	cmbSport->addItem(tr("Athletism"), 1);
-	cmbSport->addItem(tr("Rowing"), 2);
-	cmbSport->addItem(tr("Badminton"), 17);
-	cmbSport->addItem(tr("Basketball"), 3);
-	cmbSport->addItem(tr("Orienting"), 4);
-	cmbSport->addItem(tr("Riding"), 5);
-	cmbSport->addItem(tr("Climbing"), 6);
-	cmbSport->addItem(tr("Fencing"), 7);
-	cmbSport->addItem(tr("Football"), 8);
-	cmbSport->addItem(tr("Golf"), 9);
-	cmbSport->addItem(tr("Handball"), 10);
-	cmbSport->addItem(tr("Judo"), 11);
-	cmbSport->addItem(tr("Swimming"), 12);
-	cmbSport->addItem(tr("Rugby"), 13);
-	cmbSport->addItem(tr("Tennis"), 14);
-	cmbSport->addItem(tr("Sailing"), 15);
-	cmbSport->addItem(tr("Volleyball"), 16);
+#define addSport(icon, name, pos) cmbSport->addItem(RzxIconCollection::getIcon(icon), name, pos)
+	addSport("athlethism", tr("Athletism"), 1);
+	addSport("rowing", tr("Rowing"), 2);
+	addSport("badminton", tr("Badminton"), 17);
+	addSport("basketball", tr("Basketball"), 3);
+	addSport("orienting", tr("Orienting"), 4);
+	addSport("riding", tr("Riding"), 5);
+	addSport("climbing", tr("Climbing"), 6);
+	addSport("fencing", tr("Fencing"), 7);
+	addSport("football", tr("Football"), 8);
+	addSport("golf", tr("Golf"), 9);
+	addSport("handball", tr("Handball"), 10);
+	addSport("judo", tr("Judo"), 11);
+	addSport("swimming", tr("Swimming"), 12);
+	addSport("rugby", tr("Rugby"), 13);
+	addSport("tennis", tr("Tennis"), 14);
+	addSport("sailing", tr("Sailing"), 15);
+	addSport("volleyball", tr("Volleyball"), 16);
+#undef addSport
 
 	if(index == -1)
 		cmbSport->setCurrentIndex(cmbSport->findData(RzxConfig::numSport()));
