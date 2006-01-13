@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 #include <QAbstractButton>
+#include <QDesktopWidget>
+#include <QApplication>
 
 #include "rzxchatpopup.h"
 
@@ -41,6 +43,22 @@ RzxChatPopup::RzxChatPopup(QAbstractButton *btn, QWidget *parent)
 void RzxChatPopup::move()
 {
 #ifndef Q_OS_MAC
-	QFrame::move(button->mapToGlobal(button->rect().bottomLeft()));
+	if(!button) return;
+
+	const QSize resolution = QApplication::desktop()->size();
+	QPoint point = button->mapToGlobal(button->rect().bottomLeft());
+
+	if(point.x() + size().width() > resolution.width())
+		point.setX(resolution.width() - size().width());
+	if(point.y() + size().height() > resolution.height())
+		point.setY(resolution.height() - size().height());
+
+	QFrame::move(point);
 #endif
+}
+
+///Corrige le placement suite au changement de la taille
+void RzxChatPopup::resizeEvent(QResizeEvent*)
+{
+	move();
 }

@@ -24,6 +24,7 @@
  */
 
 class QAbstractButton;
+class QResizeEvent;
 
 ///Classe pour les fenêtre propriété et historique du chat
 /** Affiche une frame qui permet de contenir les données des propriétés et de l'historique.<br>
@@ -40,6 +41,9 @@ class RzxChatPopup : public QFrame
 		~RzxChatPopup() { }
 		
 		void move();
+
+	protected:
+		virtual void resizeEvent(QResizeEvent*);
 };
 
 #endif

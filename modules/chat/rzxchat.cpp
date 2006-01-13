@@ -644,6 +644,12 @@ void RzxChat::moveEvent(QMoveEvent *)
 		smileyUi->move();
 }
 
+///Resize de la fenêtre
+void RzxChat::resizeEvent(QResizeEvent *)
+{
+	moveEvent();
+}
+
 /// Gestion de la connexion avec l'autre client
 /** Cette méthode permet de gérer les deux cas :
  *		- soit la connexion est déjà établie, on utilise le m_socket déjà en place

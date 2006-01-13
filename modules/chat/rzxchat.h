@@ -124,7 +124,8 @@ protected: // Protected methods
 	void initHtmlText();
 
 	virtual void closeEvent(QCloseEvent * e);
-	virtual void moveEvent(QMoveEvent *e);
+	virtual void moveEvent(QMoveEvent *e = NULL);
+	virtual void resizeEvent(QResizeEvent *e = NULL);
 	virtual void changeEvent(QEvent *e);
 };
 
