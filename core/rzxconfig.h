@@ -14,7 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 #ifndef RZXCONFIG_H
 #define RZXCONFIG_H
 
@@ -53,7 +52,7 @@ private:
 public:
 	// Données
 	RZX_STRINGPROP("theme", iconTheme, setIconTheme, DEFAULT_THEME)
-	RZX_STRINGPROP("style", style, setStyle, "default")
+	RZX_STRINGPROP("style", style, setStyle, "Default")
 	RZX_BOOLPROP("styleforall", useStyleForAll, setUseStyleForAll, true)
 	RZX_STRINGPROP("language", language, setLanguage, "English")
 	RZX_STRINGPROP("txtBeepCmd", beepCmd, setBeepCmd, "play")

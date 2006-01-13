@@ -57,7 +57,7 @@ RzxUi::RzxUi()
 	connect(qrezix, SIGNAL(wantQuit()), this, SIGNAL(wantQuit()));
 	connect(qrezix, SIGNAL(wantPreferences()), this, SIGNAL(wantPreferences()));
 	connect(qrezix, SIGNAL(wantToggleResponder()), this, SIGNAL(wantToggleResponder()));
-	connect(qrezix, SIGNAL(wantReload()), this, SLOT(reload()));
+	connect(qrezix, SIGNAL(wantReload()), this, SLOT(reload()), Qt::QueuedConnection);
 	RzxIconCollection::connect(this, SLOT(fillComboBoxes()));
 	RzxTranslator::connect(this, SLOT(fillComboBoxes()));
 	setIcon(RZX_MODULE_ICON);
@@ -314,6 +314,6 @@ void RzxUi::reload()
 	connect(qrezix, SIGNAL(wantQuit()), this, SIGNAL(wantQuit()));
 	connect(qrezix, SIGNAL(wantPreferences()), this, SIGNAL(wantPreferences()));
 	connect(qrezix, SIGNAL(wantToggleResponder()), this, SIGNAL(wantToggleResponder()));
-	connect(qrezix, SIGNAL(wantReload()), this, SLOT(reload()));
+	connect(qrezix, SIGNAL(wantReload()), this, SLOT(reload()), Qt::QueuedConnection);
 	endLoading();
 }

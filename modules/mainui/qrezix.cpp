@@ -113,7 +113,7 @@ QRezix::QRezix(QWidget *parent)
 	bar->setMovable(false);
 
 	RzxMainUIConfig::restoreMainWidget(this);
-
+	buildModuleMenus();
 	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(toggleAutoResponder()));
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	
