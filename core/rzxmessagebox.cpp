@@ -36,6 +36,7 @@ QWidget *RzxMessageBox::information( QWidget *parent, const QString& caption,
 		QMessageBox *mb = new QMessageBox(caption, text, QMessageBox::Information,
 										  0, 0, 0, parent);
 		mb->setAttribute(Qt::WA_DeleteOnClose);
+		mb->setAttribute(Qt::WA_QuitOnClose, false);
 		mb->setModal(modal);
 		mb->show();
 		return mb;
@@ -62,6 +63,7 @@ QWidget *RzxMessageBox::warning( QWidget *parent, const QString& caption,
 		QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Warning,
 										   0, 0, 0, parent);
 		mb->setAttribute(Qt::WA_DeleteOnClose);
+		mb->setAttribute(Qt::WA_QuitOnClose, false);
 		mb->setModal(modal);
 		mb->show();
 		return mb;
@@ -88,6 +90,7 @@ QWidget *RzxMessageBox::critical( QWidget *parent, const QString& caption,
 		QMessageBox *mb = new QMessageBox( caption, text, QMessageBox::Critical,
 										   0, 0, 0, parent);
 		mb->setAttribute(Qt::WA_DeleteOnClose);
+		mb->setAttribute(Qt::WA_QuitOnClose, false);
 		mb->setModal(modal);
 		mb->show();
 		return mb;
