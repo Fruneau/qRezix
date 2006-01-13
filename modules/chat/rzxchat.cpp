@@ -457,7 +457,9 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 	else
 		txtHistory->append(msg);
 
-	txtHistory->textCursor().movePosition(QTextCursor::End);
+	QTextCursor cursor = txtHistory->textCursor();
+	cursor.movePosition(QTextCursor::End);
+	txtHistory->setTextCursor(cursor);
 	txtHistory->ensureCursorVisible();
 	ui->edMsg->setFocus();
 }

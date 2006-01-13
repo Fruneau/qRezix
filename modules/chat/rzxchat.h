@@ -36,7 +36,7 @@ class QMoveEvent;
 class QKeyEvent;
 class QEvent;
 class QSplitter;
-class QTextEdit;
+class RzxChatBrowser;
 namespace Ui { class RzxChat; };
 
 ///Fenêtre de dialogue
@@ -54,7 +54,7 @@ class RzxChat : public QWidget
 
 	Ui::RzxChat *ui;
 	
-	QTextEdit *txtHistory;
+	RzxChatBrowser *txtHistory;
 	QWidget *editor;
 	QSplitter *splitter;
 
