@@ -174,7 +174,7 @@ void RzxComputerList::remove(const RzxComputer* computer)
  */
 bool RzxComputerList::contains(const QString& name) const
 {
-	return nameList.contains(name);
+	return nameList.contains(name, Qt::CaseInsensitive);
 }
 
 ///Test si un objet est dans la liste

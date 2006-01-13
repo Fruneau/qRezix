@@ -149,7 +149,7 @@ bool RzxConnectionLister::isInitialized() const
 ///Renvoie l'ordinateur associé à name
 RzxComputer *RzxConnectionLister::getComputerByName(const QString& name) const
 {
-	return computerByLogin[name];
+	return computerByLogin[name.toLower()];
 }
 
 ///Renvoie l'ordinateur associé à l'IP
@@ -180,7 +180,7 @@ void RzxConnectionLister::login(RzxNetwork* network, const RzxHostAddress& ip, c
 	else
 	{
 		if(getComputerByName(name))
-			computerByLogin.remove(computer->name());
+			computerByLogin.remove(computer->name().toLower());
 		computer->update(name, options, stamp, flags, comment);
 		if(getComputerByName(name))
 		{
@@ -208,7 +208,7 @@ void RzxConnectionLister::login()
 		emit login(computer);
 	
 		//Ajout du nouvel ordinateur dans les qdict
-		computerByLogin.insert(computer->name(), computer);
+		computerByLogin.insert(computer->name().toLower(), computer);
 		emitCountChange();
 	}
 	
@@ -230,7 +230,7 @@ void RzxConnectionLister::logout( const RzxHostAddress& ip )
 		computer->logout();
 		emit logout(computer);
 		computerByIP.remove(ip);
-		computerByLogin.remove(computer->name());
+		computerByLogin.remove(computer->name().toLower());
 		computer->deleteLater();
 		emitCountChange();
 	}
@@ -304,7 +304,7 @@ void RzxConnectionLister::clearComputerFromNetwork(RzxNetwork *network)
 	foreach(QString key, computerByLogin.keys())
 	{
 		RzxComputer *computer = computerByLogin[key];
-		if(!computer || computer->network()==network)
+		if(!computer || computer->network() == network)
 			computerByLogin.remove(key);
 	}
 	
