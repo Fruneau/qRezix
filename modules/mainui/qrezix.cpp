@@ -139,16 +139,20 @@ QRezix::QRezix(QWidget *parent)
 void QRezix::loadBuiltins()
 {
 #ifdef RZX_RZLVIEW_BUILTIN
-	installModule(new RzxRezalView());
+	if(addBuiltin(RzxThemedIcon("rzlitem"), "Item view", QApplication::version(), "Historical way to display computers"))
+		installModule(new RzxRezalView());
 #endif
 #ifdef RZX_RZLDETAIL_BUILTIN
-	installModule(new RzxRezalDetail());
+	if(addBuiltin(RzxThemedIcon("rzlitem"), "Item details", QApplication::version(), "Detail of an item"))
+		installModule(new RzxRezalDetail());
 #endif
 #ifdef RZX_RZLINDEX_BUILTIN
-	installModule(new RzxRezalIndex());
+	if(addBuiltin(RzxThemedIcon("rzlitem"), "Index", QApplication::version(), "Index view for easy navigation"))
+		installModule(new RzxRezalIndex());
 #endif
 #ifdef RZX_RZLMAP_BUILTIN
-	installModule(new RzxRezalMap());
+	if(addBuiltin(RzxThemedIcon("rzlitem"), "Platal", QApplication::version(), "Show an interactive map of the campus"))
+		installModule(new RzxRezalMap());
 #endif
 }
 

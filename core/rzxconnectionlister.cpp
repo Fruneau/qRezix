@@ -72,10 +72,13 @@ RzxConnectionLister::~RzxConnectionLister()
 void RzxConnectionLister::loadBuiltins()
 {
 #ifdef RZX_XNET_BUILTIN
-	installModule(new RzxServerListener);
+	if(addBuiltin(Rzx::ICON_NETWORK, "xNet", RzxApplication::version(), "Native support for the xNet protocole version 4.0"))
+		installModule(new RzxServerListener);
 #endif
 #ifdef RZX_JABBER_BUILTIN
-	installModule(new RzxJabberProtocole);
+	if(addBuiltin(RzxThemedIcon("jabber_small"), "Jabber",
+			Rzx::versionFromString("0.0.1-svn"), "Native support for the jabber protocole"))
+		installModule(new RzxJabberProtocole);
 #endif
 }
 

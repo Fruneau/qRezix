@@ -78,6 +78,7 @@ class RzxBaseLoader
 	QHash<QString, const char*> descriptions;
 	QHash<QString, RzxThemedIcon> icons;
 	QHash<QString, T*> modules;
+	QStringList toBeReloaded;
 
 	public:
 		RzxBaseLoader(const QString&, const QString&, const char*, const char*, const char*, const char*, const char*, bool = false);
@@ -87,6 +88,7 @@ class RzxBaseLoader
 		T* module(const QString& name) const;
 
 	protected:
+		bool addBuiltin(const RzxThemedIcon&, const QString&, const Rzx::Version&, const char*);
 		void loadModules();
 		void closeModules();
 
@@ -137,7 +139,7 @@ void RzxBaseLoader<T>::saveState()
 		settings->beginGroup("modules");
 		QStringList list = modules.keys();
 		foreach(QString name, list)
-			settings->setValue(name, modules[name]);
+			settings->setValue(name, modules[name] || toBeReloaded.contains(name));
 		settings->endGroup();
 	}
 }
@@ -152,6 +154,7 @@ void RzxBaseLoader<T>::setSettings(QSettings *m_settings)
 	settings = m_settings;
 }
 
+///Indique si on doit charger ou non le module indiqué
 template <class T>
 bool RzxBaseLoader<T>::shouldLoad(const QString& name) const
 {
@@ -163,6 +166,19 @@ bool RzxBaseLoader<T>::shouldLoad(const QString& name) const
 		settings->endGroup();
 	}
 	return load;
+}
+
+///Insert un built-in dans la liste des modules disponibles
+/** Et indique si on doit le charger ou non...
+ */
+template <class T>
+bool RzxBaseLoader<T>::addBuiltin(const RzxThemedIcon& icon, const QString& name, const Rzx::Version& version, const char *desc)
+{
+	modules.insert(name, NULL);
+	versions.insert(name, version);
+	descriptions.insert(name, desc);
+	icons.insert(name, icon);
+	return shouldLoad(name);
 }
 
 ///Retourne la liste des modules
@@ -201,15 +217,9 @@ void RzxBaseLoader<T>::closeModules()
 template <class T>
 void RzxBaseLoader<T>::loadModules()
 {
-//	Rzx::beginModuleLoading("Built-ins");
 	loadBuiltins();
-//	Rzx::endModuleLoading("Built-ins");
-//	Rzx::beginModuleLoading("Plug-ins");
 	loadPlugins();
-//	Rzx::endModuleLoading("Built-ins");
-//	Rzx::beginModuleLoading("Modules interactions");
 	linkModules();
-//	Rzx::endModuleLoading("Modules interactions");
 }
 
 ///Charge les builtins
@@ -434,6 +444,7 @@ void RzxBaseLoader<T>::unloadModule(T *module)
 	relinkModules(NULL, module);
 	QLibrary *lib = module->library();
 	modules.insert(module->name(), NULL);
+	toBeReloaded.removeAll(module->name());
 	delete module;
 	if(lib)
 	{
@@ -465,6 +476,7 @@ bool RzxBaseLoader<T>::loadModule(const QString& moduleName)
 
 	if(files[moduleName].isNull())
 	{
+		toBeReloaded << moduleName;
 		new RzxInfoMessage(RzxConfig::global(),
 			"loadBuiltin",
 			RzxThemedIcon(Rzx::ICON_PLUGIN),

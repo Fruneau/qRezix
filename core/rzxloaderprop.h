@@ -95,6 +95,7 @@ class RzxLoaderProp:public RzxBaseLoaderProp
 {
 	RzxBaseLoader<T> *loader;
 	T *module;
+	bool unloadable;
 	QString name;	
 
 	public:
@@ -140,6 +141,7 @@ void RzxLoaderProp<T>::setLoader(RzxBaseLoader<T> *m_loader)
 template <class T>
 void RzxLoaderProp<T>::init()
 {
+	unloadable = false;
 	QStringList modules = loader->modules.keys();
 	changeTheme();
 	foreach(QString name, modules)
@@ -184,7 +186,8 @@ void RzxLoaderProp<T>::itemChanged(QTreeWidgetItem * current, QTreeWidgetItem *)
 
 	name = current->text(0);
 	module = loader->modules[name];
-	if(!module)
+	unloadable = module || loader->toBeReloaded.contains(name);
+	if(!unloadable)
 	{
 		btnReload->setEnabled(false);
 		btnLoad->setEnabled(true);
@@ -193,7 +196,7 @@ void RzxLoaderProp<T>::itemChanged(QTreeWidgetItem * current, QTreeWidgetItem *)
 	}
 	else
 	{
-		btnReload->setEnabled(true);
+		btnReload->setEnabled(module);
 		btnLoad->setEnabled(true);
 		btnLoad->setText(tr("Unload"));
 		btnLoad->setIcon(RzxIconCollection::getIcon(Rzx::ICON_UNLOAD));
@@ -241,9 +244,8 @@ void RzxLoaderProp<T>::reload()
 {
 	if(!name.isNull())
 	{
-		emitNotifyUnload(name);
-		loader->reloadModule(module->name());
-		emitNotifyLoad(name);
+		load();
+		load();
 	}
 	itemChanged(treeModules->currentItem());
 }
@@ -260,7 +262,7 @@ void RzxLoaderProp<T>::changeTheme()
 			item->setIcon(0, module->icon());
 	}
 	btnReload->setIcon(RzxIconCollection::getIcon(Rzx::ICON_RELOAD));
-	btnLoad->setIcon(RzxIconCollection::getIcon(module?Rzx::ICON_UNLOAD:Rzx::ICON_LOAD));
+	btnLoad->setIcon(RzxIconCollection::getIcon(unloadable?Rzx::ICON_UNLOAD:Rzx::ICON_LOAD));
 }
 
 #endif
