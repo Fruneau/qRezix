@@ -115,7 +115,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 
 #ifdef Q_OS_MAC
 	lstTheme->setSizeIncrement(QSize(1,1));
-        new QShortcut(QKeySequence("Ctrl+M"), this, SLOT(showMinimized()));
+	new QShortcut(QKeySequence("Ctrl+M"), this, SLOT(showMinimized()));
 #endif
 
 	//fenêtre pour les props vides, index == 3
