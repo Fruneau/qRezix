@@ -41,6 +41,7 @@
 class RzxRezalIndex : public QTreeView, public RzxRezal
 {
 	Q_OBJECT
+	bool firstChange;
 
 	public:
 		RzxRezalIndex(QWidget *parent = NULL);

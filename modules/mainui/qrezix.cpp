@@ -122,8 +122,11 @@ QRezix::QRezix(QWidget *parent)
 
 	RzxConnectionLister *lister = RzxConnectionLister::global();
 	connect(lister, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
-	connect(lister, SIGNAL(receiveAddress(const RzxHostAddress&)), this, SLOT(setSelection(const RzxHostAddress&)));
 	connect(lister, SIGNAL(countChange(const QString&)), statusui->lblCount, SLOT(setText(const QString&)));
+	if(RzxComputer::localhost()->ip().isNull())
+		connect(lister, SIGNAL(receiveAddress(const RzxHostAddress&)), this, SLOT(setSelection(const RzxHostAddress&)));
+	else
+		setSelection(RzxComputer::localhost()->ip());
 	
 	connect(RzxConfig::global(), SIGNAL(iconFormatChange()), this, SLOT(menuFormatChange()));
 

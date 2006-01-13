@@ -44,6 +44,7 @@ RzxRezalIndex::RzxRezalIndex(QWidget *parent)
 	setType(TYP_INDEX);
 	setIcon(RZX_MODULE_ICON);
 	setModel(RzxRezalModel::global());
+	firstChange = true;
 	for(int i = 1 ; i < RzxRezalModel::numColonnes ; i++)
 		hideColumn(i);
 	resizeColumnToContents(0);
@@ -93,11 +94,10 @@ bool RzxRezalIndex::floating() const
 ///Pour que le changement de sélection entraînte toujours la mise à jour de l'index
 void RzxRezalIndex::currentChanged(const QModelIndex& current, const QModelIndex&)
 {
-	static bool first = true;
-	if(first)
+	if(firstChange)
 	{
 		emit activated(current);
-		first = false;
+		firstChange = false;
 	}
 	if(!RzxRezalModel::global()->isIndex(current) && !RzxRezalModel::global()->isComputer(current))
 		expand(current.parent());
