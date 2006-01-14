@@ -470,6 +470,10 @@
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
+    <message>
+        <source>send a Mail</source>
+        <translation>Envoyer un Mail</translation>
+    </message>
 </context>
 <context>
     <name>RzxRezalViewProp</name>
@@ -610,6 +614,10 @@
     <message>
         <source>My Subnet</source>
         <translation>Mon Sous-Réseau</translation>
+    </message>
+    <message>
+        <source>Send a Mail</source>
+        <translation>Envoyer un Mail</translation>
     </message>
 </context>
 </TS>

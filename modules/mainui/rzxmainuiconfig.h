@@ -40,7 +40,8 @@ class RZX_MAINUI_EXPORT RzxMainUIConfig: public RzxAbstractConfig
 			Ftp = 1,
 			Http = 2,
 			News = 3,
-			Samba = 4
+			Samba = 4,
+			Mail = 5
 		};
 
 		///Enumère les tabs accessibles pour l'ouverture

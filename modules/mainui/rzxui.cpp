@@ -194,6 +194,7 @@ void RzxUi::fillComboBoxes()
 	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_HTTP), tr("Open Web page"));
 	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_NEWS), tr("Read News"));
 	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_SAMBA), tr("Open Samba"));
+	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_MAIL), tr("Send a Mail"));
 	ui->cmdDoubleClic->setCurrentIndex(i);
 }
 

@@ -68,6 +68,13 @@ void RzxRezalAction::run(RzxComputer *computer)
 					computer->samba();
 					return;
 				}
+
+			case RzxMainUIConfig::Mail:
+				if(computer->hasEmailAddress())
+				{
+					computer->mail();
+					return;
+				}
 		}
 		//On relance un unique deuxième tour en partant de Chat pour être sûr
 		//de tester toutes les actions possibles
