@@ -412,10 +412,13 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 
 	//Création des liens hypertextes
 	static const QRegExp hyperText("("
-		"([a-zA-Z0-9]+://|[-a-zA-Z0-9]+\\.)[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*" // (protocole://)?hostname
+		"(\\b[a-zA-Z0-9]+://([-a-zA-Z0-9]+(\\:[-a-zA-Z0-9]+)?\\@)?[-a-zA-Z0-9]+"
+			"|[-a-zA-Z0-9]+\\.[-a-zA-Z0-9]+)(\\.[-a-zA-Z0-9]+)*" // (protocole://)?hostname
 		"(/~?[-%_a-zA-Z0-9.]*)*"	//directory*
-		"(#|\\?[-%_a-zA-Z0-9=+]+(&[-_a-zA-Z0-9=+]+)*)?" //paramètres?
+		"(#|\\?[-%_a-zA-Z0-9=+.]+(&[-_a-zA-Z0-9=+.]+)*)?" //paramètres?
 		"|(\\\\\\\\[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*(\\\\[-%_a-zA-Z0-9.]*)*)" // samba
+		"|\\b(mailto:)?[-_a-zA-Z0-9]+(\\.[-_a-zA-Z0-9]+)*(\\+[-_a-zA-Z0-9.]+)?" // login
+		"\\@[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*\\b" //mail hostname
 		")");
 	msg.replace(hyperText, "<a href=\"\\1\">\\1</a>");
 

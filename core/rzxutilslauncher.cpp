@@ -28,6 +28,13 @@ void RzxUtilsLauncher::run(const QUrl& m_url)
 {
 	const QString url = m_url.toString();
 
+	static QRegExp mailMatch("^(mailto:)?([^/\\@]+\\@[^\\@]+)");
+	if(mailMatch.indexIn(url) != -1)
+	{
+		mail(mailMatch.cap(2));
+		return;
+	}
+
 	static QRegExp sambaMatch("\\\\\\\\([^\\\\]+)(\\\\.*)?");
 	if(sambaMatch.indexIn(url) != -1)
 	{
