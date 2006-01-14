@@ -563,17 +563,17 @@ void RzxConfig::fillWithCache(const RzxHostAddress& ip, QTreeWidget *view)
 		item = new QTreeWidgetItem(view, item);
 		item->setText(0, tr(props[i].toAscii().constData()));
 		item->setText(1, tr(props[i+1].toAscii().constData()));
-		if(props[i] == "Web Page")
+		if(props[i] == "Web Page" || props[i] == "Web")
 			item->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_HTTP));
 		else if(props[i] == "Sport")
 			item->setIcon(0, RzxIconCollection::getIcon(props[i+1].toLower()));
-		else if(props[i] == "Class")
+		else if(props[i] == "Class" || props[i] == "Promâl")
 			item->setIcon(0, RzxIconCollection::getIcon(props[i+1] == "Jone" ? Rzx::ICON_JONE : (props[i+1] == "Rouje" ? Rzx::ICON_ROUJE : Rzx::ICON_ORANJE)));
-		else if(props[i] == "Room")
+		else if(props[i] == "Room" || props[i] == "Kazert" || props[i] == "Casert")
 			item->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY));
-		else if(props[i] == "Phone")
+		else if(props[i] == "Phone" || props[i] == "Tel")
 			item->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PHONE));
-		else if(props[i] == "E-Mail")
+		else if(props[i] == "E-Mail" || props[i] == "Courriel")
 			item->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_MAIL));
 		else
 			item->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PROPRIETES));
