@@ -586,7 +586,7 @@ QString RzxConfig::getEmailFromCache(const RzxHostAddress& ip)
 	QStringList props = global()->value("cacheprop-" + ip.toString()).toString().split("|");
 	for(int i = 0 ; i < props.size() - 1 ; i+=2)
 	{
-		if(props[i] == "E-Mail")
+		if(props[i] == "E-Mail" || props[i] == "Courriel")
 			return props[i+1];
 	}
 	return QString();
