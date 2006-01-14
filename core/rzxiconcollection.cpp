@@ -94,7 +94,9 @@ const RzxIconCollection::IconData RzxIconCollection::data[] = {
 	{ Rzx::ICON_NOPRINTER, "no_printer", false },
 	{ Rzx::ICON_LOAD, "load", false },
 	{ Rzx::ICON_UNLOAD, "unload", false },
-	{ Rzx::ICON_RELOAD, "reload", false }
+	{ Rzx::ICON_RELOAD, "reload", false },
+	{ Rzx::ICON_MAIL, "mail", false },
+	{ Rzx::ICON_PHONE, "phone", false }
 };
 
 ///Construction de la collection d'icône

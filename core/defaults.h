@@ -20,17 +20,20 @@
 #	define DEFAULT_FTPCMD "standard"
 #	define DEFAULT_HTTPCMD "standard"
 #	define DEFAULT_NEWSCMD "standard"
+#	define DEFAULT_MAILCMD "standard"
 #else
 #ifdef Q_OS_MAC
 #	define DEFAULT_SAMBACMD "open"
 #	define DEFAULT_FTPCMD "Default"
 #	define DEFAULT_HTTPCMD "Default"
 #	define DEFAULT_NEWSCMD "Default"
+#	define DEFAULT_MAILCMD "Default"
 #else
 #	define DEFAULT_SAMBACMD "standard"
 #	define DEFAULT_FTPCMD "gftp"
 #	define DEFAULT_HTTPCMD "firefox"
 #	define DEFAULT_NEWSCMD "knode"
+#	define DEFAULT_MAILCMD "kmail"
 #endif
 #endif
 

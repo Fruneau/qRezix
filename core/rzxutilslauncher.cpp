@@ -253,6 +253,43 @@ void RzxUtilsLauncher::news(const QString& host, const QString& m_path)
 	launchCommand(cmd, args, path);
 }
 
+///Demande l'envoie d'un mail à l'adresse indiquée
+void RzxUtilsLauncher::mail(const QString& email)
+{
+	const QString mailto = "mailto:" + email;
+	QStringList args;
+	QString cmd = RzxConfig::mailCmd();
+
+#ifdef WIN32
+	if(cmd == "standard")
+		cmd = mailto;
+	else
+		args << email;
+#else
+#	ifdef Q_OS_MAC
+	if(cmd == "Default")
+	{
+		cmd = "open";
+		args << mailto;
+	}
+	else
+#	else
+	if(cmd == "mail")
+	{
+		// on lance le client dans un terminal
+#ifdef WITH_KDE
+		cmd = "konsole -e mail";
+#else
+		cmd = "xterm -e mail";
+#endif //WITH_KDE
+	}
+#endif // Q_OS_MAC
+		args << email;
+#endif //WIN32
+
+	launchCommand(cmd, args);
+}
+
 ///Lance une commande
 /** En lui définissant la commande à passer, ses paramètres, et le répertoire de travail.
  *

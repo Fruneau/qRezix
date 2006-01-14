@@ -241,6 +241,7 @@ public:
 	bool hasHttpServer() const;
 	bool hasNewsServer() const;
 	bool hasPrinter() const;
+	bool hasEmailAddress() const;
 
 	const RzxHostAddress &ip() const;
 	QString rezalName(bool shortname = true) const;
@@ -271,6 +272,7 @@ public slots:
 	void http(const QString& path = QString()) const;
 	void samba(const QString& path = QString()) const;
 	void news(const QString& path = QString()) const;
+	void mail() const;
 
 
 /******************* Information non intrinsèque à l'objet ********************************/

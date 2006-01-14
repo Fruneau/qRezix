@@ -558,6 +558,10 @@ bool RzxComputer::hasNewsServer() const
 bool RzxComputer::hasPrinter() const
 { return (m_options.Server & SERVER_PRINTER); }
 
+///Indique si on a l'adresse e-mail de la personne
+bool RzxComputer::hasEmailAddress() const
+{ return !RzxConfig::getEmailFromCache(ip()).isEmpty(); }
+
 /********** FONCTIONALITES */
 ///Ajout d'une feature à la machine
 void RzxComputer::addCapabilities(int feature, bool add)
@@ -620,6 +624,16 @@ void RzxComputer::news(const QString& path) const
 {
 	if(hasNewsServer())
 		RzxUtilsLauncher::news(ip(), path);
+}
+
+///Lance l'écrite d'un mail au client indiqué
+/** On lance le client mail en lui indiquant qu'on veut écrire à l'addresse mail fornie
+ */
+void RzxComputer::mail() const
+{
+	const QString email = RzxConfig::getEmailFromCache(ip());
+	if(!email.isEmpty())
+		RzxUtilsLauncher::mail(email);
 }
 
 /********** Gestion des propriétés ***************************/

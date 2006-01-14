@@ -26,6 +26,7 @@
 
 #include <RzxAbstractConfig>
 
+class QTreeWidget;
 class RzxHostAddress;
 class RzxComputer;
 
@@ -62,6 +63,7 @@ public:
 	RZX_STRINGPROP("ftp_cmd", ftpCmd, setFtpCmd, DEFAULT_FTPCMD)
 	RZX_STRINGPROP("http_cmd", httpCmd, setHttpCmd, DEFAULT_HTTPCMD)
 	RZX_STRINGPROP("news_cmd", newsCmd, setNewsCmd, DEFAULT_NEWSCMD)
+	RZX_STRINGPROP("mail_cmd", mailCmd, setMailCmd, DEFAULT_MAILCMD)
 
 	// Configuration de base de l'ordinateur
 	RZX_STRINGPROP("dnsname", dnsName, setDnsName, QString())
@@ -84,6 +86,8 @@ public:
 
 	static void addCache(const RzxHostAddress&, const QString&);
 	static QString cache(const RzxHostAddress&);
+	static void fillWithCache(const RzxHostAddress&, QTreeWidget*);
+	static QString getEmailFromCache(const RzxHostAddress&);
 	static QString getCacheDate(const RzxHostAddress&);
 
 	static void emitIconFormatChanged();

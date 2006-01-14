@@ -246,14 +246,8 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	QStringList props = computer->properties().split('|');
 	if(props.size())
 	{
-		QTreeWidgetItem *item = NULL;
 		uiProps->propsView->setEnabled(true);
-		for(int i = 0 ; i < props.size() - 1 ; i+=2)
-		{
-			item = new QTreeWidgetItem(uiProps->propsView, item);
-			item->setText(0, props[i]);
-			item->setText(1, props[i+1]);
-		}
+		RzxConfig::fillWithCache(computer->ip(), uiProps->propsView);
 		uiProps->lblDate->setText(RzxConfig::getCacheDate(computer->ip()));
 	}
 	else

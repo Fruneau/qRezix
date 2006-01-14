@@ -482,7 +482,7 @@ void RzxProperty::initDlg(bool def)
 	clientFtp ->clear();
 	clientHttp ->clear();
 	clientNews ->clear();
-
+	clientMail ->clear();
 
 #ifdef WIN32
 	// attention a rzxutilslauncher.cpp en cas de modif
@@ -496,12 +496,14 @@ void RzxProperty::initDlg(bool def)
 	clientHttp->addItem("Opera", 2);
 
 	clientNews->addItem("standard");
+	clientMail->addItem("standard");
 #else
 #ifdef Q_OS_MAC
 	// commandes à exécuter sous macos X
 	clientFtp->addItem("Default");
 	clientHttp->addItem("Default");
 	clientNews->addItem("Default");
+	clientMail->addItem("Default");
 #else
 	// commandes a executer sous nux
 	clientFtp->addItem("gftp");
@@ -519,6 +521,11 @@ void RzxProperty::initDlg(bool def)
 
 	clientNews->addItem("knode");
 	clientNews->addItem("thunderbird");
+	clientNews->addItem("opera");
+
+	clientMail->addItem("kmail");
+	clientMail->addItem("thunderbird");
+	clientMail->addItem("opera");
 #endif //MAC
 #endif //WIN32
 
@@ -531,6 +538,7 @@ void RzxProperty::initDlg(bool def)
 		setValue(clientFtp, RzxConfig::ftpCmd());
 		setValue(clientHttp, RzxConfig::httpCmd());
 		setValue(clientNews, RzxConfig::newsCmd());
+		setValue(clientMail, RzxConfig::mailCmd());
 	}
 #undef setValue
 	txtWorkDir->setText( RzxConfig::ftpPath(def) );
@@ -612,6 +620,7 @@ bool RzxProperty::miseAJour()
 	RzxConfig::setHttpCmd( clientHttp -> currentText() );
 	RzxConfig::setFtpCmd( clientFtp -> currentText() );
 	RzxConfig::setNewsCmd( clientNews -> currentText() );
+	RzxConfig::setMailCmd( clientMail -> currentText() );
 
 	RzxConfig::setFtpPath(txtWorkDir->text() );
 	RzxConfig::setPropSport(cmbSport->currentText() );

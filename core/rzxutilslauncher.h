@@ -45,6 +45,7 @@ namespace RzxUtilsLauncher
 	RZX_CORE_EXPORT void news(const QString&, const QString& path = QString());
 	RZX_CORE_EXPORT void samba(const RzxHostAddress&, const QString& path = QString());
 	RZX_CORE_EXPORT void samba(const QString&, const QString& path = QString());
+	RZX_CORE_EXPORT void mail(const QString&);
 	RZX_CORE_EXPORT QProcess *launchCommand(const QString&, const QStringList& = QStringList(), const QString& path = QString());
 };
 

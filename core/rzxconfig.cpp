@@ -548,6 +548,50 @@ QString RzxConfig::cache(const RzxHostAddress& address)
 	return list.join("|");
 }
 
+///Remplie un QTreeWidget avec les propriétés demandées
+void RzxConfig::fillWithCache(const RzxHostAddress& ip, QTreeWidget *view)
+{
+	if(!view) return;
+
+	QStringList props = global()->value("cacheprop-" + ip.toString()).toString().split("|");
+
+	QTreeWidgetItem *item = NULL;
+	for(int i = 0 ; i < props.size() - 1 ; i+=2)
+	{
+		if(props[i+1].isEmpty()) continue;
+
+		item = new QTreeWidgetItem(view, item);
+		item->setText(0, tr(props[i].toAscii().constData()));
+		item->setText(1, tr(props[i+1].toAscii().constData()));
+		if(props[i] == "Web Page")
+			item->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_HTTP));
+		else if(props[i] == "Sport")
+			item->setIcon(0, RzxIconCollection::getIcon(props[i+1].toLower()));
+		else if(props[i] == "Class")
+			item->setIcon(0, RzxIconCollection::getIcon(props[i+1] == "Jone" ? Rzx::ICON_JONE : (props[i+1] == "Rouje" ? Rzx::ICON_ROUJE : Rzx::ICON_ORANJE)));
+		else if(props[i] == "Room")
+			item->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY));
+		else if(props[i] == "Phone")
+			item->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PHONE));
+		else if(props[i] == "E-Mail")
+			item->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_MAIL));
+		else
+			item->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PROPRIETES));
+	}
+}
+
+///Retourne l'addresse e-mail de la personne à partir des données issuées des propriétés
+QString RzxConfig::getEmailFromCache(const RzxHostAddress& ip)
+{
+	QStringList props = global()->value("cacheprop-" + ip.toString()).toString().split("|");
+	for(int i = 0 ; i < props.size() - 1 ; i+=2)
+	{
+		if(props[i] == "E-Mail")
+			return props[i+1];
+	}
+	return QString();
+}
+
 ///Retourne la date d'enregistrement des propriétés
 QString RzxConfig::getCacheDate(const RzxHostAddress& address)
 {
