@@ -627,9 +627,9 @@ void RzxChat::on_btnProperties_toggled(bool on)
 }
 
 ///Demande l'affichage des propriétés
-void RzxChat::receiveProperties(const QString& msg)
+void RzxChat::receiveProperties()
 {
-	prop = (RzxChatPopup*)RzxChatLister::global()->showProperties(computer()->ip(), msg, false, this, ui->btnProperties);
+	prop = (RzxChatPopup*)RzxChatLister::global()->showPropertiesWindow(computer(), false, this, ui->btnProperties);
 	if(prop.isNull())
 	{
 		ui->btnProperties->setChecked(false);

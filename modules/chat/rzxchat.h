@@ -93,7 +93,7 @@ public slots: // Public slots
 	void changeTheme();
 	void changeSmileyTheme();
 	void changeIconFormat();
-	void receiveProperties(const QString&);
+	void receiveProperties();
 	void peerTypingStateChanged(bool);
 	void setComputer(RzxComputer* computer);
 	void updateTitle();

@@ -262,14 +262,16 @@ void RzxChatLister::showProperties(RzxComputer *c)
 	if(!c) return;
 
 	RzxChat *chat = getChatByIP(c->ip());
-	if(!chat)
-		showProperties(c->ip(), RzxConfig::cache(c->ip()));
+	if(chat && chat->isActiveWindow())
+	{
+		chat->receiveProperties();
+	}
 	else
-		chat->receiveProperties(RzxConfig::cache(c->ip()));
+		showPropertiesWindow(c);
 }
 
 ///Affichage des proprietes d'un ordinateur
-QWidget *RzxChatLister::showProperties(RzxComputer *computer, const QString& msg, bool withFrame, QWidget *parent, QAbstractButton *button)
+QWidget *RzxChatLister::showPropertiesWindow(RzxComputer *computer, bool withFrame, QWidget *parent, QAbstractButton *button)
 {
 	if(!computer)
 		return NULL;
@@ -318,16 +320,9 @@ QWidget *RzxChatLister::showProperties(RzxComputer *computer, const QString& msg
 	propList->setRootIsDecorated(false);
 
 	// Remplissage
-	QStringList props = msg.split('|');
-	int propCount = 0;
-	item = NULL;
-	for(int i = 0 ; i < props.size() - 1 ; i+=2)
-	{
-		item = new QTreeWidgetItem(propList, item);
-		item->setText(0, props[i]);
-		item->setText(1, props[i+1]);
-		propCount++;
-	}
+	RzxConfig::fillWithCache(computer->ip(), propList);
+	const int propCount = propList->topLevelItemCount();
+
 	QHeaderView *header = propList->header();
 	header->resizeSection(0, header->sectionSizeHint(0));
 	header->resizeSection(1, header->sectionSizeHint(1));
@@ -345,6 +340,7 @@ QWidget *RzxChatLister::showProperties(RzxComputer *computer, const QString& msg
 //	int width=PropList->columnWidth(0)+PropList->columnWidth(1)+4+12;
 	int height=(propCount+3)*20; //+20 pour le client xnet, et puis headers e un peu de marge
 	propertiesDialog->resize(header->sizeHint().width(), height);
+	propertiesDialog->adjustSize();
 	return propertiesDialog;
 }
 
