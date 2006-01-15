@@ -81,7 +81,7 @@ RzxTrayIcon::RzxTrayIcon()
 #endif
 	setIcon(RZX_MODULE_ICON);
 	new RzxTrayConfig(this);
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+#ifndef Q_OS_MAC
 	ui = NULL;
 	propWidget = NULL;
 #endif
