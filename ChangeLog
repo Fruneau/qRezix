@@ -1,4 +1,5 @@
 [v2.0.0] 2006-01 <br2003@frankiz.polytechnique.fr>
+    * Quick Action via le menu contextuel du systray [Fruneau]
     * Utilisation des propriétés de l'utilisateur pour permettre l'envoie de mail [Fruneau]
     * URL cliquables dans le chat [Fruneau]
     * Correction et amélioration des textes [GUI]

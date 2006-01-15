@@ -194,7 +194,7 @@ void RzxTrayIcon::buildMenu()
 	if(actions & RzxTrayConfig::News)
 		newMenu(news, Rzx::ICON_NEWS, tr("Read News..."), testComputerNews, SLOT(news()));
 	if(actions & RzxTrayConfig::Mail)
-		newMenu(ftp, Rzx::ICON_MAIL, tr("Send a Mail..."), testComputerMail, SLOT(mail()));
+		newMenu(mail, Rzx::ICON_MAIL, tr("Send a Mail..."), testComputerMail, SLOT(mail()));
 
 #undef newMenu
 
