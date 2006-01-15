@@ -397,7 +397,7 @@ void RzxProperty::initSportCombo()
 	cmbSport->clear();
 	cmbSport->addItem(tr("None"), 0);
 #define addSport(icon, name, pos) cmbSport->addItem(RzxIconCollection::getIcon(icon), name, pos)
-	addSport("athlethism", tr("Athletism"), 1);
+	addSport("athletism", tr("Athletism"), 1);
 	addSport("rowing", tr("Rowing"), 2);
 	addSport("badminton", tr("Badminton"), 17);
 	addSport("basketball", tr("Basketball"), 3);
@@ -487,13 +487,15 @@ void RzxProperty::initDlg(bool def)
 #ifdef WIN32
 	// attention a rzxutilslauncher.cpp en cas de modif
 	clientFtp->addItem("standard");
-	clientFtp->addItem("iExplore");
+	clientFtp->addItem("IExplorer");
 	clientFtp->addItem("LeechFTP");
 	clientFtp->addItem("SmartFTP");
+	clientFtp->addItem("FileZilla");
 
 	clientHttp->addItem("standard");
-	clientHttp->addItem("iExplore", 1);
-	clientHttp->addItem("Opera", 2);
+	clientHttp->addItem("IExplorer");
+	clientHttp->addItem("Firefox");
+	clientHttp->addItem("Opera");
 
 	clientNews->addItem("standard");
 	clientMail->addItem("standard");
