@@ -162,8 +162,8 @@ void RzxTrayIcon::buildMenu()
 	if ( pop.actions().count() )
 		pop.clear();
 
-	QList<RzxComputer*> list = RzxConnectionLister::global()->computerList(testComputerNews); //Rzx::CAP_CHAT);
-	qSort(list.begin(), list.end(), computerLessThan);
+#ifndef Q_OS_MAC
+	QList<RzxComputer*> list;
 
 #define newMenu(mname, micon, text, filter, slot) \
 	{ \
@@ -190,6 +190,7 @@ void RzxTrayIcon::buildMenu()
 #undef newMenu
 
 	pop.addSeparator();
+#endif //!Q_OS_MAC
 
 #define newItem(name, trad, receiver, slot) pop.addAction(RzxIconCollection::getIcon(name), trad, receiver, slot)
 	newItem(Rzx::ICON_PREFERENCES , tr( "&Preference" ), this, SIGNAL( wantPreferences() ) );
