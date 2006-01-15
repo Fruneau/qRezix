@@ -103,9 +103,12 @@ void RzxRezalPopup::init(RzxComputer *computer, const QPoint& point)
 		if(computer->hasHttpServer()) newItem(Rzx::ICON_HTTP, tr("browse Web"), computer, SLOT(http()));
 		if(computer->hasNewsServer()) newItem(Rzx::ICON_NEWS, tr("read News"), computer, SLOT(news()));
 		if(computer->hasEmailAddress()) newItem(Rzx::ICON_MAIL, tr("send a Mail"), computer, SLOT(mail()));
-		addSeparator();
-		newItem(Rzx::ICON_HISTORIQUE, tr("History"), computer, SLOT(history()));
-		if(computer->can(Rzx::CAP_CHAT) && RzxComputer::localhost()->can(Rzx::CAP_CHAT))
+		if(!computer->isLocalhost())
+		{
+			addSeparator();
+			newItem(Rzx::ICON_HISTORIQUE, tr("History"), computer, SLOT(history()));
+		}
+		if(computer->canBeChecked())
 			newItem(Rzx::ICON_PROPRIETES, tr("Properties"), computer, SLOT(checkProperties()));
 		addSeparator();
 		if(computer->isFavorite())

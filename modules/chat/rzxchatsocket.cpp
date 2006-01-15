@@ -189,19 +189,7 @@ void RzxChatSocket::sendTyping(bool state)
 ///Formatage des propriétés de l'utilisateur
 void RzxChatSocket::sendProperties()
 {
-	QStringList strList;
-	strList << QApplication::translate("RzxConfig", "Name") << RzxConfig::propName();
-	strList << QApplication::translate("RzxConfig", "Last name") << RzxConfig::propLastName();
-	strList << QApplication::translate("RzxConfig", "Nick") << RzxConfig::propSurname();
-	strList << QApplication::translate("RzxConfig", "Phone") << RzxConfig::propTel();
-	strList << QApplication::translate("RzxConfig", "E-Mail") << RzxConfig::propMail();
-	strList << QApplication::translate("RzxConfig", "Web Page") << RzxConfig::propWebPage();
-	strList << QApplication::translate("RzxConfig", "Room") << RzxConfig::propCasert();
-	strList << QApplication::translate("RzxConfig", "Sport") << RzxConfig::propSport();
-	strList << QApplication::translate("RzxConfig", "Class") << RzxConfig::propPromo();
-
-	QString msg = strList.join("|");
-	send("PROPANSWER " + msg + "\r\n\0");
+	send("PROPANSWER " + RzxComputer::localhost()->properties() + "\r\n\0");
 	emit propertiesSent(host);
 }
 
@@ -245,10 +233,7 @@ void RzxChatSocket::send(const QString& msg)
 				host.computer()->receiveChat(Rzx::InfoMessage, tr("Unable to send data... writeBlock returns -1"));
 			}
 			else
-			{
 				flush();
-				qDebug("Message envoyé : %s", msg.left(msg.length()-2).toAscii().constData());
-			}
 			return;
 			
 		case QAbstractSocket::UnconnectedState:

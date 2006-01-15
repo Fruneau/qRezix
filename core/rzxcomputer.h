@@ -253,6 +253,7 @@ public:
 	QString client() const;
 	bool can(Rzx::Capabilities) const;
 	bool canBeChatted() const;
+	bool canBeChecked() const;
 
 public slots:
 	void setName(const QString& text);
@@ -298,6 +299,7 @@ public:
 Q_DECLARE_METATYPE(RzxComputer*)
 
 RzxComputer::testComputer testComputerChat;
+RzxComputer::testComputer testComputerProperties;
 RzxComputer::testComputer testComputerFtp;
 RzxComputer::testComputer testComputerHttp;
 RzxComputer::testComputer testComputerSamba;

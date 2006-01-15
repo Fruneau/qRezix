@@ -396,24 +396,28 @@ void RzxProperty::initSportCombo()
 
 	cmbSport->clear();
 	cmbSport->addItem(tr("None"), 0);
-#define addSport(icon, name, pos) cmbSport->addItem(RzxIconCollection::getIcon(icon), name, pos)
-	addSport("athletism", tr("Athletism"), 1);
-	addSport("rowing", tr("Rowing"), 2);
-	addSport("badminton", tr("Badminton"), 17);
-	addSport("basketball", tr("Basketball"), 3);
-	addSport("orienting", tr("Orienting"), 4);
-	addSport("riding", tr("Riding"), 5);
-	addSport("climbing", tr("Climbing"), 6);
-	addSport("fencing", tr("Fencing"), 7);
-	addSport("football", tr("Football"), 8);
-	addSport("golf", tr("Golf"), 9);
-	addSport("handball", tr("Handball"), 10);
-	addSport("judo", tr("Judo"), 11);
-	addSport("swimming", tr("Swimming"), 12);
-	addSport("rugby", tr("Rugby"), 13);
-	addSport("tennis", tr("Tennis"), 14);
-	addSport("sailing", tr("Sailing"), 15);
-	addSport("volleyball", tr("Volleyball"), 16);
+#define addSport(icon, name, pos) \
+	{ \
+		cmbSport->addItem(RzxIconCollection::getIcon(icon), tr(name), pos); \
+		cmbSport->setItemData(cmbSport->count() - 1, name, Qt::UserRole + 1); \
+	}
+	addSport("athletism", QT_TR_NOOP("Athletism"), 1);
+	addSport("rowing", QT_TR_NOOP("Rowing"), 2);
+	addSport("badminton", QT_TR_NOOP("Badminton"), 17);
+	addSport("basketball", QT_TR_NOOP("Basketball"), 3);
+	addSport("orienting", QT_TR_NOOP("Orienting"), 4);
+	addSport("riding", QT_TR_NOOP("Riding"), 5);
+	addSport("climbing", QT_TR_NOOP("Climbing"), 6);
+	addSport("fencing", QT_TR_NOOP("Fencing"), 7);
+	addSport("football", QT_TR_NOOP("Football"), 8);
+	addSport("golf", QT_TR_NOOP("Golf"), 9);
+	addSport("handball", QT_TR_NOOP("Handball"), 10);
+	addSport("judo", QT_TR_NOOP("Judo"), 11);
+	addSport("swimming", QT_TR_NOOP("Swimming"), 12);
+	addSport("rugby", QT_TR_NOOP("Rugby"), 13);
+	addSport("tennis", QT_TR_NOOP("Tennis"), 14);
+	addSport("sailing", QT_TR_NOOP("Sailing"), 15);
+	addSport("volleyball", QT_TR_NOOP("Volleyball"), 16);
 #undef addSport
 
 	if(index == -1)
@@ -625,7 +629,7 @@ bool RzxProperty::miseAJour()
 	RzxConfig::setMailCmd( clientMail -> currentText() );
 
 	RzxConfig::setFtpPath(txtWorkDir->text() );
-	RzxConfig::setPropSport(cmbSport->currentText() );
+	RzxConfig::setPropSport(cmbSport->itemData(cmbSport->currentIndex(), Qt::UserRole + 1).toString());
 	RzxConfig::setNumSport(cmbSport->itemData(cmbSport->currentIndex()).toInt());
 	
 	RzxConfig::setRefuseWhenAway(cbRefuseAway->isChecked());

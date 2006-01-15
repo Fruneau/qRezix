@@ -539,10 +539,31 @@ void RzxConfig::addCache(const RzxHostAddress& address, const QString& msg)
 	global() ->setValue("cachedate-" + address.toString(),  QDate::currentDate().toString("dd MMMM yyyy"));
 }
 
+///Retourne les données brutes de la cache
+QStringList RzxConfig::rawCache(const RzxHostAddress& address)
+{
+	QStringList strList;
+	if(address == RzxComputer::localhost()->ip())
+	{
+		strList << "Name" << RzxConfig::propName();
+		strList << "Last name" << RzxConfig::propLastName();
+		strList << "Nick" << RzxConfig::propSurname();
+		strList << "Phone" << RzxConfig::propTel();
+		strList << "E-Mail" << RzxConfig::propMail();
+		strList << "Web Page" << RzxConfig::propWebPage();
+		strList << "Room" << RzxConfig::propCasert();
+		strList << "Sport" << RzxConfig::propSport();
+		strList << "Class" << RzxConfig::propPromo();
+	}
+	else
+		strList = global()->value("cacheprop-" + address.toString()).toString().split("|");
+	return strList;
+}
+
 ///Retourne les props après avoir appliqué les traductions
 QString RzxConfig::cache(const RzxHostAddress& address)
 {
-	QStringList list = global()->value("cacheprop-" + address.toString()).toString().split("|");
+	QStringList list = rawCache(address);
 	for(int i = 0 ; i < list.size() ; i++)
 		list[i] = tr(list[i].toAscii().constData());
 	return list.join("|");
@@ -553,7 +574,7 @@ void RzxConfig::fillWithCache(const RzxHostAddress& ip, QTreeWidget *view)
 {
 	if(!view) return;
 
-	QStringList props = global()->value("cacheprop-" + ip.toString()).toString().split("|");
+	const QStringList props = rawCache(ip);
 
 	QTreeWidgetItem *item = NULL;
 	for(int i = 0 ; i < props.size() - 1 ; i+=2)
@@ -583,7 +604,7 @@ void RzxConfig::fillWithCache(const RzxHostAddress& ip, QTreeWidget *view)
 ///Retourne l'addresse e-mail de la personne à partir des données issuées des propriétés
 QString RzxConfig::getEmailFromCache(const RzxHostAddress& ip)
 {
-	QStringList props = global()->value("cacheprop-" + ip.toString()).toString().split("|");
+	const QStringList props = rawCache(ip);
 	for(int i = 0 ; i < props.size() - 1 ; i+=2)
 	{
 		if(props[i] == "E-Mail" || props[i] == "Courriel")
@@ -595,5 +616,8 @@ QString RzxConfig::getEmailFromCache(const RzxHostAddress& ip)
 ///Retourne la date d'enregistrement des propriétés
 QString RzxConfig::getCacheDate(const RzxHostAddress& address)
 {
-	return global()->value("cachedate-" + address.toString()).toString();
+	if(address == RzxComputer::localhost()->ip())
+		return QDate::currentDate().toString("dd MMMM yyyy");
+	else
+		return global()->value("cachedate-" + address.toString()).toString();
 }

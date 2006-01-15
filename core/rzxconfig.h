@@ -85,6 +85,7 @@ public:
 	static QString propPromo();
 
 	static void addCache(const RzxHostAddress&, const QString&);
+	static QStringList rawCache(const RzxHostAddress&);
 	static QString cache(const RzxHostAddress&);
 	static void fillWithCache(const RzxHostAddress&, QTreeWidget*);
 	static QString getEmailFromCache(const RzxHostAddress&);

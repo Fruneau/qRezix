@@ -210,6 +210,7 @@ void RzxChat::setComputer(RzxComputer* c)
 	{
 		lastIP = c->ip().toRezix();
 		lastName = c->name();
+		ui->btnProperties->setEnabled(c->canBeChecked());
 	}
 	updateTitle();
 }

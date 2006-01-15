@@ -591,6 +591,16 @@ bool RzxComputer::canBeChatted() const
 		&& ((network()->type() & RzxNetwork::TYP_CHAT) || (can(Rzx::CAP_CHAT) && localhost()->can(Rzx::CAP_CHAT)));
 }
 
+///Test si on peut checker les propriétés de la machine
+bool RzxComputer::canBeChecked() const
+{
+	return !isLocalhost() &&
+		((network()->type() & RzxNetwork::TYP_PROPERTIES)
+			|| (can(Rzx::CAP_CHAT) && RzxApplication::propertiesModule())
+			|| !properties().isEmpty()
+		);
+}
+
 /*********** Lancement des clients sur la machine ************/
 ///Lance un client ftp sur l'ordinateur indiqué
 /** On lance le client sur le ftp de l'ordinateur indiqué en s'arrangeant pour parcourir
@@ -731,8 +741,10 @@ void RzxComputer::checkProperties()
 {
 	if(network()->type() & RzxNetwork::TYP_PROPERTIES)
 		network()->properties(this);
-	else if(RzxApplication::propertiesModule())
+	else if(RzxApplication::propertiesModule() && can(Rzx::CAP_CHAT))
 		RzxApplication::propertiesModule()->properties(this);
+	else if(!properties().isEmpty())
+		RzxApplication::instance()->relayProperties(this);
 }
 
 ///Lance un chat avec la machine correspondante
@@ -764,6 +776,12 @@ void RzxComputer::receiveChat(Rzx::ChatMessageType type, const QString& msg)
 bool testComputerChat(const RzxComputer *c)
 {
 	return c && c->canBeChatted();
+}
+
+///Test si on peut checker les propriétés de la machine indiquée
+bool testComputerProperties(const RzxComputer *c)
+{
+	return c && c->canBeChecked();
 }
 
 ///Test la présence d'un ftp
