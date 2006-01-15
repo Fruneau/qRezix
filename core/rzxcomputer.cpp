@@ -592,12 +592,12 @@ bool RzxComputer::canBeChatted() const
 }
 
 ///Test si on peut checker les propriétés de la machine
-bool RzxComputer::canBeChecked() const
+bool RzxComputer::canBeChecked(bool useCache) const
 {
 	return !isLocalhost() &&
 		((network()->type() & RzxNetwork::TYP_PROPERTIES)
 			|| (can(Rzx::CAP_CHAT) && RzxApplication::propertiesModule())
-			|| !properties().isEmpty()
+			|| (useCache && !properties().isEmpty())
 		);
 }
 

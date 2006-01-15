@@ -248,7 +248,7 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	else
 		uiProps->lblDate->setText(tr("Never checked"));
 
-	uiProps->btnProperties->setEnabled(computer->canBeChecked());
+	uiProps->btnProperties->setEnabled(computer->canBeChecked(false));
 	uiProps->propsView->setEnabled(active && something);
 }
 

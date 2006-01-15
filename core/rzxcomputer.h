@@ -253,7 +253,7 @@ public:
 	QString client() const;
 	bool can(Rzx::Capabilities) const;
 	bool canBeChatted() const;
-	bool canBeChecked() const;
+	bool canBeChecked(bool = true) const;
 
 public slots:
 	void setName(const QString& text);
