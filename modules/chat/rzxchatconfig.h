@@ -23,8 +23,6 @@
 #include <RzxConfig>
 #include <RzxAbstractConfig>
 
-#define DEFAULT_CHATPORT 5050
-
 /**
  @author Florent Bruneau
  */
@@ -48,13 +46,13 @@ class RzxChatConfig:public RzxAbstractConfig
 		RZX_STRINGPROP("prompt", prompt, setPrompt, ">")
 		RZX_UINTPROP("chatPort", chatPort, setChatPort, 5050)
 
-		RZX_WIDGETPROP("chat", restoreChatWidget, saveChatWidget, QPoint(150,100), QSize(300, 200))
+		RZX_WIDGETPROP("chat", restoreChatWidget, saveChatWidget, QPoint(150,100), QSize(500, 300))
 
 		static QDir logDir();
 		static QString historique(quint32, const QString&);
 
 // Smileys
-		RZX_STRINGPROP("smileyTheme", smileyTheme, setSmileyTheme, QString())
+		RZX_STRINGPROP("smileyTheme", smileyTheme, setSmileyTheme, "MSNLike")
 
 
 // Polices de caractères

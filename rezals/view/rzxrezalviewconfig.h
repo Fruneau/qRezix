@@ -18,6 +18,7 @@
 #define RZXREZALVIEWCONFIG_H
 
 #include <RzxAbstractConfig>
+#include <RzxRezalModel>
 
 /**
  @author Florent Bruneau
@@ -29,7 +30,10 @@ class RzxRezalViewConfig: public RzxAbstractConfig
 	RZX_CONFIG(RzxRezalViewConfig)
 
 	public:
-		RZX_UINTPROP("colonnes", colonnes, setColonnes, 0x37b)
+		RZX_UINTPROP("colonnes", colonnes, setColonnes, RzxRezalModel::ColNom | RzxRezalModel::ColRemarque |
+			RzxRezalModel::ColFTP | RzxRezalModel::ColHTTP | RzxRezalModel::ColNews | RzxRezalModel::ColPrinter |
+			RzxRezalModel::ColPromo | RzxRezalModel::ColRezal)
+
 		RZX_LISTPROP(int, "columnpositions", columnPositions, setColumnPositions)
 };
 
