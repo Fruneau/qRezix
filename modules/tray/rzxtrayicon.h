@@ -93,6 +93,12 @@ protected:
 
 private:
 	QMenu pop;
+	QMenu chat;
+	QMenu ftp;
+	QMenu http;
+	QMenu news;
+	QMenu samba;
+	QMenu mail;
 	QPixmap pm;
 	QString tip;
 	bool v_isWMDock;

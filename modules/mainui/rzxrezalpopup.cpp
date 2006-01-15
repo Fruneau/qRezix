@@ -97,8 +97,7 @@ void RzxRezalPopup::init(RzxComputer *computer, const QPoint& point)
 	}
 	else
 	{
-		if(!computer->isLocalhost() && !computer->isOnResponder() && computer->can(Rzx::CAP_CHAT) && RzxComputer::localhost()->can(Rzx::CAP_CHAT))
-			newItem(Rzx::ICON_CHAT, tr("begin &Chat"), computer, SLOT(chat()));
+		if(computer->canBeChatted()) newItem(Rzx::ICON_CHAT, tr("begin &Chat"), computer, SLOT(chat()));
 		if(computer->hasSambaServer()) newItem(Rzx::ICON_SAMBA, tr("Samba connect"), computer, SLOT(samba()));
 		if(computer->hasFtpServer()) newItem(Rzx::ICON_FTP, tr("FTP connect"), computer, SLOT(ftp()));
 		if(computer->hasHttpServer()) newItem(Rzx::ICON_HTTP, tr("browse Web"), computer, SLOT(http()));

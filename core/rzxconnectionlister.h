@@ -29,9 +29,9 @@
 
 #include <RzxHostAddress>
 #include <RzxBaseLoader>
+#include <RzxComputer>
 #include <RzxNetwork>
 
-class RzxComputer;
 class QImage;
 
 ///RzxConnection lister est la classe centrale de l'architecture du programme
@@ -73,6 +73,8 @@ class RZX_CORE_EXPORT RzxConnectionLister : public QObject, public RzxBaseLoader
 		
 		QStringList ipList(Rzx::Capabilities features = Rzx::CAP_NONE) const;
 		QList<RzxComputer*> computerList(Rzx::Capabilities features = Rzx::CAP_NONE) const;
+		QList<RzxComputer*> computerList(RzxComputer::testComputer*) const;
+		
 		int computerNumber() const;
 
 	public slots:

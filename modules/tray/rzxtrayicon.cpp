@@ -56,6 +56,14 @@ RZX_MODULE_EXPORT(RzxTrayIcon)
 ///Initialisation de la config
 RZX_CONFIG_INIT(RzxTrayConfig)
 
+///Fonction auxiliaire pour trier une liste d'ordinateurs par ordre alphabétique des noms
+bool computerLessThan(RzxComputer *c1, RzxComputer *c2)
+{
+	if(c1 == NULL) return false;
+	if(c2 == NULL) return true;
+	return c1->name().toLower() < c2->name().toLower();
+}
+
 /*!
   Creates a RzxTrayIcon object displaying \a icon and \a tooltip, and opening
   \a popup when clicked with the right mousebutton. \a parent and \a name are
@@ -148,19 +156,48 @@ void RzxTrayIcon::setVisible( bool yes )
 		hide();
 }
 
+///Contruit le menu contextuel
 void RzxTrayIcon::buildMenu()
 {
 	if ( pop.actions().count() )
 		pop.clear();
 
-	QPixmap pixmap;
-#define newItem(name, trad, receiver, slot) pop.addAction(RzxIconCollection::getIcon(name), trad, receiver, slot)
+	QList<RzxComputer*> list = RzxConnectionLister::global()->computerList(testComputerNews); //Rzx::CAP_CHAT);
+	qSort(list.begin(), list.end(), computerLessThan);
 
+#define newMenu(mname, micon, text, filter, slot) \
+	{ \
+		mname.clear(); \
+		mname.setTitle(text); \
+		mname.setIcon(RzxIconCollection::getIcon(micon)); \
+		list = RzxConnectionLister::global()->computerList(filter); \
+		qSort(list.begin(), list.end(), computerLessThan); \
+		if(list.count()) \
+		{ \
+			for(int i = 0 ; i < list.count() ; i++) \
+				mname.addAction(list[i]->icon(), list[i]->name(), list[i], slot); \
+			pop.addMenu(&mname); \
+		} \
+	}
+
+	newMenu(chat, Rzx::ICON_CHAT, tr("Chat..."),testComputerChat, SLOT(chat()));
+	newMenu(ftp, Rzx::ICON_FTP, tr("Open FTP..."), testComputerFtp, SLOT(ftp()));
+	newMenu(http, Rzx::ICON_HTTP, tr("Open Web Page..."), testComputerHttp, SLOT(http()));
+	newMenu(samba, Rzx::ICON_SAMBA, tr("Open Samba..."), testComputerSamba, SLOT(samba()));
+	newMenu(news, Rzx::ICON_NEWS, tr("Read News..."), testComputerNews, SLOT(news()));
+	newMenu(ftp, Rzx::ICON_MAIL, tr("Send a Mail..."), testComputerMail, SLOT(mail()));
+
+#undef newMenu
+
+	pop.addSeparator();
+
+#define newItem(name, trad, receiver, slot) pop.addAction(RzxIconCollection::getIcon(name), trad, receiver, slot)
 	newItem(Rzx::ICON_PREFERENCES , tr( "&Preference" ), this, SIGNAL( wantPreferences() ) );
 	if (RzxConfig::autoResponder())
 		newItem(Rzx::ICON_HERE, tr( "&I'm back !" ), this, SIGNAL( wantToggleResponder() ) );
 	else
 		newItem(Rzx::ICON_AWAY, tr( "I'm &away !" ), this, SIGNAL( wantToggleResponder() ) );
+
 #ifndef Q_OS_MAC
 	newItem(Rzx::ICON_QUIT, tr( "&Quit" ), this, SIGNAL(wantQuit()) );
 #else

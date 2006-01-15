@@ -584,6 +584,12 @@ bool RzxComputer::can(Rzx::Capabilities cap) const
 	else return (m_options.Capabilities & cap);
 }
 
+///Test si on peut discuter avec la machine...
+bool RzxComputer::canBeChatted() const
+{
+	return !isLocalhost() && !isOnResponder() 
+		&& ((network()->type() & RzxNetwork::TYP_CHAT) || (can(Rzx::CAP_CHAT) && localhost()->can(Rzx::CAP_CHAT)));
+}
 
 /*********** Lancement des clients sur la machine ************/
 ///Lance un client ftp sur l'ordinateur indiqué
@@ -750,6 +756,62 @@ void RzxComputer::receiveChat(Rzx::ChatMessageType type, const QString& msg)
 {
 	if(!RzxApplication::chatUiModule()) return;
 	RzxApplication::chatUiModule()->receiveChatMessage(this, type, msg);
+}
+
+
+/****************** Fonction de filtrage *********************/
+///Test si on peut discuter avec la machine indiquée
+bool testComputerChat(const RzxComputer *c)
+{
+	return c && c->canBeChatted();
+}
+
+///Test la présence d'un ftp
+bool testComputerFtp(const RzxComputer *c)
+{
+	return c && c->hasFtpServer();
+}
+
+///Test la présence d'un serveur Web
+bool testComputerHttp(const RzxComputer *c)
+{
+	return c && c->hasHttpServer();
+}
+
+///Test la présence d'un serveur Samba
+bool testComputerSamba(const RzxComputer *c)
+{
+	return c && c->hasSambaServer();
+}
+
+///Test la présence d'un serveur news
+bool testComputerNews(const RzxComputer *c)
+{
+	return c && c->hasNewsServer();
+}
+
+///Test la présence d'une adresse mail
+bool testComputerMail(const RzxComputer *c)
+{
+	return c && c->hasEmailAddress();
+}
+
+///Test si l'ordinateur est un favoris
+bool testComputerFavorite(const RzxComputer *c)
+{
+	return c && c->isFavorite();
+}
+
+///Test si l'ordinateur est ignoré
+bool testComputerBan(const RzxComputer *c)
+{
+	return c && c->isIgnored();
+}
+
+///Test si la machine est sur le même subnet
+bool testComputerSameGateway(const RzxComputer *c)
+{
+	return c && c->isSameGateway();
 }
 
 

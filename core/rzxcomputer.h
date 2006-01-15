@@ -252,6 +252,7 @@ public:
 	version_t version() const;
 	QString client() const;
 	bool can(Rzx::Capabilities) const;
+	bool canBeChatted() const;
 
 public slots:
 	void setName(const QString& text);
@@ -287,11 +288,23 @@ public slots:
 	void chat();
 	void sendChat(Rzx::ChatMessageType, const QString& = QString());
 	void receiveChat(Rzx::ChatMessageType, const QString& = QString());
+
+public:
+	///Fonction de test pour automatiser les filtres sur les RzxComputer
+	typedef bool (testComputer)(const RzxComputer*);
 };
 
 ///Déclaration pour le MetaType RzxComputer dans le but d'utiliser le RzxComputer comme metatype
 Q_DECLARE_METATYPE(RzxComputer*)
 
-
+RzxComputer::testComputer testComputerChat;
+RzxComputer::testComputer testComputerFtp;
+RzxComputer::testComputer testComputerHttp;
+RzxComputer::testComputer testComputerSamba;
+RzxComputer::testComputer testComputerNews;
+RzxComputer::testComputer testComputerMail;
+RzxComputer::testComputer testComputerFavorite;
+RzxComputer::testComputer testComputerBan;
+RzxComputer::testComputer testComputerSameGateway;
 
 #endif

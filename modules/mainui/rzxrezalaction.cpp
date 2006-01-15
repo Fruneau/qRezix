@@ -35,7 +35,7 @@ void RzxRezalAction::run(RzxComputer *computer)
 		switch(RzxMainUIConfig::doubleClicRole())
 		{
 			case RzxMainUIConfig::Chat:
-				if(computer->can(Rzx::CAP_CHAT) && RzxComputer::localhost()->can(Rzx::CAP_CHAT) && !computer->isLocalhost())
+				if(computer->canBeChatted())
 				{
 					computer->chat();
 					return;

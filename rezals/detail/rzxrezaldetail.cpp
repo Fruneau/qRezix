@@ -238,20 +238,18 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	const QList<QLabel*> labels = findChildren<QLabel*>();
 	foreach(QLabel *label, labels)
 		label->setEnabled(active);
-	if(!active) return;
 
 	// Remplissage
 	uiProps->propsView->clear();
-	uiProps->btnProperties->setEnabled(true);
-	QStringList props = computer->properties().split('|');
-	if(props.size())
-	{
-		uiProps->propsView->setEnabled(true);
-		RzxConfig::fillWithCache(computer->ip(), uiProps->propsView);
+	RzxConfig::fillWithCache(computer->ip(), uiProps->propsView);
+	const bool something = uiProps->propsView->topLevelItemCount();
+	if(something)
 		uiProps->lblDate->setText(RzxConfig::getCacheDate(computer->ip()));
-	}
 	else
 		uiProps->lblDate->setText(tr("Never checked"));
+
+	uiProps->btnProperties->setEnabled(active);
+	uiProps->propsView->setEnabled(active && something);
 }
 
 ///Demande les propriétés de l'object actuel

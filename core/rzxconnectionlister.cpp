@@ -258,6 +258,16 @@ QList<RzxComputer*> RzxConnectionLister::computerList(Rzx::Capabilities features
 	return computers;
 }
 
+///Retourne la liste des machines
+QList<RzxComputer*> RzxConnectionLister::computerList(RzxComputer::testComputer *test) const
+{
+	QList<RzxComputer*> computers;
+	foreach(RzxComputer *computer, computerByIP)
+		if((*test)(computer))
+			computers << computer;
+	return computers;
+}
+
 ///Retourne le nombre de machines connectées
 int RzxConnectionLister::computerNumber() const
 {
