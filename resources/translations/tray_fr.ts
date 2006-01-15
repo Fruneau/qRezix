@@ -24,6 +24,30 @@
         <source>&amp;Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
+    <message>
+        <source>Chat...</source>
+        <translation>Discuter...</translation>
+    </message>
+    <message>
+        <source>Open FTP...</source>
+        <translation>Ouvrir le FTP...</translation>
+    </message>
+    <message>
+        <source>Open Web Page...</source>
+        <translation>Ouvrir la page Web...</translation>
+    </message>
+    <message>
+        <source>Open Samba...</source>
+        <translation>Ouvrir le Samba...</translation>
+    </message>
+    <message>
+        <source>Read News...</source>
+        <translation>Lire les News...</translation>
+    </message>
+    <message>
+        <source>Send a Mail...</source>
+        <translation>Envoyer un Mail...</translation>
+    </message>
 </context>
 <context>
     <name>RzxTrayProp</name>
@@ -37,7 +61,7 @@
     </message>
     <message>
         <source>Systray</source>
-        <translation>Systray</translation>
+        <translation type="obsolete">Systray</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Auto-scale&lt;/h3&gt;&lt;p&gt;If enabled, qRezix will try to automaticly adjust the trayicon size to fit its container&lt;/p&gt;</source>
@@ -50,6 +74,38 @@
     <message>
         <source>Size of tray icon :</source>
         <translation>Taille de l&apos;icône du systray :</translation>
+    </message>
+    <message>
+        <source>Icon size</source>
+        <translation>Taille de l&apos;icône</translation>
+    </message>
+    <message>
+        <source>Quick action menus</source>
+        <translation>Menu d&apos;accès rapide</translation>
+    </message>
+    <message>
+        <source>Read News</source>
+        <translation>Lire les News</translation>
+    </message>
+    <message>
+        <source>Send a Mail</source>
+        <translation>Envoyer un Mail</translation>
+    </message>
+    <message>
+        <source>Open a Samba (Windows share)</source>
+        <translation>Ouvrir un Samba (partage Windows)</translation>
+    </message>
+    <message>
+        <source>Open a Web Page</source>
+        <translation>Ouvrir une page Web</translation>
+    </message>
+    <message>
+        <source>Open a FTP</source>
+        <translation>Ouvrir un FTP</translation>
+    </message>
+    <message>
+        <source>Begin a chat</source>
+        <translation>Lancer une discussion</translation>
     </message>
 </context>
 </TS>

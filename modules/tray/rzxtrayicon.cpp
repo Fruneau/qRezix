@@ -133,6 +133,8 @@ void RzxTrayIcon::changeTrayIcon()
 		trayIcon = RzxIconCollection::getPixmap(Rzx::ICON_SYSTRAYAWAY);
 #ifdef Q_WS_MAC
 	buildMenu();
+#else
+	changePropTheme();
 #endif
 	setTrayIcon(trayIcon);
 }
@@ -164,6 +166,7 @@ void RzxTrayIcon::buildMenu()
 
 #ifndef Q_OS_MAC
 	QList<RzxComputer*> list;
+	RzxTrayConfig::QuickActions actions = (RzxTrayConfig::QuickAction)RzxTrayConfig::quickActions();
 
 #define newMenu(mname, micon, text, filter, slot) \
 	{ \
@@ -180,16 +183,23 @@ void RzxTrayIcon::buildMenu()
 		} \
 	}
 
-	newMenu(chat, Rzx::ICON_CHAT, tr("Chat..."),testComputerChat, SLOT(chat()));
-	newMenu(ftp, Rzx::ICON_FTP, tr("Open FTP..."), testComputerFtp, SLOT(ftp()));
-	newMenu(http, Rzx::ICON_HTTP, tr("Open Web Page..."), testComputerHttp, SLOT(http()));
-	newMenu(samba, Rzx::ICON_SAMBA, tr("Open Samba..."), testComputerSamba, SLOT(samba()));
-	newMenu(news, Rzx::ICON_NEWS, tr("Read News..."), testComputerNews, SLOT(news()));
-	newMenu(ftp, Rzx::ICON_MAIL, tr("Send a Mail..."), testComputerMail, SLOT(mail()));
+	if(actions & RzxTrayConfig::Chat)
+		newMenu(chat, Rzx::ICON_CHAT, tr("Chat..."),testComputerChat, SLOT(chat()));
+	if(actions & RzxTrayConfig::Ftp)
+		newMenu(ftp, Rzx::ICON_FTP, tr("Open FTP..."), testComputerFtp, SLOT(ftp()));
+	if(actions & RzxTrayConfig::Http)
+		newMenu(http, Rzx::ICON_HTTP, tr("Open Web Page..."), testComputerHttp, SLOT(http()));
+	if(actions & RzxTrayConfig::Samba)
+		newMenu(samba, Rzx::ICON_SAMBA, tr("Open Samba..."), testComputerSamba, SLOT(samba()));
+	if(actions & RzxTrayConfig::News)
+		newMenu(news, Rzx::ICON_NEWS, tr("Read News..."), testComputerNews, SLOT(news()));
+	if(actions & RzxTrayConfig::Mail)
+		newMenu(ftp, Rzx::ICON_MAIL, tr("Send a Mail..."), testComputerMail, SLOT(mail()));
 
 #undef newMenu
 
-	pop.addSeparator();
+	if(pop.actions().count())
+		pop.addSeparator();
 #endif //!Q_OS_MAC
 
 #define newItem(name, trad, receiver, slot) pop.addAction(RzxIconCollection::getIcon(name), trad, receiver, slot)
@@ -1071,7 +1081,7 @@ QPoint RzxTrayIcon::getPos()
 }
 
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+#ifndef Q_OS_MAC
 #include "ui_rzxtrayprop.h"
 
 /** \reimp */
@@ -1083,6 +1093,9 @@ QList<QWidget*> RzxTrayIcon::propWidgets()
 	{
 		propWidget = new QWidget;
 		ui->setupUi(propWidget);
+#ifndef Q_WS_X11
+		ui->groupSize->hide();
+#endif
 	}
 	return QList<QWidget*>() << propWidget;
 }
@@ -1093,11 +1106,34 @@ QStringList RzxTrayIcon::propWidgetsName()
 	return QStringList() << name();
 }
 
+///Change le thème d'icône dans le fenêtre de préférences
+void RzxTrayIcon::changePropTheme()
+{
+	if(!ui) return;
+
+	ui->cbQuickChat->setIcon(RzxIconCollection::getIcon(Rzx::ICON_CHAT));
+	ui->cbQuickFtp->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FTP));
+	ui->cbQuickHttp->setIcon(RzxIconCollection::getIcon(Rzx::ICON_HTTP));
+	ui->cbQuickSamba->setIcon(RzxIconCollection::getIcon(Rzx::ICON_SAMBA));
+	ui->cbQuickNews->setIcon(RzxIconCollection::getIcon(Rzx::ICON_NEWS));
+	ui->cbQuickMail->setIcon(RzxIconCollection::getIcon(Rzx::ICON_MAIL));
+}
+
 /** \reimp */
 void RzxTrayIcon::propInit(bool def)
 {
 	ui->cbAutoScale->setChecked(RzxTrayConfig::autoScale());
-	ui->sbTraySize->setValue(RzxTrayConfig::traySize(def));	
+	ui->sbTraySize->setValue(RzxTrayConfig::traySize(def));
+
+	RzxTrayConfig::QuickActions actions = (RzxTrayConfig::QuickAction)RzxTrayConfig::quickActions();
+	ui->cbQuickChat->setChecked(actions & RzxTrayConfig::Chat);
+	ui->cbQuickFtp->setChecked(actions & RzxTrayConfig::Ftp);
+	ui->cbQuickHttp->setChecked(actions & RzxTrayConfig::Http);
+	ui->cbQuickSamba->setChecked(actions & RzxTrayConfig::Samba);
+	ui->cbQuickNews->setChecked(actions & RzxTrayConfig::News);
+	ui->cbQuickMail->setChecked(actions & RzxTrayConfig::Mail);
+	
+	changePropTheme();
 }
 
 /** \reimp */
@@ -1116,6 +1152,15 @@ void RzxTrayIcon::propUpdate()
 		if(!RzxTrayConfig::autoScale())
 			changeTrayIcon();
 	}
+
+	RzxTrayConfig::QuickActions actions;
+	if(ui->cbQuickChat->isChecked()) actions |= RzxTrayConfig::Chat;
+	if(ui->cbQuickFtp->isChecked()) actions |= RzxTrayConfig::Ftp;
+	if(ui->cbQuickHttp->isChecked()) actions |= RzxTrayConfig::Http;
+	if(ui->cbQuickSamba->isChecked()) actions |= RzxTrayConfig::Samba;
+	if(ui->cbQuickNews->isChecked()) actions |= RzxTrayConfig::News;
+	if(ui->cbQuickMail->isChecked()) actions |= RzxTrayConfig::Mail;
+	RzxTrayConfig::setQuickActions(actions);
 }
 
 /** \reimp */

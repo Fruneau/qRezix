@@ -27,10 +27,24 @@
 class RzxTrayConfig:public RzxAbstractConfig
 {
 	RZX_CONFIG(RzxTrayConfig)
+	Q_ENUMS(QuickAction)
+	Q_FLAGS(QuickActions)
+
+	enum QuickAction {
+		None = 0,
+		Chat = 1,
+		Ftp = 2,
+		Http = 4,
+		Samba = 8,
+		News = 16,
+		Mail = 32
+	};
+	Q_DECLARE_FLAGS(QuickActions, QuickAction)
 
 	public:
 		RZX_INTPROP("traysize", traySize, setTraySize, 22)
 		RZX_BOOLPROP("autoscale", autoScale, setAutoScale, true)
+		RZX_INTPROP("quickAction", quickActions, setQuickActions, Chat | Ftp | Http | Mail)
 };
 
 #endif

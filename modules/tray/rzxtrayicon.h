@@ -115,10 +115,11 @@ private:
 
 	friend class RzxTrayIconPrivate;
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+#ifndef Q_OS_MAC
 private:
 	Ui::RzxTrayProp *ui;
 	QWidget *propWidget;
+	void changePropTheme();
 
 public:
 	virtual QList<QWidget*> propWidgets();
