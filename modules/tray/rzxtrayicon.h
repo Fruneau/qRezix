@@ -40,7 +40,7 @@
 
 #include <RzxModule>
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+#ifndef Q_OS_MAC
 namespace Ui { class RzxTrayProp; }
 #endif
 
