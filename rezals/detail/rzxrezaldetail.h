@@ -18,6 +18,7 @@
 #define RZXITEM_H
 
 #include <QAbstractItemView>
+#include <QTimer>
 #include <QPointer>
 
 #undef RZX_BUILTIN
@@ -45,6 +46,8 @@ class RzxRezalDetail:public QAbstractItemView, public RzxRezal
 
 	QPointer<RzxComputer> computer;
 	QPointer<RzxComputer> waitProp;
+
+	QTimer timer;
 
 	QSplitter *splitter;
 	Ui::RzxItem *uiDetails;
@@ -93,6 +96,7 @@ class RzxRezalDetail:public QAbstractItemView, public RzxRezal
 		virtual void rowsAboutToBeRemoved(const QModelIndex&, int, int);
 		void propChanged(RzxComputer*, bool*);
 		void checkProp();
+		void redraw();
 };
 
 #endif

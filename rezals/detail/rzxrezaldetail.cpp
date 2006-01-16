@@ -84,6 +84,9 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 	connect(RzxApplication::instance(), SIGNAL(haveProperties(RzxComputer*, bool*)),
 		this, SLOT(propChanged(RzxComputer*,bool*)));
 	clear();
+
+	timer.setSingleShot(true);
+	connect(&timer, SIGNAL(timeout()), this, SLOT(redraw()));
 	endLoading();
 }
 
@@ -248,7 +251,7 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	else
 		uiProps->lblDate->setText(tr("Never checked"));
 
-	uiProps->btnProperties->setEnabled(computer->canBeChecked(false));
+	uiProps->btnProperties->setEnabled(computer->canBeChecked(false) && !timer.isActive());
 	uiProps->propsView->setEnabled(active && something);
 }
 
@@ -256,8 +259,18 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 void RzxRezalDetail::checkProp()
 {
 	waitProp = computer;
-	if(computer)	
+	if(computer)
+	{
 		computer->checkProperties();
+		uiProps->btnProperties->setEnabled(false);
+		timer.start(1000);
+	}
+}
+
+///On reaffiche la fenêtre lorsque le timer timeout
+void RzxRezalDetail::redraw()
+{
+	uiProps->btnProperties->setEnabled(computer && computer->canBeChecked(false) && !timer.isActive());
 }
 
 ///Notification de la modification des propriétés de l'ordinateur

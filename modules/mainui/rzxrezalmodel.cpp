@@ -1055,7 +1055,7 @@ void RzxRezalModel::refresh(const QModelIndex& parent)
 	if(!rows) return;
 
 	const QModelIndex baseIndex = index(0, 0, parent);
-	const QModelIndex endIndex = index(rows, numColonnes-1, parent);
+	const QModelIndex endIndex = index(rows - 1, numColonnes-1, parent);
 	emit dataChanged(baseIndex, endIndex);
 
 	for(int i = 0 ; i < rows ; i++)
