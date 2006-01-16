@@ -83,6 +83,7 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 
 	force = true;
 	connect(RzxConnectionLister::global(), SIGNAL(initialLoging(bool)), this, SLOT(setDelayRefresh(bool)));
+	connect(this,SIGNAL(topLevelChanged(bool)), this, SLOT(saveDockArea(bool)));
 
 	delayRedraw.start();
 	endLoading();

@@ -494,7 +494,8 @@ void QRezix::saveState(RzxRezal *rezal)
 	if(dock)
 	{
 		conf->setValue("isFloating", dock->isFloating());
-		conf->setValue("area", dockWidgetArea(dock));
+		if (!dock->isFloating())
+			conf->setValue("area", dockWidgetArea(dock));
 		conf->setValue("isVisible", dock->isVisible());
 		conf->setValue("position", dock->pos());
 	}

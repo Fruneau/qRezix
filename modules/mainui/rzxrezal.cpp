@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "rzxrezal.h"
+#include "qrezix.h"
 
 #include "rzxmainuiconfig.h"
 
@@ -79,4 +80,18 @@ QDockWidget *RzxRezal::dockWidget() const
  */
 void RzxRezal::updateLayout()
 {
+}
+
+///Sauvegarde la position du dock quand la fenêtre devient flottante
+void RzxRezal::saveDockArea(bool save)
+{
+	if (save)
+	{
+		RzxMainUIConfig *conf = RzxMainUIConfig::global();
+		conf->beginGroup(name());
+		
+		if(dock)
+			conf->setValue("area", QRezix::global()->dockWidgetArea(dock));
+		conf->endGroup();
+	}
 }

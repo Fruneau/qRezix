@@ -50,7 +50,7 @@ RzxRezalIndex::RzxRezalIndex(QWidget *parent)
 	resizeColumnToContents(0);
 	setAcceptDrops(true);
 	setMinimumWidth(150);
-	
+	connect(this,SIGNAL(topLevelChanged(bool)), this, SLOT(saveDockArea(bool)));
 	endLoading();
 }
 
