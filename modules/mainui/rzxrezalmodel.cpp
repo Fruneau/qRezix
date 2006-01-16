@@ -75,11 +75,15 @@ bool sortComputer(RzxComputer *c1, RzxComputer *c2)
 		case RzxRezalModel::ColNews:
 			testEq = c1->hasNewsServer() == c2->hasNewsServer();
 			test = c1->hasNewsServer() && !c2->hasNewsServer(); break;
+		case RzxRezalModel::ColPrinter:
+			testEq = c1->hasPrinter() == c2->hasPrinter();
+			test = c1->hasPrinter() && !c2->hasPrinter(); break;
 		case RzxRezalModel::ColOS:
 			testEq = c1->sysEx() == c2->sysEx();
 			test = c1->sysEx() < c2->sysEx(); break;
 		case RzxRezalModel::ColGateway:
-			testEq = test = c1->isSameGateway(c2); break;
+			testEq = c1->isSameGateway() == c2->isSameGateway();
+			test = c1->isSameGateway() && !c2->isSameGateway(); break;
 		case RzxRezalModel::ColPromo:
 			testEq = c1->promo() == c2->promo();
 			test = c1->promo() < c2->promo(); break;

@@ -44,7 +44,7 @@ class RzxTrayConfig:public RzxAbstractConfig
 	public:
 		RZX_INTPROP("traysize", traySize, setTraySize, 22)
 		RZX_BOOLPROP("autoscale", autoScale, setAutoScale, true)
-		RZX_INTPROP("quickAction", quickActions, setQuickActions, Chat | Ftp | Http | Mail)
+		RZX_INTPROP("quickAction", quickActions, setQuickActions, Ftp | Http | Mail)
 };
 
 #endif
