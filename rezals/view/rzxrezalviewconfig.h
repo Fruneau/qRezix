@@ -30,9 +30,9 @@ class RzxRezalViewConfig: public RzxAbstractConfig
 	RZX_CONFIG(RzxRezalViewConfig)
 
 	public:
-		RZX_UINTPROP("colonnes", colonnes, setColonnes, RzxRezalModel::ColNom | RzxRezalModel::ColRemarque |
-			RzxRezalModel::ColFTP | RzxRezalModel::ColHTTP | RzxRezalModel::ColNews | RzxRezalModel::ColPrinter |
-			RzxRezalModel::ColPromo | RzxRezalModel::ColRezal)
+		RZX_UINTPROP("colonnes", colonnes, setColonnes, RzxRezalModel::ColNomFlag | RzxRezalModel::ColRemarqueFlag |
+			RzxRezalModel::ColFTPFlag | RzxRezalModel::ColHTTPFlag | RzxRezalModel::ColNewsFlag | RzxRezalModel::ColPrinterFlag |
+			RzxRezalModel::ColPromoFlag | RzxRezalModel::ColRezalFlag)
 
 		RZX_LISTPROP(int, "columnpositions", columnPositions, setColumnPositions)
 };

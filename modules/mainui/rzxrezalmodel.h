@@ -76,8 +76,8 @@ typedef class QList< QPointer<RzxComputer> > RzxRezalSearchList;
 class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 {
 	Q_OBJECT
-	Q_ENUMS(NumColonne ToolTipFlags)
-	Q_FLAGS(ToolTip)
+	Q_ENUMS(NumColonne ColonneFlags ToolTipFlags)
+	Q_FLAGS(ToolTip Colonnes)
 	RZX_GLOBAL(RzxRezalModel)
 
 	///Construction de l'objet
@@ -101,6 +101,24 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 			ColClient = 12,
 			numColonnes = 13
 		};
+
+		///Identifiant les colonnes
+		enum ColonneFlags {
+			ColNomFlag = 1 << ColNom,
+			ColRemarqueFlag = 1 << ColRemarque,
+			ColSambaFlag = 1 << ColSamba,
+			ColFTPFlag = 1 << ColFTP,
+			ColHTTPFlag = 1 << ColHTTP,
+			ColNewsFlag = 1 << ColNews,
+			ColPrinterFlag = 1 << ColPrinter,
+			ColOSFlag = 1 << ColOS,
+			ColGatewayFlag = 1 << ColGateway,
+			ColPromoFlag = 1 << ColPromo,
+			ColRezalFlag = 1 << ColRezal,
+			ColIPFlag = 1 << ColIP,
+			ColClientFlag = 1 << ColClient
+		};
+		Q_DECLARE_FLAGS(Colonnes, ColonneFlags)
 
 		///Flags des éléments des tooltips
 		enum ToolTipFlags

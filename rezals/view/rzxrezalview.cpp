@@ -415,20 +415,20 @@ QStringList RzxRezalView::propWidgetsName()
 /** \reimp */
 void RzxRezalView::propInit(bool def)
 {
-	uint colonnes = RzxRezalViewConfig::colonnes(def);
-	ui->cbcNom ->setChecked( colonnes & (1<<RzxRezalModel::ColNom) );
-	ui->cbcRemarque->setChecked( colonnes & (1<<RzxRezalModel::ColRemarque) );
-	ui->cbcSamba ->setChecked( colonnes & (1<<RzxRezalModel::ColSamba) );
-	ui->cbcFTP ->setChecked( colonnes & (1<<RzxRezalModel::ColFTP) );
-	ui->cbcHTTP ->setChecked( colonnes & (1<<RzxRezalModel::ColHTTP) );
-	ui->cbcNews ->setChecked( colonnes & (1<<RzxRezalModel::ColNews) );
-	ui->cbcPrinter ->setChecked( colonnes & (1<<RzxRezalModel::ColPrinter) );
-	ui->cbcOS ->setChecked( colonnes & (1<<RzxRezalModel::ColOS) );
-	ui->cbcGateway ->setChecked( colonnes & (1<<RzxRezalModel::ColGateway) );
-	ui->cbcPromo ->setChecked( colonnes & (1<<RzxRezalModel::ColPromo) );
-	ui->cbcResal ->setChecked( colonnes & (1<<RzxRezalModel::ColRezal) );
-	ui->cbcIP ->setChecked( colonnes & (1<<RzxRezalModel::ColIP) );
-	ui->cbcClient ->setChecked( colonnes & (1<<RzxRezalModel::ColClient) );
+	RzxRezalModel::Colonnes colonnes = (RzxRezalModel::ColonneFlags)RzxRezalViewConfig::colonnes(def);
+	ui->cbcNom ->setChecked( colonnes & RzxRezalModel::ColNomFlag );
+	ui->cbcRemarque->setChecked( colonnes & RzxRezalModel::ColRemarqueFlag );
+	ui->cbcSamba ->setChecked( colonnes & RzxRezalModel::ColSambaFlag );
+	ui->cbcFTP ->setChecked( colonnes & RzxRezalModel::ColFTPFlag );
+	ui->cbcHTTP ->setChecked( colonnes & RzxRezalModel::ColHTTPFlag );
+	ui->cbcNews ->setChecked( colonnes & RzxRezalModel::ColNewsFlag );
+	ui->cbcPrinter ->setChecked( colonnes & RzxRezalModel::ColPrinterFlag );
+	ui->cbcOS ->setChecked( colonnes & RzxRezalModel::ColOSFlag );
+	ui->cbcGateway ->setChecked( colonnes & RzxRezalModel::ColGatewayFlag );
+	ui->cbcPromo ->setChecked( colonnes & RzxRezalModel::ColPromoFlag );
+	ui->cbcResal ->setChecked( colonnes & RzxRezalModel::ColRezalFlag );
+	ui->cbcIP ->setChecked( colonnes & RzxRezalModel::ColIPFlag );
+	ui->cbcClient ->setChecked( colonnes & RzxRezalModel::ColClientFlag );
 
 	if(!saveColumns.isEmpty())
 		for(int i = 0 ; i < saveColumns.count() && i < RzxRezalModel::numColonnes ; i++)
@@ -443,20 +443,20 @@ void RzxRezalView::propUpdate()
 {
 	if(!ui) return;
 
-	int colonnesAffichees = 0;
-	if ( ui->cbcNom ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColNom;
-	if ( ui->cbcRemarque->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColRemarque;
-	if ( ui->cbcSamba ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColSamba;
-	if ( ui->cbcFTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColFTP;
-	if ( ui->cbcHTTP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColHTTP;
-	if ( ui->cbcNews ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColNews;
-	if ( ui->cbcPrinter ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColPrinter;
-	if ( ui->cbcOS ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColOS;
-	if ( ui->cbcGateway ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColGateway;
-	if ( ui->cbcPromo ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColPromo;
-	if ( ui->cbcResal ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColRezal;
-	if ( ui->cbcClient ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColClient;
-	if ( ui->cbcIP ->isChecked() ) colonnesAffichees |= 1<<RzxRezalModel::ColIP;
+	RzxRezalModel::Colonnes colonnesAffichees;
+	if ( ui->cbcNom ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColNomFlag;
+	if ( ui->cbcRemarque->isChecked() ) colonnesAffichees |= RzxRezalModel::ColRemarqueFlag;
+	if ( ui->cbcSamba ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColSambaFlag;
+	if ( ui->cbcFTP ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColFTPFlag;
+	if ( ui->cbcHTTP ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColHTTPFlag;
+	if ( ui->cbcNews ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColNewsFlag;
+	if ( ui->cbcPrinter ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColPrinterFlag;
+	if ( ui->cbcOS ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColOSFlag;
+	if ( ui->cbcGateway ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColGatewayFlag;
+	if ( ui->cbcPromo ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColPromoFlag;
+	if ( ui->cbcResal ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColRezalFlag;
+	if ( ui->cbcClient ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColClientFlag;
+	if ( ui->cbcIP ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColIPFlag;
 	RzxRezalViewConfig::setColonnes(colonnesAffichees);
 	saveColumns = QList<int>();
 	updateLayout();
