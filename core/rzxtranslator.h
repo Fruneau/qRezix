@@ -59,6 +59,8 @@ class RZX_CORE_EXPORT RzxTranslator:public QObject
 	public:
 		static void setLanguage(const QString&);
 		static QString language();
+		static QStringList languageIdList();
+		static QString name(const QString&);
 		static QStringList translationsList();
 		static QString translation();
 

@@ -102,6 +102,23 @@ QStringList RzxTranslator::translationsList()
 	return list;
 }
 
+///Retourne la liste des id des langues disponibles (en, fr,...)
+QStringList RzxTranslator::languageIdList()
+{
+	QStringList list = global()->languageNames.keys();
+	qSort(list);
+	return list;
+}
+
+///Retourne le nom de la langue identifiée par l'id indiqué
+/** Retourne une chaîne nulle si la langue n'existe pas
+ */
+QString RzxTranslator::name(const QString& id)
+{
+	if(!global()->languageNames.keys().contains(id)) return QString();
+	return global()->languageNames[id];
+}
+
 ///Retourne la traduction actuelle
 /** Contrairement à language qui retourne la langue demandée par l'utilisateur
  * cette fonction retourne le nom de la langue actuellement chargée... ce qui

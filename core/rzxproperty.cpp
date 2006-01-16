@@ -396,7 +396,9 @@ void RzxProperty::changePage(QTreeWidgetItem *current, QTreeWidgetItem *)
 void RzxProperty::initLangCombo()
 {
 	languageBox->clear();
-	languageBox->insertItems(0, RzxTranslator::translationsList());
+	const QStringList list = RzxTranslator::languageIdList();
+	for(int i = 0 ; i < list.count() ; i++)
+		languageBox->addItem(RzxIconCollection::getIcon(list[i]), RzxTranslator::name(list[i]));
 	languageBox->setCurrentIndex(languageBox->findText(RzxTranslator::translation()));
 }
 
