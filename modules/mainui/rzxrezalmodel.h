@@ -275,6 +275,9 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 
 	protected:
 		virtual QString tooltip(const RzxComputer *) const;
+
+	protected slots:
+		virtual void refresh(const QModelIndex& = QModelIndex());
 };
 
 ///Création d'un index associé à un objet
