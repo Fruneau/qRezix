@@ -150,9 +150,7 @@ void RzxNotifier::propInit(bool def)
 	ui->cbAway->setChecked(RzxNotifierConfig::notifyAway(def));
 	ui->cbILeave->setChecked(RzxNotifierConfig::notNotifyWhenILeave(def));
 
-	ui->cbStyle->clear();
-	ui->cbStyle->addItem(tr("Nice style - transparent window"));
-	ui->cbStyle->addItem(tr("Old style - like qRezix 1.6"));
+	translate();
 	ui->cbStyle->setCurrentIndex(RzxNotifierConfig::windowStyle()-1);
 }
 

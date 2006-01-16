@@ -554,6 +554,8 @@ void RzxRezalView::themeChanged()
 ///Mise à jour de la traduction
 void RzxRezalView::translate()
 {
-	if(ui)
-		ui->retranslateUi(propWidget);
+	if(!ui) return;
+
+	ui->retranslateUi(propWidget);
+	dispColumns(columnOrder());
 }

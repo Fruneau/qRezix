@@ -276,9 +276,6 @@
             <property name="whatsThis" >
              <string>&lt;h3>Server&lt;/h3>&lt;p>Define the address of the xnetserver&lt;/p></string>
             </property>
-            <property name="text" >
-             <string/>
-            </property>
             <property name="echoMode" >
              <enum>QLineEdit::Password</enum>
             </property>
@@ -299,9 +296,6 @@
             </property>
             <property name="whatsThis" >
              <string>&lt;h3>Server&lt;/h3>&lt;p>Define the address of the xnetserver&lt;/p></string>
-            </property>
-            <property name="text" >
-             <string/>
             </property>
             <property name="cursorPosition" >
              <number>0</number>
@@ -359,9 +353,6 @@
             </property>
             <property name="whatsThis" >
              <string>&lt;h3>Server&lt;/h3>&lt;p>Define the address of the xnetserver&lt;/p></string>
-            </property>
-            <property name="text" >
-             <string/>
             </property>
             <property name="cursorPosition" >
              <number>0</number>
@@ -459,14 +450,14 @@
           <item row="1" column="0" >
            <widget class="QLabel" name="label_5" >
             <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Unit:&lt;/p>&lt;/body>&lt;/html></string>
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Unit:&lt;/p>&lt;/body>&lt;/html></string>
             </property>
            </widget>
           </item>
           <item row="0" column="0" >
            <widget class="QLabel" name="label_4" >
             <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Name:&lt;/p>&lt;/body>&lt;/html></string>
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Name:&lt;/p>&lt;/body>&lt;/html></string>
             </property>
            </widget>
           </item>
@@ -497,14 +488,14 @@
           <item row="5" column="0" >
            <widget class="QLabel" name="label_2_2_2_2" >
             <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Phone:&lt;/p>&lt;/body>&lt;/html></string>
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Phone:&lt;/p>&lt;/body>&lt;/html></string>
             </property>
            </widget>
           </item>
           <item row="4" column="0" >
            <widget class="QLabel" name="label_2_2_2_2_2" >
             <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Website:&lt;/p>&lt;/body>&lt;/html></string>
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Website:&lt;/p>&lt;/body>&lt;/html></string>
             </property>
            </widget>
           </item>
@@ -514,7 +505,7 @@
           <item row="0" column="0" >
            <widget class="QLabel" name="label_2" >
             <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Full Name:&lt;/p>&lt;/body>&lt;/html></string>
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Full Name:&lt;/p>&lt;/body>&lt;/html></string>
             </property>
            </widget>
           </item>
@@ -533,21 +524,21 @@
           <item row="1" column="0" >
            <widget class="QLabel" name="label_2_2" >
             <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Nickname:&lt;/p>&lt;/body>&lt;/html></string>
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Nickname:&lt;/p>&lt;/body>&lt;/html></string>
             </property>
            </widget>
           </item>
           <item row="2" column="0" >
            <widget class="QLabel" name="label_2_2_2_2_2_2" >
             <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Birthday:&lt;/p>&lt;/body>&lt;/html></string>
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Birthday:&lt;/p>&lt;/body>&lt;/html></string>
             </property>
            </widget>
           </item>
           <item row="3" column="0" >
            <widget class="QLabel" name="label_2_2_2" >
             <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Email:&lt;/p>&lt;/body>&lt;/html></string>
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Email:&lt;/p>&lt;/body>&lt;/html></string>
             </property>
            </widget>
           </item>
@@ -572,14 +563,14 @@
           <item row="4" column="0" >
            <widget class="QLabel" name="label_3_2_2_2_2" >
             <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Country:&lt;/p>&lt;/body>&lt;/html></string>
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Country:&lt;/p>&lt;/body>&lt;/html></string>
             </property>
            </widget>
           </item>
           <item row="3" column="0" >
            <widget class="QLabel" name="label_3_2_2_2" >
             <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Post Code:&lt;/p>&lt;/body>&lt;/html></string>
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Post Code:&lt;/p>&lt;/body>&lt;/html></string>
             </property>
            </widget>
           </item>
@@ -592,14 +583,14 @@
           <item row="2" column="0" >
            <widget class="QLabel" name="label_3_2_2" >
             <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Region:&lt;/p>&lt;/body>&lt;/html></string>
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Region:&lt;/p>&lt;/body>&lt;/html></string>
             </property>
            </widget>
           </item>
           <item row="1" column="0" >
            <widget class="QLabel" name="label_3_2" >
             <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>City:&lt;/p>&lt;/body>&lt;/html></string>
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">City:&lt;/p>&lt;/body>&lt;/html></string>
             </property>
            </widget>
           </item>
@@ -612,7 +603,7 @@
           <item row="0" column="0" >
            <widget class="QLabel" name="label_3" >
             <property name="text" >
-             <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Street:&lt;/p>&lt;/body>&lt;/html></string>
+             <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Street:&lt;/p>&lt;/body>&lt;/html></string>
             </property>
            </widget>
           </item>
