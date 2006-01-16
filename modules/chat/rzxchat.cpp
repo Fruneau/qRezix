@@ -511,7 +511,7 @@ void RzxChat::receiveChatMessage(Rzx::ChatMessageType type, const QString& msg)
 	{
 		case Rzx::Responder: case Rzx::Chat: receive(msg); break;
 		case Rzx::Ping: notify(tr("Ping request received")); break;
-		case Rzx::Pong: notify(tr("Pong answer received")); break;
+		case Rzx::Pong: notify(tr("Pong answer received in ") + msg + "ms"); break;
 		case Rzx::Typing:  peerTypingStateChanged(true); break;
 		case Rzx::StopTyping:  peerTypingStateChanged(false); break;
 		case Rzx::InfoMessage: info(msg); break;

@@ -105,7 +105,7 @@ int RzxChatSocket::parse(const QString& msg)
 	while(!DCCFormat[i].isNull())
 	{
 		cmd.setPattern(DCCFormat[i]);
-		if(cmd.indexIn(msg, 0) != -1) 
+		if(cmd.indexIn(msg) != -1) 
 		{
 			switch(i) {
 				case DCC_PROPQUERY:
@@ -143,7 +143,7 @@ int RzxChatSocket::parse(const QString& msg)
 					break;
 
 				case DCC_PONG:
-					host.computer()->receiveChat(Rzx::Pong);
+					host.computer()->receiveChat(Rzx::Pong, QString::number(pongTime.msecsTo(QTime::currentTime())));
 					return DCC_PONG;
 					break;
 
@@ -162,7 +162,7 @@ int RzxChatSocket::parse(const QString& msg)
 ///Envoi d'une demande de propriété
 void RzxChatSocket::sendPropQuery()
 {
-	send("PROPQUERY \r\n\0");
+	send("PROPQUERY \r\n");
 }
 
 ///Envoi d'une requête ping
@@ -189,7 +189,7 @@ void RzxChatSocket::sendTyping(bool state)
 ///Formatage des propriétés de l'utilisateur
 void RzxChatSocket::sendProperties()
 {
-	send("PROPANSWER " + RzxComputer::localhost()->properties() + "\r\n\0");
+	send("PROPANSWER " + RzxComputer::localhost()->properties() + "\r\n");
 	emit propertiesSent(host);
 }
 
@@ -217,7 +217,7 @@ void RzxChatSocket::sendResponder(const QString& msg)
  * <br>Il faut utiliser \ref sendChat() pour envoyer un chat.
  */
 void RzxChatSocket::sendDccChat(const QString& msg) {
-	send(QString("CHAT " + msg + "\r\n\0"));
+	send(QString("CHAT " + msg + "\r\n"));
 }
 
 ///Emission d'un message vers un autre client

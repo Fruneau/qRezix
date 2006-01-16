@@ -34,7 +34,7 @@
     </message>
     <message>
         <source>Pong answer received</source>
-        <translation>Réponse &apos;pong&apos; reçue</translation>
+        <translation type="obsolete">Réponse &apos;pong&apos; reçue</translation>
     </message>
     <message>
         <source>Chat closed</source>
@@ -127,6 +127,10 @@
     <message>
         <source>Custom...</source>
         <translation>Personnaliser...</translation>
+    </message>
+    <message>
+        <source>Pong answer received in </source>
+        <translation>Pong reçu en </translation>
     </message>
 </context>
 <context>
@@ -347,39 +351,39 @@ Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous o
     <name>RzxConfig</name>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Prénom</translation>
+        <translation type="obsolete">Prénom</translation>
     </message>
     <message>
         <source>Last name</source>
-        <translation type="unfinished">Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
     <message>
         <source>Nick</source>
-        <translation type="unfinished">Surnom</translation>
+        <translation type="obsolete">Surnom</translation>
     </message>
     <message>
         <source>Phone</source>
-        <translation type="unfinished">Téléphone</translation>
+        <translation type="obsolete">Téléphone</translation>
     </message>
     <message>
         <source>E-Mail</source>
-        <translation type="unfinished">e-mail</translation>
+        <translation type="obsolete">e-mail</translation>
     </message>
     <message>
         <source>Web Page</source>
-        <translation type="unfinished">Page Web</translation>
+        <translation type="obsolete">Page Web</translation>
     </message>
     <message>
         <source>Room</source>
-        <translation type="unfinished">Salle</translation>
+        <translation type="obsolete">Salle</translation>
     </message>
     <message>
         <source>Sport</source>
-        <translation type="unfinished">Sport</translation>
+        <translation type="obsolete">Sport</translation>
     </message>
     <message>
         <source>Class</source>
-        <translation type="unfinished">Promo</translation>
+        <translation type="obsolete">Promo</translation>
     </message>
 </context>
 <context>

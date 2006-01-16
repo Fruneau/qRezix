@@ -143,7 +143,7 @@ namespace Rzx
 		Chat = 0,			/**< Message de discussion */
 		Responder = 1,		/**< Message de répondeur */
 		Ping = 2,			/**< Demande de ping */
-		Pong = 3,			/**< Réponse à un ping */
+		Pong = 3,			/**< Réponse à un ping (avec le temps en ms)*/
 		Typing = 4,			/**< Informe qu'un message est en cours d'édition */
 		StopTyping = 5,	/**< Informe que l'édition du message a été annulée */
 		InfoMessage = 6,	/**< Envoie d'un message d'information */
