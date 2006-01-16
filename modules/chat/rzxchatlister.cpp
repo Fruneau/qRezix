@@ -25,7 +25,6 @@
 //Pour la fenêtre d'historique
 #include <QFile>
 #include <QTextStream>
-#include <QTextEdit>
 #include <QTextCursor>
 //Pour la fenêtre propriétés
 #include <QLabel>
@@ -55,6 +54,7 @@ RZX_MODULE_EXPORT(RzxChatLister)
 #include "ui_rzxchatprop.h"
 #include "rzxchatconfig.h"
 #include "rzxsmileys.h"
+#include "rzxchatbrowser.h"
 
 
 RZX_CONFIG_INIT(RzxChatConfig)
@@ -392,7 +392,7 @@ QWidget *RzxChatLister::historique(RzxComputer *computer, bool withFrame, QWidge
 
 
 	// creation de la liste des proprietes et ajout au layout
-	QTextEdit* histoView = new QTextEdit(histoDialog);
+	RzxChatBrowser* histoView = new RzxChatBrowser(histoDialog);
 	histoView->setReadOnly(true);
 	qHistoLayout->addWidget((QWidget*)histoView, 0, 0);
 	

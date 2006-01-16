@@ -375,6 +375,18 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 	msg.remove(QRegExp("<head>.*</head>")).remove("<html>")
 		.remove(QRegExp("<body[^<>]*>")).remove("</html>").remove("</body>");
 
+	//Création des liens hypertextes
+	static const QRegExp hyperText("("
+		"(\\b[a-zA-Z0-9]+://([-a-zA-Z0-9]+(\\:[-a-zA-Z0-9]+)?\\@)?[-a-zA-Z0-9]+"
+			"|[-a-zA-Z0-9]+\\.[-a-zA-Z0-9]+)(\\.[-a-zA-Z0-9]+)*" // (protocole://)?hostname
+		"(/~?[-%_a-zA-Z0-9.]*)*"	//directory*
+		"(#|\\?[-%_a-zA-Z0-9=+.]+(&[-_a-zA-Z0-9=+.]+)*)?" //paramètres?
+		"|(\\\\\\\\[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*(\\\\[-%_a-zA-Z0-9.]*)*)" // samba
+		"|\\b(mailto:)?[-_a-zA-Z0-9]+(\\.[-_a-zA-Z0-9]+)*(\\+[-_a-zA-Z0-9.]+)?" // login
+		"\\@[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*\\b" //mail hostname
+		")");
+	msg.replace(hyperText, "<a href=\"\\1\">\\1</a>");
+
 #define addColor(text, tmpcolor) QString("<font color=\"") + tmpcolor + "\">" + text + "</font>"
 	
 	//Distinction du /me et d'un message normal
@@ -410,18 +422,6 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 
 	// Enregistrement des logs...
 	textHistorique = textHistorique + date + histText;
-
-	//Création des liens hypertextes
-	static const QRegExp hyperText("("
-		"(\\b[a-zA-Z0-9]+://([-a-zA-Z0-9]+(\\:[-a-zA-Z0-9]+)?\\@)?[-a-zA-Z0-9]+"
-			"|[-a-zA-Z0-9]+\\.[-a-zA-Z0-9]+)(\\.[-a-zA-Z0-9]+)*" // (protocole://)?hostname
-		"(/~?[-%_a-zA-Z0-9.]*)*"	//directory*
-		"(#|\\?[-%_a-zA-Z0-9=+.]+(&[-_a-zA-Z0-9=+.]+)*)?" //paramètres?
-		"|(\\\\\\\\[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*(\\\\[-%_a-zA-Z0-9.]*)*)" // samba
-		"|\\b(mailto:)?[-_a-zA-Z0-9]+(\\.[-_a-zA-Z0-9]+)*(\\+[-_a-zA-Z0-9.]+)?" // login
-		"\\@[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*\\b" //mail hostname
-		")");
-	msg.replace(hyperText, "<a href=\"\\1\">\\1</a>");
 
 	// Gestion des smileys
 	RzxSmileys::replace(msg);
@@ -511,7 +511,10 @@ void RzxChat::receiveChatMessage(Rzx::ChatMessageType type, const QString& msg)
 	{
 		case Rzx::Responder: case Rzx::Chat: receive(msg); break;
 		case Rzx::Ping: notify(tr("Ping request received")); break;
-		case Rzx::Pong: notify(tr("Pong answer received in ") + msg + "ms"); break;
+		case Rzx::Pong: notify(tr("Pong answer received in ") + msg + "ms"
+
+
+); break;
 		case Rzx::Typing:  peerTypingStateChanged(true); break;
 		case Rzx::StopTyping:  peerTypingStateChanged(false); break;
 		case Rzx::InfoMessage: info(msg); break;
