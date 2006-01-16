@@ -134,7 +134,8 @@ namespace Rzx
 		ICON_RELOAD = 60,				/**< Icône Recharger */
 		ICON_MAIL = 61,				/**< Icône pour les mails */
 		ICON_PHONE = 62,				/**< Icône pour le téléphone */
-		ICON_NUMBER = 63				/**< Nombre d'icône... */
+		ICON_FILE = 63,				/**< Icône pour les fichiers */
+		ICON_NUMBER = 64				/**< Nombre d'icône... */
 	};
 
 	///Types de messages auxquel on peut s'attendre dans un protocole de chat

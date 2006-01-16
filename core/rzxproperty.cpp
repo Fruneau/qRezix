@@ -204,6 +204,9 @@ void RzxProperty::changeTheme()
 
 	chkAutoResponder->setIcon(RzxIconCollection::getResponderIcon());
 
+	btnBrowseWorkDir->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FILE));
+	btnBrowse->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FILE));
+
 	setWindowIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
 
 	changeThemeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), networkItem);
@@ -699,11 +702,7 @@ void RzxProperty::oK()
 QString RzxProperty::browse(const QString& name, const QString& title, const QString& glob, QWidget *parent)
 {
 	QString filter = name + " (" + glob + ")";
-#ifdef WITH_KDE
-	return KFileDialog::getOpenFileName( QString::null, filter, object, title );
-#else
 	return QFileDialog::getOpenFileName(parent, title, QString::null, filter);
-#endif
 }
 
 ///Affiche la boîte de dialoge due choix d'icône
@@ -724,22 +723,14 @@ void RzxProperty::chooseIcon()
 }
 
 ///Affiche la boite de selection du répertoire de stockage des données pour le ftp
-void RzxProperty::launchDirSelectDialog() {
+void RzxProperty::launchDirSelectDialog()
+{
 	QString temp;
 	if ( !RzxConfig::global()->ftpPath().isNull() )
-#ifdef WITH_KDE
-		temp = KFileDialog::getExistingDirectory ( RzxConfig::global() ->ftpPath()
-		        , 0, tr("Choose default ftp folder") );
-	else
-		temp = KFileDialog::getExistingDirectory ( ".", 
-					 0, tr("Choose default ftp folder") );
-#else
-
 		temp = QFileDialog::getExistingDirectory(this, tr("Choose default ftp folder"),
 					 RzxConfig::global()->ftpPath()); 
 	else
 		temp = QFileDialog::getExistingDirectory(this, tr("Choose default ftp folder"), ".");
-#endif
 
 	if ( !temp.isNull() )
 		txtWorkDir->setText( temp );

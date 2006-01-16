@@ -84,6 +84,7 @@ RzxChatLister::RzxChatLister()
 	connect(lister, SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(lister, SIGNAL(update(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(lister, SIGNAL(logout(RzxComputer* )), this, SLOT(logout(RzxComputer* )));
+	RzxIconCollection::connect(this, SLOT(changeTheme()));
 
 	if(!client->listen(RzxChatConfig::chatPort()) )
 		RzxMessageBox::warning((QWidget *)parent(), "qRezix",
@@ -453,6 +454,7 @@ void RzxChatLister::propInit(bool def)
 		ui->smileyCombo->addItem(RzxSmileys::pixmap(":-)", themes[i]), themes[i]);
 	ui->smileyCombo->setCurrentIndex(ui->smileyCombo->findText(RzxSmileys::theme()));
 	previewSmileys(RzxSmileys::theme());
+	changeTheme();
 }
 
 ///Affiche l'aperçu du thème de smileys sélectionné
@@ -507,6 +509,14 @@ void RzxChatLister::chooseBeep()
 	if (file.isEmpty()) return;
 
 	ui->beepSound->setText(file);
+}
+
+///Change le thème d'icônes
+void RzxChatLister::changeTheme()
+{
+	if(!ui) return;
+
+	ui->btnBeepBrowse->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FILE));
 }
 
 ///Pour que la resize de la fenêtre rafraichisse l'aperçu des smileys

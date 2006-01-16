@@ -115,6 +115,7 @@ class RzxChatLister:public RzxModule
 
 	protected slots:
 		void chooseBeep();
+		void changeTheme();
 
 	protected:
 		virtual bool eventFilter(QObject *, QEvent *);
