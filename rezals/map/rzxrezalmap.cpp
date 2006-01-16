@@ -63,7 +63,6 @@ RzxRezalMap::RzxRezalMap(QWidget *widget)
 	placeSearch->setAutoCompletion(true);
 	connect(placeSearch, SIGNAL(activated(int)),this, SLOT(setPlace(int)));
 	connect(placeSearch, SIGNAL(editTextChanged(const QString &)),this, SLOT(checkPlace(const QString &)));
-	connect(this,SIGNAL(topLevelChanged(bool)), this, SLOT(saveDockArea(bool)));
 	currentPlace = "";
 
 	QStringList mapNames = loadMaps();

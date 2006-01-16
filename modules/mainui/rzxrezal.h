@@ -106,7 +106,6 @@ class RZX_MAINUI_EXPORT RzxRezal:public RzxBaseModule
 		const Type& type() const;
 	protected:
 		void setType(const Type&);
-		void saveDockArea(bool);
 };
 
 typedef RzxLoaderProp<RzxRezal> RzxRezalLoaderProp;

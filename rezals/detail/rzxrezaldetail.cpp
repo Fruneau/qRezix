@@ -83,7 +83,6 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 	setIcon(RZX_MODULE_ICON);
 	connect(RzxApplication::instance(), SIGNAL(haveProperties(RzxComputer*, bool*)),
 		this, SLOT(propChanged(RzxComputer*,bool*)));
-	connect(this,SIGNAL(topLevelChanged(bool)), this, SLOT(saveDockArea(bool)));
 	clear();
 
 	timer.setSingleShot(true);
