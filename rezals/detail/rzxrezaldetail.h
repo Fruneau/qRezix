@@ -84,6 +84,7 @@ class RzxRezalDetail:public QAbstractItemView, public RzxRezal
 		virtual QRegion visualRegionForSelection(const QItemSelection&) const;
 		virtual void mouseDoubleClickEvent(QMouseEvent *);
 		virtual bool viewportEvent(QEvent *e);
+		virtual void changeEvent(QEvent *e);
 
 	protected slots:
 		virtual void resizeEvent(QResizeEvent* = NULL);

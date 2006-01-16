@@ -435,3 +435,15 @@ void RzxRezalDetail::mouseMoveEvent(QMouseEvent *e)
 	RzxRezalDrag::mouseEvent(this, e);
 	QAbstractItemView::mouseMoveEvent(e);
 }
+
+///Mise à jour de la traduction
+void RzxRezalDetail::changeEvent(QEvent *e)
+{
+	QAbstractItemView::changeEvent(e);
+	if(e->type() == QEvent::LanguageChange)
+	{
+		uiDetails->retranslateUi(details);
+		uiProps->retranslateUi(props);
+		drawComputer(computer);
+	}
+}
