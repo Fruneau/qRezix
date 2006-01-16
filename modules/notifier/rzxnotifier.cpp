@@ -25,6 +25,7 @@
 #include <RzxProperty>
 #include <RzxSound>
 #include <RzxApplication>
+#include <RzxTranslator>
 
 #include "rzxnotifier.h"
 
@@ -51,6 +52,7 @@ RzxNotifier::RzxNotifier()
 	new RzxNotifierConfig(this);
 	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(RzxConnectionLister::global(), SIGNAL(initialLoging(bool)), this, SLOT(ignoreLoging(bool)));
+	RzxTranslator::connect(this, SLOT(translate()));
 	if(RzxConnectionLister::global()->computerNumber())
 		ignoreLoging(false);
 	endLoading();
@@ -199,4 +201,17 @@ void RzxNotifier::chooseBeepConnection()
 	if (file.isEmpty()) return;
 
 	ui->txtBeepFavorites -> setText(file);
+}
+
+///Mise à jour de la traduction
+void RzxNotifier::translate()
+{
+	if(ui)
+		ui->retranslateUi(propWidget);
+
+	int id = ui->cbStyle->currentIndex();
+	ui->cbStyle->clear();
+	ui->cbStyle->addItem(tr("Nice style - transparent window"));
+	ui->cbStyle->addItem(tr("Old style - like qRezix 1.6"));
+	ui->cbStyle->setCurrentIndex(id);
 }

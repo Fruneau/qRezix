@@ -120,6 +120,7 @@ class RzxRezalView : public QTreeView, public RzxRezal
 		virtual void propClose();
 
 	protected slots:
+		void translate();
 		void themeChanged();
 };
 

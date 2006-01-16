@@ -781,7 +781,13 @@ void RzxProperty::changeEvent(QEvent *e)
 	if(e->type() == QEvent::LanguageChange)
 	{
 		QTreeWidgetItem *item = lbMenu->currentItem();
+		int text = cmbMenuText->currentIndex();
+		cmbMenuText->clear();
+		int icon = cmbMenuIcons->currentIndex();
+		cmbMenuIcons->clear();
 		retranslateUi(this);
+		cmbMenuText->setCurrentIndex(text);
+		cmbMenuIcons->setCurrentIndex(icon);
 		changeTheme();
 		generalItem->setText(0, tr("Infos"));
 		favoritesItem->setText(0, tr("Favorites/Banned"));

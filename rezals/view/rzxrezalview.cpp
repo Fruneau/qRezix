@@ -30,6 +30,7 @@
 #include <RzxConfig>
 #include <RzxApplication>
 #include <RzxConnectionLister>
+#include <RzxTranslator>
 
 #include "rzxrezalview.h"
 #include "rzxrezalviewconfig.h"
@@ -78,6 +79,7 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 	connect(&search, SIGNAL(findItem(const QModelIndex& )), this, SLOT(findIndex(const QModelIndex&)));
 	connect(&search, SIGNAL(searchPatternChanged(const QString& )), this, SIGNAL(searchPatternChanged(const QString& )));
 	RzxIconCollection::connect(this, SLOT(themeChanged()));
+	RzxTranslator::connect(this, SLOT(translate()));
 
 	force = true;
 	connect(RzxConnectionLister::global(), SIGNAL(initialLoging(bool)), this, SLOT(setDelayRefresh(bool)));
@@ -547,4 +549,11 @@ void RzxRezalView::themeChanged()
 	if(!ui || !propWidget) return;
 
 	ui->btnInit->setIcon(RzxIconCollection::getIcon(Rzx::ICON_RELOAD));
+}
+
+///Mise à jour de la traduction
+void RzxRezalView::translate()
+{
+	if(ui)
+		ui->retranslateUi(propWidget);
 }

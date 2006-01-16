@@ -42,6 +42,7 @@
 #include <RzxApplication>
 #include <RzxProperty>
 #include <RzxComputer>
+#include <RzxTranslator>
 
 
 #include "rzxchatlister.h"
@@ -85,6 +86,7 @@ RzxChatLister::RzxChatLister()
 	connect(lister, SIGNAL(update(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(lister, SIGNAL(logout(RzxComputer* )), this, SLOT(logout(RzxComputer* )));
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
+	RzxTranslator::connect(this, SLOT(translate()));
 
 	if(!client->listen(RzxChatConfig::chatPort()) )
 		RzxMessageBox::warning((QWidget *)parent(), "qRezix",
@@ -525,4 +527,19 @@ bool RzxChatLister::eventFilter(QObject *obj, QEvent *e)
 	if(obj == ui->lstSmileys && e->type() == QEvent::Resize)
 		previewSmileys(ui->smileyCombo->currentText());
 	return false;
+}
+
+///Mise à jour de la traduction
+void RzxChatLister::translate()
+{
+	if(!ui) return;
+
+	ui->retranslateUi(propWidget);
+
+	int id = ui->smileyCombo->currentIndex();
+	ui->smileyCombo->clear();
+	QStringList themes = RzxSmileys::themeList();
+	for(int i = 0 ; i < themes.size() ; i++)
+		ui->smileyCombo->addItem(RzxSmileys::pixmap(":-)", themes[i]), themes[i]);
+	ui->smileyCombo->setCurrentIndex(id);
 }

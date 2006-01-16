@@ -35,6 +35,7 @@
 #include <RzxWrongPass>
 #include <RzxChangePass>
 #include <RzxConnectionLister>
+#include <RzxTranslator>
 
 #include "rzxjabberprotocole.h"
 #include "rzxjabberconfig.h"
@@ -64,6 +65,7 @@ RzxJabberProtocole::RzxJabberProtocole()
 	connect(client, SIGNAL(connected()), this, SLOT(updateLocalhost()));
 	connect(client, SIGNAL(disconnected()), this, SLOT(deconnection()));
 	connect(client, SIGNAL(rosterUpdated()), this, SLOT(buildRosterList()));
+	RzxTranslator::connect(this, SLOT(translate()));
 	setIcon(RZX_MODULE_ICON);
 	
 	endLoading();
@@ -201,6 +203,13 @@ void RzxJabberProtocole::propUpdate()
 		stop();
 		start();
 	}
+}
+
+///Mise à jour de la traduction
+void RzxJabberProtocole::translate()
+{
+	if(ui)
+		ui->retranslateUi(propWidget);
 }
 
 /** \reimp */

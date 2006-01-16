@@ -143,9 +143,6 @@
         <property name="whatsThis" >
          <string>&lt;h3>Server&lt;/h3>&lt;p>Define the address of the xnetserver&lt;/p></string>
         </property>
-        <property name="text" >
-         <string/>
-        </property>
         <property name="cursorPosition" >
          <number>0</number>
         </property>
@@ -213,7 +210,7 @@
    <item row="0" column="0" colspan="2" >
     <widget class="QLabel" name="lblInfo" >
      <property name="text" >
-      <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>The xNet protocole is the original protocole of qRezix.&lt;/p>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>This module support xNet v4.0 which include authentification and 32bits icons support. &lt;/p>&lt;/body>&lt;/html></string>
+      <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">The xNet protocole is the original protocole of qRezix.&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">This module support xNet v4.0 which include authentification and 32bits icons support. &lt;/p>&lt;/body>&lt;/html></string>
      </property>
      <property name="wordWrap" >
       <bool>true</bool>

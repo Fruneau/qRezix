@@ -130,7 +130,9 @@ public slots:
 	virtual void propUpdate();
 	virtual void propClose();
 
- };
+protected slots:
+	void translate();
+};
 
 inline void RzxProtocole::refresh()
 {

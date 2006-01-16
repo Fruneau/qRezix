@@ -75,7 +75,11 @@ public slots:
 	virtual void propInit(bool def = false);
 	virtual void propUpdate();
 	virtual void propClose();
-	
+
+protected slots:
+	virtual void translate();
+
+public slots:
 	virtual void start();
 	virtual void stop();
 

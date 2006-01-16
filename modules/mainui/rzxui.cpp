@@ -196,6 +196,21 @@ void RzxUi::fillComboBoxes()
 	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_SAMBA), tr("Open Samba"));
 	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_MAIL), tr("Send a Mail"));
 	ui->cmdDoubleClic->setCurrentIndex(i);
+
+	int tl, tr, bl, br;
+	tl = ui->cbTopLeft->currentIndex();
+	ui->cbTopLeft->clear();
+	tr = ui->cbTopRight->currentIndex();
+	ui->cbTopRight->clear();
+	bl = ui->cbBottomLeft->currentIndex();
+	ui->cbBottomLeft->clear();
+	br = ui->cbBottomRight->currentIndex();
+	ui->cbBottomRight->clear();
+	ui->retranslateUi(propWidget);
+	ui->cbTopLeft->setCurrentIndex(tl);
+	ui->cbTopRight->setCurrentIndex(tr);
+	ui->cbBottomLeft->setCurrentIndex(bl);
+	ui->cbBottomRight->setCurrentIndex(br);
 }
 
 ///Construit l'image des coins

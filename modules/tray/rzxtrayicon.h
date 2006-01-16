@@ -129,6 +129,9 @@ public slots:
 	virtual void propInit(bool def = false);
 	virtual void propUpdate();
 	virtual void propClose();
+
+protected slots:
+	void translate();
 #endif
 };
 

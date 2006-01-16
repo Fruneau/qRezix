@@ -42,6 +42,7 @@
 #include <RzxIconCollection>
 #include <RzxConnectionLister>
 #include <RzxApplication>
+#include <RzxTranslator>
 
 #include "rzxtrayicon.h"
 #include "rzxtrayconfig.h"
@@ -84,6 +85,7 @@ RzxTrayIcon::RzxTrayIcon()
 #ifndef Q_OS_MAC
 	ui = NULL;
 	propWidget = NULL;
+	RzxTranslator::connect(this, SLOT(translate()));
 #endif
 	v_isWMDock = FALSE;
 	buildMenu();
@@ -1177,4 +1179,12 @@ void RzxTrayIcon::propClose()
 		ui = NULL;
 	}
 }
+
+///Mise à jour de la traduction
+void RzxTrayIcon::translate()
+{
+	if(ui)
+		ui->retranslateUi(propWidget);
+}
+
 #endif

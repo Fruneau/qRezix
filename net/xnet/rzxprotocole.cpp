@@ -33,6 +33,7 @@
 #include <RzxWrongPass>
 #include <RzxChangePass>
 #include <RzxApplication>
+#include <RzxTranslator>
 
 #include "rzxprotocole.h"
 #include "rzxxnetconfig.h"
@@ -69,6 +70,7 @@ RzxProtocole::RzxProtocole()
 {
 	setIcon(RZX_MODULE_ICON);
 	auth = false;
+	RzxTranslator::connect(this, SLOT(translate()));
 }
 
 ///Destruction...
@@ -310,4 +312,11 @@ void RzxProtocole::propClose()
 		delete ui;
 		ui = NULL;
 	}
+}
+
+///Mise à jour de la traduction
+void RzxProtocole::translate()
+{
+	if(ui)
+		ui->retranslateUi(propWidget);
 }

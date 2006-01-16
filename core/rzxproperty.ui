@@ -361,9 +361,6 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="text" >
-             <string/>
-            </property>
             <property name="cursorPosition" >
              <number>0</number>
             </property>
