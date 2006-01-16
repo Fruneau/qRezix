@@ -3,7 +3,11 @@
     <name>RzxBaseModule</name>
     <message>
         <source>qRezix tray icon</source>
-        <translation>Tray icon de qRezix</translation>
+        <translation type="obsolete">Tray icon de qRezix</translation>
+    </message>
+    <message>
+        <source>Systray and Dock integration</source>
+        <translation>Intégration de qRezix au Systray et au Dock</translation>
     </message>
 </context>
 <context>

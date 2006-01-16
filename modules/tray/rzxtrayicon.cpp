@@ -19,7 +19,7 @@
 * Adaptation to qRezix by Florent Bruneau, Copyright (C) 2004-2005 Binet Réseau
 */
 #define RZX_MODULE_NAME "Tray icon"
-#define RZX_MODULE_DESCRIPTION "qRezix tray icon"
+#define RZX_MODULE_DESCRIPTION "Systray and Dock integration"
 #define RZX_MODULE_ICON Rzx::ICON_SYSTRAYAWAY
 
 #include <QImage>
@@ -72,7 +72,7 @@ bool computerLessThan(RzxComputer *c1, RzxComputer *c2)
   \sa show
 */
 RzxTrayIcon::RzxTrayIcon()
-		: RzxModule(RZX_MODULE_NAME, QT_TRANSLATE_NOOP("RzxBaseModule", "qRezix tray icon"), RZX_MODULE_VERSION), tip("qRezix"), d( 0 )
+		: RzxModule(RZX_MODULE_NAME, QT_TRANSLATE_NOOP("RzxBaseModule", "Systray and Dock integration"), RZX_MODULE_VERSION), tip("qRezix"), d( 0 )
 {
 	beginLoading();
 	setType(MOD_GUI);
