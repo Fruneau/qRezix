@@ -55,6 +55,15 @@ class RZX_CORE_EXPORT RzxProperty : public QDialog, private Ui::RzxProperty
 		Blank = 5
 	};
 
+	///Stocke les données liées à un sport
+	struct Sport {
+		const QString icon;
+		const char* name;
+		const int id;
+	};
+	static const Sport sports[];
+	friend bool sportLessThan(const Sport*, const Sport*);
+
 public: 
 	RzxProperty(QWidget *parent = NULL);
 	~RzxProperty();

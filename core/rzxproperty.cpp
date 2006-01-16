@@ -57,6 +57,34 @@ email                : benoit.casoetto@m4x.org
 #include <RzxBanList>
 #include <RzxLoaderProp>
 
+///Initialise la liste des sports
+const RzxProperty::Sport RzxProperty::sports[] = {
+	{ "athletism", QT_TR_NOOP("Athletism"), 1 },
+	{ "rowing", QT_TR_NOOP("Rowing"), 2 },
+	{ "badminton", QT_TR_NOOP("Badminton"), 17 },
+	{ "basketball", QT_TR_NOOP("Basketball"), 3 },
+	{ "orienting", QT_TR_NOOP("Orienting"), 4 },
+	{ "riding", QT_TR_NOOP("Riding"), 5 },
+	{ "climbing", QT_TR_NOOP("Climbing"), 6 },
+	{ "fencing", QT_TR_NOOP("Fencing"), 7 },
+	{ "football", QT_TR_NOOP("Football"), 8 },
+	{ "golf", QT_TR_NOOP("Golf"), 9 },
+	{ "handball", QT_TR_NOOP("Handball"), 10 },
+	{ "judo", QT_TR_NOOP("Judo"), 11 },
+	{ "swimming", QT_TR_NOOP("Swimming"), 12 },
+	{ "rugby", QT_TR_NOOP("Rugby"), 13 },
+	{ "tennis", QT_TR_NOOP("Tennis"), 14 },
+	{ "sailing", QT_TR_NOOP("Sailing"), 15 },
+	{ "volleyball", QT_TR_NOOP("Volleyball"), 16 }
+};
+#define SportNumber 17
+
+///Permet de trier les sports en fonction de la langue actuelle
+bool sportLessThan(const RzxProperty::Sport* s1, const RzxProperty::Sport* s2)
+{
+	return RzxProperty::tr(s1->name).toLower() < RzxProperty::tr(s2->name).toLower();
+}
+
 ///Construction de la fenêtre de propriétés
 RzxProperty::RzxProperty(QWidget *parent)
 	:QDialog(parent)
@@ -393,40 +421,23 @@ void RzxProperty::initSportCombo()
 {
 	int index;
 	if(!cmbSport->count())
-		index = -1;
+		index = RzxConfig::numSport();
 	else
-		index = cmbSport->currentIndex();
+		index = cmbSport->itemData(cmbSport->currentIndex()).toInt();
 
 	cmbSport->clear();
 	cmbSport->addItem(tr("None"), 0);
-#define addSport(icon, name, pos) \
-	{ \
-		cmbSport->addItem(RzxIconCollection::getIcon(icon), tr(name), pos); \
-		cmbSport->setItemData(cmbSport->count() - 1, name, Qt::UserRole + 1); \
+	QList<const Sport*> list;
+	for(int i = 0 ; i < SportNumber ; i++)
+		list << &sports[i];
+	qSort(list.begin(), list.end(), sportLessThan);
+	for(int i = 0 ; i < SportNumber ; i++)
+	{
+		cmbSport->addItem(RzxIconCollection::getIcon(list[i]->icon), tr(list[i]->name), list[i]->id);
+		cmbSport->setItemData(cmbSport->count() - 1, list[i]->name, Qt::UserRole + 1);
 	}
-	addSport("athletism", QT_TR_NOOP("Athletism"), 1);
-	addSport("rowing", QT_TR_NOOP("Rowing"), 2);
-	addSport("badminton", QT_TR_NOOP("Badminton"), 17);
-	addSport("basketball", QT_TR_NOOP("Basketball"), 3);
-	addSport("orienting", QT_TR_NOOP("Orienting"), 4);
-	addSport("riding", QT_TR_NOOP("Riding"), 5);
-	addSport("climbing", QT_TR_NOOP("Climbing"), 6);
-	addSport("fencing", QT_TR_NOOP("Fencing"), 7);
-	addSport("football", QT_TR_NOOP("Football"), 8);
-	addSport("golf", QT_TR_NOOP("Golf"), 9);
-	addSport("handball", QT_TR_NOOP("Handball"), 10);
-	addSport("judo", QT_TR_NOOP("Judo"), 11);
-	addSport("swimming", QT_TR_NOOP("Swimming"), 12);
-	addSport("rugby", QT_TR_NOOP("Rugby"), 13);
-	addSport("tennis", QT_TR_NOOP("Tennis"), 14);
-	addSport("sailing", QT_TR_NOOP("Sailing"), 15);
-	addSport("volleyball", QT_TR_NOOP("Volleyball"), 16);
-#undef addSport
 
-	if(index == -1)
-		cmbSport->setCurrentIndex(cmbSport->findData(RzxConfig::numSport()));
-	else
-		cmbSport->setCurrentIndex(index);
+	cmbSport->setCurrentIndex(cmbSport->findData(index));
 }
 
 ///Initialise la liste des promos
