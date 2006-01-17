@@ -206,6 +206,7 @@ bool QRezix::installModule(RzxRezal *rezal)
 		if(dock && isFloating)
 		{
 			conf->restoreWidget(rezal->name(), dock, dock->pos(), dock->size());
+			addDockWidget(area, dock);
 			if(!isVisible)
 				dock->hide();
 		}
@@ -494,8 +495,7 @@ void QRezix::saveState(RzxRezal *rezal)
 	if(dock)
 	{
 		conf->setValue("isFloating", dock->isFloating());
-		if (!dock->isFloating())
-			conf->setValue("area", dockWidgetArea(dock));
+		conf->setValue("area", dockWidgetArea(dock));
 		conf->setValue("isVisible", dock->isVisible());
 		conf->setValue("position", dock->pos());
 	}
