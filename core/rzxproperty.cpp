@@ -114,9 +114,6 @@ RzxProperty::RzxProperty(QWidget *parent)
 	//et pas trop long non plus...
 	hostname->setValidator( new QRegExpValidator(QRegExp("[a-zA-Z0-9](-?[a-zA-Z0-9])*"), hostname) );
 	hostname->setMaxLength(32);
-
-	//La remarque doit tenir en une seule ligne...
-	//remarque->setValidator( new QRegExpValidator(QRegExp("[^\n\r]+"), remarque) );
 	
 	//Pour éviter que les gens mettent un | dans leurs propriétés
 	QRegExpValidator *propValidator = new QRegExpValidator(QRegExp("[^|]*"), this);

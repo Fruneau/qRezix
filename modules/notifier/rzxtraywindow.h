@@ -52,7 +52,7 @@ class RzxTrayWindow: public QFrame
 		};
 		Q_ENUMS(Theme)
 
-		RzxTrayWindow(Theme, RzxComputer *computer, unsigned int time = 5);
+		RzxTrayWindow(Theme, RzxComputer *computer, unsigned int time = 4);
 		~RzxTrayWindow();
 
 	protected:

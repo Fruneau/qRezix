@@ -75,7 +75,7 @@ QDockWidget::DockWidgetFeatures RzxRezalIndex::features() const
 ///Retourne les positions autorisées du rezal en tant que dock
 Qt::DockWidgetAreas RzxRezalIndex::allowedAreas() const
 {
-	return Qt::AllDockWidgetAreas;
+	return Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea;
 }
 
 ///Retourne la position par défaut du rezal en tant que dock
