@@ -22,6 +22,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QStringList>
+#include <QSysInfo>
 
 #ifdef WIN32
 #	include <math.h>
@@ -145,12 +146,22 @@ void RzxConfig::loadDirs()
 	#ifdef WIN32
 		QSettings regReader(QSettings::SystemScope, "BR", "qRezix");
 		QString dir = regReader.value("InstDir").toString();
-		userSubdir = "qRezix";
 		m_libDir = QDir::current();
+		if (QSysInfo::WindowsVersion & QSysInfo::WV_NT_based)
+			userSubdir = "qRezix";
+		else
+		{
+			if(!dir.isEmpty())
+				m_userDir.setPath(dir);
+			else
+				m_userDir = m_libDir;
+		}
+	
 		if(!dir.isEmpty())
 			m_systemDir.setPath(dir);
 		else
 			m_systemDir = m_userDir;
+
 	#else
 		userSubdir = ".rezix";
 		m_systemDir.setPath(QREZIX_DATA_DIR);
