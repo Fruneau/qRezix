@@ -1017,7 +1017,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>Riding</source>
-        <translation>Équitation</translation>
+        <translation>Equitation</translation>
     </message>
     <message>
         <source>Climbing</source>
