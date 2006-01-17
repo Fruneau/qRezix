@@ -307,21 +307,21 @@ void RzxConnectionLister::clearComputerFromNetwork(RzxNetwork *network)
 {
 	foreach(RzxComputer *computer, displayWaiter)
 	{
-		if(!computer || (computer->network() == network))
+		if(!computer && computer->network() == network)
 			displayWaiter.removeAll(computer);
 	}
 
 	foreach(QString key, computerByLogin.keys())
 	{
 		RzxComputer *computer = computerByLogin[key];
-		if(!computer || computer->network() == network)
+		if(!computer && computer->network() == network)
 			computerByLogin.remove(key);
 	}
 	
 	foreach(RzxHostAddress key, computerByIP.keys())
 	{
 		RzxComputer *computer = computerByIP[key];
-		if(computer || computer->network() == network)
+		if(computer && computer->network() == network)
 		{
 			emit logout(computer);
 			delete computer;
