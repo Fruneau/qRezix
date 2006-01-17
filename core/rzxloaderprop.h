@@ -62,15 +62,15 @@ class RzxBaseLoaderProp:public QWidget, protected Ui::RzxLoader
 	public slots:
 		void setPropertyParent(QTreeWidgetItem * = NULL);
 
+		void emitNotifyLoad(const QString&);
+		void emitNotifyUnload(const QString&);
+
 	protected slots:
 		virtual void load() = 0;
 		virtual void reload() = 0;
 		virtual void itemChanged(QTreeWidgetItem * current, QTreeWidgetItem * previous) = 0;
 
 		virtual void changeTheme() = 0;
-
-		void emitNotifyLoad(const QString&);
-		void emitNotifyUnload(const QString&);
 
 	signals:
 		void notifyLoad(const QString&, QTreeWidgetItem*);
@@ -144,6 +144,7 @@ void RzxLoaderProp<T>::init()
 	unloadable = false;
 	QStringList modules = loader->modules.keys();
 	changeTheme();
+	treeModules->clear();
 	foreach(QString name, modules)
 	{
 		QTreeWidgetItem *item = new QTreeWidgetItem(treeModules);
@@ -176,15 +177,18 @@ template <class T>
 void RzxLoaderProp<T>::itemChanged(QTreeWidgetItem * current, QTreeWidgetItem *)
 {
 	if(!current)
-	{
 		name = QString();
+	else
+		name = current->text(0);
+
+	if(name.isEmpty())
+	{
 		module = NULL;
 		btnLoad->setEnabled(false);
 		btnReload->setEnabled(false);
 		return;
 	}
 
-	name = current->text(0);
 	module = loader->modules[name];
 	unloadable = module || loader->toBeReloaded.contains(name);
 	if(!unloadable)

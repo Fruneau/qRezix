@@ -322,6 +322,12 @@ void RzxUi::reload()
 	if(qrezix)
 	{
 		beginClosing();
+		if(ui)
+		{
+			QList<RzxRezal*> rezals = qrezix->moduleList();
+			foreach(RzxRezal *rezal, rezals)
+				ui->rezalLoader->emitNotifyUnload(rezal->name());
+		}
 		delete qrezix;
 		endClosing();
 	}
@@ -331,5 +337,12 @@ void RzxUi::reload()
 	connect(qrezix, SIGNAL(wantPreferences()), this, SIGNAL(wantPreferences()));
 	connect(qrezix, SIGNAL(wantToggleResponder()), this, SIGNAL(wantToggleResponder()));
 	connect(qrezix, SIGNAL(wantReload()), this, SLOT(reload()), Qt::QueuedConnection);
+	if(ui)
+	{
+		ui->rezalLoader->setLoader(qrezix);
+		QList<RzxRezal*> rezals = qrezix->moduleList();
+		foreach(RzxRezal *rezal, rezals)
+			ui->rezalLoader->emitNotifyLoad(rezal->name());
+	}
 	endLoading();
 }
