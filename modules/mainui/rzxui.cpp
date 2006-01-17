@@ -142,6 +142,12 @@ QStringList RzxUi::propWidgetsName()
 /** \reimp */
 void RzxUi::propInit(bool def)
 {
+	if(!ui) return;
+
+	QList<RzxRezal*> rezals = qrezix->moduleList();
+	foreach(RzxRezal *rezal, rezals)
+		rezal->propInit(def);
+
 	ui->cmdDoubleClic->setCurrentIndex( RzxMainUIConfig::doubleClicRole(def) );
 	ui->cmbDefaultTab->setCurrentIndex(RzxMainUIConfig::defaultTab(def));
 
@@ -324,7 +330,7 @@ void RzxUi::reload()
 		beginClosing();
 		if(ui)
 		{
-			QList<RzxRezal*> rezals = qrezix->moduleList();
+			const QList<RzxRezal*> rezals = qrezix->moduleList();
 			foreach(RzxRezal *rezal, rezals)
 				ui->rezalLoader->emitNotifyUnload(rezal->name());
 		}
@@ -340,7 +346,7 @@ void RzxUi::reload()
 	if(ui)
 	{
 		ui->rezalLoader->setLoader(qrezix);
-		QList<RzxRezal*> rezals = qrezix->moduleList();
+		const QList<RzxRezal*> rezals = qrezix->moduleList();
 		foreach(RzxRezal *rezal, rezals)
 			ui->rezalLoader->emitNotifyLoad(rezal->name());
 	}
