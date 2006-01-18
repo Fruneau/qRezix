@@ -63,8 +63,8 @@
   ShowUninstDetails show
   
 ;Configuration de l'installation
-  InstType "Complète - avec plug-ins"
-  InstType "Complète - sans plug-ins"
+  InstType "Complète"
+  InstType "Discrète"
   InstType "Minimum"
 
   InstallDir "$PROGRAMFILES\qRezix"
@@ -281,14 +281,18 @@ Section "Fichiers de base de qRezix" SecBase
   CreateDirectory "icones"
   CreateDirectory "log"
   CreateDirectory "translations"
-
-  CreateDirectory "maps"
-
+  File "..\..\core\subnet.ini"
+  
+!ifndef RZX_MODULES
   SetOutPath "$INSTDIR"
   File /r /x .svn "..\..\resources\smileys"
   File /r /x .svn "..\..\resources\maps"
-  File "..\..\core\subnet.ini"
   File "..\..\rezals\map\map.ini"
+!else
+  CreateDirectory "modules"
+  CreateDirectory "net"
+!endif ;RZX_MODULES
+
   !insertmacro INSTALL_THEME "none"
   
   ;Install the shortcuts in start menu
@@ -314,6 +318,94 @@ Section "Fichiers de base de qRezix" SecBase
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 SectionEnd
 
+
+!ifdef RZX_MODULES
+;Les modules à installer
+SubSection "Modules à installer" SecModules
+
+Section "Fenêtre principale" SecMainUI
+  SetDetailsPrint textonly
+  DetailPrint "Fenêtre principale de qRezix affichant la liste des connectés"
+  SetDetailsPrint listonly
+
+  SectionIn 1
+
+  ;Installe le module en lui même
+  SetOutPath "$INSTDIR\modules"
+  File "..\..\modules\rzxmainui.dll"
+
+  ;Pour ne pas trop compliqué, on installe les rezals avec...
+  SetOutPath "$INSTDIR"
+  CreateDirectory "rezals"
+  File /r /x .svn "..\..\resources\maps"
+  File "..\..\rezals\map\map.ini"
+  SetOutPath "$INSTDIR\rezals"
+  File "..\..\rezals\rezaldetail.dll"
+  File "..\..\rezals\rezalview.dll"
+  File "..\..\rezals\rezalindex.dll"
+  File "..\..\rezals\rezalmap.dll"
+  SetOutPath "$INSTDIR"
+SectionEnd
+
+Section "Chat" SecChat
+  SetDetailsPrint textonly
+  DetailPrint "Module permettant la discussion avec les autres personnes connectées"
+  SetDetailsPrint listonly
+
+  Section 1 2
+
+  SetOutPath "$INSTDIR\modules"
+  File "..\..\modules\rzxchat.dll"
+  SetOutPath "$INSTDIR"
+  File /r /x .svn "..\..\resources\smileys"
+SectionEnd
+
+Section "Intégration au ystray" SecTray
+  SetDetailsPrint textonly
+  DetailPrint "Module permettant l'intégration de qRezix au systray (icônes à côté de l'horloge)"
+  SetDetailsPrint listonly
+
+  Section 1 2
+
+  SetOutPath "$INSTDIR\modules"
+  File "..\..\modules\rzxmainui.dll"
+  SetOutPath "$INSTDIR"
+SectionEnd
+
+Section "Notifications" SecNotifier
+  SetDetailsPrint textonly
+  DetailPrint "Module qui permet d'être averti du changement d'état de connexion des favoris"
+  SetDetailsPrint listonly
+
+  Section 1
+
+  SetOutPath "$INSTDIR\modules"
+  File "..\..\modules\rzxmainui.dll"
+  SetOutPath "$INSTDIR"
+SectionEnd
+
+SubSectionEnd ;Modules
+
+
+
+SubSection "Protocoles réseau" SecProtocoles
+
+Section "xNet" SecNetxNet
+  SetDetailsPrint textonly
+  DetailPrint "Protocole xNet, le protocole de base de qRezix..."
+  SetDetailsPrint listonly
+
+  SectionIn 1 2 3 RO ; Tant que le module jabber n'est pas fait pour windows, xNet est le seul client
+  SetOutPath "$INSTDIR\net"
+  File "..\..\net\rzxnetxnet.dll"
+  SetOutPath "$INSTDIR"
+SectionEnd  
+	
+SubSectionEnd ;Protocoles
+!endif ;RZX_MODULES
+
+
+
 ;Les icônes à installer
 SubSection "Lancement et raccourcis" SecIcons
 
@@ -338,6 +430,8 @@ SectionEnd
 SubSectionEnd ; Raccourcis
 
 
+
+
 ; Les thèmes d'icônes
 SubSection "Thèmes d'icônes" SecTheme
 
@@ -346,7 +440,7 @@ Section "Thème d'icônes 'Classic'" SecThemeClassic
   DetailPrint "Thèmes d'icônes | Classic"
   SetDetailsPrint listonly
 
-  SectionIn 1 2 3 RO
+  SectionIn 1 2
 
   !insertmacro INSTALL_THEME "Classic"
 SectionEnd
@@ -356,7 +450,7 @@ Section "Thème d'icônes 'Krystal'" SecThemeKrystal
   DetailPrint "Thèmes d'icônes | Krystal"
   SetDetailsPrint listonly
 
-  SectionIn 1 2
+  SectionIn 1 2 3 RO
 
   !insertmacro INSTALL_THEME "Krystal"
 SectionEnd
@@ -401,20 +495,9 @@ Section "Thème d'icône 'Nuvola'" SecThemeNuvola
   !insertmacro INSTALL_THEME "Nuvola"
 SectionEnd
 
-
-
-; Sauf si quelqu'un le complète, le thème mS est mort
-;Section "Thème d'icônes 'mS'" SecThememS
-;  SetDetailsPrint textonly
-;  DetailPrint "Thèmes d'icônes | mS"
-;  SetDetailsPrint listonly
-;
-;  SectionIn 1 2
-;
-;  !insertmacro INSTALL_THEME "mS"
-;SectionEnd
-
 SubSectionEnd ; Theme
+
+
 
 
 ;Traductions
@@ -435,53 +518,7 @@ SectionEnd
 
 SubSectionEnd ; Traductions
 
-; pas de plugin pour l'instant
-;Plug-ins
-;SubSection "Plug-ins" SecPlugIns
 
-
-;Section "Plug-in de l'Xplo" SecPiXplo
-;  SetDetailsPrint textonly
-;  DetailPrint "Plug-ins | Xplo"
-;  SetDetailsPrint listonly
-;
-;  SectionIn 1
-;
-;  SetOutPath "$INSTDIR\plugins"
-;  File "..\..\qrezix-plugins\xplo\bin\rzxpixplo.dll"
-;  CreateDirectory "themes"
-;  !insertmacro INSTALL_XPLO_THEME "classic"
-;  !insertmacro INSTALL_XPLO_THEME "krystal"
-;  !insertmacro INSTALL_XPLO_THEME "NoiaWarmKDE"
-;  !insertmacro INSTALL_XPLO_THEME "MacOS X"
-;  SetOutPath "$INSTDIR"
-;SectionEnd
-
-;Section "Smilix, pour que le chat soit plus beau" SecPiSmiley
-;  SetDetailsPrint textonly
-;  DetailPrint "Plug-ins | Smilix"
-;  SetDetailsPrint listonly
-;
-;  SectionIn 1
-;
-;  SetOutPath "$INSTDIR\plugins"
-;  File "..\..\qrezix-plugins\smilix\bin\rzxpismiley.dll"
-;  CreateDirectory "themes"
-;  CreateDirectory "smileys"
-;  !insertmacro INSTALL_SMILEY_THEME "classic"
-;  !insertmacro INSTALL_SMILEY_THEME "krystal"
-;  !insertmacro INSTALL_SMILEY_THEME "NoiaWarmKDE"
-;  !inser;tmacro INSTALL_SMILEY_THEME "MacoOS X"
-;
-;  !insertmacro INSTALL_SMILEY_IMAGES "basic"
-;  !insertmacro INSTALL_SMILEY_IMAGES "basic2"
-;  !insertmacro INSTALL_SMILEY_IMAGES "msnlike"
-;  !insertmacro INSTALL_SMILEY_IMAGES "pingu"
-;
-;  SetOutPath "$INSTDIR"
-;SectionEnd
-
-;SubSectionEnd ; Plug-ins
 
 
 ; Juste pour s'assurer que le PWD soit bon à l'exécution de qrezix.exe
@@ -505,12 +542,8 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeMacOSX} $(DESC_SecThemeMacOSX)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeKids} $(DESC_SecThemeKids)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemeNuvola} $(DESC_SecThemeNuvola)
-;  !insertmacro MUI_DESCRIPTION_TEXT ${SecThememS} $(DESC_SecThemems)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecTrans} "Traductions de qRezix"
   !insertmacro MUI_DESCRIPTION_TEXT ${SecTransFrench} $(DESC_SecTransFrench)
-  ;!insertmacro MUI_DESCRIPTION_TEXT ${SecPlugIns} "Plug-ins pour qRezix"
-  ;!insertmacro MUI_DESCRIPTION_TEXT ${SecPiXplo} $(DESC_SecPiXplo)
-  ;!insertmacro MUI_DESCRIPTION_TEXT ${SecPiSmiley} $(DESC_SecPiSmiley)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 
@@ -537,7 +570,9 @@ Section "un.Suppression de qRezix" Uninstall
   RMDir /r "$INSTDIR\smileys"
   RMDir /r "$INSTDIR\themes"
   RMDir /r "$INSTDIR\maps"
-  ;RMDir /r "$INSTDIR\plugins"
+  RMDir /r "$INSTDIR\modules"
+  RMDir /r "$INSTDIR\rezals"
+  RMDir /r "$INSTDIR\net"
   Delete "$INSTDIR\*.*"
   RMDir "$INSTDIR"
 
