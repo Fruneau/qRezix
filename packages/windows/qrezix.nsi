@@ -368,7 +368,7 @@ Section "Intégration au ystray" SecTray
   SectionIn 1 2
 
   SetOutPath "$INSTDIR\modules"
-  File "..\..\modules\rzxmainui.dll"
+  File "..\..\modules\rzxtray.dll"
   SetOutPath "$INSTDIR"
 SectionEnd
 
@@ -380,7 +380,7 @@ Section "Notifications" SecNotifier
   SectionIn 1
 
   SetOutPath "$INSTDIR\modules"
-  File "..\..\modules\rzxmainui.dll"
+  File "..\..\modules\rzxnotifier.dll"
   SetOutPath "$INSTDIR"
 SectionEnd
 
