@@ -352,7 +352,7 @@ Section "Chat" SecChat
   DetailPrint "Module permettant la discussion avec les autres personnes connectées"
   SetDetailsPrint listonly
 
-  Section 1 2
+  SectionIn 1 2
 
   SetOutPath "$INSTDIR\modules"
   File "..\..\modules\rzxchat.dll"
@@ -365,7 +365,7 @@ Section "Intégration au ystray" SecTray
   DetailPrint "Module permettant l'intégration de qRezix au systray (icônes à côté de l'horloge)"
   SetDetailsPrint listonly
 
-  Section 1 2
+  SectionIn 1 2
 
   SetOutPath "$INSTDIR\modules"
   File "..\..\modules\rzxmainui.dll"
@@ -377,7 +377,7 @@ Section "Notifications" SecNotifier
   DetailPrint "Module qui permet d'être averti du changement d'état de connexion des favoris"
   SetDetailsPrint listonly
 
-  Section 1
+  SectionIn 1
 
   SetOutPath "$INSTDIR\modules"
   File "..\..\modules\rzxmainui.dll"
