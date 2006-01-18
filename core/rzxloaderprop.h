@@ -47,7 +47,7 @@ class QTreeWidgetItem;
  *
  * Une implémentation par défaut est disponible via \ref RzxLoaderProp
  */
-class RzxBaseLoaderProp:public QWidget, protected Ui::RzxLoader
+class RZX_CORE_EXPORT RzxBaseLoaderProp:public QWidget, protected Ui::RzxLoader
 {
 	Q_OBJECT
 	QTreeWidgetItem *parentItem;

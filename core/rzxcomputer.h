@@ -298,15 +298,15 @@ public:
 ///Déclaration pour le MetaType RzxComputer dans le but d'utiliser le RzxComputer comme metatype
 Q_DECLARE_METATYPE(RzxComputer*)
 
-RzxComputer::testComputer testComputerChat;
-RzxComputer::testComputer testComputerProperties;
-RzxComputer::testComputer testComputerFtp;
-RzxComputer::testComputer testComputerHttp;
-RzxComputer::testComputer testComputerSamba;
-RzxComputer::testComputer testComputerNews;
-RzxComputer::testComputer testComputerMail;
-RzxComputer::testComputer testComputerFavorite;
-RzxComputer::testComputer testComputerBan;
-RzxComputer::testComputer testComputerSameGateway;
+RZX_CORE_EXPORT RzxComputer::testComputer testComputerChat;
+RZX_CORE_EXPORT RzxComputer::testComputer testComputerProperties;
+RZX_CORE_EXPORT RzxComputer::testComputer testComputerFtp;
+RZX_CORE_EXPORT RzxComputer::testComputer testComputerHttp;
+RZX_CORE_EXPORT RzxComputer::testComputer testComputerSamba;
+RZX_CORE_EXPORT RzxComputer::testComputer testComputerNews;
+RZX_CORE_EXPORT RzxComputer::testComputer testComputerMail;
+RZX_CORE_EXPORT RzxComputer::testComputer testComputerFavorite;
+RZX_CORE_EXPORT RzxComputer::testComputer testComputerBan;
+RZX_CORE_EXPORT RzxComputer::testComputer testComputerSameGateway;
 
 #endif
