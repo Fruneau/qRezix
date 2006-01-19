@@ -39,7 +39,6 @@ RzxIntro::RzxIntro()
 	connect(ui->cbLanguage, SIGNAL(activated(const QString&)), this, SLOT(changeLanguage(const QString&)));
 	connect(ui->cbIcons, SIGNAL(activated(const QString&)), this, SLOT(changeTheme(const QString&)));
 
-	ui->cbLanguage->addItems(RzxTranslator::translationsList());
 	const QStringList list = RzxTranslator::languageIdList();
 	for(int i = 0 ; i < list.count() ; i++)
 		ui->cbLanguage->addItem(RzxIconCollection::getIcon(list[i]), RzxTranslator::name(list[i]));
