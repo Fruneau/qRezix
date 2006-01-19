@@ -33,7 +33,7 @@ QString RzxXNetConfig::pass(bool def, const QString& defValue)
 {
 	if(def) return defValue;
 	QString i = global() -> value(((RzxServerListener*)global()->module)->getServerIP().toString() + "/pass", defValue).toString();
-	if(i.isNull()) //Pour la compatibilité avec les anciennes formes de stockage sous nux
+	if(i.isEmpty()) //Pour la compatibilité avec les anciennes formes de stockage sous nux
 		i = global() -> value("pass", defValue).toString();
 	return i;
 }
