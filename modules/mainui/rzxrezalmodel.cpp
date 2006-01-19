@@ -656,7 +656,7 @@ QString RzxRezalModel::tooltip(const RzxComputer *computer) const
 		if(computer->can(Rzx::CAP_ON))
 		{
 			int nb = 0;
-			tooltip += "<b>-></b>&nbsp;" + tr("features:");
+			tooltip += "<b>-></b>&nbsp;" + tr("features:") + " ";
 			if(computer->can(Rzx::CAP_CHAT))
 			{
 				tooltip += tr("chat");
@@ -674,7 +674,7 @@ QString RzxRezalModel::tooltip(const RzxComputer *computer) const
 	if(tooltipFlags & (int)RzxRezalModel::TipIP)
 		tooltip += "<b>-></b>&nbsp;ip : <i>" + computer->ip().toString() + "</i><br/>";
 	if(tooltipFlags & (int)RzxRezalModel::TipResal)
-		tooltip += "<b>-></b>&nbsp;" + tr("Location:") + computer->rezalName(false) + "<br/>";
+		tooltip += "<b>-></b>&nbsp;" + tr("Location:") + " " + computer->rezalName(false) + "<br/>";
 	
 	if(tooltipFlags & (int)RzxRezalModel::TipProperties)
 	{
