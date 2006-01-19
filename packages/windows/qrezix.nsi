@@ -21,8 +21,13 @@
   !include "Sections.nsh"
 
 ;Informations sur la compilation du programme
+;Utilisation de ces flags :
+; - RZX_DEBUG : indique qu'il faut installer les dll de debug ==> qRezix a été compilé avec CONFIG=debug (cf rzxglobal.pri)
+; - USE_MSVCR_DLL : indique que qRezix a été compilé avec Visual C++
+; - RZX_MODULES : indique que qRezix a été compilé intégralement sous forme de modules ==> installation modulaire envisageable
   !define RZX_DEBUG
   !define USE_MSVCR_DLL
+;  !define RZX_MODULES
 
 ;Pour pouvoir copier les dll dans l'installeur
   !define QTDIR "C:\Qt\4.1.0"
@@ -38,6 +43,7 @@
   !endif
 
 ;Pour le cas ou on utilise VC++ pour compiler
+;==> actuellement prévu pour Visual C++ .NET
   !ifdef USE_MSVCR_DLL
      !ifdef RZX_DEBUG
         !define MSVCR_DLL "msvcr71d.dll"
@@ -63,9 +69,14 @@
   ShowUninstDetails show
   
 ;Configuration de l'installation
+!ifdef RZX_MODULES
   InstType "Complète"
   InstType "Discrète"
-  InstType "Minimum"
+  InstType "Minimale"
+!else
+  InstType "Complète"
+  InstType "Minimale"
+!endif
 
   InstallDir "$PROGRAMFILES\qRezix"
   
@@ -221,7 +232,11 @@ Section "Fichiers de base de qRezix" SecBase
   DetailPrint "Base de qRezix"
   SetDetailsPrint listonly
 
+!ifdef RZX_MODULES
   SectionIn 1 2 3 RO   ; Section toujours sélectionnée
+!else
+  SectionIn 1 2 RO
+!endif
 
   ;Installation des Dlls utilisées par qRezix
   SetOutPath "$SYSDIR"
@@ -308,13 +323,13 @@ Section "Fichiers de base de qRezix" SecBase
   WriteRegStr HKLM "Software\BR\qRezix" "InstDir" "$INSTDIR"
   
   ;Create uninstaller
-  WriteRegExpandStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "UninstallString" '"$INSTDIR\Uninstall.exe"'
-  WriteRegExpandStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "InstallLocation" "$INSTDIR"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "DisplayName" "${MUI_NAME}"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "DisplayIcon" "$INSTDIR\qRezix.exe,0"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "DisplayVersion" "${MUI_VERSION}"
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "NoModify" "1"
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" "NoRepair" "1"
+  WriteRegExpandStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix-2" "UninstallString" '"$INSTDIR\Uninstall.exe"'
+  WriteRegExpandStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix-2" "InstallLocation" "$INSTDIR"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix-2" "DisplayName" "${MUI_NAME}"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix-2" "DisplayIcon" "$INSTDIR\qRezix.exe,0"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix-2" "DisplayVersion" "${MUI_VERSION}"
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix-2" "NoModify" "1"
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix-2" "NoRepair" "1"
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 SectionEnd
 
@@ -325,7 +340,7 @@ SubSection "Modules à installer" SecModules
 
 Section "Fenêtre principale" SecMainUI
   SetDetailsPrint textonly
-  DetailPrint "Fenêtre principale de qRezix affichant la liste des connectés"
+  DetailPrint "Modules | Fenêtre principale"
   SetDetailsPrint listonly
 
   SectionIn 1
@@ -349,7 +364,7 @@ SectionEnd
 
 Section "Chat" SecChat
   SetDetailsPrint textonly
-  DetailPrint "Module permettant la discussion avec les autres personnes connectées"
+  DetailPrint "Modules | Chat"
   SetDetailsPrint listonly
 
   SectionIn 1 2
@@ -362,7 +377,7 @@ SectionEnd
 
 Section "Intégration au ystray" SecTray
   SetDetailsPrint textonly
-  DetailPrint "Module permettant l'intégration de qRezix au systray (icônes à côté de l'horloge)"
+  DetailPrint "Modules | Systray"
   SetDetailsPrint listonly
 
   SectionIn 1 2
@@ -374,7 +389,7 @@ SectionEnd
 
 Section "Notifications" SecNotifier
   SetDetailsPrint textonly
-  DetailPrint "Module qui permet d'être averti du changement d'état de connexion des favoris"
+  DetailPrint "Modules | Notifier"
   SetDetailsPrint listonly
 
   SectionIn 1
@@ -390,9 +405,9 @@ SubSectionEnd ;Modules
 
 SubSection "Protocoles réseau" SecProtocoles
 
-Section "xNet" SecNetxNet
+Section "xNet" SecxNet
   SetDetailsPrint textonly
-  DetailPrint "Protocole xNet, le protocole de base de qRezix..."
+  DetailPrint "Réseau | xNet"
   SetDetailsPrint listonly
 
   SectionIn 1 2 3 RO ; Tant que le module jabber n'est pas fait pour windows, xNet est le seul client
@@ -414,7 +429,12 @@ Section "Lancer au démarrage de Windows" SecLaunchStartup
   DetailPrint "Lancement au démarrage de Windows"
   SetDetailsPrint listonly
 
+!ifdef RZX_MODULES
   SectionIn 1 2 3
+!else
+  SectionIn 1 2
+!endif
+
   CreateShortCut "$SMSTARTUP\${MUI_PRODUCT}.lnk" "$INSTDIR\qRezix.exe"
 SectionEnd
 
@@ -423,7 +443,8 @@ Section "Icône sur le Bureau" SecIconDesktop
   DetailPrint "Icône sur le bureau"
   SetDetailsPrint listonly
 
-  SectionIn 1 2 3
+  SectionIn 1 2
+
   CreateShortCut "$DESKTOP\${MUI_PRODUCT}.lnk" "$INSTDIR\qRezix.exe"
 SectionEnd
 
@@ -440,7 +461,11 @@ Section "Thème d'icônes 'Classic'" SecThemeClassic
   DetailPrint "Thèmes d'icônes | Classic"
   SetDetailsPrint listonly
 
+!ifdef RZX_MODULES
   SectionIn 1 2
+!else
+  SectionIn 1
+!endif
 
   !insertmacro INSTALL_THEME "Classic"
 SectionEnd
@@ -450,7 +475,11 @@ Section "Thème d'icônes 'Krystal'" SecThemeKrystal
   DetailPrint "Thèmes d'icônes | Krystal"
   SetDetailsPrint listonly
 
+!ifdef RZX_MODULES
   SectionIn 1 2 3 RO
+!else
+  SectionIn 1 2 RO
+!endif
 
   !insertmacro INSTALL_THEME "Krystal"
 SectionEnd
@@ -460,7 +489,11 @@ Section "Thème d'icônes 'Noia'" SecThemeNoia
   DetailPrint "Thèmes d'icônes | NoiaWarmKDE"
   SetDetailsPrint listonly
 
+!ifdef RZX_MODULES
   SectionIn 1 2
+!else
+  SectionIn 1
+!else
 
   !insertmacro INSTALL_THEME "NoiaWarmKDE"
 SectionEnd
@@ -470,7 +503,11 @@ Section "Thème d'icône 'MacOS X'" SecThemeMacOSX
   DetailPrint "Thèmes d'icônes | MacOS X"
   SetDetailsPrint listonly
 
+!ifdef RZX_MODULES
   SectionIn 1 2
+!else
+  SectionIn 1
+!endif
   
   !insertmacro INSTALL_THEME "MacOSX"
 SectionEnd
@@ -480,7 +517,11 @@ Section "Thème d'icône 'Kids'" SecThemeKids
   DetailPrint "Thèmes d'icônes | Kids"
   SetDetailsPrint listonly
 
+!ifdef RZX_MODULES
   SectionIn 1 2
+!else
+  SectionIn 1
+!endif
 
   !insertmacro INSTALL_THEME "Kids"
 SectionEnd
@@ -490,7 +531,11 @@ Section "Thème d'icône 'Nuvola'" SecThemeNuvola
   DetailPrint "Thèmes d'icônes | Nuvola"
   SetDetailsPrint listonly
 
+!ifdef RZX_MODULES
   SectionIn 1 2
+!else
+  SectionIn 1
+!endif
   
   !insertmacro INSTALL_THEME "Nuvola"
 SectionEnd
@@ -508,7 +553,11 @@ Section "Traduction française" SecTransFrench
   DetailPrint "Traductions | Français"
   SetDetailsPrint listonly
 
+!ifdef RZX_MODULES
   SectionIn 1 2 3
+!else
+  SectionIn 1 2
+!endif
 
   SetOutPath "$INSTDIR\translations"
   
@@ -532,6 +581,13 @@ SectionEnd
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SecBase} $(DESC_SecBase)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecModules} "Modules pour qRezix..."
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecMainUI} "Fenêtre principale de qRezix qui permet l'affichage de la liste des connectés"
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecChat} "Module qui permet de discuter avec les autres connectés"
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecTray} "Module qui permet l'intégration de qRezix au SysTray de Windows (la barre d'icône à côté de l'horloge)"
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecNotifier} "Module qui permet d'être averti de la connexion/déconnexion des favoris"
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecProtocoles} "Gestion des protocoles réseaux supportés par qRezix..."
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecxNet} "Protocole xNet, le protocole d'origine de qRezix"
   !insertmacro MUI_DESCRIPTION_TEXT ${SecIcons} "Raccourcis et lancement"
   !insertmacro MUI_DESCRIPTION_TEXT ${SecLaunchStartup} $(DESC_SecLaunchStartup)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecIconDesktop} $(DESC_SecIconDesktop)
@@ -573,7 +629,6 @@ Section "un.Suppression de qRezix" Uninstall
   RMDir /r "$INSTDIR\modules"
   RMDir /r "$INSTDIR\rezals"
   RMDir /r "$INSTDIR\net"
-  Delete "$INSTDIR\*.*"
   RMDir "$INSTDIR"
 
   ;Suppression si nécessaire des DLL partagées
@@ -595,7 +650,10 @@ Section "un.Suppression de qRezix" Uninstall
   Delete "$DESKTOP\${MUI_PRODUCT}.lnk"
 
   ;Suppression des informations de désinstallation    
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix" 
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qRezix-2"
+  DeleteRegKey HKLM "Software\BR\qRezix\InstDir"
+  DeleteRegKey /ifempty HKLM "Software\BR\qRezix"
+  DeleteRegKey /ifempty HKLM "Software\BR"
 SectionEnd
 
 
@@ -605,9 +663,12 @@ Section /o "un.Supprimer les préférences" UninstPref
   DetailPrint "Suppression des préférences"
   SetDetailsPrint listonly
 
-  Delete "$INSTDIR\*.*"
   RMDir /r "$INSTDIR"
-  DeleteRegKey HKLM "Software\BR\qRezix"
+
+  ;TODO : virer les préférences pour TOUS les utilisateurs
+  ;ça doit se faire avec EnumRegKey...
+  DeleteRegKey HKCU "Software\BR\qRezix"
+  DeleteRegKey /ifempty HKCU "Software\BR"
 SectionEnd
 
 
@@ -616,5 +677,5 @@ SectionEnd
 
 !insertmacro MUI_UNFUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${Uninstall} "Supprimer qRezix"
-  !insertmacro MUI_DESCRIPTION_TEXT ${UninstPref} "Supprime les préférences, historiques des discussions... RAPPELEZ-VOUS DE VOTRE PASS POUR VOUS RECONNECTER AU xNet ULTERIEUREMENT"
+  !insertmacro MUI_DESCRIPTION_TEXT ${UninstPref} "Supprime les préférences, historiques des discussions... RAPPELEZ-VOUS DE VOTRE PASS POUR VOUS RECONNECTER AU xNet ULTERIEUREMENT (ne supprime que les préférences de l'utilisateur courant)"
 !insertmacro MUI_UNFUNCTION_DESCRIPTION_END
