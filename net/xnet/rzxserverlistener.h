@@ -94,7 +94,7 @@ private slots:
 protected slots:
 	void notify(const QString& text);
 	void serverFound();
-	void serverDisconnected(const QString& = QString());
+	void serverDisconnected(const QString& = QString(), bool force = false);
 	void serverConnected();
 	void error(QAbstractSocket::SocketError);
 	

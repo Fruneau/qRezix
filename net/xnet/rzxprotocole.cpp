@@ -26,6 +26,7 @@
 #include <QRegExpValidator>
 #include <QPixmap>
 #include <QImage>
+#include <QTimer>
 #include <QDialog>
 
 #include <RzxComputer>
@@ -69,7 +70,7 @@ RzxProtocole::RzxProtocole()
 		 ui(NULL), propWidget(NULL)
 {
 	setIcon(RZX_MODULE_ICON);
-	auth = false;
+	valid = auth = false;
 	RzxTranslator::connect(this, SLOT(translate()));
 }
 
@@ -113,6 +114,7 @@ void RzxProtocole::parse(const QString& msg)
 					m_oldPass = RzxXNetConfig::oldPass();
 					wantChangePass();
 				}
+				if(!valid) valid = true;
 				break;
 				
 			case SERVER_SYSMSG:
@@ -125,6 +127,7 @@ void RzxProtocole::parse(const QString& msg)
 				break;
 
 			case SERVER_WRONGPASS:
+				valid = false;
 				if(!RzxXNetConfig::oldPass().isNull() && !testOldPass)
 				{
 					sendAuth(RzxXNetConfig::oldPass());
@@ -132,9 +135,10 @@ void RzxProtocole::parse(const QString& msg)
 				}
 				else
 				{
+					stop();
+					wrongTime.start();
 					new RzxWrongPass(this);
 					RzxXNetConfig::global()->setOldPass();
-					stop();
 				}
 				break;
 
@@ -188,8 +192,11 @@ void RzxProtocole::usePass(const QString& pass)
 	{
 		pwd += MD5_ADD;
 		pwd=MD5String(pwd.toLatin1());
-		sendAuth(pwd);
 		RzxXNetConfig::setPass(pwd);
+		if(wrongTime.elapsed() >= 5000)
+			beginAuth();
+		else
+			QTimer::singleShot(5000 - wrongTime.elapsed(), this, SLOT(beginAuth()));
 	}
 	else
 		stop();

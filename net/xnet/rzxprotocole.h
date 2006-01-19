@@ -20,6 +20,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QTime>
 
 #include <RzxHostAddress>
 #include <RzxNetwork>
@@ -46,12 +47,14 @@ class RzxProtocole : public RzxNetwork
 	
 	QString m_oldPass;
 	QString m_newPass;
+	QTime wrongTime;
 	
 	///Patron de formatage des objets
 	static const QString serialPattern;
 
 protected:
 	bool auth;
+	bool valid;
 
 public: 
 	RzxProtocole();

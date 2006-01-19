@@ -85,11 +85,13 @@ void RzxServerListener::start()
 /** \reimp */
 void RzxServerListener::stop()
 {
-	if(!isStarted()) return;
+	if(!isStarted() && valid) return;
 
 	wantDisconnection = true;
-	
-	sendPart();
+	if(valid)
+		sendPart();
+	else
+		socket.close();
 }
 
 /** \reimp */
@@ -216,8 +218,8 @@ void RzxServerListener::error(QAbstractSocket::SocketError error)
 		default:
 			reconnectionMsg = tr("Unknown QSocket error: %1").arg(error);
 	}
-	serverDisconnected(reconnectionMsg);
-	qDebug("Server socket error : %s", socket.errorString().toAscii().constData());
+	serverDisconnected(reconnectionMsg, true);
+	qDebug("Server socket error: %s", socket.errorString().toAscii().constData());
 }
 
 ///La connexion avec le serveur a timeouté
@@ -229,9 +231,9 @@ void RzxServerListener::timeout()
 }
 
 ///On vient d'être déconnecté, on tente de relancer la connexion
-void RzxServerListener::serverDisconnected(const QString& msg)
+void RzxServerListener::serverDisconnected(const QString& msg, bool force)
 {
-	if(reconnectionTimer.isActive() || isStarted()) return;
+	if((reconnectionTimer.isActive() || isStarted()) && !force) return;
 
 	emit disconnected(this);
 	auth = false;
@@ -391,7 +393,7 @@ void RzxServerListener::sendIcon(const QImage& image)
 /** No descriptions */
 void RzxServerListener::send(const QString& msg)
 {
-	if(!isStarted() || !sendingBuffer.isEmpty())
+	if(!isStarted())
 		sendingBuffer += msg;
 	else
 	{
