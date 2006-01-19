@@ -493,7 +493,7 @@ Section "Thème d'icônes 'Noia'" SecThemeNoia
   SectionIn 1 2
 !else
   SectionIn 1
-!else
+!endif
 
   !insertmacro INSTALL_THEME "NoiaWarmKDE"
 SectionEnd
