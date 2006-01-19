@@ -680,7 +680,7 @@ QString RzxRezalModel::tooltip(const RzxComputer *computer) const
 	{
 		tooltip += "<br/>";
 		QString msg = RzxConfig::cache(computer->ip());
-		if(msg.isNull())
+		if(msg.isEmpty())
 		{
 			tooltip += "<i>" + tr("No properties cached") + "</i>";
 		}
