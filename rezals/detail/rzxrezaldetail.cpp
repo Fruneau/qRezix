@@ -85,6 +85,15 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 		this, SLOT(propChanged(RzxComputer*,bool*)));
 	clear();
 
+	uiDetails->lblFtp->installEventFilter(this);
+	uiDetails->lblHttp->installEventFilter(this);
+	uiDetails->lblSamba->installEventFilter(this);
+	uiDetails->lblNews->installEventFilter(this);
+	uiDetails->lblState->installEventFilter(this);
+	uiDetails->lblStateIcon->installEventFilter(this);
+	uiDetails->lblName->installEventFilter(this);
+	uiDetails->lblIcon->installEventFilter(this);
+
 	timer.setSingleShot(true);
 	connect(&timer, SIGNAL(timeout()), this, SLOT(redraw()));
 	endLoading();
@@ -300,7 +309,7 @@ void RzxRezalDetail::mouseDoubleClickEvent(QMouseEvent *e)
 		computer->samba();
 	else if(child == uiDetails->lblNews)
 		computer->news();
-	else if(child == uiDetails->lblState || child == uiDetails->lblStateIcon)
+	else if((child == uiDetails->lblState || child == uiDetails->lblStateIcon) && computer->canBeChatted())
 		computer->chat();
 	else if(child == uiDetails->lblName || child == uiDetails->lblIcon)
 		RzxRezalAction::run(computer);
@@ -322,6 +331,7 @@ void RzxRezalDetail::resizeEvent(QResizeEvent *)
 ///Reçois les informations du QDockWidget auquel la fenêtre est rattachée
 bool RzxRezalDetail::eventFilter(QObject *dck, QEvent *e)
 {
+	QWidget *wdg = qobject_cast<QWidget*>(dck);
 	QDockWidget *dock = qobject_cast<QDockWidget*>(dck);
 	if(dock && dock == dockWidget() && !dock->isFloating() && e->type() == QEvent::Move)
 	{
@@ -346,6 +356,23 @@ bool RzxRezalDetail::eventFilter(QObject *dck, QEvent *e)
 			default:
 				break;
 		}
+	}
+	else if(wdg && e->type() == QEvent::Leave)
+		wdg->setCursor(QCursor());
+	else if(wdg && e->type() == QEvent::Enter && computer)
+	{
+		if(dck == uiDetails->lblFtp)
+			wdg->setCursor(RzxRezalAction::cursor(RzxRezalAction::Ftp, computer));
+		else if(dck == uiDetails->lblHttp)
+			wdg->setCursor(RzxRezalAction::cursor(RzxRezalAction::Http, computer));
+		else if(dck == uiDetails->lblSamba)
+			wdg->setCursor(RzxRezalAction::cursor(RzxRezalAction::Samba, computer));
+		else if(dck == uiDetails->lblNews)
+			wdg->setCursor(RzxRezalAction::cursor(RzxRezalAction::News, computer));
+		else if(dck == uiDetails->lblState || dck == uiDetails->lblStateIcon)
+			wdg->setCursor(RzxRezalAction::cursor(RzxRezalAction::Chat, computer));
+		else if(dck == uiDetails->lblName || dck == uiDetails->lblIcon)
+			wdg->setCursor(RzxRezalAction::cursor(computer));
 	}
 	return false;
 }

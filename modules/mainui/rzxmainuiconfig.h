@@ -19,6 +19,7 @@
 
 #include <RzxAbstractConfig>
 #include "rzxmainuiglobal.h"
+#include "rzxrezalaction.h"
 
 #define DEFAULT_WINDOWSIZE "100000000"
 #define DEFAULT_REZAL "Item view"
@@ -33,17 +34,6 @@ class RZX_MAINUI_EXPORT RzxMainUIConfig: public RzxAbstractConfig
 	RZX_CONFIG(RzxMainUIConfig)
 
 	public:
-		///Enumère les actions pour le double clic
-		enum DoubleClicAction
-		{
-			Chat = 0,
-			Ftp = 1,
-			Http = 2,
-			News = 3,
-			Samba = 4,
-			Mail = 5
-		};
-
 		///Enumère les tabs accessibles pour l'ouverture
 		enum Tab
 		{
@@ -53,7 +43,7 @@ class RZX_MAINUI_EXPORT RzxMainUIConfig: public RzxAbstractConfig
 			Everybody = 3
 		};
 
-		RZX_INTPROP("doubleClic", doubleClicRole, setDoubleClicRole, Chat)
+		RZX_INTPROP("doubleClic", doubleClicRole, setDoubleClicRole, RzxRezalAction::Chat)
 		RZX_INTPROP("defaultTab", defaultTab, setDefaultTab, Favorites)
 		RZX_BOOLPROP("useSearch", useSearch, setUseSearch, true)
 		RZX_BOOLPROP("showQuit", showQuit, setShowQuit, true)

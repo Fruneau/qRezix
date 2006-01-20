@@ -17,6 +17,8 @@
 #ifndef RZXREZALACTION_H
 #define RZXREZALACTION_H
 
+#include <QCursor>
+
 #include "rzxmainuiglobal.h"
 
 /**
@@ -26,8 +28,29 @@
 ///Permet de lancer des actions sur les ordinateurs
 namespace RzxRezalAction
 {
+	///Enumère les actions pour le double clic
+	enum Action
+	{
+		None = -1,
+		Chat = 0,
+		Ftp = 1,
+		Http = 2,
+		News = 3,
+		Samba = 4,
+		Mail = 5
+	};
+
+	///Recherche l'action effective actuelle
+	RZX_MAINUI_EXPORT Action action(const RzxComputer *);
+
 	///Lance l'action par défaut associée au double clic
 	RZX_MAINUI_EXPORT void run(RzxComputer *);
+
+	///Retourne un curseur pour l'action par défaut
+	RZX_MAINUI_EXPORT QCursor cursor(const RzxComputer *);
+
+	///Retourne un curseur pour l'action donnée
+	RZX_MAINUI_EXPORT QCursor cursor(Action, const RzxComputer * = NULL, bool force = false);
 }
 
 #endif
