@@ -627,7 +627,10 @@ void RzxChat::on_btnProperties_toggled(bool on)
 	
 	if(prop) return;
 	ui->btnHistorique->setChecked(false);
-	computer()->checkProperties();
+	if(computer())
+		computer()->checkProperties();
+	else
+		receiveProperties();
 }
 
 ///Demande l'affichage des propriétés
