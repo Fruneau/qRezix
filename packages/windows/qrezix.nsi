@@ -667,8 +667,17 @@ Section /o "un.Supprimer les préférences" UninstPref
 
   ;TODO : virer les préférences pour TOUS les utilisateurs
   ;ça doit se faire avec EnumRegKey...
-  DeleteRegKey HKCU "Software\BR\qRezix"
-  DeleteRegKey /ifempty HKCU "Software\BR"
+  push $0
+  StrCpy $0 0
+  loop:
+    EnumRegKey $1 HKU "" $0
+    StrCmp $1 "" done
+    IntOp $0 $0 + 1
+    DeleteRegKey HKU "$1/Software/BR/qRezix"
+    DeleteRegKey /ifempty HKU "$1/Software/BR"
+    Goto loop
+  done:
+  pop $0
 SectionEnd
 
 
