@@ -136,6 +136,7 @@ private:
 	static RzxComputer *m_localhost;
 	bool locked;
 	bool edited;
+	bool testLocalhost;
 
 protected:
 	/** Pour la creation de localHost */
@@ -146,6 +147,7 @@ public:
 	static RzxComputer *localhost();
 	static void buildLocalhost();
 	bool isLocalhost() const;
+	bool isLocalhostObject() const;
 
 protected slots:
 	//Reconstruction de la liste des serveurs

@@ -56,7 +56,7 @@ RzxComputer *RzxComputer::m_localhost = NULL;
 ///Construction d'un RzxComputer
 /** La construction n'initialise pas le RzxComputer en un objet utilisable.
  */
-RzxComputer::RzxComputer():delayScan(NULL) { }
+RzxComputer::RzxComputer():delayScan(NULL),testLocalhost(false) { }
 
 ///Consturuction d'un RzxCompuer
 /** La construction initialise le RzxComputer à partir des données obtenues
@@ -71,6 +71,7 @@ RzxComputer::RzxComputer(RzxNetwork *network, const RzxHostAddress& c_ip, const 
 	loadIcon();
 	connected = false;
 	locked = false;
+	testLocalhost = (name() == localhost()->name());
 	if(isLocalhost())
 		RzxComputer::localhost()->m_stamp = c_stamp;
 }	
@@ -111,6 +112,7 @@ void RzxComputer::initLocalhost()
 	Rzx::beginModuleLoading("Local computer image");
 	delayScan = new QTimer();
 	m_network = NULL;
+	testLocalhost = true;
 	connect(delayScan, SIGNAL(timeout()), this, SLOT(scanServers()));
 
 	//Ip mise à jour par RzxServerListener
@@ -164,7 +166,16 @@ void RzxComputer::autoSetOs()
 /** A priori le test sur le nom de machine est suffisant pour indentifier si un objet est le même que localhost */
 bool RzxComputer::isLocalhost() const
 {
-	return name() == localhost()->name();
+	return testLocalhost;
+}
+
+///Indique si l'object est le RzxComputer* de localhost
+/** Diffère de isLocalhost() par le fait que isLocalhost() indique si l'objet représente la machine localhost, alors
+ * que isLocalhostObject() indique si l'objet est l'object global représentant localhost...
+ */
+bool RzxComputer::isLocalhostObject() const
+{
+	return this == m_localhost;
 }
 
 
@@ -540,23 +551,23 @@ RzxComputer::Servers RzxComputer::serverFlags() const
 
 ///Indique si on a un serveur samba
 bool RzxComputer::hasSambaServer() const
-{ return (m_options.Server & SERVER_SAMBA); }
+{ return ((isLocalhostObject()?m_options.Server & m_serverFlags:m_options.Server) & SERVER_SAMBA); }
 
 ///Indique si on a un serveur ftp
 bool RzxComputer::hasFtpServer() const
-{ return (m_options.Server & SERVER_FTP); }
+{ return ((isLocalhostObject()?m_options.Server & m_serverFlags:m_options.Server) & SERVER_FTP); }
 
 ///Indique si on a un serveur http
 bool RzxComputer::hasHttpServer() const
-{ return (m_options.Server & SERVER_HTTP); }
+{ return ((isLocalhostObject()?m_options.Server & m_serverFlags:m_options.Server) & SERVER_HTTP); }
 
 ///Indique si on a un serveur news
 bool RzxComputer::hasNewsServer() const
-{ return (m_options.Server & SERVER_NEWS); }
+{ return ((isLocalhostObject()?m_options.Server & m_serverFlags:m_options.Server) & SERVER_NEWS); }
 
 ///Indique si on a un serveur news
 bool RzxComputer::hasPrinter() const
-{ return (m_options.Server & SERVER_PRINTER); }
+{ return ((isLocalhostObject()?m_options.Server & m_serverFlags:m_options.Server) & SERVER_PRINTER); }
 
 ///Indique si on a l'adresse e-mail de la personne
 bool RzxComputer::hasEmailAddress() const
