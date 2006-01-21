@@ -36,7 +36,6 @@ RZX_REZAL_EXPORT(RzxRezalDetail)
 #include <QRezix>
 #include <RzxRezalDrag>
 #include <RzxRezalModel>
-#include <RzxRezalAction>
 #include <RzxMainUIConfig>
 
 #include "rzxrezaldetailconfig.h"
@@ -295,6 +294,24 @@ void RzxRezalDetail::propChanged(RzxComputer *m_computer, bool *displayed)
 	}
 }
 
+///Retourne l'action associée à une fenêtre particulière...
+RzxRezalAction::Action RzxRezalDetail::action(const QWidget *child) const
+{
+	if(child == uiDetails->lblFtp)
+		return RzxRezalAction::Ftp;
+	else if(child == uiDetails->lblHttp)
+		return RzxRezalAction::Http;
+	else if(child == uiDetails->lblSamba)
+		return RzxRezalAction::Samba;
+	else if(child == uiDetails->lblNews)
+		return RzxRezalAction::News;
+	else if((child == uiDetails->lblState || child == uiDetails->lblStateIcon) && computer->canBeChatted())
+		return RzxRezalAction::Chat;
+	else if(child == uiDetails->lblName || child == uiDetails->lblIcon || child == uiDetails->frmName || child == uiDetails->lblIP)
+		return RzxRezalAction::action(computer);
+	return RzxRezalAction::None;
+}
+
 ///Application d'un double clic sur un des objets
 /** Un double clic sur ftp lancera le ftp, etc...
  * Un double clic sur le nom ou l'icône lance le chat.
@@ -303,18 +320,9 @@ void RzxRezalDetail::mouseDoubleClickEvent(QMouseEvent *e)
 {
 	const QWidget *child = childAt(e->pos());
 
-	if(child == uiDetails->lblFtp)
-		computer->ftp();
-	else if(child == uiDetails->lblHttp)
-		computer->http();
-	else if(child == uiDetails->lblSamba)
-		computer->samba();
-	else if(child == uiDetails->lblNews)
-		computer->news();
-	else if((child == uiDetails->lblState || child == uiDetails->lblStateIcon) && computer->canBeChatted())
-		computer->chat();
-	else if(child == uiDetails->lblName || child == uiDetails->lblIcon)
-		RzxRezalAction::run(computer);
+	const RzxRezalAction::Action act = action(child);
+	if(act != RzxRezalAction::None)
+		RzxRezalAction::run(act, computer);
 	else
 		QAbstractItemView::mouseDoubleClickEvent(e);
 }
@@ -362,20 +370,7 @@ bool RzxRezalDetail::eventFilter(QObject *dck, QEvent *e)
 	else if(wdg && e->type() == QEvent::Leave)
 		wdg->setCursor(QCursor());
 	else if(wdg && e->type() == QEvent::Enter && computer)
-	{
-		if(dck == uiDetails->lblFtp)
-			wdg->setCursor(RzxRezalAction::cursor(RzxRezalAction::Ftp, computer));
-		else if(dck == uiDetails->lblHttp)
-			wdg->setCursor(RzxRezalAction::cursor(RzxRezalAction::Http, computer));
-		else if(dck == uiDetails->lblSamba)
-			wdg->setCursor(RzxRezalAction::cursor(RzxRezalAction::Samba, computer));
-		else if(dck == uiDetails->lblNews)
-			wdg->setCursor(RzxRezalAction::cursor(RzxRezalAction::News, computer));
-		else if(dck == uiDetails->lblState || dck == uiDetails->lblStateIcon)
-			wdg->setCursor(RzxRezalAction::cursor(RzxRezalAction::Chat, computer));
-		else if(dck == uiDetails->lblName || dck == uiDetails->lblIcon || dck == uiDetails->lblIP || dck == uiDetails->frmName)
-			wdg->setCursor(RzxRezalAction::cursor(computer));
-	}
+		wdg->setCursor(RzxRezalAction::cursor(action(wdg), computer));
 	return false;
 }
 

@@ -46,6 +46,9 @@ namespace RzxRezalAction
 	///Lance l'action par défaut associée au double clic
 	RZX_MAINUI_EXPORT void run(RzxComputer *);
 
+	///Lance l'action demandée sur l'ordinateur
+	RZX_MAINUI_EXPORT void run(Action, RzxComputer *);
+
 	///Retourne un curseur pour l'action par défaut
 	RZX_MAINUI_EXPORT QCursor cursor(const RzxComputer *);
 

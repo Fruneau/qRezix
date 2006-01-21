@@ -107,6 +107,47 @@ void RzxRezalAction::run(RzxComputer *computer)
 	}
 }
 
+///Lance l'action demandée sur l'ordinateur en question
+void RzxRezalAction::run(Action action, RzxComputer *computer)
+{
+	if(!computer) return;
+	switch(action)
+	{
+		case Chat:
+			if(computer->canBeChatted())
+				computer->chat();
+			return;
+
+		case Ftp:
+			if(computer->hasFtpServer())
+				computer->ftp();
+			return;
+
+		case Http:
+			if(computer->hasHttpServer())
+				computer->http();
+			return;
+
+		case News:
+			if(computer->hasNewsServer())
+				computer->news();
+			return;
+
+		case Samba:
+			if(computer->hasSambaServer())
+				computer->samba();
+			return;
+
+		case Mail:
+			if(computer->hasEmailAddress())
+				computer->mail();
+			return;
+
+		default: //pour éviter les warnings de compilation
+			return;
+	}
+}
+
 ///Construit un curseur pour l'action par défaut
 /** C'est à dire un curseur représentant l'action réalisable actuellement
  * où une flèche normale si on peut rien faire...

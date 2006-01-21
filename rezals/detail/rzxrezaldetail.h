@@ -31,6 +31,7 @@
 
 
 #include <RzxRezal>
+#include <RzxRezalAction>
 
 class QSplitter;
 class RzxComputer;
@@ -88,6 +89,7 @@ class RzxRezalDetail:public QAbstractItemView, public RzxRezal
 		virtual void mouseDoubleClickEvent(QMouseEvent *);
 		virtual bool viewportEvent(QEvent *e);
 		virtual void changeEvent(QEvent *e);
+		RzxRezalAction::Action action(const QWidget*) const;
 
 	protected slots:
 		virtual void resizeEvent(QResizeEvent* = NULL);
