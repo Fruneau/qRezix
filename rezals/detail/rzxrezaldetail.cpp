@@ -93,6 +93,8 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 	uiDetails->lblStateIcon->installEventFilter(this);
 	uiDetails->lblName->installEventFilter(this);
 	uiDetails->lblIcon->installEventFilter(this);
+	uiDetails->lblIP->installEventFilter(this);
+	uiDetails->frmName->installEventFilter(this);
 
 	timer.setSingleShot(true);
 	connect(&timer, SIGNAL(timeout()), this, SLOT(redraw()));
@@ -371,7 +373,7 @@ bool RzxRezalDetail::eventFilter(QObject *dck, QEvent *e)
 			wdg->setCursor(RzxRezalAction::cursor(RzxRezalAction::News, computer));
 		else if(dck == uiDetails->lblState || dck == uiDetails->lblStateIcon)
 			wdg->setCursor(RzxRezalAction::cursor(RzxRezalAction::Chat, computer));
-		else if(dck == uiDetails->lblName || dck == uiDetails->lblIcon)
+		else if(dck == uiDetails->lblName || dck == uiDetails->lblIcon || dck == uiDetails->lblIP || dck == uiDetails->frmName)
 			wdg->setCursor(RzxRezalAction::cursor(computer));
 	}
 	return false;
