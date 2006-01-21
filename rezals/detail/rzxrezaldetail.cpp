@@ -305,7 +305,7 @@ RzxRezalAction::Action RzxRezalDetail::action(const QWidget *child) const
 		return RzxRezalAction::Samba;
 	else if(child == uiDetails->lblNews)
 		return RzxRezalAction::News;
-	else if((child == uiDetails->lblState || child == uiDetails->lblStateIcon) && computer->canBeChatted())
+	else if(child == uiDetails->lblState || child == uiDetails->lblStateIcon)
 		return RzxRezalAction::Chat;
 	else if(child == uiDetails->lblName || child == uiDetails->lblIcon || child == uiDetails->frmName || child == uiDetails->lblIP)
 		return RzxRezalAction::action(computer);
@@ -336,6 +336,10 @@ void RzxRezalDetail::resizeEvent(QResizeEvent *)
 	uiDetails->lblRezal->setVisible(display);
 	uiDetails->lblFavorite->setVisible(uiDetails->frmName->size().width() > 120);
 	uiDetails->lblIP->setVisible(uiDetails->frmName->size().width() > 150);
+	if(width() < height() && height() > 400 && splitter->orientation() == Qt::Horizontal)
+		splitter->setOrientation(Qt::Vertical);
+	else if(width() > height() && width() > 300 && splitter->orientation() == Qt::Vertical)
+		splitter->setOrientation(Qt::Horizontal);
 }
 
 ///Reçois les informations du QDockWidget auquel la fenêtre est rattachée
