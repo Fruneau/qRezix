@@ -86,7 +86,7 @@ void RzxTrayWindow::niceTheme()
 
 	// - la description de l'état de connexion
 	QPixmap symbolPixmap;
-	int px, py;
+	int px, py, scale = 64;
 	px = py = 0; // pour faire taire un warning @lc...
 	switch(computer->state())
 	{
@@ -96,18 +96,19 @@ void RzxTrayWindow::niceTheme()
 			break;
 		case Rzx::STATE_AWAY: case Rzx::STATE_REFUSE:
 			symbolPixmap = QPixmap(":/notifier_away.png");
-			px = 19; py = 27;
+			px = 0; py = 30;
 			break;
 		case Rzx::STATE_HERE:
 			symbolPixmap = QPixmap(":/notifier_here.png");
-			px = 43; py = 10;
+			px = 46; py = 20;
+			scale = 56;
 			break;
 	}
 
 	QPixmap pixmap(symbolPixmap.width(), symbolPixmap.height());
 	pixmap.fill(QColor(0,0,0,0));
 	QPainter painter(&pixmap);
-	painter.drawPixmap(px, py, computer->icon());
+	painter.drawPixmap(px, py, computer->icon().scaled(scale, scale));
 	painter.drawPixmap(0, 0, symbolPixmap);
 	icone->setPixmap(pixmap);
 
