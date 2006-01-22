@@ -68,10 +68,10 @@ RzxComputer::RzxComputer(RzxNetwork *network, const RzxHostAddress& c_ip, const 
 {
 	*((quint32 *) &m_options) = c_options;
 	*((quint32 *) &m_version) = c_version;
+	testLocalhost = (name() == localhost()->name());
 	loadIcon();
 	connected = false;
 	locked = false;
-	testLocalhost = (name() == localhost()->name());
 	if(isLocalhost())
 		RzxComputer::localhost()->m_stamp = c_stamp;
 }	
@@ -472,7 +472,7 @@ QString RzxComputer::promoText() const
 void RzxComputer::setIcon(const QPixmap& image){
 	m_icon = image;
 	if(isLocalhost())
-		RzxComputer::localhost()->m_icon = image;
+		localhost()->m_icon = image;
 	emit update(this);
 }
 
