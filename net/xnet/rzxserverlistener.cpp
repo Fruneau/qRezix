@@ -260,7 +260,6 @@ void RzxServerListener::serverConnected()
 	reconnection = true;
 
 	haveActivity();
-	RzxXNetConfig::setPass(RzxXNetConfig::pass());
 	emit connected(this);
 	emit receiveAddress(getIP());
 

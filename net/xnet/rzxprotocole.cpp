@@ -114,7 +114,11 @@ void RzxProtocole::parse(const QString& msg)
 					m_oldPass = RzxXNetConfig::oldPass();
 					wantChangePass();
 				}
-				if(!valid) valid = true;
+				if(!valid)
+				{
+					valid = true;
+					RzxXNetConfig::setPass(RzxXNetConfig::pass());
+				}
 				break;
 				
 			case SERVER_SYSMSG:
