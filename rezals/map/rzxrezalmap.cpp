@@ -510,12 +510,16 @@ QRect RzxRezalMap::visualRect(const QModelIndex& index) const
 ///Retourne la position horizontale de la vue
 int RzxRezalMap::horizontalOffset() const
 {
+	if(!horizontalScrollBar()->isVisible())
+		return 0;
 	return horizontalScrollBar()->value();
 }
 
 ///Retourne la postion verticale de la vue
 int RzxRezalMap::verticalOffset() const
 {
+	if(!verticalScrollBar()->isVisible())
+		return 0;
 	return verticalScrollBar()->value();
 }
 
