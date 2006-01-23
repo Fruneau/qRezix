@@ -65,6 +65,57 @@ bool computerLessThan(RzxComputer *c1, RzxComputer *c2)
 	return c1->name().toLower() < c2->name().toLower();
 }
 
+///Fonction auxiliaire pour faire les titres dynamiques des sous-menus
+QString titleFromSplit(int j, QString splitPoints)
+{
+	QString titre;
+	// Faut penser à une façon plus sympa de renvoyer cette erreur (qui ne doit jamais arriver...)
+	if ( (j+1) >= splitPoints.size() )
+		titre = "Sub";
+	else {
+		// Cas d'une seule lettre pour le sous-menu
+		if ( (splitPoints.at(j).toLower().toAscii()+1) == splitPoints.at(j+1).toLower().toAscii() )
+			titre = splitPoints.at(j).toUpper();
+
+		else {
+			titre = "  -  ";
+			titre[0] = splitPoints.at(j).toUpper();
+			titre[4] = splitPoints.at(j+1).toUpper();
+		}
+	}
+
+	return titre;
+}
+
+///Fonction auxiliaire pour calculer les points de separation des sous-menus
+int calculerSplit(QString& splitPoints, QList<RzxComputer*> list)
+{
+	// Changer ça (dans les prefs / calculer avec QtApplication::desktop()->size() )
+	int tailleMenu = 50;
+
+	// Le menu est petit, rien à faire
+	if (list.count() <= tailleMenu) return 0;
+
+	splitPoints[0] = '0';
+	int j = 1;
+	QChar c;
+	for(int i = 1, i2 = 1; i < list.count(); i++, i2++)
+	{
+		c = list[i]->name().at(0).toLower();
+		if ( c != list[i-1]->name().at(0).toLower() )
+		{
+			splitPoints[j] = c;
+			if (i2 > tailleMenu)
+			{
+				j++;
+				i2 = 0;
+			}
+		}
+	}
+
+	return 1;
+}
+
 /*!
   Creates a RzxTrayIcon object displaying \a icon and \a tooltip, and opening
   \a popup when clicked with the right mousebutton. \a parent and \a name are
@@ -170,6 +221,7 @@ void RzxTrayIcon::buildMenu()
 	QList<RzxComputer*> list;
 	RzxTrayConfig::QuickActions actions = (RzxTrayConfig::QuickAction)RzxTrayConfig::quickActions();
 
+
 #define newMenu(mname, micon, text, filter, slot) \
 	{ \
 		mname.clear(); \
@@ -179,8 +231,32 @@ void RzxTrayIcon::buildMenu()
 		qSort(list.begin(), list.end(), computerLessThan); \
 		if(list.count()) \
 		{ \
-			for(int i = 0 ; i < list.count() ; i++) \
-				mname.addAction(list[i]->icon(), list[i]->name(), list[i], slot); \
+			QString splitPoints; \
+			QMenu * mnsub; \
+			if ( calculerSplit(splitPoints, list) ) \
+			{ \
+				QString titre = titleFromSplit(0,splitPoints); \
+				mnsub = new QMenu(titre, &mname); \
+				mnsub->setIcon(RzxIconCollection::getIcon(micon)); \
+				mname.addMenu(mnsub); \
+				int j = 1; \
+				for(int i = 0 ; i < list.count() ; i++) \
+				{ \
+					if( list[i]->name().at(0).toLower() > splitPoints.at(j) ) \
+					{ \
+						titre = titleFromSplit(j,splitPoints); \
+						mnsub = new QMenu(titre, &mname); \
+						mnsub->setIcon(RzxIconCollection::getIcon(micon)); \
+						mname.addMenu(mnsub); \
+						j++; \
+					} \
+					mnsub->addAction(list[i]->icon(), list[i]->name(), list[i], slot); \
+				} \
+			 } \
+			else { \
+				for(int i = 0 ; i < list.count() ; i++) \
+					mname.addAction(list[i]->icon(), list[i]->name(), list[i], slot); \
+			} \
 			pop.addMenu(&mname); \
 		} \
 	}
@@ -1186,5 +1262,6 @@ void RzxTrayIcon::translate()
 	if(ui)
 		ui->retranslateUi(propWidget);
 }
+
 
 #endif
