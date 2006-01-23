@@ -316,11 +316,11 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>Name</source>
-        <translation>Prénom</translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <source>Last name</source>
-        <translation>Nom</translation>
+        <translation>Prénom</translation>
     </message>
     <message>
         <source>Nick</source>
@@ -349,6 +349,10 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     <message>
         <source>Class</source>
         <translation>Promo</translation>
+    </message>
+    <message>
+        <source>First name</source>
+        <translation>Prénom</translation>
     </message>
 </context>
 <context>
@@ -1823,10 +1827,6 @@ DNS request failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Systray</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&lt;h3&gt;Auto-scale&lt;/h3&gt;&lt;p&gt;If enabled, qRezix will try to automaticly adjust the trayicon size to fit its container&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1836,6 +1836,38 @@ DNS request failed</source>
     </message>
     <message>
         <source>Size of tray icon :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Icon size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quick action menus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Read News</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send a Mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open a Samba (Windows share)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open a Web Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open a FTP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Begin a chat</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

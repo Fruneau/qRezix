@@ -49,6 +49,7 @@ RZX_CONFIG_INIT(RzxConfig)
 const char *RzxConfig::propStrings[][2] = {
 	{ QT_TR_NOOP("Name"), "RzxConfig" },
 	{ QT_TR_NOOP("Last name"), "RzxConfig" },
+	{ QT_TR_NOOP("First name"), "RzxConfig" },
 	{ QT_TR_NOOP("Nick"), "RzxConfig" },
 	{ QT_TR_NOOP("Phone"), "RzxConfig" },
 	{ QT_TR_NOOP("E-Mail"), "RzxConfig" },
@@ -78,7 +79,7 @@ const char *RzxConfig::propStrings[][2] = {
 	{ "Volleyball", "RzxProperty" },
 	{ "Badminton", "RzxProperty" }
 };
-#define propStringsSize 30
+#define propStringsSize 31
 
 ///Initialisation des données de configuration
 void RzxConfig::init()
@@ -562,7 +563,7 @@ QStringList RzxConfig::rawCache(const RzxHostAddress& address)
 	if(address == RzxComputer::localhost()->ip())
 	{
 		strList << "Name" << RzxConfig::propName();
-		strList << "Last name" << RzxConfig::propLastName();
+		strList << "First name" << RzxConfig::propLastName();
 		strList << "Nick" << RzxConfig::propSurname();
 		strList << "Phone" << RzxConfig::propTel();
 		strList << "E-Mail" << RzxConfig::propMail();
