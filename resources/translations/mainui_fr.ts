@@ -373,7 +373,7 @@
     </message>
     <message>
         <source>Properties checked on </source>
-        <translation>Propriétés récupérées le</translation>
+        <translation type="unfinished">Propriétés récupérées le </translation>
     </message>
     <message>
         <source>No properties cached</source>
