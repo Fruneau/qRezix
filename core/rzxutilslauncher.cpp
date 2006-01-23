@@ -71,9 +71,10 @@ void RzxUtilsLauncher::ftp(const QString& host, const QString& path)
 	const QString tempPath = RzxConfig::ftpPath();
 	const QString tempip= "ftp://"+host+"/"+path;
 	QString cmd;
+	QStringList args;
 #ifdef WIN32
 	QString sFtpClient=RzxConfig::ftpCmd();
-	
+
 	// LeechFTP
 	if(sFtpClient == "LeechFTP")
 	{
@@ -86,6 +87,16 @@ void RzxUtilsLauncher::ftp(const QString& host, const QString& path)
 			
 			//Récupération du chemin d'accès
 			cmd=regReader.value("AppDir").toString()+"leechftp.exe";
+		}
+	}
+	// FileZilla
+	else if(sFtpClient == "FileZilla")
+	{
+		cmd = "filezilla.exe";
+		QSettings regReader("HKEY_CURRENT_USER\\Software\\FileZilla", QSettings::NativeFormat);
+		if(regReader.contains("Install_Dir"))
+		{
+			cmd = regReader.value("Install_Dir").toString() + "\\filezilla.exe";
 		}
 	}
 	// SmartFTP
@@ -114,10 +125,10 @@ void RzxUtilsLauncher::ftp(const QString& host, const QString& path)
 		}
 	}
 	// Internet Explorer
-	else if (sFtpClient == "iExplore")
+	else if (sFtpClient == "IExplorer")
 		cmd = "explorer";
 	else if( sFtpClient == "standard")
-		cmd = tempip;
+		cmd = "explorer";
 	else
 		cmd =  sFtpClient;
 #else
@@ -140,8 +151,8 @@ void RzxUtilsLauncher::ftp(const QString& host, const QString& path)
 		cmd = RzxConfig::global()->ftpCmd();
 #endif //MAC
 #endif //WIN32
-	
-	launchCommand(cmd + " " + tempip, QStringList(), path);
+	args << tempip;
+	launchCommand(cmd , args, path);
 }
 
 ///Lance le client samba
@@ -193,7 +204,18 @@ void RzxUtilsLauncher::http(const QString& host, const QString& m_path)
 #ifdef WIN32
 	if(cmd == "Firefox")
 	{
+		QSettings regReader(QSettings::UserScope, "Mozilla", "Mozilla Firefox");
 		cmd = "firefox";
+		if(regReader.contains("CurrentVersion"))
+		{
+			QString version = regReader.value("CurrentVersion").toString();
+			regReader.beginGroup(version);
+			regReader.beginGroup("Main");
+			if(regReader.contains("PathToExe"))
+				cmd = regReader.value("PathToExe").toString();
+			regReader.endGroup();
+			regReader.endGroup();
+		}
 		args << tempip;
 	}
 	else if(cmd == "Opera")
@@ -205,13 +227,16 @@ void RzxUtilsLauncher::http(const QString& host, const QString& m_path)
 			args << tempip;
 		}
 	}
-	else if(cmd == "iExplore")
+	else if(cmd == "IExplorer")
 	{
 		cmd = "explorer";
 		args << tempip;
 	}
 	else if(cmd == "standard")
-		cmd = tempip;
+	{
+		cmd = "explorer";
+		args << tempip;
+	}
 	else
 	{
 		args << tempip;
@@ -247,6 +272,22 @@ void RzxUtilsLauncher::news(const QString& host, const QString& m_path)
 #ifdef WIN32
 	if(cmd == "standard" )
 		cmd = tempip;
+	else if(cmd == "Thunderbird")
+	{
+		QSettings regReader(QSettings::UserScope, "Mozilla", "Mozilla Thunderbird");
+		cmd = "thunderbird.exe";
+		if(regReader.contains("CurrentVersion"))
+		{
+			QString version = regReader.value("CurrentVersion").toString();
+			regReader.beginGroup(version);
+			regReader.beginGroup("Main");
+			if(regReader.contains("PathToExe"))
+				cmd = regReader.value("PathToExe").toString();
+			regReader.endGroup();
+			regReader.endGroup();
+		}
+		args << tempip;
+	}
 	else
 		args << tempip;
 #else
@@ -270,6 +311,22 @@ void RzxUtilsLauncher::mail(const QString& email)
 #ifdef WIN32
 	if(cmd == "standard")
 		cmd = mailto;
+	else if(cmd == "Thunderbird")
+	{
+		QSettings regReader(QSettings::UserScope, "Mozilla", "Mozilla Firefox");
+		cmd = "thunderbird.exe";
+		if(regReader.contains("CurrentVersion"))
+		{
+			QString version = regReader.value("CurrentVersion").toString();
+			regReader.beginGroup(version);
+			regReader.beginGroup("Main");
+			if(regReader.contains("PathToExe"))
+				cmd = regReader.value("PathToExe").toString();
+			regReader.endGroup();
+			regReader.endGroup();
+		}
+		args << mailto;
+	}
 	else
 		args << email;
 #else
@@ -309,6 +366,7 @@ QProcess *RzxUtilsLauncher::launchCommand(const QString& cmd, const QStringList&
 	QObject::connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), process, SLOT(deleteLater()));
 	if(!path.isNull())
 		process->setWorkingDirectory(path);
+	qDebug()<<cmd << "  " << args;
 	if(args.isEmpty())
 		process->start(cmd);
 	else

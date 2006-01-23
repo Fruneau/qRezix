@@ -554,7 +554,9 @@ void RzxProperty::initDlg(bool def)
 	clientHttp->addItem("Opera");
 
 	clientNews->addItem("standard");
+	clientNews->addItem("Thunderbird");
 	clientMail->addItem("standard");
+	clientMail->addItem("Thunderbird");
 #else
 #ifdef Q_OS_MAC
 	// commandes à exécuter sous macos X
