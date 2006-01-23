@@ -128,6 +128,8 @@ protected slots: // Protected slots
 	void changeTheme(const QString& text);
 	void changeLanguage(const QString& language);
 	void fillThemeView();
+	void fillCacheList();
+	void fillCacheView();
 };
 
 ///Inclu les modules dans la fenêtre de propriétés

@@ -552,8 +552,29 @@ void RzxConfig::addCache(const RzxHostAddress& address, const QString& msg)
 		}
 	}
 
-	global() -> setValue("cacheprop-" + address.toString(), list.join("|"));
-	global() ->setValue("cachedate-" + address.toString(),  QDate::currentDate().toString("dd MMMM yyyy"));
+	global()->beginGroup("cacheprop");
+	global()->setValue(address.toString(), list.join("|"));
+	global()->endGroup();
+	global()->beginGroup("cachedate");
+	global()->setValue(address.toString(),  QDate::currentDate().toString("dd MMMM yyyy"));
+	global()->endGroup();
+}
+
+///Retourne la liste des adresse dont les propriétés sont enregistrées
+QList<RzxHostAddress> RzxConfig::cachedList()
+{
+	global()->beginGroup("cacheprop");
+	const QStringList list = global()->childKeys();
+	global()->endGroup();
+	
+	QList<RzxHostAddress> addresses;
+	foreach(QString ip, list)
+	{
+		const RzxHostAddress addr(ip);
+		if(!addr.isNull())
+			addresses << addr;
+	}
+	return addresses;
 }
 
 ///Retourne les données brutes de la cache
@@ -573,7 +594,11 @@ QStringList RzxConfig::rawCache(const RzxHostAddress& address)
 		strList << "Class" << RzxConfig::propPromo();
 	}
 	else
-		strList = global()->value("cacheprop-" + address.toString()).toString().split("|");
+	{
+		global()->beginGroup("cacheprop");
+		strList = global()->value(address.toString()).toString().split("|");
+		global()->endGroup();
+	}
 	return strList;
 }
 
@@ -618,7 +643,7 @@ void RzxConfig::fillWithCache(const RzxHostAddress& ip, QTreeWidget *view)
 	}
 }
 
-///Retourne l'addresse e-mail de la personne à partir des données issuées des propriétés
+///Retourne l'addresse e-mail de la personne à partir des données issues des propriétés
 QString RzxConfig::getEmailFromCache(const RzxHostAddress& ip)
 {
 	const QStringList props = rawCache(ip);
@@ -630,11 +655,41 @@ QString RzxConfig::getEmailFromCache(const RzxHostAddress& ip)
 	return QString();
 }
 
+///Retourne le nom de la personne à partir des données issues des propriétés
+/** Le format indique comment formater le nom...
+ * 	- $p est remplacé par le prénom
+ * 	- $n est remplacé par le nom
+ * 	- $s est remplacé par le surnom
+ */
+QString RzxConfig::getNameFromCache(const RzxHostAddress& ip, const QString& format)
+{
+	const QStringList props = rawCache(ip);
+	QString name, firstName, pseudo;
+
+	for(int i = 0 ; i < props.size() - 1 ; i+=2)
+	{
+		if(props[i] == "Name")
+			name = props[i+1];
+		if(props[i] == "Last name" || props[i] == "First name")
+			firstName = props[i+1];
+		if(props[i] == "Nick")
+			pseudo = props[i+1];
+	}
+	QString ret = format;
+	ret.replace("$p", firstName).replace("$n", name).replace("$s", pseudo);
+	return ret;
+}
+
 ///Retourne la date d'enregistrement des propriétés
 QString RzxConfig::getCacheDate(const RzxHostAddress& address)
 {
 	if(address == RzxComputer::localhost()->ip())
 		return QDate::currentDate().toString("dd MMMM yyyy");
 	else
-		return global()->value("cachedate-" + address.toString()).toString();
+	{
+		global()->beginGroup("cachedate");
+		const QString date = global()->value(address.toString()).toString();
+		global()->endGroup();
+		return date;
+	}
 }

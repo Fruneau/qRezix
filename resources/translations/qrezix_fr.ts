@@ -981,7 +981,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>Favorites/Banned</source>
-        <translation>Favoris/Bannis</translation>
+        <translation type="obsolete">Favoris/Bannis</translation>
     </message>
     <message>
         <source>Preferences</source>
@@ -1325,7 +1325,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>This page aims at giving a way to administrate the lists of your favorites and ignored computers.</source>
-        <translation>Le but de cette page est de permettre d&apos;administrer la liste des personnes que vous avez choisies comme favorites ou bannies.</translation>
+        <translation type="obsolete">Le but de cette page est de permettre d&apos;administrer la liste des personnes que vous avez choisies comme favorites ou bannies.</translation>
     </message>
     <message>
         <source>Badminton</source>
@@ -1334,6 +1334,22 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     <message>
         <source>Mail reader:</source>
         <translation>Client Mail :</translation>
+    </message>
+    <message>
+        <source>Properties</source>
+        <translation>Propriétés</translation>
+    </message>
+    <message>
+        <source>Property</source>
+        <translation>Propriété</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Valeur</translation>
+    </message>
+    <message>
+        <source>Contacts</source>
+        <translation>Contacts</translation>
     </message>
 </context>
 <context>

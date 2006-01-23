@@ -106,6 +106,9 @@ RzxProperty::RzxProperty(QWidget *parent)
 	connect(languageBox, SIGNAL(activated(const QString&)), this, SLOT(changeLanguage(const QString&)));
 	connect(cmbIconTheme, SIGNAL(activated(const QString&)), this, SLOT(changeTheme(const QString&)));
 
+	//Connection pour l'affichage des propriétés
+	connect(listCache, SIGNAL(currentRowChanged(int)), this, SLOT(fillCacheView()));
+
 	//Navigation entre les différentes pages
 	connect(lbMenu, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), 
 		this, SLOT(changePage(QTreeWidgetItem*, QTreeWidgetItem*)));
@@ -154,7 +157,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 	lbMenu->expandItem(generalItem);
 
 	favoritesItem = new QTreeWidgetItem(lbMenu);
-	favoritesItem->setText(0, tr("Favorites/Banned"));
+	favoritesItem->setText(0, tr("Contacts"));
 	favoritesItem->setData(0, Qt::UserRole, Favorites);
 	lbMenu->expandItem(favoritesItem);
 	listFavorites->setList(RzxFavoriteList::global());
@@ -238,6 +241,8 @@ void RzxProperty::changeTheme()
 	changeThemeModules<RzxModule>(RzxApplication::modulesList(), modulesItem);
 
 	fillThemeView();
+	fillCacheList();
+	fillCacheView();
 	initPromoCombo();
 	initSportCombo();
 }
@@ -259,6 +264,39 @@ void RzxProperty::fillThemeView()
 	}
 }
 
+///Remplis la QListWidget avec la des données disponibles en cache
+void RzxProperty::fillCacheList()
+{
+	listCache->clear();
+	const QList<RzxHostAddress> addr = RzxConfig::cachedList();
+	foreach(RzxHostAddress ip, addr)
+	{
+		QString name = RzxConfig::getNameFromCache(ip, "$p $n ($s)");
+		if(name.right(2) == "()") name = RzxConfig::getNameFromCache(ip, "$p $n");
+		QListWidgetItem *item = new QListWidgetItem(listCache);
+		item->setText(name);
+		item->setData(Qt::UserRole, ip.toRezix());
+		const RzxComputer *computer = RzxConnectionLister::global()->getComputerByIP(ip);
+		if(computer)
+			item->setIcon(computer->icon());
+		else
+			item->setIcon(RzxIconCollection::getIcon(Rzx::ICON_OFF));
+	}
+}
+
+///Affiche les données associées à la cache sélectionnée...
+void RzxProperty::fillCacheView()
+{
+	showCache->clear();
+	const QListWidgetItem *item = listCache->currentItem();
+	RzxHostAddress ip;
+	if(!item)
+		ip = RzxComputer::localhost()->ip();
+	else
+	 	ip = RzxHostAddress::fromRezix(item->data(Qt::UserRole).toInt());
+	RzxConfig::fillWithCache(ip, showCache);
+	showCache->setEnabled(item);
+}
 
 ///Crée une entrée dans la liste des fenêtres et l'ajoute à la pile
 QTreeWidgetItem* RzxProperty::createPage(QWidget *widget, const QString& name, const QIcon& icon, QTreeWidgetItem *parent)
@@ -476,6 +514,7 @@ void RzxProperty::initDlg(bool def)
 	initStyleCombo();
 	initSportCombo();
 	initPromoCombo();
+	fillCacheList();
 
 	cbStyleForAll->setChecked(RzxConfig::useStyleForAll());
 	
@@ -787,12 +826,13 @@ void RzxProperty::changeEvent(QEvent *e)
 		cmbMenuIcons->setCurrentIndex(icon);
 		changeTheme();
 		generalItem->setText(0, tr("Infos"));
-		favoritesItem->setText(0, tr("Favorites/Banned"));
+		favoritesItem->setText(0, tr("Contacts"));
 		layoutItem->setText(0, tr("Layout"));
 		modulesItem->setText(0, tr("Modules"));
 		networkItem->setText(0, tr("Network"));
 		initSportCombo();
 		initPromoCombo();
+		fillCacheView();
 		changePage(item, item);
 	}
 }
