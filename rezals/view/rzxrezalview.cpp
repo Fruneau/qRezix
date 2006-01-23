@@ -360,6 +360,17 @@ void RzxRezalView::drawRow(QPainter *painter, const QStyleOptionViewItem& option
 	QTreeView::drawRow(painter, newoption, index);
 }
 
+///Pour éviter que les branches soient ouvertes lors de la suppression d'une ligne...
+void RzxRezalView::rowsRemoved(const QModelIndex&, int, int)
+{
+	viewport()->update();
+}
+
+///Pour éviter que les branches soient ouvertes lors de la suppression d'une ligne...
+void RzxRezalView::rowsAboutToBeRemoved(const QModelIndex&, int, int)
+{
+}
+
 ///Retourne une fenêtre utilisable pour l'affichage.
 QAbstractItemView *RzxRezalView::widget()
 {
