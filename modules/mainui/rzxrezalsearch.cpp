@@ -107,7 +107,7 @@ void RzxRezalSearch::setPattern(const QString& pattern)
 	}
 	itemByName->find(lower, item);
 	emit searchPatternChanged(searchPattern);
-	if(item)
+	if(item && !searchPattern.isEmpty())
 		emit findItem(model()->index(*item, view()->rootIndex()));
 }
 
