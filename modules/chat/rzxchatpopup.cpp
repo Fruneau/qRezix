@@ -47,12 +47,21 @@ void RzxChatPopup::move()
 
 	const QSize resolution = QApplication::desktop()->size();
 	QPoint point = button->mapToGlobal(button->rect().bottomLeft());
+	const bool limitX = point.x() + width() > resolution.width();
+	const bool limitY = point.y() + height() > resolution.height();
 
-	if(point.x() + size().width() > resolution.width())
+	if(limitX && !limitY)
 		point.setX(resolution.width() - size().width());
-	if(point.y() + size().height() > resolution.height())
+	else if(limitY && !limitX)
+	{
+		point.setX(button->mapToGlobal(button->rect().bottomRight()).x());
 		point.setY(resolution.height() - size().height());
-
+	}
+	else if(limitY && limitX)
+	{
+		point.setX(point.x() - width());
+		point.setY(point.y() - height());
+	}
 	QFrame::move(point);
 #endif
 }
