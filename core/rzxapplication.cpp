@@ -84,6 +84,7 @@ RzxApplication::RzxApplication(int argc, char **argv)
 {
 	properties = NULL;
 	mainui = chatui = propertiesUi = propertiesProto = chatProto = NULL;
+	setQuitOnLastWindowClosed(false);
 	wellInit = false;
 
 	//Analyse des arguments
