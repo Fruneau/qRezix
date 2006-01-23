@@ -546,7 +546,12 @@ void RzxConfig::addCache(const RzxHostAddress& address, const QString& msg)
 			}
 			if(list[i] == "Équitation")
 			{
-				list[i] == "Riding";
+				list[i] = "Riding";
+				break;
+			}
+			if(list[i] == "Surname")
+			{
+				list[i] = "Name";
 				break;
 			}
 		}
