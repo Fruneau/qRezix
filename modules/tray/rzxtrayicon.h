@@ -91,6 +91,9 @@ protected:
 	virtual void mouseReleaseEvent( QMouseEvent *e );
 	virtual void mouseDoubleClickEvent( QMouseEvent *e );
 
+	QString RzxTrayIcon::titleFromSplit(int j, QString splitPoints);
+	int     calculerSplit(QString& splitPoints, QList<RzxComputer*> list);
+	void    subMenu(QMenu& mname, Rzx::Icon micon, const char * slot, QList<RzxComputer*> list);
 private:
 	QMenu pop;
 	QMenu chat;
