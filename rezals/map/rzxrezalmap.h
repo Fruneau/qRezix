@@ -149,6 +149,7 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 	QComboBox *placeSearch;
 	QString currentPlace;
 	bool initialised;
+	bool currentHasChanged;
 
 	SelectionType selection;
 

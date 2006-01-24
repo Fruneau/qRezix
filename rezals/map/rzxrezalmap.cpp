@@ -51,6 +51,7 @@ RzxRezalMap::RzxRezalMap(QWidget *widget)
 	setIcon(RZX_MODULE_ICON);
 	setModel(RzxRezalModel::global());
 	currentMap = NULL;
+	currentHasChanged = false;
 
 	mapChooser = new QComboBox(this);
 	mapChooser->move(3, 3);
@@ -356,7 +357,8 @@ void RzxRezalMap::setPlace(int place)
 		{
 			selection = Place;
 			rect = currentMap->places[currentPlace].boundingRect();
-			scrollTo(rect, PositionCentered);
+			if(!currentHasChanged)
+				scrollTo(rect, PositionCentered);
 			viewport()->update();
 		}
 	}
@@ -449,7 +451,7 @@ void RzxRezalMap::scrollTo(const QModelIndex& index, ScrollHint hint)
 {
 	QRect rect = visualRect(index);
 
-	if(rect.isNull() && index.isValid())
+	if(rect.isNull() && currentHasChanged)
 		setMap(0);
 
 	rect.translate(horizontalOffset(), verticalOffset());
@@ -715,7 +717,12 @@ void RzxRezalMap::currentChanged(const QModelIndex &current, const QModelIndex &
 	}
 
 	selection = Index;
-	scrollTo(current);
+	if(!currentHasChanged) //Si la modification n'a pas été faite par l'utilisateur...
+	{
+		currentHasChanged = true;
+		scrollTo(current);
+		currentHasChanged = false;
+	}
 	viewport()->update();
 }
 
@@ -740,8 +747,10 @@ void RzxRezalMap::mousePressEvent(QMouseEvent *e)
 
 		if(!index.isValid())
 		{
+			currentHasChanged = true;
 			if(placeId != -1)
 				setPlace(placeId);
+			currentHasChanged = false;
 		}
 		else if(index.parent() == currentIndex().parent() && index.row() == currentIndex().row()) //même ligne ?
 		{
@@ -750,7 +759,9 @@ void RzxRezalMap::mousePressEvent(QMouseEvent *e)
 		}
 		else
 		{
+			currentHasChanged = true;
 			setCurrentIndex(index);
+			currentHasChanged = false;
 			emit activated(index);
 			emit clicked(index);
 		}
