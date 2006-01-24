@@ -698,3 +698,14 @@ QString RzxConfig::getCacheDate(const RzxHostAddress& address)
 		return date;
 	}
 }
+
+///Supprime l'entrée donné de la cache
+void RzxConfig::deleteCache(const RzxHostAddress& ip)
+{
+	global()->beginGroup("cacheprop");
+	global()->remove(ip.toString());
+	global()->endGroup();
+	global()->beginGroup("cachedate");
+	global()->remove(ip.toString());
+	global()->endGroup();
+}

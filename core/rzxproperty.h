@@ -130,6 +130,8 @@ protected slots: // Protected slots
 	void fillThemeView();
 	void fillCacheList();
 	void fillCacheView();
+	void sendMailToCache();
+	void deleteCache();
 };
 
 ///Inclu les modules dans la fenêtre de propriétés

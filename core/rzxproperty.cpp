@@ -56,6 +56,7 @@ email                : benoit.casoetto@m4x.org
 #include <RzxFavoriteList>
 #include <RzxBanList>
 #include <RzxLoaderProp>
+#include <RzxUtilsLauncher>
 
 ///Initialise la liste des sports
 const RzxProperty::Sport RzxProperty::sports[] = {
@@ -108,6 +109,8 @@ RzxProperty::RzxProperty(QWidget *parent)
 
 	//Connection pour l'affichage des propriétés
 	connect(listCache, SIGNAL(currentRowChanged(int)), this, SLOT(fillCacheView()));
+	connect(btnDeleteCache, SIGNAL(clicked()), this, SLOT(deleteCache()));
+	connect(btnSendMail, SIGNAL(clicked()), this, SLOT(sendMailToCache()));
 
 	//Navigation entre les différentes pages
 	connect(lbMenu, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), 
@@ -235,6 +238,9 @@ void RzxProperty::changeTheme()
 	btnBrowseWorkDir->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FILE));
 	btnBrowse->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FILE));
 
+	btnSendMail->setIcon(RzxIconCollection::getIcon(Rzx::ICON_MAIL));
+	btnDeleteCache->setIcon(RzxIconCollection::getIcon(Rzx::ICON_UNLOAD));
+
 	setWindowIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
 
 	changeThemeModules<RzxNetwork>(RzxConnectionLister::global()->moduleList(), networkItem);
@@ -296,6 +302,31 @@ void RzxProperty::fillCacheView()
 	 	ip = RzxHostAddress::fromRezix(item->data(Qt::UserRole).toInt());
 	RzxConfig::fillWithCache(ip, showCache);
 	showCache->setEnabled(item);
+	btnDeleteCache->setEnabled(item);
+	btnSendMail->setEnabled(item && !RzxConfig::getEmailFromCache(ip).isEmpty());
+}
+
+///Action en cliquant sur le bouton de gestion des propriétés
+void RzxProperty::deleteCache()
+{
+	const QListWidgetItem *item = listCache->currentItem();
+	if(!item) return;
+
+	const RzxHostAddress ip = RzxHostAddress::fromRezix(item->data(Qt::UserRole).toInt());
+	RzxConfig::deleteCache(ip);
+	fillCacheList();
+}
+
+///Action en cliquant sur le bouton d'envoie de mail
+void RzxProperty::sendMailToCache()
+{
+	const QListWidgetItem *item = listCache->currentItem();
+	if(!item) return;
+
+	const RzxHostAddress ip = RzxHostAddress::fromRezix(item->data(Qt::UserRole).toInt());
+	const QString email = RzxConfig::getEmailFromCache(ip);
+	if(!email.isEmpty())
+		RzxUtilsLauncher::mail(email);
 }
 
 ///Crée une entrée dans la liste des fenêtres et l'ajoute à la pile

@@ -92,6 +92,7 @@ public:
 	static QString getEmailFromCache(const RzxHostAddress&);
 	static QString getNameFromCache(const RzxHostAddress&, const QString&);
 	static QString getCacheDate(const RzxHostAddress&);
+	static void deleteCache(const RzxHostAddress&);
 
 	static void emitIconFormatChanged();
 	RZX_INTPROP("menuTextPos", menuTextPosition, setMenuTextPosition, 2)
