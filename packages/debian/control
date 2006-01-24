@@ -40,6 +40,12 @@ Provides: qrezix-theme
 Depends: qrezix-theme-common
 Description: Thèmes d'icone pour qRezix basé sur le thème d'icones KDE du même nom
 
+Package: qrezix-theme-nuvola
+Architecture: all
+Provides: qrezix-theme
+Depends: qrezix-theme-common
+Description: Thèmes d'icone pour qRezix basé sur le thème d'icones KDE du même nom
+
 Package: qrezix-theme-classic
 Architecture: all
 Provides: qrezix-theme
