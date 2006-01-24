@@ -170,26 +170,28 @@ bool RzxTextEdit::nickAutocompletion()
 	if(!index) return false;
 	
 	QRegExp mask("[^-A-Za-z0-9]([-A-Za-z0-9]+)$");
-	QString textPara = cursor.block().text();
+	const QString textPara = cursor.block().text();
 	
 	//Juste pour se souvenir des pseudos possibles
-	QString localName = RzxComputer::localhost()->name();
-	QString remoteName = chat->computer()->name();
+	const QString localName = RzxComputer::localhost()->name();
+	const QString remoteName = chat->computer()->name();
+	const QString localLower = localName.toLower();
+	const QString remoteLower = remoteName.toLower();
 	
 	for(int i = 1 ; i <= index && (localName.length() > i || remoteName.length() > i) ; i++)
 	{
 		//Chaine de caractère qui précède le curseur de taille i
-		QString nick = textPara.mid(index-i, i);
+		QString nick = textPara.mid(index-i, i).toLower();
 		
 		if(mask.indexIn(nick) != -1 || i == index)
 		{
 			if(mask.indexIn(nick) != -1) nick = mask.cap(1);
-			if(!remoteName.indexOf(nick, false) && localName.indexOf(nick, false))
+			if(!remoteLower.indexOf(nick, false) && localLower.indexOf(nick, false))
 			{
 				cursor.insertText(remoteName.right(remoteName.length()-nick.length()) + " ");
 				return true;
 			}
-			else if(remoteName.indexOf(nick, false) && !localName.indexOf(nick, false))
+			else if(remoteLower.indexOf(nick, false) && !localLower.indexOf(nick, false))
 			{
 				cursor.insertText(localName.right(localName.length()-nick.length()) + " ");
 				return true;
