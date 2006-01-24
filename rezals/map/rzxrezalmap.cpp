@@ -268,7 +268,12 @@ void RzxRezalMap::setMap(int map)
 {
 	//Changement de carte active
 	if(map < mapTable.size() && map >= 0 && mapTable[map])
-		currentMap = mapTable[map];
+	{
+		if(currentMap != mapTable[map])
+			currentMap = mapTable[map];
+		else
+			return;
+	}
 	else
 		return;
 
@@ -443,6 +448,10 @@ QString RzxRezalMap::placeAt(const QPoint& point) const
 void RzxRezalMap::scrollTo(const QModelIndex& index, ScrollHint hint)
 {
 	QRect rect = visualRect(index);
+
+	if(rect.isNull() && index.isValid())
+		setMap(0);
+
 	rect.translate(horizontalOffset(), verticalOffset());
 	switch (hint)
 	{
