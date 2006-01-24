@@ -93,7 +93,7 @@ protected:
 
 	QString titleFromSplit(int j, QString splitPoints);
 	int     calculerSplit(QString& splitPoints, QList<RzxComputer*> list);
-	void    subMenu(QMenu& mname, Rzx::Icon micon, const char * slot, QList<RzxComputer*> list);
+	void    subMenu(QMenu& mname, Rzx::Icon micon, const char * slot, QList<RzxComputer*> list, QList<RzxComputer*> fav);
 
 private:
 	QMenu pop;

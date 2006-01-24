@@ -29,6 +29,10 @@
         <translation>&amp;Quitter</translation>
     </message>
     <message>
+        <source>Favorites</source>
+        <translation>Favoris</translation>
+    </message>
+    <message>
         <source>Chat...</source>
         <translation>Discuter...</translation>
     </message>
@@ -86,6 +90,10 @@
     <message>
         <source>Quick action menus</source>
         <translation>Menu d&apos;accès rapide</translation>
+    </message>
+    <message>
+        <source>Enable Favorites sub-menu</source>
+        <translation>Activer le sous-menu des Favoris</translation>
     </message>
     <message>
         <source>Read News</source>

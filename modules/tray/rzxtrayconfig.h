@@ -37,7 +37,8 @@ class RzxTrayConfig:public RzxAbstractConfig
 		Http = 4,
 		Samba = 8,
 		News = 16,
-		Mail = 32
+		Mail = 32,
+		ChatFav = 64
 	};
 	Q_DECLARE_FLAGS(QuickActions, QuickAction)
 

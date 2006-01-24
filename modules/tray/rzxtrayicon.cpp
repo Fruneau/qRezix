@@ -168,30 +168,36 @@ void RzxTrayIcon::buildMenu()
 
 #ifndef Q_OS_MAC
 	QList<RzxComputer*> list;
+	QList<RzxComputer*> favList;
 	RzxTrayConfig::QuickActions actions = (RzxTrayConfig::QuickAction)RzxTrayConfig::quickActions();
 
-#define newMenu(mname, micon, text, filter, slot) \
+#define newMenu(mname, micon, text, filter, slot, favoris) \
 	{ \
 		mname.clear(); \
 		mname.setTitle(text); \
 		mname.setIcon(RzxIconCollection::getIcon(micon)); \
 		list = RzxConnectionLister::global()->computerList(filter); \
 		qSort(list.begin(), list.end(), computerLessThan); \
-		subMenu(mname, micon, slot, list); \
+		favList.clear(); \
+		if (favoris) \
+			foreach(RzxComputer *computer, list) \
+				if(testComputerFavorite(computer)) \
+					favList << computer; \
+		subMenu(mname, micon, slot, list, favList); \
 	}
 
 	if(actions & RzxTrayConfig::Chat)
-		newMenu(chat, Rzx::ICON_CHAT, tr("Chat..."),testComputerChat, SLOT(chat()));
+		newMenu(chat, Rzx::ICON_CHAT, tr("Chat..."),testComputerChat, SLOT(chat()), (actions & RzxTrayConfig::ChatFav) );
 	if(actions & RzxTrayConfig::Ftp)
-		newMenu(ftp, Rzx::ICON_FTP, tr("Open FTP..."), testComputerFtp, SLOT(ftp()));
+		newMenu(ftp, Rzx::ICON_FTP, tr("Open FTP..."), testComputerFtp, SLOT(ftp()), (actions & RzxTrayConfig::ChatFav) );
 	if(actions & RzxTrayConfig::Http)
-		newMenu(http, Rzx::ICON_HTTP, tr("Open Web Page..."), testComputerHttp, SLOT(http()));
+		newMenu(http, Rzx::ICON_HTTP, tr("Open Web Page..."), testComputerHttp, SLOT(http()), 0);
 	if(actions & RzxTrayConfig::Samba)
-		newMenu(samba, Rzx::ICON_SAMBA, tr("Open Samba..."), testComputerSamba, SLOT(samba()));
+		newMenu(samba, Rzx::ICON_SAMBA, tr("Open Samba..."), testComputerSamba, SLOT(samba()), 0);
 	if(actions & RzxTrayConfig::News)
-		newMenu(news, Rzx::ICON_NEWS, tr("Read News..."), testComputerNews, SLOT(news()));
+		newMenu(news, Rzx::ICON_NEWS, tr("Read News..."), testComputerNews, SLOT(news()), 0);
 	if(actions & RzxTrayConfig::Mail)
-		newMenu(mail, Rzx::ICON_MAIL, tr("Send a Mail..."), testComputerMail, SLOT(mail()));
+		newMenu(mail, Rzx::ICON_MAIL, tr("Send a Mail..."), testComputerMail, SLOT(mail()), 0);
 
 #undef newMenu
 
@@ -273,15 +279,31 @@ int RzxTrayIcon::calculerSplit(QString& splitPoints, QList<RzxComputer*> list)
 }
 
 ///Fonction qui cree les menus du TrayIcon
-void RzxTrayIcon::subMenu(QMenu& mname, Rzx::Icon micon, const char * slot, QList<RzxComputer*> list)
+void RzxTrayIcon::subMenu(QMenu& mname, Rzx::Icon micon, const char * slot, QList<RzxComputer*> list, QList<RzxComputer*> fav)
 {
 	if(list.count())
 	{
 		QString splitPoints;
 		QMenu * mnsub;
-		if ( calculerSplit(splitPoints, list) )
+		bool makeSubMenu = calculerSplit(splitPoints, list);
+		if ( makeSubMenu || fav.count() )
 		{
-			QString titre = titleFromSplit(0,splitPoints);
+			if (fav.count())
+			{
+				mnsub = new QMenu(tr("Favorites"), &mname);
+				mnsub->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FAVORITE));
+				mname.addMenu(mnsub);
+
+				qSort(fav.begin(), fav.end(), computerLessThan);
+				for(int i = 0; i < fav.count(); i++)
+					mnsub->addAction(fav[i]->icon(), fav[i]->name(), fav[i], slot);
+			}
+
+			QString titre;
+			if ( makeSubMenu )
+				titre = titleFromSplit(0,splitPoints);
+			else
+				titre = tr("Everybody");
 			mnsub = new QMenu(titre, &mname);
 			mnsub->setIcon(RzxIconCollection::getIcon(micon));
 			mname.addMenu(mnsub);
@@ -1206,6 +1228,7 @@ void RzxTrayIcon::changePropTheme()
 	ui->cbQuickSamba->setIcon(RzxIconCollection::getIcon(Rzx::ICON_SAMBA));
 	ui->cbQuickNews->setIcon(RzxIconCollection::getIcon(Rzx::ICON_NEWS));
 	ui->cbQuickMail->setIcon(RzxIconCollection::getIcon(Rzx::ICON_MAIL));
+	ui->cbQuickFav->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FAVORITE));
 }
 
 /** \reimp */
@@ -1221,6 +1244,7 @@ void RzxTrayIcon::propInit(bool def)
 	ui->cbQuickSamba->setChecked(actions & RzxTrayConfig::Samba);
 	ui->cbQuickNews->setChecked(actions & RzxTrayConfig::News);
 	ui->cbQuickMail->setChecked(actions & RzxTrayConfig::Mail);
+	ui->cbQuickFav->setChecked(actions & RzxTrayConfig::ChatFav);
 	
 	changePropTheme();
 }
@@ -1249,6 +1273,7 @@ void RzxTrayIcon::propUpdate()
 	if(ui->cbQuickSamba->isChecked()) actions |= RzxTrayConfig::Samba;
 	if(ui->cbQuickNews->isChecked()) actions |= RzxTrayConfig::News;
 	if(ui->cbQuickMail->isChecked()) actions |= RzxTrayConfig::Mail;
+	if(ui->cbQuickFav->isChecked()) actions |= RzxTrayConfig::ChatFav;
 	RzxTrayConfig::setQuickActions(actions);
 }
 
