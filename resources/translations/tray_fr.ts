@@ -92,8 +92,8 @@
         <translation>Menu d&apos;accès rapide</translation>
     </message>
     <message>
-        <source>Enable Favorites sub-menu</source>
-        <translation>Activer le sous-menu des Favoris</translation>
+        <source>List Favorites separatedly</source>
+        <translation>Afficher les favoris séparemment</translation>
     </message>
     <message>
         <source>Read News</source>
