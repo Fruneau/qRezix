@@ -721,18 +721,23 @@ void RzxRezalMap::mousePressEvent(QMouseEvent *e)
 	{
 		initialPoint = e->pos();
 		const QModelIndex index = indexAt(e->pos());
+		const QString plc = placeAt(e->pos());
+		int placeId = -1;
+		if(!plc.isNull())
+			placeId = placeSearch->findText(plc);
+
+		if(placeId != -1)
+			placeSearch->setCurrentIndex(placeId);
+
 		if(!index.isValid())
 		{
-			const QString plc = placeAt(e->pos());
-			if(!plc.isNull())
-			{
-				const int i = placeSearch->findText(plc);
-				if(i != -1)
-				{
-					placeSearch->setCurrentIndex(i);
-					setPlace(i);
-				}
-			}
+			if(placeId != -1)
+				setPlace(placeId);
+		}
+		else if(index.parent() == currentIndex().parent() && index.row() == currentIndex().row()) //même ligne ?
+		{
+			selection = Index;
+			viewport()->update();
 		}
 		else
 		{
