@@ -631,6 +631,9 @@
             <property name="enabled" >
              <bool>false</bool>
             </property>
+            <property name="toolTip" >
+             <string>Send a mail</string>
+            </property>
             <property name="text" >
              <string>Send a mail</string>
             </property>
@@ -643,6 +646,9 @@
            <widget class="QToolButton" name="btnDeleteCache" >
             <property name="enabled" >
              <bool>false</bool>
+            </property>
+            <property name="toolTip" >
+             <string>Delete</string>
             </property>
             <property name="text" >
              <string>Delete</string>

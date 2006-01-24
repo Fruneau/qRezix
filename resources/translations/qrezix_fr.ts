@@ -165,7 +165,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Propriétés</translation>
     </message>
     <message>
         <source>&lt;h3&gt;History&lt;/h3&gt;&lt;p&gt;If you want to read all your old chats with this person&lt;/p&gt;</source>
@@ -769,7 +769,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Propriétés</translation>
     </message>
     <message>
         <source>Ip address</source>
@@ -1351,6 +1351,14 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <source>Contacts</source>
         <translation>Contacts</translation>
     </message>
+    <message>
+        <source>Send a mail</source>
+        <translation>Envoyer un mail...</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Supprimer</translation>
+    </message>
 </context>
 <context>
     <name>RzxProps</name>
@@ -1364,11 +1372,11 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>Property</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Propriété</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Valeur</translation>
     </message>
 </context>
 <context>
@@ -1629,7 +1637,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Propriétés</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
@@ -1884,6 +1892,10 @@ DNS request failed</source>
     </message>
     <message>
         <source>Begin a chat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>List Favorites separatedly</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
