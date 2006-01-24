@@ -252,10 +252,12 @@ int RzxTrayIcon::calculerSplit(QString& splitPoints, QList<RzxComputer*> list)
 	splitPoints[0] = list[0]->name().at(0).toLower();
 	int j = 1;
 	QChar c;
-	for(int i = 1, i2 = 1; i < list.count(); i++, i2++)
+	int i = 1;
+	int i2 = 1;
+	for(; i < list.count(); i++, i2++)
 	{
-		c = list[i]->name().at(0).toLower();
-		if ( c != list[i-1]->name().at(0).toLower() )
+		c = list[i-1]->name().at(0).toLower();
+		if ( c != list[i]->name().at(0).toLower() )
 		{
 			splitPoints[j] = c;
 			if (i2 > tailleMenu)
@@ -265,6 +267,7 @@ int RzxTrayIcon::calculerSplit(QString& splitPoints, QList<RzxComputer*> list)
 			}
 		}
 	}
+	splitPoints[j] = list[i-1]->name().at(0).toLower();
 
 	return 1;
 }
