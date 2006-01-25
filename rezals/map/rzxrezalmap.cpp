@@ -456,10 +456,7 @@ void RzxRezalMap::scrollTo(const QModelIndex& index, ScrollHint hint)
 		if(currentMap == mapTable[0]) return;
 		int i = 0;
 		if(model()->data(index, Qt::UserRole).canConvert<RzxComputer*>())
-		{
 			i = map(model()->data(index, Qt::UserRole).value<RzxComputer*>()->ip());
-			qDebug() << i;
-		}
 		setMap(i);
 		mapChooser->setCurrentIndex(i);
 		return;
