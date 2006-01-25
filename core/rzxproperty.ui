@@ -26,6 +26,9 @@
   <property name="whatsThis" >
    <string>&lt;h3>Menu&lt;/h3>&lt;p>Define the appearance of the menus and butons of the interface&lt;/p></string>
   </property>
+  <property name="modal" >
+   <bool>true</bool>
+  </property>
   <layout class="QGridLayout" >
    <property name="margin" >
     <number>9</number>
@@ -593,7 +596,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="pageFavorites" >
+     <widget class="QWidget" name="pageContacts" >
       <layout class="QGridLayout" >
        <property name="margin" >
         <number>9</number>
@@ -672,7 +675,11 @@
            </spacer>
           </item>
           <item row="0" column="0" colspan="3" >
-           <widget class="QListWidget" name="listCache" />
+           <widget class="QListWidget" name="listCache" >
+            <property name="selectionMode" >
+             <enum>QAbstractItemView::ExtendedSelection</enum>
+            </property>
+           </widget>
           </item>
           <item rowspan="2" row="0" column="3" >
            <widget class="QTreeWidget" name="showCache" >

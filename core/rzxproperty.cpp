@@ -108,9 +108,11 @@ RzxProperty::RzxProperty(QWidget *parent)
 	connect(cmbIconTheme, SIGNAL(activated(const QString&)), this, SLOT(changeTheme(const QString&)));
 
 	//Connection pour l'affichage des propriétés
-	connect(listCache, SIGNAL(currentRowChanged(int)), this, SLOT(fillCacheView()));
+	connect(listCache, SIGNAL(itemSelectionChanged()), this, SLOT(fillCacheView()));
 	connect(btnDeleteCache, SIGNAL(clicked()), this, SLOT(deleteCache()));
 	connect(btnSendMail, SIGNAL(clicked()), this, SLOT(sendMailToCache()));
+	new QShortcut(Qt::Key_Backspace, btnDeleteCache, SIGNAL(clicked()));
+	new QShortcut(Qt::Key_Delete, btnDeleteCache, SIGNAL(clicked()));
 
 	//Navigation entre les différentes pages
 	connect(lbMenu, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), 
@@ -309,11 +311,14 @@ void RzxProperty::fillCacheView()
 ///Action en cliquant sur le bouton de gestion des propriétés
 void RzxProperty::deleteCache()
 {
-	const QListWidgetItem *item = listCache->currentItem();
-	if(!item) return;
+	const QList<QListWidgetItem*> items = listCache->selectedItems();
+	if(!items.size()) return;
 
-	const RzxHostAddress ip = RzxHostAddress::fromRezix(item->data(Qt::UserRole).toInt());
-	RzxConfig::deleteCache(ip);
+	foreach(QListWidgetItem *item, items)
+	{
+		const RzxHostAddress ip = RzxHostAddress::fromRezix(item->data(Qt::UserRole).toInt());
+		RzxConfig::deleteCache(ip);
+	}
 	fillCacheList();
 }
 
