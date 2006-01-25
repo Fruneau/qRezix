@@ -412,6 +412,15 @@ bool RzxRezalModel::isComputer(const QModelIndex& index) const
 	return false;
 }
 
+///Indique si les 2 QModelIndex représentent le même ordinateur...
+bool RzxRezalModel::isSameComputer(const QModelIndex& index1, const QModelIndex& index2) const
+{
+	if(!isComputer(index1) || !isComputer(index2)) return false;
+	const RzxComputer *c1 = data(index1, Qt::UserRole).value<RzxComputer*>();
+	const RzxComputer *c2 = data(index2, Qt::UserRole).value<RzxComputer*>();
+	return c1 == c2;
+}
+
 ///Indique si le QModelIndex est un index d'un rezal
 /** C'est à dire que son contenu est tous les RzxComputer d'un subnet
  */

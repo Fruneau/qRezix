@@ -51,7 +51,7 @@ RzxRezalMap::RzxRezalMap(QWidget *widget)
 	setIcon(RZX_MODULE_ICON);
 	setModel(RzxRezalModel::global());
 	currentMap = NULL;
-	currentHasChanged = false;
+	ignoreChange = currentHasChanged = false;
 
 	mapChooser = new QComboBox(this);
 	mapChooser->move(3, 3);
@@ -452,7 +452,11 @@ void RzxRezalMap::scrollTo(const QModelIndex& index, ScrollHint hint)
 	QRect rect = visualRect(index);
 
 	if(rect.isNull() && currentHasChanged)
+	{
 		setMap(0);
+		mapChooser->setCurrentIndex(0);
+		return;
+	}
 
 	rect.translate(horizontalOffset(), verticalOffset());
 	switch (hint)
@@ -700,6 +704,13 @@ void RzxRezalMap::drawPlace(const QString& place, QPainter& painter, const QColo
 ///Raffraichi l'affichage lors d'un changement de sélection
 void RzxRezalMap::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
+	if(ignoreChange)
+	{
+		viewport()->update();
+		ignoreChange = false;
+		return;
+	}
+
 	QAbstractItemView::currentChanged(current, previous);
 	if(RzxRezalModel::global()->rezal(current) != -1)
 	{
@@ -721,9 +732,20 @@ void RzxRezalMap::currentChanged(const QModelIndex &current, const QModelIndex &
 	{
 		currentHasChanged = true;
 		scrollTo(current);
-		currentHasChanged = false;
 	}
+	currentHasChanged = false;
 	viewport()->update();
+}
+
+///Enregistre la déconnexion de l'élément sélectionné pour éviter de switché de map dans ce cas
+void RzxRezalMap::rowsAboutToBeRemoved(const QModelIndex& parent, int start, int)
+{
+	const QModelIndex index = model()->index(start, 0, parent);
+	if(selection == Index && RzxRezalModel::global()->isSameComputer(index, currentIndex()))
+	{
+		selection = Place;
+		ignoreChange = true;
+	}
 }
 
 ///On clique sur un objet...

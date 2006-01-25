@@ -150,6 +150,7 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 	QString currentPlace;
 	bool initialised;
 	bool currentHasChanged;
+	bool ignoreChange;
 
 	SelectionType selection;
 
@@ -206,6 +207,7 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 
 	protected slots:
 		virtual void currentChanged(const QModelIndex&, const QModelIndex&);
+		virtual void rowsAboutToBeRemoved(const QModelIndex&, int, int);
 		void setMap(int);
 		void setMap(const QString&);
 		void setPlace(int);
