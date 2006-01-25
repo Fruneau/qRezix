@@ -58,7 +58,7 @@
     </message>
     <message>
         <source>&lt;h3&gt;Input&lt;/h3&gt;&lt;p&gt;This is the place where you can type your messages.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Shortcuts :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Enter : &lt;/b&gt;Send your message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] : &lt;/b&gt;Navigate through the messages you have already typed&lt;br&gt;&lt;b&gt;Ctrl+Enter : &lt;/b&gt; Add a line-break&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Edition&lt;/h3&gt;&lt;p&gt;C&apos;est la fenêtre dans laquelle vous devez taper votre message.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Raccourcis :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Entrée : &lt;/b&gt;Envoie votre message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] :&lt;/b&gt;Permet de naviguer entre les messages que vous avez déjà envoyés&lt;br&gt;&lt;b&gt;Ctrl+Enter : &lt;/b&gt;Saut de ligne&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Edition&lt;/h3&gt;&lt;p&gt;C&apos;est la fenêtre dans laquelle vous devez taper votre message.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Raccourcis :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Entrée : &lt;/b&gt;Envoie votre message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] :&lt;/b&gt;Permet de naviguer entre les messages que vous avez déjà envoyés&lt;br&gt;&lt;b&gt;Ctrl+Enter : &lt;/b&gt;Saut de ligne&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Send&lt;/h3&gt;&lt;p&gt;Send the message you have typed...&lt;br&gt;It&apos;s a lot easier to use &lt;b&gt;Enter&lt;/b&gt;&lt;/p&gt;</source>
@@ -127,6 +127,10 @@
     <message>
         <source>Pong answer received in </source>
         <translation>Pong reçu en </translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;Input&lt;/h3&gt;&lt;p&gt;This is the place where you can type your messages.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Shortcuts :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Enter : &lt;/b&gt;Send your message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] : &lt;/b&gt;Navigate through the messages you have already typed&lt;br&gt;&lt;b&gt;Shift+Enter : &lt;/b&gt; Add a line-break&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Edition&lt;/h3&gt;&lt;p&gt;C&apos;est la fenêtre dans laquelle vous devez taper votre message.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Raccourcis :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Entrée : &lt;/b&gt;Envoie votre message&lt;br&gt;&lt;b&gt;Ctrl+[HAUT|BAS] :&lt;/b&gt;Permet de naviguer entre les messages que vous avez déjà envoyés&lt;br&gt;&lt;b&gt;Maj+Entrée : &lt;/b&gt;Saut de ligne&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -288,6 +292,10 @@ Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous o
     <message>
         <source>Connection error: data corruption</source>
         <translation>Erreur de connexion : données corrompues</translation>
+    </message>
+    <message>
+        <source>Unable to send data... writeBlock returns -1</source>
+        <translation>Impossible d&apos;envoyer les données... writeBlock a renvoyé -1</translation>
     </message>
 </context>
 <context>

@@ -85,7 +85,6 @@ void RzxTextEdit::keyPressEvent(QKeyEvent *e)
 				emit enterPressed();
 				break;
 			}
-			//eMapped =new QKeyEvent(QEvent::KeyRelease, Qt::Key_Enter, e->text(), e->modifiers());
 			QTextEdit::keyPressEvent(eMapped);
 			break;
 

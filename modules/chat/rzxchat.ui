@@ -48,7 +48,7 @@
       <enum>Qt::StrongFocus</enum>
      </property>
      <property name="whatsThis" >
-      <string>&lt;h3>Input&lt;/h3>&lt;p>This is the place where you can type your messages.&lt;/p>&lt;p>&lt;b>Shortcuts :&lt;/b>&lt;br>&lt;b>Enter : &lt;/b>Send your message&lt;br>&lt;b>Ctrl+[UP|DOWN] : &lt;/b>Navigate through the messages you have already typed&lt;br>&lt;b>Ctrl+Enter : &lt;/b> Add a line-break&lt;/p></string>
+      <string>&lt;h3>Input&lt;/h3>&lt;p>This is the place where you can type your messages.&lt;/p>&lt;p>&lt;b>Shortcuts :&lt;/b>&lt;br>&lt;b>Enter : &lt;/b>Send your message&lt;br>&lt;b>Ctrl+[UP|DOWN] : &lt;/b>Navigate through the messages you have already typed&lt;br>&lt;b>Shift+Enter : &lt;/b> Add a line-break&lt;/p></string>
      </property>
     </widget>
    </item>
