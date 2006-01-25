@@ -453,8 +453,15 @@ void RzxRezalMap::scrollTo(const QModelIndex& index, ScrollHint hint)
 
 	if(rect.isNull() && currentHasChanged)
 	{
-		setMap(0);
-		mapChooser->setCurrentIndex(0);
+		if(currentMap == mapTable[0]) return;
+		int i = 0;
+		if(model()->data(index, Qt::UserRole).canConvert<RzxComputer*>())
+		{
+			i = map(model()->data(index, Qt::UserRole).value<RzxComputer*>()->ip());
+			qDebug() << i;
+		}
+		setMap(i);
+		mapChooser->setCurrentIndex(i);
 		return;
 	}
 
@@ -567,6 +574,15 @@ QRegion RzxRezalMap::visualRegionForSelection(const QItemSelection& sel) const
 	foreach(QModelIndex index, indexes)
 		region += QRegion(polygon(index));
 	return region;
+}
+
+///Recherche une carte qui contient exactement l'adresse donnée
+int RzxRezalMap::map(const RzxHostAddress& ip) const
+{
+	for(int i=0 ; i< mapTable.size() ; i++)
+		if(mapTable[i]->polygons.keys().contains(ip) && !mapTable[i]->polygons[ip].isNull())
+			return i;
+	return 0;
 }
 
 ///Retourne le lieu associé à l'index
