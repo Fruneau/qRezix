@@ -418,7 +418,14 @@ QModelIndex RzxRezalMap::indexAt(const QPoint &point) const
 			{
 				RzxComputer *computer = ip.computer();
 				if(computer)
+				{
+					const QModelIndex indexWithParent = RzxRezalModel::global()->index(computer, 
+							RzxRezalModel::global()->hasChildren(currentIndex())? currentIndex():currentIndex().parent());
+					if(indexWithParent.isValid())
+						return indexWithParent;
+					
 					return RzxRezalModel::global()->index(computer, RzxRezalModel::global()->everybodyGroup[0]);
+				}
 			}
 			else
 			{
