@@ -82,12 +82,6 @@
         <translation>Changez votre mot de passe</translation>
     </message>
     <message>
-        <source>Your password can contains any character.&lt;br&gt;
-It must be at least &lt;b&gt; 6 characters long&lt;/b&gt;.</source>
-        <translation type="obsolete">Votre mot de passe peut contenir n&apos;importe quel caractère,&lt;br&gt;
-mais doit avoir une taille minimum de &lt;b&gt;6 caractères&lt;/b&gt;.</translation>
-    </message>
-    <message>
         <source>Reenter your new pass:</source>
         <translation>Confirmation :</translation>
     </message>
@@ -980,10 +974,6 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <translation>Modules</translation>
     </message>
     <message>
-        <source>Favorites/Banned</source>
-        <translation type="obsolete">Favoris/Bannis</translation>
-    </message>
-    <message>
         <source>Preferences</source>
         <translation>Préférences</translation>
     </message>
@@ -1322,10 +1312,6 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     <message>
         <source>Responder:</source>
         <translation>Répondeur :</translation>
-    </message>
-    <message>
-        <source>This page aims at giving a way to administrate the lists of your favorites and ignored computers.</source>
-        <translation type="obsolete">Le but de cette page est de permettre d&apos;administrer la liste des personnes que vous avez choisies comme favorites ou bannies.</translation>
     </message>
     <message>
         <source>Badminton</source>

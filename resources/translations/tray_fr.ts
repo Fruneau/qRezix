@@ -2,10 +2,6 @@
 <context>
     <name>RzxBaseModule</name>
     <message>
-        <source>qRezix tray icon</source>
-        <translation type="obsolete">Tray icon de qRezix</translation>
-    </message>
-    <message>
         <source>Systray and Dock integration</source>
         <translation>Intégration de qRezix au Systray et au Dock</translation>
     </message>
@@ -66,10 +62,6 @@
     <message>
         <source>&lt;h3&gt;Systray&lt;/h3&gt;&lt;p&gt;Do you want to have qRezix reduced to an icon in the systray ?&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Systray&lt;/h3&gt;&lt;p&gt;Voulez vous que qRezix soit réduit à une icône dans le systray ?&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Systray</source>
-        <translation type="obsolete">Systray</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Auto-scale&lt;/h3&gt;&lt;p&gt;If enabled, qRezix will try to automaticly adjust the trayicon size to fit its container&lt;/p&gt;</source>

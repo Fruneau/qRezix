@@ -554,6 +554,11 @@ void RzxConfig::addCache(const RzxHostAddress& address, const QString& msg)
 				list[i] = "Name";
 				break;
 			}
+			if(list[i] == "Last name")
+			{
+				list[i] = "First name";
+				break;
+			}
 		}
 	}
 

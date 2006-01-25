@@ -2,16 +2,8 @@
 <context>
     <name>QRezix</name>
     <message>
-        <source>Plug-ins</source>
-        <translation type="obsolete">Plug-ins</translation>
-    </message>
-    <message>
         <source>Preferences</source>
         <translation>Préférences</translation>
-    </message>
-    <message>
-        <source>Adjust columns</source>
-        <translation type="obsolete">Ajuster les colonnes</translation>
     </message>
     <message>
         <source>Search</source>

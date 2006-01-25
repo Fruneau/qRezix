@@ -12,18 +12,6 @@
         <source>Form</source>
         <translation></translation>
     </message>
-    <message>
-        <source>Property</source>
-        <translation type="obsolete">Propriétés</translation>
-    </message>
-    <message>
-        <source>Value</source>
-        <translation type="obsolete">Valeur</translation>
-    </message>
-    <message>
-        <source>Get Now !</source>
-        <translation type="obsolete">Récupérer !</translation>
-    </message>
 </context>
 <context>
     <name>RzxProps</name>

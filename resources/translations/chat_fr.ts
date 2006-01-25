@@ -33,10 +33,6 @@
         <translation>Requête &apos;ping&apos; reçue</translation>
     </message>
     <message>
-        <source>Pong answer received</source>
-        <translation type="obsolete">Réponse &apos;pong&apos; reçue</translation>
-    </message>
-    <message>
         <source>Chat closed</source>
         <translation>Discussion terminée</translation>
     </message>
@@ -278,46 +274,6 @@ Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous o
         <translation>a envoyé des propriétés vides</translation>
     </message>
     <message>
-        <source>Nick</source>
-        <translation type="obsolete">Surnom</translation>
-    </message>
-    <message>
-        <source>Phone</source>
-        <translation type="obsolete">Téléphone</translation>
-    </message>
-    <message>
-        <source>E-Mail</source>
-        <translation type="obsolete">e-mail</translation>
-    </message>
-    <message>
-        <source>Room</source>
-        <translation type="obsolete">Salle</translation>
-    </message>
-    <message>
-        <source>Sport</source>
-        <translation type="obsolete">Sport</translation>
-    </message>
-    <message>
-        <source>Unable to send data... writeBlock returns -1</source>
-        <translation>Impossible d&apos;envoyer des données... writeBlock a renvoyé -1</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="obsolete">Prénom</translation>
-    </message>
-    <message>
-        <source>Last name</source>
-        <translation type="obsolete">Nom</translation>
-    </message>
-    <message>
-        <source>Web Page</source>
-        <translation type="obsolete">Page Web</translation>
-    </message>
-    <message>
-        <source>Class</source>
-        <translation type="obsolete">Promo</translation>
-    </message>
-    <message>
         <source>Connection error: connection refused</source>
         <translation>Erreur de connexion : connexion refusée</translation>
     </message>
@@ -345,45 +301,6 @@ Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous o
 </source>
         <translation>Une erreur s&apos;est produite lors de l&apos;obtention des propriétés :
 </translation>
-    </message>
-</context>
-<context>
-    <name>RzxConfig</name>
-    <message>
-        <source>Name</source>
-        <translation type="obsolete">Prénom</translation>
-    </message>
-    <message>
-        <source>Last name</source>
-        <translation type="obsolete">Nom</translation>
-    </message>
-    <message>
-        <source>Nick</source>
-        <translation type="obsolete">Surnom</translation>
-    </message>
-    <message>
-        <source>Phone</source>
-        <translation type="obsolete">Téléphone</translation>
-    </message>
-    <message>
-        <source>E-Mail</source>
-        <translation type="obsolete">e-mail</translation>
-    </message>
-    <message>
-        <source>Web Page</source>
-        <translation type="obsolete">Page Web</translation>
-    </message>
-    <message>
-        <source>Room</source>
-        <translation type="obsolete">Salle</translation>
-    </message>
-    <message>
-        <source>Sport</source>
-        <translation type="obsolete">Sport</translation>
-    </message>
-    <message>
-        <source>Class</source>
-        <translation type="obsolete">Promo</translation>
     </message>
 </context>
 <context>
