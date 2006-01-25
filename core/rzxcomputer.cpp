@@ -116,7 +116,7 @@ void RzxComputer::initLocalhost()
 	connect(delayScan, SIGNAL(timeout()), this, SLOT(scanServers()));
 
 	//Ip mise à jour par RzxServerListener
-	m_ip = RzxHostAddress::fromRezix(0);
+	m_ip = RzxHostAddress();;
 
 	setName(RzxConfig::dnsName());
 	setRemarque(RzxConfig::remarque());
