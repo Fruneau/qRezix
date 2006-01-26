@@ -166,7 +166,7 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 		NumColonne order;
 		Qt::SortOrder sens;
 
-		friend bool sortComputer(RzxComputer *, RzxComputer *);
+		friend bool sortComputer(const RzxComputer *, const RzxComputer *);
 
 	protected:
 		///Identifiants des objets de base de l'arborescence

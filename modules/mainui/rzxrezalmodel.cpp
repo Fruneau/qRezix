@@ -47,7 +47,7 @@ const char *RzxRezalModel::colNames[RzxRezalModel::numColonnes] = {
 
 ///Pour le tri des RzxComputer
 /** Cette fonction permet de comparer 2 RzxComputer selon l'ordre indiqué dans le RzxRezalModel */
-bool sortComputer(RzxComputer *c1, RzxComputer *c2)
+bool sortComputer(const RzxComputer *c1, const RzxComputer *c2)
 {
 	RzxRezalModel::NumColonne order = RzxRezalModel::global()->order;
 	if(RzxRezalModel::global()->sens == Qt::AscendingOrder)

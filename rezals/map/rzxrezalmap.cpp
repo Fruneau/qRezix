@@ -419,11 +419,22 @@ QModelIndex RzxRezalMap::indexAt(const QPoint &point) const
 				RzxComputer *computer = ip.computer();
 				if(computer)
 				{
+					const bool isMenu = RzxRezalModel::global()->hasChildren(currentIndex());
 					const QModelIndex indexWithParent = RzxRezalModel::global()->index(computer, 
-							RzxRezalModel::global()->hasChildren(currentIndex())? currentIndex():currentIndex().parent());
+								isMenu ? currentIndex():currentIndex().parent());
 					if(indexWithParent.isValid())
 						return indexWithParent;
-					
+					if((isMenu && currentIndex().parent().isValid()) || currentIndex().parent().parent().isValid())
+					{
+						const QModelIndex parent = isMenu ? currentIndex().parent() : currentIndex().parent().parent();
+						for(int i = 0 ; i < RzxRezalModel::global()->rowCount(parent) ; i++)
+						{
+							const QModelIndex index = RzxRezalModel::global()->index(computer, parent.child(i, 0));
+							if(index.isValid())
+								return index;
+						}
+					}
+
 					return RzxRezalModel::global()->index(computer, RzxRezalModel::global()->everybodyGroup[0]);
 				}
 			}
