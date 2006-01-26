@@ -154,8 +154,8 @@ void RzxProperty::buildModules(const QList<T*>& modules, QTreeWidgetItem *parent
 				item = createPage(props[0], names[0], module->icon(), parent);
 			else
 			{
-				item = createPage(NULL, module->name(), module->icon(), parent);
-				for(int i = 0 ; i < props.size(); i++)
+				item = createPage(props[0], module->name(), module->icon(), parent);
+				for(int i = 1 ; i < props.size(); i++)
 					createPage(props[i], names[i], module->icon(), item);
 			}
 			module->setTreeItem(item);
@@ -198,7 +198,7 @@ void RzxProperty::changeThemeModules(const QList<T*>& modules, QTreeWidgetItem *
 	int i = 0;
 	foreach(T *module, modules)
 	{
-		QList<QWidget*> props = module->propWidgets();
+		const QList<QWidget*> props = module->propWidgets();
 		QTreeWidgetItem *item = parent->child(i++);
 
 		QList<RzxBaseModule*> children = module->childModules();
@@ -208,7 +208,7 @@ void RzxProperty::changeThemeModules(const QList<T*>& modules, QTreeWidgetItem *
 			item->setIcon(0, module->icon());
 			if(props.size() > 1)
 			{
-				for(int k = 0 ; k < item->childCount(); k++)
+				for(int k = 0 ; k < props.size() -1 ; k++)
 					item->child(k)->setIcon(0, module->icon());
 			}
 		}
@@ -231,6 +231,5 @@ void RzxProperty::closeModules(const QList<T*>& modules)
 		closeModules<RzxBaseModule>(children);
 	}
 }
-
 
 #endif
