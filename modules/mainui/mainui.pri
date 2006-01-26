@@ -10,7 +10,8 @@ SOURCES += $$ROOT/modules/mainui/rzxui.cpp \
 	$$ROOT/modules/mainui/rzxrezalsearch.cpp \
 	$$ROOT/modules/mainui/rzxrezaldrag.cpp \
 	$$ROOT/modules/mainui/rzxrezalaction.cpp \
-	$$ROOT/modules/mainui/rzxquit.cpp
+	$$ROOT/modules/mainui/rzxquit.cpp \
+	$$ROOT/modules/mainui/rzxusergroup.cpp
 
 HEADERS += $$ROOT/modules/mainui/rzxui.h \
 	$$ROOT/modules/mainui/qrezix.h \
@@ -23,7 +24,8 @@ HEADERS += $$ROOT/modules/mainui/rzxui.h \
 	$$ROOT/modules/mainui/rzxdict.h \
 	$$ROOT/modules/mainui/rzxquit.h \
 	$$ROOT/modules/mainui/rzxmainuiconfig.h \
-	$$ROOT/modules/mainui/rzxmainuiglobal.h
+	$$ROOT/modules/mainui/rzxmainuiglobal.h \
+	$$ROOT/modules/mainui/rzxusergroup.h
 
 FORMS += $$ROOT/modules/mainui/rzxstatus.ui \
 	$$ROOT/modules/mainui/rzxquit.ui \

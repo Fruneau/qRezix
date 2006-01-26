@@ -37,6 +37,7 @@
 RZX_MODULE_EXPORT(RzxUi)
 
 #include "qrezix.h"
+#include "rzxusergroup.h"
 #include "rzxrezalmodel.h"
 #include "rzxmainuiconfig.h"
 #include "ui_rzxmainuiprop.h"
@@ -52,7 +53,7 @@ RzxUi::RzxUi()
 	setType(MOD_MAINGUI);
 	ui = NULL;
 	propWidget = NULL;
-	new RzxMainUIConfig(this);
+	RzxUserGroup::loadGroups(new RzxMainUIConfig(this));
 	qrezix = QRezix::global();
 	connect(qrezix, SIGNAL(wantQuit()), this, SIGNAL(wantQuit()));
 	connect(qrezix, SIGNAL(wantPreferences()), this, SIGNAL(wantPreferences()));
@@ -70,6 +71,7 @@ RzxUi::~RzxUi()
 	beginClosing();
 	delete qrezix;
 	delete RzxRezalModel::global();
+	RzxUserGroup::clearGroups();
 	delete RzxMainUIConfig::global();
 	endClosing();
 }

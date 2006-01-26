@@ -25,7 +25,7 @@
 
 #include "rzxrezalmodel.h"
 #include "rzxmainuiconfig.h"
-
+#include "rzxusergroup.h"
 
 RZX_GLOBAL_INIT(RzxRezalModel)
 
@@ -112,20 +112,20 @@ RzxRezalModel::RzxRezalModel()
 	for(int i = 0 ; i < numColonnes ; i++)
 	{
 		//Base de l'arbre
-		if(!i) insertRows(0, 4);
+		if(!i) insertRows(0, TREE_BASE_NUMBER);
 		everybodyGroup[i] = QAbstractItemModel::createIndex(TREE_BASE_EVERYBODY, i, (int)TREE_FLAG_BASE);
 		favoritesGroup[i] = QAbstractItemModel::createIndex(TREE_BASE_FAVORITE, i, (int)TREE_FLAG_BASE);
 		promoGroup[i] = QAbstractItemModel::createIndex(TREE_BASE_PROMO, i, (int)TREE_FLAG_BASE);
 		rezalGroup[i] = QAbstractItemModel::createIndex(TREE_BASE_REZAL, i, (int)TREE_FLAG_BASE);
 
 		//Arborescence favoris/ignoré
-		if(!i) insertRows(0, 3, favoritesGroup[0]);
+		if(!i) insertRows(0, TREE_FAVORITE_NUMBER, favoritesGroup[0]);
 		favoriteIndex[i] = QAbstractItemModel::createIndex(TREE_FAVORITE_FAVORITE, i, (int)TREE_FLAG_FAVORITE);
 		ignoredIndex[i] = QAbstractItemModel::createIndex(TREE_FAVORITE_IGNORED, i, (int)TREE_FLAG_FAVORITE);
 		neutralIndex[i] = QAbstractItemModel::createIndex(TREE_FAVORITE_NEUTRAL, i, (int)TREE_FLAG_FAVORITE);
 
 		//Arborescence par promo
-		if(!i) insertRows(0, 4, promoGroup[0]);
+		if(!i) insertRows(0, TREE_PROMO_NUMBER, promoGroup[0]);
 		joneIndex[i] = QAbstractItemModel::createIndex(TREE_PROMO_JONE, i, (int)TREE_FLAG_PROMO);
 		roujeIndex[i] = QAbstractItemModel::createIndex(TREE_PROMO_ROUJE, i, (int)TREE_FLAG_PROMO);
 		oranjeIndex[i] = QAbstractItemModel::createIndex(TREE_PROMO_ORANJE, i, (int)TREE_FLAG_PROMO);
@@ -138,6 +138,11 @@ RzxRezalModel::RzxRezalModel()
 			rezalIndex[j][i] = QAbstractItemModel::createIndex(j, i, (int)TREE_FLAG_REZAL);
 		}
 	}
+
+	//Intégration de la liste des groups d'utilisateurs définis
+	const int groupNumber = RzxUserGroup::groupNumber();
+	for(int i = 0 ; i < groupNumber ; i++)
+		newUserGroup();
 
 	//Initialisation de l'ordre de tri
 	order = (NumColonne)RzxMainUIConfig::sortColumn();
@@ -207,9 +212,13 @@ QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent)
 				case TREE_BASE_FAVORITE:
 					switch(row)
 					{
-						case TREE_FAVORITE_FAVORITE: return favoriteIndex[column]; break;
-						case TREE_FAVORITE_IGNORED: return ignoredIndex[column]; break;
-						case TREE_FAVORITE_NEUTRAL: return neutralIndex[column]; break;
+						case TREE_FAVORITE_FAVORITE: return favoriteIndex[column];
+						case TREE_FAVORITE_IGNORED: return ignoredIndex[column];
+						case TREE_FAVORITE_NEUTRAL: return neutralIndex[column];
+						default:
+							const int groupId = row - TREE_FAVORITE_FIRSTGROUP;
+							if(groupId >= 0 && groupId < userIndexes.size())
+								return userIndexes[groupId][column];
 					}
 					break;
 
@@ -245,6 +254,10 @@ QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent)
 				case TREE_FAVORITE_FAVORITE: return createIndex(row, column, TREE_FLAG_FAVORITE_FAVORITE, favorites);
 				case TREE_FAVORITE_IGNORED: return createIndex(row, column, TREE_FLAG_FAVORITE_IGNORED, ignored);
 				case TREE_FAVORITE_NEUTRAL: return createIndex(row, column, TREE_FLAG_FAVORITE_NEUTRAL, neutral);
+				default:
+					const int groupId = value - TREE_FAVORITE_FIRSTGROUP;
+					if(groupId >= 0 && groupId < userIndexes.size())
+						createIndex(row, column, TREE_FLAG_FAVORITE_FIRSTGROUP + groupId, userGroups[groupId]);
 			}
 			break;
 
@@ -287,6 +300,10 @@ QModelIndex RzxRezalModel::index(RzxComputer *computer, const QModelIndex& paren
 				case TREE_FAVORITE_FAVORITE: list = &favorites; break;
 				case TREE_FAVORITE_IGNORED: list = &ignored; break;
 				case TREE_FAVORITE_NEUTRAL: list = &neutral; break;
+				default:
+					const int groupId = parent.row() - TREE_FAVORITE_FIRSTGROUP;
+					if(groupId >= 0 && groupId < userIndexes.size())
+						list = &(userGroups[groupId]);
 			}
 			break;
 			
@@ -337,6 +354,10 @@ const RzxRezalSearchTree *RzxRezalModel::childrenByName(const QModelIndex& index
 				case TREE_FAVORITE_FAVORITE: return &favoritesByName;
 				case TREE_FAVORITE_IGNORED: return &ignoredByName;
 				case TREE_FAVORITE_NEUTRAL: return &neutralByName;
+				default:
+					const int groupId = index.row() - TREE_FAVORITE_FIRSTGROUP;
+					if(groupId >= 0 && groupId < userIndexes.size())
+						return &(userGroupsByName[groupId]);
 			}
 			break;
 			
@@ -374,12 +395,20 @@ QModelIndex RzxRezalModel::parent(const QModelIndex& index) const
 		case TREE_FLAG_PROMO_ORANJE: return oranjeIndex[0];
 	}
 
-	//Cas Particulier : les rezal
-	if((index.internalId() & TREE_FLAG_HARDMASK) == TREE_FLAG_REZAL)
+	//Cas Particulier : les rezal et les groupes d'utilisateurs définis par l'utilisateur
+	switch((index.internalId() & TREE_FLAG_HARDMASK))
 	{
-		uint rezal = GET_REZAL_FROM_ID(index.internalId());
-		if(rezal < RzxConfig::rezalNumber())
-			return rezalIndex[rezal][0];
+		case TREE_FLAG_REZAL:
+			const uint rezal = GET_REZAL_FROM_ID(index.internalId());
+			if(rezal < RzxConfig::rezalNumber())
+				return rezalIndex[rezal][0];
+			break;
+
+		case TREE_FLAG_FAVORITE:
+			const int groupId = index.internalId() - TREE_FLAG_FAVORITE_FIRSTGROUP;
+			if(groupId >= 0 && groupId < userIndexes.size())
+				return userIndexes[groupId][0];
+			break;
 	}
 
 	return QModelIndex();
@@ -459,7 +488,7 @@ int RzxRezalModel::rowCount(const QModelIndex& index) const
 			switch(value)
 			{
 				case TREE_BASE_EVERYBODY: return everybody.count();
-				case TREE_BASE_FAVORITE: return TREE_FAVORITE_NUMBER;
+				case TREE_BASE_FAVORITE: return TREE_FAVORITE_NUMBER + userIndexes.size();
 				case TREE_BASE_PROMO: return TREE_PROMO_NUMBER;
 				case TREE_BASE_REZAL: return RzxConfig::rezalNumber();
 			}
@@ -471,6 +500,10 @@ int RzxRezalModel::rowCount(const QModelIndex& index) const
 				case TREE_FAVORITE_FAVORITE: return favorites.count();
 				case TREE_FAVORITE_IGNORED: return ignored.count();
 				case TREE_FAVORITE_NEUTRAL: return neutral.count();
+				default:
+					const int groupId = value - TREE_FAVORITE_FIRSTGROUP;
+					if(groupId >= 0 && groupId < userIndexes.size())
+						return userGroups[groupId].count();
 			}
 			break;
 
@@ -510,7 +543,7 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 	const uint column = index.column();
 	const uint value = index.row();
 	const uint category = index.internalId();
-	int child = rowCount(index);
+	const int child = rowCount(index);
 			
 	switch(category)
 	{
@@ -533,6 +566,10 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 				case TREE_FAVORITE_FAVORITE: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_FAVORITE), tr("Favorites"));
 				case TREE_FAVORITE_IGNORED: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_BAN), tr("Banned"));
 				case TREE_FAVORITE_NEUTRAL: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_NOTFAVORITE), tr("Others..."));
+				default:
+					const int groupId = value - TREE_FAVORITE_FIRSTGROUP;
+					if(groupId >= 0 && groupId < userIndexes.size())
+						return getMenuItem(role, child, RzxUserGroup::group(groupId)->icon(), RzxUserGroup::group(groupId)->name());
 			}
 			break;
 
@@ -952,6 +989,31 @@ void RzxRezalModel::clear()
 		deleteGroup(rezals[i], rezalIndex[i][0]);
 }
 
+///Ajout d'un groupe d'utilisateur à la liste
+void RzxRezalModel::newUserGroup()
+{
+	const int groupId = userGroups.size();
+	insertRows(TREE_FAVORITE_NUMBER + groupId, 1, favoritesGroup[0]);
+	QVector<QPersistentModelIndex> vector(numColonnes);
+	for(int i = 0 ; i < numColonnes ; i++)
+		vector[i] = QAbstractItemModel::createIndex(TREE_FAVORITE_FIRSTGROUP + groupId, i, (int)TREE_FLAG_FAVORITE);
+	userIndexes << vector;
+	userGroups << RzxRezalSearchList();
+	userGroupsByName << RzxRezalSearchTree();
+}
+
+///Suppression d'un groupe d'utilisateur de la liste
+void RzxRezalModel::deleteUserGroup(int groupId)
+{
+	if(groupId < 0 || groupId >= userGroups.size())
+		return;
+
+	beginRemoveRows(favoritesGroup[0], TREE_FAVORITE_FIRSTGROUP + groupId, TREE_FAVORITE_FIRSTGROUP + groupId);
+	userIndexes.removeAt(groupId);
+	userGroups.removeAt(groupId);
+	userGroupsByName.removeAt(groupId);
+	endRemoveRows();
+}
 
 ///Insertion d'un objet dans la liste et le groupe correspondant
 void RzxRezalModel::insertObject(const QModelIndex& parent, RzxRezalSearchList& list, RzxRezalSearchTree& tree, RzxComputer *computer)

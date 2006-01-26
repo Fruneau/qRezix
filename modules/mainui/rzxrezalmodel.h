@@ -57,6 +57,8 @@ typedef class QList< QPointer<RzxComputer> > RzxRezalSearchList;
  * 			- ... (FLAG_FAVORITE_IGNORED | row)
  * 		- Autres (FLAG_FAVORITE | FAVORITE_NEUTRAL)
  * 			- ... (FLAG_FAVORITE_NEUTRAL | row)
+ * 		- Groupes de l'utilisateur (FLAG_FAVORITE | (FAVORITE_FIRSTGROUP + groupId))
+ *				- ... ((FLAG_FAVORITE_FIRSTGROUP + groupId) | row)
  * 	- Par promo (FLAG_BASE | BASE_PROMO)
  * 		- Jônes (FLAG_PROMO | PROMO_JONE)
  * 			- ... (FLAG_PROMO_JONE | row)
@@ -148,6 +150,7 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 		RzxRezalSearchList favorites;
 		RzxRezalSearchList ignored;
 		RzxRezalSearchList neutral;
+		QList<RzxRezalSearchList> userGroups;
 		RzxRezalSearchList jone;
 		RzxRezalSearchList rouje;
 		RzxRezalSearchList oranje;
@@ -157,6 +160,7 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 		RzxRezalSearchTree favoritesByName;
 		RzxRezalSearchTree ignoredByName;
 		RzxRezalSearchTree neutralByName;
+		QList<RzxRezalSearchTree> userGroupsByName;
 		RzxRezalSearchTree joneByName;
 		RzxRezalSearchTree roujeByName;
 		RzxRezalSearchTree oranjeByName;
@@ -183,7 +187,8 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 			TREE_FAVORITE_FAVORITE = 0,
 			TREE_FAVORITE_IGNORED = 1,
 			TREE_FAVORITE_NEUTRAL = 2,
-			TREE_FAVORITE_NUMBER = 3
+			TREE_FAVORITE_FIRSTGROUP = 3,
+			TREE_FAVORITE_NUMBER = 3 //Il y a 3 lignes de base
 		};
 
 		///Identifiants des fils du groupe Promo
@@ -202,6 +207,7 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 			TREE_FLAG_FAVORITE_FAVORITE	= 0x00020001,
 			TREE_FLAG_FAVORITE_IGNORED		= 0x00020002,
 			TREE_FLAG_FAVORITE_NEUTRAL		= 0x00020003,
+			TREE_FLAG_FAVORITE_FIRSTGROUP	= 0x00020004,
 			TREE_FLAG_PROMO 		= 0x00030000, 	/**< Flag permettant d'identifier les objets du groupe Promo */
 			TREE_FLAG_PROMO_JONE		= 0x00030001,
 			TREE_FLAG_PROMO_ROUJE	= 0x00030002,
@@ -236,6 +242,7 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 		QVector<QPersistentModelIndex> everybodyGroup; //fils directs
 		QVector<QPersistentModelIndex> favoritesGroup;
 		QVector<QPersistentModelIndex> favoriteIndex, ignoredIndex, neutralIndex;
+		QList< QVector<QPersistentModelIndex> > userIndexes;
 		QVector<QPersistentModelIndex> promoGroup;
 		QVector<QPersistentModelIndex> joneIndex, roujeIndex, oranjeIndex;
 		QVector<QPersistentModelIndex> rezalGroup;
@@ -273,6 +280,8 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 		virtual void logout(RzxComputer *);
 		virtual void update(RzxComputer *);
 		virtual void clear();
+		virtual void newUserGroup();
+		virtual void deleteUserGroup(int);
 
 	protected:
 		virtual QString tooltip(const RzxComputer *) const;

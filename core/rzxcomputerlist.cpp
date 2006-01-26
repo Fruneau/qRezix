@@ -25,8 +25,8 @@
 /** On défini le type une fois pour toute... ainsi que le QSettings lié
  * et la clé du QSettings à laquelle sont stockées les informations.
  */
-RzxComputerList::RzxComputerList(Type m_type, QSettings *m_settings, const QString &m_key)
-	:settings(m_settings), key(m_key), type(m_type)
+RzxComputerList::RzxComputerList(Type m_type, QSettings *settings, const QString &m_key)
+	:m_settings(settings), key(m_key), type(m_type)
 {
 	read();
 }
@@ -40,16 +40,16 @@ RzxComputerList::~RzxComputerList()
 ///Lecture des données de configuration et intégration de ces données à la liste
 void RzxComputerList::read()
 {
-	if(!settings) return;
+	if(!m_settings) return;
 
-	QStringList confList = settings->value(key).toStringList();
+	QStringList confList = m_settings->value(key).toStringList();
 	if(confList.size() == 1 && confList[0].isEmpty()) return;
 
 	if(type == Name)
 		nameList = confList;
 	else if(type == Address)
 	{
-		nameList = settings->value(key + "_names").toStringList();
+		nameList = m_settings->value(key + "_names").toStringList();
 		for(int i = 0 ; i < confList.size() ; i++)
 			addressList << confList[i];
 
@@ -61,18 +61,24 @@ void RzxComputerList::read()
 ///Ecriture des données de configuration
 void RzxComputerList::write()
 {
-	if(!settings) return;
+	if(!m_settings) return;
 	
 	if(type == Name)
-		settings->setValue(key, nameList);
+		m_settings->setValue(key, nameList);
 	else if(type == Address)
 	{
-		settings->setValue(key + "_names", nameList);
+		m_settings->setValue(key + "_names", nameList);
 		QStringList confList;
 		for(int i = 0 ; i < addressList.size() ; i++)
 			confList << addressList[i].toString();
-		settings->setValue(key, confList);
+		m_settings->setValue(key, confList);
 	}
+}
+
+///Retourne le QSettings de stockage
+QSettings *RzxComputerList::settings() const
+{
+	return m_settings;
 }
 
 ///Ajout d'un élément

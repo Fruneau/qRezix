@@ -18,6 +18,7 @@
 #define RZXCOMPUTERLIST_H
 
 #include <QList>
+#include <QStringList>
 
 #include <RzxHostAddress>
 
@@ -42,7 +43,7 @@ class RZX_CORE_EXPORT RzxComputerList
 	QList<RzxHostAddress> addressList;
 	QStringList nameList;
 
-	QSettings *settings;
+	QSettings *m_settings;
 	QString key;
 
 	protected:
@@ -80,10 +81,14 @@ class RZX_CORE_EXPORT RzxComputerList
 		bool contains(const RzxHostAddress&) const;
 		bool contains(const RzxComputer*) const;
 
+		QSettings *settings() const;
+
 		QStringList names() const;
 		QList<RzxHostAddress> addresses() const;
 		QList<RzxComputer*> computers() const;
 		QStringList humanReadable(bool = false) const;
+
+		operator QList<RzxComputer*>() const;
 };
 
 ///Surcharge de <<, ajout d'un élément par son nom
@@ -126,6 +131,12 @@ inline RzxComputerList& RzxComputerList::operator>>(const RzxComputer* computer)
 {
 	remove(computer);
 	return *this;
+}
+
+///Surcharge de computers()
+inline RzxComputerList::operator QList<RzxComputer*>() const
+{
+	return computers();
 }
 
 #endif
