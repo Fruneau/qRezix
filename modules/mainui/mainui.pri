@@ -29,7 +29,8 @@ HEADERS += $$ROOT/modules/mainui/rzxui.h \
 
 FORMS += $$ROOT/modules/mainui/rzxstatus.ui \
 	$$ROOT/modules/mainui/rzxquit.ui \
-	$$ROOT/modules/mainui/rzxmainuiprop.ui
+	$$ROOT/modules/mainui/rzxmainuiprop.ui \
+	$$ROOT/modules/mainui/rzxgroupsprop.ui		
 
 contains(DEFINES, RZX_RZLVIEW_BUILTIN):include($$ROOT/rezals/view/view.pri)
 contains(DEFINES, RZX_RZLDETAIL_BUILTIN):include($$ROOT/rezals/detail/detail.pri)

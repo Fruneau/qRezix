@@ -257,7 +257,7 @@ QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent)
 				default:
 					const int groupId = value - TREE_FAVORITE_FIRSTGROUP;
 					if(groupId >= 0 && groupId < userIndexes.size())
-						createIndex(row, column, TREE_FLAG_FAVORITE_FIRSTGROUP + groupId, userGroups[groupId]);
+						return createIndex(row, column, TREE_FLAG_FAVORITE_FIRSTGROUP + groupId, userGroups[groupId]);
 			}
 			break;
 
@@ -396,19 +396,23 @@ QModelIndex RzxRezalModel::parent(const QModelIndex& index) const
 	}
 
 	//Cas Particulier : les rezal et les groupes d'utilisateurs définis par l'utilisateur
-	switch((index.internalId() & TREE_FLAG_HARDMASK))
+	switch(index.internalId() & TREE_FLAG_HARDMASK)
 	{
 		case TREE_FLAG_REZAL:
+		{
 			const uint rezal = GET_REZAL_FROM_ID(index.internalId());
 			if(rezal < RzxConfig::rezalNumber())
 				return rezalIndex[rezal][0];
-			break;
+		}
+		break;
 
 		case TREE_FLAG_FAVORITE:
+		{
 			const int groupId = index.internalId() - TREE_FLAG_FAVORITE_FIRSTGROUP;
 			if(groupId >= 0 && groupId < userIndexes.size())
 				return userIndexes[groupId][0];
-			break;
+		}
+		break;
 	}
 
 	return QModelIndex();
@@ -596,11 +600,22 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 		case TREE_FLAG_PROMO_ORANJE: return getComputer(role, oranje, value, column);
 	}
 
-	if((category & TREE_FLAG_HARDMASK) == TREE_FLAG_REZAL)
+	switch(category & TREE_FLAG_HARDMASK)
 	{
-		const uint rezalId = index.parent().row(); //GET_REZAL_FROM_ID(category);
-		if(rezalId < RzxConfig::rezalNumber())
-			return getComputer(role, rezals[rezalId], value, column);
+		case TREE_FLAG_REZAL:
+		{
+			const uint rezalId = index.parent().row(); //GET_REZAL_FROM_ID(category);
+			if(rezalId < RzxConfig::rezalNumber())
+				return getComputer(role, rezals[rezalId], value, column);
+		}
+		break;
+
+		case TREE_FLAG_FAVORITE:
+		{
+			const int groupId = category - TREE_FLAG_FAVORITE_FIRSTGROUP;
+			if(groupId >= 0 && groupId < userGroups.size())
+				return getComputer(role, userGroups[groupId], value, column);
+		}
 	}
 
 	return QString::number(category, 16);
@@ -821,6 +836,14 @@ void RzxRezalModel::login(RzxComputer *computer)
 	else
 		insertObject(neutralIndex[0], neutral, neutralByName, computer);
 
+	//Ajout dans les groupes personnalisés
+	const int groupNumber = RzxUserGroup::groupNumber();
+	for(int i = 0 ; i < groupNumber ; i++)
+	{
+		if(RzxUserGroup::group(i)->contains(computer))
+			insertObject(userIndexes[i][0], userGroups[i], userGroupsByName[i], computer);
+	}
+
 	//Promo
 	switch(computer->promo())
 	{
@@ -856,6 +879,10 @@ void RzxRezalModel::logout(RzxComputer *computer)
 		removeObject(ignoredIndex[0], ignored, ignoredByName, computer);
 	else
 		removeObject(neutralIndex[0], neutral, neutralByName, computer);
+
+	//Suppression des groupes personnalisés
+	for(int i = 0 ; i < userGroups.size() ; i++)
+		removeObject(userIndexes[i][0], userGroups[i], userGroupsByName[i], computer);
 
 	//Promo
 	switch(computer->promo())
@@ -917,6 +944,20 @@ void RzxRezalModel::update(RzxComputer *computer)
 		}
 		else
 			updateObject(neutralIndex[0], neutral, computer);
+	}
+
+	//Test avec les groupes personnalisés
+	const int groupNumber = RzxUserGroup::groupNumber();
+	for(int i = 0 ; i < groupNumber ; i++)
+	{
+		const RzxUserGroup *group = RzxUserGroup::group(i);
+		if(group->contains(computer))
+		{
+			if(userGroups[i].contains(computer)) updateObject(userIndexes[i][0], userGroups[0], computer);
+			else insertObject(neutralIndex[0], neutral, neutralByName, computer);
+		}
+		else if(userGroups[i].contains(computer))
+			removeObject(neutralIndex[0], neutral, neutralByName, computer);
 	}
 
 	//Promo

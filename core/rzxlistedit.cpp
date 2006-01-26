@@ -16,6 +16,7 @@
  ***************************************************************************/
 #include <RzxIconCollection>
 #include <RzxComputerList>
+#include <RzxConnectionLister>
 
 #include <RzxListEdit>
 
@@ -78,10 +79,20 @@ void RzxListEdit::add()
 {
 	QString text = ui->editNew->text();
 	if(!list || text.isEmpty()) return;
+	RzxComputer *computer = NULL;
 	if(text.contains("."))
+	{
 		list->add(RzxHostAddress(text));
+		computer = RzxConnectionLister::global()->getComputerByIP(text);
+	}
 	else
+	{
 		list->add(text);
+		computer = RzxConnectionLister::global()->getComputerByName(text);
+	}
+	if(computer)
+		emit added(computer);
+
 	ui->editNew->clear();
 	refresh();
 }
@@ -91,7 +102,12 @@ void RzxListEdit::remove()
 {
 	int i = ui->list->currentRow();
 	if(list)
+	{
+		RzxComputer *computer = RzxConnectionLister::global()->getComputerByName(ui->list->currentItem()->text());
 		list->remove(i);
+		if(computer)
+			emit deleted(computer);
+	}
 	refresh();
 }
 

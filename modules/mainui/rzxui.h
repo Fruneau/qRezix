@@ -39,7 +39,11 @@ class QPainter;
 class QComboBox;
 class QColor;
 class QRezix;
-namespace Ui { class RzxMainuiProp; }
+namespace Ui
+{
+	class RzxMainuiProp;
+	class RzxGroupsProp;
+}
 
 ///Interface de module pour l'interface principale de qRezix
 /** Cette classe existe parce que le double héritage par QObjet
@@ -53,7 +57,9 @@ class RZX_MAINUI_EXPORT RzxUi:public RzxModule
 	QPixmap corners;
 
 	Ui::RzxMainuiProp *ui;
+	Ui::RzxGroupsProp *groupsUi;
 	QWidget *propWidget;
+	QWidget *groupsWidget;
 
 	public:
 		RzxUi();
@@ -80,6 +86,12 @@ class RZX_MAINUI_EXPORT RzxUi:public RzxModule
 		void reload();
 
 	protected slots:
+		void fillGroupsBox();
+		void addGroup();
+		void deleteGroup();
+		void newGroupEdited();
+		void fillMemberBox();
+
 		void fillComboBoxes();
 		void redrawCorners();
 		void drawCorner(QPainter &, QComboBox *, int, int);

@@ -41,6 +41,7 @@ RZX_MODULE_EXPORT(RzxUi)
 #include "rzxrezalmodel.h"
 #include "rzxmainuiconfig.h"
 #include "ui_rzxmainuiprop.h"
+#include "ui_rzxgroupsprop.h"
 
 ///Initialise la configuration
 RZX_CONFIG_INIT(RzxMainUIConfig)
@@ -52,7 +53,8 @@ RzxUi::RzxUi()
 	beginLoading();
 	setType(MOD_MAINGUI);
 	ui = NULL;
-	propWidget = NULL;
+	groupsUi = NULL;
+	groupsWidget = propWidget = NULL;
 	RzxUserGroup::loadGroups(new RzxMainUIConfig(this));
 	qrezix = QRezix::global();
 	connect(qrezix, SIGNAL(wantQuit()), this, SIGNAL(wantQuit()));
@@ -132,13 +134,26 @@ QList<QWidget*> RzxUi::propWidgets()
 		connect(ui->cbBottomRight, SIGNAL(activated(int)), this, SLOT(redrawCorners()));
 		fillComboBoxes();
 	}
-	return QList<QWidget*>() << propWidget;
+	if(!groupsUi)
+		groupsUi = new Ui::RzxGroupsProp;
+	if(!groupsWidget)
+	{
+		groupsWidget = new QWidget;
+		groupsUi->setupUi(groupsWidget);
+		connect(groupsUi->btnAdd, SIGNAL(clicked()), this, SLOT(addGroup()));
+		connect(groupsUi->btnDelete, SIGNAL(clicked()), this, SLOT(deleteGroup()));
+		connect(groupsUi->lstGroups, SIGNAL(itemSelectionChanged()), this, SLOT(fillMemberBox()));
+		connect(groupsUi->newGroup, SIGNAL(textChanged(const QString&)), this, SLOT(newGroupEdited()));
+		connect(groupsUi->lstMembers, SIGNAL(added(RzxComputer*)), RzxRezalModel::global(), SLOT(update(RzxComputer*)));
+		connect(groupsUi->lstMembers, SIGNAL(deleted(RzxComputer*)), RzxRezalModel::global(), SLOT(update(RzxComputer*)));
+	}
+	return QList<QWidget*>() << propWidget << groupsWidget;
 }
 
 /** \reimp */
 QStringList RzxUi::propWidgetsName()
 {
-	return QStringList() << name();
+	return QStringList() << name() << tr("User groups");
 }
 
 /** \reimp */
@@ -176,6 +191,7 @@ void RzxUi::propInit(bool def)
 	ui->cbTopRight->setCurrentIndex(RzxMainUIConfig::topRightCorner() == Qt::RightDockWidgetArea ? 1 : 0);
 	ui->cbBottomRight->setCurrentIndex(RzxMainUIConfig::bottomRightCorner() == Qt::RightDockWidgetArea ? 1 : 0);
 	redrawCorners();
+	fillGroupsBox();
 }
 
 ///Construit les combos box
@@ -264,6 +280,63 @@ void RzxUi::drawRect(QPainter &painter, const QColor& color, int x, int y, int w
 	painter.setBrush(brush);
 	painter.setPen(pen);
 	painter.drawRect(x, y, w, h);
+}
+
+///Rempli la liste des groupes existants
+void RzxUi::fillGroupsBox()
+{
+	groupsUi->lstGroups->clear();
+	const int groupNumber = RzxUserGroup::groupNumber();
+	for(int i = 0 ; i < groupNumber ; i++)
+	{
+		QListWidgetItem *item = new QListWidgetItem(groupsUi->lstGroups);
+		const RzxUserGroup *group = RzxUserGroup::group(i);
+		item->setText(group->name());
+		item->setIcon(group->icon());
+	}
+	groupsUi->lstMembers->setList(NULL);
+}
+
+///On a appuyé sur add ==> on ajoute un groupe
+void RzxUi::addGroup()
+{
+	new RzxUserGroup("chat", groupsUi->newGroup->text());
+	RzxRezalModel::global()->newUserGroup();
+	fillGroupsBox();
+}
+
+///On a décidé de supprimer un groupe :(
+void RzxUi::deleteGroup()
+{
+	const int groupId = groupsUi->lstGroups->currentRow();
+	RzxRezalModel::global()->deleteUserGroup(groupId);
+	RzxUserGroup::deleteGroup(groupId);
+	fillGroupsBox();
+}
+
+///Le texte de la zone d'édition a changé...
+/** On active le bouton 'add' a condition que le texte soit non vide,
+ * commence par un caractère raisonnable, et n'existe pas encore
+ * dans la liste des groups
+ */
+void RzxUi::newGroupEdited()
+{
+	const QString text = groupsUi->newGroup->text().simplified();
+	groupsUi->btnAdd->setDisabled(text.isEmpty() || groupsUi->lstGroups->findItems(text, Qt::MatchExactly).size());
+}
+
+///Mets à jour la liste des membres
+void RzxUi::fillMemberBox()
+{
+	const int groupId = groupsUi->lstGroups->currentRow();
+	if(groupId == -1)
+	{
+		groupsUi->btnDelete->setEnabled(false);
+		groupsUi->lstMembers->setList(NULL);
+		return;
+	}
+	groupsUi->btnDelete->setEnabled(true);
+	groupsUi->lstMembers->setList(RzxUserGroup::group(groupId));
 }
 
 /** \reimp */

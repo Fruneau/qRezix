@@ -66,7 +66,7 @@ void RzxUserGroup::loadGroups(QSettings *settings)
 	const QStringList keys = settings->childKeys();
 	foreach(QString key, keys)
 	{
-		if(key.right(6) == "group-")
+		if(key.left(6) == "group-")
 		{
 			const QString name = key.mid(6);
 			new RzxUserGroup(settings->value("groupicon-"+name).toString(), name);

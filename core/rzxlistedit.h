@@ -24,6 +24,7 @@
  */
 
 class RzxComputerList;
+class RzxComputer;
 namespace Ui { class RzxListEdit; }
 
 ///Fenêtre d'édition des listes d'ordinateurs
@@ -56,6 +57,10 @@ class RzxListEdit: public QWidget
 		void remove();
 		void edited(const QString&);
 		void selectionChanged(int);
+
+	signals:
+		void added(RzxComputer*);
+		void deleted(RzxComputer*);
 };
 
 #endif
