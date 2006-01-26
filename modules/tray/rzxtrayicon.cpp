@@ -951,7 +951,7 @@ void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 	pix.fill(QColor(0,0,0,0));
 	QPainter painter(&pix);
 	int dim = RzxTrayConfig::traySize();
-	if(RzxTrayConfig::autoScale())
+	if(RzxTrayConfig::autoScale() || dim == -1)
 		dim = qMin(width(), height()) - 2;
 	painter.drawPixmap((width() - dim) / 2, (height() - dim)/2,
 		 pm.scaled( dim, dim, Qt::IgnoreAspectRatio, Qt::SmoothTransformation ));
@@ -1235,7 +1235,13 @@ void RzxTrayIcon::changePropTheme()
 void RzxTrayIcon::propInit(bool def)
 {
 	ui->cbAutoScale->setChecked(RzxTrayConfig::autoScale());
-	ui->sbTraySize->setValue(RzxTrayConfig::traySize(def));
+	int size = RzxTrayConfig::traySize(def);
+	if(size == -1)
+	{
+		size = 22;
+		if(d) size = qMin(d->width(), d->height()) - 2;
+	}
+	ui->sbTraySize->setValue(size);
 
 	RzxTrayConfig::QuickActions actions = (RzxTrayConfig::QuickAction)RzxTrayConfig::quickActions();
 	ui->cbQuickChat->setChecked(actions & RzxTrayConfig::Chat);
@@ -1259,11 +1265,10 @@ void RzxTrayIcon::propUpdate()
 		RzxTrayConfig::setAutoScale(ui->cbAutoScale->isChecked());
 		changeTrayIcon();
 	}
-	if(ui->sbTraySize->value() != RzxTrayConfig::traySize())
+	if(ui->sbTraySize->value() != RzxTrayConfig::traySize() && !RzxTrayConfig::autoScale())
 	{
 		RzxTrayConfig::setTraySize(ui->sbTraySize->value());
-		if(!RzxTrayConfig::autoScale())
-			changeTrayIcon();
+		changeTrayIcon();
 	}
 
 	RzxTrayConfig::QuickActions actions;

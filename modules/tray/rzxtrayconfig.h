@@ -43,7 +43,7 @@ class RzxTrayConfig:public RzxAbstractConfig
 	Q_DECLARE_FLAGS(QuickActions, QuickAction)
 
 	public:
-		RZX_INTPROP("traysize", traySize, setTraySize, 22)
+		RZX_INTPROP("traysize", traySize, setTraySize, -1)
 		RZX_BOOLPROP("autoscale", autoScale, setAutoScale, true)
 		RZX_INTPROP("quickAction", quickActions, setQuickActions, Ftp | Http | Mail)
 };
