@@ -953,11 +953,11 @@ void RzxRezalModel::update(RzxComputer *computer)
 		const RzxUserGroup *group = RzxUserGroup::group(i);
 		if(group->contains(computer))
 		{
-			if(userGroups[i].contains(computer)) updateObject(userIndexes[i][0], userGroups[0], computer);
-			else insertObject(neutralIndex[0], neutral, neutralByName, computer);
+			if(userGroups[i].contains(computer)) updateObject(userIndexes[i][0], userGroups[i], computer);
+			else insertObject(userIndexes[i][0], userGroups[i], userGroupsByName[i], computer);
 		}
 		else if(userGroups[i].contains(computer))
-			removeObject(neutralIndex[0], neutral, neutralByName, computer);
+			removeObject(userIndexes[i][0], userGroups[i], userGroupsByName[i], computer);
 	}
 
 	//Promo
