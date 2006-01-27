@@ -1185,6 +1185,8 @@ void RzxRezalModel::sort(int column, Qt::SortOrder sortSens)
 	sortList(oranje, oranjeIndex[0]);
 	for(uint i=0 ; i < RzxConfig::rezalNumber() ; i++)
 		sortList(rezals[i], rezalIndex[i][0]);
+	for(int i = 0 ; i < RzxUserGroup::groupNumber() ; i++)
+		sortList(userGroups[i], userIndexes[i][0]);
 #undef sortList
 }
 
