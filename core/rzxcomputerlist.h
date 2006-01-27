@@ -86,7 +86,7 @@ class RZX_CORE_EXPORT RzxComputerList
 		QStringList names() const;
 		QList<RzxHostAddress> addresses() const;
 		QList<RzxComputer*> computers() const;
-		QStringList humanReadable(bool = false) const;
+		QStringList humanReadable() const;
 
 		operator QList<RzxComputer*>() const;
 };

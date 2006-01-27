@@ -64,14 +64,16 @@ void RzxListEdit::refresh()
 {
 	ui->list->clear();
 	if(!list) return;
-	QStringList lst = list->humanReadable(true);
+	QStringList lst = list->humanReadable();
 	foreach(QString name, lst)
 	{
-		if(name.size() >= 3 && name.right(3) == "(*)")
-			new QListWidgetItem(RzxIconCollection::getIcon(Rzx::ICON_AWAY), name.left(name.size() - 3), ui->list);
+		const RzxComputer *computer = RzxConnectionLister::global()->getComputerByName(name);
+		if(!computer)
+			new QListWidgetItem(RzxIconCollection::getIcon(Rzx::ICON_AWAY), name, ui->list);
 		else
-			new QListWidgetItem(RzxIconCollection::getIcon(Rzx::ICON_HERE), name, ui->list);
+			new QListWidgetItem(computer->icon(), name, ui->list);
 	}
+	ui->list->sortItems();
 }
 
 ///Ajoute l'élément en cours d'édition à la liste

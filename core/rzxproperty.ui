@@ -656,6 +656,9 @@
             <property name="text" >
              <string>Delete</string>
             </property>
+            <property name="toolButtonStyle" >
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
             <property name="autoRaise" >
              <bool>true</bool>
             </property>
@@ -1472,9 +1475,9 @@
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>RzxNetworkLoaderProp</class>
+   <class>RzxModuleLoaderProp</class>
    <extends>QWidget</extends>
-   <header>rzxnetwork.h</header>
+   <header>rzxmodule.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -1486,9 +1489,9 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>RzxModuleLoaderProp</class>
+   <class>RzxNetworkLoaderProp</class>
    <extends>QWidget</extends>
-   <header>rzxmodule.h</header>
+   <header>rzxnetwork.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
