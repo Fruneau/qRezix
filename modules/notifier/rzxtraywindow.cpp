@@ -92,7 +92,8 @@ void RzxTrayWindow::niceTheme()
 	{
 		case Rzx::STATE_DISCONNECTED:
 			symbolPixmap = QPixmap(":/notifier_quit.png");
-			px = 0; py = 30;
+			px = 28; py = 46;
+			scale = 48;
 			break;
 		case Rzx::STATE_AWAY: case Rzx::STATE_REFUSE:
 			symbolPixmap = QPixmap(":/notifier_away.png");
