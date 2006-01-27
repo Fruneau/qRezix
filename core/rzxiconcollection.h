@@ -127,6 +127,7 @@ class RZX_CORE_EXPORT RzxIconCollection: public QObject
 		static QIcon getOnOffIcon();
 		static QIcon getFavoriteIcon();
 		static QIcon getBanIcon();
+		static QString getIconName(Rzx::Icon);
 
 		static bool connect(const QObject * receiver, const char * method, Qt::ConnectionType type = Qt::AutoCompatConnection);
 		static bool disconnect(const QObject * receiver);

@@ -293,6 +293,12 @@ QIcon RzxIconCollection::icon(const QString& icon)
 	return QIcon(pixmap(icon));
 }
 
+///Retourne le nom de l'icône
+QString RzxIconCollection::getIconName(Rzx::Icon icon)
+{
+	return data[icon].filename;
+}
+
 ///Récupération des icônes des OS
 const QPixmap &RzxIconCollection::osPixmap(Rzx::SysEx sysex, bool large)
 {

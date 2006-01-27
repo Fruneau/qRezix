@@ -132,7 +132,6 @@ QList<QWidget*> RzxUi::propWidgets()
 		connect(ui->cbBottomLeft, SIGNAL(activated(int)), this, SLOT(redrawCorners()));
 		connect(ui->cbTopRight, SIGNAL(activated(int)), this, SLOT(redrawCorners()));
 		connect(ui->cbBottomRight, SIGNAL(activated(int)), this, SLOT(redrawCorners()));
-		fillComboBoxes();
 	}
 	if(!groupsUi)
 		groupsUi = new Ui::RzxGroupsProp;
@@ -147,6 +146,7 @@ QList<QWidget*> RzxUi::propWidgets()
 		connect(groupsUi->lstMembers, SIGNAL(added(RzxComputer*)), RzxRezalModel::global(), SLOT(update(RzxComputer*)));
 		connect(groupsUi->lstMembers, SIGNAL(deleted(RzxComputer*)), RzxRezalModel::global(), SLOT(update(RzxComputer*)));
 	}
+	fillComboBoxes();
 	return QList<QWidget*>() << propWidget << groupsWidget;
 }
 
@@ -197,6 +197,21 @@ void RzxUi::propInit(bool def)
 ///Construit les combos box
 void RzxUi::fillComboBoxes()
 {
+	if(groupsUi && groupsWidget)
+	{
+		groupsUi->btnDelete->setIcon(RzxIconCollection::getIcon(Rzx::ICON_UNLOAD));
+		groupsUi->btnAdd->setIcon(RzxIconCollection::getIcon(Rzx::ICON_LOAD));
+		fillGroupsBox();
+
+		groupsUi->cbIcon->clear();
+		for(int i = 0 ; i < Rzx::ICON_NUMBER ; i++)
+		{
+			const QIcon icon = RzxIconCollection::getIcon((Rzx::Icon)i);
+			if(!icon.isNull())
+				groupsUi->cbIcon->addItem(icon, " ", RzxIconCollection::getIconName((Rzx::Icon)i));
+		}
+		groupsUi->cbIcon->setCurrentIndex(groupsUi->cbIcon->findData("favorite"));
+	}
 	if(!ui || !propWidget) return;
 
 	int i;
@@ -293,22 +308,36 @@ void RzxUi::fillGroupsBox()
 		const RzxUserGroup *group = RzxUserGroup::group(i);
 		item->setText(group->name());
 		item->setIcon(group->icon());
+		item->setData(Qt::UserRole, i);
 	}
+	groupsUi->lstGroups->sortItems();
 	groupsUi->lstMembers->setList(NULL);
 }
 
 ///On a appuyé sur add ==> on ajoute un groupe
 void RzxUi::addGroup()
 {
-	new RzxUserGroup("chat", groupsUi->newGroup->text());
-	RzxRezalModel::global()->newUserGroup();
+	const QString icon = groupsUi->cbIcon->itemData(groupsUi->cbIcon->currentIndex()).toString();
+	const QString name = groupsUi->newGroup->text().simplified();
+	const QList<QListWidgetItem*> list = groupsUi->lstGroups->findItems(name, Qt::MatchExactly);
+	if(list.isEmpty())
+	{
+		new RzxUserGroup(icon, groupsUi->newGroup->text());
+		RzxRezalModel::global()->newUserGroup();
+		groupsUi->newGroup->clear();
+	}
+	else
+	{
+		const int groupId = list[0]->data(Qt::UserRole).toInt();
+		RzxUserGroup::group(groupId)->setIcon(icon);
+	}
 	fillGroupsBox();
 }
 
 ///On a décidé de supprimer un groupe :(
 void RzxUi::deleteGroup()
 {
-	const int groupId = groupsUi->lstGroups->currentRow();
+	const int groupId = groupsUi->lstGroups->currentItem()->data(Qt::UserRole).toInt();;
 	RzxRezalModel::global()->deleteUserGroup(groupId);
 	RzxUserGroup::deleteGroup(groupId);
 	fillGroupsBox();
@@ -322,23 +351,26 @@ void RzxUi::deleteGroup()
 void RzxUi::newGroupEdited()
 {
 	const QString text = groupsUi->newGroup->text().simplified();
-	groupsUi->btnAdd->setDisabled(text.isEmpty() || groupsUi->lstGroups->findItems(text, Qt::MatchExactly).size());
+	groupsUi->btnAdd->setDisabled(text.isEmpty());
 }
 
 ///Mets à jour la liste des membres
 void RzxUi::fillMemberBox()
 {
-	const int groupId = groupsUi->lstGroups->currentRow();
-	if(groupId == -1)
+	if(!groupsUi->lstGroups->currentItem())
 	{
 		groupsUi->btnDelete->setEnabled(false);
 		groupsUi->lstMembers->setList(NULL);
 		groupsUi->lstMembers->setEnabled(false);
 		return;
 	}
+
+	const int groupId = groupsUi->lstGroups->currentItem()->data(Qt::UserRole).toInt();
 	groupsUi->btnDelete->setEnabled(true);
 	groupsUi->lstMembers->setEnabled(true);
 	groupsUi->lstMembers->setList(RzxUserGroup::group(groupId));
+	if(groupsUi->newGroup->text().isEmpty())
+		groupsUi->newGroup->setText(groupsUi->lstGroups->currentItem()->text());
 }
 
 /** \reimp */

@@ -46,6 +46,33 @@
     </message>
 </context>
 <context>
+    <name>RzxGroupsProp</name>
+    <message>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>My Groups</source>
+        <translation>Mes Groupes</translation>
+    </message>
+    <message>
+        <source>Group List</source>
+        <translation>Liste des Groupes</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Supprimer</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Ajouter</translation>
+    </message>
+    <message>
+        <source>Group Members</source>
+        <translation>Membres du Groupe</translation>
+    </message>
+</context>
+<context>
     <name>RzxItem</name>
     <message>
         <source>Form</source>
@@ -610,6 +637,10 @@
     <message>
         <source>Send a Mail</source>
         <translation>Envoyer un Mail</translation>
+    </message>
+    <message>
+        <source>User groups</source>
+        <translation>Groupes</translation>
     </message>
 </context>
 </TS>
