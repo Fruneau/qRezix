@@ -41,8 +41,9 @@ class RzxTrayWindow: public QFrame
 {
 	Q_OBJECT
 	
-	QTimer timer;
+	int time;
 	QPointer<RzxComputer> computer;
+	QPointer<QWidget> active;
 	
 	public:
 		enum Theme {
@@ -60,7 +61,10 @@ class RzxTrayWindow: public QFrame
 		void oldTheme();
 
 	protected slots:
+		void giveFocus();
+		void tryToShow();
 		virtual void mousePressEvent(QMouseEvent*);
+		virtual bool event(QEvent *);
 };
 
 #endif

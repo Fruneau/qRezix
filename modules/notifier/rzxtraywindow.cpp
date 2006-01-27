@@ -34,8 +34,8 @@
 
 ///Construction de la fenêtre de notification d'état de connexion de computer
 /** La fenêtre est construite pour disparaître automatiquement au bout de time secondes */
-RzxTrayWindow::RzxTrayWindow(Theme theme, RzxComputer* c, unsigned int time )
-		: QFrame( NULL, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint ), computer(c)
+RzxTrayWindow::RzxTrayWindow(Theme theme, RzxComputer* c, unsigned int m_time )
+		: QFrame( NULL, Qt::SubWindow | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint ), time(m_time), computer(c)
 {
 	setAttribute( Qt::WA_DeleteOnClose );
 	setAttribute( Qt::WA_QuitOnClose,false);
@@ -49,13 +49,7 @@ RzxTrayWindow::RzxTrayWindow(Theme theme, RzxComputer* c, unsigned int time )
 	}
 
 	//Affichage
-	setFocusPolicy( Qt::NoFocus );
-	show();
-
-	//Timer pour déclencher la destruction de le fenêtre
-	connect( &timer, SIGNAL( timeout() ), this, SLOT( close() ) );
-	timer.setSingleShot(true);
-	timer.start( time * 1000 );
+	tryToShow();
 }
 
 ///Destruction de la fenêtre
@@ -63,6 +57,31 @@ RzxTrayWindow::RzxTrayWindow(Theme theme, RzxComputer* c, unsigned int time )
 RzxTrayWindow::~RzxTrayWindow()
 {}
 
+
+///Tente d'afficher la fenêtre de notification si elle ne risque pas de gêner
+void RzxTrayWindow::tryToShow()
+{
+	if(QApplication::activePopupWidget())
+	{
+		QTimer::singleShot(500, this, SLOT(tryToShow()));
+		return;
+	}
+	active = QApplication::activeWindow();
+	show();
+
+	//Timer pour déclencher la destruction de le fenêtre
+	QTimer::singleShot(time * 1000, this, SLOT(close()));
+
+	//Timer pour rendre le focus à la fenêtre qui l'avait avant
+	QTimer::singleShot(10, this, SLOT(giveFocus()));
+}
+
+///Rend le focus à le fenêtre qui l'avait auparavant
+void RzxTrayWindow::giveFocus()
+{
+	if(active)
+		active->activateWindow();
+}
 
 ///Compose une fenêtre de notification dans le style 'nice'
 void RzxTrayWindow::niceTheme()
@@ -210,11 +229,22 @@ void RzxTrayWindow::mousePressEvent(QMouseEvent *e)
 				computer->chat();
 
 		case Qt::LeftButton:
-			timer.stop();
 			close();
 			break;
 
 		default:
-			QWidget::mousePressEvent(e);
+			QFrame::mousePressEvent(e);
 	}
+}
+
+///Pour que la fenêtre de notification ne garde jamais le focus
+bool RzxTrayWindow::event(QEvent *e)
+{
+	if(e->type() == QEvent::ActivationChange && isActiveWindow())
+	{
+		QTimer::singleShot(10, this, SLOT(giveFocus()));
+		return true;
+	}
+	else
+		return QFrame::event(e);
 }
