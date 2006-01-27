@@ -112,31 +112,35 @@ RzxRezalModel::RzxRezalModel()
 	for(int i = 0 ; i < numColonnes ; i++)
 	{
 		//Base de l'arbre
-		if(!i) insertRows(0, TREE_BASE_NUMBER);
+		if(!i) beginInsertRows(QModelIndex(), 0, TREE_BASE_NUMBER - 1);
 		everybodyGroup[i] = QAbstractItemModel::createIndex(TREE_BASE_EVERYBODY, i, (int)TREE_FLAG_BASE);
 		favoritesGroup[i] = QAbstractItemModel::createIndex(TREE_BASE_FAVORITE, i, (int)TREE_FLAG_BASE);
 		promoGroup[i] = QAbstractItemModel::createIndex(TREE_BASE_PROMO, i, (int)TREE_FLAG_BASE);
 		rezalGroup[i] = QAbstractItemModel::createIndex(TREE_BASE_REZAL, i, (int)TREE_FLAG_BASE);
+		if(!i) endInsertRows();
 
 		//Arborescence favoris/ignoré
-		if(!i) insertRows(0, TREE_FAVORITE_NUMBER, favoritesGroup[0]);
+		if(!i) beginInsertRows(favoritesGroup[0], 0, TREE_FAVORITE_NUMBER - 1);
 		favoriteIndex[i] = QAbstractItemModel::createIndex(TREE_FAVORITE_FAVORITE, i, (int)TREE_FLAG_FAVORITE);
 		ignoredIndex[i] = QAbstractItemModel::createIndex(TREE_FAVORITE_IGNORED, i, (int)TREE_FLAG_FAVORITE);
 		neutralIndex[i] = QAbstractItemModel::createIndex(TREE_FAVORITE_NEUTRAL, i, (int)TREE_FLAG_FAVORITE);
+		if(!i) endInsertRows();
 
 		//Arborescence par promo
-		if(!i) insertRows(0, TREE_PROMO_NUMBER, promoGroup[0]);
+		if(!i) beginInsertRows(promoGroup[0], 0, TREE_PROMO_NUMBER - 1);
 		joneIndex[i] = QAbstractItemModel::createIndex(TREE_PROMO_JONE, i, (int)TREE_FLAG_PROMO);
 		roujeIndex[i] = QAbstractItemModel::createIndex(TREE_PROMO_ROUJE, i, (int)TREE_FLAG_PROMO);
 		oranjeIndex[i] = QAbstractItemModel::createIndex(TREE_PROMO_ORANJE, i, (int)TREE_FLAG_PROMO);
+		if(!i) endInsertRows();
 	
 		//Arborescence par rezal
-		if(!i) insertRows(0, RzxConfig::rezalNumber(), rezalGroup[0]);
+		if(!i) beginInsertRows(rezalGroup[0], 0, RzxConfig::rezalNumber() - 1);
 		for(uint j = 0 ; j < RzxConfig::rezalNumber() ; j++)
 		{
 			if(!i) rezalIndex[j].resize(numColonnes);
 			rezalIndex[j][i] = QAbstractItemModel::createIndex(j, i, (int)TREE_FLAG_REZAL);
 		}
+		if(!i) endInsertRows();
 	}
 
 	//Intégration de la liste des groups d'utilisateurs définis
@@ -621,6 +625,30 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 	return QString::number(category, 16);
 }
 
+///Extrait le numéro du groupe personnalisé auquel appartient l'index indiqué
+int RzxRezalModel::groupId(const QModelIndex& index) const
+{
+	if(!index.isValid())
+		return -1;
+
+	const uint value = index.row();
+	const uint category = index.internalId();
+	if(category == TREE_FLAG_FAVORITE)
+	{
+		const int groupId = value - TREE_FAVORITE_FIRSTGROUP;
+		if(groupId >= 0 && groupId < userIndexes.size())
+			return groupId;
+	}
+
+	if((category & TREE_FLAG_HARDMASK) == TREE_FLAG_FAVORITE)
+	{
+		const int groupId = category - TREE_FLAG_FAVORITE_FIRSTGROUP;
+		if(groupId >= 0 && groupId < userIndexes.size())
+			return groupId;
+	}
+	return -1;
+}
+
 ///Extraction du computer
 /** L'extraction se fait après vérification des indexes... c'est d'ailleurs le seul intérêt de cette fonction ;)
  */
@@ -882,7 +910,8 @@ void RzxRezalModel::logout(RzxComputer *computer)
 
 	//Suppression des groupes personnalisés
 	for(int i = 0 ; i < userGroups.size() ; i++)
-		removeObject(userIndexes[i][0], userGroups[i], userGroupsByName[i], computer);
+		if(userGroups[i].contains(computer))
+			removeObject(userIndexes[i][0], userGroups[i], userGroupsByName[i], computer);
 
 	//Promo
 	switch(computer->promo())
@@ -1034,13 +1063,14 @@ void RzxRezalModel::clear()
 void RzxRezalModel::newUserGroup()
 {
 	const int groupId = userGroups.size();
-	insertRows(TREE_FAVORITE_NUMBER + groupId, 1, favoritesGroup[0]);
+	beginInsertRows(favoritesGroup[0], TREE_FAVORITE_NUMBER + groupId, TREE_FAVORITE_NUMBER + groupId);
 	QVector<QPersistentModelIndex> vector(numColonnes);
 	for(int i = 0 ; i < numColonnes ; i++)
 		vector[i] = QAbstractItemModel::createIndex(TREE_FAVORITE_FIRSTGROUP + groupId, i, (int)TREE_FLAG_FAVORITE);
 	userIndexes << vector;
 	userGroups << RzxRezalSearchList();
 	userGroupsByName << RzxRezalSearchTree();
+	endInsertRows();
 }
 
 ///Suppression d'un groupe d'utilisateur de la liste
@@ -1049,11 +1079,11 @@ void RzxRezalModel::deleteUserGroup(int groupId)
 	if(groupId < 0 || groupId >= userGroups.size())
 		return;
 
-	beginRemoveRows(favoritesGroup[0], TREE_FAVORITE_FIRSTGROUP + groupId, TREE_FAVORITE_FIRSTGROUP + groupId);
+//	beginRemoveRows(favoritesGroup[0], TREE_FAVORITE_FIRSTGROUP + groupId, TREE_FAVORITE_FIRSTGROUP + groupId);
 	userIndexes.removeAt(groupId);
 	userGroups.removeAt(groupId);
 	userGroupsByName.removeAt(groupId);
-	endRemoveRows();
+//	endRemoveRows();
 }
 
 ///Insertion d'un objet dans la liste et le groupe correspondant

@@ -23,6 +23,7 @@
 #include <RzxComputer>
 #include <RzxConnectionLister>
 #include <RzxRezalModel>
+#include <RzxUserGroup>
 
 #include <RzxRezalDrag>
 
@@ -94,9 +95,7 @@ RzxComputer *RzxRezalDrag::dragEvent(QDropEvent *e, const QModelIndex& index)
 {
 	const QModelIndex model = index.parent();
 
-	if(model == RzxRezalModel::global()->favoriteIndex[0] ||
-		model == RzxRezalModel::global()->ignoredIndex[0] ||
-		model == RzxRezalModel::global()->neutralIndex[0] ||
+	if(model.parent() == RzxRezalModel::global()->favoritesGroup[0] ||
 		model == RzxRezalModel::global()->favoritesGroup[0] || 
 		model == RzxRezalModel::global()->everybodyGroup[0] ||
 		index == RzxRezalModel::global()->everybodyGroup[0])
@@ -112,6 +111,7 @@ void RzxRezalDrag::dropEvent(QDropEvent *e, const QModelIndex& index)
 	const QModelIndex neutral = RzxRezalModel::global()->neutralIndex[0];
 	const QModelIndex ignored = RzxRezalModel::global()->ignoredIndex[0];
 	const QModelIndex everybody = RzxRezalModel::global()->everybodyGroup[0];
+	const QModelIndex favoritesGroup = RzxRezalModel::global()->favoritesGroup[0];
 	RzxComputer *computer = dragEvent(e);
 
 	if(!computer) return;
@@ -121,16 +121,25 @@ void RzxRezalDrag::dropEvent(QDropEvent *e, const QModelIndex& index)
 		computer->unban();
 		computer->addToFavorites();
 	}
-	if(parent == ignored || index == ignored)
+	else if(parent == ignored || index == ignored)
 	{
 		e->acceptProposedAction();
 		computer->removeFromFavorites();
 		computer->ban();
 	}
-	if(parent == neutral || index == neutral || parent == everybody || index == everybody)
+	else if(parent == neutral || index == neutral || parent == everybody || index == everybody)
 	{
 		e->acceptProposedAction();
 		computer->unban();
 		computer->removeFromFavorites();
+	}
+	else if(parent == favoritesGroup || parent.parent() == favoritesGroup)
+	{
+		const int groupId = RzxRezalModel::global()->groupId(index);
+		if(groupId != -1)
+		{
+			RzxUserGroup::group(groupId)->add(computer);
+			computer->emitUpdate();
+		}
 	}
 }

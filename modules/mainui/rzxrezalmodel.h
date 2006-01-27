@@ -265,6 +265,7 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 
 		virtual bool hasChildren(const QModelIndex&) const;
 		virtual QVariant data(const QModelIndex&, int) const;
+		virtual int groupId(const QModelIndex&) const;
 
 		virtual QModelIndexList selected(const QModelIndex&) const;
 

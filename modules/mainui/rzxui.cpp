@@ -333,9 +333,11 @@ void RzxUi::fillMemberBox()
 	{
 		groupsUi->btnDelete->setEnabled(false);
 		groupsUi->lstMembers->setList(NULL);
+		groupsUi->lstMembers->setEnabled(false);
 		return;
 	}
 	groupsUi->btnDelete->setEnabled(true);
+	groupsUi->lstMembers->setEnabled(true);
 	groupsUi->lstMembers->setList(RzxUserGroup::group(groupId));
 }
 

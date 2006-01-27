@@ -739,6 +739,18 @@ void RzxComputer::emitStateChanged()
 	}
 }
 
+///Indique que la machine a été updatée...
+/** Ceci peut être dans le cadre d'une modification par le serveur
+ * où en raison d'une modification de configuration locale
+ * d'où le fait que ce slot est public...
+ *
+ * A utiliser avec modération !!!
+ */
+void RzxComputer::emitUpdate()
+{
+	emit update(this);
+}
+
 /*********** Lancement des données liées au chat *************/
 ///Affichage de l'historique des communications
 void RzxComputer::history()

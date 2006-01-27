@@ -175,6 +175,7 @@ public:
 public slots:
 	void logout();
 	void login();
+	void emitUpdate();
 
 	void lock();
 	void unlock();
