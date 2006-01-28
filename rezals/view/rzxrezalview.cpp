@@ -335,8 +335,11 @@ void RzxRezalView::setDelayRefresh(bool delay)
 ///Force le rafraichissement de la fenêtre
 void RzxRezalView::forceRefresh()
 {
+	const QRect rect = visualRect(currentIndex());
+	const bool viewCurrent = rect.bottom() >= 0 && rect.top() < viewport()->height();
 	QTreeView::setRootIndex(rootIndex());
-	scrollTo(currentIndex());
+	if(viewCurrent)
+		scrollTo(currentIndex());
 	delayRedraw.restart();
 }
 
