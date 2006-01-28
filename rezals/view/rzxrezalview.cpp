@@ -361,9 +361,13 @@ void RzxRezalView::drawRow(QPainter *painter, const QStyleOptionViewItem& option
 }
 
 ///Pour éviter que les branches soient ouvertes lors de la suppression d'une ligne...
-void RzxRezalView::rowsRemoved(const QModelIndex&, int, int)
+void RzxRezalView::rowsRemoved(const QModelIndex& parent, int, int)
 {
-	viewport()->update();
+	if(isExpanded(parent))
+	{
+		setExpanded(parent, false);
+		setExpanded(parent, true);
+	}
 }
 
 ///Pour éviter que les branches soient ouvertes lors de la suppression d'une ligne...

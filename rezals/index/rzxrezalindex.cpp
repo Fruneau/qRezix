@@ -171,19 +171,16 @@ void RzxRezalIndex::dropEvent(QDropEvent *e)
 }
 
 ///Pour éviter que les branches soient ouvertes lors de la suppression d'une ligne...
-void RzxRezalIndex::rowsRemoved(const QModelIndex& parent, int start, int end)
+void RzxRezalIndex::rowsRemoved(const QModelIndex& parent, int, int)
 {
-	bool expanded = isExpanded(parent);
-	QTreeView::rowsRemoved(parent, start, end);
-	if(expanded ^ isExpanded(parent))
-		setExpanded(parent, expanded);
+	if(isExpanded(parent))
+	{
+		setExpanded(parent, false);
+		setExpanded(parent, true);
+	}
 }
 
 ///Pour éviter que les branches soient ouvertes lors de la suppression d'une ligne...
-void RzxRezalIndex::rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end)
+void RzxRezalIndex::rowsAboutToBeRemoved(const QModelIndex&, int, int)
 {
-	bool expanded = isExpanded(parent);
-	QTreeView::rowsAboutToBeRemoved(parent, start, end);
-	if(expanded ^ isExpanded(parent))
-		setExpanded(parent, expanded);
 }
