@@ -55,12 +55,9 @@ class RzxListEdit: public QWidget
 	protected slots:
 		void add();
 		void remove();
+		void tryRemove();
 		void edited(const QString&);
-		void selectionChanged(int);
-
-	signals:
-		void added(RzxComputer*);
-		void deleted(RzxComputer*);
+		void selectionChanged();
 };
 
 #endif

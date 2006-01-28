@@ -14,11 +14,14 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <QShortcut>
+
 #include <RzxIconCollection>
 #include <RzxComputerList>
 #include <RzxConnectionLister>
 
 #include <RzxListEdit>
+#include <RzxProperty>
 
 #include "ui_rzxlistedit.h"
 
@@ -32,7 +35,7 @@ RzxListEdit::RzxListEdit(QWidget *parent)
 	ui->btnDel->setEnabled(false);
 	changeTheme();
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
-	connect(ui->list, SIGNAL(currentRowChanged(int)), this, SLOT(selectionChanged(int)));
+	connect(ui->list, SIGNAL(itemSelectionChanged()), this, SLOT(selectionChanged()));
 	connect(ui->editNew, SIGNAL(textChanged(const QString&)), this, SLOT(edited(const QString&)));
 	connect(ui->btnAdd, SIGNAL(clicked()), this, SLOT(add()));
 	connect(ui->btnDel, SIGNAL(clicked()), this, SLOT(remove()));
@@ -48,6 +51,12 @@ RzxListEdit::~RzxListEdit()
 void RzxListEdit::setList(RzxComputerList *m_list)
 {
 	list = m_list;
+
+	disconnect(this, SLOT(tryRemove()));
+	RzxProperty *prop = qobject_cast<RzxProperty*>(window());
+	if(prop)
+		connect(prop, SIGNAL(deleteWanted()), this, SLOT(tryRemove()));
+
 	refresh();
 }
 
@@ -79,7 +88,7 @@ void RzxListEdit::refresh()
 ///Ajoute l'élément en cours d'édition à la liste
 void RzxListEdit::add()
 {
-	QString text = ui->editNew->text();
+	const QString text = ui->editNew->text().simplified();
 	if(!list || text.isEmpty()) return;
 	RzxComputer *computer = NULL;
 	if(text.contains("."))
@@ -93,22 +102,33 @@ void RzxListEdit::add()
 		computer = RzxConnectionLister::global()->getComputerByName(text);
 	}
 	if(computer)
-		emit added(computer);
+		computer->emitUpdate();
 
 	ui->editNew->clear();
 	refresh();
 }
 
+///Teste si le focus appartient à la fenêtre courante avant d'appeler remove
+void RzxListEdit::tryRemove()
+{
+	if(ui->list->hasFocus())
+		remove();
+}
+
 ///Supprime l'élément sélectionné
 void RzxListEdit::remove()
 {
-	int i = ui->list->currentRow();
-	if(list)
+	if(!list) return;
+
+	const QList<QListWidgetItem*> items = ui->list->selectedItems();
+	if(!items.size()) return;
+
+	foreach(QListWidgetItem *item, items)
 	{
-		RzxComputer *computer = RzxConnectionLister::global()->getComputerByName(ui->list->currentItem()->text());
-		list->remove(i);
+		RzxComputer *computer = RzxConnectionLister::global()->getComputerByName(item->text());
+		list->remove(item->text());
 		if(computer)
-			emit deleted(computer);
+			computer->emitUpdate();
 	}
 	refresh();
 }
@@ -116,11 +136,11 @@ void RzxListEdit::remove()
 ///Le texte a été édité
 void RzxListEdit::edited(const QString& text)
 {
-	ui->btnAdd->setEnabled(!text.isEmpty());
+	ui->btnAdd->setEnabled(!text.simplified().isEmpty());
 }
 
 ///La sélection a changé
-void RzxListEdit::selectionChanged(int i)
+void RzxListEdit::selectionChanged()
 {
-	ui->btnDel->setEnabled(i >= 0);
+	ui->btnDel->setEnabled(ui->list->currentRow() >= 0);
 }

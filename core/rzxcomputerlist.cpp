@@ -151,6 +151,7 @@ void RzxComputerList::remove(const QString& name)
 	int pos;
 	while((pos = nameList.indexOf(name)) != -1)
 		remove(pos);
+	remove(RzxHostAddress(name));
 }
 
 ///Suppression d'un élément

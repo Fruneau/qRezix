@@ -132,6 +132,14 @@ protected slots: // Protected slots
 	void fillCacheView();
 	void sendMailToCache();
 	void deleteCache();
+	void tryDeleteCache();
+
+signals:
+	///Ce signal est émis lors de la pression de Del ou Backspace
+	/** Permet de centraliser la gestion de l'appuie de ces deux touches
+	 * et que TOUTES les widgets concernés puisse le recevoir et l'analyser
+	 */
+	void deleteWanted();
 };
 
 ///Inclu les modules dans la fenêtre de propriétés

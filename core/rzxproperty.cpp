@@ -92,6 +92,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 {
 	setupUi(this);
 	setAttribute(Qt::WA_QuitOnClose,false);
+	setWindowModality(Qt::NonModal);
 	RzxStyle::useStyleOnWindow(this);
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 
@@ -111,8 +112,9 @@ RzxProperty::RzxProperty(QWidget *parent)
 	connect(listCache, SIGNAL(itemSelectionChanged()), this, SLOT(fillCacheView()));
 	connect(btnDeleteCache, SIGNAL(clicked()), this, SLOT(deleteCache()));
 	connect(btnSendMail, SIGNAL(clicked()), this, SLOT(sendMailToCache()));
-	new QShortcut(Qt::Key_Backspace, btnDeleteCache, SIGNAL(clicked()));
-	new QShortcut(Qt::Key_Delete, btnDeleteCache, SIGNAL(clicked()));
+	connect(this, SIGNAL(deleteWanted()), this, SLOT(tryDeleteCache()));
+	new QShortcut(Qt::Key_Backspace, this, SIGNAL(deleteWanted()));
+	new QShortcut(Qt::Key_Delete, this, SIGNAL(deleteWanted()));
 
 	//Navigation entre les différentes pages
 	connect(lbMenu, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), 
@@ -306,6 +308,13 @@ void RzxProperty::fillCacheView()
 	showCache->setEnabled(item);
 	btnDeleteCache->setEnabled(item);
 	btnSendMail->setEnabled(item && !RzxConfig::getEmailFromCache(ip).isEmpty());
+}
+
+///Vérifie que la fenêtre de gestion des cache a la focus avant d'appeler deleteCache
+void RzxProperty::tryDeleteCache()
+{
+	if(listCache->hasFocus())
+		deleteCache();
 }
 
 ///Action en cliquant sur le bouton de gestion des propriétés

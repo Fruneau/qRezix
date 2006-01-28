@@ -143,8 +143,6 @@ QList<QWidget*> RzxUi::propWidgets()
 		connect(groupsUi->btnDelete, SIGNAL(clicked()), this, SLOT(deleteGroup()));
 		connect(groupsUi->lstGroups, SIGNAL(itemSelectionChanged()), this, SLOT(fillMemberBox()));
 		connect(groupsUi->newGroup, SIGNAL(textChanged(const QString&)), this, SLOT(newGroupEdited()));
-		connect(groupsUi->lstMembers, SIGNAL(added(RzxComputer*)), RzxRezalModel::global(), SLOT(update(RzxComputer*)));
-		connect(groupsUi->lstMembers, SIGNAL(deleted(RzxComputer*)), RzxRezalModel::global(), SLOT(update(RzxComputer*)));
 	}
 	fillComboBoxes();
 	return QList<QWidget*>() << propWidget << groupsWidget;
