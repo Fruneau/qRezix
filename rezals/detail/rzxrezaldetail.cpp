@@ -235,6 +235,7 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	uiDetails->lblSamba->setPixmap(RzxIconCollection::getPixmap(computer->hasSambaServer()?Rzx::ICON_SAMBA:Rzx::ICON_NOSAMBA));
 	uiDetails->lblPrinter->setPixmap(RzxIconCollection::getPixmap(computer->hasPrinter()?Rzx::ICON_PRINTER:Rzx::ICON_NOPRINTER));
 	if(computer->hasEmailAddress()) uiDetails->lblMail->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_MAIL));
+	else uiDetails->lblMail->clear();
 	uiDetails->lblOS->setPixmap(RzxIconCollection::global()->osPixmap(computer->sysEx(), false));
 	uiDetails->lblClient->setText(computer->client());
 	uiDetails->lblPromo->setPixmap(RzxIconCollection::global()->promoPixmap(computer->promo()));
