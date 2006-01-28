@@ -311,5 +311,6 @@ RZX_CORE_EXPORT RzxComputer::testComputer testComputerMail;
 RZX_CORE_EXPORT RzxComputer::testComputer testComputerFavorite;
 RZX_CORE_EXPORT RzxComputer::testComputer testComputerBan;
 RZX_CORE_EXPORT RzxComputer::testComputer testComputerSameGateway;
+RZX_CORE_EXPORT bool computerLessThan(const RzxComputer*, const RzxComputer*);
 
 #endif

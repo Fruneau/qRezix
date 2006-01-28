@@ -57,14 +57,6 @@ RZX_MODULE_EXPORT(RzxTrayIcon)
 ///Initialisation de la config
 RZX_CONFIG_INIT(RzxTrayConfig)
 
-///Fonction auxiliaire pour trier une liste d'ordinateurs par ordre alphabétique des noms
-bool computerLessThan(RzxComputer *c1, RzxComputer *c2)
-{
-	if(c1 == NULL) return false;
-	if(c2 == NULL) return true;
-	return c1->name().toLower() < c2->name().toLower();
-}
-
 /*!
   Creates a RzxTrayIcon object displaying \a icon and \a tooltip, and opening
   \a popup when clicked with the right mousebutton. \a parent and \a name are

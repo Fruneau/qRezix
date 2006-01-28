@@ -17,39 +17,27 @@
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
-    <number>0</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
    </property>
-   <item row="1" column="1" >
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="0" >
-    <widget class="QToolButton" name="btnDel" >
-     <property name="text" >
-      <string>Delete</string>
-     </property>
-     <property name="toolButtonStyle" >
-      <enum>Qt::ToolButtonTextBesideIcon</enum>
-     </property>
-     <property name="autoRaise" >
-      <bool>true</bool>
+   <item row="2" column="0" colspan="3" >
+    <widget class="QListWidget" name="list" >
+     <property name="selectionMode" >
+      <enum>QAbstractItemView::ExtendedSelection</enum>
      </property>
     </widget>
    </item>
    <item row="0" column="0" colspan="3" >
-    <widget class="QLineEdit" name="editNew" />
+    <widget class="QComboBox" name="editNew" >
+     <property name="editable" >
+      <bool>true</bool>
+     </property>
+     <property name="insertPolicy" >
+      <enum>QComboBox::NoInsert</enum>
+     </property>
+    </widget>
    </item>
    <item row="1" column="2" >
     <widget class="QToolButton" name="btnAdd" >
@@ -64,18 +52,36 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="3" >
-    <widget class="QListWidget" name="list" >
-     <property name="selectionMode" >
-      <enum>QAbstractItemView::ExtendedSelection</enum>
+   <item row="1" column="0" >
+    <widget class="QToolButton" name="btnDel" >
+     <property name="text" >
+      <string>Delete</string>
+     </property>
+     <property name="toolButtonStyle" >
+      <enum>Qt::ToolButtonTextBesideIcon</enum>
+     </property>
+     <property name="autoRaise" >
+      <bool>true</bool>
      </property>
     </widget>
+   </item>
+   <item row="1" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
  <pixmapfunction></pixmapfunction>
  <tabstops>
-  <tabstop>editNew</tabstop>
   <tabstop>list</tabstop>
  </tabstops>
  <resources/>

@@ -36,7 +36,7 @@ RzxListEdit::RzxListEdit(QWidget *parent)
 	changeTheme();
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	connect(ui->list, SIGNAL(itemSelectionChanged()), this, SLOT(selectionChanged()));
-	connect(ui->editNew, SIGNAL(textChanged(const QString&)), this, SLOT(edited(const QString&)));
+	connect(ui->editNew, SIGNAL(editTextChanged(const QString&)), this, SLOT(edited(const QString&)));
 	connect(ui->btnAdd, SIGNAL(clicked()), this, SLOT(add()));
 	connect(ui->btnDel, SIGNAL(clicked()), this, SLOT(remove()));
 }
@@ -72,7 +72,25 @@ void RzxListEdit::changeTheme()
 void RzxListEdit::refresh()
 {
 	ui->list->clear();
+	ui->editNew->clear();
 	if(!list) return;
+
+	QList<RzxComputer*> computerList = RzxConnectionLister::global()->computerList();
+	qSort(computerList.begin(), computerList.end(), computerLessThan);
+	ui->editNew->addItem(tr("Name or IP address"));
+	for(int i = 0 ; i < computerList.size() ; i++)
+	{
+		const RzxComputer *computer = computerList[i];
+		if(!list->contains(computer))
+			ui->editNew->addItem(computer->icon(), computer->name());
+	}
+	for(int i = 0 ; i < computerList.size() ; i++)
+	{
+		const RzxComputer *computer = computerList[i];
+		if(!list->contains(computer))
+			ui->editNew->addItem(computer->icon(), computer->ip().toString() + " (" + computer->name() + ")");
+	}
+
 	QStringList lst = list->humanReadable();
 	foreach(QString name, lst)
 	{
@@ -88,8 +106,8 @@ void RzxListEdit::refresh()
 ///Ajoute l'élément en cours d'édition à la liste
 void RzxListEdit::add()
 {
-	const QString text = ui->editNew->text().simplified();
-	if(!list || text.isEmpty()) return;
+	const QString text = ui->editNew->currentText().simplified().section(' ', 0, 0);
+	if(!list || text.isEmpty() || text.contains(" ")) return;
 	RzxComputer *computer = NULL;
 	if(text.contains("."))
 	{
@@ -136,7 +154,10 @@ void RzxListEdit::remove()
 ///Le texte a été édité
 void RzxListEdit::edited(const QString& text)
 {
-	ui->btnAdd->setEnabled(!text.simplified().isEmpty());
+	const QString test = text.simplified();
+	QRegExp mask("^\\d+\\.\\d+\\.\\d+\\.\\d+ \\(.*\\)$");
+	bool verif = !test.isEmpty() && (!test.contains(QRegExp("\\s")) || !mask.indexIn(test));
+	ui->btnAdd->setEnabled(verif);
 }
 
 ///La sélection a changé

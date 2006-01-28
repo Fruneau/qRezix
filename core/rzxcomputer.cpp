@@ -855,6 +855,14 @@ bool testComputerSameGateway(const RzxComputer *c)
 	return c && c->isSameGateway();
 }
 
+///Fonction auxiliaire pour trier une liste d'ordinateurs par ordre alphabétique des noms
+bool computerLessThan(const RzxComputer *c1, const RzxComputer *c2)
+{
+	if(c1 == NULL) return false;
+	if(c2 == NULL) return true;
+	return c1->name().toLower() < c2->name().toLower();
+}
+
 
 /****************** Analyse de la machine ********************/
 ///Scan des servers ouverts
