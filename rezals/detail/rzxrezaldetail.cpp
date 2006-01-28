@@ -88,6 +88,7 @@ RzxRezalDetail::RzxRezalDetail(QWidget *widget)
 	uiDetails->lblHttp->installEventFilter(this);
 	uiDetails->lblSamba->installEventFilter(this);
 	uiDetails->lblNews->installEventFilter(this);
+	uiDetails->lblMail->installEventFilter(this);
 	uiDetails->lblState->installEventFilter(this);
 	uiDetails->lblStateIcon->installEventFilter(this);
 	uiDetails->lblName->installEventFilter(this);
@@ -233,6 +234,7 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	uiDetails->lblNews->setPixmap(RzxIconCollection::getPixmap(computer->hasNewsServer()?Rzx::ICON_NEWS:Rzx::ICON_NONEWS));
 	uiDetails->lblSamba->setPixmap(RzxIconCollection::getPixmap(computer->hasSambaServer()?Rzx::ICON_SAMBA:Rzx::ICON_NOSAMBA));
 	uiDetails->lblPrinter->setPixmap(RzxIconCollection::getPixmap(computer->hasPrinter()?Rzx::ICON_PRINTER:Rzx::ICON_NOPRINTER));
+	if(computer->hasEmailAddress()) uiDetails->lblMail->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_MAIL));
 	uiDetails->lblOS->setPixmap(RzxIconCollection::global()->osPixmap(computer->sysEx(), false));
 	uiDetails->lblClient->setText(computer->client());
 	uiDetails->lblPromo->setPixmap(RzxIconCollection::global()->promoPixmap(computer->promo()));
@@ -305,6 +307,8 @@ RzxRezalAction::Action RzxRezalDetail::action(const QWidget *child) const
 		return RzxRezalAction::Samba;
 	else if(child == uiDetails->lblNews)
 		return RzxRezalAction::News;
+	else if(child == uiDetails->lblMail)
+		return RzxRezalAction::Mail;
 	else if(child == uiDetails->lblState || child == uiDetails->lblStateIcon)
 		return RzxRezalAction::Chat;
 	else if(child == uiDetails->lblName || child == uiDetails->lblIcon || child == uiDetails->frmName || child == uiDetails->lblIP)
