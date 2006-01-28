@@ -1057,6 +1057,7 @@ void RzxRezalModel::clear()
 	deleteGroup(oranje, oranjeIndex[0]);
 	for(uint i = 0 ; i < RzxConfig::rezalNumber() ; i++)
 		deleteGroup(rezals[i], rezalIndex[i][0]);
+#undef deleteGroup
 }
 
 ///Ajout d'un groupe d'utilisateur à la liste
@@ -1159,6 +1160,7 @@ QModelIndexList RzxRezalModel::selected(const QModelIndex& ref) const
 	for(uint i = 0 ; i<RzxConfig::rezalNumber() ; i++)
 		insert(rezals[i], rezalIndex[i][0]);
 	return indexList;
+#undef insert
 }
 
 ///Trie toutes les listes dans l'ordre demandé

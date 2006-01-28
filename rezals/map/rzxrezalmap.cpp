@@ -696,15 +696,33 @@ void RzxRezalMap::paintEvent(QPaintEvent*)
 	if(!currentMap) return;
 
 	QPainter painter(viewport());
+	painter.setPen(Qt::NoPen);
 	painter.drawPixmap(-horizontalOffset(),-verticalOffset(), currentMap->pixmap);
+	const QList<RzxHostAddress> ipList = currentMap->polygons.keys();
+	const QList<RzxHostAddress> linkList = currentMap->links.keys();
+	const QBrush brush = painter.brush();
+	QBrush newBrush;
+	foreach(RzxHostAddress ip, ipList)
+	{
+		const RzxComputer *computer = ip.computer();
+		if(computer && (!linkList.contains(ip) || currentMap->links[ip].isEmpty()))
+		{
+			const QPolygon polyg = polygon(ip);
+			const QRect rect = polyg.boundingRect();
+			const QPixmap icon = computer->icon().scaled(rect.width(), rect.height());
+			newBrush.setTexture(icon);
+			painter.setBrush(newBrush);
+			painter.setBrushOrigin(rect.topLeft());
+			painter.drawPolygon(polyg);
+		}
+	}
+	painter.setBrush(brush);
 	drawSelection(painter);
 }
 
 ///Dessin de la sélection
 void RzxRezalMap::drawSelection(QPainter& painter)
 {
-	painter.setPen(Qt::NoPen);
-
 	switch(selection)
 	{
 		case Index:
