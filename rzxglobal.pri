@@ -32,7 +32,8 @@ HEADERS += $$ROOT/core/RzxGlobal \
 	$$ROOT/core/RzxComputerList \
 	$$ROOT/core/RzxFavoriteList \
 	$$ROOT/core/RzxBanList \
-	$$ROOT/core/RzxListEdit
+	$$ROOT/core/RzxListEdit \
+	$$ROOT/core/RzxComputerListWidget
 
 !contains(DEFINES, NO_JABBER):!existLib(gloox):DEFINES += NO_JABBER
 contains(DEFINES, RZX_ALL_BUILTIN) {

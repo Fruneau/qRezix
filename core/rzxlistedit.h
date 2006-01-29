@@ -25,6 +25,7 @@
 
 class RzxComputerList;
 class RzxComputer;
+class RzxHostAddress;
 namespace Ui { class RzxListEdit; }
 
 ///Fenêtre d'édition des listes d'ordinateurs
@@ -54,10 +55,14 @@ class RzxListEdit: public QWidget
 
 	protected slots:
 		void add();
+		void add(const QString&);
+		void add(const RzxHostAddress&);
 		void remove();
 		void tryRemove();
 		void edited(const QString&);
 		void selectionChanged();
+		void refresh(RzxComputer*);
+		void connectComputer(RzxComputer*);
 };
 
 #endif

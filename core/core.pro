@@ -50,7 +50,8 @@ SOURCES += rzxglobal.cpp \
 	rzxcomputerlist.cpp \
 	rzxfavoritelist.cpp \
 	rzxbanlist.cpp \
-	rzxlistedit.cpp
+	rzxlistedit.cpp \
+	rzxcomputerlistwidget.cpp
 
 HEADERS += rzxglobal.h \
 	rzxapplication.h \
@@ -80,7 +81,8 @@ HEADERS += rzxglobal.h \
 	rzxcomputerlist.h \
 	rzxfavoritelist.h \
 	rzxbanlist.h \
-	rzxlistedit.h
+	rzxlistedit.h \
+	rzxcomputerlistwidget.h
 		
 FORMS += rzxproperty.ui \
 	rzxwrongpass.ui \
@@ -90,7 +92,7 @@ FORMS += rzxproperty.ui \
 	rzxinfomessage.ui \
 	rzxlistedit.ui
 
-TRANSLATIONS = $$(ROOT)/resources/translations/qrezix_fr.ts
+TRANSLATIONS = $$ROOT/resources/translations/qrezix_fr.ts
 
 mainlib.files = $$ROOT/libqrezix*
 subnets.files = subnet.ini

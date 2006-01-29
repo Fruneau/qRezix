@@ -14,8 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <QShortcut>
-
 #include <RzxIconCollection>
 #include <RzxComputerList>
 #include <RzxConnectionLister>
@@ -39,6 +37,15 @@ RzxListEdit::RzxListEdit(QWidget *parent)
 	connect(ui->editNew, SIGNAL(editTextChanged(const QString&)), this, SLOT(edited(const QString&)));
 	connect(ui->btnAdd, SIGNAL(clicked()), this, SLOT(add()));
 	connect(ui->btnDel, SIGNAL(clicked()), this, SLOT(remove()));
+	connect(ui->list, SIGNAL(computerDropped(const QString&)), this, SLOT(add(const QString&)));
+	connect(ui->list, SIGNAL(computerDropped(const RzxHostAddress&)), this, SLOT(add(const RzxHostAddress&)));
+	connect(ui->list, SIGNAL(dropFinished()), this, SLOT(refresh()));
+	
+	const QList<RzxComputer*> computers = RzxConnectionLister::global()->computerList();
+	foreach(RzxComputer *computer, computers)
+		connectComputer(computer);
+	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer*)), this, SLOT(refresh(RzxComputer*)));
+	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer*)), this, SLOT(connectComputer(RzxComputer*)));
 }
 
 ///Destructeur
@@ -108,22 +115,31 @@ void RzxListEdit::add()
 {
 	const QString text = ui->editNew->currentText().simplified().section(' ', 0, 0);
 	if(!list || text.isEmpty() || text.contains(" ")) return;
-	RzxComputer *computer = NULL;
 	if(text.contains("."))
-	{
-		list->add(RzxHostAddress(text));
-		computer = RzxConnectionLister::global()->getComputerByIP(text);
-	}
+		add(RzxHostAddress(text));
 	else
-	{
-		list->add(text);
-		computer = RzxConnectionLister::global()->getComputerByName(text);
-	}
-	if(computer)
-		computer->emitUpdate();
+		add(text);
 
 	ui->editNew->clear();
 	refresh();
+}
+
+///Ajoute l'élément dont le nom est indiqué
+void RzxListEdit::add(const QString& name)
+{
+	list->add(name);
+	RzxComputer *computer = RzxConnectionLister::global()->getComputerByName(name);
+	if(computer)
+		computer->emitUpdate();
+}
+
+///Ajoute la machine dont l'IP est indiquée
+void RzxListEdit::add(const RzxHostAddress& ip)
+{
+	list->add(ip);
+	RzxComputer *computer = RzxConnectionLister::global()->getComputerByIP(ip);
+	if(computer)
+		computer->emitUpdate();
 }
 
 ///Teste si le focus appartient à la fenêtre courante avant d'appeler remove
@@ -164,4 +180,18 @@ void RzxListEdit::edited(const QString& text)
 void RzxListEdit::selectionChanged()
 {
 	ui->btnDel->setEnabled(ui->list->currentRow() >= 0);
+}
+
+///Connecte le List Edit pour prendre en compte les changement des ordinateurs
+void RzxListEdit::connectComputer(RzxComputer *computer)
+{
+	connect(computer, SIGNAL(update(RzxComputer*)), this, SLOT(refresh(RzxComputer*)));
+}
+
+///Raffraichi l'affichage si l'ordinateur indiqué est dans la liste
+void RzxListEdit::refresh(RzxComputer *computer)
+{
+	if(!computer || !list) return;
+	if(list->contains(computer) || !ui->list->findItems(computer->name(), Qt::MatchExactly).isEmpty())
+		refresh();
 }
