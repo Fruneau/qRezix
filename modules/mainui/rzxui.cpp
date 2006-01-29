@@ -165,6 +165,13 @@ void RzxUi::propInit(bool def)
 
 	ui->cmdDoubleClic->setCurrentIndex( RzxMainUIConfig::doubleClicRole(def) );
 	ui->cmbDefaultTab->setCurrentIndex(RzxMainUIConfig::defaultTab(def));
+	if(RzxMainUIConfig::defaultTab(def) >= RzxMainUIConfig::FirstGroup)
+	{
+		int i = ui->cmbDefaultTab->findText(RzxMainUIConfig::defaultTabGroup(def));
+		if(i == -1)
+			i = 0;
+		ui->cmbDefaultTab->setCurrentIndex(i);
+	}
 
 	uint tooltip = RzxMainUIConfig::tooltip(def);
 	ui->cbTooltips->setChecked(tooltip & RzxRezalModel::TipEnable);
@@ -221,6 +228,14 @@ void RzxUi::fillComboBoxes()
 	ui->cmbDefaultTab->addItem(RzxThemedIcon(RzxComputer::localhost()->promo()), tr("My Promo"));
 	ui->cmbDefaultTab->addItem(RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY), tr("My Subnet"));
 	ui->cmbDefaultTab->addItem(RzxIconCollection::getIcon(Rzx::ICON_NOTFAVORITE), tr("Everybody"));
+	const int groupNumber = RzxUserGroup::groupNumber();
+	for(int i = 0 ; i < groupNumber ; i++)
+	{
+		const RzxUserGroup *group = RzxUserGroup::group(i);
+		ui->cmbDefaultTab->addItem(group->icon(), group->name());
+	}
+	if(i >= ui->cmbDefaultTab->count())
+		i = RzxMainUIConfig::defaultTab(true);
 	ui->cmbDefaultTab->setCurrentIndex(i);
 
 	// Choix de l'action
@@ -331,7 +346,7 @@ void RzxUi::addGroup()
 		const int groupId = list[0]->data(Qt::UserRole).toInt();
 		RzxUserGroup::group(groupId)->setIcon(icon);
 	}
-	fillGroupsBox();
+	fillComboBoxes();
 }
 
 ///On a décidé de supprimer un groupe :(
@@ -340,7 +355,8 @@ void RzxUi::deleteGroup()
 	const int groupId = groupsUi->lstGroups->currentItem()->data(Qt::UserRole).toInt();;
 	RzxRezalModel::global()->deleteUserGroup(groupId);
 	RzxUserGroup::deleteGroup(groupId);
-	fillGroupsBox();
+	fillComboBoxes();
+	groupsUi->btnDelete->setEnabled(false);
 }
 
 ///Le texte de la zone d'édition a changé...
@@ -384,6 +400,7 @@ void RzxUi::propUpdate()
 	RzxMainUIConfig::setBottomRightCorner(ui->cbBottomRight->currentIndex()?Qt::RightDockWidgetArea :Qt::BottomDockWidgetArea);
 	RzxMainUIConfig::setDoubleClicRole(ui->cmdDoubleClic->currentIndex());
 	RzxMainUIConfig::setDefaultTab(ui->cmbDefaultTab ->currentIndex());
+	RzxMainUIConfig::setDefaultTabGroup(ui->cmbDefaultTab ->currentText());
 	RzxMainUIConfig::setUseSearch(ui->cbSearch->isChecked());
 	RzxMainUIConfig::setShowQuit(ui->cbQuit->isChecked());
 	qrezix->showSearch(ui->cbSearch->isChecked());

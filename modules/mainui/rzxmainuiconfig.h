@@ -40,11 +40,13 @@ class RZX_MAINUI_EXPORT RzxMainUIConfig: public RzxAbstractConfig
 			Favorites = 0,
 			Promo = 1,
 			Subnet = 2,
-			Everybody = 3
+			Everybody = 3,
+			FirstGroup = 4
 		};
 
 		RZX_INTPROP("doubleClic", doubleClicRole, setDoubleClicRole, RzxRezalAction::Chat)
 		RZX_INTPROP("defaultTab", defaultTab, setDefaultTab, Favorites)
+		RZX_STRINGPROP("defaultTabGroup", defaultTabGroup, setDefaultTabGroup, QString());
 		RZX_BOOLPROP("useSearch", useSearch, setUseSearch, true)
 		RZX_BOOLPROP("showQuit", showQuit, setShowQuit, true)
 		RZX_INTPROP("quitmode", quitMode, setQuitMode, 1)

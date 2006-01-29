@@ -42,6 +42,7 @@
 #include "rzxmainuiconfig.h"
 #include "rzxquit.h"
 #include "rzxrezalmodel.h"
+#include "rzxusergroup.h"
 
 #ifdef RZX_RZLVIEW_BUILTIN
 #	include "../../rezals/view/rzxrezalview.h"
@@ -311,7 +312,8 @@ void QRezix::unloadModule(RzxRezal *rezal)
 void QRezix::setSelection(const RzxHostAddress& ip)
 {
 	QModelIndex index;
-	switch((RzxMainUIConfig::Tab)RzxMainUIConfig::defaultTab())
+	const RzxMainUIConfig::Tab tab = (RzxMainUIConfig::Tab)RzxMainUIConfig::defaultTab();
+	switch(tab)
 	{
 		case RzxMainUIConfig::Favorites:
 			index = RzxRezalModel::global()->favoriteIndex[0];
@@ -344,6 +346,12 @@ void QRezix::setSelection(const RzxHostAddress& ip)
 
 		case RzxMainUIConfig::Everybody:
 			index = RzxRezalModel::global()->everybodyGroup[0];
+			break;
+
+		default:
+			const int groupId = RzxUserGroup::groupId(RzxMainUIConfig::defaultTabGroup());
+			if(groupId != -1)
+				index = RzxRezalModel::global()->userIndexes[groupId][0];
 			break;
 	}
 	sel->setCurrentIndex(index, QItemSelectionModel::SelectCurrent);

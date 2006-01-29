@@ -90,6 +90,17 @@ RzxUserGroup *RzxUserGroup::group(int i)
 	return groups[i];
 }
 
+///Retourne l'id du groupe dont le nom est indiqué
+/** ou -1 si aucun groupe ne porte ce nom
+ */
+int RzxUserGroup::groupId(const QString& name)
+{
+	for(int i =  0 ; i < groups.size() ; i++)
+		if(groups[i]->name() == name)
+			return i;
+	return -1;
+}
+
 ///Retourne le nombre de groupes enregistrés
 int RzxUserGroup::groupNumber()
 {

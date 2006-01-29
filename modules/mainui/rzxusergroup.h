@@ -50,6 +50,7 @@ class RZX_MAINUI_EXPORT RzxUserGroup: public RzxComputerList
 
 		static RzxUserGroup *group(int);
 		static void deleteGroup(int);
+		static int groupId(const QString&);
 		static int groupNumber();
 };
 
