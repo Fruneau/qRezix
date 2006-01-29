@@ -353,6 +353,8 @@ void RzxUi::addGroup()
 void RzxUi::deleteGroup()
 {
 	const int groupId = groupsUi->lstGroups->currentItem()->data(Qt::UserRole).toInt();;
+	if(groupsUi->lstGroups->currentItem()->text() == groupsUi->newGroup->text())
+		groupsUi->newGroup->clear();
 	RzxRezalModel::global()->deleteUserGroup(groupId);
 	RzxUserGroup::deleteGroup(groupId);
 	fillComboBoxes();
