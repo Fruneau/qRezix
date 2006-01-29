@@ -232,6 +232,8 @@ void RzxUi::fillComboBoxes()
 	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_NEWS), tr("Read News"));
 	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_SAMBA), tr("Open Samba"));
 	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_MAIL), tr("Send a Mail"));
+	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_PROPRIETES), tr("Check Properties"));
+	ui->cmdDoubleClic->addItem(RzxIconCollection::getIcon(Rzx::ICON_HISTORIQUE), tr("View History"));
 	ui->cmdDoubleClic->setCurrentIndex(i);
 
 	int tl, tr, bl, br;

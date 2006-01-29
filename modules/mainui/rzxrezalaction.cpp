@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <RzxComputer>
+#include <RzxApplication>
 #include <RzxIconCollection>
 
 #include "rzxrezalaction.h"
@@ -59,6 +60,14 @@ RzxRezalAction::Action RzxRezalAction::action(const RzxComputer *computer)
 				if(computer->hasEmailAddress())
 					return Mail;
 
+			case Prop:
+				if(computer->canBeChecked())
+					return Prop;
+
+			case History:
+				if(RzxApplication::chatUiModule())
+					return History;
+
 			default:
 				if(act == Chat) return None;
 				act = Chat;
@@ -102,6 +111,12 @@ void RzxRezalAction::run(RzxComputer *computer)
 			computer->mail();
 			return;
 
+		case Prop:
+			computer->checkProperties();
+
+		case History:
+			computer->history();
+
 		default: //pour éviter les warnings de compilation
 			return;
 	}
@@ -141,6 +156,16 @@ void RzxRezalAction::run(Action action, RzxComputer *computer)
 		case Mail:
 			if(computer->hasEmailAddress())
 				computer->mail();
+			return;
+
+		case Prop:
+			if(computer->canBeChecked())
+				computer->checkProperties();
+			return;
+
+		case History:
+			if(RzxApplication::chatUiModule())
+				computer->history();
 			return;
 
 		default: //pour éviter les warnings de compilation
@@ -194,6 +219,15 @@ QCursor RzxRezalAction::cursor(Action action, const RzxComputer *computer, bool 
 			if(!computer || computer->hasEmailAddress())
 				return RzxIconCollection::getPixmap(Rzx::ICON_MAIL);
 			break;
+
+		case Prop:
+			if(!computer || computer->canBeChecked())
+				return RzxIconCollection::getPixmap(Rzx::ICON_PROPRIETES);
+			break;
+
+		case History:
+			if(RzxApplication::chatUiModule())
+				return RzxIconCollection::getPixmap(Rzx::ICON_HISTORIQUE);
 
 		default:
 			return QCursor();

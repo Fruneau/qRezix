@@ -57,7 +57,7 @@
     </message>
     <message>
         <source>Group List</source>
-        <translation>Liste des Groupes</translation>
+        <translation type="obsolete">Liste des Groupes</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -69,7 +69,7 @@
     </message>
     <message>
         <source>Group Members</source>
-        <translation>Membres du Groupe</translation>
+        <translation type="obsolete">Membres du Groupe</translation>
     </message>
 </context>
 <context>
@@ -641,6 +641,14 @@
     <message>
         <source>User groups</source>
         <translation>Groupes</translation>
+    </message>
+    <message>
+        <source>Check Properties</source>
+        <translation>Voir les Propriétés</translation>
+    </message>
+    <message>
+        <source>View History</source>
+        <translation>Lire l&apos;Historique</translation>
     </message>
 </context>
 </TS>

@@ -37,7 +37,9 @@ namespace RzxRezalAction
 		Http = 2,
 		News = 3,
 		Samba = 4,
-		Mail = 5
+		Mail = 5,
+		Prop = 6,
+		History = 7
 	};
 
 	///Recherche l'action effective actuelle
