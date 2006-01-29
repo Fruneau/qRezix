@@ -157,8 +157,21 @@ void RzxComputerList::remove(int i)
 void RzxComputerList::remove(const QString& name)
 {
 	int pos;
-	while((pos = nameList.indexOf(name)) != -1)
-		remove(pos);
+	RzxComputer *computer = RzxConnectionLister::global()->getComputerByName(name);
+	if(!computer)
+		computer = RzxConnectionLister::global()->getComputerByIP(name);
+	if(!computer)
+	{
+		while((pos = nameList.indexOf(name)) != -1)
+			remove(pos);
+	}
+	else
+	{
+		while((pos = nameList.indexOf(computer->name())) != -1)
+			remove(pos);
+		while((pos = nameList.indexOf(computer->ip().toString())) != -1)
+			remove(pos);
+	}
 	remove(RzxHostAddress(name));
 }
 
@@ -179,10 +192,7 @@ void RzxComputerList::remove(const RzxComputer* computer)
 {
 	if(!computer) return;
 	if(type == Name)
-	{
 		remove(computer->name());
-		remove(computer->ip().toString());
-	}
 	else if(type == Address)
 		remove(computer->ip());
 }

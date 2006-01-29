@@ -63,6 +63,7 @@ class RzxListEdit: public QWidget
 		void selectionChanged();
 		void refresh(RzxComputer*);
 		void connectComputer(RzxComputer*);
+		void lightRefresh();
 };
 
 #endif

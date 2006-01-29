@@ -39,7 +39,7 @@ RzxListEdit::RzxListEdit(QWidget *parent)
 	connect(ui->btnDel, SIGNAL(clicked()), this, SLOT(remove()));
 	connect(ui->list, SIGNAL(computerDropped(const QString&)), this, SLOT(add(const QString&)));
 	connect(ui->list, SIGNAL(computerDropped(const RzxHostAddress&)), this, SLOT(add(const RzxHostAddress&)));
-	connect(ui->list, SIGNAL(dropFinished()), this, SLOT(refresh()));
+	connect(ui->list, SIGNAL(dropFinished()), this, SLOT(lightRefresh()));
 	
 	const QList<RzxComputer*> computers = RzxConnectionLister::global()->computerList();
 	foreach(RzxComputer *computer, computers)
@@ -78,7 +78,7 @@ void RzxListEdit::changeTheme()
 ///Raffraîchi l'affichage de la liste
 void RzxListEdit::refresh()
 {
-	ui->list->clear();
+	lightRefresh();
 	ui->editNew->clear();
 	if(!list) return;
 
@@ -98,6 +98,13 @@ void RzxListEdit::refresh()
 			ui->editNew->addItem(computer->icon(), computer->ip().toString() + " (" + computer->name() + ")");
 	}
 
+}
+
+///Effectue un raffraichissement alléger... sans regénérer la liste des ordinateurs
+void RzxListEdit::lightRefresh()
+{
+	ui->list->clear();
+	if(!list) return;
 	QStringList lst = list->humanReadable();
 	foreach(QString name, lst)
 	{
@@ -121,7 +128,7 @@ void RzxListEdit::add()
 		add(text);
 
 	ui->editNew->clear();
-	refresh();
+	lightRefresh();
 }
 
 ///Ajoute l'élément dont le nom est indiqué
@@ -170,7 +177,7 @@ void RzxListEdit::remove()
 			computer->emitUpdate();
 	}
 	ui->btnDel->setEnabled(false);
-	refresh();
+	lightRefresh();
 }
 
 ///Le texte a été édité
@@ -199,5 +206,5 @@ void RzxListEdit::refresh(RzxComputer *computer)
 {
 	if(!computer || !list) return;
 	if(list->contains(computer) || !ui->list->findItems(computer->name(), Qt::MatchExactly).isEmpty())
-		refresh();
+		lightRefresh();
 }
