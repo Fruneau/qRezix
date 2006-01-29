@@ -27,6 +27,9 @@ class QDropEvent;
 class RzxComputer;
 
 ///Fournit un moyen simple de créer un QDrag associé à un RzxComputer
+/** Le format utilisé pour le drag&drop ici est compatible avec celui utilisé
+ * par RzxComputerListWidget
+ */
 class RZX_MAINUI_EXPORT RzxRezalDrag: public QDrag
 {
 	Q_OBJECT
@@ -36,8 +39,8 @@ class RZX_MAINUI_EXPORT RzxRezalDrag: public QDrag
 		~RzxRezalDrag();
 
 		static RzxRezalDrag *mouseEvent(QWidget*, QMouseEvent*, RzxComputer* = NULL);
-		static RzxComputer *dragEvent(QDropEvent*);
-		static RzxComputer *dragEvent(QDropEvent*, const QModelIndex&);
+		static QList<RzxComputer*> dragEvent(QDropEvent*);
+		static QList<RzxComputer*> dragEvent(QDropEvent*, const QModelIndex&);
 		static void dropEvent(QDropEvent*, const QModelIndex&);
 };
 

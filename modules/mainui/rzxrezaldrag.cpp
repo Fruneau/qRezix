@@ -79,19 +79,29 @@ RzxRezalDrag *RzxRezalDrag::mouseEvent(QWidget *source, QMouseEvent *e, RzxCompu
 ///Retrouve le RzxComputer draggé si possible
 /** Ou retourne NULL en cas d'impossibilité de retrouver l'objet
  */
-RzxComputer *RzxRezalDrag::dragEvent(QDropEvent *e)
+QList<RzxComputer*> RzxRezalDrag::dragEvent(QDropEvent *e)
 {
 	const QMimeData *mimedata = e->mimeData();
+	QList<RzxComputer*> computers;
 	if(!mimedata->hasText())
-		return NULL;
-	return RzxConnectionLister::global()->getComputerByName(mimedata->text());
+		return computers;
+	const QStringList names = mimedata->text().split('|');
+	foreach(QString name, names)
+	{
+		RzxComputer *computer = RzxConnectionLister::global()->getComputerByName(name);
+		if(!computer)
+			computer = RzxConnectionLister::global()->getComputerByIP(name);
+		if(computer)
+			computers << computer;
+	}
+	return computers;
 }
 
 ///Retrouve le RzxComputer draggé si possible
 /** Surcharge de la fonction précédente qui vérifie en même temps
  * que la zône actuelle est accessible pour un drop
  */
-RzxComputer *RzxRezalDrag::dragEvent(QDropEvent *e, const QModelIndex& index)
+QList<RzxComputer*> RzxRezalDrag::dragEvent(QDropEvent *e, const QModelIndex& index)
 {
 	const QModelIndex model = index.parent();
 
@@ -100,7 +110,7 @@ RzxComputer *RzxRezalDrag::dragEvent(QDropEvent *e, const QModelIndex& index)
 		model == RzxRezalModel::global()->everybodyGroup[0] ||
 		index == RzxRezalModel::global()->everybodyGroup[0])
 		return RzxRezalDrag::dragEvent(e);
-	return NULL;
+	return QList<RzxComputer*>();
 }
 
 ///Applique le drop de RzxComputer
@@ -112,34 +122,37 @@ void RzxRezalDrag::dropEvent(QDropEvent *e, const QModelIndex& index)
 	const QModelIndex ignored = RzxRezalModel::global()->ignoredIndex[0];
 	const QModelIndex everybody = RzxRezalModel::global()->everybodyGroup[0];
 	const QModelIndex favoritesGroup = RzxRezalModel::global()->favoritesGroup[0];
-	RzxComputer *computer = dragEvent(e);
+	QList<RzxComputer*> computers = dragEvent(e);
 
-	if(!computer) return;
-	if(parent == favorite || index == favorite)
+	foreach(RzxComputer *computer, computers)
 	{
-		e->acceptProposedAction();
-		computer->unban();
-		computer->addToFavorites();
-	}
-	else if(parent == ignored || index == ignored)
-	{
-		e->acceptProposedAction();
-		computer->removeFromFavorites();
-		computer->ban();
-	}
-	else if(parent == neutral || index == neutral || parent == everybody || index == everybody)
-	{
-		e->acceptProposedAction();
-		computer->unban();
-		computer->removeFromFavorites();
-	}
-	else if(parent == favoritesGroup || parent.parent() == favoritesGroup)
-	{
-		const int groupId = RzxRezalModel::global()->groupId(index);
-		if(groupId != -1)
+		if(!computer) return;
+		if(parent == favorite || index == favorite)
 		{
-			RzxUserGroup::group(groupId)->add(computer);
-			computer->emitUpdate();
+			e->acceptProposedAction();
+			computer->unban();
+			computer->addToFavorites();
+		}
+		else if(parent == ignored || index == ignored)
+		{
+			e->acceptProposedAction();
+			computer->removeFromFavorites();
+			computer->ban();
+		}
+		else if(parent == neutral || index == neutral || parent == everybody || index == everybody)
+		{
+			e->acceptProposedAction();
+			computer->unban();
+			computer->removeFromFavorites();
+		}
+		else if(parent == favoritesGroup || parent.parent() == favoritesGroup)
+		{
+			const int groupId = RzxRezalModel::global()->groupId(index);
+			if(groupId != -1)
+			{
+				RzxUserGroup::group(groupId)->add(computer);
+				computer->emitUpdate();
+			}
 		}
 	}
 }

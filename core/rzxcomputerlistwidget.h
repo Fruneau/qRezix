@@ -18,6 +18,7 @@
 #define RZXCOMPUTERLISTWIDGET_H
 
 #include <QListWidget>
+#include <RzxGlobal>
 
 class RzxComputer;
 class RzxHostAddress;
@@ -26,7 +27,20 @@ class RzxHostAddress;
  @author Florent Bruneau
  */
 
-class RzxComputerListWidget: public QListWidget
+///Amélioration de QListWidget pour le drag&drop de RzxComputer
+/** Permet de gérer le drag&drop des RzxComputer.
+ * Pour ceci on utilise un mimeData de la forme :
+ * 	- type : text/plain
+ * 	- text : nom1|nom2|nom3|...
+ *
+ * les noms peuvent être soit des noms DNS, soit des adresses ip
+ *
+ * Pour récupérer les noms, mimeData cherche tout d'abord si l'utilisateur
+ * a stocké des données en data(Qt::UserRole), si c'est le cas, cette
+ * donnée est utilisée comme nom, sinon le Qt::DisplayRole est utilisé
+ * (équivalent de item->text())
+ */
+class RZX_CORE_EXPORT RzxComputerListWidget: public QListWidget
 {
 	Q_OBJECT
 

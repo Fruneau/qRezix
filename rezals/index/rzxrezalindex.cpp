@@ -148,7 +148,7 @@ void RzxRezalIndex::mouseMoveEvent(QMouseEvent *e)
 void RzxRezalIndex::dragEnterEvent(QDragEnterEvent *e)
 {
 	QTreeView::dragEnterEvent(e);
-	if(RzxRezalDrag::dragEvent(e))
+	if(!RzxRezalDrag::dragEvent(e).isEmpty())
 		e->accept();
 }
 
@@ -158,7 +158,7 @@ void RzxRezalIndex::dragMoveEvent(QDragMoveEvent *e)
 	QTreeView::dragMoveEvent(e);
 	const QModelIndex model = indexAt(e->pos());
 	const QRect rect = visualRect(model);
-	if(RzxRezalDrag::dragEvent(e, model))
+	if(!RzxRezalDrag::dragEvent(e, model).isEmpty())
 		e->accept(rect);
 	else
 		e->ignore(rect);
