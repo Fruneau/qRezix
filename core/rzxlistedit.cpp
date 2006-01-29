@@ -127,6 +127,8 @@ void RzxListEdit::add()
 ///Ajoute l'élément dont le nom est indiqué
 void RzxListEdit::add(const QString& name)
 {
+	if(!list) return;
+
 	list->add(name);
 	RzxComputer *computer = RzxConnectionLister::global()->getComputerByName(name);
 	if(computer)
@@ -136,6 +138,8 @@ void RzxListEdit::add(const QString& name)
 ///Ajoute la machine dont l'IP est indiquée
 void RzxListEdit::add(const RzxHostAddress& ip)
 {
+	if(!list) return;
+
 	list->add(ip);
 	RzxComputer *computer = RzxConnectionLister::global()->getComputerByIP(ip);
 	if(computer)
@@ -159,11 +163,13 @@ void RzxListEdit::remove()
 
 	foreach(QListWidgetItem *item, items)
 	{
+		if(!item) continue;
 		RzxComputer *computer = RzxConnectionLister::global()->getComputerByName(item->text());
 		list->remove(item->text());
 		if(computer)
 			computer->emitUpdate();
 	}
+	ui->btnDel->setEnabled(false);
 	refresh();
 }
 
