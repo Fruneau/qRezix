@@ -1,0 +1,34 @@
+Changes bêta1 -> bêta2
+* Bugfixes :
+	* Fermeture du programme lors de la fermeture de la dernière fenêtre visible
+	* Rechargement des modules
+	* Lancement de SmartFTP
+	* Ne stocke plus les données dans le Bundle sur MacOS X
+	* Mise à jour du menu des modules (correction de l'affichage de l'état)
+	* Boite "Recherche d'un lieu" de la carte ne chevauche plus la barre de défilement
+	* Enregistrement de l'état de la fenêtre principale à la fermeture
+	* Déplacement des fenêtres de popup du chat lorsque la fenêtre est redimensionnée
+	* Défilement de la discussion en cours dans la fenêtre de chat
+	* Taille de l'aperçu des thèmes d'icônes
+	* Problèmes liés au changement de traduction courante
+	* Correction du tri par colonne...
+	* Correction des icônes OS du thème NoiaWarmKDE
+	* Correction d'un problème de reconnexion au serveur suite à la demande de mot de passe
+
+* Nouveautés/Améliorations :
+	* Ajout de la section Badminton
+	* Diminution de la charge processeur lors du chargement de la liste des connectés
+	* Amélioration du design des détails
+	* Quick actions via le systray
+	* Possibilité d'envoyer des mails (lecture à partir des propriétés déjà reçue)
+	* Traduction et filtrage des propriétés reçues
+	* Menu contextuel et double clic utilisables sur l'index
+	* Choix de l'invite et de la taille des icônes pour le chat
+	* Suppression du bouton Ajuster Colonnes ==> le bouton Module prend ce rôle
+	* Possibilité de suivre les liens dans le chat ==> lancement des clients Web/News/Ftp/Mail adaptés
+	* Déplacement de la carte par en la tirant avec la souris
+	* (Unix) Possibilité de configurer les répertoires systèmes à la compilation
+	* Affichage de la recherche le plus en haut possible de la fenêtre
+	* Favoris gérés de manière 'case insensitive'
+	* Ajout d'icônes pour représenter les sections sportives
+	* Amélioration du script d'installation/désinstallation
