@@ -677,13 +677,6 @@
             </property>
            </spacer>
           </item>
-          <item row="0" column="0" colspan="3" >
-           <widget class="QListWidget" name="listCache" >
-            <property name="selectionMode" >
-             <enum>QAbstractItemView::ExtendedSelection</enum>
-            </property>
-           </widget>
-          </item>
           <item rowspan="2" row="0" column="3" >
            <widget class="QTreeWidget" name="showCache" >
             <property name="minimumSize" >
@@ -708,6 +701,16 @@
               <string>Value</string>
              </property>
             </column>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="3" >
+           <widget class="RzxComputerListWidget" name="listCache" >
+            <property name="dragEnabled" >
+             <bool>true</bool>
+            </property>
+            <property name="selectionMode" >
+             <enum>QAbstractItemView::ExtendedSelection</enum>
+            </property>
            </widget>
           </item>
          </layout>
@@ -1478,6 +1481,13 @@
    <class>RzxModuleLoaderProp</class>
    <extends>QWidget</extends>
    <header>rzxmodule.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>RzxComputerListWidget</class>
+   <extends>QListWidget</extends>
+   <header>rzxcomputerlistwidget.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

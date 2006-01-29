@@ -285,7 +285,7 @@ void RzxProperty::fillCacheList()
 		if(name.right(2) == "()") name = RzxConfig::getNameFromCache(ip, "$p $n");
 		QListWidgetItem *item = new QListWidgetItem(listCache);
 		item->setText(name);
-		item->setData(Qt::UserRole, ip.toRezix());
+		item->setData(Qt::UserRole, ip.toString());
 		const RzxComputer *computer = RzxConnectionLister::global()->getComputerByIP(ip);
 		if(computer)
 			item->setIcon(computer->icon());
@@ -303,7 +303,7 @@ void RzxProperty::fillCacheView()
 	if(!item)
 		ip = RzxComputer::localhost()->ip();
 	else
-	 	ip = RzxHostAddress::fromRezix(item->data(Qt::UserRole).toInt());
+	 	ip = RzxHostAddress(item->data(Qt::UserRole).toString());
 	RzxConfig::fillWithCache(ip, showCache);
 	showCache->setEnabled(item);
 	btnDeleteCache->setEnabled(item);

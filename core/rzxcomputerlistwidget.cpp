@@ -67,7 +67,12 @@ QMimeData *RzxComputerListWidget::mimeData(const QList<QListWidgetItem*> items) 
 {
 	QStringList names;
 	foreach(QListWidgetItem *item, items)
-		names << item->text();
+	{
+		QString name = item->data(Qt::UserRole).toString();
+		if(name.isEmpty())
+			name = item->text();
+		names << name;
+	}
 	QMimeData *data = new QMimeData;
 	data->setText(names.join("|"));
 	return data;

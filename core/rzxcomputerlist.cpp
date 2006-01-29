@@ -88,7 +88,13 @@ void RzxComputerList::add(const QString& name)
 {
 	remove(name);
 	if(type == Name)
-		nameList << name;
+	{
+		const RzxComputer *computer = RzxConnectionLister::global()->getComputerByIP(name);
+		if(!computer)
+			nameList << name;
+		else
+			nameList << computer->name();
+	}
 	else if(type == Address)
 	{
 		const RzxComputer *computer = RzxConnectionLister::global()->getComputerByName(name);
@@ -108,8 +114,10 @@ void RzxComputerList::add(const RzxHostAddress& address)
 	const RzxComputer *computer = RzxConnectionLister::global()->getComputerByIP(address);
 	if(type == Name)
 	{
-		if(!computer) return;
-		nameList << computer->name();
+		if(!computer)
+			nameList << address.toString();
+		else
+			nameList << computer->name();
 	}
 	else if(type == Address)
 	{
@@ -171,7 +179,10 @@ void RzxComputerList::remove(const RzxComputer* computer)
 {
 	if(!computer) return;
 	if(type == Name)
+	{
 		remove(computer->name());
+		remove(computer->ip().toString());
+	}
 	else if(type == Address)
 		remove(computer->ip());
 }
@@ -199,7 +210,7 @@ bool RzxComputerList::contains(const RzxComputer *computer) const
 {
 	if(!computer) return false;
 	if(type == Name)
-		return contains(computer->name());
+		return contains(computer->name()) || contains(computer->ip().toString());
 	else //pas de test type == Addres pour éviter les warning le compilation
 		return contains(computer->ip());
 }
@@ -236,7 +247,11 @@ QList<RzxComputer*> RzxComputerList::computers() const
 	{
 		RzxComputer *computer;
 		if(type == Name)
+		{
 			computer = RzxConnectionLister::global()->getComputerByName(nameList[i]);
+			if(!computer)
+				computer = RzxConnectionLister::global()->getComputerByIP(nameList[i]);
+		}
 		else
 			computer = RzxConnectionLister::global()->getComputerByIP(addressList[i]);
 		computers << computer;
@@ -251,14 +266,14 @@ QStringList RzxComputerList::humanReadable() const
 	if(type == Name)
 		desc = nameList;
 	else
-	{
 		for(int i = 0 ; i < addressList.size() ; i++)
-		{
-			if(nameList[i].isEmpty())
-				desc << addressList[i].toString();
-			else
-				desc << nameList[i];
-		}
+			desc << addressList[i].toString();
+
+	for(int i = 0 ; i < desc.size() ; i++)
+	{
+		const RzxComputer *computer = RzxConnectionLister::global()->getComputerByIP(desc[i]);
+		if(computer)
+			desc[i] = computer->name();
 	}
 
 	return desc;
