@@ -271,7 +271,11 @@ void RzxRezalMap::setMap(int map)
 	if(map < mapTable.size() && map >= 0 && mapTable[map])
 	{
 		if(currentMap != mapTable[map])
+		{
 			currentMap = mapTable[map];
+			if(mapChooser->currentIndex() != map)
+				mapChooser->setCurrentIndex(map);
+		}
 		else
 			return;
 	}
@@ -335,15 +339,7 @@ void RzxRezalMap::resizeEvent(QResizeEvent *e)
 ///Change la carte active vers la carte indiquée
 void RzxRezalMap::setMap(const QString& name)
 {
-	for(int i = 0 ; i < mapTable.size() ; i++)
-	{
-		if(mapTable[i]->name == name)
-		{
-			setMap(i);
-			mapChooser->setCurrentIndex(i);
-			return;
-		}
-	}
+	setMap(map(name));
 }
 
 ///Déplace la carte vers le lieux demandé
@@ -363,13 +359,6 @@ void RzxRezalMap::setPlace(int place)
 		}
 	}
 }
-
-///Vérifie que le nom de lieu tapé correspond bien à un existant
-void RzxRezalMap::checkPlace(const QString &)
-{
-	//TODO
-}
-
 
 ///Retourne une fenêtre utilisable pour l'affichage.
 QAbstractItemView *RzxRezalMap::widget()
@@ -476,7 +465,6 @@ void RzxRezalMap::scrollTo(const QModelIndex& index, ScrollHint hint)
 		if(model()->data(index, Qt::UserRole).canConvert<RzxComputer*>())
 			i = map(model()->data(index, Qt::UserRole).value<RzxComputer*>()->ip());
 		setMap(i);
-		mapChooser->setCurrentIndex(i);
 		return;
 	}
 
@@ -809,7 +797,6 @@ void RzxRezalMap::currentChanged(const QModelIndex &current, const QModelIndex &
 				{
 					const int m = map(RzxConfig::rezalBase(rezal));
 					setMap(m);
-					mapChooser->setCurrentIndex(m);
 				}
 			}
 		}

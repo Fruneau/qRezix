@@ -462,6 +462,7 @@ void QRezix::buildActions()
 	menuPlugins.addMenu(&menuView);
 	menuPlugins.addMenu(&menuCentral);
 	pluginsAction->setMenu(&menuPlugins);
+	pluginsAction->setShortcut(Qt::Key_F5); //c'est associé à updateLayout ~= refresh
 	connect(pluginsAction, SIGNAL(triggered()), this, SLOT(updateLayout()));
 
 	prefAction = new QAction(tr("Preferences"), this);
