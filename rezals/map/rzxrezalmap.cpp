@@ -614,6 +614,8 @@ int RzxRezalMap::map(const QString& name) const
 QString RzxRezalMap::link(const RzxHostAddress& ip) const
 {
 	Map *localMap = currentMap;
+	QList<Map*> maps;
+	maps << localMap;
 	while(true)
 	{
 		QString lnk = localMap->links[ip];
@@ -633,6 +635,15 @@ QString RzxRezalMap::link(const RzxHostAddress& ip) const
 			localMap = mapTable[map(lnk)];
 		else
 			return localMap->name;
+
+		if(maps.contains(localMap))
+		{
+			if(maps.size() > 1)
+				return maps[1]->name;
+			else
+				return maps[0]->name;
+		}
+		maps << localMap;
 	}
 }
 
