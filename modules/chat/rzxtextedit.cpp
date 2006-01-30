@@ -187,12 +187,20 @@ bool RzxTextEdit::nickAutocompletion()
 			if(mask.indexIn(nick) != -1) nick = mask.cap(1);
 			if(!remoteLower.indexOf(nick, false) && localLower.indexOf(nick, false))
 			{
-				cursor.insertText(remoteName.right(remoteName.length()-nick.length()) + " ");
+				for(int i = 0; i< nick.length();i++)
+				{
+					cursor.deletePreviousChar ();
+				}
+				cursor.insertText(remoteName + " ");
 				return true;
 			}
 			else if(remoteLower.indexOf(nick, false) && !localLower.indexOf(nick, false))
 			{
-				cursor.insertText(localName.right(localName.length()-nick.length()) + " ");
+				for(int i = 0; i< nick.length();i++)
+				{
+					cursor.deletePreviousChar ();
+				}
+				cursor.insertText(localName + " ");
 				return true;
 			}
 			return false;
