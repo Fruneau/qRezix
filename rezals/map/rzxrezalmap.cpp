@@ -730,10 +730,16 @@ void RzxRezalMap::paintEvent(QPaintEvent*)
 		{
 			const QPolygon polyg = polygon(ip);
 			const QRect rect = polyg.boundingRect();
-			const QPixmap icon = computer->icon().scaled(rect.width(), rect.height());
+			int w = rect.width(), h = rect.height();
+			int px = w, py = h;
+			if(4*w < 3*h) w = (h * 3) / 4;
+			if(4*h < 3*w) h = (w * 3) / 4;
+			px = (w - px) / 2;
+			py = (h - py) / 2;
+			const QPixmap icon = computer->icon().scaled(w, h);
 			newBrush.setTexture(icon);
 			painter.setBrush(newBrush);
-			painter.setBrushOrigin(rect.topLeft());
+			painter.setBrushOrigin(rect.topLeft() - QPoint(px, py));
 			painter.drawPolygon(polyg);
 		}
 	}
