@@ -784,7 +784,7 @@ void RzxTrayIcon::sysUpdateIcon()
 		RestoreApplicationDockTileImage();
 	else
 	{
-		QPixmap scaled_pixmap = pm.scaled(128, 128, Qt::SmoothTransformation);
+		QPixmap scaled_pixmap = pm.scaled(128, 128, Qt::IgnoreAspectRatio ,Qt::SmoothTransformation);
 		CGImageRef ir = (CGImageRef)scaled_pixmap.macCGHandle();
 		SetApplicationDockTileImage(ir);
 	}
