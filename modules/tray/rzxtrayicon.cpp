@@ -770,6 +770,8 @@ void RzxTrayIcon::sysUpdateToolTip()
 #else
 #ifdef Q_OS_MAC
 
+#include <Carbon/Carbon.h>
+
 void RzxTrayIcon::sysInstall()
 {}
 
