@@ -632,7 +632,11 @@ QString RzxRezalMap::link(const RzxHostAddress& ip) const
 		}
 
 		if(!lnk.isNull())
-			localMap = mapTable[map(lnk)];
+		{
+			const int mapId = map(lnk);
+			if(mapId == -1) return localMap->name;
+			localMap = mapTable[mapId];
+		}
 		else
 			return localMap->name;
 
