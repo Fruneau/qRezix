@@ -34,7 +34,7 @@ RZX_GLOBAL_INIT(RzxIconCollection)
  * perdrait beaucoup de son intérêt...
  */
 const RzxIconCollection::IconData RzxIconCollection::data[] = {
-	{ Rzx::ICON_ACTION, "action", true },
+	{ Rzx::ICON_ACTION, "action", false },
 	{ Rzx::ICON_APPLY, "apply", false },
 	{ Rzx::ICON_OK, "ok", false },
 	{ Rzx::ICON_CANCEL, "cancel", false },
