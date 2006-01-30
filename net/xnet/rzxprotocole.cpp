@@ -228,6 +228,8 @@ void RzxProtocole::sendAuth(const QString& passcode)
 }
 
 void RzxProtocole::sendRefresh() {
+	if(!valid)
+		return;
 	QString msg = "REFRESH ";
 	msg = msg + RzxComputer::localhost()->serialize(serialPattern) + "\r\n";
 	send(msg);

@@ -135,7 +135,8 @@ namespace Rzx
 		ICON_MAIL = 61,				/**< Icône pour les mails */
 		ICON_PHONE = 62,				/**< Icône pour le téléphone */
 		ICON_FILE = 63,				/**< Icône pour les fichiers */
-		ICON_NUMBER = 64				/**< Nombre d'icône... */
+		ICON_SYSTRAYDISCON = 64,	/**< Icône Trayicon en cas de déconnexion des serveurs */
+		ICON_NUMBER = 65				/**< Nombre d'icône... */
 	};
 
 	///Types de messages auxquel on peut s'attendre dans un protocole de chat

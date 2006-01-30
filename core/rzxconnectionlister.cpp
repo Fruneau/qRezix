@@ -49,6 +49,7 @@ RzxConnectionLister::RzxConnectionLister( QObject *parent)
 
 	delayDisplay.setSingleShot(true);
 	setSettings(RzxConfig::global());
+	RzxComputer::localhost()->setState(Rzx::STATE_DISCONNECTED);
 
 	loadModules();	
 	connect(&delayDisplay, SIGNAL(timeout()), this, SLOT(login()));
@@ -126,6 +127,11 @@ void RzxConnectionLister::relinkModules(RzxNetwork *newNetwork, RzxNetwork *)
 void RzxConnectionLister::unloadModule(RzxNetwork *network)
 {
 	if(!network) return;
+	if(network->isStarted())
+	{
+		disconnect(network, SIGNAL( disconnected(RzxNetwork*) ), this, SLOT( newDisconnection(RzxNetwork*) ) );
+		newDisconnection(network);
+	}
 	network->stop();
 	clearComputerFromNetwork(network);
 	RzxBaseLoader<RzxNetwork>::unloadModule(network);
@@ -283,6 +289,8 @@ void RzxConnectionLister::newDisconnection(RzxNetwork*)
 		connectionNumber--;
 	else
 		qDebug("Invalid disconnection");
+	if(!connectionNumber)
+		RzxComputer::localhost()->setState(Rzx::STATE_DISCONNECTED);
 }
 
 ///Gère la connexion d'un RzxNetwork
@@ -300,6 +308,8 @@ void RzxConnectionLister::newConnection(RzxNetwork* network)
 		connectionNumber++;
 	else
 		qDebug("Invalid connection");
+	if(connectionNumber)
+		RzxComputer::localhost()->setState(RzxConfig::autoResponder());
 }
 
 ///Retire de la liste des ordinateurs ceux associé au module réseau donné
@@ -307,14 +317,14 @@ void RzxConnectionLister::clearComputerFromNetwork(RzxNetwork *network)
 {
 	foreach(RzxComputer *computer, displayWaiter)
 	{
-		if(!computer && computer->network() == network)
+		if(computer && computer->network() == network)
 			displayWaiter.removeAll(computer);
 	}
 
 	foreach(QString key, computerByLogin.keys())
 	{
 		RzxComputer *computer = computerByLogin[key];
-		if(!computer && computer->network() == network)
+		if(computer && computer->network() == network)
 			computerByLogin.remove(key);
 	}
 	

@@ -121,10 +121,14 @@ void RzxTrayIcon::changeTrayIcon()
 {
 	// Change l'icone dans la tray
 	QPixmap trayIcon;
-	if(!RzxConfig::autoResponder())
+	if(RzxComputer::localhost()->state() == Rzx::STATE_DISCONNECTED)
+		trayIcon = RzxIconCollection::getPixmap(Rzx::ICON_SYSTRAYDISCON);
+	else if(!RzxConfig::autoResponder())
 		trayIcon = RzxIconCollection::getPixmap(Rzx::ICON_SYSTRAYHERE);
 	else
 		trayIcon = RzxIconCollection::getPixmap(Rzx::ICON_SYSTRAYAWAY);
+	if(trayIcon.isNull())
+		trayIcon = RzxIconCollection::qRezixIcon();
 #ifdef Q_WS_MAC
 	buildMenu();
 #else
@@ -773,7 +777,16 @@ void RzxTrayIcon::sysRemove()
 {}
 
 void RzxTrayIcon::sysUpdateIcon()
-{}
+{
+	if(pm.isNull())
+		RestoreApplicationDockTileImage();
+	else
+	{
+		QPixmap scaled_pixmap = pm.scaled(128, 128, Qt::SmoothTransformation);
+		CGImageRef ir = (CGImageRef)scaled_pixmap.macCGHandle();
+		SetApplicationDockTileImage(ir);
+	}
+}
 
 void RzxTrayIcon::sysUpdateToolTip()
 {}

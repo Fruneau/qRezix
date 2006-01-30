@@ -154,17 +154,6 @@ bool RzxApplication::loadCore()
 	//Chargement des configs
 	setSettings(new RzxConfig());
 	setWindowIcon(RzxIconCollection::qRezixIcon());
-#ifdef Q_OS_MAC
-	const QPixmap pixmap = RzxIconCollection::qRezixIcon();
-	if(pixmap.isNull())
-		RestoreApplicationDockTileImage();
-	else
-	{
-		QPixmap scaled_pixmap = pixmap.scaled(128, 128);
-		CGImageRef ir = (CGImageRef)scaled_pixmap.macCGHandle();
-		SetApplicationDockTileImage(ir);
-	}
-#endif
 
 	//Initialisation de l'objet représentant localhost
 	RzxComputer::localhost();
