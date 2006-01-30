@@ -63,7 +63,6 @@ RzxRezalMap::RzxRezalMap(QWidget *widget)
 	placeSearch->setEditable(true);
 	placeSearch->setAutoCompletion(true);
 	connect(placeSearch, SIGNAL(activated(int)),this, SLOT(setPlace(int)));
-	connect(placeSearch, SIGNAL(editTextChanged(const QString &)),this, SLOT(checkPlace(const QString &)));
 	currentPlace = "";
 
 	QStringList mapNames = loadMaps();
@@ -609,6 +608,34 @@ int RzxRezalMap::map(const QString& name) const
 	return -1;
 }
 
+///Parcours les liens en profondeur pour trouver la carte à afficher
+/** Retourne le nom de la carte à afficher
+ */
+QString RzxRezalMap::link(const RzxHostAddress& ip) const
+{
+	Map *localMap = currentMap;
+	while(true)
+	{
+		QString lnk = localMap->links[ip];
+		if(lnk.isNull())
+		{
+			foreach(RzxSubnet net, localMap->subnets)
+			{
+				if(net.contains(ip))
+				{
+					lnk = localMap->links[net.network()];
+					break;
+				}
+			}
+		}
+
+		if(!lnk.isNull())
+			localMap = mapTable[map(lnk)];
+		else
+			return localMap->name;
+	}
+}
+
 ///Retourne le lieu associé à l'index
 QString RzxRezalMap::place(const QModelIndex& index) const
 {
@@ -850,7 +877,7 @@ void RzxRezalMap::mousePressEvent(QMouseEvent *e)
 				setPlace(placeId);
 			currentHasChanged = false;
 		}
-		else if(index.parent() == currentIndex().parent() && index.row() == currentIndex().row()) //même ligne ?
+		else if(place(index) == place(currentIndex())) //même ligne ?
 		{
 			selection = Index;
 			viewport()->update();
@@ -887,13 +914,34 @@ void RzxRezalMap::mouseReleaseEvent(QMouseEvent *)
 void RzxRezalMap::mouseDoubleClickEvent(QMouseEvent *e)
 {
 	QAbstractItemView::mouseDoubleClickEvent(e);
+	QModelIndex index = indexAt(e->pos());
+	if(place(index) == place(currentIndex()))
+		index = currentIndex();
 
-	foreach(RzxHostAddress host, currentMap->polygons.keys())
+	//Si on peu attribuer une ip à l'index ==> on parcours les liens en profondeur vers cette ip
+	QHostAddress ip;
+	QVariant data = RzxRezalModel::global()->data(index, Qt::UserRole);
+	if(data.canConvert<RzxComputer*>())
+		ip = data.value<RzxComputer*>()->ip();
+	else
 	{
-		if(QRegion(polygon(host)).contains(e->pos()))
+		const int rezal = RzxRezalModel::global()->rezal(index);
+		if(rezal != -1)
+			ip = RzxConfig::rezalBase(rezal);
+	}
+
+	if(!ip.isNull())
+		setMap(map(link(ip)));
+	else
+	{
+		//Sinon on fait au plus facile...
+		foreach(RzxHostAddress host, currentMap->polygons.keys())
 		{
-			setMap(currentMap->links[host]);
-			return;
+			if(QRegion(polygon(host)).contains(e->pos()))
+			{
+				setMap(map(link(host)));
+				return;
+			}
 		}
 	}
 }
