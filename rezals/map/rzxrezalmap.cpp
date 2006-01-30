@@ -592,12 +592,33 @@ QRegion RzxRezalMap::visualRegionForSelection(const QItemSelection& sel) const
 }
 
 ///Recherche une carte qui contient exactement l'adresse donnée
-int RzxRezalMap::map(const RzxHostAddress& ip) const
+int RzxRezalMap::map(const RzxHostAddress& ip, bool withGlobal) const
 {
-	for(int i=0 ; i< mapTable.size() ; i++)
-		if(mapTable[i]->polygons.keys().contains(ip) && !mapTable[i]->polygons[ip].isNull())
+	for(int i = withGlobal? 0:1 ; i< mapTable.size() ; i++)
+	{
+		const QString link = mapTable[i]->links[ip];
+		if(mapTable[i]->polygons.keys().contains(ip) && !mapTable[i]->polygons[ip].isNull() && link.isNull())
 			return i;
-	return 0;
+		if(!link.isNull())
+		{
+			const int m = map(link);
+			if(m != -1)
+				return m;
+		}
+	}
+	if(withGlobal)
+		return 0;
+	else
+		return map(ip, true);
+}
+
+///Recherche la carte dont le nom est spécifié
+int RzxRezalMap::map(const QString& name) const
+{
+	for(int i = 0 ; i< mapTable.size() ; i++)
+		if(mapTable[i]->name == name)
+			return i;
+	return -1;
 }
 
 ///Retourne le lieu associé à l'index
@@ -771,6 +792,19 @@ void RzxRezalMap::currentChanged(const QModelIndex &current, const QModelIndex &
 			{
 				placeSearch->setCurrentIndex(i);
 				setPlace(i);
+			}
+		}
+		else
+		{
+			if(currentMap != mapTable[0])
+			{
+				const int rezal = RzxRezalModel::global()->rezal(current);
+				if(rezal != -1)
+				{
+					const int m = map(RzxConfig::rezalBase(rezal));
+					setMap(m);
+					mapChooser->setCurrentIndex(m);
+				}
 			}
 		}
 		return;

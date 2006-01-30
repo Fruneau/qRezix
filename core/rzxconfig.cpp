@@ -464,6 +464,15 @@ QString RzxConfig::rezalName(const QHostAddress& addr, bool shortname)
 	return rezalName(rezal(addr), shortname);
 }
 
+///Retourne une adresse appartenant au rezal indiqué
+RzxHostAddress RzxConfig::rezalBase(int rezalid)
+{
+	if(rezalid >= (int)rezalNumber() || rezalid < 0)
+		return RzxHostAddress();
+
+	return global()->rezalSubnets[rezalid][0].network();
+}
+
 
 /*******************************************************************************
 * EMISSION DE MESSAGES                                                         *

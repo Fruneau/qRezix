@@ -200,7 +200,8 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 		QString place(const QModelIndex&) const;
 		QString place(const RzxHostAddress&) const;
 
-		int map(const RzxHostAddress&) const;
+		int map(const RzxHostAddress&, bool = false) const;
+		int map(const QString&) const;
 
 		QPolygon polygon(const QModelIndex&) const;
 		QPolygon polygon(const RzxHostAddress&) const;

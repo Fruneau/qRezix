@@ -130,6 +130,7 @@ public:
 	static int rezal(const QHostAddress&);
 	static QString rezalName(int, bool = true);
 	static QString rezalName(const QHostAddress&, bool = true);
+	static RzxHostAddress rezalBase(int);
 
 
 //Gestion des répertoires et du stockage des données
