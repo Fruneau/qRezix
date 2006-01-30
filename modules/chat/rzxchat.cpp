@@ -372,6 +372,11 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 
 	//Nettoyage du html du message
 	QString msg(argMsg);
+	if(msg.indexOf("<html>"))
+	{
+		msg.replace(QRegExp("&(?!\\w+;)"), "&amp;");
+		msg.replace("<", "&lt;");
+	}
 	msg.remove(QRegExp("<head>.*</head>")).remove("<html>")
 		.remove(QRegExp("<body[^<>]*>")).remove("</html>").remove("</body>");
 
@@ -472,14 +477,13 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 /** Affiche un message reçu, et emet un son s'il faut */
 void RzxChat::receive(const QString& msg)
 {
-	QString message = msg;
 	if(ui->btnSound->isChecked())
 		RzxSound::play(RzxChatConfig::beepSound());	
 	
 	if(RzxConfig::autoResponder())
-		append("darkgray", RzxChatConfig::prompt(), message, m_computer);
+		append("darkgray", RzxChatConfig::prompt(), msg, m_computer);
 	else
-		append("blue", RzxChatConfig::prompt(), message, m_computer);
+		append("blue", RzxChatConfig::prompt(), msg, m_computer);
 	if(!isActiveWindow())
 	{
 		unread++;
@@ -557,12 +561,15 @@ void RzxChat::on_btnSend_clicked()
 	//Après l'analyse du texte, on sélectionne ce qui va bien
 	QString msg;
 	if(format)
+	{
 		msg = htmlMsg;
+		if(!msg.contains("<html>"))
+			msg = "<html>" + msg + "</html>";
+	}
 	else
 		msg = rawMsg;
 		
-	QString dispMsg = msg;
-	append("red", RzxChatConfig::prompt(), dispMsg, RzxComputer::localhost());
+	append("red", RzxChatConfig::prompt(), msg, RzxComputer::localhost());
 	sendChat(msg);	//passage par la sous-couche de gestion du m_socket avant d'émettre
 
 	ui->edMsg->validate();
