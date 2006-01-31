@@ -689,7 +689,10 @@ void RzxProperty::updateLocalHost()
 
 	const QPixmap *localhostIcon = pxmIcon->pixmap();
 	if(RzxIconCollection::global()->localhostPixmap().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
+	{
 		RzxIconCollection::global()->setLocalhostPixmap(*localhostIcon);
+		RzxComputer::localhost()->setIcon(*localhostIcon);
+	}
 
 	const RzxComputer::Servers oldservers = RzxComputer::localhost()->serverFlags();
 	if(servers != oldservers)

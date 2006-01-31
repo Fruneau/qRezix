@@ -106,7 +106,7 @@ protected slots:
 
 	virtual void send(const QString& msg);
 	virtual void pingReceived();
-	void sendIcon(const QImage& image);
+	virtual void sendIcon(const QImage& image);
 
 	void timeout();
 	void haveActivity();

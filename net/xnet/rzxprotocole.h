@@ -94,6 +94,8 @@ protected slots:
 	virtual void send(const QString&) = 0;
 	///Réception d'un ping
 	virtual void pingReceived() = 0;
+	///Envoie d'une image
+	virtual void sendIcon(const QImage& image) = 0;
 
 public slots:
 	/** Demande un envoi d'icone

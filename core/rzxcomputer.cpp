@@ -473,6 +473,8 @@ void RzxComputer::setIcon(const QPixmap& image){
 	m_icon = image;
 	if(isLocalhost())
 		localhost()->m_icon = image;
+	if(isLocalhostObject())
+		emitStateChanged();
 	emit update(this);
 }
 

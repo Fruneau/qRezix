@@ -35,6 +35,7 @@
 #include <RzxChangePass>
 #include <RzxApplication>
 #include <RzxTranslator>
+#include <RzxConnectionLister>
 
 #include "rzxprotocole.h"
 #include "rzxxnetconfig.h"
@@ -212,6 +213,7 @@ void RzxProtocole::beginAuth()
 	sendAuth(RzxXNetConfig::pass());
 }
 
+///Envoie les messages d'authentification pour initier la connexion
 void RzxProtocole::sendAuth(const QString& passcode)
 {
 	QString msg = "VERSION 4.0\r\n";
@@ -227,20 +229,34 @@ void RzxProtocole::sendAuth(const QString& passcode)
 	auth = true;
 }
 
-void RzxProtocole::sendRefresh() {
+///Envoie les informations concernant localhost au serveur...
+void RzxProtocole::sendRefresh()
+{
 	if(!valid)
 		return;
+	RzxComputer *me = RzxConnectionLister::global()->getComputerByName(RzxComputer::localhost()->name());
+	if(me && me->icon().serialNumber() != RzxComputer::localhost()->icon().serialNumber())
+		sendIcon(RzxComputer::localhost()->icon().toImage());
+	else
+		qDebug() << "Pas de machine pour représenter localhost...";
 	QString msg = "REFRESH ";
 	msg = msg + RzxComputer::localhost()->serialize(serialPattern) + "\r\n";
 	send(msg);
 }
 
+///Demande la fermeture de la connexion
 void RzxProtocole::sendPart() {
 	send("PART\r\n");
 }
+
+///Réponse au PING envoyé par le serveur
+/** Permet de tester l'état de la connexion
+ */
 void RzxProtocole::sendPong() {
 	send("PONG\r\n");
 }
+
+///Demande le téléchargement de l'icône associée à l'ip indiquée
 void RzxProtocole::getIcon(const RzxHostAddress& ip) {
 	QString msg = "DOWNLOAD " + QString::number(ip.toRezix(), 16) + "\r\n";
 	send(msg);
@@ -249,11 +265,13 @@ void RzxProtocole::getIcon(const RzxHostAddress& ip) {
 /****************************************************************************
 * CHANGEMENT DU PASS
 */
+///Demande à l'utilisateur d'entrer un nouveau mot de passe
 void RzxProtocole::wantChangePass()
 {
 	new RzxChangePass(this, m_oldPass);
 }
 
+///Envoie au serveur une demande de changement de mot de passe
 void RzxProtocole::changePass(const QString& newPass)
 {
 	m_newPass = newPass + MD5_ADD;
