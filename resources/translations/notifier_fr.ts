@@ -61,7 +61,7 @@
     </message>
     <message>
         <source>Show a notification window on favorite&apos;s state modification</source>
-        <translation>Afficher les fenêtre de notification des favoris</translation>
+        <translation>Afficher les fenêtres de notification des favoris</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Select the sound to play when a favorite get connected&lt;/p&gt;</source>
