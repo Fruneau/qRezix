@@ -666,6 +666,7 @@ bool QRezix::event(QEvent * e)
 {
 	if(e->type()==QEvent::WindowStateChange && isMinimized() && RzxApplication::instance()->hasHider())
 	{
+		QMainWindow::event(e);
 		hide();
 		return true;
 	}

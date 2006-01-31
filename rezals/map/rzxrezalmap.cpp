@@ -938,12 +938,6 @@ void RzxRezalMap::mouseDoubleClickEvent(QMouseEvent *e)
 	QVariant data = RzxRezalModel::global()->data(index, Qt::UserRole);
 	if(data.canConvert<RzxComputer*>())
 		ip = data.value<RzxComputer*>()->ip();
-	else
-	{
-		const int rezal = RzxRezalModel::global()->rezal(index);
-		if(rezal != -1)
-			ip = RzxConfig::rezalBase(rezal);
-	}
 
 	if(!ip.isNull())
 		setMap(map(link(ip)));
@@ -954,7 +948,7 @@ void RzxRezalMap::mouseDoubleClickEvent(QMouseEvent *e)
 		{
 			if(QRegion(polygon(host)).contains(e->pos()))
 			{
-				setMap(map(link(host)));
+				setMap(currentMap->links[host]);
 				return;
 			}
 		}
