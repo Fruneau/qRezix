@@ -493,6 +493,14 @@
         <source>send a Mail</source>
         <translation>Envoyer un Mail</translation>
     </message>
+    <message>
+        <source>Add to a group</source>
+        <translation>Ajouter à un groupe...</translation>
+    </message>
+    <message>
+        <source>Remove from group</source>
+        <translation>Supprimer d&apos;un groupe...</translation>
+    </message>
 </context>
 <context>
     <name>RzxRezalViewProp</name>
