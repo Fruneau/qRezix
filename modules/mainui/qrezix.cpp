@@ -664,7 +664,12 @@ bool QRezix::eventFilter(QObject *obj, QEvent *e)
  */
 bool QRezix::event(QEvent * e)
 {
-	if(e->type()==QEvent::WindowDeactivate)
+	if(e->type()==QEvent::WindowStateChange && isMinimized() && RzxApplication::instance()->hasHider())
+	{
+		hide();
+		return true;
+	}
+	else if(e->type()==QEvent::WindowDeactivate)
 	{
 		if(isMinimized() && RzxApplication::instance()->hasHider())
 			hide();
