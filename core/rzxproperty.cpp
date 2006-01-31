@@ -151,6 +151,8 @@ RzxProperty::RzxProperty(QWidget *parent)
 #if defined(WIN32) || defined(Q_OS_MAC)
 	lblWorkDir_2->hide();
 	txtBeepCmd->hide();
+	lblSoundIcon->hide();
+	lineSound->hide();
 #endif
 
 #ifdef Q_OS_MAC
