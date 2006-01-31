@@ -159,6 +159,11 @@ void RzxUi::propInit(bool def)
 {
 	if(!ui) return;
 
+	disconnect(this, SLOT(enterPressed(bool&)));
+	RzxProperty *prop = qobject_cast<RzxProperty*>(groupsWidget->window());
+	if(prop)
+		connect(prop, SIGNAL(enterPressed(bool&)), this, SLOT(enterPressed(bool&)));
+
 	QList<RzxRezal*> rezals = qrezix->moduleList();
 	foreach(RzxRezal *rezal, rezals)
 		rezal->propInit(def);
@@ -327,6 +332,18 @@ void RzxUi::fillGroupsBox()
 	}
 	groupsUi->lstGroups->sortItems();
 	groupsUi->lstMembers->setList(NULL);
+}
+
+///Lorsque la touche Enter est appuyée...
+void RzxUi::enterPressed(bool& used)
+{
+	if(used) return;
+
+	if(groupsUi->btnAdd->isEnabled() && (groupsUi->newGroup->hasFocus() || groupsUi->btnAdd->hasFocus()))
+	{
+		used = true;
+		addGroup();
+	}
 }
 
 ///On a appuyé sur add ==> on ajoute un groupe

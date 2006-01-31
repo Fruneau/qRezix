@@ -59,6 +59,7 @@ class RzxListEdit: public QWidget
 		void add(const RzxHostAddress&);
 		void remove();
 		void tryRemove();
+		void enterPressed(bool&);
 		void edited(const QString&);
 		void selectionChanged();
 		void refresh(RzxComputer*);

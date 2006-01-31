@@ -60,9 +60,13 @@ void RzxListEdit::setList(RzxComputerList *m_list)
 	list = m_list;
 
 	disconnect(this, SLOT(tryRemove()));
+	disconnect(this, SLOT(enterPressed(bool&)));
 	RzxProperty *prop = qobject_cast<RzxProperty*>(window());
 	if(prop)
+	{
 		connect(prop, SIGNAL(deleteWanted()), this, SLOT(tryRemove()));
+		connect(prop, SIGNAL(enterPressed(bool&)), this, SLOT(enterPressed(bool&)));
+	}
 
 	refresh();
 }
@@ -97,7 +101,6 @@ void RzxListEdit::refresh()
 		if(!list->contains(computer))
 			ui->editNew->addItem(computer->icon(), computer->ip().toString() + " (" + computer->name() + ")");
 	}
-
 }
 
 ///Effectue un raffraichissement alléger... sans regénérer la liste des ordinateurs
@@ -127,7 +130,7 @@ void RzxListEdit::add()
 	else
 		add(text);
 
-	ui->editNew->clear();
+	ui->editNew->clearEditText();
 	lightRefresh();
 }
 
@@ -151,6 +154,18 @@ void RzxListEdit::add(const RzxHostAddress& ip)
 	RzxComputer *computer = RzxConnectionLister::global()->getComputerByIP(ip);
 	if(computer)
 		computer->emitUpdate();
+}
+
+///Gère la pression sur la touche Enter
+void RzxListEdit::enterPressed(bool& used)
+{
+	if(used) return;
+
+	if(ui->btnAdd->isEnabled() && (ui->editNew->hasFocus() || ui->btnAdd->hasFocus()))
+	{
+		used = true;
+		add();
+	}
 }
 
 ///Teste si le focus appartient à la fenêtre courante avant d'appeler remove

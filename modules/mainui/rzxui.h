@@ -96,6 +96,8 @@ class RZX_MAINUI_EXPORT RzxUi:public RzxModule
 		void redrawCorners();
 		void drawCorner(QPainter &, QComboBox *, int, int);
 		void drawRect(QPainter &, const QColor&, int, int, int, int);
+
+		void enterPressed(bool&);
 };
 
 #endif

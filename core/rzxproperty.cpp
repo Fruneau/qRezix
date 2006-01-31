@@ -113,8 +113,13 @@ RzxProperty::RzxProperty(QWidget *parent)
 	connect(btnDeleteCache, SIGNAL(clicked()), this, SLOT(deleteCache()));
 	connect(btnSendMail, SIGNAL(clicked()), this, SLOT(sendMailToCache()));
 	connect(this, SIGNAL(deleteWanted()), this, SLOT(tryDeleteCache()));
+
+	//Connection des différentes combinaisons clavier...
 	new QShortcut(Qt::Key_Backspace, this, SIGNAL(deleteWanted()));
 	new QShortcut(Qt::Key_Delete, this, SIGNAL(deleteWanted()));
+	new QShortcut(Qt::Key_Enter, this, SLOT(emitEnterPressed()));
+	new QShortcut(Qt::Key_Return, this, SLOT(emitEnterPressed()));
+
 
 	//Navigation entre les différentes pages
 	connect(lbMenu, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), 
@@ -855,6 +860,15 @@ void RzxProperty::setVisible(bool visible)
 {
 	QDialog::setVisible(visible);
 	if(visible) fillThemeView();
+}
+
+///Pour gérer la pression de Enter
+void RzxProperty::emitEnterPressed()
+{
+	bool used = false;
+	emit enterPressed(used);
+	if(!used)
+		oK();
 }
 
 ///Change la langue...

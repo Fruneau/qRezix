@@ -134,12 +134,23 @@ protected slots: // Protected slots
 	void deleteCache();
 	void tryDeleteCache();
 
+	void emitEnterPressed();
+
 signals:
 	///Ce signal est émis lors de la pression de Del ou Backspace
 	/** Permet de centraliser la gestion de l'appuie de ces deux touches
 	 * et que TOUTES les widgets concernés puisse le recevoir et l'analyser
 	 */
 	void deleteWanted();
+
+	///Ce signal est émis lorsque la touche Enter est pressée...
+	/** Cela permet de partager l'information avec toutes les sous-fenêtres
+	 * qui peuvent nécessiter la pression de Enter avant valider le contenu
+	 * de la fenêtre.
+	 *
+	 * Si used = true, quelqu'un a déjà utilisé l'information
+	 */
+	void enterPressed(bool &used);
 };
 
 ///Inclu les modules dans la fenêtre de propriétés
