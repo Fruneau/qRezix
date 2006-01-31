@@ -237,8 +237,6 @@ void RzxProtocole::sendRefresh()
 	RzxComputer *me = RzxConnectionLister::global()->getComputerByName(RzxComputer::localhost()->name());
 	if(me && me->icon().serialNumber() != RzxComputer::localhost()->icon().serialNumber())
 		sendIcon(RzxComputer::localhost()->icon().toImage());
-	else
-		qDebug() << "Pas de machine pour représenter localhost...";
 	QString msg = "REFRESH ";
 	msg = msg + RzxComputer::localhost()->serialize(serialPattern) + "\r\n";
 	send(msg);
