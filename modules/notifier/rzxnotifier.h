@@ -65,6 +65,7 @@ class RzxNotifier : public RzxModule
 
 	protected slots:
 		void translate();
+		void changeTheme();
 		void showTestWindow() const;
 		void chooseBeepConnection();
 };

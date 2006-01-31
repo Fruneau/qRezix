@@ -147,15 +147,15 @@ void QRezix::loadBuiltins()
 		installModule(new RzxRezalView());
 #endif
 #ifdef RZX_RZLDETAIL_BUILTIN
-	if(addBuiltin(RzxThemedIcon("rzlitem"), "Item details", RzxApplication::version(), "Detail of an item"))
+	if(addBuiltin(RzxThemedIcon("rzldetail"), "Item details", RzxApplication::version(), "Detail of an item"))
 		installModule(new RzxRezalDetail());
 #endif
 #ifdef RZX_RZLINDEX_BUILTIN
-	if(addBuiltin(RzxThemedIcon("rzlitem"), "Index", RzxApplication::version(), "Index view for easy navigation"))
+	if(addBuiltin(RzxThemedIcon("rzlindex"), "Index", RzxApplication::version(), "Index view for easy navigation"))
 		installModule(new RzxRezalIndex());
 #endif
 #ifdef RZX_RZLMAP_BUILTIN
-	if(addBuiltin(RzxThemedIcon("rzlitem"), "Platal", RzxApplication::version(), "Show an interactive map of the campus"))
+	if(addBuiltin(RzxThemedIcon("rzlmap"), "Platal", RzxApplication::version(), "Show an interactive map of the campus"))
 		installModule(new RzxRezalMap());
 #endif
 }

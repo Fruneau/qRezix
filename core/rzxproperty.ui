@@ -36,7 +36,7 @@
    <property name="spacing" >
     <number>6</number>
    </property>
-   <item row="1" column="1" >
+   <item rowspan="2" row="1" column="2" >
     <widget class="QStackedWidget" name="prefStack" >
      <property name="sizePolicy" >
       <sizepolicy>
@@ -53,7 +53,7 @@
       </size>
      </property>
      <property name="currentIndex" >
-      <number>1</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="pageInfo" >
       <layout class="QGridLayout" >
@@ -1077,165 +1077,6 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="0" column="0" >
-        <widget class="QGroupBox" name="groupCommands" >
-         <property name="title" >
-          <string>Commands</string>
-         </property>
-         <property name="flat" >
-          <bool>false</bool>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="1" column="5" colspan="2" >
-           <widget class="QComboBox" name="clientMail" >
-            <property name="editable" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="5" colspan="2" >
-           <widget class="QComboBox" name="clientNews" >
-            <property name="editable" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="4" >
-           <widget class="QLabel" name="lblMailReader" >
-            <property name="text" >
-             <string>Mail reader:</string>
-            </property>
-           </widget>
-          </item>
-          <item rowspan="2" row="0" column="3" >
-           <widget class="Line" name="line_3" >
-            <property name="orientation" >
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" colspan="2" >
-           <widget class="QComboBox" name="clientFtp" >
-            <property name="editable" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="lblFTPClient" >
-            <property name="text" >
-             <string>FTP client:</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>clientFtp</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="6" >
-           <widget class="QToolButton" name="btnBrowseWorkDir" >
-            <property name="text" >
-             <string>Browse...</string>
-            </property>
-            <property name="autoRaise" >
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" >
-           <widget class="QLabel" name="lblWorkDir" >
-            <property name="text" >
-             <string>Working directory :</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>txtWorkDir</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1" colspan="5" >
-           <widget class="QLineEdit" name="txtWorkDir" >
-            <property name="whatsThis" >
-             <string>&lt;h3>Working directory&lt;/h3>&lt;p>Define the default directory where you want your clients store the files you download&lt;/p></string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0" colspan="2" >
-           <widget class="QLabel" name="lblWorkDir_2" >
-            <property name="text" >
-             <string>Command to play a sound :</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>txtBeepCmd</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="2" colspan="5" >
-           <widget class="QLineEdit" name="txtBeepCmd" >
-            <property name="whatsThis" >
-             <string>&lt;h3>Sound command&lt;/h3>&lt;p>Select the command to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p></string>
-            </property>
-            <property name="text" >
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" colspan="7" >
-           <widget class="Line" name="line_2" >
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" colspan="2" >
-           <widget class="QComboBox" name="clientHttp" >
-            <property name="editable" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="lblHTTPBrowser" >
-            <property name="text" >
-             <string>Web browser:</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>clientHttp</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="4" >
-           <widget class="QLabel" name="lblNewsReader" >
-            <property name="text" >
-             <string>News reader:</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>clientNews</cstring>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item row="1" column="0" >
         <widget class="QGroupBox" name="groupModules" >
          <property name="title" >
@@ -1266,6 +1107,230 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="0" column="0" >
+        <widget class="QGroupBox" name="groupCommands" >
+         <property name="title" >
+          <string>Commands</string>
+         </property>
+         <property name="flat" >
+          <bool>false</bool>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="4" column="0" >
+           <widget class="QLabel" name="lblSoundIcon" >
+            <property name="maximumSize" >
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="text" >
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1" colspan="2" >
+           <widget class="QLabel" name="lblWorkDir_2" >
+            <property name="text" >
+             <string>Command to play a sound :</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>txtBeepCmd</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5" >
+           <widget class="QLabel" name="lblMailIcon" >
+            <property name="maximumSize" >
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="text" >
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item rowspan="2" row="0" column="4" >
+           <widget class="Line" name="line_3" >
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="5" >
+           <widget class="QLabel" name="lblNewsIcon" >
+            <property name="maximumSize" >
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="text" >
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="lblHttpIcon" >
+            <property name="maximumSize" >
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="text" >
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="lblFtpIcon" >
+            <property name="maximumSize" >
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="text" >
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2" colspan="2" >
+           <widget class="QComboBox" name="clientHttp" >
+            <property name="editable" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" colspan="2" >
+           <widget class="QComboBox" name="clientFtp" >
+            <property name="editable" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="6" >
+           <widget class="QLabel" name="lblNewsReader" >
+            <property name="text" >
+             <string>News reader:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>clientNews</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="QLabel" name="lblFTPClient" >
+            <property name="text" >
+             <string>FTP client:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>clientFtp</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="QLabel" name="lblHTTPBrowser" >
+            <property name="text" >
+             <string>Web browser:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>clientHttp</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3" colspan="6" >
+           <widget class="QLineEdit" name="txtBeepCmd" >
+            <property name="whatsThis" >
+             <string>&lt;h3>Sound command&lt;/h3>&lt;p>Select the command to use when qRezix has to play en sound (artsplay for arts, esdplay for esound, alsaplayer with alsa, ...)&lt;/p></string>
+            </property>
+            <property name="text" >
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="9" >
+           <widget class="Line" name="line_2" >
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2" colspan="6" >
+           <widget class="QLineEdit" name="txtWorkDir" >
+            <property name="whatsThis" >
+             <string>&lt;h3>Working directory&lt;/h3>&lt;p>Define the default directory where you want your clients store the files you download&lt;/p></string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="2" >
+           <widget class="QLabel" name="lblWorkDir" >
+            <property name="text" >
+             <string>Working directory :</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>txtWorkDir</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="8" >
+           <widget class="QToolButton" name="btnBrowseWorkDir" >
+            <property name="text" >
+             <string>Browse...</string>
+            </property>
+            <property name="autoRaise" >
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="6" >
+           <widget class="QLabel" name="lblMailReader" >
+            <property name="text" >
+             <string>Mail reader:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="7" colspan="2" >
+           <widget class="QComboBox" name="clientNews" >
+            <property name="editable" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="7" colspan="2" >
+           <widget class="QComboBox" name="clientMail" >
+            <property name="editable" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -1315,91 +1380,7 @@
      </widget>
     </widget>
    </item>
-   <item rowspan="2" row="0" column="0" >
-    <widget class="QTreeWidget" name="lbMenu" >
-     <property name="minimumSize" >
-      <size>
-       <width>175</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize" >
-      <size>
-       <width>210</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="columnCount" >
-      <number>1</number>
-     </property>
-     <column>
-      <property name="text" >
-       <string>0</string>
-      </property>
-     </column>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2" >
-    <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>1</number>
-     </property>
-     <property name="spacing" >
-      <number>2</number>
-     </property>
-     <item>
-      <widget class="QPushButton" name="btnAboutQt" >
-       <property name="text" >
-        <string>About Qt</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>213</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnOK" >
-       <property name="text" >
-        <string>Accept</string>
-       </property>
-       <property name="default" >
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnMiseAJour" >
-       <property name="text" >
-        <string>Apply</string>
-       </property>
-       <property name="default" >
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnAnnuler" >
-       <property name="text" >
-        <string>Cancel</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="0" column="1" >
+   <item row="0" column="2" >
     <layout class="QGridLayout" >
      <property name="margin" >
       <number>0</number>
@@ -1459,24 +1440,102 @@
      </item>
     </layout>
    </item>
+   <item row="3" column="0" colspan="3" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>1</number>
+     </property>
+     <property name="spacing" >
+      <number>2</number>
+     </property>
+     <item>
+      <widget class="QPushButton" name="btnAboutQt" >
+       <property name="text" >
+        <string>About Qt</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>213</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnOK" >
+       <property name="text" >
+        <string>Accept</string>
+       </property>
+       <property name="default" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnMiseAJour" >
+       <property name="text" >
+        <string>Apply</string>
+       </property>
+       <property name="default" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnAnnuler" >
+       <property name="text" >
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item rowspan="3" row="0" column="0" colspan="2" >
+    <widget class="QTreeWidget" name="lbMenu" >
+     <property name="minimumSize" >
+      <size>
+       <width>175</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>210</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="columnCount" >
+      <number>1</number>
+     </property>
+     <column>
+      <property name="text" >
+       <string>0</string>
+      </property>
+     </column>
+    </widget>
+   </item>
   </layout>
-  <widget class="QToolButton" name="toolButton_2" >
-   <property name="geometry" >
-    <rect>
-     <x>20</x>
-     <y>210</y>
-     <width>71</width>
-     <height>27</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Delete</string>
-   </property>
-  </widget>
  </widget>
  <layoutdefault spacing="2" margin="2" />
  <pixmapfunction></pixmapfunction>
  <customwidgets>
+  <customwidget>
+   <class>RzxModuleLoaderProp</class>
+   <extends>QWidget</extends>
+   <header>rzxmodule.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
   <customwidget>
    <class>RzxComputerListWidget</class>
    <extends>QListWidget</extends>
@@ -1495,13 +1554,6 @@
    <class>RzxNetworkLoaderProp</class>
    <extends>QWidget</extends>
    <header>rzxnetwork.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>RzxModuleLoaderProp</class>
-   <extends>QWidget</extends>
-   <header>rzxmodule.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

@@ -53,6 +53,7 @@ RzxNotifier::RzxNotifier()
 	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer* )), this, SLOT(login(RzxComputer* )));
 	connect(RzxConnectionLister::global(), SIGNAL(initialLoging(bool)), this, SLOT(ignoreLoging(bool)));
 	RzxTranslator::connect(this, SLOT(translate()));
+	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	if(RzxConnectionLister::global()->computerNumber())
 		ignoreLoging(false);
 	endLoading();
@@ -150,6 +151,7 @@ void RzxNotifier::propInit(bool def)
 	ui->cbAway->setChecked(RzxNotifierConfig::notifyAway(def));
 	ui->cbILeave->setChecked(RzxNotifierConfig::notNotifyWhenILeave(def));
 
+	changeTheme();
 	translate();
 	ui->cbStyle->setCurrentIndex(RzxNotifierConfig::windowStyle()-1);
 }
@@ -201,11 +203,24 @@ void RzxNotifier::chooseBeepConnection()
 	ui->txtBeepFavorites -> setText(file);
 }
 
+///Change le thème d'icône utilisé
+void RzxNotifier::changeTheme()
+{
+	if(!ui)
+		return;
+
+	ui->chkBeepFavorites->setIcon(RzxIconCollection::getIcon(Rzx::ICON_SOUNDON));
+	ui->btnTestStyle->setIcon(RzxIconCollection::getIcon(Rzx::ICON_APPLY));
+	ui->btnBeepBrowse->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FILE));
+}
+
 ///Mise à jour de la traduction
 void RzxNotifier::translate()
 {
 	if(ui)
 		ui->retranslateUi(propWidget);
+	else
+		return;
 
 	int id = ui->cbStyle->currentIndex();
 	ui->cbStyle->clear();

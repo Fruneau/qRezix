@@ -519,6 +519,7 @@ void RzxChatLister::changeTheme()
 	if(!ui) return;
 
 	ui->btnBeepBrowse->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FILE));
+	ui->chkBeep->setIcon(RzxIconCollection::getIcon(Rzx::ICON_SOUNDON));
 }
 
 ///Pour que la resize de la fenêtre rafraichisse l'aperçu des smileys

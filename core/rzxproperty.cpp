@@ -242,6 +242,12 @@ void RzxProperty::changeTheme()
 	CbNews->setIcon(RzxIconCollection::getIcon(Rzx::ICON_NEWS));
 	CbPrinter->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PRINTER));
 
+	lblFtpIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_FTP).scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+	lblHttpIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_HTTP).scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+	lblNewsIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_NEWS).scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+	lblMailIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_MAIL).scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+	lblSoundIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_SOUNDON).scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
 	chkAutoResponder->setIcon(RzxIconCollection::getResponderIcon());
 
 	btnBrowseWorkDir->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FILE));
