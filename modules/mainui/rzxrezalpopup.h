@@ -20,6 +20,9 @@
 #include <QMenu>
 #include <QPoint>
 #include <QModelIndex>
+#include <QPointer>
+
+#include <RzxComputer>
 
 #include "rzxmainuiglobal.h"
 
@@ -37,6 +40,8 @@ class RZX_MAINUI_EXPORT RzxRezalPopup : public QMenu
 {
 	Q_OBJECT
 
+	static QHash<QAction*, int> groupIds;
+	static QPointer<RzxComputer> computer;
 	void init(RzxComputer*, const QPoint&);
 
 	public:
@@ -48,6 +53,10 @@ class RZX_MAINUI_EXPORT RzxRezalPopup : public QMenu
 
 	protected:
 		void keyPressEvent(QKeyEvent *e);
+
+	protected slots:
+		void addToGroup(QAction *);
+		void removeFromGroup(QAction *);
 };
 
 #endif

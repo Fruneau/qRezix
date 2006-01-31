@@ -22,8 +22,12 @@
 #include <RzxComputer>
 #include <RzxConfig>
 #include <RzxIconCollection>
+#include <RzxUserGroup>
 
 #include "rzxrezalpopup.h"
+
+QHash<QAction*, int> RzxRezalPopup::groupIds = QHash<QAction*, int>();
+QPointer<RzxComputer> RzxRezalPopup::computer = NULL;
 
 ///Construit un RezalPopup attaché à une barre de menu
 /** Cette fonction est surtout utilise sous Mac OS
@@ -73,8 +77,9 @@ RzxRezalPopup::RzxRezalPopup(const QModelIndex& index, const QPoint& point, QWid
 
 ///Initalisation du Popup
 /** Le popup contient toutes les interactions envisageables avec l'ordinateur indiqué. */
-void RzxRezalPopup::init(RzxComputer *computer, const QPoint& point)
+void RzxRezalPopup::init(RzxComputer *m_computer, const QPoint& point)
 {
+	computer = m_computer;
 	if(!computer)
 	{
 		deleteLater();
@@ -119,6 +124,42 @@ void RzxRezalPopup::init(RzxComputer *computer, const QPoint& point)
 			newItem(Rzx::ICON_BAN, tr("Add to ignore list"), computer, SLOT(ban()));
 		}
 	}
+
+	QMenu *addGroups = new QMenu(tr("Add to a group"));
+	QMenu *delGroups = new QMenu(tr("Remove from group"));
+	addGroups->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FAVORITE));
+	delGroups->setIcon(RzxIconCollection::getIcon(Rzx::ICON_NOTFAVORITE));
+	const int groupNumber = RzxUserGroup::groupNumber();
+	int add = 0;
+	int del = 0;
+	for(int i = 0 ; i < groupNumber ; i++)
+	{
+		const RzxUserGroup *group = RzxUserGroup::group(i);
+		QAction *action;
+		if(group->contains(computer))
+		{
+			del++;
+			action = delGroups->addAction(group->icon(), group->name());
+		}
+		else
+		{
+			add++;
+			action = addGroups->addAction(group->icon(), group->name());
+		}
+		groupIds.insert(action, i);
+	}
+	connect(addGroups, SIGNAL(triggered(QAction*)), this, SLOT(addToGroup(QAction*)));
+	connect(delGroups, SIGNAL(triggered(QAction*)), this, SLOT(removeFromGroup(QAction*)));
+	if(add)
+		addMenu(addGroups);
+	else
+		delete addGroups;
+	if(del)
+		addMenu(delGroups);
+	else
+		delete delGroups;
+	
+
 	if(!point.isNull())
 	{
 		addSeparator();
@@ -156,4 +197,26 @@ void RzxRezalPopup::keyPressEvent(QKeyEvent *e)
 		return;
 	}
 	close();
+}
+
+///Ajout à un groupe
+void RzxRezalPopup::addToGroup(QAction *action)
+{
+	if(!groupIds.keys().contains(action) || !computer) return;
+
+	const int groupId = groupIds[action];
+	if(groupId >= RzxUserGroup::groupNumber() || groupId < 0) return;
+	RzxUserGroup::group(groupId)->add(computer);
+	computer->emitUpdate();
+}
+
+///Suppression d'un groupe
+void RzxRezalPopup::removeFromGroup(QAction *action)
+{
+	if(!groupIds.keys().contains(action) || !computer) return;
+
+	const int groupId = groupIds[action];
+	if(groupId >= RzxUserGroup::groupNumber() || groupId < 0) return;
+	RzxUserGroup::group(groupId)->remove(computer);
+	computer->emitUpdate();
 }
