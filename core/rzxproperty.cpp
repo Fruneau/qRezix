@@ -814,7 +814,10 @@ void RzxProperty::oK()
 QString RzxProperty::browse(const QString& name, const QString& title, const QString& glob, QWidget *parent)
 {
 	QString filter = name + " (" + glob + ")";
-	return QFileDialog::getOpenFileName(parent, title, QString::null, filter);
+	const QString filename = QFileDialog::getOpenFileName(parent, title, QString::null, filter);
+	if(parent)
+		parent->raise();
+	return filename;
 }
 
 ///Affiche la boîte de dialoge due choix d'icône
@@ -833,6 +836,7 @@ void RzxProperty::chooseIcon()
 
 	pxmIcon->setPixmap(icon);
 }
+
 
 ///Affiche la boite de selection du répertoire de stockage des données pour le ftp
 void RzxProperty::launchDirSelectDialog()
