@@ -121,6 +121,7 @@ void RzxInfoMessage::setText(const QString& m_text)
 {
 	ui->lblMessage->setText(m_text);
 	adjustSize();
+	setFixedSize(size());
 }
 
 ///Change le thème d'icône
