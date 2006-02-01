@@ -134,8 +134,9 @@ private:
 /************* Représentation de localhost *********************/
 	QTimer *delayScan;
 	static RzxComputer *m_localhost;
-	bool locked;
+	int locked;
 	bool edited;
+	bool updated;
 	bool testLocalhost;
 
 protected:

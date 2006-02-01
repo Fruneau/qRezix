@@ -107,7 +107,7 @@ bool RzxConnectionLister::installModule(RzxNetwork *network)
 		connect( this, SIGNAL(wantIcon(const RzxHostAddress&)), network, SLOT(getIcon(const RzxHostAddress&)));
 		connect(network, SIGNAL(haveProperties(RzxComputer*)), RzxApplication::instance(), SLOT(relayProperties(RzxComputer*)));
 
-		connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), network, SLOT(refresh()));
+		connect(RzxComputer::localhost(), SIGNAL(update(RzxComputer*)), network, SLOT(refresh()));
 		return true;
 	}
 	return false;
@@ -192,7 +192,6 @@ void RzxConnectionLister::login(RzxNetwork* network, const RzxHostAddress& ip, c
 			computerByLogin.insert(name.toLower(), computer);
 		}
 		computer->update(name, options, stamp, flags, comment);
-		emit update(computer);
 	}
 }
 
@@ -212,6 +211,7 @@ void RzxConnectionLister::login()
 		QString tempIP = computer->ip().toString();
 		computer->login();
 		emit login(computer);
+		connect(computer, SIGNAL(update(RzxComputer*)), this, SIGNAL(update(RzxComputer*)));
 	
 		//Ajout du nouvel ordinateur dans les qdict
 		computerByLogin.insert(computer->name().toLower(), computer);

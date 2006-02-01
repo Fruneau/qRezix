@@ -56,7 +56,7 @@ RzxComputer *RzxComputer::m_localhost = NULL;
 ///Construction d'un RzxComputer
 /** La construction n'initialise pas le RzxComputer en un objet utilisable.
  */
-RzxComputer::RzxComputer():delayScan(NULL),testLocalhost(false) { }
+RzxComputer::RzxComputer():delayScan(NULL),locked(0),testLocalhost(false) { }
 
 ///Consturuction d'un RzxCompuer
 /** La construction initialise le RzxComputer à partir des données obtenues
@@ -64,16 +64,17 @@ RzxComputer::RzxComputer():delayScan(NULL),testLocalhost(false) { }
  * et n'est pas adapté à la construction de localhost
  */
 RzxComputer::RzxComputer(RzxNetwork *network, const RzxHostAddress& c_ip, const QString& c_name, quint32 c_options, quint32 c_version, quint32 c_stamp, quint32 c_flags, const QString& c_remarque)
-	: delayScan(NULL), m_network(network), m_name(c_name), m_remarque(c_remarque), m_ip(c_ip), m_flags(c_flags), m_stamp(c_stamp)
+	: delayScan(NULL),locked(0), m_network(network), m_name(c_name), m_remarque(c_remarque), m_ip(c_ip), m_flags(c_flags), m_stamp(c_stamp)
 {
+	lock();
 	*((quint32 *) &m_options) = c_options;
 	*((quint32 *) &m_version) = c_version;
 	testLocalhost = (name() == localhost()->name());
 	loadIcon();
 	connected = false;
-	locked = false;
 	if(isLocalhost())
 		RzxComputer::localhost()->m_stamp = c_stamp;
+	unlock();
 }	
 
 ///Destruction...
@@ -134,7 +135,6 @@ void RzxComputer::initLocalhost()
 
 	m_flags = 0;
 	connected = true;
-	locked = false;
 
 	scanServers();
 	Rzx::endModuleLoading("Local computer image");
@@ -183,6 +183,7 @@ bool RzxComputer::isLocalhostObject() const
 ///Mise à jour du RzxComputer lors de la réception de nouvelle infos
 void RzxComputer::update(const QString& c_name, quint32 c_options, quint32 c_stamp, quint32 c_flags, const QString& c_remarque)
 {
+	lock();
 	Rzx::ConnectionState oldState = state();
 
 	m_name = c_name;
@@ -201,7 +202,8 @@ void RzxComputer::update(const QString& c_name, quint32 c_options, quint32 c_sta
 
 	if(oldState != state())
 		emitStateChanged();
-	emit update(this);
+	emitUpdate();
+	unlock();
 }
 
 ///Récupération du module auquel est ataché l'entrée
@@ -276,9 +278,10 @@ void RzxComputer::logout()
  */
 void RzxComputer::lock()
 {
-	if(locked) return;
-	locked = true;
+	locked++;
+	if(locked > 1) return;
 	edited = false;
+	updated = false;
 }
 
 ///Réautorise l'envoie des informations de mise à jour
@@ -286,10 +289,13 @@ void RzxComputer::lock()
  */
 void RzxComputer::unlock()
 {
-	if(!locked) return;
-	locked = false;
+	locked--;
+	if(locked > 0) return;
+	locked = 0;
 	if(edited)
 		emitStateChanged();
+	else if(updated)
+		emitUpdate();
 }
 
 ///Charge l'icône associée à la machine
@@ -312,11 +318,14 @@ void RzxComputer::loadIcon()
 ///Défition du nom de machine
 void RzxComputer::setName(const QString& newName) 
 {
-	bool favorite = isFavorite();
-	bool ignored = isIgnored();
+	const bool favorite = isFavorite();
+	const bool ignored = isIgnored();
 	m_name = newName;
+	lock();
 	if(favorite) addToFavorites();
 	if(ignored) ban();
+	emitUpdate();
+	unlock();
 }
 
 ///Récupération du nom de la machine
@@ -330,6 +339,7 @@ void RzxComputer::setRemarque(const QString& text)
 {
 	m_remarque = text;
 	m_remarque.replace("\n", " \\n ");
+	emitUpdate();
 }
 
 ///Récupération du commentaire
@@ -346,7 +356,10 @@ QString RzxComputer::remarque(bool lb) const
 ///Définition de l'IP
 /** Utile pour localhost uniquement */
 void RzxComputer::setIP(const RzxHostAddress& address)
-{ m_ip = address; }
+{
+	m_ip = address;
+	emitUpdate();
+}
 
 ///Récupération de l'IP sous la forme d'un RzxHostAddress
 const RzxHostAddress &RzxComputer::ip() const
@@ -398,6 +411,7 @@ void RzxComputer::setState(bool state)
 	}
 	else
 		setState(Rzx::STATE_HERE);
+	//update réalisé par RzxComputer::setState(Rzx::ConnectionState);
 }
 
 ///Définition de l'état du répondeur
@@ -456,7 +470,10 @@ bool RzxComputer::isOnResponder() const
 /********** PROMO */
 ///Définition de la promo
 void RzxComputer::setPromo(Rzx::Promal promo)
-{ m_options.Promo = promo; }
+{
+	m_options.Promo = promo;
+	emitUpdate();
+}
 
 ///Récupération de la promo
 Rzx::Promal RzxComputer::promo() const 
@@ -469,13 +486,12 @@ QString RzxComputer::promoText() const
 
 /********** ICONE */
 ///Définition de l'icône
-void RzxComputer::setIcon(const QPixmap& image){
+void RzxComputer::setIcon(const QPixmap& image)
+{
 	m_icon = image;
 	if(isLocalhost())
 		localhost()->m_icon = image;
-	if(isLocalhostObject())
-		emitStateChanged();
-	emit update(this);
+	emitUpdate();
 }
 
 ///Récupération de l'icône
@@ -537,11 +553,18 @@ QString RzxComputer::client() const
 /********** FLAGS SERVEURS */
 ///Définition de la liste des serveurs présents sur la machine
 void RzxComputer::setServers(Servers servers) 
-{ m_options.Server = servers; }
+{
+	m_options.Server = servers;
+	emitUpdate();
+}
 
 ///Définition de la liste des serveurs envisageables sur la machine (localhost uniquement)
 void RzxComputer::setServerFlags(Servers serverFlags) 
-{ m_serverFlags = serverFlags; }
+{
+	if(!isLocalhostObject()) return;
+	m_serverFlags = serverFlags;
+	emitUpdate();
+}
 
 ///Récupération de la liste des servers présents sur la machine (ou demandés par l'utilisateur dans le cas de localhost)
 RzxComputer::Servers RzxComputer::servers() const
@@ -583,7 +606,7 @@ void RzxComputer::addCapabilities(int feature, bool add)
 		m_options.Capabilities |= feature;
 	else
 		m_options.Capabilities &= ~feature;
-	emitStateChanged();
+	emitUpdate();
 }
 
 ///Teste de la présence d'une possibilité
@@ -670,6 +693,7 @@ void RzxComputer::mail() const
 void RzxComputer::setProperties(const QString& prop)
 {
 	RzxConfig::addCache(ip(), prop);
+	emitUpdate();
 }
 
 ///Récupère les propriétés
@@ -688,15 +712,19 @@ bool RzxComputer::isIgnored() const
 ///Ban l'ordinateur
 void RzxComputer::ban()
 {
+	lock();
 	RzxBanList::global()->add(this);
-	emit update(this);
+	emitUpdate();
+	unlock();
 }
 
 ///Unban l'ordinateur
 void RzxComputer::unban()
 {
+	lock();
 	RzxBanList::global()->remove(this);
-	emit update(this);
+	emitUpdate();
+	unlock();
 }
 
 ///Indique si l'objet est dans les favoris
@@ -708,15 +736,19 @@ bool RzxComputer::isFavorite() const
 ///Ajout au favoris
 void RzxComputer::addToFavorites()
 {
+	lock();
 	RzxFavoriteList::global()->add(this);
-	emit update(this);
+	emitUpdate();
+	unlock();
 }
 
 ///Supprime des favoris
 void RzxComputer::removeFromFavorites()
 {
+	lock();
 	RzxFavoriteList::global()->remove(this);
-	emit update(this);
+	emitUpdate();
+	unlock();
 }
 
 /******** Indique que l'état du favoris a changé *************/
@@ -736,6 +768,7 @@ void RzxComputer::emitStateChanged()
 	else
 	{
 		emit stateChanged(this);
+		emitUpdate();
 		if(isFavorite() && !isLocalhost())
 			emit favoriteStateChanged(this);
 	}
@@ -750,7 +783,10 @@ void RzxComputer::emitStateChanged()
  */
 void RzxComputer::emitUpdate()
 {
-	emit update(this);
+	if(locked)
+		updated = true;
+	else
+		emit update(this);
 }
 
 /*********** Lancement des données liées au chat *************/
@@ -943,10 +979,7 @@ void RzxComputer::scanServers()
 	const Servers oldServers = servers();
 	
 	if(newServers != servers())
-	{
 		setServers(newServers);
-		emitStateChanged();
-	}
 
 	delayScan->start(30000); //bon, le choix de 30s, c vraiment aléatoire
 							//1 ou 2 minutes, ç'aurait pas été mal, mais bon
