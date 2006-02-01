@@ -64,6 +64,8 @@ RzxRezalMap::RzxRezalMap(QWidget *widget)
 	placeSearch->setAutoCompletion(true);
 	connect(placeSearch, SIGNAL(activated(int)),this, SLOT(setPlace(int)));
 	currentPlace = "";
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 	QStringList mapNames = loadMaps();
 	if(mapNames.size())
@@ -309,7 +311,7 @@ void RzxRezalMap::setMap(int map)
 		newSize.setWidth(pixSize.width());
 	if(newSize.height() > pixSize.height())
 		newSize.setHeight(pixSize.height());
-	resize(newSize);
+	viewport()->resize(newSize);
 	viewport()->setMaximumSize(pixSize);
 
 	//Déplace la vue sur l'index courant
@@ -325,22 +327,25 @@ void RzxRezalMap::setMap(int map)
 void RzxRezalMap::resizeEvent(QResizeEvent *e)
 {
 	QAbstractItemView::resizeEvent(e);
-	horizontalScrollBar()->setRange(0, currentMap->pixmap.width() - viewport()->width());
-	horizontalScrollBar()->setPageStep(viewport()->width());
-	verticalScrollBar()->setRange(0, currentMap->pixmap.height() - viewport()->height());
-	verticalScrollBar()->setPageStep(viewport()->height());
 
 	if(!currentMap) return;
 	const QSize pixsize = currentMap->pixmap.size();
-	int viewportWidth = viewport()->size().width();
-	int viewportHeight = viewport()->size().height();
+	const QSize viewsize = viewport()->size();
+
+	horizontalScrollBar()->setRange(0, pixsize.width() - viewsize.width());
+	horizontalScrollBar()->setPageStep(viewsize.width());
+	verticalScrollBar()->setRange(0, pixsize.height() - viewsize.height());
+	verticalScrollBar()->setPageStep(viewsize.height());
+
+	int viewportWidth = viewsize.width();
+	int viewportHeight = viewsize.height();
 	if(verticalScrollBar()->isVisible()) viewportWidth += verticalScrollBar()->width();
 	if(horizontalScrollBar()->isVisible()) viewportHeight += horizontalScrollBar()->height();
 
 	setHorizontalScrollBarPolicy((Qt::ScrollBarPolicy)(viewportWidth >= pixsize.width() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAlwaysOn));
 	setVerticalScrollBarPolicy((Qt::ScrollBarPolicy)(viewportHeight >= pixsize.height() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAlwaysOn));
 
-	placeSearch->move(viewport()->width() - placeSearch->width() - 3, 3);
+	placeSearch->move(viewsize.width() - placeSearch->width() - 3, 3);
 }
 
 ///Change la carte active vers la carte indiquée
