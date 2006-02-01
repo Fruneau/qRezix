@@ -310,7 +310,7 @@ void RzxRezalMap::setMap(int map)
 	if(newSize.height() > pixSize.height())
 		newSize.setHeight(pixSize.height());
 	resize(newSize);
-	setMaximumSize(pixSize);
+	viewport()->setMaximumSize(pixSize);
 
 	//Déplace la vue sur l'index courant
 	scrollTo(currentIndex());
@@ -329,10 +329,18 @@ void RzxRezalMap::resizeEvent(QResizeEvent *e)
 	horizontalScrollBar()->setPageStep(viewport()->width());
 	verticalScrollBar()->setRange(0, currentMap->pixmap.height() - viewport()->height());
 	verticalScrollBar()->setPageStep(viewport()->height());
-	setHorizontalScrollBarPolicy((Qt::ScrollBarPolicy)(size().width() == maximumSize().width() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAlwaysOn));
-	setVerticalScrollBarPolicy((Qt::ScrollBarPolicy)(size().height() == maximumSize().height() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAlwaysOn));
 
-	placeSearch->move(width() - placeSearch->width() - 3 - (verticalScrollBar()->isVisible() ? verticalScrollBar()->width() : 0), 3);
+	if(!currentMap) return;
+	const QSize pixsize = currentMap->pixmap.size();
+	int viewportWidth = viewport()->size().width();
+	int viewportHeight = viewport()->size().height();
+	if(verticalScrollBar()->isVisible()) viewportWidth += verticalScrollBar()->width();
+	if(horizontalScrollBar()->isVisible()) viewportHeight += horizontalScrollBar()->height();
+
+	setHorizontalScrollBarPolicy((Qt::ScrollBarPolicy)(viewportWidth >= pixsize.width() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAlwaysOn));
+	setVerticalScrollBarPolicy((Qt::ScrollBarPolicy)(viewportHeight >= pixsize.height() ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAlwaysOn));
+
+	placeSearch->move(viewport()->width() - placeSearch->width() - 3, 3);
 }
 
 ///Change la carte active vers la carte indiquée
