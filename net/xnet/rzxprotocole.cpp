@@ -232,11 +232,19 @@ void RzxProtocole::sendAuth(const QString& passcode)
 ///Envoie les informations concernant localhost au serveur...
 void RzxProtocole::sendRefresh()
 {
+	if(!auth)
+	{
+		beginAuth();
+		return;
+	}
+
 	if(!valid)
 		return;
+
 	RzxComputer *me = RzxConnectionLister::global()->getComputerByName(RzxComputer::localhost()->name());
 	if(me && me->icon().serialNumber() != RzxComputer::localhost()->icon().serialNumber())
 		sendIcon(RzxComputer::localhost()->icon().toImage());
+
 	QString msg = "REFRESH ";
 	msg = msg + RzxComputer::localhost()->serialize(serialPattern) + "\r\n";
 	send(msg);
