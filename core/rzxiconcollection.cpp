@@ -109,10 +109,6 @@ RzxIconCollection::RzxIconCollection()
 	hereIcon = QPixmap(":/qrezix_here.png");
 	awayIcon = QPixmap(":/qrezix_away.png");
 	disconIcon = QPixmap(":/qrezix_discon.png");
-#ifdef Q_OS_MAC
-	hereIcon.setMask(hereIcon.createHeuristicMask());
-	awayIcon.setMask(awayIcon.createHeuristicMask());
-#endif
 
 	//Recherche des thèmes installés
 	qDebug("Searching icon themes...");
