@@ -22,8 +22,8 @@
 
 #include <RzxConfig>
 
-#include QREZIX_ICON
-#include QREZIX_AWAY_ICON
+//#include QREZIX_ICON
+//#include QREZIX_AWAY_ICON
 
 RZX_GLOBAL_INIT(RzxIconCollection)
 
@@ -106,8 +106,9 @@ RzxIconCollection::RzxIconCollection()
 {
 	Rzx::beginModuleLoading("Icon Collection");
 	//Définition de l'icône de l'application
-	hereIcon = QPixmap(q);
-	awayIcon = QPixmap(t);
+	hereIcon = QPixmap(":/qrezix_here.png");
+	awayIcon = QPixmap(":/qrezix_away.png");
+	disconIcon = QPixmap(":/qrezix_discon.png");
 #ifdef Q_OS_MAC
 	hereIcon.setMask(hereIcon.createHeuristicMask());
 	awayIcon.setMask(awayIcon.createHeuristicMask());
@@ -258,6 +259,8 @@ const QPixmap &RzxIconCollection::pixmap(Rzx::Icon icon)
 			icons.insert(name, qRezixIcon());
 		else if(icon == Rzx::ICON_SYSTRAYAWAY)
 			icons.insert(name, qRezixAwayIcon());
+		else if(icon == Rzx::ICON_SYSTRAYDISCON)
+			icons.insert(name, qRezixDisconIcon());
 	}
 	return icons[name];
 }
@@ -386,6 +389,14 @@ const QPixmap& RzxIconCollection::qRezixIcon()
 const QPixmap& RzxIconCollection::qRezixAwayIcon()
 {
 	return global()->awayIcon;
+}
+
+///Surcharge
+/** \sa disconIcon
+ */
+const QPixmap& RzxIconCollection::qRezixDisconIcon()
+{
+	return global()->disconIcon;
 }
 
 ///Récupération d'une icône utilisateur

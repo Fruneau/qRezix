@@ -961,14 +961,18 @@ void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 	if(RzxTrayConfig::autoScale() || dim == -1)
 		dim = qMin(width(), height()) - 2;
 	painter.drawPixmap((width() - dim) / 2, (height() - dim)/2,
-		 pm.scaled( dim, dim, Qt::IgnoreAspectRatio, Qt::SmoothTransformation ));
-	setWindowIcon( pix );
-	setMask( pix.mask() );
+		pm.scaled( dim, dim, Qt::IgnoreAspectRatio, Qt::SmoothTransformation ));
+	QPalette plt = palette();
+	QBrush brush;
+	brush.setTexture(pix);
+	plt.setBrush(QPalette::Window, Qt::NoBrush);
+	setPalette(plt);
+	setMask(pix.mask());
 	repaint();
 }
 
 ///Dessine l'icône
-void RzxTrayIcon::RzxTrayIconPrivate::paintEvent( QPaintEvent * )
+void RzxTrayIcon::RzxTrayIconPrivate::paintEvent( QPaintEvent *)
 {
 	QPainter p( this );
 	p.drawPixmap( 0, 0, pix );

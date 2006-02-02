@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+	<file alias="qrezix_here.png">../resources/qrezix_here.png</file>
+	<file alias="qrezix_away.png">../resources/qrezix_away.png</file>
+	<file alias="qrezix_discon.png">../resources/qrezix_discon.png</file>
+</qresource>
+</RCC>
