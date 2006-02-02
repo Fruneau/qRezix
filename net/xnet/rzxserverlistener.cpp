@@ -111,6 +111,8 @@ void RzxServerListener::restart()
 void RzxServerListener::connectToXnetserver()
 {
 	iconMode = false;
+	auth = false;
+	valid = false;
 	sendingBuffer = QString();
 	reconnectionTimer.stop();
 	
