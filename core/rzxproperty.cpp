@@ -33,6 +33,7 @@ email                : benoit.casoetto@m4x.org
 #include <QHeaderView>
 #include <QStack>
 #include <QShortcut>
+#include <QImageReader>
 
 #ifdef WITH_KDE
 #include <kfiledialog.h>
@@ -823,7 +824,11 @@ QString RzxProperty::browse(const QString& name, const QString& title, const QSt
 ///Affiche la boîte de dialoge due choix d'icône
 void RzxProperty::chooseIcon()
 {
-	QString file = browse(tr("Icons"), tr("Icon selection"), "*.png *.jpg *.bmp", this);
+	const QList<QByteArray> rawFormats = QImageReader::supportedImageFormats();
+	QString formats;
+	foreach(QByteArray format, rawFormats)
+		formats += " *." + format.toLower();
+	QString file = browse(tr("Icons"), tr("Icon selection"), formats, this);
 	if ( file.isEmpty() ) return ;
 
 	QPixmap icon;
@@ -834,7 +839,7 @@ void RzxProperty::chooseIcon()
 		return ;
 	}
 
-	pxmIcon->setPixmap(icon);
+	pxmIcon->setPixmap(icon.scaled(64, 64, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 }
 
 
