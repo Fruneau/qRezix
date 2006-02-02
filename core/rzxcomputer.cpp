@@ -318,6 +318,8 @@ void RzxComputer::loadIcon()
 ///Défition du nom de machine
 void RzxComputer::setName(const QString& newName) 
 {
+	if(newName == m_name) return;
+
 	const bool favorite = isFavorite();
 	const bool ignored = isIgnored();
 	m_name = newName;
@@ -337,6 +339,8 @@ const QString &RzxComputer::name() const
 ///Définition du commentaire
 void RzxComputer::setRemarque(const QString& text)
 {
+	if(text == m_remarque) return;
+
 	m_remarque = text;
 	m_remarque.replace("\n", " \\n ");
 	emitUpdate();
@@ -417,6 +421,8 @@ void RzxComputer::setState(bool state)
 ///Définition de l'état du répondeur
 void RzxComputer::setState(Rzx::ConnectionState state)
 {
+	if(RzxComputer::state() == state) return;
+
 	if(state == Rzx::STATE_DISCONNECTED)
 	{
 		connected = false;
@@ -471,6 +477,8 @@ bool RzxComputer::isOnResponder() const
 ///Définition de la promo
 void RzxComputer::setPromo(Rzx::Promal promo)
 {
+	if((Rzx::Promal)m_options.Promo == promo) return;
+
 	m_options.Promo = promo;
 	emitUpdate();
 }
@@ -488,6 +496,8 @@ QString RzxComputer::promoText() const
 ///Définition de l'icône
 void RzxComputer::setIcon(const QPixmap& image)
 {
+	if(m_icon.serialNumber() == image.serialNumber()) return;
+
 	m_icon = image;
 	if(isLocalhost())
 		localhost()->m_icon = image;
@@ -554,6 +564,8 @@ QString RzxComputer::client() const
 ///Définition de la liste des serveurs présents sur la machine
 void RzxComputer::setServers(Servers servers) 
 {
+	if(servers == (Servers)m_options.Server) return;
+
 	m_options.Server = servers;
 	emitUpdate();
 }
@@ -561,7 +573,7 @@ void RzxComputer::setServers(Servers servers)
 ///Définition de la liste des serveurs envisageables sur la machine (localhost uniquement)
 void RzxComputer::setServerFlags(Servers serverFlags) 
 {
-	if(!isLocalhostObject()) return;
+	if(!isLocalhostObject() || m_serverFlags == serverFlags) return;
 	m_serverFlags = serverFlags;
 	emitUpdate();
 }
@@ -602,6 +614,8 @@ bool RzxComputer::hasEmailAddress() const
 ///Ajout d'une feature à la machine
 void RzxComputer::addCapabilities(int feature, bool add)
 {
+	if((add && can((Rzx::Capabilities)feature)) || (!add && !can((Rzx::Capabilities)feature))) return;
+
 	if(add)
 		m_options.Capabilities |= feature;
 	else
@@ -712,6 +726,8 @@ bool RzxComputer::isIgnored() const
 ///Ban l'ordinateur
 void RzxComputer::ban()
 {
+	if(isIgnored()) return;
+
 	lock();
 	RzxBanList::global()->add(this);
 	emitUpdate();
@@ -721,6 +737,8 @@ void RzxComputer::ban()
 ///Unban l'ordinateur
 void RzxComputer::unban()
 {
+	if(!isIgnored()) return;
+
 	lock();
 	RzxBanList::global()->remove(this);
 	emitUpdate();
@@ -736,6 +754,8 @@ bool RzxComputer::isFavorite() const
 ///Ajout au favoris
 void RzxComputer::addToFavorites()
 {
+	if(isFavorite()) return;
+
 	lock();
 	RzxFavoriteList::global()->add(this);
 	emitUpdate();
@@ -745,6 +765,8 @@ void RzxComputer::addToFavorites()
 ///Supprime des favoris
 void RzxComputer::removeFromFavorites()
 {
+	if(!isFavorite()) return;
+
 	lock();
 	RzxFavoriteList::global()->remove(this);
 	emitUpdate();

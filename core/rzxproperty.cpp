@@ -674,7 +674,6 @@ void RzxProperty::initDlg(bool def)
 ///Met à jour l'objet représentant localhost
 void RzxProperty::updateLocalHost()
 {
-	RzxComputer::localhost()->lock();
 	if(RzxComputer::localhost()->name().toLower() != hostname->text().toLower())
 		RzxComputer::localhost()->setName(hostname->text());
 	if(RzxComputer::localhost()->remarque(true) != remarque->toPlainText())
@@ -706,12 +705,12 @@ void RzxProperty::updateLocalHost()
 	const RzxComputer::Servers oldservers = RzxComputer::localhost()->serverFlags();
 	if(servers != oldservers)
 		RzxComputer::localhost()->setServerFlags(servers);
-	RzxComputer::localhost()->unlock();
 }
 
 ///Mets à jours les données globales de qRezix avec ce qu'a rentré l'utilisateur
 bool RzxProperty::miseAJour()
 {
+	RzxComputer::localhost()->lock();
 	updateModules<RzxNetwork>(RzxConnectionLister::global()->moduleList());
 	updateModules<RzxModule>(RzxApplication::modulesList());
 
@@ -721,6 +720,7 @@ bool RzxProperty::miseAJour()
 		RzxMessageBox::information(this, tr("Incorrect properties"),
 			tr("Your computer name is not valid...<br>"
 				"It can only contain letters, numbers and '-' signs."));
+		RzxComputer::localhost()->unlock();
 		return false;
 	}
 	
@@ -764,6 +764,7 @@ bool RzxProperty::miseAJour()
 
 	//Sauvegarde du fichier du conf
 	RzxConfig::global()->flush();
+	RzxComputer::localhost()->unlock();
 	return true;
 }
 
