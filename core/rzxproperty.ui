@@ -53,7 +53,7 @@
       </size>
      </property>
      <property name="currentIndex" >
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="pageInfo" >
       <layout class="QGridLayout" >
@@ -223,10 +223,13 @@
              </sizepolicy>
             </property>
             <property name="text" >
-             <string>Browse...</string>
+             <string>Icon...</string>
+            </property>
+            <property name="toolButtonStyle" >
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
             <property name="autoRaise" >
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
            </widget>
           </item>
