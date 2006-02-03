@@ -211,7 +211,7 @@ void RzxListEdit::edited(const QString& text)
 ///La sélection a changé
 void RzxListEdit::selectionChanged()
 {
-	ui->btnDel->setEnabled(ui->list->currentRow() >= 0);
+	ui->btnDel->setEnabled(ui->list->selectedItems().size());
 }
 
 ///Connecte le List Edit pour prendre en compte les changement des ordinateurs

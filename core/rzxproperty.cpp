@@ -320,7 +320,7 @@ void RzxProperty::fillCacheView()
 	 	ip = RzxHostAddress(item->data(Qt::UserRole).toString());
 	RzxConfig::fillWithCache(ip, showCache);
 	showCache->setEnabled(item);
-	btnDeleteCache->setEnabled(item);
+	btnDeleteCache->setEnabled(listCache->selectedItems().size());
 	btnSendMail->setEnabled(item && !RzxConfig::getEmailFromCache(ip).isEmpty());
 }
 

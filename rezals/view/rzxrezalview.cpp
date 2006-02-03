@@ -108,6 +108,11 @@ void RzxRezalView::keyPressEvent( QKeyEvent *e )
 	//Menu contextuel
 	if(e->key() == Qt::Key_Right)
 	{
+		if(!RzxRezalModel::global()->isComputer(currentIndex()))
+		{
+			QTreeView::keyPressEvent(e);
+			return;
+		}
 		QRect r(visualRect(currentIndex()));
 		QPoint qp = r.center();
 		qp.setY( qp.y() + r.height() );
