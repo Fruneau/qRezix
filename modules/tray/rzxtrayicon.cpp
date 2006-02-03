@@ -895,7 +895,6 @@ class RzxTrayIcon::RzxTrayIconPrivate : public QWidget
 		virtual void initWM( WId icon );
 
 		virtual void setPixmap(const QPixmap &pm);
-		void updateBackground();
 
 		virtual void paintEvent( QPaintEvent * );
 		virtual void enterEvent( QEvent * );
@@ -919,7 +918,6 @@ RzxTrayIcon::RzxTrayIconPrivate::RzxTrayIconPrivate( RzxTrayIcon *object, int _s
 	size = _size;
 
 	setFocusPolicy( Qt::NoFocus );
-	updateBackground();
 
 	setMinimumSize( size, size );
 	setMaximumSize( size, size );
@@ -981,18 +979,6 @@ void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 	else
 		clearMask();
 	repaint();
-}
-
-///Mets à jour la couleur du fond
-void RzxTrayIcon::RzxTrayIconPrivate::updateBackground()
-{
-	if(!RzxTrayConfig::transparent())
-	{
-		QPalette pal = palette();
-		pal.setBrush(QPalette::Window, QBrush(RzxTrayConfig::backgroundColor()));
-		setPalette(pal);
-	}
-	//setPixmap(iconObject->pm);
 }
 
 ///Affichage de l'icôneClient
