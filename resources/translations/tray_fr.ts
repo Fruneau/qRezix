@@ -52,6 +52,10 @@
         <source>Send a Mail...</source>
         <translation>Envoyer un Mail...</translation>
     </message>
+    <message>
+        <source>Everybody</source>
+        <translation>Tout le monde</translation>
+    </message>
 </context>
 <context>
     <name>RzxTrayProp</name>
@@ -110,6 +114,18 @@
     <message>
         <source>Begin a chat</source>
         <translation>Lancer une discussion</translation>
+    </message>
+    <message>
+        <source>Icon background</source>
+        <translation>Fond de l&apos;icône</translation>
+    </message>
+    <message>
+        <source>Transparent background</source>
+        <translation>Fond transparent</translation>
+    </message>
+    <message>
+        <source>Select color</source>
+        <translation>Choisir la couleur</translation>
     </message>
 </context>
 </TS>
