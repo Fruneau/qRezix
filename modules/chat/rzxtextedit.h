@@ -20,13 +20,21 @@
 #include <QTextEdit>
 #include <QTextLine>
 
-#ifndef Q_OS_WIN
-#	define DefaultFont "Terminal"
-#	define DefaultSize 11
-#else
+#ifdef Q_OS_WIN
 #	define DefaultFont "Arial"
 #	define DefaultSize 8
 #endif
+
+#ifdef Q_OS_MAC
+#	define DefaultFont "Lucida Grande"
+#	define DefaultSize 13
+#endif
+
+#ifndef DefaultFont
+#       define DefaultFont "Terminal"
+#       define DefaultSize 11
+#endif
+
 
 class RzxChat;
 
