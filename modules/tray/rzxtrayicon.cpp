@@ -968,6 +968,8 @@ void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 		pix = QPixmap(QWidget::size());
 		if(!RzxTrayConfig::transparent())
 			pix.fill(QColor(RzxTrayConfig::backgroundColor()));
+		else
+			pix.fill(QColor(0, 0, 0 ,0));
 
 		//Dessin du pixmap
 		QPainter pixPainter(&pix);
