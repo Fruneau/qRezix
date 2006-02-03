@@ -894,7 +894,7 @@ class RzxTrayIcon::RzxTrayIconPrivate : public QWidget
 
 		virtual void initWM( WId icon );
 
-		virtual void setPixmap( const QPixmap &pm );
+		virtual void setPixmap(const QPixmap &pm);
 
 		virtual void paintEvent( QPaintEvent * );
 		virtual void enterEvent( QEvent * );
@@ -954,24 +954,38 @@ void RzxTrayIcon::RzxTrayIconPrivate::initWM( WId icon )
  */
 void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 {
-	pix = QPixmap(width(), height());
-	pix.fill(QColor(0,0,0,0));
-	QPainter painter(&pix);
+	if(!(width() + height())) return; //ça sert à rien de bosser sur des icônes vide
+
 	int dim = RzxTrayConfig::traySize();
 	if(RzxTrayConfig::autoScale() || dim == -1)
 		dim = qMin(width(), height()) - 2;
-	painter.drawPixmap((width() - dim) / 2, (height() - dim)/2,
-		 pm.scaled( dim, dim, Qt::IgnoreAspectRatio, Qt::SmoothTransformation ));
-	setWindowIcon( pix );
-	setMask( pix.mask() );
+
+	if(pm.size() == QSize(dim, dim))
+		pix = pm;
+	else
+	{
+		const QPixmap pmScaled = pm.scaled( dim, dim, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+		pix = QPixmap(QWidget::size());
+		if(!RzxTrayConfig::transparent())
+			pix.fill(QColor(RzxTrayConfig::backgroundColor()));
+
+		//Dessin du pixmap
+		QPainter pixPainter(&pix);
+		pixPainter.drawPixmap((width() - dim) / 2, (height() - dim)/2, pmScaled);
+	}
+
+	if(RzxTrayConfig::transparent())
+		setMask(pix.mask());
+	else
+		clearMask();
 	repaint();
 }
 
-///Dessine l'icône
-void RzxTrayIcon::RzxTrayIconPrivate::paintEvent( QPaintEvent * )
+///Affichage de l'icôneClient
+void RzxTrayIcon::RzxTrayIconPrivate::paintEvent(QPaintEvent *)
 {
-	QPainter p( this );
-	p.drawPixmap( 0, 0, pix );
+	QPainter p(this);
+	p.drawPixmap(0, 0, pix);
 }
 
 ///Raffraichi l'icône lorsque la tray est resizée
@@ -1213,7 +1227,9 @@ QList<QWidget*> RzxTrayIcon::propWidgets()
 		ui->setupUi(propWidget);
 #ifndef Q_WS_X11
 		ui->groupSize->hide();
+		ui->groupBackground->hide();
 #endif
+		connect(ui->btnColor, SIGNAL(clicked()), this, SLOT(selectColor()));
 	}
 	return QList<QWidget*>() << propWidget;
 }
@@ -1258,6 +1274,10 @@ void RzxTrayIcon::propInit(bool def)
 	ui->cbQuickNews->setChecked(actions & RzxTrayConfig::News);
 	ui->cbQuickMail->setChecked(actions & RzxTrayConfig::Mail);
 	ui->cbQuickFav->setChecked(actions & RzxTrayConfig::ChatFav);
+
+	ui->cbTransparent->setChecked(RzxTrayConfig::transparent());
+	bg = RzxTrayConfig::backgroundColor();
+	updateBackground();
 	
 	changePropTheme();
 }
@@ -1287,6 +1307,11 @@ void RzxTrayIcon::propUpdate()
 	if(ui->cbQuickMail->isChecked()) actions |= RzxTrayConfig::Mail;
 	if(ui->cbQuickFav->isChecked()) actions |= RzxTrayConfig::ChatFav;
 	RzxTrayConfig::setQuickActions(actions);
+
+	RzxTrayConfig::setTransparent(ui->cbTransparent->isChecked());
+	RzxTrayConfig::setBackgroundColor(bg.rgb());
+
+	sysUpdateIcon();
 }
 
 /** \reimp */
@@ -1309,6 +1334,26 @@ void RzxTrayIcon::translate()
 {
 	if(ui)
 		ui->retranslateUi(propWidget);
+}
+
+///Affichage de la couleur de fond
+void RzxTrayIcon::updateBackground()
+{
+	QPixmap pix(16, 16);
+	pix.fill(bg);
+	ui->lblColor->setPixmap(pix);
+}
+
+#include <QColorDialog>
+
+///Affichage d'un dialogue demandant de choisir la couleur
+void RzxTrayIcon::selectColor()
+{
+	QWidget *widget = propWidget->window();
+	bg = QColorDialog::getColor(bg, widget);
+	updateBackground();
+	if(widget)
+		widget->raise();
 }
 
 #endif

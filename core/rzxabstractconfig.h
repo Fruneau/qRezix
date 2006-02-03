@@ -105,10 +105,10 @@ inline void RzxAbstractConfig::flush()
 #define RZX_RGBPROP(name, read, write, default) \
 	static QColor read(bool def = false) { \
 		QColor ret; \
-		ret.setRgba(def?default:global()->value(name, default).toUInt()); \
+		ret.setRgb(def?default:global()->value(name, default).toUInt()); \
 		return ret; \
 	} \
-	static void write(int value = default) { global()->setValue(name, value); }
+	static void write(unsigned int value = default) { global()->setValue(name, value); }
 
 ///Macro définissant la fonction statique d'enregistrement d'une fenêtre particulière
 #define RZX_WIDGETPROP(name, read, write, pos, size) \

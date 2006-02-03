@@ -46,6 +46,8 @@ class RzxTrayConfig:public RzxAbstractConfig
 		RZX_INTPROP("traysize", traySize, setTraySize, -1)
 		RZX_BOOLPROP("autoscale", autoScale, setAutoScale, true)
 		RZX_INTPROP("quickAction", quickActions, setQuickActions, Ftp | Http | Mail)
+		RZX_RGBPROP("backgroundColor", backgroundColor, setBackgroundColor, 0xC0C0C0)
+		RZX_BOOLPROP("transparent", transparent, setTransparent, true)
 };
 
 #endif
