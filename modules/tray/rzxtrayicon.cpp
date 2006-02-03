@@ -985,8 +985,6 @@ void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 void RzxTrayIcon::RzxTrayIconPrivate::paintEvent(QPaintEvent *)
 {
 	QPainter p(this);
-	/*if(!RzxTrayConfig::transparent())
-		p.fillRect(rect(), p.background());*/
 	p.drawPixmap(0, 0, pix);
 }
 
