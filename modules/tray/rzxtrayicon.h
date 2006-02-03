@@ -124,6 +124,7 @@ private:
 	Ui::RzxTrayProp *ui;
 	QWidget *propWidget;
 	void changePropTheme();
+	QColor bg;
 
 public:
 	virtual QList<QWidget*> propWidgets();
@@ -136,6 +137,8 @@ public slots:
 
 protected slots:
 	void translate();
+	void updateBackground();
+	void selectColor();
 #endif
 };
 
