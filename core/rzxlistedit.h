@@ -44,6 +44,8 @@ class RzxListEdit: public QWidget
 	Ui::RzxListEdit *ui;
 	RzxComputerList *list;
 
+	bool updating;
+
 	public:
 		RzxListEdit(QWidget *parent = NULL);
 		~RzxListEdit();

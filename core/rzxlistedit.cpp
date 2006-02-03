@@ -31,6 +31,7 @@ RzxListEdit::RzxListEdit(QWidget *parent)
 	ui->setupUi(this);
 	ui->btnAdd->setEnabled(false);
 	ui->btnDel->setEnabled(false);
+	updating = false;
 	changeTheme();
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	connect(ui->list, SIGNAL(itemSelectionChanged()), this, SLOT(selectionChanged()));
@@ -106,6 +107,7 @@ void RzxListEdit::refresh()
 ///Effectue un raffraichissement alléger... sans regénérer la liste des ordinateurs
 void RzxListEdit::lightRefresh()
 {
+	if(updating) return;
 	ui->list->clear();
 	if(!list) return;
 	QStringList lst = list->humanReadable();
@@ -183,6 +185,7 @@ void RzxListEdit::remove()
 	const QList<QListWidgetItem*> items = ui->list->selectedItems();
 	if(!items.size()) return;
 
+	updating = true;
 	foreach(QListWidgetItem *item, items)
 	{
 		if(!item) continue;
@@ -191,6 +194,7 @@ void RzxListEdit::remove()
 		if(computer)
 			computer->emitUpdate();
 	}
+	updating = false;
 	ui->btnDel->setEnabled(false);
 	lightRefresh();
 }
