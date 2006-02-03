@@ -339,7 +339,7 @@ void RzxProperty::deleteCache()
 
 	foreach(QListWidgetItem *item, items)
 	{
-		const RzxHostAddress ip = RzxHostAddress::fromRezix(item->data(Qt::UserRole).toInt());
+		const RzxHostAddress ip = RzxHostAddress(item->data(Qt::UserRole).toString());
 		RzxConfig::deleteCache(ip);
 	}
 	fillCacheList();
@@ -351,7 +351,7 @@ void RzxProperty::sendMailToCache()
 	const QListWidgetItem *item = listCache->currentItem();
 	if(!item) return;
 
-	const RzxHostAddress ip = RzxHostAddress::fromRezix(item->data(Qt::UserRole).toInt());
+	const RzxHostAddress ip = RzxHostAddress(item->data(Qt::UserRole).toString());
 	const QString email = RzxConfig::getEmailFromCache(ip);
 	if(!email.isEmpty())
 		RzxUtilsLauncher::mail(email);
