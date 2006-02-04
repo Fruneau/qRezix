@@ -303,6 +303,10 @@ void RzxTextEdit::onTextEdited()
 			const Format formatP = formatFromStyle(maskP.cap(2));
 			const Format formatBody = formatFromMarket(text, "body");
 			Format formatText = (formatP - formatBody) % (currentFormat - formatBody);
+			if(currentFormat.family != defaultFormat.family)
+				formatText.family = currentFormat.family;
+			if(currentFormat.color == defaultFormat.color)
+				formatText.color = QColor();
 			setHtml(maskP.cap(1) + "<p>" + formatStyle(maskP.cap(3), formatText, "span") + "</p>" + maskP.cap(4));
 			setTextCursor(cursor); //restauration de la position du curseur
 			init = true;
@@ -450,7 +454,7 @@ RzxTextEdit::Format RzxTextEdit::formatFromFont(const QString& font)
 	Format format = { QString(), 0, QColor(), false, false, false };
 	QRegExp select;
 
-	select.setPattern("class=\"([^\"]+)\"");
+	select.setPattern("face=\"([^\"]+)\"");
 	if(select.indexIn(font) != -1)
 		format.family = select.cap(1);
 
