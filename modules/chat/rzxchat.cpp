@@ -17,7 +17,6 @@
 #include <QTimer>
 #include <QPoint>
 #include <QList>
-#include <QMenuBar>
 
 //Gestion des intéractions avec la fenêtre
 #include <QShortcut>
@@ -129,14 +128,7 @@ void RzxChat::init()
 	new QShortcut(Qt::CTRL + Qt::Key_Enter, ui->btnSend, SIGNAL(clicked()));
 	new QShortcut(Qt::Key_Escape, ui->btnClose, SIGNAL(clicked()));
 	new QShortcut(Qt::Key_F1, ui->btnSound, SLOT(toggle()));
-
 #ifdef Q_OS_MAC
-	//Mise en place du menu pour Mac OS...
-	QMenuBar *menu = new QMenuBar(this);
-	QMenu *tool = menu->addMenu("qRezix");
-	tool->addAction("Preferences", RzxChatLister::global(), SIGNAL(wantPreferences()));
-	tool->addAction("Quit", RzxChatLister::global(), SIGNAL(wantQuit()));
-
 	new QShortcut(QKeySequence("Ctrl+M"), this, SLOT(showMinimized()));
 #endif
 
