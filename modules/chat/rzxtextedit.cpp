@@ -358,7 +358,6 @@ QString RzxTextEdit::toSimpleHtml() const
 	text = convertStyle(text, "p", "<br>");
 	if(text.right(4) == "<br>")
 		text = text.left(text.length() - 4);
-	qDebug() << text;
 	return text;
 }
 
