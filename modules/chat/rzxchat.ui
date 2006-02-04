@@ -85,10 +85,10 @@
         <string>&lt;h3>Send as HTML&lt;/h3>&lt;p>When this case is checked, you can format your text&lt;/p>&lt;p>&lt;b>Warning : &lt;/b>some clients don't support HTML...&lt;/p></string>
        </property>
        <property name="text" >
-        <string>Send as &amp;HTML</string>
+        <string>&amp;Format</string>
        </property>
        <property name="shortcut" >
-        <string>Alt+H</string>
+        <string>Alt+F</string>
        </property>
        <property name="checked" >
         <bool>true</bool>
