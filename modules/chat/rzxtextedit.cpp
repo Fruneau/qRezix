@@ -458,7 +458,7 @@ RzxTextEdit::Format RzxTextEdit::formatFromFont(const QString& font)
 	if(select.indexIn(font) != -1)
 		format.size = select.cap(1).toInt();
 
-	select.setPattern("color=\"([^\"]\"");
+	select.setPattern("color=\"([^\"]+)\"");
 	if(select.indexIn(font) != -1)
 		format.color = select.cap(1);
 
