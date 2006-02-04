@@ -45,6 +45,54 @@ RzxTextEdit::ListText::~ListText()
 	delete pNext;
 }
 
+/***************************************************
+* Format
+***************************************************/
+///Différence de deux formats...
+/** On retourne le premier format avec :
+ * 	- si le champs est différent -> la valeur du premier
+ * 	- si le champs est identique, rien
+ */
+RzxTextEdit::Format operator-(const RzxTextEdit::Format& f1, const RzxTextEdit::Format& f2)
+{
+	RzxTextEdit::Format newFormat = f1;
+	if(f1.family == f2.family)
+		newFormat.family = QString();
+	if(f1.size == f2.size)
+		newFormat.size = 0;
+	if(f1.color == f2.color)
+		newFormat.color = QColor();
+	if(f1.bold == f2.bold)
+		newFormat.bold = false;
+	if(f1.italic == f2.italic)
+		newFormat.italic = false;
+	if(f1.underlined == f2.underlined)
+		newFormat.underlined = false;
+	return newFormat;
+}
+
+///Merge les différences de deux formats
+/** On retourne un format avec :
+ * 	- si un des deux champs est nul, l'autre
+ * 	- si aucun des champs n'est nul, la valeur du deuxième
+ */
+RzxTextEdit::Format operator%(const RzxTextEdit::Format& f2, const RzxTextEdit::Format& f1)
+{
+	RzxTextEdit::Format newFormat = f1;
+	if(f1.family.isEmpty())
+		newFormat.family = f2.family;
+	if(f1.size <= 0)
+		newFormat.size = f2.size;
+	if(!f1.color.isValid())
+		newFormat.color = f2.color;
+	if(!f1.bold)
+		newFormat.bold = f2.bold;
+	if(!f1.italic)
+		newFormat.italic = f2.italic;
+	if(!f1.underlined)
+		newFormat.underlined = f2.underlined;
+	return newFormat;
+}
 
 /***************************************************
 * RzxTextEdit
@@ -54,11 +102,12 @@ RzxTextEdit::RzxTextEdit(QWidget *parent)
 	:QTextEdit(parent), chat(NULL)
 {
 	curLine = history = NULL;
-	m_defaultFont = m_font = RzxChatConfig::nearestFont(DefaultFont);
-	m_defaultSize = m_size = RzxChatConfig::nearestSize(m_font, DefaultSize);
-	m_bold = m_italic = m_underline = FALSE;
-	m_color = Qt::black;
 	m_html = false;
+	defaultFormat.family = RzxChatConfig::nearestFont(DefaultFont);
+	defaultFormat.size = RzxChatConfig::nearestSize(currentFormat.family, DefaultSize);
+	defaultFormat.bold = defaultFormat.italic = defaultFormat.underlined = false;
+	defaultFormat.color = Qt::black;
+	currentFormat = defaultFormat;
 	init = false;
 	validate(false);
 }
@@ -239,11 +288,26 @@ void RzxTextEdit::onTextEdited()
 	if(!init)
 	{
 		QString text = toHtml();
-		QRegExp mask("^(.*)<span style=\"([^\"]*)\">((?:[^<]|<(?!/span>))*)</span>(.*)$");
-		if(mask.indexIn(text) != -1)
+		QRegExp maskSpan("^(.*)<span style=\"([^\"]*)\">((?:[^<]|<(?!/span>))*)</span>(.*)$");
+		QRegExp maskP("^(.*)<p style=\"([^\"]*)\">((?:[^<]|<(?!/p>))*)</p>(.*)$");
+		if(maskSpan.indexIn(text) != -1)
 		{
 			QTextCursor cursor = textCursor(); //sauvegarde de la position du curseur
-			setHtml(mask.cap(1) + mask.cap(3) + mask.cap(4));
+			setHtml(maskSpan.cap(1) + maskSpan.cap(3) + maskSpan.cap(4));
+			setTextCursor(cursor); //restauration de la position du curseur
+			init = true;
+		}
+		else if(maskP.indexIn(text) != -1)
+		{
+			QTextCursor cursor = textCursor(); //sauvegarde de la position du curseur
+			const Format formatP = formatFromStyle(maskP.cap(2));
+			const Format formatBody = formatFromMarket(text, "body");
+			Format formatText = (formatP - formatBody) % (currentFormat - formatBody);
+			if(currentFormat.family != defaultFormat.family)
+				formatText.family = currentFormat.family;
+			if(currentFormat.color == defaultFormat.color)
+				formatText.color = QColor();
+			setHtml(maskP.cap(1) + "<p>" + formatStyle(maskP.cap(3), formatText, "span") + "</p>" + maskP.cap(4));
 			setTextCursor(cursor); //restauration de la position du curseur
 			init = true;
 		}
@@ -263,28 +327,24 @@ void RzxTextEdit::onTextEdited()
 	curLine = history;
 }
 
+void RzxTextEdit::setFormat(const Format& format)
+{
+	setFont(format.family);
+	setSize(format.size);
+	setBold(format.bold);
+	setItalic(format.italic);
+	setUnderline(format.underlined);
+	setColor(format.color);
+}
+
 ///Change le formatage du texte
 void RzxTextEdit::useHtml(bool html)
 {
 	m_html = true;
 	if(!html)
-	{
-		setFont(m_defaultFont);
-		setSize(m_defaultSize);
-		setBold(false);
-		setItalic(false);
-		setUnderline(false);
-		setColor(Qt::black);
-	}
+		setFormat(defaultFormat);
 	else
-	{
-		setFont(m_font);
-		setSize(m_size);
-		setBold(m_bold);
-		setItalic(m_italic);
-		setUnderline(m_underline);
-		setColor(m_color);
-	}
+		setFormat(currentFormat);
 	m_html = html;
 	init = false;
 	setAcceptRichText(html);
@@ -337,44 +397,145 @@ QString RzxTextEdit::convertStyle(const QString& m_text, const QString& balise, 
 	while((pos = mask.indexIn(text)) != -1)
 	{
 		const QString style = mask.cap(1);
-		QString rep;
-		QString tagDebut;
-		QString tagFin;
-		QRegExp select;
 
-		select.setPattern("font-family:([^;]+);");
-		if(select.indexIn(style) != -1)
-			rep += " face=\"" + select.cap(1) + "\"";
-		select.setPattern("font-size:(\\d+)pt;");
-		if(select.indexIn(style) != -1)
-			rep += " size=" + select.cap(1);
-		select.setPattern("color:([^;]+);");
-		if(select.indexIn(style) != -1)
-			rep += " color=\"" + select.cap(1) + "\"";
-		if(style.contains("font-weight:600;"))
-		{
-			tagDebut += "<B>";
-			tagFin = "</B>" + tagFin;
-		}
-		if(style.contains("font-style:italic;"))
-		{
-			tagDebut += "<I>";
-			tagFin = "</I>" + tagFin;
-		}
-		if(style.contains("text-decoration: underline;"))
-		{
-			tagDebut += "<U>";
-			tagFin = "</U>" + tagFin;
-		}
+		Format format = formatFromStyle(style);
+		QString rep = formatHtml(mask.cap(2), format);
 
-		if(rep.isEmpty() && tagDebut.isEmpty())
-			rep = mask.cap(2);
-		else
-			rep = "<font" + rep + ">" +tagDebut + mask.cap(2)+ tagFin + "</font>";
 		if(!suffix.isEmpty())
 			rep = rep + suffix;
 		text.replace(pos, mask.matchedLength(), rep);
 	}
+	return text;
+}
+
+///Extrait le format associé à une balise
+RzxTextEdit::Format RzxTextEdit::formatFromMarket(const QString& text, const QString& market)
+{
+	const Format format = { QString(), 0, QColor(), false, false, false };
+	QRegExp mask("<" + market + " style=\"([^\"]*)\">");
+	if(mask.indexIn(text) != -1)
+		return formatFromStyle(mask.cap(1));
+	return format;
+}
+
+///Génère une structure 'Format' à partir des données "styles"
+RzxTextEdit::Format RzxTextEdit::formatFromStyle(const QString& style)
+{
+	Format format = { QString(), 0, QColor(), false, false, false };
+	QRegExp select;
+
+	select.setPattern("font-family:([^;]+);");
+	if(select.indexIn(style) != -1)
+		format.family = select.cap(1);
+
+	select.setPattern("font-size:(\\d+)pt;");
+	if(select.indexIn(style) != -1)
+		format.size = select.cap(1).toInt();
+
+	select.setPattern("color:([^;]+);");
+	if(select.indexIn(style) != -1)
+		format.color = select.cap(1);
+
+	if(style.contains("font-weight:600;"))
+		format.bold = true;
+
+	if(style.contains("font-style:italic;"))
+		format.italic = true;
+
+	if(style.contains("text-decoration: underline;"))
+		format.underlined = true;
+
+	return format;
+}
+
+///Génère une structure 'Format' à partir des données d'une balise <font >
+RzxTextEdit::Format RzxTextEdit::formatFromFont(const QString& font)
+{
+	Format format = { QString(), 0, QColor(), false, false, false };
+	QRegExp select;
+
+	select.setPattern("face=\"([^\"]+)\"");
+	if(select.indexIn(font) != -1)
+		format.family = select.cap(1);
+
+	select.setPattern("size=\"?(\\d+)\"?");
+	if(select.indexIn(font) != -1)
+		format.size = select.cap(1).toInt();
+
+	select.setPattern("color=\"([^\"]+)\"");
+	if(select.indexIn(font) != -1)
+		format.color = select.cap(1);
+
+	return format;
+}
+
+///Génère une balise "Font" et des données de formatage à partir du format indiqué
+QString RzxTextEdit::formatHtml(const QString& text, const Format& format)
+{
+	QString rep; //paramètres de <font >
+	QString tagDebut;
+	QString tagFin;
+
+	if(!format.family.isEmpty())
+		rep += " face=\"" + format.family + "\"";
+
+	if(format.size)
+		rep += " size=\"" + QString::number(format.size) + "\"";
+
+	if(format.color.isValid())
+		rep += " color=\"" + format.color.name() + "\"";
+
+	if(format.bold)
+	{
+		tagDebut += "<B>";
+		tagFin = "</B>" + tagFin;
+	}
+
+	if(format.italic)
+	{
+		tagDebut += "<I>";
+		tagFin = "</I>" + tagFin;
+	}
+
+	if(format.underlined)
+	{
+		tagDebut += "<U>";
+		tagFin = "</U>" + tagFin;
+	}
+
+	if(!rep.isEmpty())
+	{
+		tagDebut += "<font" + rep + ">";
+		tagFin = "</font>" + tagFin;
+	}
+	return tagDebut + text + tagFin;
+}
+
+///Génère une balise "Span" et des données de formatage à partir du format indiqué
+QString RzxTextEdit::formatStyle(const QString& text, const Format& format, const QString& market)
+{
+	QString rep; //paramètres de <span >
+
+	if(!format.family.isEmpty())
+		rep += " font-family:" + format.family + ";";
+
+	if(format.size)
+		rep += " font-size:" + QString::number(format.size) + "pt;";
+
+	if(format.color.isValid())
+		rep += " color:" + format.color.name() + ";";
+
+	if(format.bold)
+		rep += " font-weight:600;";
+
+	if(format.italic)
+		rep += " font-style:italic;";
+
+	if(format.underlined)
+		rep += " text-decoration: underline;";
+
+	if(!rep.isEmpty())
+		return "<" + market + " style=\"" + rep + "\">" + text + "</" + market + ">";
 	return text;
 }
 

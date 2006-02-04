@@ -329,8 +329,15 @@ void RzxChat::setHtml(bool on)
 	//remet les paramètres par défaut aux boutons parce que c'est comme ca qu'il agit
 	if (on)
 	{
-		ui->cbFontSelect->setCurrentIndex(ui->cbFontSelect->findText(ui->edMsg->m_defaultFont));
-		ui->cbSize->setCurrentIndex(ui->cbSize->findText(QString::number(ui->edMsg->m_defaultSize)));
+		const int font = ui->cbFontSelect->findText(ui->edMsg->defaultFormat.family);
+		int size = ui->cbSize->findText(QString::number(ui->edMsg->defaultFormat.size));
+		if(size == -1) size = 0;
+		ui->cbFontSelect->setCurrentIndex(font);
+		ui->cbSize->setCurrentIndex(size);
+		if(font != -1)
+			ui->edMsg->setFont(ui->cbFontSelect->currentText());
+		setSize(size);
+		ui->edMsg->setSize(ui->cbSize->currentText().toInt());
 		ui->cbColorSelect->setCurrentIndex(1);
 
 		ui->btnBold->setChecked(false);
@@ -379,6 +386,14 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 	}
 	msg.remove(QRegExp("<head>.*</head>")).remove("<html>")
 		.remove(QRegExp("<body[^<>]*>")).remove("</html>").remove("</body>");
+
+	//Passage des <font > en <span >
+	QRegExp fontMask("^(.*)<font([^>]*)>((?:[^<]|<(?!/font>))*)</font>(.*)$");
+	while(fontMask.indexIn(msg) != -1)
+	{
+		RzxTextEdit::Format format = RzxTextEdit::formatFromFont(fontMask.cap(2));
+		msg = fontMask.cap(1) + RzxTextEdit::formatStyle(fontMask.cap(3), format, "span") + fontMask.cap(4);
+	}
 
 	//Création des liens hypertextes
 	static const QRegExp hyperText("("
@@ -581,12 +596,12 @@ void RzxChat::on_btnSend_clicked()
 
 void RzxChat::initHtmlText()
 {
-	ui->edMsg->setFont(ui->edMsg->m_font);
-	ui->edMsg->setSize(ui->edMsg->m_size);
-	ui->edMsg->setColor(ui->edMsg->m_color);
-	ui->edMsg->setBold(ui->edMsg->m_bold);
-	ui->edMsg->setItalic(ui->edMsg->m_italic);
-	ui->edMsg->setUnderline(ui->edMsg->m_underline);
+	ui->edMsg->setFont(ui->edMsg->currentFormat.family);
+	ui->edMsg->setSize(ui->edMsg->currentFormat.size);
+	ui->edMsg->setColor(ui->edMsg->currentFormat.color);
+	ui->edMsg->setBold(ui->edMsg->currentFormat.bold);
+	ui->edMsg->setItalic(ui->edMsg->currentFormat.italic);
+	ui->edMsg->setUnderline(ui->edMsg->currentFormat.underlined);
 }
 
 

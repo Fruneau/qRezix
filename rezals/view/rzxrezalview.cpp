@@ -531,11 +531,17 @@ void RzxRezalView::dispColumns(const QList<int>& columns)
 	if(!ui || !propWidget) return;
 
 	ui->lstColumns->clear();
+	QPixmap emptyPix(16, 16);
+	emptyPix.fill(Qt::white);
 	for(int i = 0 ; i < columns.size() ; i++)
 	{
 		QListWidgetItem *item = new QListWidgetItem(ui->lstColumns);
 		item->setText(RzxRezalModel::global()->columnName((RzxRezalModel::NumColonne)columns[i]));
-		item->setIcon(RzxRezalModel::global()->headerData(i, Qt::Horizontal, Qt::DecorationRole).value<QIcon>());
+		const QIcon icon = RzxRezalModel::global()->headerData(i, Qt::Horizontal, Qt::DecorationRole).value<QIcon>();
+		if(!icon.isNull())
+			item->setIcon(icon);
+		else
+			item->setIcon(emptyPix);
 	}
 }
 

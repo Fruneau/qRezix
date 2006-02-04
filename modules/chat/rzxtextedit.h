@@ -71,17 +71,22 @@ class RzxTextEdit : public QTextEdit
 			~ListText();
 	};
 
+	///Pour stocker les données de formatage d'un texte
+	struct Format
+	{
+		QString family;
+		int size;
+		QColor color;
+		bool bold;
+		bool italic;
+		bool underlined;
+	};
+
 	ListText *history;
 	ListText *curLine;
 
-	QString m_font;
-	QString m_defaultFont;
-	QColor m_color;
-	int m_size;
-	int m_defaultSize;
-	bool m_italic;
-	bool m_bold;
-	bool m_underline;
+	Format defaultFormat;
+	Format currentFormat;
 	bool m_html;
 
 	bool init;
@@ -91,6 +96,8 @@ class RzxTextEdit : public QTextEdit
 	bool atEnd() const;
 
 	QString convertStyle(const QString&, const QString&, const QString& = QString()) const;
+	friend Format operator-(const Format&, const Format&);
+	friend Format operator%(const Format&, const Format&);
 
 public:
 	RzxTextEdit(QWidget *parent=0);
@@ -114,6 +121,7 @@ public slots:
 	void setFont(const QString&);
 	void setSize(int);
 	void setUnderline(bool);
+	void setFormat(const Format&);
 	void useHtml(bool);
 	void insertPlainText(const QString&);
 	
@@ -124,6 +132,12 @@ protected:
 
 	void onArrowPressed(bool);
 	void onTextEdited();
+
+	static Format formatFromMarket(const QString&, const QString&);
+	static Format formatFromStyle(const QString&);
+	static Format formatFromFont(const QString&);
+	static QString formatHtml(const QString&, const Format&);
+	static QString formatStyle(const QString&, const Format&, const QString&);
 
 signals:
 	void enterPressed();
@@ -142,7 +156,7 @@ inline void RzxTextEdit::setChat(RzxChat *m_chat)
  */
 inline void RzxTextEdit::setBold(bool bold)
 {
-	m_bold = bold;
+	currentFormat.bold = bold;
 	setFontWeight(m_html && bold ? QFont::Bold : QFont::Normal);
 	setFocus();
 }
@@ -153,13 +167,13 @@ inline void RzxTextEdit::setBold(bool bold)
  */
 inline bool RzxTextEdit::bold() const
 {
-	return m_bold;
+	return currentFormat.bold;
 }
 
 ///Passe l'édition en italique
 inline void RzxTextEdit::setItalic(bool ital)
 {
-	m_italic = ital;
+	currentFormat.italic = ital;
 	setFontItalic(m_html && ital);
 	setFocus();
 }
@@ -170,13 +184,13 @@ inline void RzxTextEdit::setItalic(bool ital)
  */
 inline bool RzxTextEdit::italic() const
 {
-	return m_italic;
+	return currentFormat.italic;
 }
 
 ///Passe l'édition en souligné
 inline void RzxTextEdit::setUnderline(bool under)
 {
-	m_underline = under;
+	currentFormat.underlined = under;
 	setFontUnderline(under);
 	setFocus();
 }
@@ -187,13 +201,13 @@ inline void RzxTextEdit::setUnderline(bool under)
  */
 inline bool RzxTextEdit::underline() const
 {
-	return m_underline;
+	return currentFormat.underlined;
 }
 
 ///Change la police
 inline void RzxTextEdit::setFont(const QString& font)
 {
-	m_font = font;
+	currentFormat.family = font;
 	if(m_html)
 		setFontFamily(font);
 	setFocus();
@@ -205,14 +219,15 @@ inline void RzxTextEdit::setFont(const QString& font)
  */
 inline const QString &RzxTextEdit::font() const
 {
-	return m_font;
+	return currentFormat.family;
 }
 
 ///Change la taille de la police
 inline void RzxTextEdit::setSize(int size)
 {
-	m_size = size;
-	if(m_html)
+	if(size < 0) return;
+	currentFormat.size = size;
+	if(m_html && size)
 		setFontPointSize(size);
 	setFocus();
 }
@@ -223,14 +238,14 @@ inline void RzxTextEdit::setSize(int size)
  */
 inline int RzxTextEdit::size() const
 {
-	return m_size;
+	return currentFormat.size;
 }
 
 ///Change la couleur de la police
 inline void RzxTextEdit::setColor(const QColor& c)
 {
-	m_color = c;
-	if(m_html)
+	currentFormat.color = c;
+	if(m_html && c.isValid())
 		setTextColor(c);
 	setFocus();
 }
@@ -241,7 +256,7 @@ inline void RzxTextEdit::setColor(const QColor& c)
  */
 inline const QColor &RzxTextEdit::color() const
 {
-	return m_color;
+	return currentFormat.color;
 }
 
 ///Retourne l'état de l'utilisation du formatage html
