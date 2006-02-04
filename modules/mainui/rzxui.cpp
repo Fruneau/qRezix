@@ -17,7 +17,7 @@
  ***************************************************************************/
 #define RZX_MODULE_NAME "Main UI"
 #define RZX_MODULE_DESCRIPTION "Main UI for qRezix"
-#define RZX_MODULE_ICON Rzx::ICON_SYSTRAYHERE
+#define RZX_MODULE_ICON RzxThemedIcon("mainui")
 
 #include <QWidget>
 #include <QPainter>

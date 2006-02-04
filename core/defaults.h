@@ -42,13 +42,6 @@
 #define RZX_CLIENT_ID (0x06)
 
 #ifdef Q_OS_MAC
-#	define QREZIX_ICON "../resources/q_mac.xpm"
-#else
-#	define QREZIX_ICON "../resources/q.xpm"
-#endif
-#define QREZIX_AWAY_ICON "../resources/t.xpm"
-
-#ifdef Q_OS_MAC
 #	undef QREZIX_LIB_DIR
 #	undef QREZIX_SYSTEM_DIR
 #	define QREZIX_LIB_DIR "./qRezix.app/Contents/Frameworks/"

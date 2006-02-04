@@ -22,9 +22,6 @@
 
 #include <RzxConfig>
 
-//#include QREZIX_ICON
-//#include QREZIX_AWAY_ICON
-
 RZX_GLOBAL_INIT(RzxIconCollection)
 
 ///Données d'information des icônes
@@ -106,9 +103,7 @@ RzxIconCollection::RzxIconCollection()
 {
 	Rzx::beginModuleLoading("Icon Collection");
 	//Définition de l'icône de l'application
-	hereIcon = QPixmap(":/qrezix_here.png");
-	awayIcon = QPixmap(":/qrezix_away.png");
-	disconIcon = QPixmap(":/qrezix_discon.png");
+	qIcon = QPixmap(":/qrezix_icon.png");
 
 	//Recherche des thèmes installés
 	qDebug("Searching icon themes...");
@@ -249,15 +244,6 @@ const QPixmap &RzxIconCollection::pixmap(Rzx::Icon icon)
 		if(icons[name].isNull())
 			icons.insert(name, loadIcon(name, activeTheme));
 	}
-	if(icons[name].isNull())
-	{
-		if(icon == Rzx::ICON_SYSTRAYHERE)
-			icons.insert(name, qRezixIcon());
-		else if(icon == Rzx::ICON_SYSTRAYAWAY)
-			icons.insert(name, qRezixAwayIcon());
-		else if(icon == Rzx::ICON_SYSTRAYDISCON)
-			icons.insert(name, qRezixDisconIcon());
-	}
 	return icons[name];
 }
 
@@ -376,23 +362,7 @@ QIcon RzxIconCollection::banIcon()
  */
 const QPixmap& RzxIconCollection::qRezixIcon()
 {
-	return global()->hereIcon;
-}
-
-///Surcharge
-/** \sa awayIcon
- */
-const QPixmap& RzxIconCollection::qRezixAwayIcon()
-{
-	return global()->awayIcon;
-}
-
-///Surcharge
-/** \sa disconIcon
- */
-const QPixmap& RzxIconCollection::qRezixDisconIcon()
-{
-	return global()->disconIcon;
+	return global()->qIcon;
 }
 
 ///Récupération d'une icône utilisateur

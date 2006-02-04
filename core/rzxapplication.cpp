@@ -201,7 +201,7 @@ void RzxApplication::loadBuiltins()
 	//Chargmenet des builtins
 #define loadBuiltIn(a) installModule(new a)
 #ifdef RZX_MAINUI_BUILTIN
-	if(addBuiltin(Rzx::ICON_SYSTRAYHERE, "Main UI", m_version, "Main UI for qRezix"))
+	if(addBuiltin(RzxThemedIcon("mainui"), "Main UI", m_version, "Main UI for qRezix"))
 		loadBuiltIn(RzxUi);
 #endif
 #ifdef RZX_CHAT_BUILTIN
