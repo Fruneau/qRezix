@@ -213,7 +213,7 @@ void RzxApplication::loadBuiltins()
 		loadBuiltIn(RzxNotifier);
 #endif
 #ifdef RZX_TRAYICON_BUILTIN
-	if(addBuiltin(Rzx::ICON_SYSTRAYAWAY, "Tray icon", m_version, "Systray and Dock integration"))
+	if(addBuiltin(RzxThemedIcon("trayicon"), "Tray icon", m_version, "Systray and Dock integration"))
 		loadBuiltIn(RzxTrayIcon);
 #endif
 #undef loadBuiltIn

@@ -20,7 +20,7 @@
 */
 #define RZX_MODULE_NAME "Tray icon"
 #define RZX_MODULE_DESCRIPTION "Systray and Dock integration"
-#define RZX_MODULE_ICON Rzx::ICON_SYSTRAYAWAY
+#define RZX_MODULE_ICON RzxThemedIcon("trayicon")
 
 #include <QImage>
 #include <QPixmap>
