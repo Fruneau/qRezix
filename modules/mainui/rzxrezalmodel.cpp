@@ -815,7 +815,7 @@ QVariant RzxRezalModel::headerData(int column, Qt::Orientation orientation, int 
 			{
 				case ColSamba: case ColFTP: case ColHTTP:
 				case ColNews: case ColGateway: case ColPromo:
-				case ColPrinter:
+				case ColPrinter: case ColOS:
 					return QVariant();
 				default:
 					return tr(colNames[column]);
@@ -831,6 +831,7 @@ QVariant RzxRezalModel::headerData(int column, Qt::Orientation orientation, int 
 				case ColPrinter: return RzxIconCollection::getIcon(Rzx::ICON_PRINTER);
 				case ColGateway: return RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY);
 				case ColPromo: return RzxIconCollection::global()->promoIcon(Rzx::PROMAL_ORANGE);
+				case ColOS: return RzxIconCollection::global()->osIcon(RzxComputer::localhost()->sysEx());
 				default: return QVariant();
 			}
 

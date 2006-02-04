@@ -1368,6 +1368,10 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
+    <message>
+        <source>Icon...</source>
+        <translation>Icône...</translation>
+    </message>
 </context>
 <context>
     <name>RzxProps</name>
@@ -1664,6 +1668,14 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <source>send a Mail</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add to a group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from group</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxRezalViewProp</name>
@@ -1907,6 +1919,18 @@ DNS request failed</source>
         <source>List Favorites separatedly</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Icon background</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transparent background</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select color</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RzxUi</name>
@@ -1952,6 +1976,14 @@ DNS request failed</source>
     </message>
     <message>
         <source>User groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View History</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

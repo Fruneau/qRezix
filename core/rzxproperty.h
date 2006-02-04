@@ -63,6 +63,7 @@ class RZX_CORE_EXPORT RzxProperty : public QDialog, private Ui::RzxProperty
 	};
 	static const Sport sports[];
 	friend bool sportLessThan(const Sport*, const Sport*);
+	bool iconChanged;
 
 public: 
 	RzxProperty(QWidget *parent = NULL);

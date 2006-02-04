@@ -320,7 +320,7 @@ void RzxProperty::fillCacheView()
 	 	ip = RzxHostAddress(item->data(Qt::UserRole).toString());
 	RzxConfig::fillWithCache(ip, showCache);
 	showCache->setEnabled(item);
-	btnDeleteCache->setEnabled(item);
+	btnDeleteCache->setEnabled(listCache->selectedItems().size());
 	btnSendMail->setEnabled(item && !RzxConfig::getEmailFromCache(ip).isEmpty());
 }
 
@@ -662,7 +662,8 @@ void RzxProperty::initDlg(bool def)
 #undef setValue
 	txtWorkDir->setText( RzxConfig::ftpPath(def) );
 	
-	pxmIcon->setPixmap(RzxIconCollection::global()->localhostPixmap());
+	iconChanged = false;
+	pxmIcon->setPixmap(RzxComputer::localhost()->icon());
 
 	listFavorites->refresh();
 	listBanned->refresh();
@@ -696,7 +697,7 @@ void RzxProperty::updateLocalHost()
 		servers |= RzxComputer::SERVER_PRINTER;
 
 	const QPixmap *localhostIcon = pxmIcon->pixmap();
-	if(RzxIconCollection::global()->localhostPixmap().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
+	if(iconChanged && RzxIconCollection::global()->localhostPixmap().serialNumber() != localhostIcon->serialNumber() && !localhostIcon->isNull())
 	{
 		RzxIconCollection::global()->setLocalhostPixmap(*localhostIcon);
 		RzxComputer::localhost()->setIcon(*localhostIcon);
@@ -841,6 +842,7 @@ void RzxProperty::chooseIcon()
 	}
 
 	pxmIcon->setPixmap(icon.scaled(64, 64, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+	iconChanged = true;
 }
 
 
