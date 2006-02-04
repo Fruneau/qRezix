@@ -130,6 +130,8 @@ void RzxChat::init()
 	new QShortcut(Qt::Key_F1, ui->btnSound, SLOT(toggle()));
 #ifdef Q_OS_MAC
 	new QShortcut(QKeySequence("Ctrl+M"), this, SLOT(showMinimized()));
+	new QShortcut(QKeySequence("Ctrl+,"), this, SIGNAL(wantPreferences()));
+	connect(this, SIGNAL(wantPreferences()), RzxChatLister::global(), SIGNAL(wantPreferences()));
 #endif
 
 	/* Construction du texte et des icônes des boutons */
