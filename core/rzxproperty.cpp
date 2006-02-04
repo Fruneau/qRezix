@@ -313,14 +313,15 @@ void RzxProperty::fillCacheView()
 {
 	showCache->clear();
 	const QListWidgetItem *item = listCache->currentItem();
+	const bool selected = listCache->selectedItems().size();
 	RzxHostAddress ip;
 	if(!item)
 		ip = RzxComputer::localhost()->ip();
 	else
 	 	ip = RzxHostAddress(item->data(Qt::UserRole).toString());
 	RzxConfig::fillWithCache(ip, showCache);
-	showCache->setEnabled(item);
-	btnDeleteCache->setEnabled(listCache->selectedItems().size());
+	showCache->setEnabled(selected);
+	btnDeleteCache->setEnabled(selected);
 	btnSendMail->setEnabled(item && !RzxConfig::getEmailFromCache(ip).isEmpty());
 }
 
