@@ -532,7 +532,11 @@ void RzxRezalView::dispColumns(const QList<int>& columns)
 
 	ui->lstColumns->clear();
 	for(int i = 0 ; i < columns.size() ; i++)
-		ui->lstColumns->insertItem(i, RzxRezalModel::global()->columnName((RzxRezalModel::NumColonne)columns[i]));
+	{
+		QListWidgetItem *item = new QListWidgetItem(ui->lstColumns);
+		item->setText(RzxRezalModel::global()->columnName((RzxRezalModel::NumColonne)columns[i]));
+		item->setIcon(RzxRezalModel::global()->headerData(i, Qt::Horizontal, Qt::DecorationRole).value<QIcon>());
+	}
 }
 
 ///Déplace l'item sélectionné vers le bas
