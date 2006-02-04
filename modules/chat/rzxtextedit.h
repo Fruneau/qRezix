@@ -97,6 +97,7 @@ class RzxTextEdit : public QTextEdit
 
 	QString convertStyle(const QString&, const QString&, const QString& = QString()) const;
 	friend Format operator-(const Format&, const Format&);
+	friend Format operator%(const Format&, const Format&);
 
 public:
 	RzxTextEdit(QWidget *parent=0);
@@ -132,10 +133,11 @@ protected:
 	void onArrowPressed(bool);
 	void onTextEdited();
 
-	Format formatFromMarket(const QString&, const QString&) const;
-	Format formatFromStyle(const QString&) const;
-	QString formatHtml(const QString&, const Format&) const;
-	QString formatStyle(const QString&, const Format&) const;
+	static Format formatFromMarket(const QString&, const QString&);
+	static Format formatFromStyle(const QString&);
+	static Format formatFromFont(const QString&);
+	static QString formatHtml(const QString&, const Format&);
+	static QString formatStyle(const QString&, const Format&, const QString&);
 
 signals:
 	void enterPressed();

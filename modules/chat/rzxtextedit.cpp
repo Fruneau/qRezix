@@ -71,6 +71,28 @@ RzxTextEdit::Format operator-(const RzxTextEdit::Format& f1, const RzxTextEdit::
 	return newFormat;
 }
 
+///Merge les différences de deux formats
+/** On retourne un format avec :
+ * 	- si un des deux champs est nul, l'autre
+ * 	- si aucun des champs n'est nul, la valeur du deuxième
+ */
+RzxTextEdit::Format operator%(const RzxTextEdit::Format& f2, const RzxTextEdit::Format& f1)
+{
+	RzxTextEdit::Format newFormat = f1;
+	if(f1.family.isEmpty())
+		newFormat.family = f2.family;
+	if(f1.size <= 0)
+		newFormat.size = f2.size;
+	if(!f1.color.isValid())
+		newFormat.color = f2.color;
+	if(!f1.bold)
+		newFormat.bold = f2.bold;
+	if(!f1.italic)
+		newFormat.italic = f2.italic;
+	if(!f1.underlined)
+		newFormat.underlined = f2.underlined;
+	return newFormat;
+}
 
 /***************************************************
 * RzxTextEdit
@@ -280,7 +302,8 @@ void RzxTextEdit::onTextEdited()
 			QTextCursor cursor = textCursor(); //sauvegarde de la position du curseur
 			const Format formatP = formatFromStyle(maskP.cap(2));
 			const Format formatBody = formatFromMarket(text, "body");
-			setHtml(maskP.cap(1) + formatStyle(maskP.cap(3), currentFormat - formatP - formatBody) + maskP.cap(4));
+			Format formatText = (formatP - formatBody) % (currentFormat - formatBody);
+			setHtml(maskP.cap(1) + "<p>" + formatStyle(maskP.cap(3), formatText, "span") + "</p>" + maskP.cap(4));
 			setTextCursor(cursor); //restauration de la position du curseur
 			init = true;
 		}
@@ -382,7 +405,7 @@ QString RzxTextEdit::convertStyle(const QString& m_text, const QString& balise, 
 }
 
 ///Extrait le format associé à une balise
-RzxTextEdit::Format RzxTextEdit::formatFromMarket(const QString& text, const QString& market) const
+RzxTextEdit::Format RzxTextEdit::formatFromMarket(const QString& text, const QString& market)
 {
 	const Format format = { QString(), 0, QColor(), false, false, false };
 	QRegExp mask("<" + market + " style=\"([^\"]*)\">");
@@ -392,7 +415,7 @@ RzxTextEdit::Format RzxTextEdit::formatFromMarket(const QString& text, const QSt
 }
 
 ///Génère une structure 'Format' à partir des données "styles"
-RzxTextEdit::Format RzxTextEdit::formatFromStyle(const QString& style) const
+RzxTextEdit::Format RzxTextEdit::formatFromStyle(const QString& style)
 {
 	Format format = { QString(), 0, QColor(), false, false, false };
 	QRegExp select;
@@ -421,8 +444,29 @@ RzxTextEdit::Format RzxTextEdit::formatFromStyle(const QString& style) const
 	return format;
 }
 
+///Génère une structure 'Format' à partir des données d'une balise <font >
+RzxTextEdit::Format RzxTextEdit::formatFromFont(const QString& font)
+{
+	Format format = { QString(), 0, QColor(), false, false, false };
+	QRegExp select;
+
+	select.setPattern("class=\"([^\"]+)\"");
+	if(select.indexIn(font) != -1)
+		format.family = select.cap(1);
+
+	select.setPattern("size=\"?(\\d+)\"?");
+	if(select.indexIn(font) != -1)
+		format.size = select.cap(1).toInt();
+
+	select.setPattern("color=\"([^\"]\"");
+	if(select.indexIn(font) != -1)
+		format.color = select.cap(1);
+
+	return format;
+}
+
 ///Génère une balise "Font" et des données de formatage à partir du format indiqué
-QString RzxTextEdit::formatHtml(const QString& text, const Format& format) const
+QString RzxTextEdit::formatHtml(const QString& text, const Format& format)
 {
 	QString rep; //paramètres de <font >
 	QString tagDebut;
@@ -464,30 +508,30 @@ QString RzxTextEdit::formatHtml(const QString& text, const Format& format) const
 }
 
 ///Génère une balise "Span" et des données de formatage à partir du format indiqué
-QString RzxTextEdit::formatStyle(const QString& text, const Format& format) const
+QString RzxTextEdit::formatStyle(const QString& text, const Format& format, const QString& market)
 {
 	QString rep; //paramètres de <span >
 
 	if(!format.family.isEmpty())
-		rep += "font-family:" + format.family + "; ";
+		rep += " font-family:" + format.family + ";";
 
 	if(format.size)
-		rep += "font-size:" + QString::number(format.size) + "; ";
+		rep += " font-size:" + QString::number(format.size) + "pt;";
 
 	if(format.color.isValid())
-		rep += "color:" + format.color.name() + "; ";
+		rep += " color:" + format.color.name() + ";";
 
 	if(format.bold)
-		rep += "font-weight:600; ";
+		rep += " font-weight:600;";
 
 	if(format.italic)
-		rep += "font-style:italic; ";
+		rep += " font-style:italic;";
 
 	if(format.underlined)
-		rep += "text-decoration: underline; ";
+		rep += " text-decoration: underline;";
 
 	if(!rep.isEmpty())
-		return "<span style=\"" + rep + "\">" + text + "</span>";
+		return "<" + market + " style=\"" + rep + "\">" + text + "</" + market + ">";
 	return text;
 }
 

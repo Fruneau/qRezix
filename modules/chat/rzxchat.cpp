@@ -330,11 +330,14 @@ void RzxChat::setHtml(bool on)
 	if (on)
 	{
 		const int font = ui->cbFontSelect->findText(ui->edMsg->defaultFormat.family);
-		const int size = ui->cbSize->findText(QString::number(ui->edMsg->defaultFormat.size));
+		int size = ui->cbSize->findText(QString::number(ui->edMsg->defaultFormat.size));
+		if(size == -1) size = 0;
 		ui->cbFontSelect->setCurrentIndex(font);
 		ui->cbSize->setCurrentIndex(size);
-		setFont(font);
+		if(font != -1)
+			ui->edMsg->setFont(ui->cbFontSelect->currentText());
 		setSize(size);
+		ui->edMsg->setSize(ui->cbSize->currentText().toInt());
 		ui->cbColorSelect->setCurrentIndex(1);
 
 		ui->btnBold->setChecked(false);
@@ -383,6 +386,14 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 	}
 	msg.remove(QRegExp("<head>.*</head>")).remove("<html>")
 		.remove(QRegExp("<body[^<>]*>")).remove("</html>").remove("</body>");
+
+	//Passage des <font > en <span >
+	QRegExp fontMask("^(.*)<font([^>]*)>((?:[^<]|<(?!/font>))*)</font>(.*)$");
+	while(fontMask.indexIn(msg) != -1)
+	{
+		RzxTextEdit::Format format = RzxTextEdit::formatFromFont(fontMask.cap(2));
+		msg = fontMask.cap(1) + RzxTextEdit::formatStyle(fontMask.cap(3), format, "span") + fontMask.cap(4);
+	}
 
 	//Création des liens hypertextes
 	static const QRegExp hyperText("("
