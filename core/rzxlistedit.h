@@ -19,12 +19,13 @@
 
 #include <QWidget>
 
+#include <RzxComputer>
+
 /**
  @author Florent Bruneau
  */
 
 class RzxComputerList;
-class RzxComputer;
 class RzxHostAddress;
 namespace Ui { class RzxListEdit; }
 
@@ -43,6 +44,7 @@ class RzxListEdit: public QWidget
 
 	Ui::RzxListEdit *ui;
 	RzxComputerList *list;
+	RzxComputer::testComputer *test;
 
 	bool updating;
 
@@ -52,6 +54,7 @@ class RzxListEdit: public QWidget
 
 	public slots:
 		void setList(RzxComputerList *);
+		void setTest(RzxComputer::testComputer *);
 		void changeTheme();
 		void refresh();
 

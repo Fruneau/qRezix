@@ -25,7 +25,7 @@
 
 ///Constructeur
 RzxListEdit::RzxListEdit(QWidget *parent)
-	:QWidget(parent), list(NULL)
+	:QWidget(parent), list(NULL), test(NULL)
 {
 	ui = new Ui::RzxListEdit();
 	ui->setupUi(this);
@@ -72,6 +72,12 @@ void RzxListEdit::setList(RzxComputerList *m_list)
 	refresh();
 }
 
+///Défini le test à passer pour composer la liste des machines à afficher
+void RzxListEdit::setTest(RzxComputer::testComputer* tester)
+{
+	test = tester;
+}
+
 ///Change le thème d'icône utilisé...
 void RzxListEdit::changeTheme()
 {
@@ -87,7 +93,11 @@ void RzxListEdit::refresh()
 	ui->editNew->clear();
 	if(!list) return;
 
-	QList<RzxComputer*> computerList = RzxConnectionLister::global()->computerList();
+	QList<RzxComputer*> computerList;
+	if(!test)
+		computerList = RzxConnectionLister::global()->computerList();
+	else
+		computerList = RzxConnectionLister::global()->computerList(test);
 	qSort(computerList.begin(), computerList.end(), computerLessThan);
 	ui->editNew->addItem(tr("Name or IP address"));
 	for(int i = 0 ; i < computerList.size() ; i++)

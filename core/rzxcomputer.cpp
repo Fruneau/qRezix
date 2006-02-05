@@ -909,6 +909,18 @@ bool testComputerBan(const RzxComputer *c)
 	return c && c->isIgnored();
 }
 
+///Test si l'ordinateur n'est pas un favoris
+bool testComputerNotFavorite(const RzxComputer *c)
+{
+	return c && !c->isFavorite();
+}
+
+///Test si l'ordinateur est ignoré
+bool testComputerNotBan(const RzxComputer *c)
+{
+	return c && !c->isIgnored();
+}
+
 ///Test si la machine est sur le même subnet
 bool testComputerSameGateway(const RzxComputer *c)
 {
