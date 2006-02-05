@@ -25,6 +25,7 @@
 #include <QRect>
 #include <QPen>
 #include <QPainter>
+#include <QBitmap>
 
 #include <RzxComputer>
 #include <RzxConfig>
@@ -533,6 +534,7 @@ void RzxRezalView::dispColumns(const QList<int>& columns)
 	ui->lstColumns->clear();
 	QPixmap emptyPix(16, 16);
 	emptyPix.fill(Qt::white);
+	emptyPix.setMask(emptyPix.createMaskFromColor(Qt::white));
 	for(int i = 0 ; i < columns.size() ; i++)
 	{
 		QListWidgetItem *item = new QListWidgetItem(ui->lstColumns);
@@ -581,6 +583,7 @@ void RzxRezalView::themeChanged()
 {
 	if(!ui || !propWidget) return;
 
+	dispColumns(columnOrder());
 	ui->btnInit->setIcon(RzxIconCollection::getIcon(Rzx::ICON_RELOAD));
 }
 
