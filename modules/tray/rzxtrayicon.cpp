@@ -956,26 +956,25 @@ void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 {
 	if(!(width() + height())) return; //ça sert à rien de bosser sur des icônes vide
 
+	//Recherche de la taille de l'icône
 	int dim = RzxTrayConfig::traySize();
 	if(RzxTrayConfig::autoScale() || dim == -1)
 		dim = qMin(width(), height()) - 2;
 
-	if(pm.size() == QSize(dim, dim))
-		pix = pm;
+	//Initialisation de l'icône
+	pix = QPixmap(QWidget::size());
+	if(!RzxTrayConfig::transparent())
+		pix.fill(QColor(RzxTrayConfig::backgroundColor()));
 	else
-	{
-		const QPixmap pmScaled = pm.scaled( dim, dim, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
-		pix = QPixmap(QWidget::size());
-		if(!RzxTrayConfig::transparent())
-			pix.fill(QColor(RzxTrayConfig::backgroundColor()));
-		else
-			pix.fill(QColor(0, 0, 0 ,0));
+		pix.fill(QColor(0, 0, 0 ,0));
 
-		//Dessin du pixmap
-		QPainter pixPainter(&pix);
-		pixPainter.drawPixmap((width() - dim) / 2, (height() - dim)/2, pmScaled);
-	}
+	//Dessin du pixmap
+	const QRect rect((width() - dim) / 2, (height() - dim)/2, dim, dim);
+	QPainter pixPainter(&pix);
+	pixPainter.setRenderHint(QPainter::SmoothPixmapTransform);
+	pixPainter.drawPixmap(rect, pm, pm.rect());
 
+	//Mise en place de la transparence si nécessaire
 	if(RzxTrayConfig::transparent())
 		setMask(pix.mask());
 	else
@@ -983,7 +982,7 @@ void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 	repaint();
 }
 
-///Affichage de l'icôneClient
+///Affichage de l'icône
 void RzxTrayIcon::RzxTrayIconPrivate::paintEvent(QPaintEvent *)
 {
 	QPainter p(this);
@@ -1174,8 +1173,7 @@ void RzxTrayIcon::sysUpdateIcon()
 	if ( !d )
 		return ;
 
-	QPixmap pix = pm;
-	d->setPixmap( pix );
+	d->setPixmap(pm);
 }
 
 void RzxTrayIcon::sysUpdateToolTip()

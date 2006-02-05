@@ -493,7 +493,7 @@ QString RzxConfig::remarque(bool def, const QString& defValue)
 
 	if(comment == "$#x")
 	{
-		QStringList comments = QString(DEFAULT_COMMENT).split("\n");
+		QStringList comments = QString(DEFAULT_COMMENT).split("\r\n");
 		int i = rand()%comments.size();
 		comment = comments[i];
 	}

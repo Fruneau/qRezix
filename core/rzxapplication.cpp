@@ -154,6 +154,10 @@ bool RzxApplication::loadCore()
 	//Chargement des configs
 	setSettings(new RzxConfig());
 	setWindowIcon(RzxIconCollection::qRezixIcon());
+#ifdef Q_OS_MAC
+	CGImageRef ir = (CGImageRef)RzxIconCollection::qRezixIcon().macCGHandle();
+	SetApplicationDockTileImage(ir);
+#endif
 
 	//Initialisation de l'objet représentant localhost
 	RzxComputer::localhost();
