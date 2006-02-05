@@ -131,6 +131,8 @@ void RzxUtilsLauncher::ftp(const QString& host, const QString& path)
 		cmd = "explorer";
 	else
 		cmd =  sFtpClient;
+	args << tempip;
+	launchCommand(cmd , args, path);
 #else
 #ifdef Q_OS_MAC
 	if(RzxConfig::global()->ftpCmd() == "Default")
@@ -150,9 +152,8 @@ void RzxUtilsLauncher::ftp(const QString& host, const QString& path)
 	else
 		cmd = RzxConfig::global()->ftpCmd();
 #endif //MAC
+	launchCommand(cmd + " " + tempip, QStringList(), path);
 #endif //WIN32
-	args << tempip;
-	launchCommand(cmd , args, path);
 }
 
 ///Lance le client samba
