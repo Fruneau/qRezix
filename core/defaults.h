@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 #define DEFAULT_MAIL "Inscris toi sur polytechnique.org"
-#define DEFAULT_THEME "Krystal"
+#define DEFAULT_THEME "Nuvola"
 
 #ifdef Q_OS_WIN
 #	define DEFAULT_SAMBACMD "standard"
