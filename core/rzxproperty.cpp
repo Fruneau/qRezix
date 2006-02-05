@@ -176,7 +176,9 @@ RzxProperty::RzxProperty(QWidget *parent)
 	favoritesItem->setData(0, Qt::UserRole, Favorites);
 	lbMenu->expandItem(favoritesItem);
 	listFavorites->setList(RzxFavoriteList::global());
+	listFavorites->setTest(testComputerNotFavorite);
 	listBanned->setList(RzxBanList::global());
+	listBanned->setTest(testComputerNotBan);
 
 	layoutItem = new QTreeWidgetItem(lbMenu);
 	layoutItem->setText(0, tr("Layout"));
