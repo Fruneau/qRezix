@@ -896,7 +896,6 @@ class RzxTrayIcon::RzxTrayIconPrivate : public QWidget
 
 		virtual void setPixmap(const QPixmap &pm);
 
-		virtual void paintEvent( QPaintEvent * );
 		virtual void enterEvent( QEvent * );
 		virtual void mouseMoveEvent( QMouseEvent *e );
 		virtual void mousePressEvent( QMouseEvent *e );
@@ -974,19 +973,19 @@ void RzxTrayIcon::RzxTrayIconPrivate::setPixmap( const QPixmap &pm )
 	pixPainter.setRenderHint(QPainter::SmoothPixmapTransform);
 	pixPainter.drawPixmap(rect, pm, pm.rect());
 
+	//Mise en place du dessin	
+	QPalette pal = palette();
+	QBrush brush;
+	brush.setTexture(pix);
+	pal.setBrush(QPalette::Window, brush);
+	setPalette(pal);
+
 	//Mise en place de la transparence si nécessaire
 	if(RzxTrayConfig::transparent())
 		setMask(pix.mask());
 	else
 		clearMask();
 	repaint();
-}
-
-///Affichage de l'icône
-void RzxTrayIcon::RzxTrayIconPrivate::paintEvent(QPaintEvent *)
-{
-	QPainter p(this);
-	p.drawPixmap(0, 0, pix);
 }
 
 ///Raffraichi l'icône lorsque la tray est resizée
