@@ -223,7 +223,20 @@ QString RzxTrayIcon::titleFromSplit(int j, QString splitPoints)
 	QString titre;
 	// Faut penser à une façon plus sympa de renvoyer cette erreur (qui ne doit jamais arriver...)
 	if ( (j+1) >= splitPoints.size() )
+	{
 		titre = "Sub";
+		return titre;
+	}
+
+	// Le premier sous-menu est spécial, il doit commencer par la lettre du premier
+	// Pour l'instant, vue la façon dont le découpage est fait,
+	// il n'y a pas de possibilité qu'il comporte une seule lettre
+	if ( j == 0 )
+	{
+		titre = "  -  ";
+		titre[0] = splitPoints.at(0).toUpper();
+		titre[4] = splitPoints.at(1).toUpper();
+	}
 	else {
 		// Cas d'une seule lettre pour le sous-menu
 		if ( (splitPoints.at(j).toAscii()+1) == splitPoints.at(j+1).toAscii() )
@@ -231,10 +244,7 @@ QString RzxTrayIcon::titleFromSplit(int j, QString splitPoints)
 
 		else {
 			titre = "  -  ";
-			if (j == 0)
-				titre[0] = splitPoints.at(j).toUpper();
-			else
-				titre[0] = QChar(splitPoints.at(j).toAscii() + 1).toUpper();
+			titre[0] = QChar(splitPoints.at(j).toAscii() + 1).toUpper();
 			titre[4] = splitPoints.at(j+1).toUpper();
 		}
 	}
