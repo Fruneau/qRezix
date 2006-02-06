@@ -219,6 +219,7 @@ void RzxProperty::changeThemeModules(const QList<T*>& modules, QTreeWidgetItem *
 	foreach(T *module, modules)
 	{
 		const QList<QWidget*> props = module->propWidgets();
+		if(i >= parent->childCount()) break;
 		QTreeWidgetItem *item = parent->child(i++);
 
 		QList<RzxBaseModule*> children = module->childModules();
