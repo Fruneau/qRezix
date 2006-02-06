@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>qRezix</string>
 	<key>CFBundleGetInfoString</key>
-	<string>qRezix 2.0.0-svn, Copyright (c) 2002-2005 Binet Réseau</string>
+	<string>qRezix 2.0.0, Copyright (c) 2002-2006 Binet Réseau</string>
 	<key>CFBundleIconFile</key>
 	<string>qrezix.icns</string>
 	<key>CFBundleIdentifier</key>
