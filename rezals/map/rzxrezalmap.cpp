@@ -367,6 +367,8 @@ void RzxRezalMap::setPlace(int place)
 			rect = currentMap->places[currentPlace].boundingRect();
 			if(!currentHasChanged)
 				scrollTo(rect, PositionCentered);
+			timer.start(250, this);
+			blinkingStep = 0;
 			viewport()->update();
 		}
 	}
@@ -753,7 +755,6 @@ QPolygon RzxRezalMap::polygon(const QString& place) const
 	return poly;
 }
 
-
 ///Affichage... réalise simplement le dessin
 void RzxRezalMap::paintEvent(QPaintEvent*)
 {
@@ -790,6 +791,19 @@ void RzxRezalMap::paintEvent(QPaintEvent*)
 	drawSelection(painter);
 }
 
+///Pour le clignotement de la case sélectionnée
+void RzxRezalMap::timerEvent(QTimerEvent *e)
+{
+	if(e->timerId() == timer.timerId())
+	{
+		blinkingStep++;
+		if(blinkingStep == 5) timer.stop();
+		update();
+	}
+	else
+		QAbstractItemView::timerEvent(e);
+}
+
 ///Dessin de la sélection
 void RzxRezalMap::drawSelection(QPainter& painter)
 {
@@ -815,7 +829,7 @@ void RzxRezalMap::drawPlace(const QString& place, QPainter& painter, const QColo
 			 QPixmap(currentMap->masks[place]));
 	else
 	{
-		painter.setBrush(color);
+		painter.setBrush(blinkingStep&1? color :  QColor(0xff, 00, 00, 0xd0));
 		painter.drawPolygon(polygon(place));
 	}
 }
@@ -830,6 +844,8 @@ void RzxRezalMap::currentChanged(const QModelIndex &current, const QModelIndex &
 		return;
 	}
 
+	timer.start(250, this);
+	blinkingStep = 0;
 	QAbstractItemView::currentChanged(current, previous);
 	if(RzxRezalModel::global()->rezal(current) != -1)
 	{
