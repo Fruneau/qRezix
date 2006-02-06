@@ -27,7 +27,7 @@
     </message>
     <message>
         <source>The central widget has been set to %1. You should reload the module in order this changement to take effect. You can do this via this menu.</source>
-        <translation>Vous avez choisi d&apos;installer %1 comme module principale de qRezix. Cependant un autre module est déjà actuellement installé. Il vous faudra donc relancer qRezix pour que cette modification soit prise en compte. Vous pouvez également le faire en rechargeant le module &apos;MainUi&apos; de qRezix via la fenêtre de préférences.</translation>
+        <translation>Vous avez choisi d&apos;installer %1 comme module principal de qRezix. Cependant un autre module est déjà actuellement installé. Il vous faudra donc relancer qRezix pour que cette modification soit prise en compte. Vous pouvez également le faire en rechargeant le module &apos;MainUi&apos; de qRezix via la fenêtre de préférences.</translation>
     </message>
     <message>
         <source>You should restart qRezix</source>
@@ -111,7 +111,7 @@
     </message>
     <message>
         <source>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Define the action to execute when you double click on an item&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Défini l&apos;action réalisée lors d&apos;un double clique sur un item&lt;/p&gt;</translation>
+        <translation>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Défini l&apos;action réalisée lors d&apos;un double clic sur un item&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Tab to select on start:</source>
@@ -237,7 +237,7 @@
     </message>
     <message>
         <source>Minimize me...</source>
-        <translation>Miniser la fenêtre...</translation>
+        <translation>Minimiser la fenêtre...</translation>
     </message>
     <message>
         <source>Abort quitting please</source>
@@ -285,7 +285,7 @@
     </message>
     <message>
         <source>no, I want to hide qRezix</source>
-        <translation>non, Je veux masquer qRezix</translation>
+        <translation>non, je veux masquer qRezix</translation>
     </message>
     <message>
         <source>Hide me...</source>
