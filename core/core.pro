@@ -92,6 +92,8 @@ FORMS += rzxproperty.ui \
 	rzxinfomessage.ui \
 	rzxlistedit.ui
 
+RESOURCES += rzxcore.qrc
+
 TRANSLATIONS = $$ROOT/resources/translations/qrezix_fr.ts
 
 mainlib.files = $$ROOT/libqrezix*

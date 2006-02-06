@@ -76,8 +76,7 @@ class RZX_CORE_EXPORT RzxIconCollection: public QObject
 	QHash<quint32, QPixmap> userIcons;
 	QString activeTheme;
 
-	QPixmap hereIcon;
-	QPixmap awayIcon;
+	QPixmap qIcon;
 
 	RzxIconCollection();
 	public:
@@ -119,7 +118,6 @@ class RZX_CORE_EXPORT RzxIconCollection: public QObject
 		static const QPixmap &getPixmap(const QString&);
 
 		static const QPixmap& qRezixIcon();
-		static const QPixmap& qRezixAwayIcon();
 		static QIcon getIcon(Rzx::Icon);
 		static QIcon getIcon(const QString&);
 		static QIcon getResponderIcon();

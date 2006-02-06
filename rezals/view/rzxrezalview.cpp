@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#define RZX_MODULE_NAME "Item view"
+#define RZX_MODULE_NAME "List"
 #define RZX_MODULE_DESCRIPTION "Historical way to display computers"
 #define RZX_MODULE_ICON RzxThemedIcon("rzlitem")
 

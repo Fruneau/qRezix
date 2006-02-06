@@ -22,9 +22,6 @@
 
 #include <RzxConfig>
 
-#include QREZIX_ICON
-#include QREZIX_AWAY_ICON
-
 RZX_GLOBAL_INIT(RzxIconCollection)
 
 ///Données d'information des icônes
@@ -72,8 +69,13 @@ const RzxIconCollection::IconData RzxIconCollection::data[] = {
 	{ Rzx::ICON_ON, "on", false },
 	{ Rzx::ICON_OFF, "off", false },
 	{ Rzx::ICON_SEND, "send", true },
+#ifndef Q_OS_WIN
 	{ Rzx::ICON_SYSTRAYHERE, "systray", false },
 	{ Rzx::ICON_SYSTRAYAWAY, "systrayAway", false },
+#else
+	{ Rzx::ICON_SYSTRAYHERE, "systray_win", false },
+	{ Rzx::ICON_SYSTRAYAWAY, "systrayAway_win", false },
+#endif
 	{ Rzx::ICON_LAYOUT, "layout", true },
 	{ Rzx::ICON_NETWORK, "network", true },
 	{ Rzx::ICON_OS0, "os_0", true },
@@ -98,7 +100,11 @@ const RzxIconCollection::IconData RzxIconCollection::data[] = {
 	{ Rzx::ICON_MAIL, "mail", true },
 	{ Rzx::ICON_PHONE, "phone", false },
 	{ Rzx::ICON_FILE, "file", true },
+#ifndef Q_OS_WIN
 	{ Rzx::ICON_SYSTRAYDISCON, "systrayDiscon", false }
+#else
+	{ Rzx::ICON_SYSTRAYDISCON, "systrayDiscon_win", false }
+#endif
 };
 
 ///Construction de la collection d'icône
@@ -106,12 +112,7 @@ RzxIconCollection::RzxIconCollection()
 {
 	Rzx::beginModuleLoading("Icon Collection");
 	//Définition de l'icône de l'application
-	hereIcon = QPixmap(q);
-	awayIcon = QPixmap(t);
-#ifdef Q_OS_MAC
-	hereIcon.setMask(hereIcon.createHeuristicMask());
-	awayIcon.setMask(awayIcon.createHeuristicMask());
-#endif
+	qIcon = QPixmap(":/qrezix_icon.png");
 
 	//Recherche des thèmes installés
 	qDebug("Searching icon themes...");
@@ -252,13 +253,6 @@ const QPixmap &RzxIconCollection::pixmap(Rzx::Icon icon)
 		if(icons[name].isNull())
 			icons.insert(name, loadIcon(name, activeTheme));
 	}
-	if(icons[name].isNull())
-	{
-		if(icon == Rzx::ICON_SYSTRAYHERE)
-			icons.insert(name, qRezixIcon());
-		else if(icon == Rzx::ICON_SYSTRAYAWAY)
-			icons.insert(name, qRezixAwayIcon());
-	}
 	return icons[name];
 }
 
@@ -377,15 +371,7 @@ QIcon RzxIconCollection::banIcon()
  */
 const QPixmap& RzxIconCollection::qRezixIcon()
 {
-	return global()->hereIcon;
-}
-
-///Surcharge
-/** \sa awayIcon
- */
-const QPixmap& RzxIconCollection::qRezixAwayIcon()
-{
-	return global()->awayIcon;
+	return global()->qIcon;
 }
 
 ///Récupération d'une icône utilisateur

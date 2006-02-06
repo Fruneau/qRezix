@@ -205,7 +205,7 @@ void RzxApplication::loadBuiltins()
 	//Chargmenet des builtins
 #define loadBuiltIn(a) installModule(new a)
 #ifdef RZX_MAINUI_BUILTIN
-	if(addBuiltin(Rzx::ICON_SYSTRAYHERE, "Main UI", m_version, "Main UI for qRezix"))
+	if(addBuiltin(RzxThemedIcon("mainui"), "Interface", m_version, "Main UI for qRezix"))
 		loadBuiltIn(RzxUi);
 #endif
 #ifdef RZX_CHAT_BUILTIN
@@ -213,11 +213,11 @@ void RzxApplication::loadBuiltins()
 		loadBuiltIn(RzxChatLister);
 #endif
 #ifdef RZX_NOTIFIER_BUILTIN
-	if(addBuiltin(Rzx::ICON_FAVORITE, "Favorite Notifier", m_version, "Notify that a favorite state has changed"))
+	if(addBuiltin(Rzx::ICON_FAVORITE, "Notifier", m_version, "Notify that a favorite state has changed"))
 		loadBuiltIn(RzxNotifier);
 #endif
 #ifdef RZX_TRAYICON_BUILTIN
-	if(addBuiltin(Rzx::ICON_SYSTRAYAWAY, "Tray icon", m_version, "Systray and Dock integration"))
+	if(addBuiltin(RzxThemedIcon("trayicon"), "Systray", m_version, "Systray and Dock integration"))
 		loadBuiltIn(RzxTrayIcon);
 #endif
 #undef loadBuiltIn

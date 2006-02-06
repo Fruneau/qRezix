@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#define RZX_MODULE_NAME "Item details"
+#define RZX_MODULE_NAME "Details"
 #define RZX_MODULE_DESCRIPTION "Detail of an item"
 #define RZX_MODULE_ICON RzxThemedIcon("rzldetail")
 

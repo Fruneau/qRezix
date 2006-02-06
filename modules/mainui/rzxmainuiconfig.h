@@ -22,7 +22,7 @@
 #include "rzxrezalaction.h"
 
 #define DEFAULT_WINDOWSIZE "100000000"
-#define DEFAULT_REZAL "Item view"
+#define DEFAULT_REZAL "List"
 
 /**
  @author Florent Bruneau
