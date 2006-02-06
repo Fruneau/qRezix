@@ -20,6 +20,7 @@
 #include <QAbstractItemView>
 #include <QHash>
 #include <QPolygon>
+#include <QBasicTimer>
 
 #include <RzxHostAddress>
 #include <RzxSubnet>
@@ -156,6 +157,9 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 
 	QPoint initialPoint;
 
+	QBasicTimer timer;
+	int blinkingStep;
+
 	private:
 		QStringList loadMaps();
 		void loadMap(QSettings&, const QDir&, Map*);
@@ -188,6 +192,7 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 		virtual void setSelection(const QRect&, QItemSelectionModel::SelectionFlags);
 		virtual QRegion visualRegionForSelection(const QItemSelection&) const;
 
+		virtual void timerEvent(QTimerEvent *e);
 		virtual void resizeEvent(QResizeEvent*);
 		virtual void mousePressEvent(QMouseEvent *e);
 		virtual void mouseMoveEvent(QMouseEvent *e);
