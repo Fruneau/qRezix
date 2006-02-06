@@ -41,7 +41,7 @@ DNS request failed</source>
     </message>
     <message>
         <source>Too many sockets</source>
-        <translation>Trop de socket</translation>
+        <translation>Trop de sockets</translation>
     </message>
     <message>
         <source>Operation timeout</source>
@@ -128,7 +128,7 @@ DNS request failed</source>
     </message>
     <message>
         <source>&lt;h3&gt;Server&lt;/h3&gt;&lt;p&gt;Define the address of the xnetserver&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Serveur&lt;/h3&gt;Défini l&apos;adresse du serveur xNet&lt;/p&gt;</translation>
+        <translation>&lt;h3&gt;Serveur&lt;/h3&gt;&lt;p&gt;Défini l&apos;adresse du serveur xNet&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Defines the port to connect to on the xnetserver&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
@@ -148,7 +148,7 @@ DNS request failed</source>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;The xNet protocole is the original protocole of qRezix.&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This module support xNet v4.0 which include authentification and 32bits icons support. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>Le protocole xNet est le protocole originale qu&apos;utile qRezix.
+        <translation>Le protocole xNet est le protocole original qu&apos;utile qRezix.
 Ce module réseau implémente le protocole xNet v4.0 qui inclu le support des icônes 32bits et de l&apos;authentification.</translation>
     </message>
 </context>

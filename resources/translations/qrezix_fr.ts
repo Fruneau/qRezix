@@ -391,7 +391,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     <name>RzxInfoMessage</name>
     <message>
         <source>You want to load module %1, but this module is compiled into qRezix as a built-in.&lt;br&gt;To load this module you have to restart qRezix.</source>
-        <translation>Vous êtes sur le point de charger le module %1 qui est compilé dans le coeur même de qRezix. Cette opération n&apos;est possible à chaud que pour les modules compilé séparémments (plug-in). Il vous faudra donc relancer qRezix pour que la modification soit prise en compte.</translation>
+        <translation>Vous êtes sur le point de charger le module %1 qui est compilé dans le coeur même de qRezix. Cette opération n&apos;est possible à chaud que pour les modules compilés séparément (plug-in). Il vous faudra donc relancer qRezix pour que la modification soit prise en compte.</translation>
     </message>
     <message>
         <source>Information</source>
@@ -1114,7 +1114,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>&lt;h3&gt;Open services&lt;/h3&gt;&lt;p&gt;Select the servers you want to share with all the users of the network. If a server is not present, it won&apos;t be displayed as present&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Services proposés&lt;/h3&gt;&lt;p&gt;Indique les services que vous voulez partager avec les autres utilisateurs.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt; Ce sont les services que vous hébergés qui sont attendu ici, et non ceux auxquels vous désirez accéder.&lt;/p&gt;</translation>
+        <translation>&lt;h3&gt;Services proposés&lt;/h3&gt;&lt;p&gt;Indique les services que vous voulez partager avec les autres utilisateurs.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt; Ce sont les services que vous hébergés qui sont attendus ici, et non ceux auxquels vous désirez accéder.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Open services</source>
