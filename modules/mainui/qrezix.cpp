@@ -147,11 +147,11 @@ QRezix::QRezix(QWidget *parent)
 void QRezix::loadBuiltins()
 {
 #ifdef RZX_RZLVIEW_BUILTIN
-	if(addBuiltin(RzxThemedIcon("rzlitem"), "Item view", RzxApplication::version(), "Historical way to display computers"))
+	if(addBuiltin(RzxThemedIcon("rzlitem"), "List", RzxApplication::version(), "Historical way to display computers"))
 		installModule(new RzxRezalView());
 #endif
 #ifdef RZX_RZLDETAIL_BUILTIN
-	if(addBuiltin(RzxThemedIcon("rzldetail"), "Item details", RzxApplication::version(), "Detail of an item"))
+	if(addBuiltin(RzxThemedIcon("rzldetail"), "Details", RzxApplication::version(), "Detail of an item"))
 		installModule(new RzxRezalDetail());
 #endif
 #ifdef RZX_RZLINDEX_BUILTIN

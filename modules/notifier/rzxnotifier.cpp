@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#define RZX_MODULE_NAME "Favorite Notifier"
+#define RZX_MODULE_NAME "Notifier"
 #define RZX_MODULE_DESCRIPTION "Notify that a favorite state has changed"
 #define RZX_MODULE_ICON Rzx::ICON_FAVORITE
 

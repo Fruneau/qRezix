@@ -18,7 +18,7 @@
 *
 * Adaptation to qRezix by Florent Bruneau, Copyright (C) 2004-2005 Binet Réseau
 */
-#define RZX_MODULE_NAME "Tray icon"
+#define RZX_MODULE_NAME "Systray"
 #define RZX_MODULE_DESCRIPTION "Systray and Dock integration"
 #define RZX_MODULE_ICON RzxThemedIcon("trayicon")
 
