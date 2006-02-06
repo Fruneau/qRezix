@@ -69,8 +69,13 @@ const RzxIconCollection::IconData RzxIconCollection::data[] = {
 	{ Rzx::ICON_ON, "on", false },
 	{ Rzx::ICON_OFF, "off", false },
 	{ Rzx::ICON_SEND, "send", true },
+#ifndef Q_OS_WIN
 	{ Rzx::ICON_SYSTRAYHERE, "systray", false },
 	{ Rzx::ICON_SYSTRAYAWAY, "systrayAway", false },
+#else
+	{ Rzx::ICON_SYSTRAYHERE, "systray_win", false },
+	{ Rzx::ICON_SYSTRAYAWAY, "systrayAway_win", false },
+#endif
 	{ Rzx::ICON_LAYOUT, "layout", true },
 	{ Rzx::ICON_NETWORK, "network", true },
 	{ Rzx::ICON_OS0, "os_0", true },
@@ -95,7 +100,11 @@ const RzxIconCollection::IconData RzxIconCollection::data[] = {
 	{ Rzx::ICON_MAIL, "mail", true },
 	{ Rzx::ICON_PHONE, "phone", false },
 	{ Rzx::ICON_FILE, "file", true },
+#ifndef Q_OS_WIN
 	{ Rzx::ICON_SYSTRAYDISCON, "systrayDiscon", false }
+#else
+	{ Rzx::ICON_SYSTRAYDISCON, "systrayDiscon_win", false }
+#endif
 };
 
 ///Construction de la collection d'icône
