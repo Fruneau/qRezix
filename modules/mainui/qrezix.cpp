@@ -212,9 +212,9 @@ bool QRezix::installModule(RzxRezal *rezal)
 		{
 			conf->restoreWidget(rezal->name(), dock, dock->pos(), dock->size());
 			addDockWidget(area, dock);
-			if(!isVisible)
-				dock->hide();
 		}
+		if(dock && !isVisible)
+			dock->hide();
 		return true;
 	}
 	return false;
