@@ -103,6 +103,7 @@ QRezix::QRezix(QWidget *parent)
 
 	//Construction des barres d'outils
 	bar = addToolBar(tr("Main"));
+	bar->setObjectName("Main Toolbar");
 	bar->addAction(pluginsAction);
 	bar->addSeparator();
 
@@ -113,8 +114,11 @@ QRezix::QRezix(QWidget *parent)
 	bar->addAction(prefAction);
 	bar->setMovable(false);
 
+	//Pour bien restaurer l'état de la bar d'outil...
+	restoreState(RzxMainUIConfig::restoreState());
 	RzxMainUIConfig::restoreMainWidget(this);
 	buildModuleMenus();
+
 	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(toggleAutoResponder()));
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	
@@ -251,8 +255,6 @@ void QRezix::linkModules()
 	connect(sel, SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)),
 			this, SLOT(setMenu(const QModelIndex&, const QModelIndex&)));
 #endif
-
-	restoreState(RzxMainUIConfig::restoreState());
 }
 
 ///Recrée les liens entre rezals
