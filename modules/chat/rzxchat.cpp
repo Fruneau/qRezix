@@ -75,7 +75,7 @@ const QColor RzxChat::preDefinedColors[16] = {Qt::black, Qt::red, Qt::darkRed,
 
 ///Constructin d'une fenêtre de chat associée à la machine indiquée
 RzxChat::RzxChat(RzxComputer *c)
-	:QWidget(NULL, Qt::WindowContextHelpButtonHint), lastIP(0)
+	:QWidget(NULL, Qt::WindowContextHelpButtonHint | Qt::WindowMinMaxButtonsHint), lastIP(0)
 {
 	init();
 	setComputer(c);
