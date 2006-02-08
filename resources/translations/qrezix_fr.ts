@@ -3,11 +3,24 @@
     <name>@default</name>
     <message>
         <source>Load</source>
-        <translation>Charger</translation>
+        <translation type="obsolete">Charger</translation>
     </message>
     <message>
         <source>Unload</source>
-        <translation>Décharger</translation>
+        <translation type="obsolete">Décharger</translation>
+    </message>
+</context>
+<context>
+    <name>QApplication</name>
+    <message>
+        <source>Load</source>
+        <comment>RzxBaseLoaderProp</comment>
+        <translation type="obsolete">Charger</translation>
+    </message>
+    <message>
+        <source>Unload</source>
+        <comment>RzxBaseLoaderProp</comment>
+        <translation type="obsolete">Décharger</translation>
     </message>
 </context>
 <context>
@@ -142,10 +155,6 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Send as &amp;HTML</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&lt;h3&gt;Sound&lt;/h3&gt;&lt;p&gt;Enables/disables the sound which is played when a new message arrives&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -178,10 +187,6 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+H</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
@@ -191,6 +196,14 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <source>&lt;h3&gt;Input&lt;/h3&gt;&lt;p&gt;This is the place where you can type your messages.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Shortcuts :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Enter : &lt;/b&gt;Send your message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] : &lt;/b&gt;Navigate through the messages you have already typed&lt;br&gt;&lt;b&gt;Shift+Enter : &lt;/b&gt; Add a line-break&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+F</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -720,6 +733,10 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     <message>
         <source>(Re)Loading this module requires to restart qRezix</source>
         <translation>(Re)Charger ce module nécessite le redémarrage de qRezix</translation>
+    </message>
+    <message>
+        <source>Unload</source>
+        <translation>Décharger</translation>
     </message>
 </context>
 <context>

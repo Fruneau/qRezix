@@ -195,14 +195,14 @@ void RzxLoaderProp<T>::itemChanged(QTreeWidgetItem * current, QTreeWidgetItem *)
 	{
 		btnReload->setEnabled(false);
 		btnLoad->setEnabled(true);
-		btnLoad->setText(tr("Load"));
+		btnLoad->setText(QApplication::translate("RzxLoader", "Load"));
 		btnLoad->setIcon(RzxIconCollection::getIcon(Rzx::ICON_LOAD));
 	}
 	else
 	{
 		btnReload->setEnabled(module);
 		btnLoad->setEnabled(true);
-		btnLoad->setText(tr("Unload"));
+		btnLoad->setText(QApplication::translate("RzxLoader", "Unload"));
 		btnLoad->setIcon(RzxIconCollection::getIcon(Rzx::ICON_UNLOAD));
 	}
 	if(loader->files[name].isNull())
