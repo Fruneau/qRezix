@@ -294,6 +294,7 @@ void RzxTrayIcon::subMenu(QMenu& mname, Rzx::Icon micon, const char * slot, QLis
 		bool makeSubMenu = calculerSplit(splitPoints, list);
 		if ( makeSubMenu || fav.count() )
 		{
+			// Creation du sous-menu des favoris
 			if (fav.count())
 			{
 				mnsub = new QMenu(tr("Favorites"), &mname);
@@ -305,26 +306,32 @@ void RzxTrayIcon::subMenu(QMenu& mname, Rzx::Icon micon, const char * slot, QLis
 					mnsub->addAction(fav[i]->icon(), fav[i]->name(), fav[i], slot);
 			}
 
-			QString titre;
-			if ( makeSubMenu )
-				titre = titleFromSplit(0,splitPoints);
-			else
-				titre = tr("Everybody");
-			mnsub = new QMenu(titre, &mname);
-			mnsub->setIcon(RzxIconCollection::getIcon(micon));
-			mname.addMenu(mnsub);
-			int j = 1;
-			for(int i = 0 ; i < list.count() ; i++)
+			// Necessaire pour eviter de tester contre splitPoints.at(1) si splitPoints est vide
+			if ( !makeSubMenu )
 			{
-				if( list[i]->name().at(0).toLower() > splitPoints.at(j) )
+				mnsub = new QMenu(tr("Everybody"), &mname);
+				mnsub->setIcon(RzxIconCollection::getIcon(micon));
+				mname.addMenu(mnsub);
+				for(int i = 0 ; i < list.count() ; i++)
+					mnsub->addAction(list[i]->icon(), list[i]->name(), list[i], slot);
+			}
+			else
+			{
+				mnsub = new QMenu(titleFromSplit(0,splitPoints), &mname);
+				mnsub->setIcon(RzxIconCollection::getIcon(micon));
+				mname.addMenu(mnsub);
+				int j = 1;
+				for(int i = 0 ; i < list.count() ; i++)
 				{
-					titre = titleFromSplit(j,splitPoints);
-					mnsub = new QMenu(titre, &mname);
-					mnsub->setIcon(RzxIconCollection::getIcon(micon));
-					mname.addMenu(mnsub);
-					j++;
+					if( list[i]->name().at(0).toLower() > splitPoints.at(j) )
+					{
+						mnsub = new QMenu(titleFromSplit(j,splitPoints), &mname);
+						mnsub->setIcon(RzxIconCollection::getIcon(micon));
+						mname.addMenu(mnsub);
+						j++;
+					}
+					mnsub->addAction(list[i]->icon(), list[i]->name(), list[i], slot);
 				}
-				mnsub->addAction(list[i]->icon(), list[i]->name(), list[i], slot);
 			}
 		 }
 		else {
