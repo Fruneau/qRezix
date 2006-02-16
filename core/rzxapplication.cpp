@@ -249,7 +249,7 @@ void RzxApplication::linkModules()
 	}
 	if(mainui && !hiders.count())
 		mainui->show();
-	else if(mainui) //en cas de présence de hiders, on cache la mainui ==> évite une fenêtre au lancement de l'OS
+	else if(mainui && RzxConfig::hideMainuiOnStartup()) //en cas de présence de hiders, on cache la mainui ==> évite une fenêtre au lancement de l'OS
 		mainui->hide();
 }
 

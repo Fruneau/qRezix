@@ -265,6 +265,7 @@ public slots:
 	void setPromo(Rzx::Promal promo);
 	void setState(Rzx::ConnectionState);
 	void setState(bool);
+	void setConnection(bool);
 	void setServers(Servers);
 	void setServerFlags(Servers);
 	void setIcon(const QPixmap& image);

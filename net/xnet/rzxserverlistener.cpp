@@ -131,6 +131,8 @@ void RzxServerListener::connectToXnetserver()
 ///Initialise la reconnexion au serveur
 void RzxServerListener::setupReconnection(const QString& msg)
 {
+	if(reconnectionTimer.isActive()) return;
+
 	unsigned int time = RzxXNetConfig::reconnection();
 	disconnect(&reconnectionTimer, SIGNAL(timeout()), this, SLOT(waitReconnection()));
 	if(!reconnection)
@@ -221,7 +223,6 @@ void RzxServerListener::error(QAbstractSocket::SocketError error)
 			reconnectionMsg = tr("Unknown QSocket error: %1").arg(error);
 	}
 	serverDisconnected(reconnectionMsg, true);
-	qDebug("Server socket error: %s", socket.errorString().toAscii().constData());
 }
 
 ///La connexion avec le serveur a timeouté

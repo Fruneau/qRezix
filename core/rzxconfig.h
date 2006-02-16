@@ -97,6 +97,7 @@ public:
 	static void emitIconFormatChanged();
 	RZX_INTPROP("menuTextPos", menuTextPosition, setMenuTextPosition, 2)
 	RZX_INTPROP("menuIconSize", menuIconSize, setMenuIconSize, 2)
+	RZX_BOOLPROP("hideMainuiOnStartup", hideMainuiOnStartup, setHideMainuiOnStartup, true)
 
 	//Etat du répondeur
 	RZX_BOOLPROP("refuseAway", refuseWhenAway, setRefuseWhenAway, true)

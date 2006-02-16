@@ -290,7 +290,7 @@ void RzxConnectionLister::newDisconnection(RzxNetwork*)
 	else
 		qDebug("Invalid disconnection");
 	if(!connectionNumber)
-		RzxComputer::localhost()->setState(Rzx::STATE_DISCONNECTED);
+		RzxComputer::localhost()->setConnection(false);
 }
 
 ///Gère la connexion d'un RzxNetwork
@@ -309,7 +309,10 @@ void RzxConnectionLister::newConnection(RzxNetwork* network)
 	else
 		qDebug("Invalid connection");
 	if(connectionNumber)
+	{
 		RzxComputer::localhost()->setState(RzxConfig::autoResponder());
+		RzxComputer::localhost()->setConnection(true);
+	}
 }
 
 ///Retire de la liste des ordinateurs ceux associé au module réseau donné

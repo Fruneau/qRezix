@@ -584,6 +584,7 @@ void RzxProperty::initDlg(bool def)
 	remarque->setPlainText( RzxComputer::localhost()->remarque(true) );
 
 	chkAutoResponder->setChecked( RzxConfig::autoResponder() );
+	cbHideMainui->setChecked(RzxConfig::hideMainuiOnStartup());
 
 
 	cmbMenuIcons->setCurrentIndex(RzxConfig::menuIconSize(def));
@@ -754,6 +755,7 @@ bool RzxProperty::miseAJour()
 	
 	RzxConfig::setRefuseWhenAway(cbRefuseAway->isChecked());
 	RzxConfig::setAutoResponder(RzxConfig::autoResponder());
+	RzxConfig::setHideMainuiOnStartup(cbHideMainui->isChecked());
 
 	if(RzxConfig::menuTextPosition() != cmbMenuText->currentIndex() || RzxConfig::menuIconSize() != cmbMenuIcons->currentIndex())
 	{

@@ -1389,6 +1389,10 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <source>Icon...</source>
         <translation>Icône...</translation>
     </message>
+    <message>
+        <source>Hide main window on startup</source>
+        <translation>Cacher la fenêtre au démarrage</translation>
+    </message>
 </context>
 <context>
     <name>RzxProps</name>

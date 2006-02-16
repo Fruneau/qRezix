@@ -419,6 +419,18 @@ void RzxComputer::setState(bool state)
 	//update réalisé par RzxComputer::setState(Rzx::ConnectionState);
 }
 
+///L'état de connection a changé...
+void RzxComputer::setConnection(bool state)
+{
+	if(connected == state) return;
+
+	lock();
+	connected = state;
+	setState(RzxConfig::autoResponder());
+	emitStateChanged();
+	unlock();
+}
+
 ///Définition de l'état du répondeur
 void RzxComputer::setState(Rzx::ConnectionState state)
 {
