@@ -75,7 +75,7 @@ const QColor RzxChat::preDefinedColors[16] = {Qt::black, Qt::red, Qt::darkRed,
 
 ///Constructin d'une fenêtre de chat associée à la machine indiquée
 RzxChat::RzxChat(RzxComputer *c)
-	:QWidget(NULL, Qt::WindowContextHelpButtonHint | Qt::WindowMinMaxButtonsHint), lastIP(0)
+	:QWidget(NULL, Qt::WindowContextHelpButtonHint | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint), lastIP(0)
 {
 	init();
 	setComputer(c);
@@ -213,6 +213,13 @@ void RzxChat::setComputer(RzxComputer* c)
 		lastIP = c->ip().toRezix();
 		lastName = c->name();
 		ui->btnProperties->setEnabled(c->canBeChecked());
+		if(c->canBeChatted() && chatBuffer.size())
+		{
+			notify(tr("Sending buffered messages"));
+			for(int i = 0 ; i < chatBuffer.size() ; i++)
+				sendChat(chatBuffer[i]);
+			chatBuffer.clear();
+		}
 	}
 	updateTitle();
 }
@@ -222,7 +229,6 @@ void RzxChat::pong(int ms)
 {
 	notify(QString(tr("Pong received within %1 msecs")).arg(ms));
 }
-
 
 ///Changement de l'état de l'autre utilisateur
 void RzxChat::peerTypingStateChanged(bool state)
@@ -413,7 +419,7 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 #define addColor(text, tmpcolor) QString("<font color=\"") + tmpcolor + "\">" + text + "</font>"
 	
 	//Distinction du /me et d'un message normal
-	QRegExp action("^(\\s*<[^<>]+>)*/me(<[^<>]+>|\\s)(.*)");
+	static QRegExp action("^(\\s*<[^<>]+>)*/me(<[^<>]+>|\\s)(.*)");
 	if(computer && !action.indexIn(msg))
 	{
 		const QString purple("purple");
@@ -533,10 +539,7 @@ void RzxChat::receiveChatMessage(Rzx::ChatMessageType type, const QString& msg)
 	{
 		case Rzx::Responder: case Rzx::Chat: receive(msg); break;
 		case Rzx::Ping: notify(tr("Ping request received")); break;
-		case Rzx::Pong: notify(tr("Pong answer received in ") + msg + "ms"
-
-
-); break;
+		case Rzx::Pong: notify(tr("Pong answer received in ") + msg + "ms"); break;
 		case Rzx::Typing:  peerTypingStateChanged(true); break;
 		case Rzx::StopTyping:  peerTypingStateChanged(false); break;
 		case Rzx::InfoMessage: info(msg); break;
@@ -558,7 +561,7 @@ void RzxChat::on_btnSend_clicked()
 	QString rawMsg = ui->edMsg->toPlainText();
 	if(rawMsg.isEmpty()) return;
 
-
+	//Gestion de l'envoi de ping
 	if(rawMsg == "/ping" || rawMsg.left(6) == "/ping ")
 	{
 		if(computer())
@@ -585,7 +588,7 @@ void RzxChat::on_btnSend_clicked()
 	}
 	else
 		msg = rawMsg;
-		
+
 	append("red", RzxChatConfig::prompt(), msg, RzxComputer::localhost());
 	sendChat(msg);	//passage par la sous-couche de gestion du m_socket avant d'émettre
 
@@ -694,8 +697,14 @@ void RzxChat::resizeEvent(QResizeEvent *)
  */
 void RzxChat::sendChat(const QString& msg)
 {
-	if(computer())
+	if(computer() && computer()->canBeChatted())
 		computer()->sendChat(Rzx::Chat, msg);
+	else
+	{
+		if(!chatBuffer.size())
+			notify(tr("Saving messages as long remote host is disconnected and this window stays open"));
+		chatBuffer << msg;
+	}
 }
 
 /******************* Gestion des événements ***************************/

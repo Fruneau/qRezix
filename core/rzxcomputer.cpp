@@ -119,6 +119,7 @@ void RzxComputer::initLocalhost()
 	//Ip mise à jour par RzxServerListener
 	m_ip = RzxHostAddress();;
 
+	setIcon(RzxIconCollection::global()->localhostPixmap());
 	setName(RzxConfig::dnsName());
 	setRemarque(RzxConfig::remarque());
 	setPromo(RzxConfig::promo());
@@ -196,8 +197,6 @@ void RzxComputer::update(const QString& c_name, quint32 c_options, quint32 c_sta
 	{
 		m_stamp = c_stamp;
 		loadIcon();
-		if(isLocalhost())
-			RzxComputer::localhost()->m_stamp = c_stamp;
 	}
 
 	if(oldState != state())
@@ -406,6 +405,8 @@ QString RzxComputer::rezalName(bool shortname) const
  */
 void RzxComputer::setState(bool state)
 {
+	if(!connected) return;
+
 	if(state)
 	{
 		if(RzxConfig::refuseWhenAway())
@@ -499,8 +500,6 @@ void RzxComputer::setIcon(const QPixmap& image)
 	if(m_icon.serialNumber() == image.serialNumber()) return;
 
 	m_icon = image;
-	if(isLocalhost())
-		localhost()->m_icon = image;
 	emitUpdate();
 }
 
@@ -970,11 +969,11 @@ void RzxComputer::scanServers()
 	QProcess netstat;
 	QStringList res;
 
-	#if defined(Q_OS_MAC) || defined(Q_OS_BSD4)
+#	if defined(Q_OS_MAC) || defined(Q_OS_BSD4)
         res << "-anf" << "inet";
-	#else
+#	else
 		res << "-ltn";
-	#endif
+#	endif
 
 	//On exécute netstat pour obtenir les infos sur les différents ports utilisés
 	//Seul problème c'est que la syntaxe de netstat n'est pas figée :
@@ -984,19 +983,19 @@ void RzxComputer::scanServers()
 	if(netstat.waitForFinished(1000))
 	{
 		res = QString(netstat.readAllStandardOutput()).split('\n');
-	#if defined(Q_OS_MAC) || defined(Q_OS_BSD4)
+#	if defined(Q_OS_MAC) || defined(Q_OS_BSD4)
 			res = res.filter(QRegExp("LISTEN"));
 			if(!(res.filter(QRegExp("\\.21\\s")).isEmpty())) newServers |= SERVER_FTP;
 			if(!(res.filter(QRegExp("\\.80\\s")).isEmpty())) newServers |= SERVER_HTTP;
 			if(!(res.filter(QRegExp("\\.119\\s")).isEmpty())) newServers |= SERVER_NEWS;
 			if(!(res.filter(QRegExp("\\.445\\s")).isEmpty())) newServers |= SERVER_SAMBA;
-	#else
+#	else
 			//lecture des différents port pour voir s'il sont listen
 			if(!(res.filter(":21 ")).isEmpty()) newServers |= SERVER_FTP;
 			if(!(res.filter(":80 ")).isEmpty()) newServers |= SERVER_HTTP;
 			if(!(res.filter(":119 ")).isEmpty()) newServers |= SERVER_NEWS;
 			if(!(res.filter(":445 ")).isEmpty()) newServers |= SERVER_SAMBA;
-	#endif
+#	endif
 	}
 
 	//au cas où netstat fail ou qu'il ne soit pas installé

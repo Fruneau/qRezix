@@ -58,12 +58,15 @@ RzxAbstractConfig::~RzxAbstractConfig()
 void RzxAbstractConfig::saveWidget(const QString& name, QWidget *widget)
 {
 	beginGroup(name);
+
+	//On enregistre taille et position
 	setValue("size", widget->size());
 	setValue("pos", widget->pos());
 	setValue("maximized", (bool)(widget->windowState() & Qt::WindowMaximized));
 	setValue("minimized", (bool)(widget->windowState() & Qt::WindowMinimized));
 	setValue("visible", widget->isVisible());
 
+	//On enregistre l'équilibre des splitters
 	QList<QSplitter*> ls = widget->findChildren<QSplitter*>();
 	int i = 0;
 	foreach(QSplitter *splitter, ls)
@@ -85,14 +88,29 @@ void RzxAbstractConfig::restoreWidget(const QString& name, QWidget *widget, cons
 {
 	beginGroup(name);
 
+	//On rétabli la taille de la fenêtre
 	QSize s = def?size:value("size", size).toSize();
 	widget->resize(s);
 
+	//Remise en place de la fenêtre selon les paramètres enregistrés
 	QPoint p = def?pos:value("pos", pos).toPoint();
-	if(p.x() > QApplication::desktop()->width() || p.y() > QApplication::desktop()->height())
-		p = QPoint(QApplication::desktop()->width() - s.width(), QApplication::desktop()->height() - s.height());
+	//On évite de mettre la fenêtre en position inacessible
+	if(p.x() > QApplication::desktop()->width())
+		p.setX(QApplication::desktop()->width() - s.width());
+	if(p.x() < 0)
+		p.setX(0);
+	if(p.y() > QApplication::desktop()->height())
+		p.setY(QApplication::desktop()->height() - s.height());
+#ifndef Q_OS_MAC
+	if(p.y() < 0)
+		p.setY(0);
+#else
+	if(p.y() < 20) //La barre de menu de Mac OS occupe le haut de l'écran
+		p.setY(20);
+#endif
 	widget->move(p);
 
+	//Remise en état de la fenêtre au niveau visibilité
 	const bool visible = value("visible", false).toBool();
 	if(value("maximized", false).toBool())
 	{
@@ -110,6 +128,7 @@ void RzxAbstractConfig::restoreWidget(const QString& name, QWidget *widget, cons
 	if(!visible)
 		widget->hide();
 
+	//On rétabli l'équilibre des splitters
 	if(!def)
 	{
 		QList<QSplitter*> ls = widget->findChildren<QSplitter*>();

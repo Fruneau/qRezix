@@ -140,6 +140,14 @@
         <source>Alt+F</source>
         <translation>Alt+F</translation>
     </message>
+    <message>
+        <source>Sending buffered messages</source>
+        <translation>Envoie les messages en attente</translation>
+    </message>
+    <message>
+        <source>Saving messages as long remote host is disconnected and this window stays open</source>
+        <translation type="unfinished">Enregistre les messages en attente du retour du destinataire ou de la fermeture de la fenêtre</translation>
+    </message>
 </context>
 <context>
     <name>RzxChatLister</name>

@@ -57,6 +57,7 @@ class RzxChat : public QWidget
 	RzxChatBrowser *txtHistory;
 	QWidget *editor;
 	QSplitter *splitter;
+	QList<QString> chatBuffer;
 
 public: 
 	RzxChat(RzxComputer *);
