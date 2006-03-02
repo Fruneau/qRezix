@@ -439,7 +439,7 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 		//Si computer != NULL, l'en-tête définitive sera composée ensuite
 		if(computer)
 		{
-			msg = addColor("&nbsp;" + msg + "<br>", color);
+			msg = addColor("&nbsp; " + msg + "<br>", color);
 			if(!computer->isLocalhost()) name = addColor(computer->name(), color);
 			histText = addColor("<i>" + name + host + "</i>", color) + msg;
 		}
