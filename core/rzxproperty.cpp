@@ -667,7 +667,7 @@ void RzxProperty::initDlg(bool def)
 	txtWorkDir->setText( RzxConfig::ftpPath(def) );
 	
 	iconChanged = false;
-	pxmIcon->setPixmap(RzxComputer::localhost()->icon());
+	pxmIcon->setPixmap(RzxComputer::localhost()->icon().scaled(64, 64, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
 	listFavorites->refresh();
 	listBanned->refresh();

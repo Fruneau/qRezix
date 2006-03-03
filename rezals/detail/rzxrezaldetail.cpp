@@ -226,7 +226,7 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 	const bool active = computer;
 	if(!computer) computer = RzxComputer::localhost();
 
-	uiDetails->lblIcon->setPixmap(computer->icon());
+	uiDetails->lblIcon->setPixmap(computer->icon().scaled(64, 64, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 	uiDetails->lblName->setText("<h3>" + computer->name() + "</h3>");
 	uiDetails->lblComment->setText(computer->remarque(true));
 	uiDetails->lblFtp->setPixmap(RzxIconCollection::getPixmap(computer->hasFtpServer()?Rzx::ICON_FTP:Rzx::ICON_NOFTP));
