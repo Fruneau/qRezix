@@ -246,22 +246,25 @@ void RzxChatSocket::send(const QString& msg)
 
 ///Lecture d'un message en attente sur le socket sock
 /** Cette méthode lit un message envoyé sur un socket particulier et balance directement vers le parser pour que le message soit interprété*/
-int RzxChatSocket::readSocket()
+void RzxChatSocket::readSocket()
 {
 	QString msg;
-	int p = -1;
 
-	if(!canReadLine()) return -1;
+	if(!canReadLine()) return;
 
 	while(canReadLine())
 	{
 		msg = readLine();
 		if(msg.contains("\r\n"))
 		{
-			if(p == -1) p = parse(msg);
+			QStringList list = msg.split("\r\n");
+			for(int i = 0 ; i < list.size() ; i++)
+			{
+				if(parse(list[i] + "\r\n") == -1)
+					break;
+			}
 		}
 	}
-	return p;
 }
 
 /** Emission du message lorsque la connexion est établie */

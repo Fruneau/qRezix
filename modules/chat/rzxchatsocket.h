@@ -94,7 +94,7 @@ class RzxChatSocket : public QTcpSocket
 		void chatConnexionClosed();
 		void chatConnexionError(QAbstractSocket::SocketError);
 		void chatConnexionTimeout();
-		int readSocket();
+		void readSocket();
 
 	protected: // Protected attributes
 		int parse(const QString& msg);
