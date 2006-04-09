@@ -209,7 +209,8 @@ void RzxChatSocket::sendChat(const QString& msg)
  */
 void RzxChatSocket::sendResponder(const QString& msg)
 {
-	sendDccChat(msg);
+	if(!msg.simplified().isEmpty())
+		sendDccChat(msg);
 }
 
 ///Envoi d'un message de chat
