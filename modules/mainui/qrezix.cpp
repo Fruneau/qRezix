@@ -627,10 +627,11 @@ void QRezix::closeEvent(QCloseEvent * e)
 		{
 #ifdef Q_OS_MAC
 			saveState();
-			hide();
 #else
 			showMinimized();
 #endif //Q_OS_MAC
+			if(RzxApplication::instance()->hasHider())
+				hide();
 		}
 #ifdef WIN32 //c'est très très très très très très moche, mais g pas trouvé d'autre manière de le faire
 		 //c'est pas ma fautre à moi si windows se comporte comme de la merde
