@@ -26,6 +26,7 @@
 #include <QPen>
 #include <QPainter>
 #include <QBitmap>
+#include <QScrollBar>
 
 #include <RzxComputer>
 #include <RzxConfig>
@@ -258,7 +259,7 @@ void RzxRezalView::afficheColonnes()
 					break;
 
 				default:
-					header()->resizeSection(i,40);
+					header()->resizeSection(i, 40);
 			}
 		}
 		else
@@ -273,16 +274,17 @@ void RzxRezalView::afficheColonnes()
  */
 void RzxRezalView::adapteColonnes()
 {
+	const int limit = viewport()->width();
 	int colonnesAffichees = RzxRezalViewConfig::colonnes();
-	int somme=0;
+	int somme = 0;
 
 	for(int i=0 ; i < RzxRezalModel::numColonnes ; i++)
 		if(i != RzxRezalModel::ColRemarque && !header()->isSectionHidden(i))
-			somme+=header()->sectionSize(i);
+			somme += header()->sectionSize(i);
 
 	if(((colonnesAffichees >> RzxRezalModel::ColRemarque) & 1)) {
-		if(width()>(somme+110))
-			header()->resizeSection(RzxRezalModel::ColRemarque, width()-somme-20);
+		if(limit > somme + 110)
+			header()->resizeSection(RzxRezalModel::ColRemarque, limit - somme);
 		else
 			header()->resizeSection(RzxRezalModel::ColRemarque, 100);
 	}
