@@ -1,3 +1,8 @@
+[v2.0.1] 2006-04 <br@frankiz.polytechnique.fr>
+    * Bugfixes
+    * Bufferisation des messages en cas d'absence [Fruneau]
+    * Mise à jour des attributions IP-casert [Fruneau]
+
 [v2.0.0] 2006-02 <br2003@frankiz.polytechnique.fr>
     * Possibilité de gérer des groupes d'utilisateurs personnalisés [Fruneau]
     * Quick Action via le menu contextuel du systray [Fruneau, bernardofpc]
