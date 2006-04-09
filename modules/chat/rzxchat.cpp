@@ -697,6 +697,8 @@ void RzxChat::resizeEvent(QResizeEvent *)
  */
 void RzxChat::sendChat(const QString& msg)
 {
+	if(RzxComputer::localhost()->isOnResponder())
+		emit wantDeactivateResponder();
 	if(computer() && computer()->canBeChatted())
 		computer()->sendChat(Rzx::Chat, msg);
 	else

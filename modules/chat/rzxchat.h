@@ -87,6 +87,7 @@ signals: // Signals
 	void showHistorique(RzxComputer *, const QString& hostname, bool, QWidget*, QPoint*);
 	void showProperties(RzxComputer *, const QString&, bool, QWidget*, QPoint*);
 	void wantPreferences();
+	void wantDeactivateResponder();
 
 public slots: // Public slots
 	void receive(const QString&);

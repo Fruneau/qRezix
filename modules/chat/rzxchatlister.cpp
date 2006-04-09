@@ -161,6 +161,7 @@ RzxChat *RzxChatLister::createChat(RzxComputer *computer)
 		chat = new RzxChat(computer);
 
 		connect( chat, SIGNAL( closed(RzxComputer*) ), this, SLOT( deleteChat(RzxComputer*) ) );
+		connect( chat, SIGNAL(wantDeactivateResponder()), this, SIGNAL(wantDeactivateResponder()));
 		connect( RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), chat, SLOT( changeTheme() ) );
 		connect( RzxConfig::global(), SIGNAL( iconFormatChange() ), chat, SLOT( changeIconFormat() ) );
 		chatByIP.insert(peer, chat);
