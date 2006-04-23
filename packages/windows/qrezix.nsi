@@ -25,7 +25,7 @@
 ; - RZX_DEBUG : indique qu'il faut installer les dll de debug ==> qRezix a été compilé avec CONFIG=debug (cf rzxglobal.pri)
 ; - USE_MSVCR_DLL : indique que qRezix a été compilé avec Visual C++
 ; - RZX_MODULES : indique que qRezix a été compilé intégralement sous forme de modules ==> installation modulaire envisageable
-  !define RZX_DEBUG
+;  !define RZX_DEBUG
   !define USE_MSVCR_DLL
 ;  !define RZX_MODULES
 
