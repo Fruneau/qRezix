@@ -32,6 +32,6 @@ cd ../Frameworks
 rm libqrezix.2.0.dylib
 rm libqrezix.2.dylib
 rm libqrezix.dylib
-ln -s libqrezix.2.0.0.dylib libqrezix.2.0.dylib
-ln -s libqrezix.2.0.0.dylib libqrezix.2.dylib
-ln -s libqrezix.2.0.0.dylib libqrezix.dylib
+ln -s libqrezix.2.0.1.dylib libqrezix.2.0.dylib
+ln -s libqrezix.2.0.1.dylib libqrezix.2.dylib
+ln -s libqrezix.2.0.1.dylib libqrezix.dylib
