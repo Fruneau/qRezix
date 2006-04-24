@@ -2,6 +2,11 @@ CONFIG -= release
 CONFIG *= debug
 QT *= network
 
+macx {
+        QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
+        CONFIG+=x86 ppc
+}	
+
 include($$ROOT/rzxinstall.pri)
 
 HEADERS += $$ROOT/core/RzxGlobal \
