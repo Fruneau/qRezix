@@ -4,10 +4,13 @@
 qmake qrezix.pro
 make
 
-install_name_tool -change librzxmainui.dylib '@executable_path/../Resources/modules/librzxmainui.dylib' rezals/librezalmap.dylib
-install_name_tool -change librzxmainui.dylib '@executable_path/../Resources/modules/librzxmainui.dylib' rezals/librezaldetail.dylib
-install_name_tool -change librzxmainui.dylib '@executable_path/../Resources/modules/librzxmainui.dylib' rezals/librezalindex.dylib
-install_name_tool -change librzxmainui.dylib '@executable_path/../Resources/modules/librzxmainui.dylib' rezals/librezalview.dylib
+# Fixe les pb de linkage de la SDK universal de MacOS X
+cd rezals
+for lib in `otool -L librezalindex.dylib | grep -e '/var/tmp/.*out ' | sed 's/.*\(\/var.*out\).*/\1/'`; do
+	find . -name '*.dylib' -exec install_name_tool -change $lib '@executable_path/../Resources/modules/librzxmainui.dylib' {} ";"
+done
+cd ..
+
 # Recrée le Makefile pour qu'il mette à jour la liste des fichiers à installer
 qmake qrezix.pro
 
