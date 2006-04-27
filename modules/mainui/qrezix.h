@@ -161,6 +161,8 @@ protected slots:
 #endif
 };
 
+bool sortDockPosition(const QRezix::DockPosition& a, const QRezix::DockPosition& b);
+
 ///Indique si l'objet est bien initialisé
 inline bool QRezix::isInitialised() const
 {
