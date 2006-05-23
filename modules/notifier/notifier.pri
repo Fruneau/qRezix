@@ -8,3 +8,7 @@ HEADERS += $$ROOT/modules/notifier/rzxnotifier.h \
 FORMS += $$ROOT/modules/notifier/rzxnotifierprop.ui
 
 RESOURCES += $$ROOT/modules/notifier/rzxnotifier.qrc
+
+macx {
+	LIBS += -framework Growl
+}

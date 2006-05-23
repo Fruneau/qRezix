@@ -2,7 +2,7 @@
 
 # Génère le Makefile et le compile
 qmake qrezix.pro
-make
+MACOSX_DEPLOYMENT_TARGET=10.4 make
 
 # Fixe les pb de linkage de la SDK universal de MacOS X
 cd rezals

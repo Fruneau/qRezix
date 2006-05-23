@@ -49,7 +49,8 @@ class RzxTrayWindow: public QFrame
 		enum Theme {
 			None = 0,
 			Nice = 1,
-			Old = 2
+			Old = 2,
+			Growl = 3
 		};
 		Q_ENUMS(Theme)
 
@@ -59,6 +60,9 @@ class RzxTrayWindow: public QFrame
 	protected:
 		void niceTheme();
 		void oldTheme();
+#ifdef Q_OS_MAC
+		void growlNotif();
+#endif
 
 	protected slots:
 		void giveFocus();

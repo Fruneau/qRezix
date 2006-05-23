@@ -27,6 +27,11 @@
 #include <RzxApplication>
 #include <RzxTranslator>
 
+#ifdef Q_OS_MAC
+#include <Growl/GrowlApplicationBridge-Carbon.h>
+#include <Growl/GrowlDefines.h>
+#endif
+
 #include "rzxnotifier.h"
 
 #include "rzxtraywindow.h"
@@ -56,6 +61,10 @@ RzxNotifier::RzxNotifier()
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	if(RzxConnectionLister::global()->computerNumber())
 		ignoreLoging(false);
+#ifdef Q_OS_MAC
+	installGrowlSupport();
+#endif
+
 	endLoading();
 }
 
@@ -66,6 +75,36 @@ RzxNotifier::~RzxNotifier()
 	delete RzxNotifierConfig::global();
 	endClosing();
 }
+
+#ifdef Q_OS_MAC
+/** Installe le support de Growl
+ */
+void RzxNotifier::installGrowlSupport() const
+{
+    Growl_Delegate *delegate = new Growl_Delegate;
+    InitGrowlDelegate(delegate);
+
+	// Nom du programme pour Growl
+    delegate->applicationName = CFSTR("qRezix");
+	
+	// Génère la liste des notifications envisageables
+	CFMutableArrayRef allNotifications = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
+    CFArrayAppendValue(allNotifications, CFSTR("Connection State Change"));
+    CFArrayRef defaultNotifications = (CFArrayRef)CFRetain(allNotifications);
+
+	// Génère la configuration du programme
+    const void *keys[] = {
+        GROWL_NOTIFICATIONS_ALL,
+        GROWL_NOTIFICATIONS_DEFAULT
+    };
+    const void *values[] = {
+        allNotifications,
+        defaultNotifications
+    };
+    delegate->registrationDictionary = CFDictionaryCreate(kCFAllocatorDefault, keys, values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    Growl_SetDelegate(delegate);
+}
+#endif
 
 /** \reimp */
 bool RzxNotifier::isInitialised() const
@@ -226,5 +265,9 @@ void RzxNotifier::translate()
 	ui->cbStyle->clear();
 	ui->cbStyle->addItem(tr("Nice style - transparent window"));
 	ui->cbStyle->addItem(tr("Old style - like qRezix 1.6"));
+#ifdef Q_OS_MAC
+	if (Growl_IsInstalled())
+		ui->cbStyle->addItem(tr("Growl - Use Growl notification system"));
+#endif
 	ui->cbStyle->setCurrentIndex(id);
 }

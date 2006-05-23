@@ -26,6 +26,11 @@
 #include <QDesktopWidget>
 #include <QMouseEvent>
 
+#ifdef Q_OS_MAC
+#include <Growl/GrowlApplicationBridge-Carbon.h>
+#include <Growl/GrowlDefines.h>
+#endif
+
 #include <RzxComputer>
 #include <RzxConfig>
 
@@ -45,6 +50,9 @@ RzxTrayWindow::RzxTrayWindow(Theme theme, RzxComputer* c, unsigned int m_time )
 	{
 		case Nice: niceTheme(); break;
 		case Old: oldTheme(); break;
+#ifdef Q_OS_MAC
+		case Growl: growlNotif(); close(); return;
+#endif
 		default: close(); return;
 	}
 
@@ -165,7 +173,7 @@ void RzxTrayWindow::oldTheme()
 	setMinimumWidth( 150 );
 	setMinimumHeight( 70 );
 
-	bool connected = true;;
+	bool connected = true;
 	QPalette palette ;
 	switch(computer->state())
 	{
@@ -214,6 +222,33 @@ void RzxTrayWindow::oldTheme()
 	QPoint point(0,0);
 	move(point);
 }
+
+#ifdef Q_OS_MAC
+
+#define CFStringFromQt(qstr) \
+	CFStringCreateWithCString(kCFAllocatorDefault, qstr.toLatin1().constData(), kCFStringEncodingISOLatin1)
+
+///Affiche une notification avec Growl
+void RzxTrayWindow::growlNotif()
+{
+	QString title = "qRezix...";
+	QString text = computer->name() + " ";
+
+    if(computer->state() != Rzx::STATE_DISCONNECTED)
+		text += computer->isOnResponder() ? tr("is now away") : tr("is now here");
+	else
+		text += tr("is now disconnected");
+		
+	Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
+			CFStringFromQt(title),
+			CFStringFromQt(text),
+			CFSTR("Connection State Change"),
+			NULL,       
+			0,
+			0,
+			NULL);
+}
+#endif
 
 ///Capture de l'action de la souris
 /** On applique quelques règles simples :

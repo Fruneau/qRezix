@@ -68,6 +68,10 @@ class RzxNotifier : public RzxModule
 		void changeTheme();
 		void showTestWindow() const;
 		void chooseBeepConnection();
+
+#ifdef Q_OS_MAC
+		void installGrowlSupport() const;
+#endif
 };
 
 #endif
