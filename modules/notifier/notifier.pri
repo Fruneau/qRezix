@@ -10,5 +10,5 @@ FORMS += $$ROOT/modules/notifier/rzxnotifierprop.ui
 RESOURCES += $$ROOT/modules/notifier/rzxnotifier.qrc
 
 macx {
-	LIBS += -framework Growl
+	LIBS += -framework Growl-WithInstaller
 }
