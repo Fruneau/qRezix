@@ -25,6 +25,8 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QMouseEvent>
+#include <QByteArray>
+#include <QBuffer>
 
 #ifdef Q_OS_MAC
 #include <Growl/GrowlApplicationBridge-Carbon.h>
@@ -234,6 +236,14 @@ void RzxTrayWindow::growlNotif()
 	QString title = "qRezix...";
 	QString text = computer->name() + " ";
 
+	QByteArray bytes;
+	QBuffer buffer(&bytes);
+	buffer.open(QIODevice::WriteOnly);
+	computer->icon().save(&buffer, "PNG");
+	CFDataRef imageData = CFDataCreate(kCFAllocatorDefault,
+			(const UInt8*)bytes.constData(), 
+			bytes.size());
+
     if(computer->state() != Rzx::STATE_DISCONNECTED)
 		text += computer->isOnResponder() ? tr("is now away") : tr("is now here");
 	else
@@ -243,7 +253,7 @@ void RzxTrayWindow::growlNotif()
 			CFStringFromQt(title),
 			CFStringFromQt(text),
 			CFSTR("Connection State Change"),
-			NULL,       
+			imageData,       
 			0,
 			0,
 			NULL);
