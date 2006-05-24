@@ -351,6 +351,9 @@ QWidget *RzxChatLister::showPropertiesWindow(RzxComputer *computer, bool withFra
 ///Affichage de la fenêtre de favoris
 QWidget *RzxChatLister::historique(RzxComputer *computer, bool withFrame, QWidget *parent, QAbstractButton *button)
 {
+	if (!computer)
+		return NULL;
+
 	const RzxHostAddress &ip = computer->ip();
 	const QString &hostname = computer->name();
 

@@ -1,6 +1,7 @@
 [v2.0.2] 2006-05 <br@frankiz.polytechnique.fr>
     * Support de Growl pour les notifications sur MacOS X [Fruneau]
     * Ajout de notifications sur la réception de messages de chat [Fruneau]
+    * Bugfixes
 
 [v2.0.1] 2006-04 <br@frankiz.polytechnique.fr>
     * Bugfixes

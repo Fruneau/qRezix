@@ -640,7 +640,10 @@ void RzxChat::on_btnHistorique_toggled(bool on)
 
 	//Affiche la fenêtre
 	hist = (RzxChatPopup*)RzxChatLister::global()->historique(RzxHostAddress::fromRezix(lastIP), false, this, ui->btnHistorique);
-	hist->show();
+	if(!hist.isNull())
+		hist->show();
+	else
+		ui->btnHistorique->toggle();
 }
 
 ///L'utilisateur demande les propriétés, on lance le check.
