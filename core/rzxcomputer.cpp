@@ -861,6 +861,7 @@ void RzxComputer::sendChat(Rzx::ChatMessageType type, const QString& msg)
 void RzxComputer::receiveChat(Rzx::ChatMessageType type, const QString& msg)
 {
 	if(!RzxApplication::chatUiModule()) return;
+	emit receiveChat(this, type, msg);
 	RzxApplication::chatUiModule()->receiveChatMessage(this, type, msg);
 }
 

@@ -37,15 +37,18 @@ class RzxNotifierConfig:public RzxAbstractConfig
 	RZX_CONFIG(RzxNotifierConfig)
 
 	public:
-		RZX_BOOLPROP("showConnection", showConnection, setShowConnection, true)
 		RZX_BOOLPROP("beepConnection", beepConnection, setBeepConnection, false)
 		RZX_STRINGPROP("beepSound", beepSound, setBeepSound, QString())
 
 		RZX_BOOLPROP("notifyHere", notifyHere, setNotifyHere, true)
 		RZX_BOOLPROP("notifyDisconnection", notifyDisconnection, setNotifyDisconnection, true)
 		RZX_BOOLPROP("notifyAway", notifyAway, setNotifyAway, true)
+		RZX_BOOLPROP("notifyNewChat", notifyNewChat, setNotifyNewChat, true)
+		RZX_BOOLPROP("notifyChat", notifyChat, setNotifyChat, true)
+		RZX_BOOLPROP("notifyChatWhenFocus", notifyChatWhenFocus, setNotifyChatWhenFocus, false)
 
 		RZX_INTPROP("windowStyle", windowStyle, setWindowStyle, WINDOWSTYLE_DEFAULT)
+		RZX_INTPROP("chatWindowStyle", chatWindowStyle, setChatWindowStyle, WINDOWSTYLE_DEFAULT)
 
 		RZX_BOOLPROP("whenIAmAway", notNotifyWhenILeave, setNotNotifyWhenILeave, false)
 };

@@ -90,6 +90,7 @@ void RzxNotifier::installGrowlSupport() const
 	// Génère la liste des notifications envisageables
 	CFMutableArrayRef allNotifications = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
     CFArrayAppendValue(allNotifications, CFSTR("Connection State Change"));
+    CFArrayAppendValue(allNotifications, CFSTR("Chat"));
     CFArrayRef defaultNotifications = (CFArrayRef)CFRetain(allNotifications);
 
 	// Génère la configuration du programme
@@ -122,6 +123,8 @@ void RzxNotifier::ignoreLoging(bool ignore)
 void RzxNotifier::login(RzxComputer *computer)
 {
 	connect(computer, SIGNAL(favoriteStateChanged(RzxComputer*)), this, SLOT(favoriteUpdated(RzxComputer* )));
+	connect(computer, SIGNAL(receiveChat(RzxComputer*, Rzx::ChatMessageType, const QString&)),
+			this, SLOT(chat(RzxComputer*, Rzx::ChatMessageType, const QString&)));
 	if(computer && computer->isFavorite() && !computer->isLocalhost() && RzxNotifierConfig::notifyHere())
 		favoriteUpdated(computer);
 }
@@ -140,7 +143,7 @@ void RzxNotifier::favoriteUpdated(RzxComputer *computer)
 		RzxSound::play(RzxNotifierConfig::beepSound());
 	
 	//Affichage de la fenêtre de notification de connexion
-	if(RzxNotifierConfig::showConnection())
+	if(RzxNotifierConfig::windowStyle())
 	{
 		switch(computer->state())
 		{
@@ -158,6 +161,19 @@ void RzxNotifier::favoriteUpdated(RzxComputer *computer)
 	}
 }
 
+// Pour l'affichage des fenêtres de notification de nouveau message de chat
+void RzxNotifier::chat(RzxComputer* computer, Rzx::ChatMessageType type, const QString& text)
+{
+	if(RzxNotifierConfig::chatWindowStyle() && RzxNotifierConfig::notifyChat() && type == Rzx::Chat)
+	{
+		if(RzxNotifierConfig::notifyChatWhenFocus() || !QApplication::focusWidget())
+		{
+			new RzxTrayWindow((RzxTrayWindow::Theme)RzxNotifierConfig::chatWindowStyle(),
+							  computer, text);
+		}
+	}
+}
+
 /** \reimp */
 QList<QWidget*> RzxNotifier::propWidgets()
 {
@@ -168,7 +184,8 @@ QList<QWidget*> RzxNotifier::propWidgets()
 		propWidget = new QWidget;
 		ui->setupUi(propWidget);
 		connect( ui->btnBeepBrowse, SIGNAL( clicked()), this, SLOT(chooseBeepConnection())) ;
-		connect( ui->btnTestStyle, SIGNAL(clicked()), this, SLOT(showTestWindow()));
+		connect( ui->btnTestStyleConnection, SIGNAL(clicked()), this, SLOT(showTestWindow()));
+		connect( ui->btnTestStyleChat, SIGNAL(clicked()), this, SLOT(showTestChatWindow()));
 	}
 	return QList<QWidget*>() << propWidget;
 }
@@ -182,17 +199,19 @@ QStringList RzxNotifier::propWidgetsName()
 /** \reimp */
 void RzxNotifier::propInit(bool def)
 {
-	ui->cbWarnFavorite->setChecked(RzxNotifierConfig::showConnection(def));
 	ui->chkBeepFavorites->setChecked(RzxNotifierConfig::beepConnection(def));
 	ui->txtBeepFavorites->setText(RzxNotifierConfig::beepSound(def));
 	ui->cbHere->setChecked(RzxNotifierConfig::notifyHere(def));
 	ui->cbDisconnect->setChecked(RzxNotifierConfig::notifyDisconnection(def));
 	ui->cbAway->setChecked(RzxNotifierConfig::notifyAway(def));
 	ui->cbILeave->setChecked(RzxNotifierConfig::notNotifyWhenILeave(def));
+	ui->cbNotifyChat->setChecked(RzxNotifierConfig::notifyChat(def));
+	ui->cbNoChatForeground->setChecked(!RzxNotifierConfig::notifyChatWhenFocus(def));
 
 	changeTheme();
 	translate();
-	ui->cbStyle->setCurrentIndex(RzxNotifierConfig::windowStyle()-1);
+	ui->cbStyleConnection->setCurrentIndex(RzxNotifierConfig::windowStyle());
+	ui->cbStyleChat->setCurrentIndex(RzxNotifierConfig::chatWindowStyle());
 }
 
 /** \reimp */
@@ -201,13 +220,15 @@ void RzxNotifier::propUpdate()
 	if(!ui) return;
 
 	RzxNotifierConfig::setBeepConnection(ui->chkBeepFavorites->isChecked());
-	RzxNotifierConfig::setShowConnection(ui->cbWarnFavorite->isChecked());
 	RzxNotifierConfig::setBeepSound(ui->txtBeepFavorites->text());
 	RzxNotifierConfig::setNotifyHere(ui->cbHere->isChecked());
 	RzxNotifierConfig::setNotifyDisconnection(ui->cbDisconnect->isChecked());
 	RzxNotifierConfig::setNotifyAway(ui->cbAway->isChecked());
 	RzxNotifierConfig::setNotNotifyWhenILeave(ui->cbILeave->isChecked());
-	RzxNotifierConfig::setWindowStyle(ui->cbStyle->currentIndex()+1);
+	RzxNotifierConfig::setNotifyChat(ui->cbNotifyChat->isChecked());
+	RzxNotifierConfig::setNotifyChatWhenFocus(!ui->cbNoChatForeground->isChecked());
+	RzxNotifierConfig::setWindowStyle(ui->cbStyleConnection->currentIndex());
+	RzxNotifierConfig::setChatWindowStyle(ui->cbStyleChat->currentIndex());
 }
 
 /** \reimp */
@@ -230,8 +251,19 @@ void RzxNotifier::showTestWindow() const
 {
 	if(!ui) return;
 
-	new RzxTrayWindow((RzxTrayWindow::Theme)(ui->cbStyle->currentIndex() +1), RzxComputer::localhost());
+	new RzxTrayWindow((RzxTrayWindow::Theme)ui->cbStyleConnection->currentIndex(), RzxComputer::localhost());
 }
+
+
+///Affiche une fenêtre de test du style courant
+void RzxNotifier::showTestChatWindow() const
+{
+	if(!ui) return;
+	
+	new RzxTrayWindow((RzxTrayWindow::Theme)ui->cbStyleChat->currentIndex(), RzxComputer::localhost(),
+					  tr("This is an example of received text"));
+}
+
 
 ///Choix du son à jouer à la connexion d'un favoris
 void RzxNotifier::chooseBeepConnection()
@@ -249,7 +281,8 @@ void RzxNotifier::changeTheme()
 		return;
 
 	ui->chkBeepFavorites->setIcon(RzxIconCollection::getIcon(Rzx::ICON_SOUNDON));
-	ui->btnTestStyle->setIcon(RzxIconCollection::getIcon(Rzx::ICON_APPLY));
+	ui->btnTestStyleConnection->setIcon(RzxIconCollection::getIcon(Rzx::ICON_APPLY));
+	ui->btnTestStyleChat->setIcon(RzxIconCollection::getIcon(Rzx::ICON_APPLY));
 	ui->btnBeepBrowse->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FILE));
 }
 
@@ -261,13 +294,25 @@ void RzxNotifier::translate()
 	else
 		return;
 
-	int id = ui->cbStyle->currentIndex();
-	ui->cbStyle->clear();
-	ui->cbStyle->addItem(tr("Nice style - transparent window"));
-	ui->cbStyle->addItem(tr("Old style - like qRezix 1.6"));
+	int id = ui->cbStyleConnection->currentIndex();
+	ui->cbStyleConnection->clear();
+	ui->cbStyleConnection->addItem(tr("No notifications for connection status"));
+	ui->cbStyleConnection->addItem(tr("Nice style - transparent window"));
+	ui->cbStyleConnection->addItem(tr("Old style - like qRezix 1.6"));
 #ifdef Q_OS_MAC
 	if (Growl_IsInstalled())
-		ui->cbStyle->addItem(tr("Growl - Use Growl notification system"));
+		ui->cbStyleConnection->addItem(tr("Growl - Use Growl notification system"));
 #endif
-	ui->cbStyle->setCurrentIndex(id);
+	ui->cbStyleConnection->setCurrentIndex(id);
+
+	int cid = ui->cbStyleChat->currentIndex(); 
+	ui->cbStyleChat->clear();
+	ui->cbStyleChat->addItem(tr("No notifications for chat"));
+	ui->cbStyleChat->addItem(tr("Nice style - transparent window"));
+	ui->cbStyleChat->addItem(tr("Old style - like qRezix 1.6"));
+#ifdef Q_OS_MAC
+	if (Growl_IsInstalled())
+		ui->cbStyleChat->addItem(tr("Growl - Use Growl notification system"));
+#endif
+	ui->cbStyleChat->setCurrentIndex(cid);
 }

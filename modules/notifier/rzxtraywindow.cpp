@@ -42,7 +42,24 @@
 ///Construction de la fenêtre de notification d'état de connexion de computer
 /** La fenêtre est construite pour disparaître automatiquement au bout de time secondes */
 RzxTrayWindow::RzxTrayWindow(Theme theme, RzxComputer* c, unsigned int m_time )
-		: QFrame( NULL, Qt::SubWindow | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint ), time(m_time), computer(c)
+	: QFrame( NULL, Qt::SubWindow | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint ),
+	time(m_time), computer(c), type(ConnectionState)
+{
+	init(theme);
+}
+
+///Construction d'une fenêtre de notification de chat
+RzxTrayWindow::RzxTrayWindow(Theme theme, RzxComputer *c, const QString& text, unsigned int m_time)
+	: QFrame( NULL, Qt::SubWindow | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint ),
+	time(m_time), computer(c), type(Chat), chatText(text)
+{
+	init(theme);
+}
+
+///Initialise l'objet et en lance l'affichage si nécessaire
+/** Configure l'objet pour afficher la fenêtre de notification avec le thème demandé
+ */
+void RzxTrayWindow::init(Theme theme)
 {
 	setAttribute( Qt::WA_DeleteOnClose );
 	setAttribute( Qt::WA_QuitOnClose,false);
@@ -96,6 +113,46 @@ void RzxTrayWindow::giveFocus()
 ///Compose une fenêtre de notification dans le style 'nice'
 void RzxTrayWindow::niceTheme()
 {
+	if(type == ConnectionState)
+	{
+		// - la description de l'état de connexion
+		QPixmap symbolPixmap;
+		int px, py, scale = 64;
+		px = py = 0; // pour faire taire un warning @lc...
+		switch(computer->state())
+		{
+			case Rzx::STATE_DISCONNECTED:
+				symbolPixmap = QPixmap(":/notifier_quit.png");
+				px = 28; py = 46;
+				scale = 48;
+				break;
+			case Rzx::STATE_AWAY: case Rzx::STATE_REFUSE:
+				symbolPixmap = QPixmap(":/notifier_away.png");
+				px = 41; py = 27;
+				scale = 46;
+				break;
+			case Rzx::STATE_HERE:
+				symbolPixmap = QPixmap(":/notifier_here.png");
+				px = 46; py = 20;
+				scale = 56;
+				break;
+		}
+
+		QPixmap pixmap(symbolPixmap.width(), symbolPixmap.height());
+		pixmap.fill(QColor(0,0,0,0));
+		QPainter painter(&pixmap);
+		painter.drawPixmap(px, py, computer->icon().scaled(scale, scale));
+		painter.drawPixmap(0, 0, symbolPixmap);
+		
+		niceThemeFactory(computer->name(), QString(), pixmap);
+	}
+	else if(type == Chat)
+		niceThemeFactory(computer->name() + " " + tr("says:"), chatText, computer->icon());		
+}
+
+///Crée la fenêtre de notification en elle-même pour le thème 'nice'
+void RzxTrayWindow::niceThemeFactory(const QString& title, const QString &text, const QPixmap& icon)
+{
 	setMinimumWidth( 150 );
 	setMinimumHeight( 70 );
 	setWindowOpacity( 0.70 );
@@ -103,56 +160,38 @@ void RzxTrayWindow::niceTheme()
 	QPixmap fond(":/notifier_fond.png");
 	setMask(fond.createHeuristicMask());
 	resize(fond.size());
-
+		
 	//Construction des items à insérer dans la fenêtre :
 	// - l'icône
 	QLabel *icone = new QLabel();
-
-	// - le pseudo
+	icone->setPixmap(icon);
+	
+	// - le titre
 	QLabel *name = new QLabel();
 	name->setTextFormat( Qt::RichText );
-	name->setText( "<h2><font color=\"white\">" + computer->name() + "</font></h2>" );
-
-	// - la description de l'état de connexion
-	QPixmap symbolPixmap;
-	int px, py, scale = 64;
-	px = py = 0; // pour faire taire un warning @lc...
-	switch(computer->state())
+	name->setText( "<h2><font color=\"white\">" + title + "</font></h2>" );
+	
+	// - le texte... si n'est pas vide
+	QLabel *info = NULL;
+	if(!text.isEmpty())
 	{
-		case Rzx::STATE_DISCONNECTED:
-			symbolPixmap = QPixmap(":/notifier_quit.png");
-			px = 28; py = 46;
-			scale = 48;
-			break;
-		case Rzx::STATE_AWAY: case Rzx::STATE_REFUSE:
-			symbolPixmap = QPixmap(":/notifier_away.png");
-			px = 41; py = 27;
-			scale = 46;
-			break;
-		case Rzx::STATE_HERE:
-			symbolPixmap = QPixmap(":/notifier_here.png");
-			px = 46; py = 20;
-			scale = 56;
-			break;
+		info = new QLabel();
+		info->setTextFormat(Qt::RichText);
+		info->setText( "<font color=\"white\">" + text.left(100) + "</font>" );
 	}
-
-	QPixmap pixmap(symbolPixmap.width(), symbolPixmap.height());
-	pixmap.fill(QColor(0,0,0,0));
-	QPainter painter(&pixmap);
-	painter.drawPixmap(px, py, computer->icon().scaled(scale, scale));
-	painter.drawPixmap(0, 0, symbolPixmap);
-	icone->setPixmap(pixmap);
-
-	QPalette palette ;
-	palette.setColor( backgroundRole(), QColor( 0xc0, 0xc0, 0xc0 ) );
-	setPalette( palette );
-
+	
 	//Insertion des éléments dans les layout qui corresponend
 	// - disposition du texte verticalement
 	QVBoxLayout *textLayout = new QVBoxLayout();
-	textLayout->addWidget( name, 0, Qt::AlignTop | Qt::AlignHCenter );
-	textLayout->addWidget( icone, 0, Qt::AlignVCenter | Qt::AlignHCenter );
+	textLayout->addWidget( icone, 0, Qt::AlignTop | Qt::AlignHCenter );
+	textLayout->addWidget( name, 0, Qt::AlignHCenter );
+	if(info)
+		textLayout->addWidget( info, 0, Qt::AlignTop | Qt::AlignHCenter );
 	setLayout(textLayout);
+	
+	QPalette palette ;
+	palette.setColor( backgroundRole(), QColor( 0xc0, 0xc0, 0xc0 ) );
+	setPalette( palette );
 	
 	//Affichage de la fenêtre
 	int x = QApplication::desktop()->width();
@@ -163,63 +202,83 @@ void RzxTrayWindow::niceTheme()
 	y <<= 1;
 	y /= 3;
 	QPoint point( x, y );
-
+	
 	move( point );
-}
+}	
 
 ///Compose une fenêtre de notification de style 'old'
 /** Correspond au thème des fenêtre de notification de qRezix > 1.6.1
  */
 void RzxTrayWindow::oldTheme()
 {
+	QString title = computer->name();
+	QString text;
+	QColor bg = 0xffffff;
+
+	if(type == ConnectionState)
+	{
+		bool connected = true;
+		switch(computer->state())
+		{
+			case Rzx::STATE_DISCONNECTED:
+				bg = QColor(0xff, 0x20, 0x20);
+				connected = false;
+				break;
+			case Rzx::STATE_AWAY: case Rzx::STATE_REFUSE:
+				bg =  0xFFEE7C;
+				break;
+			default:
+				break;
+		}
+
+		if(connected)
+			text = computer->isOnResponder() ? tr("is now away") : tr("is now here");
+		else
+			text = tr("is now disconnected");
+	}
+	else if (type == Chat)
+	{
+		text = chatText;
+		title += " " + tr("says:");
+	}
+		
+	oldThemeFactory(title, text, computer->icon(), bg);
+}
+
+void RzxTrayWindow::oldThemeFactory(const QString& title, const QString& text, const QPixmap& icon, const QColor& bg)
+{
 	setMinimumWidth( 150 );
 	setMinimumHeight( 70 );
-
-	bool connected = true;
-	QPalette palette ;
-	switch(computer->state())
-	{
-		case Rzx::STATE_DISCONNECTED:
-			palette.setColor( backgroundRole(), QColor(0xff, 0x20, 0x20));
-			connected = false;
-			break;
-		case Rzx::STATE_AWAY: case Rzx::STATE_REFUSE:
-			palette.setColor( backgroundRole(), 0xFFEE7C);
-			break;
-		case Rzx::STATE_HERE:
-			palette.setColor( backgroundRole(), 0xffffff);
-			break;
-	}
-	setPalette( palette );
+	
+	QPalette palette ;	
+	palette.setColor(backgroundRole(), bg);
+	setPalette(palette);
 
 	//insertion de l'icône
 	// Layout, pour le resize libre
 	QHBoxLayout *layout = new QHBoxLayout();
 	QVBoxLayout *textLayout = new QVBoxLayout();
-
+	
 	QLabel *icone = new QLabel();
 	QLabel *name = new QLabel();
 	QLabel *description = new QLabel();
-
+	
 	layout->addWidget(icone, 0, Qt::AlignVCenter | Qt::AlignLeft);
 	textLayout->addWidget(name, 0, Qt::AlignTop | Qt::AlignLeft);
 	textLayout->addWidget(description, 0, Qt::AlignVCenter | Qt::AlignLeft);
 	layout->addLayout(textLayout, 1);
-
-	icone->setPixmap(computer->icon());
+	
+	icone->setPixmap(icon);
 	name->setTextFormat(Qt::RichText);
-	name->setText("<h2>" + computer->name() + "</h2>");
-	if(connected)
-		description->setText(computer->isOnResponder() ? tr("is now away") : tr("is now here"));
-	else
-		description->setText(tr("is now disconnected"));
+	name->setText("<h2>" + title + "</h2>");
+	description->setText(text);
 	setLayout(layout);
-
+	
 	//Pour avoir un cadre plus soft...
 	adjustSize();
 	QPixmap fond(":/notifier_fond.png");
 	setMask(fond.scaled(size()).createHeuristicMask());
-
+	
 	//Dans le coin en haut à gauche
 	QPoint point(0,0);
 	move(point);
@@ -233,31 +292,49 @@ void RzxTrayWindow::oldTheme()
 ///Affiche une notification avec Growl
 void RzxTrayWindow::growlNotif()
 {
-	QString title = "qRezix...";
-	QString text = computer->name() + " ";
+	QString title;
+	QString text;
+	QString notifType;
 
+	if(type == ConnectionState)
+	{
+		title = tr("qRezix favorite change...");
+		text = computer->name() + " ";
+		if(computer->state() != Rzx::STATE_DISCONNECTED)
+			text += computer->isOnResponder() ? tr("is now away") : tr("is now here");
+		else
+			text += tr("is now disconnected");
+		notifType = "Connection State Change";
+	}
+	else if (type == Chat)
+	{
+		title = computer->name() + " " + tr("says on qRezix:");
+		text = chatText;
+		notifType = "Chat";
+	}
+
+	growlNotifFactory(title, text, computer->icon(), notifType);
+}
+
+void RzxTrayWindow::growlNotifFactory(const QString& title, const QString& text, const QPixmap& icon, const QString &type)
+{
 	QByteArray bytes;
 	QBuffer buffer(&bytes);
 	buffer.open(QIODevice::WriteOnly);
-	computer->icon().save(&buffer, "PNG");
+	icon.save(&buffer, "PNG");
 	CFDataRef imageData = CFDataCreate(kCFAllocatorDefault,
-			(const UInt8*)bytes.constData(), 
-			bytes.size());
-
-    if(computer->state() != Rzx::STATE_DISCONNECTED)
-		text += computer->isOnResponder() ? tr("is now away") : tr("is now here");
-	else
-		text += tr("is now disconnected");
-		
+									   (const UInt8*)bytes.constData(), 
+									   bytes.size());
+	
 	Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
 			CFStringFromQt(title),
 			CFStringFromQt(text),
-			CFSTR("Connection State Change"),
+			CFStringFromQt(type),
 			imageData,       
 			0,
 			0,
 			NULL);
-}
+}	
 #endif
 
 ///Capture de l'action de la souris

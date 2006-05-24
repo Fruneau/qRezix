@@ -53,6 +53,7 @@ class RzxNotifier : public RzxModule
 		void favoriteUpdated(RzxComputer *);
 		void login(RzxComputer *);
 		void ignoreLoging(bool);
+		void chat(RzxComputer *, Rzx::ChatMessageType, const QString&);
 
 	public:
 		virtual QList<QWidget*> propWidgets();
@@ -67,6 +68,7 @@ class RzxNotifier : public RzxModule
 		void translate();
 		void changeTheme();
 		void showTestWindow() const;
+		void showTestChatWindow() const;
 		void chooseBeepConnection();
 
 #ifdef Q_OS_MAC

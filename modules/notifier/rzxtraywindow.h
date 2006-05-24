@@ -41,10 +41,6 @@ class RzxTrayWindow: public QFrame
 {
 	Q_OBJECT
 	
-	int time;
-	QPointer<RzxComputer> computer;
-	QPointer<QWidget> active;
-	
 	public:
 		enum Theme {
 			None = 0,
@@ -53,15 +49,39 @@ class RzxTrayWindow: public QFrame
 			Growl = 3
 		};
 		Q_ENUMS(Theme)
+		
+		enum Type {
+			ConnectionState = 1,
+			Chat = 2
+		};
+		Q_ENUMS(Type);
+	
+	private:
+		int time;
+		QPointer<RzxComputer> computer;
+		QPointer<QWidget> active;
+
+		Type type;
+	
+		QString chatText;
+		
+		void init(Theme);
+	
+	public:
 
 		RzxTrayWindow(Theme, RzxComputer *computer, unsigned int time = 4);
+		RzxTrayWindow(Theme, RzxComputer *computer, const QString& text, unsigned int time = 4);
 		~RzxTrayWindow();
 
 	protected:
 		void niceTheme();
+		void niceThemeFactory(const QString& title, const QString& text, const QPixmap& icon);
 		void oldTheme();
+		void oldThemeFactory(const QString& title, const QString& text, const QPixmap& icon, const QColor& bg);
+		
 #ifdef Q_OS_MAC
 		void growlNotif();
+		void growlNotifFactory(const QString& title, const QString& text, const QPixmap& icon, const QString& type);
 #endif
 
 	protected slots:

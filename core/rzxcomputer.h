@@ -295,6 +295,9 @@ public slots:
 	void sendChat(Rzx::ChatMessageType, const QString& = QString());
 	void receiveChat(Rzx::ChatMessageType, const QString& = QString());
 
+signals:
+	void receiveChat(RzxComputer *, Rzx::ChatMessageType, const QString&);
+
 public:
 	///Fonction de test pour automatiser les filtres sur les RzxComputer
 	typedef bool (testComputer)(const RzxComputer*);

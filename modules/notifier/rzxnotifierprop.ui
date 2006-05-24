@@ -23,22 +23,9 @@
     <number>6</number>
    </property>
    <item row="2" column="0" >
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>564</width>
-       <height>131</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="0" >
-    <widget class="QGroupBox" name="grpWhat" >
+    <widget class="QGroupBox" name="grpChat" >
      <property name="title" >
-      <string>What ?</string>
+      <string>Chat</string>
      </property>
      <layout class="QGridLayout" >
       <property name="margin" >
@@ -47,15 +34,15 @@
       <property name="spacing" >
        <number>6</number>
       </property>
-      <item row="3" column="1" >
-       <widget class="QLabel" name="lblStyle" >
+      <item row="0" column="2" >
+       <widget class="QPushButton" name="btnTestStyleChat" >
         <property name="text" >
-         <string>Notification windows style:</string>
+         <string>Test</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="2" >
-       <widget class="QComboBox" name="cbStyle" >
+      <item row="0" column="1" >
+       <widget class="QComboBox" name="cbStyleChat" >
         <property name="sizePolicy" >
          <sizepolicy>
           <hsizetype>7</hsizetype>
@@ -66,30 +53,75 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="3" >
-       <widget class="QPushButton" name="btnTestStyle" >
+      <item row="0" column="0" >
+       <widget class="QLabel" name="lblStyleChat" >
         <property name="text" >
-         <string>Test</string>
+         <string>Style:</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" >
-       <spacer>
-        <property name="orientation" >
-         <enum>Qt::Horizontal</enum>
+      <item row="2" column="0" colspan="3" >
+       <widget class="QCheckBox" name="cbNoChatForeground" >
+        <property name="text" >
+         <string>No chat notification when qRezix is the foreground application</string>
         </property>
-        <property name="sizeType" >
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" >
-         <size>
-          <width>90</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
+       </widget>
       </item>
-      <item row="1" column="0" colspan="4" >
+      <item row="1" column="0" colspan="3" >
+       <widget class="QCheckBox" name="cbNotifyChat" >
+        <property name="text" >
+         <string>Notify when receive a chat message</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0" >
+    <widget class="QGroupBox" name="grpWhat" >
+     <property name="title" >
+      <string>Global</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="0" >
+       <widget class="QCheckBox" name="cbILeave" >
+        <property name="text" >
+         <string>No notification when I am away</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QGroupBox" name="grpConnectionState" >
+     <property name="title" >
+      <string>Connection state</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="1" column="0" colspan="3" >
+       <widget class="QCheckBox" name="chkBeepFavorites" >
+        <property name="whatsThis" >
+         <string>&lt;h3>Beep on connection&lt;/h3>&lt;p>Check this if you want qRezix to play a sound when a favorite get connected&lt;/p></string>
+        </property>
+        <property name="text" >
+         <string>Beep on connection of one of your favorites</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="3" >
        <layout class="QHBoxLayout" >
         <property name="margin" >
          <number>0</number>
@@ -138,114 +170,72 @@
         </item>
        </layout>
       </item>
-      <item row="0" column="0" colspan="4" >
-       <widget class="QCheckBox" name="chkBeepFavorites" >
-        <property name="whatsThis" >
-         <string>&lt;h3>Beep on connection&lt;/h3>&lt;p>Check this if you want qRezix to play a sound when a favorite get connected&lt;/p></string>
-        </property>
-        <property name="text" >
-         <string>Beep on connection of one of your favorites</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="4" >
-       <widget class="QCheckBox" name="cbWarnFavorite" >
-        <property name="whatsThis" >
-         <string>&lt;h3>Notification&lt;/h3>&lt;p>Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p></string>
-        </property>
-        <property name="text" >
-         <string>Show a notification window on favorite's state modification</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="0" >
-    <widget class="QGroupBox" name="grpWhen" >
-     <property name="title" >
-      <string>When ?</string>
-     </property>
-     <layout class="QGridLayout" >
-      <property name="margin" >
-       <number>9</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-      <item row="2" column="0" >
-       <widget class="QCheckBox" name="cbAway" >
-        <property name="text" >
-         <string>Notify when favorite go away</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" >
-       <widget class="QCheckBox" name="cbILeave" >
-        <property name="text" >
-         <string>No notification when I am away</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" >
+      <item row="4" column="0" colspan="3" >
        <widget class="QCheckBox" name="cbDisconnect" >
         <property name="text" >
          <string>Notify favorite disconnection</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0" >
+      <item row="5" column="0" colspan="3" >
+       <widget class="QCheckBox" name="cbAway" >
+        <property name="text" >
+         <string>Notify when favorite go away</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="3" >
        <widget class="QCheckBox" name="cbHere" >
         <property name="text" >
          <string>Notify when favorite arrive or come back</string>
         </property>
        </widget>
       </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="lblStyleConnection" >
+        <property name="text" >
+         <string>Style:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="QComboBox" name="cbStyleConnection" >
+        <property name="sizePolicy" >
+         <sizepolicy>
+          <hsizetype>7</hsizetype>
+          <vsizetype>0</vsizetype>
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2" >
+       <widget class="QPushButton" name="btnTestStyleConnection" >
+        <property name="text" >
+         <string>Test</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
+   </item>
+   <item row="3" column="0" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>564</width>
+       <height>21</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
  <pixmapfunction></pixmapfunction>
- <tabstops>
-  <tabstop>chkBeepFavorites</tabstop>
-  <tabstop>txtBeepFavorites</tabstop>
-  <tabstop>btnBeepBrowse</tabstop>
-  <tabstop>cbWarnFavorite</tabstop>
- </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>chkBeepFavorites</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>txtBeepFavorites</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>159</x>
-     <y>56</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>250</x>
-     <y>84</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chkBeepFavorites</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>btnBeepBrowse</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>496</x>
-     <y>55</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>546</x>
-     <y>84</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
