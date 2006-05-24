@@ -218,7 +218,8 @@ void RzxChatSocket::sendResponder(const QString& msg)
  * <br>Il faut utiliser \ref sendChat() pour envoyer un chat.
  */
 void RzxChatSocket::sendDccChat(const QString& msg) {
-	send(QString("CHAT " + msg + "\r\n"));
+	QString message = msg;
+	send(QString("CHAT " + message.remove('\r').replace('\n', "<br>") + "\r\n"));
 }
 
 ///Emission d'un message vers un autre client

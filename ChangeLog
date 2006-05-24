@@ -1,7 +1,8 @@
 [v2.0.2] 2006-05 <br@frankiz.polytechnique.fr>
     * Support de Growl pour les notifications sur MacOS X [Fruneau]
     * Ajout de notifications sur la réception de messages de chat [Fruneau]
-    * Bugfixes
+    * Bugfix : crash lors du check de l'historique d'une personne déconnectée [Fruneau]
+    * Bugfix : envoie des messages multiligne conforme au protocole xNet [Fruneau]
 
 [v2.0.1] 2006-04 <br@frankiz.polytechnique.fr>
     * Bugfixes
