@@ -341,6 +341,13 @@ void RzxComputer::setRemarque(const QString& text)
 	if(text == m_remarque) return;
 
 	m_remarque = text;
+	int i;
+	for(i = m_remarque.length() - 1 ; i >= 0 ; i--)
+	{
+		if(!m_remarque[i].isSpace())
+			break;
+	}
+	m_remarque = m_remarque.left(i + 1);
 	m_remarque.replace("\n", " \\n ");
 	emitUpdate();
 }
