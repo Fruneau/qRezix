@@ -43,3 +43,19 @@ Il suffit de regénérer la liste des fichiers à installer via un nouvel appel 
 	qmake [options] qrezix.pro
 	su
 	make install
+
+Note spécifiques à MacOS X :
+============================
+
+Pour compiler qRezix sous MacOS X, il faut d'abord installer le Growl-withInstaller framework pour le support de Growl.
+
+* Pour compiler qRezix :
+./build-mac
+
+* Pour packager qRezix :
+cd packages/macosx
+./package
+
+Dans les 2 cas, pourque le bundle soit utilisable, il faut copier le framework Growl-withInstaller dans qRezix.app/Content/Frameworks/
+
+Note : Le Growl-withInstaller.framework fait parti du Growl-SDK
