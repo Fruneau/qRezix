@@ -146,18 +146,18 @@
     </message>
     <message>
         <source>Saving messages as long remote host is disconnected and this window stays open</source>
-        <translation type="unfinished">Enregistre les messages en attente du retour du destinataire ou de la fermeture de la fenêtre</translation>
+        <translation>Enregistre les messages en attente du retour du destinataire ou de la fermeture de la fenêtre</translation>
     </message>
 </context>
 <context>
     <name>RzxChatLister</name>
     <message>
         <source>reconnected</source>
-        <translation>reconnecté</translation>
+        <translation type="obsolete">reconnecté</translation>
     </message>
     <message>
         <source>disconnected</source>
-        <translation>déconnecté</translation>
+        <translation type="obsolete">déconnecté</translation>
     </message>
     <message>
         <source>Properties sent to %1</source>
@@ -206,6 +206,14 @@ Chat and properties browsing are disabled</source>
         <translation>Impossible de lancer l&apos;écoute pour le chat !
 
 Les autres utilisateurs ne pourront pas vous contacter pour discuter avec vous ou obtenir vos propriétés... par contre il vous est possible de contacter les autres personnes</translation>
+    </message>
+    <message>
+        <source>Reconnected</source>
+        <translation>Reconnecté</translation>
+    </message>
+    <message>
+        <source>Disconnected</source>
+        <translation>Déconnecté</translation>
     </message>
 </context>
 <context>

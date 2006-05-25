@@ -124,8 +124,8 @@ void RzxChatLister::login(RzxComputer *computer)
 	{
 		//Indication au chat de la reconnexion
 		chat->setComputer(computer);
-		if (!computer)
-			chat->info( tr("reconnected") );
+		if (computer && computer->state() != Rzx::STATE_DISCONNECTED)
+			chat->info( tr("Reconnected") );
 		if(chatByLogin[computer->name()] != chat)
 		{
 			chatByLogin.remove(chatByLogin.key(chat));
@@ -139,7 +139,7 @@ void RzxChatLister::logout(RzxComputer *computer)
 {
 	RzxChat *chat = getChatByIP(computer->ip());
 	if ( chat )
-		chat->info( tr("disconnected") );
+		chat->info( tr("Disconnected") );
 }
 
 ///Lancement du chat
