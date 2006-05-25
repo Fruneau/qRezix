@@ -318,7 +318,7 @@
       </sizepolicy>
      </property>
      <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::Panel</enum>
      </property>
      <property name="frameShadow" >
       <enum>QFrame::Raised</enum>
