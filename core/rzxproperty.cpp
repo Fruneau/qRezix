@@ -110,7 +110,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 	connect(cmbIconTheme, SIGNAL(activated(const QString&)), this, SLOT(changeTheme(const QString&)));
 
 	//Connection pour l'affichage des propriétés
-	connect(listCache, SIGNAL(itemSelectionChanged()), this, SLOT(fillCacheView()));
+	connect(listCache, SIGNAL(currentRowChanged(int)), this, SLOT(fillCacheView()));
 	connect(btnDeleteCache, SIGNAL(clicked()), this, SLOT(deleteCache()));
 	connect(btnSendMail, SIGNAL(clicked()), this, SLOT(sendMailToCache()));
 	connect(this, SIGNAL(deleteWanted()), this, SLOT(tryDeleteCache()));
@@ -308,6 +308,7 @@ void RzxProperty::fillCacheList()
 		else
 			item->setIcon(RzxIconCollection::getIcon(Rzx::ICON_OFF));
 	}
+	listCache->sortItems();
 }
 
 ///Affiche les données associées à la cache sélectionnée...
