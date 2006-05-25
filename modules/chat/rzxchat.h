@@ -124,6 +124,7 @@ protected slots:
 protected: // Protected methods
 	void append(const QString& color, const QString& host, const QString& msg, RzxComputer* = NULL);
 	void initHtmlText();
+	void writeToHistory(const QString& text = QString());
 
 	virtual void closeEvent(QCloseEvent * e);
 	virtual void moveEvent(QMoveEvent *e = NULL);

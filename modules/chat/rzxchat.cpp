@@ -187,19 +187,7 @@ void RzxChat::init()
 RzxChat::~RzxChat()
 {
 	if(lastIP)
-	{
-		QString temp = textHistorique;
-
-		QString filename = RzxChatConfig::historique(rezixIP(), name());
-		if(filename.isNull()) return;
-	
-		QFile file(filename);
-		file.open(QIODevice::ReadWrite |QIODevice::Append);
-		QTextStream stream(&file);
-		stream.setCodec("UTF-8");
-		stream << temp;
-		file.close();
-	}
+		writeToHistory();
 	
 	delete ui;	
 }
@@ -450,7 +438,7 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 	}
 
 	// Enregistrement des logs...
-	textHistorique = textHistorique + date + histText;
+	writeToHistory(date + histText);
 
 	// Gestion des smileys
 	RzxSmileys::replace(msg);
@@ -623,20 +611,8 @@ void RzxChat::on_btnHistorique_toggled(bool on)
 
 	if(hist || !lastIP) return;
 	ui->btnProperties->setChecked(false);
-	
-	//Enregistre l'historique actuel
-	QString temp = textHistorique;
 
-	QString filename = RzxChatConfig::historique(rezixIP(), name());
-	if (filename.isNull()) return;
-	
-	QFile file(filename);
-	file.open(QIODevice::ReadWrite |QIODevice::Append);
-	file.write(temp.toUtf8());
-	file.close();
-
-	//Vide le buffer...
-	textHistorique = "";
+	writeToHistory();
 
 	//Affiche la fenêtre
 	hist = (RzxChatPopup*)RzxChatLister::global()->historique(RzxHostAddress::fromRezix(lastIP), false, this, ui->btnHistorique);
@@ -711,6 +687,23 @@ void RzxChat::sendChat(const QString& msg)
 		chatBuffer << msg;
 	}
 }
+
+/// Enregistrement de l'historique
+void RzxChat::writeToHistory(const QString& text)
+{
+	textHistorique += text;
+
+	//Enregistre l'historique actuel
+	QString filename = RzxChatConfig::historique(rezixIP(), name());
+	if (filename.isNull()) return;
+	
+	QFile file(filename);
+	file.open(QIODevice::ReadWrite |QIODevice::Append);
+	if(file.write(textHistorique.toUtf8()) != -1)
+	   textHistorique = "";
+	file.close();
+}
+	
 
 /******************* Gestion des événements ***************************/
 
