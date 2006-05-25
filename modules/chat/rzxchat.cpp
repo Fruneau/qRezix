@@ -724,11 +724,10 @@ void RzxChat::closeEvent(QCloseEvent * e)
 	if(!smileyUi.isNull())
 		smileyUi->close();
 	RzxChatConfig::saveChatWidget(this);
-	e -> accept();
-
 	if(computer())
 		computer()->sendChat(Rzx::Closed);
-	emit closed(computer());
+	
+	e -> accept();
 }
 
 ///Pour récupérer quelques événements (genre activation de la fenêtre)

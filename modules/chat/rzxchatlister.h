@@ -96,7 +96,7 @@ class RzxChatLister:public RzxModule
 		virtual void chat(RzxComputer*);
 		RzxChat *createChat(RzxComputer*);
 
-		void deleteChat(RzxComputer*);
+		void deleteChat(QObject*);
 		void closeChat(const QString& login);
 		void closeChats();
 

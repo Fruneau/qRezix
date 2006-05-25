@@ -83,7 +83,6 @@ protected:
 	int unread;
 	
 signals: // Signals
-	void closed(RzxComputer *);
 	void showHistorique(RzxComputer *, const QString& hostname, bool, QWidget*, QPoint*);
 	void showProperties(RzxComputer *, const QString&, bool, QWidget*, QPoint*);
 	void wantPreferences();

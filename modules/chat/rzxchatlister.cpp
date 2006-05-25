@@ -160,7 +160,7 @@ RzxChat *RzxChatLister::createChat(RzxComputer *computer)
 	{
 		chat = new RzxChat(computer);
 
-		connect( chat, SIGNAL( closed(RzxComputer*) ), this, SLOT( deleteChat(RzxComputer*) ) );
+		connect( chat, SIGNAL( destroyed(QObject*) ), this, SLOT( deleteChat(QObject*) ) );
 		connect( chat, SIGNAL(wantDeactivateResponder()), this, SIGNAL(wantDeactivateResponder()));
 		connect( RzxIconCollection::global(), SIGNAL(themeChanged(const QString& )), chat, SLOT( changeTheme() ) );
 		connect( RzxConfig::global(), SIGNAL( iconFormatChange() ), chat, SLOT( changeIconFormat() ) );
@@ -180,13 +180,20 @@ void RzxChatLister::closeChat( const QString& login )
 }
 
 /** No descriptions */
-void RzxChatLister::deleteChat(RzxComputer *c)
+void RzxChatLister::deleteChat(QObject *object)
 {
-	if(!c) return;
+	if(!object) return;
 
-	RzxChat *chat = chatByIP.take(c->ip());
+	RzxChat *chat = qobject_cast<RzxChat*>(object);
+	RzxComputer *c = NULL;
+	if(!chat)
+		c = qobject_cast<RzxComputer*>(object);
+	else 
+		c = chat->computer();
+
+	if(!c) return;
+	chatByIP.remove(c->ip());
 	chatByLogin.remove(c->name());
-	delete chat;
 }
 
 ///Réception d'un chat...
