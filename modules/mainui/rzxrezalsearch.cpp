@@ -70,6 +70,7 @@ RzxRezalSearch::Mode RzxRezalSearch::mode() const
 ///Définie le mode de fonctionnement
 void RzxRezalSearch::setMode(Mode mode)
 {
+	resetPattern();
 	searchMode = mode;
 }
 
@@ -89,7 +90,7 @@ void RzxRezalSearch::filterView()
 	v->setRootIndex(v->rootIndex());
 	if(viewCurrent)
 		v->scrollTo(v->currentIndex());
-	qDebug() << "Filtering pattern" << searchPattern;
+	emit searchPatternChanged(searchPattern);
 }
 
 ///Recursion pour effectuer le filtrage
@@ -124,11 +125,6 @@ bool RzxRezalSearch::matches(const QModelIndex& index, RzxRezalModel *model) con
 	if(computer == NULL)
 		return true;
 	
-#define test(str) \
-	{ \
-		if(str.contains(searchPattern, Qt::CaseInsensitive)) \
-			return true; \
-	}
 	QString searched = computer->name() + " "
 		+ computer->client() + " "
 		+ computer->sysExText() + " "
@@ -146,7 +142,6 @@ bool RzxRezalSearch::matches(const QModelIndex& index, RzxRezalModel *model) con
 			return false;
 	}
 
-#undef test
 	return true;
 }
 

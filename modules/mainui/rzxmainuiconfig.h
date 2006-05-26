@@ -55,7 +55,7 @@ class RZX_MAINUI_EXPORT RzxMainUIConfig: public RzxAbstractConfig
 		RZX_ENUMPROP(Qt::SortOrder, "sortOrder", sortOrder, setSortOrder, Qt::AscendingOrder)
 		RZX_INTPROP("sortColumn", sortColumn, setSortColumn, 0)
 		RZX_STRINGPROP("centralrezal", centralRezal, setCentralRezal, DEFAULT_REZAL)
-		RZX_ENUMPROP(RzxRezalSearch::Mode, "searchMode", searchMode, setSearchMode, RzxRezalSearch::Full)
+		RZX_ENUMPROP(RzxRezalSearch::Mode, "searchMode", searchMode, setSearchMode, RzxRezalSearch::Lite)
 
 		RZX_INTPROP("topLeftCorner", topLeftCorner, setTopLeftCorner, Qt::LeftDockWidgetArea)
 		RZX_INTPROP("bottomLeftCorner", bottomLeftCorner, setBottomLeftCorner, Qt::LeftDockWidgetArea)
