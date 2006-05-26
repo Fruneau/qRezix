@@ -1,18 +1,78 @@
 #!/bin/sh
 
+MACOSX_DEPLOYMENT_TARGET=10.4
+VERBOSE=0
+IGNORE_QMAKE=0
+
+for param in $@; do
+	head=`echo $param | sed 's/^\(..\)\(.*\)$/\1/'`
+	if [ $param == '-v' ]; then
+		VERBOSE=1;
+	elif [ $param == '-q' ]; then
+		IGNORE_QMAKE=1;
+	elif [ $head == "-j" ]; then
+		MAKEOPTS="$MAKEOPTS $param";
+	else
+		CXXFLAGS="$CXXFLAGS $param";
+	fi
+done
+
+echo "Compilation de qRezix pour MacOS X"
+echo " Plateforme : MacOS $MACOSX_DEPLOYMENT_TARGET"
+echo " Modules    : Tous"
+echo " Options    :"
+echo "   - compilation : $CXXFLAGS"
+echo "   - make        : $MAKEOPTS"
+
+# Fonction pour lancer une commande
+function launch()
+{
+	if [ $VERBOSE == 1 ]; then
+		if ! $* ; then
+			exit 1;
+		fi
+	else
+		if ! $* >> /dev/null ; then
+			exit 1;
+		fi
+	fi
+}
+
 # Génère le Makefile et le compile
-qmake qrezix.pro
-MACOSX_DEPLOYMENT_TARGET=10.4 make
+echo ""
+echo "Phase 1 : Compilation..."
+
+if ! [ $IGNORE_QMAKE == 1 ]; then
+	launch qmake qrezix.pro
+fi
+launch make
 
 # Fixe les pb de linkage de la SDK universal de MacOS X
+echo ""
+echo "Phase 2 : Fix les dépendances cassée (Universal Binaries)..."
+
 cd rezals
-for lib in `otool -L librezalindex.dylib | grep -e '/var/tmp/.*out ' | sed 's/.*\(\/var.*out\).*/\1/'`; do
-	find . -name '*.dylib' -exec install_name_tool -change $lib '@executable_path/../Resources/modules/librzxmainui.dylib' {} ";"
+for file in `find . -name '*.dylib'`; do
+	for lib in `otool -L $file | grep -e '/var/tmp/.*out ' | sed 's/.*\(\/var.*out\).*/\1/'`; do
+		install_name_tool -change $lib '@executable_path/../Resources/modules/librzxmainui.dylib' $file
+	done
 done
 cd ..
 
+# Installation
+echo ""
+echo "Phase 3 : Création du bundle..."
+
 # Recrée le Makefile pour qu'il mette à jour la liste des fichiers à installer
-qmake qrezix.pro
+if ! [ $IGNORE_QMAKE == 1 ]; then
+	launch qmake qrezix.pro $PIPE
+fi
 
 # Intégration des composants dans le Bundle
-make install
+launch make -i install $PIPE
+
+echo ""
+echo "Terminé avec succès"
+echo ""
+echo "Note : Pour la création d'un bundle distribuable utilisez package/macosx/package"
+echo "Note : N'oubliez pas d'include le framework Growl-withInstaller dans le bundle"
