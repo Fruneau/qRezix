@@ -691,7 +691,7 @@ void RzxChat::sendChat(const QString& msg)
 /// Enregistrement de l'historique
 void RzxChat::writeToHistory(const QString& text)
 {
-	textHistorique += text;
+	textHistorique += "\n" + text;
 
 	//Enregistre l'historique actuel
 	QString filename = RzxChatConfig::historique(rezixIP(), name());
