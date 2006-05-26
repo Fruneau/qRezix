@@ -1,10 +1,20 @@
 [v2.0.2] 2006-05 <br@frankiz.polytechnique.fr>
-    * Support de Growl pour les notifications sur MacOS X [Fruneau]
-    * Ajout de notifications sur la réception de messages de chat [Fruneau]
-    * Bugfix : crash lors du check de l'historique d'une personne déconnectée [Fruneau]
-    * Bugfix : envoie des messages multiligne conforme au protocole xNet [Fruneau]
     * Fix la compilation avec GCC 4.1 [Fruneau]
     * Support des Universal Binaries pour MacOS X (déjà appliqué au packaging de la 2.0.1) [Fruneau]
+	
+  Notifier
+    * Support de Growl pour les notifications sur MacOS X [Fruneau]
+    * Ajout de notifications sur la réception de messages de chat [Fruneau]
+
+  Chat :
+    * Bugfix : crash lors du check de l'historique d'une personne déconnectée [Fruneau]
+    * Bugfix : envoie des messages multiligne conforme au protocole xNet [Fruneau]
+    * Enregistrement de l'historique au fur et a mesure de la discussion [Fruneau]
+    * Bugfix : affichage correcte de la notification de reconnexiion [Fruneau]
+
+  MainUI :
+    * Recherche avancée en plain-text sur les propriétés en plus du pseudo
+    * Cache le détails des propriétés lorsque ce n'est pas applicable à la sélection [Fruneau]
 
 [v2.0.1] 2006-04 <br@frankiz.polytechnique.fr>
     * Bugfixes

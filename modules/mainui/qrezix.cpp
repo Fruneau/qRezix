@@ -26,6 +26,7 @@
 #include <QAction>
 #include <QDockWidget>
 #include <QStatusBar>
+#include <QCheckBox>
 
 #include <RzxApplication>
 #include <RzxGlobal>
@@ -72,6 +73,7 @@ QRezix::QRezix(QWidget *parent)
 	central = NULL;
 	leSearch = NULL;
 	lblSearch = NULL;
+	cbSearch = NULL;
 	bar = NULL;
 
 	//Construction de l'interface
@@ -726,10 +728,14 @@ void QRezix::showSearch(bool state)
 		leSearch->setMinimumSize(50, 22);
 		leSearch->setMaximumSize(150, 22);
 		connect(leSearch, SIGNAL(textEdited(const QString&)), this, SIGNAL(searchPatternChanged(const QString&)));
-		lblSearch = new QLabel();	
+		lblSearch = new QLabel();
+		cbSearch = new QCheckBox(tr("Advanced search"));
+		cbSearch->setChecked(RzxMainUIConfig::searchMode() == RzxRezalSearch::Full);
+		connect(cbSearch, SIGNAL(toggled(bool)), this, SLOT(searchModeToggled(bool)));
 	
 		bar->insertWidget(spacerAction, leSearch);
 		bar->insertWidget(spacerAction, lblSearch);
+		bar->insertWidget(spacerAction, cbSearch);
 		menuFormatChange();
 	}
 	if(leSearch)
@@ -743,6 +749,14 @@ void QRezix::setSearchPattern(const QString& pattern)
 {
 	if(leSearch)
 		leSearch->setText(pattern);
+}
+
+///Défini le mode de recherche
+void QRezix::searchModeToggled(bool toggle)
+{
+	RzxRezalSearch::Mode mode = toggle ? RzxRezalSearch::Full : RzxRezalSearch::Lite;
+	RzxMainUIConfig::setSearchMode(mode);
+	emit searchModeChanged(mode);
 }
 
 /// Changement du thème d'icone

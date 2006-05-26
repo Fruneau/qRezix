@@ -37,13 +37,25 @@ class RZX_MAINUI_EXPORT RzxRezalSearch:public QObject
 	Q_OBJECT
 	Q_PROPERTY(QAbstractItemView* view READ view)
 	Q_PROPERTY(RzxRezalModel* model READ model)
-	Q_PROPERTY(QString pattern READ pattern WRITE setPattern RESET resetPattern);
+	Q_PROPERTY(QString pattern READ pattern WRITE setPattern RESET resetPattern)
 	Q_PROPERTY(int timeout READ timeout WRITE setTimeout)
+	Q_PROPERTY(Mode mode READ mode WRITE setMode)
 
 	QString searchPattern;
 	QTime searchTimeout;
 	int timeLimit;
 
+	public:
+		enum Mode {
+			Config = 0, /**> Use the global configuration mode */
+			Lite = 1,   /**> Use the light mode (nearest computer name) */
+			Full = 2    /**> Use the full mode (all text fields) */
+		};
+		Q_ENUMS(Mode)
+	
+	private:
+		Mode searchMode;
+	
 	public:
 		RzxRezalSearch(QAbstractItemView *, int timeout = 5000, bool connected = true);
 		~RzxRezalSearch();
@@ -52,6 +64,7 @@ class RZX_MAINUI_EXPORT RzxRezalSearch:public QObject
 		RzxRezalModel *model() const;
 		const QString &pattern() const;
 		int timeout() const;
+		Mode mode() const;
 
 	public slots:
 		void setPattern(const QString&);
@@ -59,8 +72,12 @@ class RZX_MAINUI_EXPORT RzxRezalSearch:public QObject
 		void reducePattern(int size = 1);
 		void resetPattern();
 		void setTimeout(int);
+		void setMode(RzxRezalSearch::Mode);
+		void filterView();
 
 	protected:
+		void applyFilter(const QModelIndex&, RzxRezalModel*, QAbstractItemView*);
+		bool matches(const QModelIndex&, RzxRezalModel*) const;
 		void testTimeout();
 
 	signals:

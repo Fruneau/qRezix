@@ -15,21 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 #include <QAbstractItemView>
+#include <QTreeView>
+#include <QListView>
 #include <RzxComputer>
 
 #include "rzxrezalsearch.h"
 
 #include "rzxrezalmodel.h"
+#include "rzxmainuiconfig.h"
 #include "qrezix.h"
 
 ///Construction
 RzxRezalSearch::RzxRezalSearch(QAbstractItemView *view, int timeout, bool connected)
-	:QObject(view), timeLimit(timeout)
+	:QObject(view), timeLimit(timeout), searchMode(Config)
 {
 	if(connected)
 	{
 		connect(this, SIGNAL(searchPatternChanged(const QString&)), QRezix::global(), SLOT(setSearchPattern(const QString&)));
 		connect(QRezix::global(), SIGNAL(searchPatternChanged(const QString&)), this, SLOT(setPattern(const QString&)));
+		connect(QRezix::global(), SIGNAL(searchModeChanged(RzxRezalSearch::Mode)), this, SLOT(setMode(RzxRezalSearch::Mode)));
 	}
 }
 
@@ -52,6 +56,107 @@ RzxRezalModel *RzxRezalSearch::model() const
 const QString &RzxRezalSearch::pattern() const
 { return searchPattern; }
 
+///Retourne le mode de fonctionnement actuel du filtre
+/** Si le filtre est en mode Config, alors retourne le mode indiqué par
+* le RzxMainuiConfig
+*/
+RzxRezalSearch::Mode RzxRezalSearch::mode() const
+{
+	if(searchMode == Lite || searchMode == Full)
+		return searchMode;
+	return (Mode)RzxMainUIConfig::searchMode();
+}
+
+///Définie le mode de fonctionnement
+void RzxRezalSearch::setMode(Mode mode)
+{
+	searchMode = mode;
+}
+
+/***************** Pour le mode de fonctionnement Full **************/
+/* Ce mode effectue une recherche en plain text dans un grand nombre de
+ * champs de données et peut donc être très lent.
+ */
+
+///Effectue le parcours des éléments pour cacher ceux ne correspondant pas
+void RzxRezalSearch::filterView()
+{
+	QAbstractItemView *v = view();
+	applyFilter(v->rootIndex(), model(), v);
+
+	const QRect rect = v->visualRect(v->currentIndex());
+	const bool viewCurrent = rect.bottom() >= 0 && rect.top() < v->viewport()->height();
+	v->setRootIndex(v->rootIndex());
+	if(viewCurrent)
+		v->scrollTo(v->currentIndex());
+	qDebug() << "Filtering pattern" << searchPattern;
+}
+
+///Recursion pour effectuer le filtrage
+/** Pour accélerer l'opération on évite de rechercher le model à chaque fois
+ */
+void RzxRezalSearch::applyFilter(const QModelIndex& parent, RzxRezalModel *model, QAbstractItemView *view)
+{
+	QListView *list = qobject_cast<QListView*>(view);
+	QTreeView *tree = qobject_cast<QTreeView*>(view);
+	
+	const int rows = model->rowCount(parent);
+	for(int i = 0 ; i < rows ; i++)
+	{
+		QModelIndex index = parent.child(i, 0);
+		if(model->isIndex(index) && tree)
+			applyFilter(index, model, view);
+		else if(list)
+			list->setRowHidden(i, !matches(index, model));
+		else if(tree)
+			tree->setRowHidden(i, parent, !matches(index, model));
+	}
+}
+
+///Vérifie si un ordinateur correspond aux règles de filtrage actuelle
+bool RzxRezalSearch::matches(const QModelIndex& index, RzxRezalModel *model) const
+{
+	if(mode() != Full || searchPattern.isEmpty() || !model->isComputer(index))
+		return true;
+
+	QVariant value = model->data(index, Qt::UserRole);
+	const RzxComputer *computer = value.value<RzxComputer*>();
+	if(computer == NULL)
+		return true;
+	
+#define test(str) \
+	{ \
+		if(str.contains(searchPattern, Qt::CaseInsensitive)) \
+			return true; \
+	}
+	QString searched = computer->name() + " "
+		+ computer->client() + " "
+		+ computer->sysExText() + " "
+		+ computer->remarque();
+	const RzxHostAddress &ip = computer->ip();
+	searched += ip.toString() + " ";
+	QStringList cache = RzxConfig::rawCache(ip);
+	for(int i = 1 ; i < cache.size() ; i+=2)
+		searched += cache[i] + " ";
+
+	QStringList words = searchPattern.split(" ");
+	foreach (QString word, words)
+	{
+		if(!searched.contains(word, Qt::CaseInsensitive))
+			return false;
+	}
+
+#undef test
+	return true;
+}
+
+
+/***************** Pour le mode de fonctionnement Lite **************/
+/* Ce mode est plus complexe a implementer, mais est plus rapide a
+ * exécuter. Il se limite à une recherche dans un arbre binaire équilibré
+ * ce qui le rend extrêmement rapide
+ */
+
 ///Retourne le temps de timeout du filtre
 /** Un filtre de recherche timeout automatiquement au bout d'un certain temps...
  * Ceci évite entre autre de continuer une rechercher oubliée au lieu d'en recommencer
@@ -67,7 +172,15 @@ int RzxRezalSearch::timeout() const
 void RzxRezalSearch::setPattern(const QString& pattern)
 {
 	if(pattern == searchPattern) return;
+	
 	searchPattern = pattern;
+
+	if(mode() == Full)
+	{
+		filterView();
+		return;
+	}
+		
 	searchTimeout.start();
 
 	//Implémentation de la recherche par Ey pour qRezix 1.6.2

@@ -20,6 +20,7 @@
 #include <RzxAbstractConfig>
 #include "rzxmainuiglobal.h"
 #include "rzxrezalaction.h"
+#include "rzxrezalsearch.h"
 
 #define DEFAULT_WINDOWSIZE "100000000"
 #define DEFAULT_REZAL "List"
@@ -54,6 +55,7 @@ class RZX_MAINUI_EXPORT RzxMainUIConfig: public RzxAbstractConfig
 		RZX_ENUMPROP(Qt::SortOrder, "sortOrder", sortOrder, setSortOrder, Qt::AscendingOrder)
 		RZX_INTPROP("sortColumn", sortColumn, setSortColumn, 0)
 		RZX_STRINGPROP("centralrezal", centralRezal, setCentralRezal, DEFAULT_REZAL)
+		RZX_ENUMPROP(RzxRezalSearch::Mode, "searchMode", searchMode, setSearchMode, RzxRezalSearch::Full)
 
 		RZX_INTPROP("topLeftCorner", topLeftCorner, setTopLeftCorner, Qt::LeftDockWidgetArea)
 		RZX_INTPROP("bottomLeftCorner", bottomLeftCorner, setBottomLeftCorner, Qt::LeftDockWidgetArea)
@@ -61,7 +63,8 @@ class RZX_MAINUI_EXPORT RzxMainUIConfig: public RzxAbstractConfig
 		RZX_INTPROP("topRightCorner", topRightCorner, setTopRightCorner, Qt::RightDockWidgetArea)
 
 		RZX_WIDGETPROP("main", restoreMainWidget, saveMainWidget, QPoint(2,24), QSize(400, 300))
-		RZX_PROP(QByteArray, "mainuiState", restoreState, saveState, QByteArray());
+		RZX_PROP(QByteArray, "mainuiState", restoreState, saveState, QByteArray())
+
 };
 
 #endif

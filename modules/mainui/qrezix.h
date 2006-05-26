@@ -30,6 +30,7 @@
 
 #include "rzxrezal.h"
 #include "rzxrezalpopup.h"
+#include "rzxrezalsearch.h"
 #include "rzxmainuiglobal.h"
 
 class RzxComputer;
@@ -38,6 +39,7 @@ class QCloseEvent;
 class QAction;
 class QLineEdit;
 class QLabel;
+class QCheckBox;
 class RzxRezalPopup;
 namespace Ui { class RzxStatus; };
 
@@ -85,6 +87,7 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	QToolBar *bar;
 	QLineEdit *leSearch;
 	QLabel *lblSearch;
+	QCheckBox *cbSearch;
 	QMenu menuPlugins;
 	QMenu menuView;
 	QMenu menuCentral;
@@ -119,6 +122,7 @@ signals:
 	void wantToggleResponder();
 	void wantReload();
 	void searchPatternChanged(const QString&);
+	void searchModeChanged(RzxRezalSearch::Mode);
 
 protected:
 	void saveState();
@@ -142,6 +146,7 @@ public slots: // Public slots
 	void menuFormatChange();
 	void showSearch(bool state);
 	void setSearchPattern(const QString&);
+	void searchModeToggled(bool);
 	void toggleVisible();
 	void updateLayout();
 	void setCentralRezal(int);
@@ -151,7 +156,7 @@ protected slots:
 	void setCentralRezal(QAction *);
 
 	void setSelection(const RzxHostAddress&);
-
+	
 #ifdef Q_OS_MAC
 	private:
 		QPointer<RzxRezalPopup> popup;
