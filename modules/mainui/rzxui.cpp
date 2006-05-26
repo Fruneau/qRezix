@@ -422,7 +422,7 @@ void RzxUi::propUpdate()
 	RzxMainUIConfig::setDefaultTabGroup(ui->cmbDefaultTab ->currentText());
 	RzxMainUIConfig::setUseSearch(ui->cbSearch->isChecked());
 	RzxMainUIConfig::setShowQuit(ui->cbQuit->isChecked());
-	qrezix->showSearch(ui->cbSearch->isChecked());
+	qrezix->buildToolbar(ui->cbSearch->isChecked());
 
 	RzxRezalModel::ToolTip tooltip = 0;
 	if(ui->cbTooltips->isChecked()) tooltip |= RzxRezalModel::TipEnable;

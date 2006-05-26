@@ -14,7 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <QLineEdit>
 #include <QMenuBar>
 #include <QString>
 #include <QPixmap>
@@ -26,7 +25,6 @@
 #include <QAction>
 #include <QDockWidget>
 #include <QStatusBar>
-#include <QCheckBox>
 
 #include <RzxApplication>
 #include <RzxGlobal>
@@ -72,8 +70,6 @@ QRezix::QRezix(QWidget *parent)
 	closing = false;
 	central = NULL;
 	leSearch = NULL;
-	lblSearch = NULL;
-	cbSearch = NULL;
 	bar = NULL;
 
 	//Construction de l'interface
@@ -106,15 +102,8 @@ QRezix::QRezix(QWidget *parent)
 	//Construction des barres d'outils
 	bar = addToolBar(tr("Main"));
 	bar->setObjectName("Main Toolbar");
-	bar->addAction(pluginsAction);
-	bar->addSeparator();
-
-	QWidget *spacer = new QWidget();
-	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	spacerAction = bar->addWidget(spacer);
-	bar->addAction(awayAction);
-	bar->addAction(prefAction);
 	bar->setMovable(false);
+	buildToolbar(RzxMainUIConfig::useSearch());
 
 	//Pour bien restaurer l'état de la bar d'outil...
 	restoreState(RzxMainUIConfig::restoreState());
@@ -139,7 +128,6 @@ QRezix::QRezix(QWidget *parent)
 
 	//Raccourcis claviers particuliers
 	menuFormatChange();
-	showSearch(RzxMainUIConfig::useSearch());
 	status("", RzxConnectionLister::global()->isConnected());
 
 	wellInit = TRUE;
@@ -475,6 +463,11 @@ void QRezix::buildActions()
 	awayAction = new QAction(tr("Away"), this);
 	awayAction->setCheckable(true);	
 	connect(awayAction, SIGNAL(triggered()), this, SIGNAL(wantToggleResponder()));
+	
+	searchModeAction = new QAction(tr("Advanced search"), this);
+	searchModeAction->setCheckable(true);
+	searchModeAction->setChecked(RzxMainUIConfig::searchMode() == RzxRezalSearch::Full);
+	connect(searchModeAction, SIGNAL(toggled(bool)), this, SLOT(searchModeToggled(bool)));
 }
 
 ///energistre l'état de la fenêtre et quitte....
@@ -719,29 +712,33 @@ void QRezix::toggleVisible()
 }
 
 ///Montre/cache la parte de recherche
-void QRezix::showSearch(bool state)
+void QRezix::buildToolbar(bool showSearch)
 {
-	if(!leSearch && state)
+	bar->clear();
+	if(leSearch)
+		delete leSearch;
+	
+	bar->addAction(prefAction);
+	bar->addAction(pluginsAction);
+	QWidget *spacer = new QWidget();
+	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	spacerAction = bar->addWidget(spacer);
+	bar->addAction(awayAction);
+	
+	if(showSearch)
 	{
 		//Construction de la ligne d'édtion des recherche
 		leSearch = new QLineEdit();
 		leSearch->setMinimumSize(50, 22);
 		leSearch->setMaximumSize(150, 22);
 		connect(leSearch, SIGNAL(textEdited(const QString&)), this, SIGNAL(searchPatternChanged(const QString&)));
-		lblSearch = new QLabel();
-		cbSearch = new QCheckBox(tr("Advanced search"));
-		cbSearch->setChecked(RzxMainUIConfig::searchMode() == RzxRezalSearch::Full);
-		connect(cbSearch, SIGNAL(toggled(bool)), this, SLOT(searchModeToggled(bool)));
 	
-		bar->insertWidget(spacerAction, leSearch);
-		bar->insertWidget(spacerAction, lblSearch);
-		bar->insertWidget(spacerAction, cbSearch);
+		bar->addSeparator();
+		bar->addWidget(leSearch);
+		bar->addAction(searchModeAction);
 		menuFormatChange();
+		leSearch->setVisible(true);
 	}
-	if(leSearch)
-		leSearch->setVisible(state);
-	if(lblSearch)
-		lblSearch->setVisible(state);
 }
 
 ///Change le pattern de la recherche
@@ -770,10 +767,9 @@ void QRezix::changeTheme()
 		restartAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_RELOAD));
 	awayAction->setIcon(RzxIconCollection::getResponderIcon());
 	prefAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
+	searchModeAction->setIcon(RzxIconCollection::getPixmap(Rzx::ICON_SEARCH));
 	statusui->lblCountIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_NOTFAVORITE)
 		.scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-	if(RzxConfig::menuIconSize() && lblSearch)
-		lblSearch->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_SEARCH));
 	if(statusFlag)
 		statusui->lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_ON));
 	else
@@ -786,8 +782,6 @@ void QRezix::menuFormatChange()
 {
 	int icons = RzxConfig::menuIconSize();
 	int texts = RzxConfig::menuTextPosition();
-	if(lblSearch)
-		lblSearch->clear();
 
 	//On transforme le cas 'pas d'icônes et pas de texte' en 'petites icônes et pas de texte'
 	if(!texts && !icons) icons = 1;
@@ -810,8 +804,6 @@ void QRezix::menuFormatChange()
 				QPixmap emptyIcon;
 				statusui->lblStatusIcon->hide();
 				statusui->lblCountIcon->hide();
-				if(lblSearch)
-					lblSearch->setText(tr("Search"));
 			}
 			break;
 		case 1: //petites icônes
@@ -823,8 +815,6 @@ void QRezix::menuFormatChange()
 				setIconSize(size);
 				statusui->lblStatusIcon->show();
 				statusui->lblCountIcon->show();
-				if(lblSearch)
-					lblSearch->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_SEARCH));
 			}
 			break;
 	}

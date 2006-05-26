@@ -18,6 +18,7 @@
 #include <QTreeView>
 #include <QListView>
 #include <RzxComputer>
+#include <RzxConnectionLister>
 
 #include "rzxrezalsearch.h"
 
@@ -35,6 +36,8 @@ RzxRezalSearch::RzxRezalSearch(QAbstractItemView *view, int timeout, bool connec
 		connect(QRezix::global(), SIGNAL(searchPatternChanged(const QString&)), this, SLOT(setPattern(const QString&)));
 		connect(QRezix::global(), SIGNAL(searchModeChanged(RzxRezalSearch::Mode)), this, SLOT(setMode(RzxRezalSearch::Mode)));
 	}
+	connect(RzxConnectionLister::global(), SIGNAL(login(RzxComputer*)),
+			this, SLOT(filterView()));
 }
 
 ///Destruction... rien à faire
@@ -82,6 +85,9 @@ void RzxRezalSearch::setMode(Mode mode)
 ///Effectue le parcours des éléments pour cacher ceux ne correspondant pas
 void RzxRezalSearch::filterView()
 {
+	if(mode() != Full)
+		return;
+
 	QAbstractItemView *v = view();
 	applyFilter(v->rootIndex(), model(), v);
 

@@ -25,6 +25,7 @@
 #include <QMainWindow>
 #include <QModelIndex>
 #include <QPointer>
+#include <QLineEdit>
 
 #include <RzxBaseLoader>
 
@@ -37,9 +38,7 @@ class RzxComputer;
 class QEvent;
 class QCloseEvent;
 class QAction;
-class QLineEdit;
 class QLabel;
-class QCheckBox;
 class RzxRezalPopup;
 namespace Ui { class RzxStatus; };
 
@@ -85,9 +84,7 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	QItemSelectionModel *sel;
 
 	QToolBar *bar;
-	QLineEdit *leSearch;
-	QLabel *lblSearch;
-	QCheckBox *cbSearch;
+	QPointer<QLineEdit> leSearch;
 	QMenu menuPlugins;
 	QMenu menuView;
 	QMenu menuCentral;
@@ -101,6 +98,7 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	QAction *prefAction;
 	QAction *awayAction;
 	QAction *restartAction;
+	QAction *searchModeAction;
 	QAction *spacerAction;
 
 	Ui::RzxStatus *statusui;
@@ -144,7 +142,7 @@ public slots: // Public slots
 	void activateAutoResponder( bool state );
 	void changeTheme();
 	void menuFormatChange();
-	void showSearch(bool state);
+	void buildToolbar(bool);
 	void setSearchPattern(const QString&);
 	void searchModeToggled(bool);
 	void toggleVisible();
