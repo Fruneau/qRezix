@@ -266,6 +266,11 @@ void RzxRezalDetail::drawComputer(RzxComputer *computer)
 
 	uiProps->btnProperties->setEnabled(computer->canBeChecked(false) && !timer.isActive());
 	uiProps->propsView->setEnabled(active && something);
+	
+	if(!something && !computer->canBeChecked(false))
+		props->hide();
+	else if(props->isHidden())
+		props->show();
 }
 
 ///Demande les propriétés de l'object actuel
