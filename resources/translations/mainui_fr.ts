@@ -37,6 +37,10 @@
         <source>Modules</source>
         <translation>Modules</translation>
     </message>
+    <message>
+        <source>Advanced search</source>
+        <translation>Recherche avancée</translation>
+    </message>
 </context>
 <context>
     <name>RzxBaseModule</name>
@@ -70,13 +74,6 @@
     <message>
         <source>Group Members</source>
         <translation type="obsolete">Membres du Groupe</translation>
-    </message>
-</context>
-<context>
-    <name>RzxItem</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -208,25 +205,6 @@
     <message>
         <source>&lt;h3&gt;Corners&lt;/h3&gt;&lt;p&gt;Choose the edge which use each corner of the window...&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Coins&lt;/h3&gt;&lt;p&gt;Choisissez l&apos;arrête de la fenêtre qui va occuper chacun des coins...&lt;/p&gt;</translation>
-    </message>
-</context>
-<context>
-    <name>RzxProps</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Property</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Get Now !</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -505,84 +483,60 @@
 <context>
     <name>RzxRezalViewProp</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Columns order</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reinitialise</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>+</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;h3&gt;Colonnes affichées&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir...&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Colonnes affichées&lt;/h3&gt;&lt;p&gt;Choisissez les colonnes que vous voulez voir...&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Columns layout</source>
-        <translation type="unfinished">Colonnes à afficher</translation>
+        <translation type="obsolete">Colonnes à afficher</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
     <message>
         <source>FTP</source>
-        <translation type="unfinished">FTP</translation>
+        <translation type="obsolete">FTP</translation>
     </message>
     <message>
         <source>OS</source>
-        <translation type="unfinished">Système d&apos;exploitation</translation>
+        <translation type="obsolete">Système d&apos;exploitation</translation>
     </message>
     <message>
         <source>Client</source>
-        <translation type="unfinished">Client</translation>
+        <translation type="obsolete">Client</translation>
     </message>
     <message>
         <source>Web</source>
-        <translation type="unfinished">Web</translation>
+        <translation type="obsolete">Web</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished">Remarque</translation>
+        <translation type="obsolete">Remarque</translation>
     </message>
     <message>
         <source>Promotion</source>
-        <translation type="unfinished">Promotion</translation>
+        <translation type="obsolete">Promotion</translation>
     </message>
     <message>
         <source>Same gateway</source>
-        <translation type="unfinished">Même passerelle</translation>
+        <translation type="obsolete">Même passerelle</translation>
     </message>
     <message>
         <source>IP</source>
-        <translation type="unfinished">Adresse IP</translation>
+        <translation type="obsolete">Adresse IP</translation>
     </message>
     <message>
         <source>Place</source>
-        <translation type="unfinished">Bâtiment</translation>
+        <translation type="obsolete">Bâtiment</translation>
     </message>
     <message>
         <source>News</source>
-        <translation type="unfinished">News</translation>
-    </message>
-    <message>
-        <source>Samba</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">News</translation>
     </message>
     <message>
         <source>Printer</source>
-        <translation type="unfinished">Imprimante</translation>
+        <translation type="obsolete">Imprimante</translation>
     </message>
 </context>
 <context>
