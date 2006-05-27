@@ -66,6 +66,7 @@ class RzxRezalView : public QTreeView, public RzxRezal
 		virtual Qt::DockWidgetArea area() const;
 		virtual bool floating() const;
 		virtual void updateLayout();
+		virtual bool isVisible(const QModelIndex&) const;
 
 	public slots:
 		void afficheColonnes();

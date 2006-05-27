@@ -309,10 +309,23 @@ void RzxRezalView::setRootIndex(const QModelIndex& index)
 void RzxRezalView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
 	QTreeView::currentChanged(current, previous);
+	
 	if(!current.isValid() || rootIndex() == current.parent() || 
-		(current.parent() == rootIndex().parent() && current.row() == rootIndex().row())) return;
+		(current.parent() == rootIndex().parent() && current.row() == rootIndex().row()))
+	{
+		if(force)
+			forceRefresh();
+		return;
+	}
 	if(current.parent() == rootIndex().parent() || (!rootIndex().isValid() && current.parent().isValid()))
 		setRootIndex(current.parent());
+}
+
+///Indique si l'index donné est visible
+bool RzxRezalView::isVisible(const QModelIndex& index) const
+{
+	const QRect rect = visualRect(index);
+	return rect.bottom() >= 0 && rect.top() < viewport()->height();
 }
 
 ///Sélection l'index trouvé par la recherche
@@ -343,8 +356,7 @@ void RzxRezalView::setDelayRefresh(bool delay)
 ///Force le rafraichissement de la fenêtre
 void RzxRezalView::forceRefresh()
 {
-	const QRect rect = visualRect(currentIndex());
-	const bool viewCurrent = rect.bottom() >= 0 && rect.top() < viewport()->height();
+	const bool viewCurrent = isVisible(currentIndex());
 	QTreeView::setRootIndex(rootIndex());
 	if(viewCurrent)
 		scrollTo(currentIndex());
@@ -368,7 +380,8 @@ void RzxRezalView::drawRow(QPainter *painter, const QStyleOptionViewItem& option
 #undef setColor
 	}
 
-	QTreeView::drawRow(painter, newoption, index);
+	if(isVisible(index))
+		QTreeView::drawRow(painter, newoption, index);
 }
 
 ///Pour éviter que les branches soient ouvertes lors de la suppression d'une ligne...
