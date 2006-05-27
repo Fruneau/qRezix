@@ -196,6 +196,8 @@ void RzxComputer::update(const QString& c_name, quint32 c_options, quint32 c_sta
 	if(m_stamp != c_stamp)
 	{
 		m_stamp = c_stamp;
+		if(isLocalhost())
+			localhost()->m_stamp = c_stamp;
 		loadIcon();
 	}
 
