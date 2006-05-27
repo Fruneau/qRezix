@@ -16,6 +16,7 @@
   MainUI :
     * Recherche avancée en plain-text sur les propriétés en plus du pseudo
     * Cache le détails des propriétés lorsque ce n'est pas applicable à la sélection [Fruneau]
+    * Correction de quelques correspondance ip/casert [Fruneau]
 
 [v2.0.1] 2006-04 <br@frankiz.polytechnique.fr>
     * Bugfixes
