@@ -11,6 +11,7 @@
     * Bugfix : envoie des messages multiligne conforme au protocole xNet [Fruneau]
     * Enregistrement de l'historique au fur et a mesure de la discussion [Fruneau]
     * Bugfix : affichage correcte de la notification de reconnexiion [Fruneau]
+    * Nouveau raccourcis claviers (Ctrl+W fermer, Ctrl+F formatage) [Fruneau]
 
   MainUI :
     * Recherche avancée en plain-text sur les propriétés en plus du pseudo

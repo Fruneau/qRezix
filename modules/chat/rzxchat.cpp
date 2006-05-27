@@ -128,6 +128,8 @@ void RzxChat::init()
 	new QShortcut(Qt::CTRL + Qt::Key_Enter, ui->btnSend, SIGNAL(clicked()));
 	new QShortcut(Qt::Key_Escape, ui->btnClose, SIGNAL(clicked()));
 	new QShortcut(Qt::Key_F1, ui->btnSound, SLOT(toggle()));
+	new QShortcut(QKeySequence("Ctrl+F"), ui->cbSendHTML, SLOT(toggle()));
+	new QShortcut(QKeySequence("Ctrl+W"), this, SLOT(close()));
 #ifdef Q_OS_MAC
 	new QShortcut(QKeySequence("Ctrl+M"), this, SLOT(showMinimized()));
 	new QShortcut(QKeySequence("Ctrl+,"), this, SIGNAL(wantPreferences()));
