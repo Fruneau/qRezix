@@ -810,7 +810,7 @@ void QRezix::menuFormatChange()
 		case 2: //grandes icones
 			{
 				if(pluginsAction->icon().isNull()) changeTheme();
-				int dim = (icons == 2)?32:16;
+				int dim = (icons == 2)?32:22;
 				QSize size = QSize(dim,dim);
 				setIconSize(size);
 				statusui->lblStatusIcon->show();

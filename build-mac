@@ -49,7 +49,7 @@ launch make
 
 # Fixe les pb de linkage de la SDK universal de MacOS X
 echo ""
-echo "Phase 2 : Fix les dépendances cassées (Universal Binaries)..."
+echo "Phase 2 : Fixe les dépendances cassées (Universal Binaries)..."
 
 cd rezals
 for file in `find . -name '*.dylib'`; do
