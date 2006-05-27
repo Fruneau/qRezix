@@ -74,9 +74,20 @@ void RzxAbstractConfig::saveWidget(const QString& name, QWidget *widget)
 		beginGroup(QString("splitter%1").arg(i++));
 		QList<int> sizes = splitter->sizes();
 		QList<QVariant> variants;
+		int j = 0;
+		bool save = true;
 		foreach(int size, sizes)
+		{
+			const QWidget *widget = splitter->widget(j++);
+			if(!widget || widget->isHidden())
+			{
+				save = false;
+				break;
+			}
 			variants << size;
-		setValue("sizes", variants);
+		}
+		if(save)
+			setValue("sizes", variants);
 		endGroup();
 	}
 
