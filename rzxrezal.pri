@@ -1,6 +1,6 @@
 ROOT = ../..
 
-mac:QMAKE_LFLAGS_SONAME = -Wl,-install_name,@executable_path/../Resources/rezals
+macx:QMAKE_LFLAGS_SONAME = -Wl,-install_name,@executable_path/../Resources/rezals/
 TARGET = $$sprintf(rezal%1, $$MODULENAME)
 LIBNAME = $$sprintf(librezal%1.so, $$MODULENAME)
 include($$ROOT/rzxbasemodule.pri)

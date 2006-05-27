@@ -1,6 +1,6 @@
 ROOT = ../..
 
-mac:QMAKE_LFLAGS_SONAME = -Wl,-install_name,@executable_path/../Resources/net
+macx:QMAKE_LFLAGS_SONAME = -Wl,-install_name,@executable_path/../Resources/net/
 TARGET = $$sprintf(rzxnet%1, $$MODULENAME)
 LIBNAME = $$sprintf(librzxnet%1.so, $$MODULENAME)
 include($$ROOT/rzxbasemodule.pri)
