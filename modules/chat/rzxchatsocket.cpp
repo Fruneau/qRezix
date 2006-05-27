@@ -287,7 +287,9 @@ void RzxChatSocket::chatConnexionEtablished()
 /**La connexion a été fermée (sans doute par fermeture de la fenêtre de chat) on l'indique à l'utilisateur */
 void RzxChatSocket::chatConnexionClosed()
 {
-	if(!alone) host.computer()->receiveChat(Rzx::Closed);
+	RzxComputer *computer = host.computer();
+	if(!alone && computer)
+		computer->receiveChat(Rzx::Closed);
 	qDebug("Connection with %s closed by peer", host.toString().toAscii().constData());
 	close();
 }
