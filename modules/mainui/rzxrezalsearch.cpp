@@ -129,7 +129,7 @@ bool RzxRezalSearch::matches(const QModelIndex& index, RzxRezalModel *model) con
 	QVariant value = model->data(index, Qt::UserRole);
 	const RzxComputer *computer = value.value<RzxComputer*>();
 	if(computer == NULL)
-		return true;
+		return false;
 	
 	QString searched = computer->name() + " "
 		+ computer->client() + " "
@@ -238,6 +238,8 @@ void RzxRezalSearch::resetPattern()
 ///Complète le filtre en ajoutant
 void RzxRezalSearch::addToPattern(const QString& pattern)
 {
+	if(mode() == Full)
+		return;
 	testTimeout();
 	setPattern(searchPattern + pattern);
 }
