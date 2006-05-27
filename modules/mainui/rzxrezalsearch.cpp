@@ -139,7 +139,11 @@ bool RzxRezalSearch::matches(const QModelIndex& index, RzxRezalModel *model) con
 	searched += ip.toString() + " ";
 	QStringList cache = RzxConfig::rawCache(ip);
 	for(int i = 1 ; i < cache.size() ; i+=2)
+	{
 		searched += cache[i] + " ";
+		if(cache[i-1] == "Sport")
+			searched += QApplication::translate("RzxProperty", cache[i].toAscii().constData()) + " ";
+	}
 
 	QStringList words = searchPattern.split(" ");
 	foreach (QString word, words)
