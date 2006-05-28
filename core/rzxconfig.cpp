@@ -57,6 +57,7 @@ const char *RzxConfig::propStrings[][2] = {
 	{ QT_TR_NOOP("Room"), "RzxConfig" },
 	{ QT_TR_NOOP("Sport"), "RzxConfig" },
 	{ QT_TR_NOOP("Class"), "RzxConfig" },
+	{ QT_TR_NOOP("Mobile"), "RzxConfig" },
 	{ "Orange", "RzxComputer" },
 	{ "Rouje", "RzxComputer" },
 	{ "Jone", "RzxComputer" },
@@ -606,6 +607,7 @@ QStringList RzxConfig::rawCache(const RzxHostAddress& address)
 		strList << "First name" << RzxConfig::propLastName();
 		strList << "Nick" << RzxConfig::propSurname();
 		strList << "Phone" << RzxConfig::propTel();
+		strList << "Mobile" << RzxConfig::propMobile();
 		strList << "E-Mail" << RzxConfig::propMail();
 		strList << "Web Page" << RzxConfig::propWebPage();
 		strList << "Room" << RzxConfig::propCasert();
@@ -653,7 +655,7 @@ void RzxConfig::fillWithCache(const RzxHostAddress& ip, QTreeWidget *view)
 			item->setIcon(0, RzxIconCollection::getIcon(props[i+1] == "Jone" ? Rzx::ICON_JONE : (props[i+1] == "Rouje" ? Rzx::ICON_ROUJE : Rzx::ICON_ORANJE)));
 		else if(props[i] == "Room" || props[i] == "Kazert" || props[i] == "Casert")
 			item->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_SAMEGATEWAY));
-		else if(props[i] == "Phone" || props[i] == "Tel")
+		else if(props[i] == "Phone" || props[i] == "Tel" || props[i] == "Mobile")
 			item->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_PHONE));
 		else if(props[i] == "E-Mail" || props[i] == "Courriel")
 			item->setIcon(0, RzxIconCollection::getIcon(Rzx::ICON_MAIL));

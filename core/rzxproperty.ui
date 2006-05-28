@@ -63,6 +63,355 @@
        <property name="spacing" >
         <number>6</number>
        </property>
+       <item row="1" column="2" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>131</width>
+           <height>261</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="0" colspan="3" >
+        <widget class="QGroupBox" name="groupInfoContact" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>7</hsizetype>
+           <vsizetype>5</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="whatsThis" >
+          <string>&lt;h3>How to contact&lt;/h3>&lt;p>Some informations which give ways to contact you&lt;/p></string>
+         </property>
+         <property name="title" >
+          <string>How to contact</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="2" column="5" >
+           <widget class="QLineEdit" name="txtMobile" />
+          </item>
+          <item row="2" column="4" >
+           <widget class="QLabel" name="lblMobile" >
+            <property name="text" >
+             <string>Mobile:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3" >
+           <widget class="QLineEdit" name="txtCasert" />
+          </item>
+          <item row="2" column="2" >
+           <widget class="QLabel" name="lblCasert" >
+            <property name="text" >
+             <string>Room:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>txtCasert</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" >
+           <widget class="QLineEdit" name="txtPhone" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>7</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursorPosition" >
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="lblMail" >
+            <property name="text" >
+             <string>e-mail:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>txtMail</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="5" >
+           <widget class="QLineEdit" name="txtMail" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>7</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursorPosition" >
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="5" >
+           <widget class="QLineEdit" name="txtWeb" />
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="lblWeb" >
+            <property name="text" >
+             <string>Web page:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>txtWeb</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" >
+           <widget class="QLabel" name="lblPhone" >
+            <property name="text" >
+             <string>Phone number:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>txtPhone</cstring>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="3" column="1" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>16</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="0" >
+        <widget class="QGroupBox" name="groupInfoPerso" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>5</hsizetype>
+           <vsizetype>5</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize" >
+          <size>
+           <width>300</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="whatsThis" >
+          <string>&lt;h3>Personnal information&lt;/h3>&lt;p>Give here some informations about you.&lt;/p>&lt;p>This informations can be very useful, so you should fill it with honesty&lt;/p></string>
+         </property>
+         <property name="title" >
+          <string>Personnal information</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="4" column="1" >
+           <widget class="QComboBox" name="cmbSport" />
+          </item>
+          <item row="4" column="0" >
+           <widget class="QLabel" name="lblSport" >
+            <property name="text" >
+             <string>Sport:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>cmbSport</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1" >
+           <widget class="QComboBox" name="cmbPromo" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>7</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" >
+           <widget class="QLabel" name="lbPromo" >
+            <property name="text" >
+             <string>Promo:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>cmbPromo</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" >
+           <widget class="QLineEdit" name="txtSurname" />
+          </item>
+          <item row="2" column="0" >
+           <widget class="QLabel" name="lblSurname" >
+            <property name="text" >
+             <string>Nick:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>txtSurname</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="QLineEdit" name="txtFirstname" />
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="lblFirstname" >
+            <property name="text" >
+             <string>First name:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>txtFirstname</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="lblName" >
+            <property name="text" >
+             <string>Surname:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="buddy" >
+             <cstring>txtName</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="QLineEdit" name="txtName" />
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <widget class="QGroupBox" name="groupServices" >
+         <property name="maximumSize" >
+          <size>
+           <width>192</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="whatsThis" >
+          <string>&lt;h3>Open services&lt;/h3>&lt;p>Select the servers you want to share with all the users of the network. If a server is not present, it won't be displayed as present&lt;/p></string>
+         </property>
+         <property name="title" >
+          <string>Open services</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="4" column="0" >
+           <widget class="QCheckBox" name="CbPrinter" >
+            <property name="text" >
+             <string>Printer</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QCheckBox" name="CbSamba" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>3</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text" >
+             <string>Samba</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QCheckBox" name="CbFTP" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>3</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text" >
+             <string>FTP</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" >
+           <widget class="QCheckBox" name="CbNews" >
+            <property name="text" >
+             <string>News</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" >
+           <widget class="QCheckBox" name="CbHTTP" >
+            <property name="text" >
+             <string>HTTP</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item row="0" column="0" colspan="3" >
         <widget class="QGroupBox" name="groupInfoRezix" >
          <property name="sizePolicy" >
@@ -260,342 +609,6 @@
           </item>
          </layout>
         </widget>
-       </item>
-       <item rowspan="2" row="1" column="2" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>131</width>
-           <height>261</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="2" column="0" colspan="2" >
-        <widget class="QGroupBox" name="groupInfoContact" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>7</hsizetype>
-           <vsizetype>5</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="whatsThis" >
-          <string>&lt;h3>How to contact&lt;/h3>&lt;p>Some informations which give ways to contact you&lt;/p></string>
-         </property>
-         <property name="title" >
-          <string>How to contact</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="2" column="3" >
-           <widget class="QLineEdit" name="txtCasert" />
-          </item>
-          <item row="2" column="2" >
-           <widget class="QLabel" name="lblCasert" >
-            <property name="text" >
-             <string>Room:</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>txtCasert</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1" >
-           <widget class="QLineEdit" name="txtPhone" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>7</hsizetype>
-              <vsizetype>0</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="cursorPosition" >
-             <number>0</number>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" >
-           <widget class="QLabel" name="lblPhone" >
-            <property name="text" >
-             <string>Phone number:</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>txtPhone</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="lblWeb" >
-            <property name="text" >
-             <string>Web page:</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>txtWeb</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" colspan="3" >
-           <widget class="QLineEdit" name="txtWeb" />
-          </item>
-          <item row="0" column="1" colspan="3" >
-           <widget class="QLineEdit" name="txtMail" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>7</hsizetype>
-              <vsizetype>0</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="cursorPosition" >
-             <number>0</number>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="lblMail" >
-            <property name="text" >
-             <string>e-mail:</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>txtMail</cstring>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="1" >
-        <widget class="QGroupBox" name="groupServices" >
-         <property name="maximumSize" >
-          <size>
-           <width>192</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="whatsThis" >
-          <string>&lt;h3>Open services&lt;/h3>&lt;p>Select the servers you want to share with all the users of the network. If a server is not present, it won't be displayed as present&lt;/p></string>
-         </property>
-         <property name="title" >
-          <string>Open services</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="4" column="0" >
-           <widget class="QCheckBox" name="CbPrinter" >
-            <property name="text" >
-             <string>Printer</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QCheckBox" name="CbSamba" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>3</hsizetype>
-              <vsizetype>0</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text" >
-             <string>Samba</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QCheckBox" name="CbFTP" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>3</hsizetype>
-              <vsizetype>0</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text" >
-             <string>FTP</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" >
-           <widget class="QCheckBox" name="CbNews" >
-            <property name="text" >
-             <string>News</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" >
-           <widget class="QCheckBox" name="CbHTTP" >
-            <property name="text" >
-             <string>HTTP</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="0" >
-        <widget class="QGroupBox" name="groupInfoPerso" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>5</hsizetype>
-           <vsizetype>5</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximumSize" >
-          <size>
-           <width>300</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="whatsThis" >
-          <string>&lt;h3>Personnal information&lt;/h3>&lt;p>Give here some informations about you.&lt;/p>&lt;p>This informations can be very useful, so you should fill it with honesty&lt;/p></string>
-         </property>
-         <property name="title" >
-          <string>Personnal information</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="4" column="1" >
-           <widget class="QComboBox" name="cmbSport" />
-          </item>
-          <item row="4" column="0" >
-           <widget class="QLabel" name="lblSport" >
-            <property name="text" >
-             <string>Sport:</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>cmbSport</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1" >
-           <widget class="QComboBox" name="cmbPromo" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>7</hsizetype>
-              <vsizetype>0</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" >
-           <widget class="QLabel" name="lbPromo" >
-            <property name="text" >
-             <string>Promo:</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>cmbPromo</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1" >
-           <widget class="QLineEdit" name="txtSurname" />
-          </item>
-          <item row="2" column="0" >
-           <widget class="QLabel" name="lblSurname" >
-            <property name="text" >
-             <string>Nick:</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>txtSurname</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" >
-           <widget class="QLineEdit" name="txtFirstname" />
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="lblFirstname" >
-            <property name="text" >
-             <string>First name:</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>txtFirstname</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="lblName" >
-            <property name="text" >
-             <string>Surname:</string>
-            </property>
-            <property name="textFormat" >
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="buddy" >
-             <cstring>txtName</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="QLineEdit" name="txtName" />
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="3" column="1" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>16</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>
@@ -1377,29 +1390,65 @@
      </widget>
     </widget>
    </item>
-   <item rowspan="2" row="0" column="0" >
-    <widget class="QTreeWidget" name="lbMenu" >
-     <property name="minimumSize" >
-      <size>
-       <width>175</width>
-       <height>0</height>
-      </size>
+   <item row="0" column="1" >
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>0</number>
      </property>
-     <property name="maximumSize" >
-      <size>
-       <width>210</width>
-       <height>16777215</height>
-      </size>
+     <property name="spacing" >
+      <number>6</number>
      </property>
-     <property name="columnCount" >
-      <number>1</number>
-     </property>
-     <column>
-      <property name="text" >
-       <string>0</string>
-      </property>
-     </column>
-    </widget>
+     <item row="0" column="1" >
+      <widget class="QLabel" name="lblTitle" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>7</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize" >
+        <size>
+         <width>0</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>32767</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string>&lt;h2>New Item&lt;/h2></string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" >
+      <widget class="QLabel" name="lblTitleIcon" >
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="2" >
+      <widget class="Line" name="line4" >
+       <property name="frameShape" >
+        <enum>QFrame::HLine</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth" >
+        <number>2</number>
+       </property>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="2" column="0" colspan="2" >
     <layout class="QHBoxLayout" >
@@ -1461,65 +1510,29 @@
      </item>
     </layout>
    </item>
-   <item row="0" column="1" >
-    <layout class="QGridLayout" >
-     <property name="margin" >
-      <number>0</number>
+   <item rowspan="2" row="0" column="0" >
+    <widget class="QTreeWidget" name="lbMenu" >
+     <property name="minimumSize" >
+      <size>
+       <width>175</width>
+       <height>0</height>
+      </size>
      </property>
-     <property name="spacing" >
-      <number>6</number>
+     <property name="maximumSize" >
+      <size>
+       <width>210</width>
+       <height>16777215</height>
+      </size>
      </property>
-     <item row="0" column="1" >
-      <widget class="QLabel" name="lblTitle" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>7</hsizetype>
-         <vsizetype>0</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>0</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>32767</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="text" >
-        <string>&lt;h2>New Item&lt;/h2></string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0" >
-      <widget class="QLabel" name="lblTitleIcon" >
-       <property name="text" >
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0" colspan="2" >
-      <widget class="Line" name="line4" >
-       <property name="frameShape" >
-        <enum>QFrame::HLine</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="lineWidth" >
-        <number>2</number>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-    </layout>
+     <property name="columnCount" >
+      <number>1</number>
+     </property>
+     <column>
+      <property name="text" >
+       <string>0</string>
+      </property>
+     </column>
+    </widget>
    </item>
   </layout>
  </widget>

@@ -80,6 +80,7 @@ public:
 	RZX_STRINGPROP("txtMail", propMail, setPropMail, DEFAULT_MAIL)
 	RZX_STRINGPROP("txtWeb", propWebPage, setPropWebPage, QString())
 	RZX_STRINGPROP("txtPhone", propTel, setPropTel, QString())
+	RZX_STRINGPROP("txtMobile", propMobile, setPropMobile, QString())
 	RZX_STRINGPROP("txtSport", propSport, setPropSport, QString())
 	RZX_UINTPROP("numSport", numSport, setNumSport, 0)
 	static QString propPromo();

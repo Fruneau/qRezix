@@ -2,6 +2,7 @@
     * Fix la compilation avec GCC 4.1 [Fruneau]
     * Support des Universal Binaries pour MacOS X (déjà appliqué au packaging de la 2.0.1) [Fruneau]
     * Adaptation à Qt 4.1.3 [Fruneau]
+    * Ajout du numéro de portable dans les propriétés [Fruneau]
 	
   Notifier
     * Support de Growl pour les notifications sur MacOS X [Fruneau]
