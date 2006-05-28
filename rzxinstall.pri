@@ -1,5 +1,5 @@
 unix {
-	isEmpty(PREFIX):PREFIX = /usr
+	isEmpty(PREFIX):PREFIX = /usr/local
 	isEmpty(LIBDIR) {
 		LIBDIR = $$PREFIX/lib/qrezix
 		LIBREL = qrezix/
