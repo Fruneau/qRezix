@@ -56,7 +56,7 @@ Rzx::Version RzxApplication::m_version = {
 	RZX_MINOR_VERSION,
 	RZX_FUNNY_VERSION,
 #ifdef RZX_SVNVERSION
-	"-svn"
+	QString("-svn rev%1").arg(RZX_SVNVERSION)
 #endif
 #ifdef RZX_RELEASEVERSION
 	QString()

@@ -206,6 +206,7 @@ RzxProperty::RzxProperty(QWidget *parent)
 	initDlg();
 	changeTheme();
 	lbMenu->setCurrentItem(generalItem);
+	lblAbout->setText("<p style=\"font-size: smaller; \">qRezix " + Rzx::versionToString(RzxApplication::version()) + "</p>");
 }
 
 ///Fermeture de la fenêtre
