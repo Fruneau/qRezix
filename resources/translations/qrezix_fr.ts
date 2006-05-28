@@ -27,39 +27,11 @@
     <name>QRezix</name>
     <message>
         <source>Preferences</source>
-        <translation type="unfinished">Préférences</translation>
-    </message>
-    <message>
-        <source>Main</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The central widget has been set to %1. You should reload the module in order this changement to take effect. You can do this via this menu.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Central</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Away</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You should restart qRezix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Préférences</translation>
     </message>
     <message>
         <source>Modules</source>
-        <translation type="unfinished">Modules</translation>
+        <translation type="obsolete">Modules</translation>
     </message>
 </context>
 <context>
@@ -71,21 +43,6 @@
     <message>
         <source>This is a development version, provided as is, &lt;b&gt;without any garantee&lt;/b&gt; of stability or functionality.&lt;br&gt;&lt;br&gt;&lt;i&gt;Use at your own risk.&lt;/i&gt;</source>
         <translation>Ceci est une version de développement. Elle est distribuée &lt;b&gt;sans aucune garantie&lt;/b&gt; de stabilité ou de bon fonctionnement.&lt;br&gt;&lt;br&gt;&lt;i&gt;Utilisez-la à vos risques et périls&lt;/i&gt;</translation>
-    </message>
-</context>
-<context>
-    <name>RzxBaseModule</name>
-    <message>
-        <source>Main UI for qRezix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Native support for the xNet protocole version 4.0</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Native support for the jabber protocole</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -117,173 +74,22 @@
     <message>
         <source>Your password can contains any character.&lt;br&gt;
 It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Votre mot de passe doit contenir au moins&lt;br&gt;
+&lt;b&gt;6 caractères&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
     <name>RzxChat</name>
     <message>
-        <source>Chat [Qt]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>B</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>I</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>U</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>:-)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Send&lt;/h3&gt;&lt;p&gt;Send the message you have typed...&lt;br&gt;It&apos;s a lot easier to use &lt;b&gt;Enter&lt;/b&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Send as HTML&lt;/h3&gt;&lt;p&gt;When this case is checked, you can format your text&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning : &lt;/b&gt;some clients don&apos;t support HTML...&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Sound&lt;/h3&gt;&lt;p&gt;Enables/disables the sound which is played when a new message arrives&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Properties&lt;/h3&gt;&lt;p&gt;Ask for the properties of the person you are talking to.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Properties</source>
-        <translation type="unfinished">Propriétés</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;History&lt;/h3&gt;&lt;p&gt;If you want to read all your old chats with this person&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>History</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+S</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Close&lt;/h3&gt;&lt;p&gt;Ends the chat and close the window&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Input&lt;/h3&gt;&lt;p&gt;This is the place where you can type your messages.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Shortcuts :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Enter : &lt;/b&gt;Send your message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] : &lt;/b&gt;Navigate through the messages you have already typed&lt;br&gt;&lt;b&gt;Shift+Enter : &lt;/b&gt; Add a line-break&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Format</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+F</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Propriétés</translation>
     </message>
 </context>
 <context>
     <name>RzxChatProp</name>
     <message>
         <source>Network</source>
-        <translation type="unfinished">Réseau</translation>
-    </message>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Chat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Print hh:mm:ss in chat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;warning&lt;/h3&gt;&lt;p&gt;If you check this you will receive an notification each time somebody check you properties&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning :&lt;/b&gt; in some cases, this option can be used to spam you with notification windows&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Warn me when properties are being checked</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Beep</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Beep on message reception</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Select the sound to play when you receive a new message&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Peer2peer port&lt;/h3&gt;&lt;p&gt;Define the port of the chat&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Smileys</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Print user icon</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Print user nicknames</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive a message&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Size:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Prompt:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Print prompt</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Réseau</translation>
     </message>
 </context>
 <context>
@@ -361,6 +167,10 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <source>First name</source>
         <translation>Prénom</translation>
     </message>
+    <message>
+        <source>Mobile</source>
+        <translation>Mobile</translation>
+    </message>
 </context>
 <context>
     <name>RzxConnectionLister</name>
@@ -384,20 +194,12 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
 <context>
     <name>RzxGroupsProp</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>My Groups</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Delete</source>
-        <translation type="unfinished">Supprimer</translation>
+        <translation type="obsolete">Supprimer</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Ajouter</translation>
+        <translation type="obsolete">Ajouter</translation>
     </message>
 </context>
 <context>
@@ -439,250 +241,37 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
 </context>
 <context>
-    <name>RzxItem</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>RzxJabberClient</name>
-    <message>
-        <source>Jabber: Authentification Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please verify your username/password and that your account exists</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Account Registration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Operation Succeeded</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Operation Failed: Already registered</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Operation Failed: Function disabled by Server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Operation Failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>RzxJabberProp</name>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Supprimer</translation>
+        <translation type="obsolete">Supprimer</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Ajouter</translation>
+        <translation type="obsolete">Ajouter</translation>
     </message>
     <message>
         <source>Misc</source>
-        <translation type="unfinished">Divers</translation>
+        <translation type="obsolete">Divers</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="unfinished">Pass :</translation>
-    </message>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connection Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Roster Management</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>JID:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Reconnection&lt;/h3&gt;&lt;p&gt;Defines the parameters of the reconnection.&lt;p&gt;&lt;p&gt;You shouldn&apos;t have to modify this values&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Auto-reconnect delay:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ping timeout (sec):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change Password</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New Account</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Server identification</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Server&lt;/h3&gt;&lt;p&gt;Define the address of the xnetserver&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>User name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Server name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Defines the port to connect to on the xnetserver&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Jabber protocole.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>User Info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Retrieve</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Organisation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Unit:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Name:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>General</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Phone:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Website:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Full Name:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Nickname:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Birthday:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Email:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Country:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Post Code:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Region:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;City:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Street:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Pass :</translation>
     </message>
 </context>
 <context>
     <name>RzxJabberProperty</name>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
-    </message>
-    <message>
-        <source>Email</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Description</translation>
     </message>
     <message>
         <source>Phone</source>
-        <translation type="unfinished">Téléphone</translation>
-    </message>
-    <message>
-        <source>Website</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Nickname</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Téléphone</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nom</translation>
-    </message>
-    <message>
-        <source>Birthday</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Organisation</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>RzxJabberProtocole</name>
-    <message>
-        <source>connected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Nom</translation>
     </message>
 </context>
 <context>
@@ -743,194 +332,31 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     <name>RzxMainuiProp</name>
     <message>
         <source>Layout</source>
-        <translation type="unfinished">Affichage</translation>
+        <translation type="obsolete">Affichage</translation>
     </message>
     <message>
         <source>Misc</source>
-        <translation type="unfinished">Divers</translation>
+        <translation type="obsolete">Divers</translation>
     </message>
     <message>
         <source>Printer</source>
-        <translation type="unfinished">Imprimante</translation>
+        <translation type="obsolete">Imprimante</translation>
     </message>
     <message>
         <source>Samba</source>
-        <translation type="unfinished">Samba</translation>
+        <translation type="obsolete">Samba</translation>
     </message>
     <message>
         <source>News</source>
-        <translation type="unfinished">News</translation>
+        <translation type="obsolete">News</translation>
     </message>
     <message>
         <source>FTP</source>
-        <translation type="unfinished">FTP</translation>
-    </message>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Search&lt;/h3&gt;&lt;p&gt;Do you want to see the search tool ?&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show Search Tools</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Quitting dialog&lt;/h3&gt;&lt;p&gt;Enable/disable the dialog box which is displayed when you close the qRezix&apos;s main window&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show dialog when clicking on X</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Double clic&lt;/h3&gt;&lt;p&gt;Define the action to execute when you double click on an item&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tab to select on start:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ToolTips</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Promotion</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">FTP</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation type="unfinished">Propriétés</translation>
-    </message>
-    <message>
-        <source>Ip address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Client version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Web</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OS</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Place</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Features</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enable tooltips</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Action on double-clic:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Corners&lt;/h3&gt;&lt;p&gt;Choose the edge which use each corner of the window...&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Corners</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Top</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bottom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Tab&lt;/h3&gt;&lt;p&gt;When you launch qRezix, you can choose to see the Favorites tab or the Everybody tab. qRezix is faster when you choose the Favorites tab&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;ToolTips&lt;/h3&gt;&lt;p&gt;Tooltips are small help windows appearing when you do not move your mouse over an item during a couple of seconds</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>RzxNotifierProp</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>When ?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Notify when favorite go away</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No notification when I am away</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Notify favorite disconnection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Notify when favorite arrive or come back</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>What ?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Notification&lt;/h3&gt;&lt;p&gt;Check it if you want a small nofitication windows to be displayed when a favorite connects, disconnects, or change is away-state&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show a notification window on favorite&apos;s state modification</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Select the sound to play when a favorite get connected&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Beep on connection&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when a favorite get connected&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Beep on connection of one of your favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Notification windows style:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Test</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Propriétés</translation>
     </message>
 </context>
 <context>
@@ -1393,486 +819,88 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <source>Hide main window on startup</source>
         <translation>Cacher la fenêtre au démarrage</translation>
     </message>
+    <message>
+        <source>Mobile:</source>
+        <translation>Mobile :</translation>
+    </message>
 </context>
 <context>
     <name>RzxProps</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Get Now !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Property</source>
-        <translation type="unfinished">Propriété</translation>
+        <translation type="obsolete">Propriété</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation type="unfinished">Valeur</translation>
-    </message>
-</context>
-<context>
-    <name>RzxProtocole</name>
-    <message>
-        <source>Your password has been successfully changed on the server. Remember it carefully, it can be useful.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Server was unable to change your pass :
-</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Valeur</translation>
     </message>
 </context>
 <context>
     <name>RzxQuit</name>
     <message>
         <source>Return</source>
-        <translation type="unfinished">Return</translation>
-    </message>
-    <message>
-        <source>Quit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>yes, I want to &amp;Leave qRezix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <source>⌥L</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>no, I want to &amp;Minimize qRezix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <source>⌥M</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Oops, do nothing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to &lt;b&gt;Quit qRezix &lt;/b&gt;?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Always do like that</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <source>⌥A</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Quit now !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Minimize me...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Abort quitting please</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>no, I want to hide qRezix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hide me...</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Return</translation>
     </message>
 </context>
 <context>
     <name>RzxRezalModel</name>
     <message>
         <source>Samba</source>
-        <translation type="unfinished">Samba</translation>
+        <translation type="obsolete">Samba</translation>
     </message>
     <message>
         <source>FTP</source>
-        <translation type="unfinished">FTP</translation>
+        <translation type="obsolete">FTP</translation>
     </message>
     <message>
         <source>News</source>
-        <translation type="unfinished">News</translation>
+        <translation type="obsolete">News</translation>
     </message>
     <message>
         <source>Printer</source>
-        <translation type="unfinished">Imprimante</translation>
+        <translation type="obsolete">Imprimante</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation type="unfinished">Favoris</translation>
+        <translation type="obsolete">Favoris</translation>
     </message>
     <message>
         <source>Banned</source>
-        <translation type="unfinished">Bannis</translation>
-    </message>
-    <message>
-        <source>Computer name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Comment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Web</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OS</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Gateway</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Promo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Place</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>IP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Client</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Everybody</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Category</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Subnet</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Others...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Jones</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Roujes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Oranjes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Informations:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ftp server:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;on&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>web server:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>news server:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>samba server:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>printer:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;yes&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>features:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>chat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>none</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Location:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No properties cached</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Properties checked on </source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Bannis</translation>
     </message>
 </context>
 <context>
     <name>RzxRezalPopup</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
-    </message>
-    <message>
-        <source>Samba connect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>FTP connect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>browse Web</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>read News</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove from ignore list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>begin &amp;Chat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Annuler</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation type="unfinished">Propriétés</translation>
-    </message>
-    <message>
-        <source>Remove from favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to ignore list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>send a Mail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to a group</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove from group</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Propriétés</translation>
     </message>
 </context>
 <context>
     <name>RzxRezalViewProp</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Columns order</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reinitialise</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>+</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Columns layout&lt;/h3&gt;&lt;p&gt;Choose the columns you want to see...&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Columns layout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Name</source>
-        <translation type="unfinished">Nom</translation>
+        <translation type="obsolete">Nom</translation>
     </message>
     <message>
         <source>FTP</source>
-        <translation type="unfinished">FTP</translation>
-    </message>
-    <message>
-        <source>OS</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Client</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Web</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Comment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Promotion</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Same gateway</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>IP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Place</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">FTP</translation>
     </message>
     <message>
         <source>News</source>
-        <translation type="unfinished">News</translation>
+        <translation type="obsolete">News</translation>
     </message>
     <message>
         <source>Samba</source>
-        <translation type="unfinished">Samba</translation>
+        <translation type="obsolete">Samba</translation>
     </message>
     <message>
         <source>Printer</source>
-        <translation type="unfinished">Imprimante</translation>
-    </message>
-</context>
-<context>
-    <name>RzxServerListener</name>
-    <message>
-        <source>Server name and port are not configured</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Looking for server %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>will try to reconnect in %1 seconds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connection refused</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connection reset by peer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unable to find server %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cannot find server %1:
-
-DNS request failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Socket access denied</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Too many sockets</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Operation timeout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network down</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unsupported operation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unknown QSocket error: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connection lost</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connection closed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Server found, trying to connect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Socket error, cannot write</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>RzxStatus</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Status bar&lt;/h3&gt;
-&lt;p&gt;Shows the status of your connection with the xnetserver&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Status bar&lt;/h3&gt;
-&lt;p&gt;Shows the number of clients connected&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Imprimante</translation>
     </message>
 </context>
 <context>
@@ -1883,129 +911,10 @@ DNS request failed</source>
     </message>
 </context>
 <context>
-    <name>RzxTrayProp</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Systray&lt;/h3&gt;&lt;p&gt;Do you want to have qRezix reduced to an icon in the systray ?&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Auto-scale&lt;/h3&gt;&lt;p&gt;If enabled, qRezix will try to automaticly adjust the trayicon size to fit its container&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Auto scale the tray icon</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Size of tray icon :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Icon size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Quick action menus</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Read News</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send a Mail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open a Samba (Windows share)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open a Web Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open a FTP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Begin a chat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>List Favorites separatedly</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Icon background</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Transparent background</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select color</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>RzxUi</name>
     <message>
         <source>Favorites</source>
-        <translation type="unfinished">Favoris</translation>
-    </message>
-    <message>
-        <source>Everybody</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Chat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open FTP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open Web page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Read News</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open Samba</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>My Promo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>My Subnet</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send a Mail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>User groups</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Check Properties</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>View History</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Favoris</translation>
     </message>
 </context>
 <context>
@@ -2029,61 +938,6 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
     <message>
         <source>Password:</source>
         <translation>Pass :</translation>
-    </message>
-</context>
-<context>
-    <name>RzxXNetProp</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Reconnection&lt;/h3&gt;&lt;p&gt;Defines the parameters of the reconnection.&lt;p&gt;&lt;p&gt;You shouldn&apos;t have to modify this values&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reconnection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Auto-reconnect delay:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ping timeout (sec):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Server identification</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Server name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Server&lt;/h3&gt;&lt;p&gt;Define the address of the xnetserver&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Port&lt;/h3&gt;&lt;p&gt;Defines the port to connect to on the xnetserver&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Account</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change my Password</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal [Bitstream]; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;The xNet protocole is the original protocole of qRezix.&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This module support xNet v4.0 which include authentification and 32bits icons support. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
