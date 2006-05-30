@@ -76,7 +76,7 @@ void RzxServerListener::start()
 	}
 
 	userConnection = true;
-	reconnection = false;
+	reconnection = None;
 	wantDisconnection = false;
 
 	connectToXnetserver();
@@ -135,7 +135,7 @@ void RzxServerListener::setupReconnection(const QString& msg)
 
 	unsigned int time = RzxXNetConfig::reconnection();
 	disconnect(&reconnectionTimer, SIGNAL(timeout()), this, SLOT(waitReconnection()));
-	if(!reconnection)
+	if(reconnection == None)
 	{
 		timeToReconnection = 500;
 		reconnectionTimer.setSingleShot(true);
@@ -193,10 +193,10 @@ void RzxServerListener::error(QAbstractSocket::SocketError error)
 		case QTcpSocket::HostNotFoundError:
 			reconnectionMsg = tr("Unable to find server %1").arg(RzxXNetConfig::serverName());
 
-			if(reconnection)
+			if(reconnection == Normal)
 				RzxMessageBox::information( NULL, "qRezix",
 					tr("Cannot find server %1:\n\nDNS request failed").arg(RzxXNetConfig::serverName()));
-			reconnection = false;
+			reconnection = Quiet;
 			break;
 
 		case QTcpSocket::SocketAccessError:
@@ -260,7 +260,7 @@ void RzxServerListener::serverConnected()
 {
 	notify(tr("Connected"));
 	userConnection = false;
-	reconnection = true;
+	reconnection = Normal;
 
 	haveActivity();
 	emit connected(this);

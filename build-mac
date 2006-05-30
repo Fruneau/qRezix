@@ -66,6 +66,7 @@ echo "Phase 3 : Création du bundle..."
 # Recrée le Makefile pour qu'il mette à jour la liste des fichiers à installer
 if ! [ $IGNORE_QMAKE == 1 ]; then
 	launch qmake qrezix.pro $PIPE
+	touch core/rzxapplication.cpp
 fi
 
 # Intégration des composants dans le Bundle

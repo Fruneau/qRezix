@@ -58,11 +58,18 @@ class RzxServerListener : public RzxProtocole
 	QString sendingBuffer;
 	bool iconMode;
 	RzxHostAddress iconHost;
+	
+	enum ReconnectionMode
+	{
+		None = 0,
+		Quiet = 1,
+		Normal = 2
+	};
 
 	//Pour la gestion de l'état de connexion
 	bool restarting;
 	bool userConnection;
-	bool reconnection;
+	ReconnectionMode reconnection;
 	bool wantDisconnection;
 
 	//Pour l'affichage de l'avancement de la reconnexion
