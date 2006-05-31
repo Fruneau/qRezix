@@ -142,6 +142,7 @@ QList<QWidget*> RzxUi::propWidgets()
 		connect(groupsUi->btnAdd, SIGNAL(clicked()), this, SLOT(addGroup()));
 		connect(groupsUi->btnDelete, SIGNAL(clicked()), this, SLOT(deleteGroup()));
 		connect(groupsUi->lstGroups, SIGNAL(itemSelectionChanged()), this, SLOT(fillMemberBox()));
+		connect(groupsUi->lstGroups, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(fillMemberBox()));
 		connect(groupsUi->newGroup, SIGNAL(textChanged(const QString&)), this, SLOT(newGroupEdited()));
 	}
 	fillComboBoxes();
@@ -369,7 +370,10 @@ void RzxUi::addGroup()
 ///On a décidé de supprimer un groupe :(
 void RzxUi::deleteGroup()
 {
-	const int groupId = groupsUi->lstGroups->currentItem()->data(Qt::UserRole).toInt();;
+	if (!groupsUi->lstGroups->currentItem())
+		return;
+
+	const int groupId = groupsUi->lstGroups->currentItem()->data(Qt::UserRole).toInt();
 	if(groupsUi->lstGroups->currentItem()->text() == groupsUi->newGroup->text())
 		groupsUi->newGroup->clear();
 	RzxRezalModel::global()->deleteUserGroup(groupId);
