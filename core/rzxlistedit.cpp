@@ -106,12 +106,15 @@ void RzxListEdit::refresh()
 		if(!list->contains(computer))
 			ui->editNew->addItem(computer->icon(), computer->name());
 	}
+
+/*	Supprimé par Fruneau le 31/05/2006 : trop lourd et inutile... devrait permettre
+		d'alléger la fenêtre de préférence
 	for(int i = 0 ; i < computerList.size() ; i++)
 	{
 		const RzxComputer *computer = computerList[i];
 		if(!list->contains(computer))
 			ui->editNew->addItem(computer->icon(), computer->ip().toString() + " (" + computer->name() + ")");
-	}
+	}*/
 }
 
 ///Effectue un raffraichissement alléger... sans regénérer la liste des ordinateurs
