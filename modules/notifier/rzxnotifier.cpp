@@ -164,6 +164,9 @@ void RzxNotifier::favoriteUpdated(RzxComputer *computer)
 // Pour l'affichage des fenêtres de notification de nouveau message de chat
 void RzxNotifier::chat(RzxComputer* computer, Rzx::ChatMessageType type, const QString& text)
 {
+	if(RzxComputer::localhost()->isOnResponder() && RzxNotifierConfig::notNotifyWhenILeave())
+		return;
+	
 	if(RzxNotifierConfig::chatWindowStyle() && RzxNotifierConfig::notifyChat() && type == Rzx::Chat)
 	{
 		if(RzxNotifierConfig::notifyChatWhenFocus() || !QApplication::focusWidget())
