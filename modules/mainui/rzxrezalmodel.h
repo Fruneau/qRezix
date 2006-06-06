@@ -101,7 +101,9 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 			ColRezal = 10,
 			ColIP = 11,
 			ColClient = 12,
-			numColonnes = 13
+			ColName = 13,
+			ColFirstName = 14,
+			numColonnes = 15
 		};
 
 		///Identifiant les colonnes
@@ -118,7 +120,9 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 			ColPromoFlag = 1 << ColPromo,
 			ColRezalFlag = 1 << ColRezal,
 			ColIPFlag = 1 << ColIP,
-			ColClientFlag = 1 << ColClient
+			ColClientFlag = 1 << ColClient,
+			ColNameFlag = 1 << ColName,
+			ColFirstNameFlag = 1 << ColFirstName
 		};
 		Q_DECLARE_FLAGS(Colonnes, ColonneFlags)
 
@@ -275,6 +279,8 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 
 		virtual const RzxRezalSearchTree *childrenByName(const QModelIndex&) const;
 		virtual QString columnName(NumColonne) const;
+
+		static int nbColonnes();
 
 	public slots:
 		virtual void login(RzxComputer *);

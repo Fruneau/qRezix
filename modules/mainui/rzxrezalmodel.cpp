@@ -42,7 +42,9 @@ const char *RzxRezalModel::colNames[RzxRezalModel::numColonnes] = {
 			QT_TR_NOOP("Promo"),
 			QT_TR_NOOP("Place"),
 			QT_TR_NOOP("IP"),
-			QT_TR_NOOP("Client")
+			QT_TR_NOOP("Client"),
+			QT_TR_NOOP("Name"),
+			QT_TR_NOOP("First name")
 };
 
 ///Pour le tri des RzxComputer
@@ -541,6 +543,12 @@ int RzxRezalModel::columnCount(const QModelIndex&) const
 	return numColonnes;
 }
 
+///Retourne le nombre de colonnes du model
+int RzxRezalModel::nbColonnes()
+{
+	return numColonnes;
+}
+
 ///Retourne les données associées à l'objet
 QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 {
@@ -670,6 +678,8 @@ QVariant RzxRezalModel::getComputer(int role, const RzxRezalSearchList& list, in
 				case ColRezal: return computer->rezalName();
 				case ColIP: return computer->ip().toString();
 				case ColClient: return computer->client();
+				case ColName: return RzxConfig::getNameFromCache(computer->ip(), "$n");
+				case ColFirstName: return RzxConfig::getNameFromCache(computer->ip(), "$p");
 				default: return QVariant();
 			}
 

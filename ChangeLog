@@ -20,6 +20,8 @@
     * Recherche avancée en plain-text sur les propriétés en plus du pseudo
     * Cache le détails des propriétés lorsque ce n'est pas applicable à la sélection [Fruneau]
     * Correction de quelques correspondance ip/casert [Fruneau]
+    * Ajout de colonnes Nom/Prénom remplies à l'aide des propriétés [Fruneau]
+    * Utilisation de références dynamiques au nombre de colonnes dans les rezals [Fruneau]
 
 [v2.0.1] 2006-04 <br@frankiz.polytechnique.fr>
     * Bugfixes

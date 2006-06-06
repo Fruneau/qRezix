@@ -73,7 +73,7 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 
 	//Columns stocke les colonnes avec columns[i] == logical index placé en visual index i
 	QList<int> columns = RzxRezalViewConfig::columnPositions();
-	for(int i = 0 ; i < columns.count() && i < RzxRezalModel::numColonnes ; i++)
+	for(int i = 0 ; i < columns.count() && i < RzxRezalModel::nbColonnes() ; i++)
 		header()->moveSection(header()->visualIndex(columns[i]), i);
 	
 	afficheColonnes();
@@ -231,7 +231,7 @@ void RzxRezalView::afficheColonnes()
 {
 	int colonnesAffichees = RzxRezalViewConfig::colonnes();
 
-	for(int i = 0; i < RzxRezalModel::numColonnes ; i++)
+	for(int i = 0; i < RzxRezalModel::nbColonnes() ; i++)
 	{
 		if((colonnesAffichees>>i) & 1)
 		{
@@ -239,6 +239,8 @@ void RzxRezalView::afficheColonnes()
 			switch(i)
 			{
 				case RzxRezalModel::ColNom:
+				case RzxRezalModel::ColName:
+				case RzxRezalModel::ColFirstName:
 					header()->resizeSection(i, header()->sectionSizeHint(i));
 					break;
 
@@ -278,7 +280,7 @@ void RzxRezalView::adapteColonnes()
 	int colonnesAffichees = RzxRezalViewConfig::colonnes();
 	int somme = 0;
 
-	for(int i=0 ; i < RzxRezalModel::numColonnes ; i++)
+	for(int i=0 ; i < RzxRezalModel::nbColonnes() ; i++)
 		if(i != RzxRezalModel::ColRemarque && !header()->isSectionHidden(i))
 			somme += header()->sectionSize(i);
 
@@ -470,9 +472,11 @@ void RzxRezalView::propInit(bool def)
 	ui->cbcResal ->setChecked( colonnes & RzxRezalModel::ColRezalFlag );
 	ui->cbcIP ->setChecked( colonnes & RzxRezalModel::ColIPFlag );
 	ui->cbcClient ->setChecked( colonnes & RzxRezalModel::ColClientFlag );
+	ui->cbcClient ->setChecked( colonnes & RzxRezalModel::ColNameFlag );
+	ui->cbcClient ->setChecked( colonnes & RzxRezalModel::ColFirstNameFlag );
 
 	if(!saveColumns.isEmpty())
-		for(int i = 0 ; i < saveColumns.count() && i < RzxRezalModel::numColonnes ; i++)
+		for(int i = 0 ; i < saveColumns.count() && i < RzxRezalModel::nbColonnes() ; i++)
 			header()->moveSection(header()->visualIndex(saveColumns[i]), i);
 	else
 		saveColumns = columnOrder();
@@ -498,6 +502,8 @@ void RzxRezalView::propUpdate()
 	if ( ui->cbcResal ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColRezalFlag;
 	if ( ui->cbcClient ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColClientFlag;
 	if ( ui->cbcIP ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColIPFlag;
+	if ( ui->cbcName ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColNameFlag;
+	if ( ui->cbcFirstName ->isChecked() ) colonnesAffichees |= RzxRezalModel::ColFirstNameFlag;
 	RzxRezalViewConfig::setColonnes(colonnesAffichees);
 	saveColumns = QList<int>();
 	updateLayout();
@@ -522,7 +528,7 @@ void RzxRezalView::propClose()
 QList<int> RzxRezalView::columnOrder() const
 {
 	QList<int> columns;
-	for(int i = 0 ; i < RzxRezalModel::numColonnes ; i++)
+	for(int i = 0 ; i < RzxRezalModel::nbColonnes() ; i++)
 	{
 		int log = header()->logicalIndex(i);
 		if(log != -1)
@@ -554,7 +560,7 @@ void RzxRezalView::dispColumns(const QList<int>& columns)
 	{
 		QListWidgetItem *item = new QListWidgetItem(ui->lstColumns);
 		item->setText(RzxRezalModel::global()->columnName((RzxRezalModel::NumColonne)columns[i]));
-		const QIcon icon = RzxRezalModel::global()->headerData(i, Qt::Horizontal, Qt::DecorationRole).value<QIcon>();
+		const QIcon icon = RzxRezalModel::global()->headerData(columns[i], Qt::Horizontal, Qt::DecorationRole).value<QIcon>();
 		if(!icon.isNull())
 			item->setIcon(icon);
 		else
@@ -569,7 +575,7 @@ void RzxRezalView::moveDown()
 	if(org < 0) return;
 
 	int dst = org + 1;
-	if(dst >= RzxRezalModel::numColonnes) dst = 0;
+	if(dst >= RzxRezalModel::nbColonnes()) dst = 0;
 	header()->moveSection(org, dst);
 	ui->lstColumns->setCurrentRow(dst);
 }
@@ -581,7 +587,7 @@ void RzxRezalView::moveUp()
 	if(org < 0) return;
 
 	int dst = org - 1;
-	if(dst < 0) dst = RzxRezalModel::numColonnes - 1;
+	if(dst < 0) dst = RzxRezalModel::nbColonnes() - 1;
 	header()->moveSection(org, dst);
 	ui->lstColumns->setCurrentRow(dst);
 }
@@ -589,7 +595,7 @@ void RzxRezalView::moveUp()
 ///Remet les colonnes dans l'ordre d'origine
 void RzxRezalView::reinitialisedOrder()
 {
-	for(int i = 0 ; i < RzxRezalModel::numColonnes ; i++)
+	for(int i = 0 ; i < RzxRezalModel::nbColonnes() ; i++)
 		header()->moveSection(header()->visualIndex(i), i);
 }
 

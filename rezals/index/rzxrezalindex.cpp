@@ -45,7 +45,7 @@ RzxRezalIndex::RzxRezalIndex(QWidget *parent)
 	setIcon(RZX_MODULE_ICON);
 	setModel(RzxRezalModel::global());
 	firstChange = true;
-	for(int i = 1 ; i < RzxRezalModel::numColonnes ; i++)
+	for(int i = 1 ; i < RzxRezalModel::nbColonnes() ; i++)
 		hideColumn(i);
 	resizeColumnToContents(0);
 	setAcceptDrops(true);
