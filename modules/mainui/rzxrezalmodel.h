@@ -207,7 +207,7 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 			TREE_FLAG_FAVORITE 	= 0x00020000, 	/**< Flag permettant d'identifier les objets du groupe Favoris */
 			TREE_FLAG_FAVORITE_FAVORITE	= 0x00020001,
 			TREE_FLAG_FAVORITE_IGNORED		= 0x00020002,
-			TREE_FLAG_FAVORITE_FIRSTGROUP	= 0x00020004,
+			TREE_FLAG_FAVORITE_FIRSTGROUP	= 0x00020003,
 			TREE_FLAG_PROMO 		= 0x00030000, 	/**< Flag permettant d'identifier les objets du groupe Promo */
 			TREE_FLAG_PROMO_JONE		= 0x00030001,
 			TREE_FLAG_PROMO_ROUJE	= 0x00030002,
