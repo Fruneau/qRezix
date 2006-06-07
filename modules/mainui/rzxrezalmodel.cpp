@@ -98,6 +98,22 @@ bool sortComputer(const RzxComputer *c1, const RzxComputer *c2)
 		case RzxRezalModel::ColClient:
 			testEq = c1->client() == c2->client();
 			test = c1->client() < c2->client(); break;
+		case RzxRezalModel::ColName:
+		{
+			const QString name1 = RzxConfig::getNameFromCache(c1->ip(), "$n");
+			const QString name2 = RzxConfig::getNameFromCache(c2->ip(), "$n");
+			testEq = name1 == name2;
+			test = name1 < name2;
+			break;
+		}
+        case RzxRezalModel::ColFirstName:
+        {   
+            const QString name1 = RzxConfig::getNameFromCache(c1->ip(), "$p");
+            const QString name2 = RzxConfig::getNameFromCache(c2->ip(), "$p");
+            testEq = name1 == name2;
+            test = name1 < name2;
+            break;
+        }
 		default: return false;
 	}
 	return test || (testEq && nameTest);
@@ -105,7 +121,7 @@ bool sortComputer(const RzxComputer *c1, const RzxComputer *c2)
 
 ///Construction du Model
 RzxRezalModel::RzxRezalModel()
-		:everybodyGroup(numColonnes), favoritesGroup(numColonnes), favoriteIndex(numColonnes), ignoredIndex(numColonnes), neutralIndex(numColonnes), promoGroup(numColonnes), joneIndex(numColonnes), roujeIndex(numColonnes), oranjeIndex(numColonnes), rezalGroup(numColonnes)
+		:everybodyGroup(numColonnes), favoritesGroup(numColonnes), favoriteIndex(numColonnes), ignoredIndex(numColonnes),  promoGroup(numColonnes), joneIndex(numColonnes), roujeIndex(numColonnes), oranjeIndex(numColonnes), rezalGroup(numColonnes)
 {
 	rezalIndex = new QVector<QPersistentModelIndex>[RzxConfig::rezalNumber()];
 	rezals = new RzxRezalSearchList[RzxConfig::rezalNumber()];
@@ -125,7 +141,6 @@ RzxRezalModel::RzxRezalModel()
 		if(!i) beginInsertRows(favoritesGroup[0], 0, TREE_FAVORITE_NUMBER - 1);
 		favoriteIndex[i] = QAbstractItemModel::createIndex(TREE_FAVORITE_FAVORITE, i, (int)TREE_FLAG_FAVORITE);
 		ignoredIndex[i] = QAbstractItemModel::createIndex(TREE_FAVORITE_IGNORED, i, (int)TREE_FLAG_FAVORITE);
-		neutralIndex[i] = QAbstractItemModel::createIndex(TREE_FAVORITE_NEUTRAL, i, (int)TREE_FLAG_FAVORITE);
 		if(!i) endInsertRows();
 
 		//Arborescence par promo
@@ -214,13 +229,11 @@ QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent)
 				//Le père est Favorites
 				// - Favoris (FLAG_FAVORITE | FAVORITE_FAVORITE)
 				// - Ignored (FLAG_FAVORITE | FAVORITE_IGNORED)
-				// - Autres (FLAG_FAVORITE | FAVORITE_NEUTRAL)
 				case TREE_BASE_FAVORITE:
 					switch(row)
 					{
 						case TREE_FAVORITE_FAVORITE: return favoriteIndex[column];
 						case TREE_FAVORITE_IGNORED: return ignoredIndex[column];
-						case TREE_FAVORITE_NEUTRAL: return neutralIndex[column];
 						default:
 							const int groupId = row - TREE_FAVORITE_FIRSTGROUP;
 							if(groupId >= 0 && groupId < userIndexes.size())
@@ -259,7 +272,6 @@ QModelIndex RzxRezalModel::index(int row, int column, const QModelIndex& parent)
 			{
 				case TREE_FAVORITE_FAVORITE: return createIndex(row, column, TREE_FLAG_FAVORITE_FAVORITE, favorites);
 				case TREE_FAVORITE_IGNORED: return createIndex(row, column, TREE_FLAG_FAVORITE_IGNORED, ignored);
-				case TREE_FAVORITE_NEUTRAL: return createIndex(row, column, TREE_FLAG_FAVORITE_NEUTRAL, neutral);
 				default:
 					const int groupId = value - TREE_FAVORITE_FIRSTGROUP;
 					if(groupId >= 0 && groupId < userIndexes.size())
@@ -305,7 +317,6 @@ QModelIndex RzxRezalModel::index(RzxComputer *computer, const QModelIndex& paren
 			{
 				case TREE_FAVORITE_FAVORITE: list = &favorites; break;
 				case TREE_FAVORITE_IGNORED: list = &ignored; break;
-				case TREE_FAVORITE_NEUTRAL: list = &neutral; break;
 				default:
 					const int groupId = parent.row() - TREE_FAVORITE_FIRSTGROUP;
 					if(groupId >= 0 && groupId < userIndexes.size())
@@ -359,7 +370,6 @@ const RzxRezalSearchTree *RzxRezalModel::childrenByName(const QModelIndex& index
 			{
 				case TREE_FAVORITE_FAVORITE: return &favoritesByName;
 				case TREE_FAVORITE_IGNORED: return &ignoredByName;
-				case TREE_FAVORITE_NEUTRAL: return &neutralByName;
 				default:
 					const int groupId = index.row() - TREE_FAVORITE_FIRSTGROUP;
 					if(groupId >= 0 && groupId < userIndexes.size())
@@ -395,7 +405,6 @@ QModelIndex RzxRezalModel::parent(const QModelIndex& index) const
 		case TREE_FLAG_REZAL: return rezalGroup[0];
 		case TREE_FLAG_FAVORITE_FAVORITE: return favoriteIndex[0];
 		case TREE_FLAG_FAVORITE_IGNORED: return ignoredIndex[0];
-		case TREE_FLAG_FAVORITE_NEUTRAL: return neutralIndex[0];
 		case TREE_FLAG_PROMO_JONE: return joneIndex[0];
 		case TREE_FLAG_PROMO_ROUJE: return roujeIndex[0];
 		case TREE_FLAG_PROMO_ORANJE: return oranjeIndex[0];
@@ -509,7 +518,6 @@ int RzxRezalModel::rowCount(const QModelIndex& index) const
 			{
 				case TREE_FAVORITE_FAVORITE: return favorites.count();
 				case TREE_FAVORITE_IGNORED: return ignored.count();
-				case TREE_FAVORITE_NEUTRAL: return neutral.count();
 				default:
 					const int groupId = value - TREE_FAVORITE_FIRSTGROUP;
 					if(groupId >= 0 && groupId < userIndexes.size())
@@ -581,7 +589,6 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 			{
 				case TREE_FAVORITE_FAVORITE: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_FAVORITE), tr("Favorites"));
 				case TREE_FAVORITE_IGNORED: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_BAN), tr("Banned"));
-				case TREE_FAVORITE_NEUTRAL: return getMenuItem(role, child, RzxIconCollection::getIcon(Rzx::ICON_NOTFAVORITE), tr("Others..."));
 				default:
 					const int groupId = value - TREE_FAVORITE_FIRSTGROUP;
 					if(groupId >= 0 && groupId < userIndexes.size())
@@ -605,7 +612,6 @@ QVariant RzxRezalModel::data(const QModelIndex& index, int role) const
 
 		case TREE_FLAG_FAVORITE_FAVORITE: return getComputer(role, favorites, value, column);
 		case TREE_FLAG_FAVORITE_IGNORED: return getComputer(role, ignored, value, column);
-		case TREE_FLAG_FAVORITE_NEUTRAL: return getComputer(role, neutral, value, column);
 
 		case TREE_FLAG_PROMO_JONE: return getComputer(role, jone, value, column);
 		case TREE_FLAG_PROMO_ROUJE: return getComputer(role, rouje, value, column);
@@ -872,8 +878,6 @@ void RzxRezalModel::login(RzxComputer *computer)
 		insertObject(favoriteIndex[0], favorites, favoritesByName, computer);
 	else if(computer->isIgnored())
 		insertObject(ignoredIndex[0], ignored, ignoredByName, computer);
-	else
-		insertObject(neutralIndex[0], neutral, neutralByName, computer);
 
 	//Ajout dans les groupes personnalisés
 	const int groupNumber = RzxUserGroup::groupNumber();
@@ -916,8 +920,6 @@ void RzxRezalModel::logout(RzxComputer *computer)
 		removeObject(favoriteIndex[0], favorites, favoritesByName, computer);
 	else if(computer->isIgnored())
 		removeObject(ignoredIndex[0], ignored, ignoredByName, computer);
-	else
-		removeObject(neutralIndex[0], neutral, neutralByName, computer);
 
 	//Suppression des groupes personnalisés
 	for(int i = 0 ; i < userGroups.size() ; i++)
@@ -956,7 +958,6 @@ void RzxRezalModel::update(RzxComputer *computer)
 	{
 		if(!favorites.contains(computer))
 		{
-			removeObject(neutralIndex[0], neutral, neutralByName, computer);
 			insertObject(favoriteIndex[0], favorites, favoritesByName, computer);
 			removeObject(ignoredIndex[0], ignored, ignoredByName, computer);
 		}
@@ -967,23 +968,11 @@ void RzxRezalModel::update(RzxComputer *computer)
 	{
 		if(!ignored.contains(computer))
 		{
-			removeObject(neutralIndex[0], neutral, neutralByName, computer);
 			removeObject(favoriteIndex[0], favorites, favoritesByName, computer);
 			insertObject(ignoredIndex[0], ignored, ignoredByName, computer);
 		}
 		else
 			updateObject(ignoredIndex[0], ignored, computer);
-	}
-	else
-	{
-		if(!neutral.contains(computer))
-		{
-			insertObject(neutralIndex[0], neutral, neutralByName, computer);
-			removeObject(favoriteIndex[0], favorites, favoritesByName, computer);
-			removeObject(ignoredIndex[0], ignored, ignoredByName, computer);
-		}
-		else
-			updateObject(neutralIndex[0], neutral, computer);
 	}
 
 	//Test avec les groupes personnalisés
@@ -1062,7 +1051,6 @@ void RzxRezalModel::clear()
 	deleteGroup(everybody, everybodyGroup[0]);
 	deleteGroup(favorites, favoriteIndex[0]);
 	deleteGroup(ignored, ignoredIndex[0]);
-	deleteGroup(neutral, neutralIndex[0]);
 	deleteGroup(jone, joneIndex[0]);
 	deleteGroup(rouje, roujeIndex[0]);
 	deleteGroup(oranje, oranjeIndex[0]);
@@ -1164,7 +1152,6 @@ QModelIndexList RzxRezalModel::selected(const QModelIndex& ref) const
 	insert(everybody, everybodyGroup[0]);
 	insert(favorites, favoriteIndex[0]);
 	insert(ignored, ignoredIndex[0]);
-	insert(neutral, neutralIndex[0]);
 	insert(jone, joneIndex[0]);
 	insert(rouje, roujeIndex[0]);
 	insert(oranje, oranjeIndex[0]);
@@ -1192,7 +1179,6 @@ void RzxRezalModel::sort(int column, Qt::SortOrder sortSens)
 	sortList(everybody, everybodyGroup[0]);
 	sortList(favorites, favoriteIndex[0]);
 	sortList(ignored, ignoredIndex[0]);
-	sortList(neutral, neutralIndex[0]);
 	sortList(jone, joneIndex[0]);
 	sortList(rouje, roujeIndex[0]);
 	sortList(oranje, oranjeIndex[0]);

@@ -118,7 +118,6 @@ void RzxRezalDrag::dropEvent(QDropEvent *e, const QModelIndex& index)
 {
 	const QModelIndex parent = index.parent();
 	const QModelIndex favorite = RzxRezalModel::global()->favoriteIndex[0];
-	const QModelIndex neutral = RzxRezalModel::global()->neutralIndex[0];
 	const QModelIndex ignored = RzxRezalModel::global()->ignoredIndex[0];
 	const QModelIndex everybody = RzxRezalModel::global()->everybodyGroup[0];
 	const QModelIndex favoritesGroup = RzxRezalModel::global()->favoritesGroup[0];
@@ -139,7 +138,7 @@ void RzxRezalDrag::dropEvent(QDropEvent *e, const QModelIndex& index)
 			computer->removeFromFavorites();
 			computer->ban();
 		}
-		else if(parent == neutral || index == neutral || parent == everybody || index == everybody)
+		else if(parent == everybody || index == everybody)
 		{
 			e->acceptProposedAction();
 			computer->unban();
