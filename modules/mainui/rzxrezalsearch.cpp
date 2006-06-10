@@ -104,6 +104,9 @@ void RzxRezalSearch::filterView()
  */
 void RzxRezalSearch::applyFilter(const QModelIndex& parent, RzxRezalModel *model, QAbstractItemView *view)
 {
+	if (view == NULL)
+		return;
+
 	QListView *list = qobject_cast<QListView*>(view);
 	QTreeView *tree = qobject_cast<QTreeView*>(view);
 	
