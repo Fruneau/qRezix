@@ -27,11 +27,6 @@
 #include <RzxApplication>
 #include <RzxTranslator>
 
-#ifdef Q_OS_MAC
-#include <Growl/GrowlApplicationBridge-Carbon.h>
-#include <Growl/GrowlDefines.h>
-#endif
-
 #include "rzxnotifier.h"
 
 #include "rzxtraywindow.h"
@@ -73,19 +68,22 @@ RzxNotifier::~RzxNotifier()
 {
 	beginClosing();
 	delete RzxNotifierConfig::global();
+#ifdef Q_OS_MAC
+	delete growlDelegate;
+#endif
 	endClosing();
 }
 
 #ifdef Q_OS_MAC
 /** Installe le support de Growl
  */
-void RzxNotifier::installGrowlSupport() const
+void RzxNotifier::installGrowlSupport()
 {
-    Growl_Delegate *delegate = new Growl_Delegate;
-    InitGrowlDelegate(delegate);
+    growlDelegate = new Growl_Delegate;
+    InitGrowlDelegate(growlDelegate);
 
 	// Nom du programme pour Growl
-    delegate->applicationName = CFSTR("qRezix");
+    growlDelegate->applicationName = CFSTR("qRezix");
 	
 	// Génère la liste des notifications envisageables
 	CFMutableArrayRef allNotifications = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
@@ -102,8 +100,8 @@ void RzxNotifier::installGrowlSupport() const
         allNotifications,
         defaultNotifications
     };
-    delegate->registrationDictionary = CFDictionaryCreate(kCFAllocatorDefault, keys, values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    Growl_SetDelegate(delegate);
+    growlDelegate->registrationDictionary = CFDictionaryCreate(kCFAllocatorDefault, keys, values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    Growl_SetDelegate(growlDelegate);
 }
 #endif
 

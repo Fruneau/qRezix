@@ -94,8 +94,7 @@ void RzxSmileys::loadSmileysList()
 					loadSmileys(sml, subDir);
 					themes.insert(theme, sml);
 				}
-				else
-					delete subDir;
+				delete subDir;
 			}
 		}
 	}

@@ -1,0 +1,30 @@
+#!/usr/bin/perl
+# Before using this script qRezix must have been launched in an environment with MallocStackLogging=1
+
+# Display a call stack
+# @param stack STRING backtrace separated by |
+sub displayCallStack($$)
+{
+	($nb, $stack) = @_;
+	@calls = split('\s*\|\s*', $stack);
+
+	local $i = 0;
+	print 'Leak ' . $nb . ":\n";
+	for $call (@calls) {
+		print '  Call ' . $i . ': ' . $call . "\n";
+		$i++;
+	}
+	print "\n";
+}
+
+@leaks = split('\n', `leaks qRezix | grep 'Call stack:'`);
+
+$i = 0;
+for $leak (@leaks) {
+	if ($leak =~ /\s*Call stack:\s*\[thread[^\]]*\]:(.*)/) {
+		displayCallStack($i, $1);
+		$i++;
+	}
+}
+
+print "Found $i leaks...\n";

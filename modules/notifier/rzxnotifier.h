@@ -26,6 +26,10 @@
 #endif
 
 #include <RzxModule>
+#ifdef Q_OS_MAC
+#	include <Growl/GrowlApplicationBridge-Carbon.h>
+#	include <Growl/GrowlDefines.h>
+#endif
 
 class RzxComputer;
 namespace Ui { class RzxNotifierProp; }
@@ -43,6 +47,10 @@ class RzxNotifier : public RzxModule
 
 	Ui::RzxNotifierProp *ui;
 	QWidget *propWidget;
+
+#ifdef Q_OS_MAC
+	Growl_Delegate *growlDelegate;
+#endif
 
 	public:
 		RzxNotifier();
@@ -72,7 +80,7 @@ class RzxNotifier : public RzxModule
 		void chooseBeepConnection();
 
 #ifdef Q_OS_MAC
-		void installGrowlSupport() const;
+		void installGrowlSupport();
 #endif
 };
 
