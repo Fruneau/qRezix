@@ -7,7 +7,7 @@
     </message>
     <message>
         <source>Search</source>
-        <translation>Rechercher</translation>
+        <translation type="obsolete">Rechercher</translation>
     </message>
     <message>
         <source>Away</source>
@@ -342,7 +342,7 @@
     </message>
     <message>
         <source>Others...</source>
-        <translation>Autres...</translation>
+        <translation type="obsolete">Autres...</translation>
     </message>
     <message>
         <source>Jones</source>
@@ -415,6 +415,14 @@
     <message>
         <source>Location:</source>
         <translation>Lieux :</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <source>First name</source>
+        <translation>Prénom</translation>
     </message>
 </context>
 <context>

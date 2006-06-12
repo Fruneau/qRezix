@@ -88,5 +88,13 @@
         <source>Printer</source>
         <translation>Imprimante</translation>
     </message>
+    <message>
+        <source>First name</source>
+        <translation>Prénom</translation>
+    </message>
+    <message>
+        <source>Computer</source>
+        <translation>Nom de la machine</translation>
+    </message>
 </context>
 </TS>
