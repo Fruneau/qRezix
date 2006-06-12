@@ -5,8 +5,8 @@
     * Ajout du numéro de portable dans les propriétés [Fruneau]
     * Suppression de memory leaks [Fruneau]
     * Amelioration de la gestion du menu (MacOS) et des actions [Fruneau]
-	
-  Notifier
+
+  Notifier :
     * Support de Growl pour les notifications sur MacOS X [Fruneau]
     * Ajout de notifications sur la réception de messages de chat [Fruneau]
 

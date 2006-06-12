@@ -201,20 +201,19 @@ void RzxTrayIcon::buildMenu()
 		pop.addSeparator();
 #endif //!Q_OS_MAC
 
+	pop.addAction(RzxApplication::prefAction());
 #define newItem(name, trad, receiver, slot) pop.addAction(RzxIconCollection::getIcon(name), trad, receiver, slot)
-	newItem(Rzx::ICON_PREFERENCES , tr( "&Preference" ), this, SIGNAL( wantPreferences() ) );
 	if (RzxConfig::autoResponder())
 		newItem(Rzx::ICON_HERE, tr( "&I'm back !" ), this, SIGNAL( wantToggleResponder() ) );
 	else
 		newItem(Rzx::ICON_AWAY, tr( "I'm &away !" ), this, SIGNAL( wantToggleResponder() ) );
-
+#undef newItem
+	
 #ifndef Q_OS_MAC
-	newItem(Rzx::ICON_QUIT, tr( "&Quit" ), this, SIGNAL(wantQuit()) );
+	pop.addAction(RzxApplication::quitAction());
 #else
 	qt_mac_set_dock_menu( &pop );
 #endif
-
-#undef newItem
 }
 
 ///Fonction auxiliaire pour faire les titres dynamiques des sous-menus
