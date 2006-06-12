@@ -34,19 +34,9 @@ QPointer<RzxComputer> RzxRezalPopup::computer = NULL;
  */
 RzxRezalPopup::RzxRezalPopup(const QModelIndex& index, QMenuBar *menu)
 {
-	if(!index.isValid())
-	{
-		deleteLater();
-		return;
-	}
-	QVariant value = index.model()->data(index, Qt::UserRole);
-	if(!value.canConvert<RzxComputer*>())
-	{
-		deleteLater();
-		return;
-	}
-	init(value.value<RzxComputer*>(), QPoint());
 	menu->addMenu(this);
+	setTitle(tr("Action"));
+	change(index);
 }
 
 ///Constructeur on ne peut plus simple...
@@ -80,14 +70,17 @@ RzxRezalPopup::RzxRezalPopup(const QModelIndex& index, const QPoint& point, QWid
 void RzxRezalPopup::init(RzxComputer *m_computer, const QPoint& point)
 {
 	computer = m_computer;
-	if(!computer)
+	if(!point.isNull())
 	{
-		deleteLater();
-		return;
+		if(!computer)
+		{
+			deleteLater();
+			return;
+		}
+		
+		setAttribute(Qt::WA_DeleteOnClose);
+		setTitle(computer->name());
 	}
-	if(!point.isNull()) setAttribute(Qt::WA_DeleteOnClose);
-
-	setTitle(computer->name());
 	
 #define newItem(name, trad, receiver, slot) addAction(RzxIconCollection::getIcon(name), trad, receiver, slot)
 	if(computer->isIgnored())
@@ -172,19 +165,26 @@ void RzxRezalPopup::init(RzxComputer *m_computer, const QPoint& point)
 ///Change l'ordinateur concerné
 void RzxRezalPopup::change(const QModelIndex& index)
 {
-	clear();
 	if(!index.isValid())
 	{
-		setTitle("");
+		makeEmpty();
 		return;
 	}
 	QVariant value = index.model()->data(index, Qt::UserRole);
 	if(!value.canConvert<RzxComputer*>())
 	{
-		setTitle("");
+		makeEmpty();
 		return;
 	}
+	clear();
 	init(value.value<RzxComputer*>(), QPoint());
+}
+
+///Crée un menu avec un élément inutile
+void RzxRezalPopup::makeEmpty()
+{
+	clear();
+	addAction(tr("Empty"))->setEnabled(false);
 }
 
 ///Interception des entrées clavier

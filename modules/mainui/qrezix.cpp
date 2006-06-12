@@ -89,10 +89,6 @@ QRezix::QRezix(QWidget *parent)
 	
 #ifdef Q_OS_MAC
 	//Mise en place du menu pour Mac OS...
-	QMenuBar *menu = menuBar();
-	QMenu *tool = menu->addMenu("qRezix");
-	tool->addAction("Preferences", this, SIGNAL(wantPreferences()));
-	tool->addAction("Quit", this, SIGNAL(wantQuit()));
 	popup = NULL;
 	setMenu();
 
@@ -113,9 +109,6 @@ QRezix::QRezix(QWidget *parent)
 	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(toggleAutoResponder()));
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	
-	// Préparation de l'insterface
-	activateAutoResponder( RzxConfig::autoResponder() != 0 );
-
 	RzxConnectionLister *lister = RzxConnectionLister::global();
 	connect(lister, SIGNAL(status(const QString&,bool)), this, SLOT(status(const QString&, bool)));
 	connect(lister, SIGNAL(countChange(const QString&)), statusui->lblCount, SLOT(setText(const QString&)));
@@ -457,13 +450,6 @@ void QRezix::buildActions()
 	pluginsAction->setShortcut(Qt::Key_F5); //c'est associé à updateLayout ~= refresh
 	connect(pluginsAction, SIGNAL(triggered()), this, SLOT(updateLayout()));
 
-	prefAction = new QAction(tr("Preferences"), this);
-	connect(prefAction, SIGNAL(triggered()), this, SIGNAL(wantPreferences()));
-	
-	awayAction = new QAction(tr("Away"), this);
-	awayAction->setCheckable(true);	
-	connect(awayAction, SIGNAL(triggered()), this, SIGNAL(wantToggleResponder()));
-	
 	searchModeAction = new QAction(tr("Advanced search"), this);
 	searchModeAction->setCheckable(true);
 	searchModeAction->setChecked(RzxMainUIConfig::searchMode() == RzxRezalSearch::Full);
@@ -517,13 +503,10 @@ void QRezix::saveState(RzxRezal *rezal)
  */
 void QRezix::setMenu(const QModelIndex& current, const QModelIndex&)
 {	
-	if(current.isValid() && !RzxRezalModel::global()->isIndex(current))
-	{
-		if(!popup)
-			popup = new RzxRezalPopup(current, menuBar());
-		else
-			popup->change(current);
-	}
+	if(!popup)
+		popup = new RzxRezalPopup(current, RzxApplication::menuBar());
+	else
+		popup->change(current);
 }	
 #endif
 
@@ -674,22 +657,6 @@ bool QRezix::event(QEvent * e)
 	return QMainWindow::event(e);
 }
 
-///Prend en compte l'état du répondeur qui vient de changer...
-void QRezix::toggleAutoResponder()
-{
-	activateAutoResponder( RzxComputer::localhost()->isOnResponder());
-}
-
-///Affiche l'état du répondeur...
-void QRezix::activateAutoResponder( bool state )
-{
-	if(!state == awayAction->isChecked())
-	{
-		awayAction->setChecked(state);
-		return;
-	}
-}
-
 ///Change l'état d'affichage de la fenêtre...
 void QRezix::toggleVisible()
 {
@@ -718,12 +685,12 @@ void QRezix::buildToolbar(bool showSearch)
 	if(leSearch)
 		delete leSearch;
 	
-	bar->addAction(prefAction);
+	bar->addAction(RzxApplication::prefAction());
 	bar->addAction(pluginsAction);
 	QWidget *spacer = new QWidget();
 	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	spacerAction = bar->addWidget(spacer);
-	bar->addAction(awayAction);
+	bar->addAction(RzxApplication::awayAction());
 	
 	if(showSearch)
 	{
@@ -765,8 +732,6 @@ void QRezix::changeTheme()
 	menuView.setIcon(RzxIconCollection::getIcon(Rzx::ICON_LAYOUT));
 	if(restartAction)
 		restartAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_RELOAD));
-	awayAction->setIcon(RzxIconCollection::getResponderIcon());
-	prefAction->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
 	searchModeAction->setIcon(RzxIconCollection::getPixmap(Rzx::ICON_SEARCH));
 	statusui->lblCountIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_NOTFAVORITE)
 		.scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));

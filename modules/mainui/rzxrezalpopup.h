@@ -57,6 +57,7 @@ class RZX_MAINUI_EXPORT RzxRezalPopup : public QMenu
 	protected slots:
 		void addToGroup(QAction *);
 		void removeFromGroup(QAction *);
+		void makeEmpty();
 };
 
 #endif

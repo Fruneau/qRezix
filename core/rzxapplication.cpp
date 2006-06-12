@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 #include <QDir>
+#include <QAction>
+#include <QMenu>
+#include <QMenuBar>
 
 #include <RzxApplication>
 
@@ -152,11 +155,15 @@ bool RzxApplication::loadCore()
 	Rzx::beginModuleLoading("qRezix Core");
 
 	//Chargement des configs
+	buildActions();
 	setSettings(new RzxConfig());
 	setWindowIcon(RzxIconCollection::qRezixIcon());
+	RzxIconCollection::connect(this, SLOT(changeTheme()));
+	changeTheme();
 #ifdef Q_OS_MAC
 	CGImageRef ir = (CGImageRef)RzxIconCollection::qRezixIcon().macCGHandle();
 	SetApplicationDockTileImage(ir);
+	createMenu();
 #endif
 
 	//Initialisation de l'objet représentant localhost
@@ -186,12 +193,52 @@ bool RzxApplication::loadCore()
 		if(!RzxConfig::infoCompleted())
 			return false;
 	}
+	
+	pref->setEnabled(true);
+	away->setEnabled(true);
+	quit->setEnabled(true);
 
 	//Chargement de la base réseau de qRezix
 	RzxConnectionLister::global();
 	Rzx::endModuleLoading("qRezix Core");
 	return true;
 }
+
+///Crée les actions globales
+void RzxApplication::buildActions()
+{
+	pref = new QAction(tr("Preferences"), this);
+	connect(pref, SIGNAL(triggered()), this, SLOT(preferences()));
+	
+	away = new QAction(tr("Away"), this);
+	away->setCheckable(true);	
+	away->setChecked(RzxComputer::localhost()->isOnResponder());
+	connect(away, SIGNAL(triggered()), this, SLOT(toggleResponder()));
+	
+	quit = new QAction(tr("Quit"), this);
+	connect(quit, SIGNAL(triggered()), this, SLOT(quit()));
+	
+	pref->setEnabled(false);
+	away->setEnabled(false);
+	quit->setEnabled(false);
+}
+
+#ifdef Q_OS_MAC
+///Construit le menu pour Mac
+void RzxApplication::createMenu()
+{
+	menu = new QMenuBar();
+	QMenu *tool = menu->addMenu("qRezix");
+	tool->addAction("Preferences", this, SLOT(preferences()));
+	tool->addAction("Quit", this, SLOT(quit()));	
+}
+
+///Retourne la bar de menu
+QMenuBar *RzxApplication::menuBar()
+{
+	return instance()->menu;
+}
+#endif
 
 ///Chargement des modules
 /** Charge les modules de qRezix. Les modules doivent absolument
@@ -436,6 +483,24 @@ RzxModule *RzxApplication::chatUiModule()
 	return instance()->chatui;
 }
 
+///Retourne l'action permettant de quitter le programme
+QAction *RzxApplication::quitAction()
+{
+	return instance()->quit;
+}
+
+///Retourne l'action permettant d'afficher les propriétés
+QAction *RzxApplication::prefAction()
+{
+	return instance()->pref;
+}
+
+///Retourne l'action permettant de changer l'état du répondeur
+QAction *RzxApplication::awayAction()
+{
+	return instance()->away;
+}
+
 ///Change l'état du répondeur
 void RzxApplication::toggleResponder()
 {
@@ -488,6 +553,14 @@ void RzxApplication::relayProperties(RzxComputer *c)
 	if(!used && propertiesUi)
 		propertiesUi->showProperties(c);
 }
+
+///Change le thème d'icône
+void RzxApplication::changeTheme()
+{
+	away->setIcon(RzxIconCollection::getResponderIcon());
+	pref->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
+	quit->setIcon(RzxIconCollection::getIcon(Rzx::ICON_QUIT));
+}	
 
 ///Affiche l'aide de qRezix
 void RzxApplication::displayHelp()

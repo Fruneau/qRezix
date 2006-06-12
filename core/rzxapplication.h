@@ -26,6 +26,8 @@
 #include <RzxModule>
 #include <RzxProperty>
 
+class QAction;
+class QMenuBar;
 class RzxComputer;
 
 /**
@@ -48,7 +50,15 @@ class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<R
 	RzxModule *chatui;
 	RzxModule *propertiesProto;
 	RzxModule *propertiesUi;
+	
+	QAction *pref;
+	QAction *away;
+	QAction *quit;
 
+#ifdef Q_OS_MAC
+	QMenuBar *menu;
+#endif
+	
 	bool wellInit;
 	static Rzx::Version m_version;
 
@@ -69,13 +79,22 @@ class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<R
 		static RzxModule *chatModule();
 		static RzxModule *propertiesModule();
 		static RzxModule *chatUiModule();
+		
+		static QAction *prefAction();
+		static QAction *awayAction();
+		static QAction *quitAction();
 
 #ifdef Q_OS_MAC
+		static QMenuBar *menuBar();
 		virtual bool macEventFilter ( EventHandlerCallRef caller, EventRef event );
 #endif
 		
 	protected:
 		bool loadCore();
+		void buildActions();
+#ifdef Q_OS_MAC
+		void createMenu();
+#endif
 		void installHider(RzxModule*);
 		
 		virtual void loadBuiltins();
@@ -94,6 +113,7 @@ class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<R
 		void toggleResponder();
 		void activateResponder();
 		void deactivateResponder();
+		void changeTheme();
 
 	signals:
 		///Simple relais pour RzxModule::haveProperties

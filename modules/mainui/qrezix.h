@@ -95,8 +95,6 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	bool closing;
 	
 	QAction *pluginsAction;
-	QAction *prefAction;
-	QAction *awayAction;
 	QAction *restartAction;
 	QAction *searchModeAction;
 	QAction *spacerAction;
@@ -138,8 +136,6 @@ protected:
 
 public slots: // Public slots
 	void status(const QString& msg, bool fatal);
-	void toggleAutoResponder();
-	void activateAutoResponder( bool state );
 	void changeTheme();
 	void menuFormatChange();
 	void buildToolbar(bool);
