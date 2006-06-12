@@ -44,6 +44,18 @@
         <source>This is a development version, provided as is, &lt;b&gt;without any garantee&lt;/b&gt; of stability or functionality.&lt;br&gt;&lt;br&gt;&lt;i&gt;Use at your own risk.&lt;/i&gt;</source>
         <translation>Ceci est une version de développement. Elle est distribuée &lt;b&gt;sans aucune garantie&lt;/b&gt; de stabilité ou de bon fonctionnement.&lt;br&gt;&lt;br&gt;&lt;i&gt;Utilisez-la à vos risques et périls&lt;/i&gt;</translation>
     </message>
+    <message>
+        <source>Preferences</source>
+        <translation>Préférences</translation>
+    </message>
+    <message>
+        <source>Away</source>
+        <translation>Absent</translation>
+    </message>
+    <message>
+        <source>Quit</source>
+        <translation>Quitter</translation>
+    </message>
 </context>
 <context>
     <name>RzxChangePass</name>
@@ -74,7 +86,7 @@
     <message>
         <source>Your password can contains any character.&lt;br&gt;
 It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
-        <translation type="unfinished">Votre mot de passe doit contenir au moins&lt;br&gt;
+        <translation>Votre mot de passe doit contenir au moins&lt;br&gt;
 &lt;b&gt;6 caractères&lt;/b&gt;</translation>
     </message>
 </context>

@@ -114,6 +114,7 @@ class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<R
 		void activateResponder();
 		void deactivateResponder();
 		void changeTheme();
+		void translate();
 
 	signals:
 		///Simple relais pour RzxModule::haveProperties

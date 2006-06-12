@@ -26,6 +26,7 @@
 #include <RzxComputer>
 #include <RzxIconCollection>
 #include <RzxConnectionLister>
+#include <RzxTranslator>
 #include <RzxMessageBox>
 #include <RzxProperty>
 #include <RzxIntro>
@@ -159,7 +160,9 @@ bool RzxApplication::loadCore()
 	setSettings(new RzxConfig());
 	setWindowIcon(RzxIconCollection::qRezixIcon());
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
+	RzxTranslator::connect(this, SLOT(translate()));
 	changeTheme();
+	translate();
 #ifdef Q_OS_MAC
 	CGImageRef ir = (CGImageRef)RzxIconCollection::qRezixIcon().macCGHandle();
 	SetApplicationDockTileImage(ir);
@@ -560,6 +563,14 @@ void RzxApplication::changeTheme()
 	away->setIcon(RzxIconCollection::getResponderIcon());
 	pref->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
 	quit->setIcon(RzxIconCollection::getIcon(Rzx::ICON_QUIT));
+}	
+
+///Change la traduction
+void RzxApplication::translate()
+{
+	away->setText(tr("Away"));
+	pref->setText(tr("Preferences"));
+	quit->setText(tr("Quit"));
 }	
 
 ///Affiche l'aide de qRezix
