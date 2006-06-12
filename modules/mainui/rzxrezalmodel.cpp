@@ -178,7 +178,6 @@ RzxRezalModel::RzxRezalModel()
 	connect(RzxConnectionLister::global(), SIGNAL(logout(RzxComputer* )), this, SLOT(logout(RzxComputer* )));
 	connect(RzxConnectionLister::global(), SIGNAL(update(RzxComputer* )), this, SLOT(update(RzxComputer* )));
 	RzxTranslator::connect(this, SLOT(refresh()));
-	RzxTranslator::connect(this, SLOT(refresh()));
 }
 
 ///Détruit le modèle
@@ -1205,6 +1204,9 @@ void RzxRezalModel::refresh(const QModelIndex& parent)
 	const QModelIndex endIndex = index(rows - 1, numColonnes-1, parent);
 	emit dataChanged(baseIndex, endIndex);
 
-	for(int i = 0 ; i < rows ; i++)
-		refresh(index(i, 0, parent));
+	for(int i = 0 ; i < rows ; i++) {
+		const QModelIndex next = index(i, 0, parent);
+		if(next.isValid())
+			refresh(next);
+	}
 }

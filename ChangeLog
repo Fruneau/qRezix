@@ -25,6 +25,7 @@
     * Ajout de colonnes Nom/Prénom remplies à l'aide des propriétés [Fruneau]
     * Utilisation de références dynamiques au nombre de colonnes dans les rezals [Fruneau]
     * Suppression de la catégorie Autres [Fruneau]
+    * Bugfix : freeze au changement de traduction [Fruneau]
 
 [v2.0.1] 2006-04 <br@frankiz.polytechnique.fr>
     * Bugfixes
