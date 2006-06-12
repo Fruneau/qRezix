@@ -517,7 +517,7 @@ QString RzxConfig::propPromo()
 void RzxConfig::setAutoResponder(const bool& val)
 {
 	RzxComputer::localhost()->setState(val);
-	if(RzxApplication::awayAction()->isChecked() != val)
+	if(RzxApplication::awayAction() && RzxApplication::awayAction()->isChecked() != val)
 		RzxApplication::awayAction()->setChecked(val);
 }
 
