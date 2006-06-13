@@ -370,12 +370,13 @@ void RzxRezalView::forceRefresh()
 void RzxRezalView::drawRow(QPainter *painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 	QStyleOptionViewItem newoption = option;
-	QVariant variant = model()->data(index, Qt::BackgroundColorRole);
+	const QVariant variant = model()->data(index, Qt::BackgroundColorRole);
 
 	if(variant.canConvert<QColor>())
 	{
+		const qint32 rgba = variant.value<QColor>().rgba();
 #define setColor(org, dest) \
-	newoption.palette.setBrush(dest, QColor(variant.value<QColor>().rgba() & option.palette.org().color().rgba()))
+	newoption.palette.setBrush(dest, QColor(rgba & option.palette.org().color().rgba()))
 		setColor(highlight, QPalette::Highlight);
 		setColor(base, QPalette::Base);
 		setColor(alternateBase, QPalette::AlternateBase);

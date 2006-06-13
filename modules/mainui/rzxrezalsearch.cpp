@@ -113,13 +113,16 @@ void RzxRezalSearch::applyFilter(const QModelIndex& parent, RzxRezalModel *model
 	const int rows = model->rowCount(parent);
 	for(int i = 0 ; i < rows ; i++)
 	{
-		QModelIndex index = parent.child(i, 0);
-		if(model->isIndex(index) && tree)
-			applyFilter(index, model, view);
-		else if(list)
-			list->setRowHidden(i, !matches(index, model));
-		else if(tree)
-			tree->setRowHidden(i, parent, !matches(index, model));
+		const QModelIndex index = parent.child(i, 0);
+		if(index.isValid())
+		{
+			if(model->isIndex(index) && tree)
+				applyFilter(index, model, view);
+			else if(list)
+				list->setRowHidden(i, !matches(index, model));
+			else if(tree)
+				tree->setRowHidden(i, parent, !matches(index, model));
+		}
 	}
 }
 
