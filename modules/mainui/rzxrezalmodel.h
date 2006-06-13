@@ -189,7 +189,7 @@ class RZX_MAINUI_EXPORT RzxRezalModel:public QAbstractItemModel
 			TREE_FAVORITE_FAVORITE = 0,
 			TREE_FAVORITE_IGNORED = 1,
 			TREE_FAVORITE_FIRSTGROUP = 2,
-			TREE_FAVORITE_NUMBER = 3 //Il y a 3 lignes de base
+			TREE_FAVORITE_NUMBER = 2 //Il y a 2 lignes de base
 		};
 
 		///Identifiants des fils du groupe Promo
