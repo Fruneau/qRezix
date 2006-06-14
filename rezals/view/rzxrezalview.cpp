@@ -327,7 +327,7 @@ void RzxRezalView::currentChanged(const QModelIndex& current, const QModelIndex&
 bool RzxRezalView::isVisible(const QModelIndex& index) const
 {
 	const QRect rect = visualRect(index);
-	return rect.bottom() >= 0 && rect.top() < viewport()->height();
+	return (rect.bottom() >= 0 || rect.top() < viewport()->height()) && rect.top() < rect.bottom();
 }
 
 ///Sélection l'index trouvé par la recherche
