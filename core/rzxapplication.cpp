@@ -30,6 +30,7 @@
 #include <RzxMessageBox>
 #include <RzxProperty>
 #include <RzxIntro>
+#include <RzxQuickRun>
 
 #ifdef Q_OS_MAC
 #	include <Carbon/Carbon.h>
@@ -200,6 +201,7 @@ bool RzxApplication::loadCore()
 	pref->setEnabled(true);
 	away->setEnabled(true);
 	quit->setEnabled(true);
+	quickrun->setEnabled(true);
 
 	//Chargement de la base réseau de qRezix
 	RzxConnectionLister::global();
@@ -211,19 +213,27 @@ bool RzxApplication::loadCore()
 void RzxApplication::buildActions()
 {
 	pref = new QAction(tr("Preferences"), this);
+	pref->setShortcut(QKeySequence("CTRL+,"));
 	connect(pref, SIGNAL(triggered()), this, SLOT(preferences()));
 	
 	away = new QAction(tr("Away"), this);
 	away->setCheckable(true);	
 	away->setChecked(RzxComputer::localhost()->isOnResponder());
+	away->setShortcut(QKeySequence("CTRL+A"));
 	connect(away, SIGNAL(triggered()), this, SLOT(toggleResponder()));
 	
 	quit = new QAction(tr("Quit"), this);
+	quit->setShortcut(QKeySequence("CTRL+Q"));
 	connect(quit, SIGNAL(triggered()), this, SLOT(quit()));
+
+	quickrun = new QAction(tr("New action..."), this);
+	quickrun->setShortcut(QKeySequence("CTRL+SHIFT+N"));
+	connect(quickrun, SIGNAL(triggered()), this, SLOT(displayQuickRun()));
 	
 	pref->setEnabled(false);
 	away->setEnabled(false);
 	quit->setEnabled(false);
+	quickrun->setEnabled(false);
 }
 
 #ifdef Q_OS_MAC
@@ -233,7 +243,10 @@ void RzxApplication::createMenu()
 	menu = new QMenuBar();
 	QMenu *tool = menu->addMenu("qRezix");
 	tool->addAction("Preferences", this, SLOT(preferences()));
-	tool->addAction("Quit", this, SLOT(quit()));	
+	tool->addAction("Quit", this, SLOT(quit()));
+
+	QMenu *file = menu->addMenu(tr("File"));
+	file->addAction(quickrun);
 }
 
 ///Retourne la bar de menu
@@ -421,6 +434,12 @@ void RzxApplication::preferences()
 	}
 }
 
+///Affiche la fenêtre de lancement rapide
+void RzxApplication::displayQuickRun()
+{
+	new RzxQuickRun();
+}
+
 ///Retourne la version de qRezix
 Rzx::Version RzxApplication::version()
 {
@@ -504,6 +523,12 @@ QAction *RzxApplication::awayAction()
 	return instance()->away;
 }
 
+///Retourne l'action permettant le lancement rapide d'action
+QAction *RzxApplication::quickrunAction()
+{
+	return instance()->quickrun;
+}
+
 ///Change l'état du répondeur
 void RzxApplication::toggleResponder()
 {
@@ -560,17 +585,23 @@ void RzxApplication::relayProperties(RzxComputer *c)
 ///Change le thème d'icône
 void RzxApplication::changeTheme()
 {
-	away->setIcon(RzxIconCollection::getResponderIcon());
-	pref->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
-	quit->setIcon(RzxIconCollection::getIcon(Rzx::ICON_QUIT));
+	if(away)
+		away->setIcon(RzxIconCollection::getResponderIcon());
+	if(pref)
+		pref->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PREFERENCES));
+	if(quit)
+		quit->setIcon(RzxIconCollection::getIcon(Rzx::ICON_QUIT));
 }	
 
 ///Change la traduction
 void RzxApplication::translate()
 {
-	away->setText(tr("Away"));
-	pref->setText(tr("Preferences"));
-	quit->setText(tr("Quit"));
+	if(away)
+		away->setText(tr("Away"));
+	if(pref)
+		pref->setText(tr("Preferences"));
+	if(quit)
+		quit->setText(tr("Quit"));
 }	
 
 ///Affiche l'aide de qRezix

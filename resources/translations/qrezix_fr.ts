@@ -56,6 +56,14 @@
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
+    <message>
+        <source>New action...</source>
+        <translation>Nouvelle action...</translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation>Fichier</translation>
+    </message>
 </context>
 <context>
     <name>RzxChangePass</name>
@@ -845,6 +853,85 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     <message>
         <source>Value</source>
         <translation type="obsolete">Valeur</translation>
+    </message>
+</context>
+<context>
+    <name>RzxQuickRun</name>
+    <message>
+        <source>Start a chat</source>
+        <translation>Lancer une discussion</translation>
+    </message>
+    <message>
+        <source>Open FTP</source>
+        <translation>Ouvrir un FTP</translation>
+    </message>
+    <message>
+        <source>Open Web</source>
+        <translation>Ouvrir une page Web</translation>
+    </message>
+    <message>
+        <source>Read news</source>
+        <translation>Lire des News</translation>
+    </message>
+    <message>
+        <source>Open Samba</source>
+        <translation>Ouvrir un samba</translation>
+    </message>
+    <message>
+        <source>Send a mail</source>
+        <translation>Envoyer un mail</translation>
+    </message>
+    <message>
+        <source>View properties</source>
+        <translation>Voir les propriétés</translation>
+    </message>
+    <message>
+        <source>Read history</source>
+        <translation>Lire l&apos;historique</translation>
+    </message>
+    <message>
+        <source>Add to favorites</source>
+        <translation>Ajouter un favoris</translation>
+    </message>
+    <message>
+        <source>Remove from favorites</source>
+        <translation>Supprimer un favoris</translation>
+    </message>
+    <message>
+        <source>Add to banlist</source>
+        <translation>Bannir</translation>
+    </message>
+    <message>
+        <source>Remove from banlist</source>
+        <translation>Retirer un bannissement</translation>
+    </message>
+    <message>
+        <source>Change away state</source>
+        <translation>Changer l&apos;état</translation>
+    </message>
+    <message>
+        <source>Open preferences</source>
+        <translation>Ouvrir les préférences</translation>
+    </message>
+    <message>
+        <source>Run action</source>
+        <translation>Lancer une action</translation>
+    </message>
+    <message>
+        <source>Apply on: </source>
+        <translation>Appliquer à :</translation>
+    </message>
+    <message>
+        <source>Action:</source>
+        <translation>Action :</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuler</translation>
     </message>
 </context>
 <context>

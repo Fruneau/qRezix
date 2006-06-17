@@ -58,7 +58,8 @@ SOURCES += rzxglobal.cpp \
 	rzxfavoritelist.cpp \
 	rzxbanlist.cpp \
 	rzxlistedit.cpp \
-	rzxcomputerlistwidget.cpp
+	rzxcomputerlistwidget.cpp \
+	rzxquickrun.cpp
 
 HEADERS += rzxglobal.h \
 	rzxapplication.h \
@@ -89,7 +90,8 @@ HEADERS += rzxglobal.h \
 	rzxfavoritelist.h \
 	rzxbanlist.h \
 	rzxlistedit.h \
-	rzxcomputerlistwidget.h
+	rzxcomputerlistwidget.h \
+	rzxquickrun.h
 		
 FORMS += rzxproperty.ui \
 	rzxwrongpass.ui \
@@ -97,7 +99,8 @@ FORMS += rzxproperty.ui \
 	rzxintro.ui \
 	rzxloader.ui \
 	rzxinfomessage.ui \
-	rzxlistedit.ui
+	rzxlistedit.ui \
+	rzxquickrun.ui
 
 RESOURCES += rzxcore.qrc
 

@@ -54,6 +54,7 @@ class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<R
 	QAction *pref;
 	QAction *away;
 	QAction *quit;
+	QAction *quickrun;
 
 #ifdef Q_OS_MAC
 	QMenuBar *menu;
@@ -83,6 +84,7 @@ class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<R
 		static QAction *prefAction();
 		static QAction *awayAction();
 		static QAction *quitAction();
+		static QAction *quickrunAction();
 
 #ifdef Q_OS_MAC
 		static QMenuBar *menuBar();
@@ -106,6 +108,7 @@ class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<R
 	public slots:
 		void saveSettings();
 		void preferences();
+		void displayQuickRun();
 
 		void relayProperties(RzxComputer*);
 

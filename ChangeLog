@@ -5,6 +5,7 @@
     * Ajout du numéro de portable dans les propriétés [Fruneau]
     * Suppression de memory leaks [Fruneau]
     * Amelioration de la gestion du menu (MacOS) et des actions [Fruneau]
+    * Ajout d'un menu action permettant d'interagir sans la mainui [Fruneau]
 
   Notifier :
     * Support de Growl pour les notifications sur MacOS X [Fruneau]
