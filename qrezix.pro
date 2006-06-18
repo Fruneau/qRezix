@@ -10,15 +10,13 @@ mac:system(find . -name 'Makefile' -exec rm {} ";" 2>> /dev/null)
 
 include(rzxinstall.pri)
 
-mac {
-	qrezix.files = qRezix.app
-	qrezix.path = packages/macosx/
-} else:unix {
-	qrezix.files = qrezix
-	qrezix.path = $$BINDEST/
-} else:win32 {
-	qrezix.files = qrezix.exe
-	qrezix.path = $$DEST/
+!mac {
+	unix {
+		qrezix.files = qrezix
+		qrezix.path = $$BINDEST/
+	} else:win32 {
+		qrezix.files = qrezix.exe
+		qrezix.path = $$DEST/
+	}
+	INSTALLS += qrezix
 }
-
-INSTALLS += qrezix

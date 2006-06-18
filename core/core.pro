@@ -109,11 +109,14 @@ TRANSLATIONS = $$ROOT/resources/translations/qrezix_fr.ts
 mainlib.files = $$ROOT/libqrezix*
 subnets.files = subnet.ini
 mac {
-        mainlib.path = $$ROOT/qRezix.app/Contents/Frameworks
+	QMAKE_COPY = cp -Rf
+	QMAKE_COPY_FILE = cp -Rf
+	QMAKE_COPY_DIR = cp -Rf
+	mainlib.path = $$ROOT/qRezix.app/Contents/Frameworks
 	subnets.path = $$ROOT/qRezix.app/Contents/Resources
 } else:unix {
-	QMAKE_COPY              = cp -df
-        mainlib.path = $$LIBDEST
+	QMAKE_COPY = cp -df
+    mainlib.path = $$LIBDEST
 	!isEmpty(LIBREL): mainlib.extra = cd $$DEST/lib && \ 
 		ln -sf $$LIBREL/libqrezix.so.$$VERSION ./ && \
 		ln -sf $$LIBREL/libqrezix.so.2.0 ./ && \

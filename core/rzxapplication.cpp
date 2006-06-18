@@ -244,6 +244,7 @@ void RzxApplication::createMenu()
 	QMenu *tool = menu->addMenu("qRezix");
 	tool->addAction("Preferences", this, SLOT(preferences()));
 	tool->addAction("Quit", this, SLOT(quit()));
+	tool->addAction("about.Qt", this, SLOT(aboutQt()));
 
 	QMenu *file = menu->addMenu(tr("File"));
 	file->addAction(quickrun);

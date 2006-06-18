@@ -41,6 +41,7 @@ HEADERS += $$ROOT/core/RzxGlobal \
 	$$ROOT/core/RzxComputerListWidget \
 	$$ROOT/core/RzxQuickRun
 
+win32:DEFINES += RZX_ALL_BUILTIN
 !contains(DEFINES, NO_JABBER):!existLib(gloox):DEFINES += NO_JABBER
 contains(DEFINES, RZX_ALL_BUILTIN) {
 	!contains(DEFINES, NO_MAINUI):DEFINES += RZX_MAINUI_BUILTIN

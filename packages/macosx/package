@@ -1,24 +1,32 @@
 #!/bin/sh
 
+echo "Building tools"
+gcc -o realpath realpath.c
+ABSQTDIR=`./realpath $QTDIR`
+
 # Compilation
 rm -rf qRezix.app
 echo "Building qRezix"
 cd ../..
 ./build-mac > /dev/null
+cp -R qRezix.app packages/macosx/
 
 # Ajout de Qt dans le bundle
+installQtLib()
+{
+	cp -R $ABSQTDIR/lib/$1.framework qRezix.app/Contents/Frameworks/
+	install_name_tool -id @executable_path/../Frameworks/$1.framework/Versions/Current/$1 qRezix.app/Contents/Frameworks/$1.framework/Versions/Current/$1
+}
+
 echo "Linking with Qt"
 cd packages/macosx
-cp $QTDIR/lib/QtGui.framework/QtGui qRezix.app/Contents/Frameworks/
-cp $QTDIR/lib/QtCore.framework/QtCore qRezix.app/Contents/Frameworks/
-cp $QTDIR/lib/QtNetwork.framework/QtNetwork qRezix.app/Contents/Frameworks/
+installQtLib QtCore
+installQtLib QtGui
+installQtLib QtNetwork
 
 cd qRezix.app/Contents
-../../install_libs MacOS/qRezix
-../../install_libs Frameworks/QtGui
-../../install_libs Frameworks/QtCore
-../../install_libs Frameworks/QtNetwork
-find . -name '*.dylib' -exec ../../install_libs {} ";"
+../../install_libs MacOS/qRezix $ABSQTDIR
+find . -name '*.dylib' -exec ../../install_libs {} $ABSQTDIR ";"
 
 # Nettoyage du bundle
 echo "Cleaning the bundle"
@@ -26,12 +34,3 @@ cd Resources
 find . -name '.svn' -exec rm -rf {} ";" 2> /dev/null > /dev/null
 rm -rf icones
 rm -rf logs
-
-# Restauration des liens symboliques
-cd ../Frameworks
-rm libqrezix.2.0.dylib
-rm libqrezix.2.dylib
-rm libqrezix.dylib
-ln -s libqrezix.2.0.1.dylib libqrezix.2.0.dylib
-ln -s libqrezix.2.0.1.dylib libqrezix.2.dylib
-ln -s libqrezix.2.0.1.dylib libqrezix.dylib
