@@ -369,6 +369,9 @@ void RzxRezalView::forceRefresh()
 /** Réimplémente la fonction dans le simple but de régler les problèmes de couleur de fond... */
 void RzxRezalView::drawRow(QPainter *painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
+	if(!isVisible(index))
+		return;
+	
 	QStyleOptionViewItem newoption = option;
 	const QVariant variant = model()->data(index, Qt::BackgroundColorRole);
 
@@ -383,8 +386,7 @@ void RzxRezalView::drawRow(QPainter *painter, const QStyleOptionViewItem& option
 #undef setColor
 	}
 
-	if(isVisible(index))
-		QTreeView::drawRow(painter, newoption, index);
+	QTreeView::drawRow(painter, newoption, index);
 }
 
 ///Pour éviter que les branches soient ouvertes lors de la suppression d'une ligne...
