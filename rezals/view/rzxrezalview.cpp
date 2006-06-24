@@ -314,11 +314,7 @@ void RzxRezalView::currentChanged(const QModelIndex& current, const QModelIndex&
 	
 	if(!current.isValid() || rootIndex() == current.parent() || 
 		(current.parent() == rootIndex().parent() && current.row() == rootIndex().row()))
-	{
-		if(force)
-			forceRefresh();
 		return;
-	}
 	if(current.parent() == rootIndex().parent() || (!rootIndex().isValid() && current.parent().isValid()))
 		setRootIndex(current.parent());
 }

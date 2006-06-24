@@ -1,7 +1,7 @@
 [v2.0.2] 2006-05 <br@frankiz.polytechnique.fr>
     * Fix la compilation avec GCC 4.1 [Fruneau]
     * Support des Universal Binaries pour MacOS X (déjà appliqué au packaging de la 2.0.1) [Fruneau]
-    * Adaptation à Qt 4.1.3 [Fruneau]
+    * Bugfix: crash à la fermeture si une fenêtre de chat est ouverte [Fruneau]
     * Ajout du numéro de portable dans les propriétés [Fruneau]
     * Suppression de memory leaks [Fruneau]
     * Amelioration de la gestion du menu (MacOS) et des actions [Fruneau]
