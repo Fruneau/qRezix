@@ -106,7 +106,6 @@ QRezix::QRezix(QWidget *parent)
 	RzxMainUIConfig::restoreMainWidget(this);
 	buildModuleMenus();
 
-	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(toggleAutoResponder()));
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	
 	RzxConnectionLister *lister = RzxConnectionLister::global();
