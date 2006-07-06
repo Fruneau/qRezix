@@ -525,8 +525,16 @@ void RzxComputer::setIcon(const QPixmap& image)
 }
 
 ///Récupération de l'icône
-QPixmap RzxComputer::icon() const 
-{ return m_icon; }
+/** Si force est défini, alors on ne retourne pas d'icone vide
+ */
+QPixmap RzxComputer::icon(bool force) const 
+{
+	if(force && m_icon.isNull())
+	{
+		return RzxIconCollection::global()->osPixmap(sysEx(), true);
+	}
+	return m_icon;
+}
 
 ///Récupération du stamp de l'icône
 quint32 RzxComputer::stamp() const

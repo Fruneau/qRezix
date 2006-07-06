@@ -11,6 +11,7 @@
   Notifier :
     * Support de Growl pour les notifications sur MacOS X [Fruneau]
     * Ajout de notifications sur la réception de messages de chat [Fruneau]
+    * Bugfix : Icone non valide lors des test si l'icone locale n'est pas definie [Fruneau]
 
   Chat :
     * Bugfix : crash lors du check de l'historique d'une personne déconnectée [Fruneau]

@@ -141,13 +141,13 @@ void RzxTrayWindow::niceTheme()
 		QPixmap pixmap(symbolPixmap.width(), symbolPixmap.height());
 		pixmap.fill(QColor(0,0,0,0));
 		QPainter painter(&pixmap);
-		painter.drawPixmap(px, py, computer->icon().scaled(scale, scale));
+		painter.drawPixmap(px, py, computer->icon(true).scaled(scale, scale));
 		painter.drawPixmap(0, 0, symbolPixmap);
 		
 		niceThemeFactory(computer->name(), QString(), pixmap);
 	}
 	else if(type == Chat)
-		niceThemeFactory(computer->name() + " " + tr("says:"), chatText, computer->icon());		
+		niceThemeFactory(computer->name() + " " + tr("says:"), chatText, computer->icon(true));		
 }
 
 ///Crée la fenêtre de notification en elle-même pour le thème 'nice'
@@ -242,7 +242,7 @@ void RzxTrayWindow::oldTheme()
 		title += " " + tr("says:");
 	}
 		
-	oldThemeFactory(title, text, computer->icon(), bg);
+	oldThemeFactory(title, text, computer->icon(true), bg);
 }
 
 void RzxTrayWindow::oldThemeFactory(const QString& title, const QString& text, const QPixmap& icon, const QColor& bg)
@@ -313,7 +313,7 @@ void RzxTrayWindow::growlNotif()
 		notifType = "Chat";
 	}
 
-	growlNotifFactory(title, text, computer->icon(), notifType);
+	growlNotifFactory(title, text, computer->icon(true), notifType);
 }
 
 void RzxTrayWindow::growlNotifFactory(const QString& title, const QString& text, const QPixmap& icon, const QString &type)

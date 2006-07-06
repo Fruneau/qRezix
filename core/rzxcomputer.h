@@ -236,7 +236,7 @@ public:
 	unsigned long flags() const;
 	options_t options() const;
 	quint32 stamp() const;
-	QPixmap icon() const;
+	QPixmap icon(bool force = false) const;
 
 	Servers servers() const;
 	Servers serverFlags() const;
