@@ -157,21 +157,23 @@ bool RzxApplication::loadCore()
 	Rzx::beginModuleLoading("qRezix Core");
 
 	//Chargement des configs
-	buildActions();
 	setSettings(new RzxConfig());
-	setWindowIcon(RzxIconCollection::qRezixIcon());
+	
+	// Initialisation de la copie de l'ordinateur locale
+	RzxComputer::localhost();
+
+	// Initialise l'interface
+    buildActions();
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	RzxTranslator::connect(this, SLOT(translate()));
 	changeTheme();
 	translate();
+	setWindowIcon(RzxIconCollection::qRezixIcon());
 #ifdef Q_OS_MAC
 	CGImageRef ir = (CGImageRef)RzxIconCollection::qRezixIcon().macCGHandle();
 	SetApplicationDockTileImage(ir);
 	createMenu();
 #endif
-
-	//Initialisation de l'objet représentant localhost
-	RzxComputer::localhost();
 
 	//Vérification du remplissage des propriétés
 	connect(this, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
