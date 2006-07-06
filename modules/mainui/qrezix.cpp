@@ -496,6 +496,7 @@ void QRezix::saveState(RzxRezal *rezal)
 }
 
 #ifdef Q_OS_MAC
+
 ///Construit le menu de qRezix
 /** Cette fonctionnalité n'est disponible que sous Mac OS et a pour but de permettre
  * l'utilisation de qRezix via le menu de Mac OS
@@ -506,6 +507,7 @@ void QRezix::setMenu(const QModelIndex& current, const QModelIndex&)
 		popup = new RzxRezalPopup(current, RzxApplication::menuBar());
 	else
 		popup->change(current);
+	RzxApplication::instance()->refreshMenu();
 }	
 #endif
 

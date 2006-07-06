@@ -6,6 +6,7 @@
     * Suppression de memory leaks [Fruneau]
     * Amelioration de la gestion du menu (MacOS) et des actions [Fruneau]
     * Ajout d'un menu action permettant d'interagir sans la mainui [Fruneau]
+    * Ajout d'un menu Window sous Mac (conformément aux Apple's Guidelines) [Fruneau]
 
   Notifier :
     * Support de Growl pour les notifications sur MacOS X [Fruneau]

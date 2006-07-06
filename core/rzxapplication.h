@@ -26,6 +26,10 @@
 #include <RzxModule>
 #include <RzxProperty>
 
+#ifdef Q_OS_MAC
+# include <Carbon/Carbon.h>
+#endif
+
 class QAction;
 class QMenuBar;
 class RzxComputer;
@@ -88,6 +92,7 @@ class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<R
 
 #ifdef Q_OS_MAC
 		static QMenuBar *menuBar();
+		void refreshMenu();
 		virtual bool macEventFilter ( EventHandlerCallRef caller, EventRef event );
 #endif
 		

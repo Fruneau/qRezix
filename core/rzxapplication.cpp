@@ -217,7 +217,7 @@ void RzxApplication::buildActions()
 	connect(pref, SIGNAL(triggered()), this, SLOT(preferences()));
 	
 	away = new QAction(tr("Away"), this);
-	away->setCheckable(true);	
+	away->setCheckable(true);
 	away->setChecked(RzxComputer::localhost()->isOnResponder());
 	away->setShortcut(QKeySequence("CTRL+A"));
 	connect(away, SIGNAL(triggered()), this, SLOT(toggleResponder()));
@@ -248,6 +248,8 @@ void RzxApplication::createMenu()
 
 	QMenu *file = menu->addMenu(tr("File"));
 	file->addAction(quickrun);
+
+	refreshMenu();
 }
 
 ///Retourne la bar de menu
@@ -255,6 +257,17 @@ QMenuBar *RzxApplication::menuBar()
 {
 	return instance()->menu;
 }
+
+///Rafraichi l'affichage du menu fenêtre
+/** Permet en particulier d'assurer l'affichage de ce menu
+ */
+void RzxApplication::refreshMenu()
+{
+	MenuRef windowMenu;
+    CreateStandardWindowMenu(0, &windowMenu);
+	InsertMenu(windowMenu, 0); 
+	DrawMenuBar();
+}	
 #endif
 
 ///Chargement des modules
