@@ -20,12 +20,12 @@
 #include <QObject>
 #include <QString>
 #include <QTime>
+#include <QTreeView>
+#include <QListView>
+
+#include <RzxRezalModel>
 
 #include "rzxmainuiglobal.h"
-
-class QAbstractItemView;
-class RzxRezalModel;
-class QModelIndex;
 
 /**
 @author Florent Bruneau
@@ -76,7 +76,11 @@ class RZX_MAINUI_EXPORT RzxRezalSearch:public QObject
 		void filterView();
 
 	protected:
-		void applyFilter(const QModelIndex&, RzxRezalModel*, QAbstractItemView*);
+		template <class T>
+		void applyFilter(const QModelIndex&, RzxRezalModel*, T*);
+		template <class T>
+		void hideIndex(const QModelIndex&, const QModelIndex&, int,  RzxRezalModel*, T*, bool);
+		
 		bool matches(const QModelIndex&, RzxRezalModel*) const;
 		void testTimeout();
 
@@ -84,5 +88,43 @@ class RZX_MAINUI_EXPORT RzxRezalSearch:public QObject
 		void searchPatternChanged(const QString&);
 		void findItem(const QModelIndex&);
 };
+
+///Applique le filtre à tous les fils du model indiqué
+template <class T>
+void RzxRezalSearch::applyFilter(const QModelIndex& parent, RzxRezalModel *model, T *view)
+{
+	const int rows = model->rowCount(parent);
+	for(int i = 0 ; i < rows ; i++)
+	{
+		const QModelIndex index = parent.child(i, 0);
+		if(index.isValid())
+			hideIndex<T>(index, parent, i, model, view, matches(index, model));
+	}
+}
+
+///Cache l'index donné
+/** Implémentation spécifique pour les QListView
+ */
+template <>
+inline void RzxRezalSearch::hideIndex<QListView>(const QModelIndex& index, const QModelIndex& parent, int i,  RzxRezalModel *model, QListView *view, bool match)
+{
+	Q_UNUSED(index)
+	Q_UNUSED(parent)
+	Q_UNUSED(model)
+	Q_UNUSED(view)
+	view->setRowHidden(i, !match);
+}
+
+///Cache l'index donné ou effectue une récursion de applyFilter
+/** Spécifique à QTreeView
+ */
+template <>
+inline void RzxRezalSearch::hideIndex<QTreeView>(const QModelIndex& index, const QModelIndex& parent, int i,  RzxRezalModel *model, QTreeView *view, bool match)
+{
+	if(model->isIndex(index))
+		applyFilter<QTreeView>(index, model, view);
+	else
+		view->setRowHidden(i, parent, !match);
+}
 
 #endif

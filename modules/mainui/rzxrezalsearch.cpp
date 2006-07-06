@@ -14,9 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <QAbstractItemView>
-#include <QTreeView>
-#include <QListView>
 #include <RzxComputer>
 #include <RzxConnectionLister>
 
@@ -89,41 +86,23 @@ void RzxRezalSearch::filterView()
 		return;
 
 	QAbstractItemView *v = view();
-	applyFilter(v->rootIndex(), model(), v);
+	QListView *list = qobject_cast<QListView*>(v);
+	QTreeView *tree = qobject_cast<QTreeView*>(v);
+	if(list)
+		applyFilter<QListView>(v->rootIndex(), model(), list);
+	else if(tree)
+		applyFilter<QTreeView>(v->rootIndex(), model(), tree);
+	else
+		return;
 
+	// Force refresh
 	const QRect rect = v->visualRect(v->currentIndex());
 	const bool viewCurrent = rect.bottom() >= 0 && rect.top() < v->viewport()->height();
 	v->setRootIndex(v->rootIndex());
 	if(viewCurrent)
 		v->scrollTo(v->currentIndex());
-	emit searchPatternChanged(searchPattern);
-}
-
-///Recursion pour effectuer le filtrage
-/** Pour accélerer l'opération on évite de rechercher le model à chaque fois
- */
-void RzxRezalSearch::applyFilter(const QModelIndex& parent, RzxRezalModel *model, QAbstractItemView *view)
-{
-	if (view == NULL)
-		return;
-
-	QListView *list = qobject_cast<QListView*>(view);
-	QTreeView *tree = qobject_cast<QTreeView*>(view);
 	
-	const int rows = model->rowCount(parent);
-	for(int i = 0 ; i < rows ; i++)
-	{
-		const QModelIndex index = parent.child(i, 0);
-		if(index.isValid())
-		{
-			if(model->isIndex(index) && tree)
-				applyFilter(index, model, view);
-			else if(list)
-				list->setRowHidden(i, !matches(index, model));
-			else if(tree)
-				tree->setRowHidden(i, parent, !matches(index, model));
-		}
-	}
+	emit searchPatternChanged(searchPattern);
 }
 
 ///Vérifie si un ordinateur correspond aux règles de filtrage actuelle
