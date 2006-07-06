@@ -24,7 +24,7 @@ contains(DEFINES, RZX_CHAT_BUILTIN):include($$ROOT/modules//chat/chat.pri)
 contains(DEFINES, RZX_XNET_BUILTIN):include($$ROOT/net/xnet/xnet.pri)
 contains(DEFINES, RZX_JABBER_BUILTIN):include($$ROOT/net/jabber/jabber.pri)
 
-unix {
+!mac:unix {
 	DEFINES += PREFIX=\"$$PREFIX\"
 	DEFINES += QREZIX_DATA_DIR=\"$$SYSDIR\"
 	DEFINES += QREZIX_LIB_DIR=\"$$LIBDIR\"

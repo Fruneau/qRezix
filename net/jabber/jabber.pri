@@ -4,6 +4,10 @@ warning("! you have to install the gloox library !")
 warning("! More informations: jabber/README file !")
 warning("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 warning("")
+warning("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+warning("!    This module is not maintained      !")
+warning("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+warning("")
 
 HEADERS += $$ROOT/net/jabber/rzxjabberprotocole.h \
 	$$ROOT/net/jabber/rzxjabberconfig.h \

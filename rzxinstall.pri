@@ -1,4 +1,4 @@
-unix {
+!mac:unix {
 	isEmpty(PREFIX):PREFIX = /usr/local
 	isEmpty(LIBDIR) {
 		LIBDIR = $$PREFIX/lib/qrezix
