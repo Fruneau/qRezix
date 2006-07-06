@@ -299,7 +299,7 @@ void RzxRezalView::adapteColonnes()
 void RzxRezalView::setRootIndex(const QModelIndex& index)
 {
 	QModelIndex newRoot;
-	if(model()->data(index, Qt::UserRole).canConvert<RzxComputer*>())
+	if(((RzxRezalModel*)model())->isComputer(index))
 		newRoot = index.parent();
 	else
 		newRoot = index;
@@ -307,7 +307,7 @@ void RzxRezalView::setRootIndex(const QModelIndex& index)
 	QTreeView::setRootIndex(newRoot);
 	if(change)
 	{
-		setRootIsDecorated(((RzxRezalModel*)model())->isIndex(rootIndex()));
+		setRootIsDecorated(((RzxRezalModel*)model())->isIndex(newRoot));
 		search.filterView();
 	}
 }
