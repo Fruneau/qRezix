@@ -187,7 +187,10 @@ void RzxRezalMap::loadMap(QSettings &maps, const QDir& dir, Map *map)
 				base = subnet.network();
 			}
 			else
+			{
 				base = RzxHostAddress(QHostAddress(ip));
+				map->noSubnet << base;
+			}
 			map->polygons.insert(base, place);
 			if(!linkedMap.isEmpty())
 				map->links.insert(base, linkedMap);
@@ -269,16 +272,11 @@ void RzxRezalMap::loadMasks(QSettings &maps, const QDir& dir, Map *map)
 void RzxRezalMap::setMap(int map)
 {
 	//Changement de carte active
-	if(map < mapTable.size() && map >= 0 && mapTable[map])
+	if(map < mapTable.size() && map >= 0 && mapTable[map] && currentMap != mapTable[map])
 	{
-		if(currentMap != mapTable[map])
-		{
-			currentMap = mapTable[map];
-			if(mapChooser->currentIndex() != map)
-				mapChooser->setCurrentIndex(map);
-		}
-		else
-			return;
+		currentMap = mapTable[map];
+		if(mapChooser->currentIndex() != map)
+			mapChooser->setCurrentIndex(map);
 	}
 	else
 		return;
@@ -417,7 +415,7 @@ QModelIndex RzxRezalMap::indexAt(const QPoint &point) const
 	{
 		if(QRegion(polygon(ip)).contains(point))
 		{
-			if(!currentMap->useSubnets)
+			if(currentMap->noSubnet.contains(ip))
 			{
 				RzxComputer *computer = ip.computer();
 				if(computer)
@@ -702,7 +700,7 @@ QString RzxRezalMap::place(const RzxHostAddress& ip) const
 	if(!currentMap)
 		return QString();
 
-	if(currentMap->useSubnets)
+	if(!currentMap->noSubnet.contains(ip))
 	{
 		foreach(RzxSubnet net, currentMap->subnets)
 		{

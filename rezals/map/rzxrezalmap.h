@@ -122,6 +122,7 @@ class RzxRezalMap : public QAbstractItemView, public RzxRezal
 		QString humanName;
 		bool useSubnets;
 		QList<RzxSubnet> subnets;
+		QList<RzxHostAddress> noSubnet;
 		QHash<RzxHostAddress, QString> polygons;
 		QHash<RzxHostAddress, QString> links;
 		QHash<QString, QPolygon> places;
