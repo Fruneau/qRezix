@@ -28,6 +28,7 @@
     * Suppression de la catégorie Autres [Fruneau]
     * Bugfix : freeze au changement de traduction [Fruneau]
     * Bugfix : Comportement de la carte dans les cas hybride (subnets/pas subnets) [Fruneau]
+    * Evite d'afficher le " \\n " des commentaires multilignes [Fruneau]
 
 [v2.0.1] 2006-04 <br@frankiz.polytechnique.fr>
     * Bugfixes

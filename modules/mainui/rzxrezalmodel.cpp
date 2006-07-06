@@ -679,7 +679,7 @@ QVariant RzxRezalModel::getComputer(int role, const RzxRezalSearchList& list, in
 			switch(column)
 			{
 				case ColNom: return computer->name();
-				case ColRemarque: return computer->remarque();
+				case ColRemarque: return computer->remarque().replace(" \\n ", ", ");
 				case ColRezal: return computer->rezalName();
 				case ColIP: return computer->ip().toString();
 				case ColClient: return computer->client();
