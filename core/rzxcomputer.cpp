@@ -525,6 +525,15 @@ void RzxComputer::setIcon(const QPixmap& image)
 }
 
 ///Récupération de l'icône
+/** Cette fonction permet d'assurer la compatibilité binaire avec les version
+ * précédente de qRezix
+ */
+QPixmap RzxComputer::icon() const
+{
+	return icon(false);
+}
+
+///Récupération de l'icône
 /** Si force est défini, alors on ne retourne pas d'icone vide
  */
 QPixmap RzxComputer::icon(bool force) const 

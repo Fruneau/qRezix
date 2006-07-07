@@ -207,6 +207,8 @@ RzxProperty::RzxProperty(QWidget *parent)
 	changeTheme();
 	lbMenu->setCurrentItem(generalItem);
 	lblAbout->setText("<p style=\"font-size: smaller; \">qRezix " + Rzx::versionToString(RzxApplication::version()) + "</p>");
+
+	btnOK->setDefault(true);
 }
 
 ///Fermeture de la fenêtre
@@ -898,7 +900,14 @@ void RzxProperty::emitEnterPressed()
 	bool used = false;
 	emit enterPressed(used);
 	if(!used)
-		oK();
+	{
+		if(btnOK->isDefault())
+			oK();
+		else if(btnMiseAJour->isDefault())
+			miseAJour();
+		else if(btnAnnuler->isDefault())
+			annuler();
+	}
 }
 
 ///Change la langue...
