@@ -1,7 +1,7 @@
-[v2.0.2] 2006-05 <br@frankiz.polytechnique.fr>
-    * Fix la compilation avec GCC 4.1 [Fruneau]
+[v2.0.2] 2006-07 <br@frankiz.polytechnique.fr>
+    * Bugfix : compilation avec GCC 4.1 [Fruneau]
     * Support des Universal Binaries pour MacOS X (déjà appliqué au packaging de la 2.0.1) [Fruneau]
-    * Bugfix: crash à la fermeture si une fenêtre de chat est ouverte [Fruneau]
+    * Bugfix : crash à la fermeture si une fenêtre de chat est ouverte [Fruneau]
     * Ajout du numéro de portable dans les propriétés [Fruneau]
     * Suppression de memory leaks [Fruneau]
     * Amelioration de la gestion du menu (MacOS) et des actions [Fruneau]
@@ -18,12 +18,12 @@
     * Bugfix : crash lors du check de l'historique d'une personne déconnectée [Fruneau]
     * Bugfix : envoie des messages multiligne conforme au protocole xNet [Fruneau]
     * Enregistrement de l'historique au fur et a mesure de la discussion [Fruneau]
-    * Bugfix : affichage correcte de la notification de reconnexiion [Fruneau]
+    * Bugfix : affichage correcte de la notification de reconnexion [Fruneau]
     * Nouveau raccourcis claviers (Ctrl+W fermer, Ctrl+F formatage) [Fruneau]
     * Bugfix : mise à jour de l'icône locale [Fruneau]
 
   MainUI :
-    * Recherche avancée en plain-text sur les propriétés en plus du pseudo
+    * Recherche avancée en plain-text sur les propriétés en plus du pseudo [Fruneau]
     * Cache le détails des propriétés lorsque ce n'est pas applicable à la sélection [Fruneau]
     * Correction de quelques correspondance ip/casert [Fruneau]
     * Ajout de colonnes Nom/Prénom remplies à l'aide des propriétés [Fruneau]
@@ -32,6 +32,7 @@
     * Bugfix : freeze au changement de traduction [Fruneau]
     * Bugfix : Comportement de la carte dans les cas hybride (subnets/pas subnets) [Fruneau]
     * Evite d'afficher le " \\n " des commentaires multilignes [Fruneau]
+    * Bugfix : rafraîchissement de la fenêtre en cas de minimisation [bernardofpc]
 
 [v2.0.1] 2006-04 <br@frankiz.polytechnique.fr>
     * Bugfixes
