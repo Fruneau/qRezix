@@ -88,6 +88,8 @@ bool RzxUi::isInitialised() const
 void RzxUi::show()
 {
 	qrezix->show();
+	if(qrezix->isMinimized())
+		qrezix->showNormal();
 }
 
 /** \reimp */
