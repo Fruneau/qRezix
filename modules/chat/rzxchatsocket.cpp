@@ -101,6 +101,8 @@ int RzxChatSocket::parse(const QString& msg)
 	QRegExp cmd;
 	if(!msg.contains("\r\n")) //recherche de la fin du message
 		return -1;
+	if(!host.computer())
+		return -1;	//Drop les messages qui ne sont pas envoyés par quelqu'un de connecté à xnet.
 	
 	while(!DCCFormat[i].isNull())
 	{
