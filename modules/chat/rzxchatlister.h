@@ -39,6 +39,7 @@
 class QPoint;
 class RzxComputer;
 class RzxClientListener;
+class RzxFileListener;
 namespace Ui { class RzxChatProp; }
 
 /**
@@ -67,6 +68,7 @@ class RzxChatLister:public RzxModule
 	RzxChat *getChatByIP(const RzxHostAddress&) const;
 
 	RzxClientListener *client;
+	RzxFileListener *fileServer;
 
 	QWidget *propWidget;
 	Ui::RzxChatProp *ui;
@@ -80,6 +82,8 @@ class RzxChatLister:public RzxModule
 		
 		virtual bool isInitialised() const;
 		RzxClientListener *listener() const;
+		RzxFileListener *fileListener() const;
+		RzxChat *receiveFile(RzxComputer *);
 
 	public slots:
 		void login(RzxComputer*);
@@ -102,6 +106,7 @@ class RzxChatLister:public RzxModule
 
 		virtual void sendChatMessage(RzxComputer *, Rzx::ChatMessageType, const QString& = QString());
 		virtual void receiveChatMessage(RzxComputer *, Rzx::ChatMessageType, const QString& = QString());
+
 
 	public:
 		virtual QList<QWidget*> propWidgets();

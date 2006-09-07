@@ -136,7 +136,8 @@ namespace Rzx
 		ICON_PHONE = 62,				/**< Icône pour le téléphone */
 		ICON_FILE = 63,				/**< Icône pour les fichiers */
 		ICON_SYSTRAYDISCON = 64,	/**< Icône Trayicon en cas de déconnexion des serveurs */
-		ICON_NUMBER = 65				/**< Nombre d'icône... */
+		ICON_FILETRANSFER = 65,		/**< Icone du trandfert de fichier */
+		ICON_NUMBER = 66				/**< Nombre d'icône... */
 	};
 
 	///Types de messages auxquel on peut s'attendre dans un protocole de chat
@@ -148,7 +149,8 @@ namespace Rzx
 		Typing = 4,			/**< Informe qu'un message est en cours d'édition */
 		StopTyping = 5,	/**< Informe que l'édition du message a été annulée */
 		InfoMessage = 6,	/**< Envoie d'un message d'information */
-		Closed = 7			/**< Notification de la fin de la discussion */
+		Closed = 7,			/**< Notification de la fin de la discussion */
+		File = 8			/**< Notification lors du transfert de fichier */
 	};
 
 	///Défini une version

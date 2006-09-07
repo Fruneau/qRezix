@@ -101,10 +101,11 @@ const RzxIconCollection::IconData RzxIconCollection::data[] = {
 	{ Rzx::ICON_PHONE, "phone", false },
 	{ Rzx::ICON_FILE, "file", true },
 #ifndef Q_OS_WIN
-	{ Rzx::ICON_SYSTRAYDISCON, "systrayDiscon", false }
+	{ Rzx::ICON_SYSTRAYDISCON, "systrayDiscon", false },
 #else
-	{ Rzx::ICON_SYSTRAYDISCON, "systrayDiscon_win", false }
+	{ Rzx::ICON_SYSTRAYDISCON, "systrayDiscon_win", false },
 #endif
+	{ Rzx::ICON_FILETRANSFER, "file_transfer", false}
 };
 
 ///Construction de la collection d'icône

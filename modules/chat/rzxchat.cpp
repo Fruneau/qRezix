@@ -23,6 +23,7 @@
 #include <QShowEvent>
 #include <QCloseEvent>
 #include <QMoveEvent>
+#include <QFileDialog>
 
 //Pour la construction de la fenêtre
 #include <QIcon>
@@ -31,6 +32,7 @@
 #include <QToolButton>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QScrollArea>
 
 //Pour l'édition et le parcours de texte
 #include <QDateTime>
@@ -58,6 +60,8 @@
 #include "rzxchatconfig.h"
 #include "rzxsmileys.h"
 #include "rzxchatbrowser.h"
+
+#include "rzxfilesocket.h"
 
 #ifdef Q_OS_MAC
 #	include "ui_rzxchat_mac.h"
@@ -97,8 +101,23 @@ void RzxChat::init()
 	txtHistory->setFrameStyle(QFrame::Panel | QFrame::Sunken);
 	QWidget *historyContainer = new QWidget();
 	QGridLayout *glayout = new QGridLayout(historyContainer);
-	glayout->addWidget(txtHistory);
+	glayout->addWidget(txtHistory,0,0);
+
+	transferListArea = new QScrollArea();
+	transferListArea->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
+	transferListArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	QWidget *transferList = new QWidget();
+	transferList->resize(110,0);
+	glayout->addWidget(transferListArea,0,1);
+	transferListArea->hide();
+
+	QVBoxLayout *transferLayout = new QVBoxLayout(transferList);
+	transferLayout->setSpacing(0);
+	transferLayout->setMargin(0);
+	transferList->setLayout(transferLayout);
+	transferListArea->setWidget(transferList);
 	historyContainer->setLayout(glayout);
+	
 	//Partie 2 : L'éditeur qui est défini dans l'ui RzxChatUI
 	editor = new QWidget();
 	ui = new Ui::RzxChat();
@@ -175,6 +194,7 @@ void RzxChat::init()
 	connect(ui->btnSmiley, SIGNAL(toggled(bool)), this, SLOT(on_btnSmiley_toggled(bool)));
 	connect(ui->btnSend, SIGNAL(clicked()), this, SLOT(on_btnSend_clicked()));
 	connect(ui->btnClose, SIGNAL(clicked()), this, SLOT(close()));
+	connect(ui->btnFileTransfer, SIGNAL(clicked()), this, SLOT(on_btnFileTransfer_clicked()));
 	
 	RzxIconCollection::connect(this, SLOT(changeTheme()));
 	RzxSmileys::connect(this, SLOT(changeSmileyTheme()));
@@ -511,6 +531,13 @@ void RzxChat::info(const QString& msg)
 	append("darkgreen", "", msg);
 }
 
+/// Affiche une info de transfert de fichier
+void RzxChat::fileInfo(const QString& msg)
+{
+	append("darkmagenta", "", msg);
+}
+
+
 /// Affiche un message de notification (envoie de prop, ping, pong...)
 void RzxChat::notify(const QString& msg, bool withHostname)
 {
@@ -528,6 +555,7 @@ void RzxChat::receiveChatMessage(Rzx::ChatMessageType type, const QString& msg)
 	switch(type)
 	{
 		case Rzx::Responder: case Rzx::Chat: receive(msg); break;
+		case Rzx::File: fileInfo(msg); break;
 		case Rzx::Ping: notify(tr("Ping request received")); break;
 		case Rzx::Pong: notify(tr("Pong answer received in ") + msg + "ms"); break;
 		case Rzx::Typing:  peerTypingStateChanged(true); break;
@@ -755,6 +783,7 @@ void RzxChat::changeTheme()
 	ui->btnSend->setIcon(RzxIconCollection::getIcon(Rzx::ICON_SEND));
 	ui->btnProperties->setIcon(RzxIconCollection::getIcon(Rzx::ICON_PROPRIETES));
 	ui->btnClose->setIcon(RzxIconCollection::getIcon(Rzx::ICON_CANCEL));
+	ui->btnFileTransfer->setIcon(RzxIconCollection::getIcon(Rzx::ICON_FILETRANSFER));
 }
 
 ///Changement du thème de smileys
@@ -811,4 +840,45 @@ void RzxChat::on_btnSmiley_toggled(bool on)
 	smileyUi = new RzxSmileyUi(ui->btnSmiley, this);
 	connect(smileyUi, SIGNAL(clickedSmiley(const QString&)), ui->edMsg, SLOT(insertPlainText(const QString&)));
 	smileyUi->show();
+}
+
+/// Envoi d'un fichier au correspondant
+void RzxChat::on_btnFileTransfer_clicked()
+{
+	QString filename = QFileDialog::getOpenFileName(this, tr("File to send"));
+	if(filename == "")
+		return;
+	
+	//creation du socket et de son widget
+	RzxFileSocket * fsocket = new RzxFileSocket(computer());
+	RzxFileWidget *widget = new RzxFileWidget(0,filename.split("/").last());
+	fsocket->chatWindow = this;
+	addWidget(widget);
+	fsocket->widget = widget;
+
+	//connexions
+	connect(widget,SIGNAL(cancelClicked()),fsocket,SLOT(btnCancel()));
+	connect(widget,SIGNAL(acceptClicked()),fsocket,SLOT(btnAccept()));
+	connect(widget,SIGNAL(rejectClicked()),fsocket,SLOT(btnReject()));
+
+	//envoi du fichier
+	fsocket->sendFile(filename);
+}
+
+void RzxChat::addWidget(RzxFileWidget *widget)
+{
+	QWidget *list = transferListArea->widget();
+	list->layout()->addWidget(widget);
+	list->layout()->setAlignment(widget, Qt::AlignTop);
+	list->resize(110,70*list->layout()->count());
+	transferListArea->show();
+}
+
+void RzxChat::removeWidget(RzxFileWidget *widget)
+{
+	QWidget *list = transferListArea->widget();
+	list->layout()->removeWidget(widget);
+	list->resize(110,70*list->layout()->count());
+	if(list->layout()->count() == 0)
+		transferListArea->hide();
 }

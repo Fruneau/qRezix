@@ -52,6 +52,7 @@ RZX_MODULE_EXPORT(RzxChatLister)
 
 #include "rzxchat.h"
 #include "rzxclientlistener.h"
+#include "rzxfilelistener.h"
 #include "ui_rzxchatprop.h"
 #include "rzxchatconfig.h"
 #include "rzxsmileys.h"
@@ -78,6 +79,7 @@ RzxChatLister::RzxChatLister()
 	new RzxChatConfig(this);
 
 	client = new RzxClientListener();;
+	fileServer = new RzxFileListener();
 	connect(client, SIGNAL(propertiesSent(RzxComputer*)), this, SLOT(warnProperties(RzxComputer*)));
 	connect(client, SIGNAL(haveProperties(RzxComputer*)), this, SIGNAL(haveProperties(RzxComputer*)));
 
@@ -93,6 +95,10 @@ RzxChatLister::RzxChatLister()
 			tr("Cannot create peer to peer socket!\n\nChat and properties browsing are disabled") );
 	else
 		RzxComputer::localhost()->addCapabilities(Rzx::CAP_CHAT);
+	if(!fileServer->listen(RzxChatConfig::filePort()) )
+		RzxMessageBox::warning((QWidget *)parent(), "qRezix",
+			tr("Cannot create peer to peer socket!\n\nFile transfer is disabled") );
+
 	wellInit = true;
 	
 	endLoading();
@@ -104,6 +110,7 @@ RzxChatLister::~RzxChatLister()
 	beginClosing();
 	closeChats();
 	client->deleteLater();
+	fileServer->deleteLater();
 	RzxComputer::localhost()->addCapabilities(Rzx::CAP_CHAT, false);
 	delete RzxChatConfig::global();
 	endClosing();
@@ -115,6 +122,12 @@ RzxClientListener *RzxChatLister::listener() const
 {
 	return client;
 }
+
+RzxFileListener *RzxChatLister::fileListener() const
+{
+	return fileServer;
+}
+
 
 /** Sert aussi au raffraichissement des données*/
 void RzxChatLister::login(RzxComputer *computer)
@@ -203,10 +216,21 @@ void RzxChatLister::receiveChatMessage(RzxComputer *computer, Rzx::ChatMessageTy
 	if(!computer) return;
 
 	RzxChat *chat = getChatByIP(computer->ip());
-	if(!chat && type == Rzx::Chat)
+	if(!chat && (type == Rzx::Chat || type == Rzx::File))
 		chat = createChat(computer);
 	if(!chat) return;
 	chat->receiveChatMessage(type, msg);
+}
+
+///Reception d'un fichier, permet de lier la fenetre de chat au socket
+RzxChat * RzxChatLister::receiveFile(RzxComputer*computer)
+{
+	if(!computer) return 0;
+
+	RzxChat *chat = getChatByIP(computer->ip());
+	if(!chat)
+		chat = createChat(computer);
+	return chat;
 }
 
 ///Envoie d'un chat
@@ -461,6 +485,8 @@ void RzxChatLister::propInit(bool def)
 	ui->iconSize->setValue(RzxChatConfig::iconSize());
 	ui->prompt->setText(RzxChatConfig::prompt());
 	ui->chat_port->setValue(RzxChatConfig::chatPort(def));
+	ui->file_port->setValue(RzxChatConfig::filePort(def));
+	ui->cbRefuseFile->setChecked(RzxChatConfig::refuseFile(def));
 
 	ui->smileyCombo->clear();
 	QStringList themes = RzxSmileys::themeList();
@@ -498,6 +524,8 @@ void RzxChatLister::propUpdate()
 	RzxChatConfig::setIconSize(ui->iconSize->value());
 	RzxChatConfig::setPrompt(ui->prompt->text());
 	RzxChatConfig::setChatPort(ui->chat_port->value());
+	RzxChatConfig::setFilePort(ui->file_port->value());
+	RzxChatConfig::setRefuseFile(ui->cbRefuseFile->isChecked());
 	RzxSmileys::setTheme(ui->smileyCombo->currentText());
 }
 

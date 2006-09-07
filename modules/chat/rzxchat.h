@@ -20,11 +20,13 @@
 
 #include <QPointer>
 #include <QTimer>
+#include <QScrollArea>
 
 #include <RzxComputer>
 
 #include "rzxchatpopup.h"
 #include "rzxsmileyui.h"
+#include "rzxfilewidget.h"
 
 /**
   *@author Sylvain Joyeux
@@ -55,6 +57,7 @@ class RzxChat : public QWidget
 	Ui::RzxChat *ui;
 	
 	RzxChatBrowser *txtHistory;
+	QScrollArea *transferListArea;
 	QWidget *editor;
 	QSplitter *splitter;
 	QList<QString> chatBuffer;
@@ -63,6 +66,8 @@ public:
 	RzxChat(RzxComputer *);
 	virtual ~RzxChat();
 	void sendChat(const QString& msg);
+	void addWidget(RzxFileWidget *widget);
+	void removeWidget(RzxFileWidget *widget);
 
 private:
 	void init();
@@ -91,6 +96,7 @@ signals: // Signals
 public slots: // Public slots
 	void receive(const QString&);
 	void info(const QString&);
+	void fileInfo(const QString&);
 	void notify(const QString&, bool withHostname = false);
 	void changeTheme();
 	void changeSmileyTheme();
@@ -117,6 +123,7 @@ protected slots:
 	void setHtml(bool);
 	void on_btnSend_clicked();
 	void on_btnSmiley_toggled(bool on);
+	void on_btnFileTransfer_clicked();
 	void onReturnPressed();
 	void onTextChanged();
 	bool event(QEvent *e);
