@@ -220,6 +220,12 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="minimumSize" >
+        <size>
+         <width>65</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="whatsThis" >
         <string>&lt;h3>Close&lt;/h3>&lt;p>Ends the chat and close the window&lt;/p></string>
        </property>
@@ -484,7 +490,7 @@
  <customwidgets>
   <customwidget>
    <class>RzxTextEdit</class>
-   <extends></extends>
+   <extends>QWidget</extends>
    <header>rzxtextedit.h</header>
    <container>0</container>
    <pixmap></pixmap>

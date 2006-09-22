@@ -22,6 +22,7 @@
 #include <RzxApplication>
 #include <RzxMessageBox>
 #include <QFileDialog>
+#include <QTime>
 
 #include "rzxchatsocket.h"// a voir ca ?
 
@@ -296,6 +297,7 @@ void RzxFileSocket::sendBinary()
 			return;
 		}
 		fileState = STATE_SENDING;
+		tempsTransfert.start();
 	}
 	if(file->bytesAvailable()>0)
 	{
@@ -305,6 +307,17 @@ void RzxFileSocket::sendBinary()
 		octetsEcrits += data.size();
 		if (taille != 0)
 			widget->setValue(100 * octetsEcrits/taille);
+		if(octetsEcrits)
+		{
+			int msEcoulees = tempsTransfert.elapsed();
+			int msRestant = (int)(((double)(taille - octetsEcrits) /(double)octetsEcrits) * msEcoulees);
+			QTime tZero(0,0);
+			QString format = tr("'remains: '");
+			if(msRestant >= 3600000)
+				format+= "hh'h'm";
+			format+= "m'm'ss's'";
+			widget->setInfo(tZero.addMSecs(msRestant).toString(format));
+		}
 	}
 	else
         sendEnd();
@@ -362,6 +375,18 @@ void RzxFileSocket::readSocket()
 			octetsEcrits += data.size();
 			if (taille!=0)
 				widget->setValue(100 * octetsEcrits/taille);
+
+			if(octetsEcrits)
+			{
+				int msEcoulees = tempsTransfert.elapsed();
+				int msRestant = (int)(((double)(taille - octetsEcrits) /(double)octetsEcrits) * msEcoulees);
+				QTime tZero(0,0);
+				QString format = tr("'remains: '");
+				if(msRestant >= 3600000)
+					format+= "hh'h'm";
+				format+= "m'm'ss's'";
+				widget->setInfo(tZero.addMSecs(msRestant).toString(format));
+			}
 		}
 		else
 		{
@@ -472,6 +497,7 @@ void RzxFileSocket::btnAccept()
 
 	widget->setModeCancel();
 	fileState = STATE_RECEIVING;
+	tempsTransfert.start();
 	sendAccept();
 }
 

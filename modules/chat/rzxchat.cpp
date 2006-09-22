@@ -870,7 +870,7 @@ void RzxChat::addWidget(RzxFileWidget *widget)
 	QWidget *list = transferListArea->widget();
 	list->layout()->addWidget(widget);
 	list->layout()->setAlignment(widget, Qt::AlignTop);
-	list->resize(110,70*list->layout()->count());
+	list->resize(110,widget->maximumHeight() * list->layout()->count());
 	transferListArea->show();
 }
 
@@ -878,7 +878,7 @@ void RzxChat::removeWidget(RzxFileWidget *widget)
 {
 	QWidget *list = transferListArea->widget();
 	list->layout()->removeWidget(widget);
-	list->resize(110,70*list->layout()->count());
+	list->resize(110,widget->maximumHeight() * list->layout()->count());
 	if(list->layout()->count() == 0)
 		transferListArea->hide();
 }

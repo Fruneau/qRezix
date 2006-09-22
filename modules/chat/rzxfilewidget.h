@@ -21,7 +21,7 @@
 #include <QWidget>
 #include <QProgressBar>
 #include <QLabel>
-#include <QPushButton>
+#include <QToolButton>
 
 class RzxFileWidget : public QWidget
 {
@@ -29,9 +29,10 @@ class RzxFileWidget : public QWidget
 
 	QProgressBar *progress;
 	QLabel *title;
-	QPushButton *accept;
-	QPushButton *reject;
-	QPushButton *cancel;
+	QLabel *info;
+	QToolButton *accept;
+	QToolButton *reject;
+	QToolButton *cancel;
 
 private slots:
 	void emitCancel();
@@ -43,6 +44,7 @@ private slots:
 public:
     RzxFileWidget(QWidget *parent = 0, QString texte = "", int value = 0, bool modeCancel = true);
 	void setTitle(QString texte);
+	void setInfo(QString texte);
 	void setValue(int value);
 	void setModeCancel();
 	void setModeAccept();

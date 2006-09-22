@@ -31,6 +31,7 @@ class RzxChat;
 class RzxComputer;
 class RzxClientListener; //voir tout ca
 class RzxFileListener;  
+class QTime;
 
 /**
 @author Guillaume Bandet
@@ -65,6 +66,7 @@ class RzxFileSocket : public QTcpSocket
 	QString nom;
 	qint64 taille;
 	qint64 octetsEcrits;
+	QTime tempsTransfert;
 	int octetsALire;
 	QString tmpMsg;
 

@@ -105,7 +105,8 @@ const RzxIconCollection::IconData RzxIconCollection::data[] = {
 #else
 	{ Rzx::ICON_SYSTRAYDISCON, "systrayDiscon_win", false },
 #endif
-	{ Rzx::ICON_FILETRANSFER, "file_transfer", false}
+	{ Rzx::ICON_FILETRANSFER, "file_transfer", false},
+	{ Rzx::ICON_REFUSE, "refuse", false}
 };
 
 ///Construction de la collection d'icône

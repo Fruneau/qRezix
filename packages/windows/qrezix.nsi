@@ -30,7 +30,7 @@
 ;  !define RZX_MODULES
 
 ;Pour pouvoir copier les dll dans l'installeur
-  !define QTDIR "C:\Qt\4.1.0"
+  !define QTDIR "G:\Qt\4.1.4"
   !define SOURCESYSDIR "C:\windows\system32"
   !ifdef RZX_DEBUG
      !define QTCOREDLL "QtCored4.dll"

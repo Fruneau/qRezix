@@ -458,6 +458,22 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="btnFileTransfer" >
+       <property name="whatsThis" >
+        <string>&lt;h3>File Transfer&lt;/h3>&lt;p>Tranfer a file to your friend&lt;/p></string>
+       </property>
+       <property name="text" >
+        <string>Send a f&amp;ile</string>
+       </property>
+       <property name="shortcut" >
+        <string>Alt+I</string>
+       </property>
+       <property name="autoRaise" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer>
        <property name="orientation" >
         <enum>Qt::Horizontal</enum>

@@ -16,6 +16,7 @@
  ***************************************************************************/
 #include <QGridLayout>
 
+#include <RzxIconCollection>
 #include "rzxfilewidget.h"
 
 RzxFileWidget::RzxFileWidget(QWidget *parent, QString texte, int value, bool modeCancel)
@@ -28,26 +29,34 @@ RzxFileWidget::RzxFileWidget(QWidget *parent, QString texte, int value, bool mod
 
 	title =  new QLabel(this);
 	title->setText(texte);
+	info = new QLabel(this);
 
-	accept = new QPushButton(tr("Accept"),this);
-	accept->setMaximumHeight(25);
+	accept = new QToolButton(this);
+	accept->setMaximumHeight(20);
+	accept->setIcon(RzxIconCollection::getIcon(Rzx::ICON_OK));
+	accept->setToolTip(tr("Accept the file"));
 	connect(accept,SIGNAL(clicked()),this,SLOT(emitAccept()));
-	reject = new QPushButton(tr("Reject"),this);
-	reject->setMaximumHeight(25);
+	reject = new QToolButton(this);
+	reject->setMaximumHeight(20);
+	reject->setIcon(RzxIconCollection::getIcon(Rzx::ICON_REFUSE));
+	reject->setToolTip(tr("Reject the file"));
 	connect(reject,SIGNAL(clicked()),this,SLOT(emitReject()));
-	cancel = new QPushButton(tr("Cancel"),this);
-	cancel->setMaximumHeight(25);
+	cancel = new QToolButton(this);
+	cancel->setMaximumHeight(20);
+	cancel->setIcon(RzxIconCollection::getIcon(Rzx::ICON_CANCEL));
+	cancel->setToolTip(tr("Cancel the transfer"));
 	connect(cancel,SIGNAL(clicked()),this,SLOT(emitCancel()));
 
 	QGridLayout *layout = new QGridLayout();
 	layout->addWidget(progress,2,0,1,3);
 	layout->addWidget(title,0,0,1,3);
+	layout->addWidget(info,3,0,1,3);
 	layout->addWidget(accept,1,0);
 	layout->addWidget(cancel,1,1);
 	layout->addWidget(reject,1,2);
 	setLayout(layout);
-	setMaximumSize(100,70);
-	setMinimumSize(100,70);
+	setMaximumSize(100,100);
+	setMinimumSize(100,100);
 
 	if(modeCancel)
 		setModeCancel();
@@ -58,6 +67,11 @@ RzxFileWidget::RzxFileWidget(QWidget *parent, QString texte, int value, bool mod
 void RzxFileWidget::setTitle(QString texte)
 {
 	title->setText(texte);
+}
+
+void RzxFileWidget::setInfo(QString texte)
+{
+	info->setText(texte);
 }
 
 void RzxFileWidget::setValue(int value)

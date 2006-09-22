@@ -137,7 +137,8 @@ namespace Rzx
 		ICON_FILE = 63,				/**< Icône pour les fichiers */
 		ICON_SYSTRAYDISCON = 64,	/**< Icône Trayicon en cas de déconnexion des serveurs */
 		ICON_FILETRANSFER = 65,		/**< Icone du trandfert de fichier */
-		ICON_NUMBER = 66				/**< Nombre d'icône... */
+		ICON_REFUSE = 66,			/**< Icone de refus du transfert */
+		ICON_NUMBER = 67				/**< Nombre d'icône... */
 	};
 
 	///Types de messages auxquel on peut s'attendre dans un protocole de chat
