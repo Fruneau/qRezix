@@ -61,3 +61,11 @@ void RzxFileListener::incomingConnection(int socketDescriptor)
 		delete sock;
 	}
 }
+
+void RzxFileListener::closeTransfers(const RzxHostAddress& host)
+{
+	QList< QPointer< RzxFileSocket > > transferList = sockets.take(host);
+	for(QList< QPointer< RzxFileSocket > >::iterator it = transferList.begin(); it != transferList.end(); it++)
+		(*it)->close();
+}
+

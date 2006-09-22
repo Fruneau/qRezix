@@ -62,6 +62,7 @@
 #include "rzxchatbrowser.h"
 
 #include "rzxfilesocket.h"
+#include "rzxfilelistener.h"
 
 #ifdef Q_OS_MAC
 #	include "ui_rzxchat_mac.h"
@@ -749,7 +750,7 @@ void RzxChat::closeEvent(QCloseEvent * e)
 	RzxChatConfig::saveChatWidget(this);
 	if(computer())
 		computer()->sendChat(Rzx::Closed);
-	
+	RzxChatLister::global()->fileListener()->closeTransfers(computer()->ip());
 	e -> accept();
 }
 
