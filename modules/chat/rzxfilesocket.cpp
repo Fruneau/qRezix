@@ -95,6 +95,7 @@ void RzxFileSocket::close()
 		delete file;
 		file =0;
 	}
+	RzxChatLister::global()->fileListener()->detach(this);
 	deleteLater();
 }
 

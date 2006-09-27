@@ -38,6 +38,18 @@ void RzxFileListener::attach(RzxFileSocket *sock)
 	sockets[sock->peer()].append(sock);
 }
 
+///Retire le RzxFileSocket quand il va être détruit
+void RzxFileListener::detach(RzxFileSocket *sock)
+{
+	QList< QPointer< RzxFileSocket > > *list = & sockets[sock->peer()];
+	int pos = list->indexOf(sock,0);
+	while(pos != -1)
+	{
+		list->removeAt(pos);
+		pos = list->indexOf(sock,0);
+	}
+}
+
 ///Réception d'une connexion entrante
 //Ce slot est appelé dès que l'écoute enregistre une demande d'écriture sur le port tcp du transfert de fichier
 void RzxFileListener::incomingConnection(int socketDescriptor)

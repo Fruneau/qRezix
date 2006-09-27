@@ -50,6 +50,7 @@ class RzxFileListener : public QTcpServer
 
 		bool listen(quint16 port);
 		void attach(RzxFileSocket* socket);
+		void detach(RzxFileSocket* socket);
 		void closeTransfers(const RzxHostAddress& host);
 
 	protected slots:
