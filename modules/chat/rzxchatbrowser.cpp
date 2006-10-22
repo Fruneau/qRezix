@@ -19,6 +19,10 @@
 #include <RzxUtilsLauncher>
 
 #include "rzxchatbrowser.h"
+#include "rzxfilesocket.h"
+#include "rzxchatlister.h"
+#include "rzxfilelistener.h"
+
 
 ///Construction
 RzxChatBrowser::RzxChatBrowser(QWidget *parent)
@@ -42,5 +46,19 @@ void RzxChatBrowser::setSource(const QUrl&)
 ///Lance le client adapté à l'url cliquée
 void RzxChatBrowser::launchUrl(const QUrl& url)
 {
-	RzxUtilsLauncher::run(url);
+	static QRegExp fullMatch("RzxTransfer://(\\d+)");
+	if(fullMatch.indexIn(url.toString()) != -1)
+	{
+		fileTransfer(fullMatch.cap(1));
+	}
+	else
+		RzxUtilsLauncher::run(url);
+}
+
+// Valide le transfert de fichier 
+void RzxChatBrowser::fileTransfer(const QString& id)
+{
+	RzxFileSocket* socket = RzxChatLister::global()->fileListener()->getSocket(id.toInt());
+	if(socket && socket->widget)
+	emit socket->widget->emitAccept();
 }

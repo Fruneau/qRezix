@@ -25,6 +25,7 @@
 #include "rzxfilesocket.h"
 
 RzxFileListener::RzxFileListener()
+	:idsock(1)
 { }
 
 RzxFileListener::~RzxFileListener()
@@ -33,21 +34,36 @@ RzxFileListener::~RzxFileListener()
 }
 
 ///Connexion d'un RzxFileSocket au reste du programme
-void RzxFileListener::attach(RzxFileSocket *sock)
+int RzxFileListener::attach(RzxFileSocket *sock)
 {
-	sockets[sock->peer()].append(sock);
+	sockets[sock->peer()].insert(idsock, sock);
+	idsock++;
+	return idsock -1;
 }
 
 ///Retire le RzxFileSocket quand il va être détruit
 void RzxFileListener::detach(RzxFileSocket *sock)
 {
-	QList< QPointer< RzxFileSocket > > *list = & sockets[sock->peer()];
-	int pos = list->indexOf(sock,0);
-	while(pos != -1)
+	QHash<int,  QPointer< RzxFileSocket > > *list =  &sockets[sock->peer()];
+	QHash<int, QPointer< RzxFileSocket > >::iterator it= list->begin();
+	while (it != list->end())
+		if (it.value() == sock)
+			it = list->erase(it);
+		else
+			it++;
+}
+
+//Récupère le socket selon son id
+RzxFileSocket* RzxFileListener::getSocket(int idsock)
+{
+	RzxFileSocket* sock = 0;
+	QHash< RzxHostAddress, QHash< int,  QPointer< RzxFileSocket > > >::iterator it;
+	for (it = sockets.begin(); sock == 0 && it != sockets.end(); ++it)
 	{
-		list->removeAt(pos);
-		pos = list->indexOf(sock,0);
+		QHash<int,  QPointer< RzxFileSocket > > list = it.value();
+		sock = list.value(idsock);
 	}
+	return sock;
 }
 
 ///Réception d'une connexion entrante
@@ -76,8 +92,8 @@ void RzxFileListener::incomingConnection(int socketDescriptor)
 
 void RzxFileListener::closeTransfers(const RzxHostAddress& host)
 {
-	QList< QPointer< RzxFileSocket > > transferList = sockets.take(host);
-	for(QList< QPointer< RzxFileSocket > >::iterator it = transferList.begin(); it != transferList.end(); it++)
-		(*it)->close();
+	QHash<int, QPointer< RzxFileSocket > > transferList = sockets.take(host);
+	for(QHash<int, QPointer< RzxFileSocket > >::iterator it = transferList.begin(); it != transferList.end(); it++)
+		it.value()->close();
 }
 

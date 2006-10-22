@@ -66,6 +66,7 @@ class RzxFileSocket : public QTcpSocket
 	QString nom;
 	qint64 taille;
 	qint64 octetsEcrits;
+	int sockId;
 	QTime tempsTransfert;
 	int octetsALire;
 	QString tmpMsg;

@@ -395,70 +395,24 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 	QString time = dater.toString("hh:mm:ss") + "&nbsp;";
 	QString date = dater.toString("ddd d MMMM yy") + " " + time;
 	QString name, icon, histText;
-
-	//Nettoyage du html du message
 	QString msg(argMsg);
-	if(msg.indexOf("<html>"))
-	{
-		msg.replace(QRegExp("&(?!\\w+;)"), "&amp;");
-		msg.replace("<", "&lt;");
-	}
-	msg.remove(QRegExp("<head>.*</head>")).remove("<html>")
-		.remove(QRegExp("<body[^<>]*>")).remove("</html>").remove("</body>");
-
-	//Passage des <font > en <span >
-	QRegExp fontMask("^(.*)<font([^>]*)>((?:[^<]|<(?!/font>))*)</font>(.*)$");
-	while(fontMask.indexIn(msg) != -1)
-	{
-		RzxTextEdit::Format format = RzxTextEdit::formatFromFont(fontMask.cap(2));
-		msg = fontMask.cap(1) + RzxTextEdit::formatStyle(fontMask.cap(3), format, "span") + fontMask.cap(4);
-	}
-
-	//Création des liens hypertextes
-	static const QRegExp hyperText("("
-		"(\\b[a-zA-Z0-9]+://([-a-zA-Z0-9]+(\\:[-a-zA-Z0-9]+)?\\@)?[-a-zA-Z0-9]+"
-			"|[-a-zA-Z0-9]+\\.[-a-zA-Z0-9]+)(\\.[-a-zA-Z0-9]+)*" // (protocole://)?hostname
-		"(/~?[-%_a-zA-Z0-9.]*)*"	//directory*
-		"(\\?[-%_a-zA-Z0-9=+.]+(&[-%_a-zA-Z0-9=+.]+)*)?" //paramètres?
-		"(#[-_a-zA-Z0-9]+)?" //position
-		"|(\\\\\\\\[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*(\\\\[-%_a-zA-Z0-9.]*)*)" // samba
-		"|\\b(mailto:)?[-_a-zA-Z0-9]+(\\.[-_a-zA-Z0-9]+)*(\\+[-_a-zA-Z0-9.]+)?" // login
-		"\\@[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*\\b" //mail hostname
-		")");
-	msg.replace(hyperText, "<a href=\"\\1\">\\1</a>");
 
 #define addColor(text, tmpcolor) QString("<font color=\"") + tmpcolor + "\">" + text + "</font>"
 	
-	//Distinction du /me et d'un message normal
-	static QRegExp action("^(\\s*<[^<>]+>)*/me(<[^<>]+>|\\s)(.*)");
-	if(computer && !action.indexIn(msg))
+	date = addColor(date, color);
+	time = addColor(time, color);
+
+	//Si computer != NULL, l'en-tête définitive sera composée ensuite
+	if(computer)
 	{
-		const QString purple("purple");
-		const QString entete = action.cap(1);
-		const QString entext = action.cap(2);
-		const QString pieddp = action.cap(3);
-		msg = addColor("<i>* " + entete + computer->name() + entext + pieddp + "</i><br>", purple);
-		date = addColor(date, purple);
-		time = addColor(time, purple);
-		histText = msg;
-		computer = NULL;
+		msg = addColor("&nbsp; " + msg + "<br>", color);
+		if(!computer->isLocalhost()) name = computer->name();
+		histText = addColor("<i>" + name + host + "</i>", color) + msg;
 	}
+	else if(!host.isEmpty())
+		histText = msg = addColor("<i>" + host + "</i>&nbsp;" + msg + "<br>", color);
 	else
-	{
-		date = addColor(date, color);
-		time = addColor(time, color);
-		//Si computer != NULL, l'en-tête définitive sera composée ensuite
-		if(computer)
-		{
-			msg = addColor("&nbsp; " + msg + "<br>", color);
-			if(!computer->isLocalhost()) name = addColor(computer->name(), color);
-			histText = addColor("<i>" + name + host + "</i>", color) + msg;
-		}
-		else if(!host.isEmpty())
-			histText = msg = addColor("<i>" + host + "</i>&nbsp;" + msg + "<br>", color);
-		else
-			histText = msg = addColor(msg + "<br>", color);
-	}
+		histText = msg = addColor(msg + "<br>", color);
 
 	// Enregistrement des logs...
 	writeToHistory(date + histText);
@@ -508,6 +462,58 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 	ui->edMsg->setFocus();
 }
 
+void RzxChat::appendChat(const QString& color, const QString& host, const QString& argMsg, RzxComputer *computer)
+{
+	//Nettoyage du html du message
+	QString msg(argMsg);
+	QString usedColor(color);
+	QString usedHost(host);
+	if(msg.indexOf("<html>"))
+	{
+		msg.replace(QRegExp("&(?!\\w+;)"), "&amp;");
+		msg.replace("<", "&lt;");
+	}
+	msg.remove(QRegExp("<head>.*</head>")).remove("<html>")
+		.remove(QRegExp("<body[^<>]*>")).remove("</html>").remove("</body>");
+
+	//Passage des <font > en <span >
+	QRegExp fontMask("^(.*)<font([^>]*)>((?:[^<]|<(?!/font>))*)</font>(.*)$");
+	while(fontMask.indexIn(msg) != -1)
+	{
+		RzxTextEdit::Format format = RzxTextEdit::formatFromFont(fontMask.cap(2));
+		msg = fontMask.cap(1) + RzxTextEdit::formatStyle(fontMask.cap(3), format, "span") + fontMask.cap(4);
+	}
+
+	//Création des liens hypertextes
+	static const QRegExp hyperText("("
+		"(\\b[a-zA-Z0-9]+://([-a-zA-Z0-9]+(\\:[-a-zA-Z0-9]+)?\\@)?[-a-zA-Z0-9]+"
+			"|[-a-zA-Z0-9]+\\.[-a-zA-Z0-9]+)(\\.[-a-zA-Z0-9]+)*" // (protocole://)?hostname
+		"(/~?[-%_a-zA-Z0-9.]*)*"	//directory*
+		"(\\?[-%_a-zA-Z0-9=+.]+(&[-%_a-zA-Z0-9=+.]+)*)?" //paramètres?
+		"(#[-_a-zA-Z0-9]+)?" //position
+		"|(\\\\\\\\[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*(\\\\[-%_a-zA-Z0-9.]*)*)" // samba
+		"|\\b(mailto:)?[-_a-zA-Z0-9]+(\\.[-_a-zA-Z0-9]+)*(\\+[-_a-zA-Z0-9.]+)?" // login
+		"\\@[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*\\b" //mail hostname
+		")");
+	msg.replace(hyperText, "<a href=\"\\1\">\\1</a>");
+
+	//Distinction du /me et d'un message normal
+	static QRegExp action("^(\\s*<[^<>]+>)*/me(<[^<>]+>|\\s)(.*)");
+	if(computer && !action.indexIn(msg))
+	{
+		const QString purple("purple");
+		const QString entete = action.cap(1);
+		const QString entext = action.cap(2);
+		const QString pieddp = action.cap(3);
+		msg = "<i>* " + entete + computer->name() + entext + pieddp + "</i>";
+		usedColor = "purple";
+		usedHost = "";
+		computer = NULL;
+	}
+
+	append(usedColor, usedHost, msg, computer);
+}
+
 /** Affiche un message reçu, et emet un son s'il faut */
 void RzxChat::receive(const QString& msg)
 {
@@ -515,9 +521,9 @@ void RzxChat::receive(const QString& msg)
 		RzxSound::play(RzxChatConfig::beepSound());	
 	
 	if(RzxConfig::autoResponder())
-		append("darkgray", RzxChatConfig::prompt(), msg, m_computer);
+		appendChat("darkgray", RzxChatConfig::prompt(), msg, m_computer);
 	else
-		append("blue", RzxChatConfig::prompt(), msg, m_computer);
+		appendChat("blue", RzxChatConfig::prompt(), msg, m_computer);
 	if(!isActiveWindow())
 	{
 		unread++;
@@ -608,7 +614,7 @@ void RzxChat::on_btnSend_clicked()
 	else
 		msg = rawMsg;
 
-	append("red", RzxChatConfig::prompt(), msg, RzxComputer::localhost());
+	appendChat("red", RzxChatConfig::prompt(), msg, RzxComputer::localhost());
 	sendChat(msg);	//passage par la sous-couche de gestion du m_socket avant d'émettre
 
 	ui->edMsg->validate();

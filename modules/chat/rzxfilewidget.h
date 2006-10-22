@@ -34,7 +34,7 @@ class RzxFileWidget : public QWidget
 	QToolButton *reject;
 	QToolButton *cancel;
 
-private slots:
+public slots:
 	void emitCancel();
 	void emitReject();
 	void emitAccept();

@@ -44,6 +44,7 @@ class RzxChatBrowser: public QTextBrowser
 
 	protected slots:
 		void launchUrl(const QUrl&);
+		void fileTransfer(const QString& id);
 };
 
 #endif

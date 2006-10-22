@@ -24,7 +24,7 @@
 #include <QFileDialog>
 #include <QTime>
 
-#include "rzxchatsocket.h"// a voir ca ?
+#include "rzxchatsocket.h"
 
 #include "rzxchat.h"
 #include "rzxfilelistener.h"
@@ -73,7 +73,7 @@ RzxFileSocket::RzxFileSocket(RzxComputer *c)
 	connect(&checkTimeOut, SIGNAL(timeout()), this, SLOT(checkTimeout()));
 	fileState = STATE_NONE;
 	connectToHost();
-	RzxChatLister::global()->fileListener()->attach(this);
+	sockId = RzxChatLister::global()->fileListener()->attach(this);
 }
 
 ///Destruction d'un socket de transfert de fichier
@@ -111,7 +111,7 @@ void RzxFileSocket::setSocketDescriptor(int socket)
 {
 	QTcpSocket::setSocketDescriptor(socket);
 	host = peerAddress();
-	RzxChatLister::global()->fileListener()->attach(this);
+	sockId = RzxChatLister::global()->fileListener()->attach(this);
 }
 
 ///Parser des messages
@@ -175,7 +175,7 @@ void RzxFileSocket::parse(const QString& msg)
 		{
 			nom = cmd.cap(1);
 			taille = cmd.cap(2).toULongLong();
-			host.computer()->receiveChat(Rzx::File , tr("Your friend sends you the file %1 (%2 bytes), do you want to download it?").arg(nom).arg(taille));
+			host.computer()->receiveChat(Rzx::File , tr("Your friend sends you the file <a href=\"RzxTransfer://%1\">%2</a> (%3 bytes), do you want to download it?").arg(sockId).arg(nom).arg(taille));
 			chatWindow = RzxChatLister::global()->receiveFile(host);
 			//creation du widget
 			widget = new RzxFileWidget(0, nom, 0, false);

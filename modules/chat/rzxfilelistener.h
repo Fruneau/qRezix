@@ -22,7 +22,7 @@
 #include <QString>
 #include <QPointer>
 #include <QHash>
-#include <QList>
+
 #include <RzxHostAddress>
 
 #include "rzxfilesocket.h"
@@ -42,16 +42,18 @@ class RzxFileListener : public QTcpServer
 {
 	Q_OBJECT
 
-	QHash< RzxHostAddress, QList< QPointer< RzxFileSocket > > > sockets;
+	QHash< RzxHostAddress, QHash< int,  QPointer< RzxFileSocket > > > sockets;
+	int idsock;
 
 	public:
 		RzxFileListener();
 		~RzxFileListener();
 
 		bool listen(quint16 port);
-		void attach(RzxFileSocket* socket);
+		int attach(RzxFileSocket* socket);
 		void detach(RzxFileSocket* socket);
 		void closeTransfers(const RzxHostAddress& host);
+		RzxFileSocket* getSocket(int idsock);
 
 	protected slots:
 		virtual void incomingConnection(int);
