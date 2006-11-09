@@ -755,8 +755,10 @@ void RzxChat::closeEvent(QCloseEvent * e)
 		smileyUi->close();
 	RzxChatConfig::saveChatWidget(this);
 	if(computer())
+	{
 		computer()->sendChat(Rzx::Closed);
-	RzxChatLister::global()->fileListener()->closeTransfers(computer()->ip());
+		RzxChatLister::global()->fileListener()->closeTransfers(computer()->ip());
+	}
 	e -> accept();
 }
 
