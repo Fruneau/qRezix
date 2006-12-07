@@ -25,9 +25,9 @@ contains(DEFINES, RZX_XNET_BUILTIN):include($$ROOT/net/xnet/xnet.pri)
 contains(DEFINES, RZX_JABBER_BUILTIN):include($$ROOT/net/jabber/jabber.pri)
 
 !mac:unix {
-	DEFINES += PREFIX=\"$$PREFIX\"
-	DEFINES += QREZIX_DATA_DIR=\"$$SYSDIR\"
-	DEFINES += QREZIX_LIB_DIR=\"$$LIBDIR\"
+	DEFINES += PREFIX=\\\"$$PREFIX\\\"
+	DEFINES += QREZIX_DATA_DIR=\\\"$$SYSDIR\\\"
+	DEFINES += QREZIX_LIB_DIR=\\\"$$LIBDIR\\\"
 }
 
 SOURCES += rzxglobal.cpp \
