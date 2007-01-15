@@ -165,7 +165,7 @@ void RzxFileSocket::parse(const QString& msg)
 		if(envoi && fileState == STATE_CHECKING)
 		{
 			checkTimeOut.stop();
-			host.computer()->receiveChat(Rzx::File , tr("Your friend refused the file."));
+			host.computer()->receiveChat(Rzx::File , tr("Your friend has refused the file."));
 			close();
 		}
 		break;
@@ -198,7 +198,7 @@ void RzxFileSocket::parse(const QString& msg)
 	case FILE_REJECT:
 		if(envoi && fileState == STATE_PROPOSING)
 		{
-			host.computer()->receiveChat(Rzx::File , tr("Your friend has refused your file"));
+			host.computer()->receiveChat(Rzx::File , tr("Your friend has refused the file."));
 			close();
 		}
 		break;
@@ -421,7 +421,7 @@ void RzxFileSocket::fileConnexionEtablished()
 void RzxFileSocket::fileConnexionClosed()
 {
 	if(! envoiTermine)
-		host.computer()->receiveChat(Rzx::InfoMessage, tr("Connexion closed."));
+		host.computer()->receiveChat(Rzx::InfoMessage, tr("Connection closed."));
 	qDebug("File connection with %s closed by peer", host.toString().toAscii().constData());
 	close();
 }
