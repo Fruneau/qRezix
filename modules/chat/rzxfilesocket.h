@@ -70,6 +70,7 @@ class RzxFileSocket : public QTcpSocket
 	QTime tempsTransfert;
 	int octetsALire;
 	QString tmpMsg;
+	bool envoiTermine;
 
 	static QString fileFormat[];
 

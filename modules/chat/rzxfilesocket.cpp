@@ -50,7 +50,7 @@ QString RzxFileSocket::fileFormat[] = {
 
 ///Construction d'un socket brut
 RzxFileSocket::RzxFileSocket()
-	:QTcpSocket(), host(), file(0),chatWindow(0), octetsEcrits(0), modeBinaire(false)
+	:QTcpSocket(), host(), file(0),chatWindow(0), octetsEcrits(0), modeBinaire(false), envoiTermine(false)
 {
 	connect(this, SIGNAL(disconnected()), this, SLOT(fileConnexionClosed()));
 	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
@@ -63,7 +63,7 @@ RzxFileSocket::RzxFileSocket()
 
 ///Construction d'un socket de transfert de fichier sans liaison
 RzxFileSocket::RzxFileSocket(RzxComputer *c)
-	:QTcpSocket(), host(c->ip()), file(0),chatWindow(0), octetsEcrits(0), modeBinaire(false)
+	:QTcpSocket(), host(c->ip()), file(0),chatWindow(0), octetsEcrits(0), modeBinaire(false), envoiTermine(false)
 {
 	connect(this, SIGNAL(disconnected()), this, SLOT(fileConnexionClosed()));
 	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
@@ -131,7 +131,7 @@ void RzxFileSocket::parse(const QString& msg)
 	switch (typeMsg)
 	{
 	case FILE_CANCEL:
-		host.computer()->receiveChat(Rzx::File , "Envoi annulé");
+		host.computer()->receiveChat(Rzx::File , tr("Transfer cancelled."));
 		close();
 		break;
 
@@ -221,7 +221,9 @@ void RzxFileSocket::parse(const QString& msg)
 		break;
 
 	case FILE_END:
-		file->close();
+		if (file)
+			file->close();
+		envoiTermine = true;
 		if(octetsEcrits == taille)
 		{
 			qDebug() << "Le transfert de " << nom << "a reussi";
@@ -292,7 +294,7 @@ void RzxFileSocket::sendBinary()
 	{
 		if(!file->open(QIODevice::ReadOnly))
 		{
-			host.computer()->receiveChat(Rzx::File , "Ouverture impossible");
+			host.computer()->receiveChat(Rzx::File , tr("The file cannot be opened"));
 			sendCancel();
 			close();
 			return;
@@ -302,7 +304,7 @@ void RzxFileSocket::sendBinary()
 	}
 	if(file->bytesAvailable()>0)
 	{
-		QByteArray data = file->read(2048);
+		QByteArray data = file->read(16384);
 		send(QString("SEND %1\r\n").arg(data.size()));
 		write(data);
 		octetsEcrits += data.size();
@@ -321,7 +323,11 @@ void RzxFileSocket::sendBinary()
 		}
 	}
 	else
+	{
+		host.computer()->receiveChat(Rzx::InfoMessage, tr("File transfer finished!"));
+		envoiTermine = true;
         sendEnd();
+	}
 }
 
 void RzxFileSocket::sendEnd()
@@ -414,7 +420,8 @@ void RzxFileSocket::fileConnexionEtablished()
 /**La connexion a été fermée on l'indique à l'utilisateur */
 void RzxFileSocket::fileConnexionClosed()
 {
-	host.computer()->receiveChat(Rzx::InfoMessage, tr("Connexion closed."));
+	if(! envoiTermine)
+		host.computer()->receiveChat(Rzx::InfoMessage, tr("Connexion closed."));
 	qDebug("File connection with %s closed by peer", host.toString().toAscii().constData());
 	close();
 }
@@ -467,7 +474,7 @@ void RzxFileSocket::sendFile(QString filename)
 	nom = filename;
 	file = new QFile(filename);
 	taille = file->size();
-	qDebug() << nom << "  " << taille;
+	qDebug() << nom << taille;
 	envoi = true;
 	fileState = STATE_CHECKING;
 	sendCheck();
