@@ -106,7 +106,7 @@ It must be at least &lt;b>6 characters long&lt;/b>.</string>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <pixmapfunction></pixmapfunction>
  <tabstops>
   <tabstop>leNewPass</tabstop>
   <tabstop>leReenterNewPass</tabstop>

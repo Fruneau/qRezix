@@ -183,7 +183,7 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="2" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <pixmapfunction></pixmapfunction>
  <tabstops>
   <tabstop>radioQuit</tabstop>
   <tabstop>radioMinimize</tabstop>
