@@ -30,7 +30,7 @@ L'option peut également être RZX_ALL_BUILTIN qui entraîne que tous les module
 
 * Le répertoire de stockage de données, valide uniquement sous Unix (non MacOS X) donnne la base du répertoire de stockage des différentes ressources de qRezix... Par défaut ce répertoire est SYSDIR = PREFIX/share/qrezix
 
-* Le répertoire de stockage du binaire, valide uniquement sous Unix (non MacOS X) donne la base du répertoire de stockage de l'exécutation... Par défaut ce répertoire est BINDIR = PREFIX/bin
+* Le répertoire de stockage du binaire, valide uniquement sous Unix (non Mac OS X) donne la base du répertoire de stockage de l'exécutation... Par défaut ce répertoire est BINDIR = PREFIX/bin
 
 * Le préfixe d'installation. Valide uniquement sous unix, permet l'installation dans une arborescence virtuelle (utile pour la création de package). Le répertoire d'installation sera alors $$DEST/$$PREFIX. $$DEST n'est absolument pas pris en compte pour la compilation du programme mais uniquement lors de l'installation
 
@@ -44,18 +44,21 @@ Il suffit de regénérer la liste des fichiers à installer via un nouvel appel 
 	su
 	make install
 
-Note spécifiques à MacOS X :
+Note spécifiques à Mac OS X :
 ============================
 
-Pour compiler qRezix sous MacOS X, il faut d'abord installer le Growl-withInstaller framework pour le support de Growl.
+* Compiler qt:
+Récupérer la version mac opensource de Qt, puis la compiler et l'installer avec la ligne de commande :
+./configure -universal -sdk /Developer/SDKs/MacOSX10.4u.sdk -qt-gif
+make
 
-* Pour compiler qRezix :
+* Va manger un morceau, la compilation de Qt prend 2h
+
+* Une fois Qt compilé et installé (make install), pour compiler qRezix sous Mac OS X, il faut d'abord copier le framework Growl-WithInstaller (qui fait partie du SDK de Growl, à télécharger sur http://www.growl.info)  pour le support de Growl dans modules/notifier/.
+
+* Ensuite, pour compiler qRezix :
 ./build-mac
 
 * Pour packager qRezix :
 cd packages/macosx
-./package
-
-Dans les 2 cas, pourque le bundle soit utilisable, il faut copier le framework Growl-withInstaller dans qRezix.app/Content/Frameworks/
-
-Note : Le Growl-withInstaller.framework fait parti du Growl-SDK
+QTDIR=/usr/local/Trolltech/Qt-4.2.2/ ./package

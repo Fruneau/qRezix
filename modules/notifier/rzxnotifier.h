@@ -27,8 +27,8 @@
 
 #include <RzxModule>
 #ifdef Q_OS_MAC
-#	include <Growl/GrowlApplicationBridge-Carbon.h>
-#	include <Growl/GrowlDefines.h>
+#	include <Growl-WithInstaller/GrowlApplicationBridge-Carbon.h>
+#	include <Growl-WithInstaller/GrowlDefines.h>
 #endif
 
 class RzxComputer;

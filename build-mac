@@ -17,8 +17,8 @@ for param in $@; do
 	fi
 done
 
-echo "Compilation de qRezix pour MacOS X"
-echo " Plateforme : MacOS $MACOSX_DEPLOYMENT_TARGET"
+echo "Compilation de qRezix pour Mac OS X"
+echo " Plateforme : Mac OS $MACOSX_DEPLOYMENT_TARGET"
 echo " Modules    : Tous"
 echo " Options    :"
 echo "   - compilation : $CXXFLAGS"

@@ -30,6 +30,8 @@ cd qRezix.app/Contents
 ../../install_libs MacOS/qRezix $ABSQTDIR
 find . -name '*.dylib' -exec ../../install_libs {} $ABSQTDIR ";"
 
+cp -R ../../../../modules/notifier/Growl-WithInstaller.framework ./
+
 # Nettoyage du bundle
 echo "Cleaning the bundle"
 cd Resources
