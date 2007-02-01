@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #ifndef RZXBOB_H
-#define RXBOB_H
+#define RZXBOB_H
 
 #undef RZX_BUILTIN
 #undef RZX_PLUGIN
@@ -29,6 +29,7 @@
 #include <QHttp>
 #include <QAction>
 #include <QAbstractItemView>
+#include <Qtimer>
 
 #include <RzxRezal>
 
@@ -40,6 +41,8 @@ class RzxBob : public QObject, public RzxRezal
 	bool bobState;
 	QHttp* http;
 	QAction* action;
+	QTimer timeout;
+	int request;
 
 public:
 	RzxBob();

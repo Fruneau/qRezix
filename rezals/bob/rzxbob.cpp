@@ -27,6 +27,8 @@
 #include <QHttp>
 #include <QAction>
 #include <QUrl>
+#include <QDebug>
+#include <QTimer>
 
 #include "rzxbob.h"
 
@@ -42,10 +44,10 @@ RzxBob::RzxBob()
 	beginLoading();
 	setType(TYP_TOOL);
 
-	setIcon(RZX_MODULE_ICON);	//a voir
-	action = new QAction("BOB", 0);	//mettre l'icone
+	setIcon(RZX_MODULE_ICON);
+	action = new QAction(RZX_MODULE_ICON, "Bôb", 0);
 	connect(action, SIGNAL(triggered()), this, SLOT(checkState()));
-
+	connect(&timeout, SIGNAL(timeout()), this, SLOT(checkState()));
 	checkState();
 	endLoading();
 }
@@ -61,6 +63,7 @@ RzxBob::~RzxBob()
 
 void RzxBob::checkState()
 {
+	timeout.stop();
 	if(!http)
 	{
 		http = new QHttp(this);
@@ -69,32 +72,48 @@ void RzxBob::checkState()
 	http->abort();
 	QUrl url(RZX_BOB_URL);
 	http->setHost(url.host(), url.port() != -1 ? url.port() : 80);
-	http->get(url.path() + RZX_BOB_URL_PARAM);
+	request = http->get(url.path() + RZX_BOB_URL_PARAM);
+	timeout.start(600000);	//mise à jour du statut toutes les 10 minutes
 }
 
 void RzxBob::httpRequestFinished(int id, bool error)
 {
 	if(error)
+		qDebug() << "Erreur lors de la requête " << http->error();
+	else
 	{
-		return;
+		if(id == request)
+		{
+			QByteArray data = http->readAll();
+			int taille = data.size();
+			if(taille)
+				if(data[0] == '0')
+				{
+					action->setIcon(RzxThemedIcon("bob_ouvert"));
+					if(taille == 1)
+						action->setText("Le Bôb est fermé");
+					else
+						action->setText(QString().fromUtf8(data.right(taille -1).data(), taille-1));
+				}
+				else if(data[0] == '1')
+				{
+					action->setIcon(RzxThemedIcon("bob_ferme"));
+					if(taille == 1)
+						action->setText("Le Bôb est ouvert");
+					else
+						action->setText(QString().fromUtf8(data.right(taille -1).data(), taille-1));
+				}
+				else
+					error = true;
+			else
+				error = true;
+		}
 	}
-	QByteArray data = http->readAll();
-	int taille = data.size();
-	if(taille)
-		if(data[0] == '0')
-		{
-			if(taille == 1)
-				action->setText("Le Bôb est fermé");
-			else
-				action->setText(QString().fromUtf8(data.right(taille -1).data(), taille-1));
-		}
-		else if(data[0] == '1')
-		{
-			if(taille == 1)
-				action->setText("Le Bôb est ouvert");
-			else
-				action->setText(QString().fromUtf8(data.right(taille -1).data(), taille-1));
-		}
+	if (error)
+	{
+		action->setIcon(RzxThemedIcon("bob"));
+		action->setText("Bôb");
+	}
 }
 
 /// Retourne 0 puisque n'utilise pas de fenêtre, a priori la fonction n'est pas appelée
