@@ -8,4 +8,5 @@ include(../rzxglobal.pri)
 	!contains(DEFINES, RZX_RZLMAP_BUILTIN):!contains(DEFINES, NO_RZLMAP):SUBDIRS += map
 	!contains(DEFINES, RZX_RZLDETAIL_BUILTIN):!contains(DEFINES, NO_RZLDETAIL):SUBDIRS += detail
 	!contains(DEFINES, RZX_RZLINDEX_BUILTIN):!contains(DEFINES, NO_RZLINDEX):SUBDIRS += index
+	!contains(DEFINES, RZX_RZLBOB_BUILTIN):!contains(DEFINES, NO_RZLBOB):SUBDIRS += bob
 }

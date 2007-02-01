@@ -55,6 +55,9 @@
 #ifdef RZX_RZLMAP_BUILTIN
 #	include "../../rezals/map/rzxrezalmap.h"
 #endif
+#ifdef RZX_RZLBOB_BUILTIN
+#	include "../../rezals/bob/rzxbob.h"
+#endif
 
 RZX_GLOBAL_INIT(QRezix)
 
@@ -143,6 +146,10 @@ void QRezix::loadBuiltins()
 #ifdef RZX_RZLMAP_BUILTIN
 	if(addBuiltin(RzxThemedIcon("rzlmap"), "Platal", RzxApplication::version(), "Show an interactive map of the campus"))
 		installModule(new RzxRezalMap());
+#endif
+#ifdef RZX_RZLBOB_BUILTIN
+	if(addBuiltin(RzxThemedIcon("bob"), "Bob", RzxApplication::version(), "Show the state of Bôbar"))
+		installModule(new RzxBob);
 #endif
 }
 
