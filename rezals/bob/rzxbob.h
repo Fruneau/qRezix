@@ -29,7 +29,7 @@
 #include <QHttp>
 #include <QAction>
 #include <QAbstractItemView>
-#include <Qtimer>
+#include <QTimer>
 
 #include <RzxRezal>
 

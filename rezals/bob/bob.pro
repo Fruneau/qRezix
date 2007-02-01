@@ -1,3 +1,3 @@
 MODULENAME = bob
-include(../../rzxmodule.pri)
+include(../../rzxrezal.pri)
 include(bob.pri)
