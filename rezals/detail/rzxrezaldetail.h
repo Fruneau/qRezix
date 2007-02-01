@@ -69,6 +69,7 @@ class RzxRezalDetail:public QAbstractItemView, public RzxRezal
 		virtual Qt::DockWidgetAreas allowedAreas() const;
 		virtual Qt::DockWidgetArea area() const;
 		virtual bool floating() const;
+		virtual QAction* toolButton();
 		
 		virtual void updateLayout();
 		virtual bool eventFilter(QObject*, QEvent*);

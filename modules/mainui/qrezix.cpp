@@ -163,6 +163,9 @@ bool QRezix::installModule(RzxRezal *rezal)
 		if(rezal->type() & RzxRezal::TYP_CENTRAL)
 			centralisable << rezal;
 
+		if(rezal->type() & RzxRezal::TYP_TOOL)
+			inToolBar << rezal;
+			
 		if(rezal->type() & RzxRezal::TYP_DOCKABLE)
 		{
 			dock = new QDockWidget(rezal->name());
@@ -217,7 +220,9 @@ void QRezix::linkModules()
 				connect(index->widget(), SIGNAL(activated(const QModelIndex&)), rezal->widget(), SLOT(setRootIndex(const QModelIndex&)));
 			}
 		}
-		rezal->widget()->setSelectionModel(sel);
+		QAbstractItemView* widget = rezal->widget();
+		if(widget)
+			widget->setSelectionModel(sel);
 	}
 
 	//Mise en place des dock widget
@@ -255,7 +260,9 @@ void QRezix::relinkModules(RzxRezal *rezal, RzxRezal *)
 			connect(index->widget(), SIGNAL(activated(const QModelIndex&)), rezal->widget(), SLOT(setRootIndex(const QModelIndex&)));
 		}
 	}
-	rezal->widget()->setSelectionModel(sel);
+	QAbstractItemView* widget = rezal->widget();
+	if(widget)
+		widget->setSelectionModel(sel);
 
 	//Mise en place des dock widget
 	foreach(Qt::DockWidgetArea area, docks.keys())
@@ -282,6 +289,7 @@ void QRezix::unloadModule(RzxRezal *rezal)
 	if(central == rezal) central = NULL;
 	indexes.removeAll(rezal);
 	centralisable.removeAll(rezal);
+	inToolBar.removeAll(rezal);
 	QList<QAction*> actions = choseCentral.keys(rezal);
 	foreach(QAction *action, actions)
 		choseCentral.remove(action);
@@ -542,18 +550,24 @@ void QRezix::buildModuleMenus()
 	foreach(RzxRezal *rezal, moduleList())
 	{
 		if(!rezal) continue;
-		QAction *action = menuView.addAction(rezal->icon(), rezal->name());
-		action->setCheckable(true);
 
 		//Après endGroup, car contient un changement de répertoire...
 		QDockWidget *dock = rezal->dockWidget();
+		QAbstractItemView *widget = rezal->widget();
 		
+		QAction *action;
+		if (dock || widget)
+		{
+			//Ajoute une entrée dans le menu que si le rezl a une fenêtre
+			action = menuView.addAction(rezal->icon(), rezal->name());
+			action->setCheckable(true);
+		}
 		if(dock)
 		{
 			action->setChecked(dock->isVisibleTo(this));
 			connect(action, SIGNAL(toggled(bool)), dock, SLOT(setVisible(bool)));
 		}
-		else
+		else if(widget)
 		{
 			action->setChecked(rezal->widget()->isVisibleTo(this));
 			connect(action, SIGNAL(toggled(bool)), rezal->widget(), SLOT(setVisible(bool)));
@@ -688,6 +702,10 @@ void QRezix::buildToolbar(bool showSearch)
 	
 	bar->addAction(RzxApplication::prefAction());
 	bar->addAction(pluginsAction);
+	bar->addSeparator();
+	foreach(RzxRezal *rez, inToolBar)
+		bar->addAction(rez->toolButton());
+	
 	QWidget *spacer = new QWidget();
 	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	spacerAction = bar->addWidget(spacer);

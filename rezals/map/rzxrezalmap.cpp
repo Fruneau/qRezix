@@ -402,6 +402,12 @@ bool RzxRezalMap::floating() const
 	return false;
 }
 
+///Ne retourne rien puisque pas de bouton
+QAction* RzxRezalMap::toolButton()
+{
+	return 0;
+}
+
 /** \reimp */
 void RzxRezalMap::updateLayout()
 {

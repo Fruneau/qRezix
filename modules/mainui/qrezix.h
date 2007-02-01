@@ -79,6 +79,7 @@ class RZX_MAINUI_EXPORT QRezix : public QMainWindow, public RzxBaseLoader<RzxRez
 	RzxRezal *central;
 	QList<RzxRezal*> indexes;
 	QList<RzxRezal*> centralisable;
+	QList<RzxRezal*> inToolBar;
 	QHash<Qt::DockWidgetArea, QList<DockPosition> > docks;
 	QHash<QAction*, RzxRezal*> choseCentral;
 	QItemSelectionModel *sel;

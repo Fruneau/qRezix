@@ -52,6 +52,7 @@ class RzxRezalIndex : public QTreeView, public RzxRezal
 		virtual Qt::DockWidgetAreas allowedAreas() const;
 		virtual Qt::DockWidgetArea area() const;
 		virtual bool floating() const;
+		virtual QAction* toolButton();
 
 	protected:
 		virtual void mousePressEvent(QMouseEvent*);

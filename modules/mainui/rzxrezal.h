@@ -75,7 +75,8 @@ class RZX_MAINUI_EXPORT RzxRezal:public RzxBaseModule
 			TYP_CENTRAL = 2,
 			TYP_ALL = TYP_DOCKABLE | TYP_CENTRAL,
 			TYP_INDEXED = 4,
-			TYP_INDEX = 8
+			TYP_INDEX = 8,
+			TYP_TOOL = 16
 		};
 		Q_DECLARE_FLAGS(Type, TypeFlags)
 	
@@ -101,6 +102,8 @@ class RZX_MAINUI_EXPORT RzxRezal:public RzxBaseModule
 		virtual bool floating() const = 0;
 		///Indique la position de préférence
 		virtual Qt::DockWidgetArea area() const = 0;
+		///Retourne le bouton à afficher dans la toolbar
+		virtual QAction* toolButton() = 0;
 		virtual void updateLayout();
 
 		const Type& type() const;

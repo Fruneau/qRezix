@@ -90,6 +90,12 @@ bool RzxRezalIndex::floating() const
 	return false;
 }
 
+///Ne retourne rien puisque pas de bouton
+QAction* RzxRezalIndex::toolButton()
+{
+	return 0;
+}
+
 ///Pour que le changement de sélection entraînte toujours la mise à jour de l'index
 void RzxRezalIndex::currentChanged(const QModelIndex& current, const QModelIndex&)
 {

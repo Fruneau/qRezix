@@ -219,6 +219,12 @@ void RzxRezalView::resizeEvent(QResizeEvent * e)
 	adapteColonnes();
 }
 
+///Ne retourne rien puisque pas de bouton
+QAction* RzxRezalView::toolButton()
+{
+	return 0;
+}
+
 ///Mise à jour de l'affichage
 /** \reimp */
 void RzxRezalView::updateLayout()

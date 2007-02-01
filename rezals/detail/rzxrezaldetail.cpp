@@ -463,6 +463,12 @@ bool RzxRezalDetail::floating() const
 	return false;
 }
 
+///Ne retourne rien puisque pas de bouton
+QAction* RzxRezalDetail::toolButton()
+{
+	return 0;
+}
+
 /** \reimp */
 void RzxRezalDetail::updateLayout()
 {
