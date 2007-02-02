@@ -132,7 +132,8 @@ QString RzxTranslator::translation()
 ///Sélection de la langue à utiliser
 void RzxTranslator::setLanguage(const QString& language)
 {
-	QString newLang = global()->languageNames.keys(language)[0];
+
+	QString newLang = global()->languageNames.key(language);
 	if(language != global()->translation() && global()->translations.keys().contains(newLang))
 	{
 		RzxConfig::setLanguage(language);
