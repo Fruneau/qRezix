@@ -65,6 +65,7 @@ RzxRezalView::RzxRezalView( QWidget *parent )
 	header()->setClickable(true);
 	header()->setHighlightSections(false);
 	header()->setSortIndicator(RzxMainUIConfig::sortColumn(), RzxMainUIConfig::sortOrder());
+	setSortingEnabled(true);
 	connect(header(), SIGNAL(sectionMoved(int, int, int)), this, SLOT(columnOrderChanged()));
 	setAcceptDrops(true);
 
