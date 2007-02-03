@@ -405,14 +405,14 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 	//Si computer != NULL, l'en-tête définitive sera composée ensuite
 	if(computer)
 	{
-		msg = addColor("&nbsp; " + msg + "<br>", color);
+		msg = addColor("&nbsp; " + msg, color);
 		if(!computer->isLocalhost()) name = computer->name();
 		histText = addColor("<i>" + name + host + "</i>", color) + msg;
 	}
 	else if(!host.isEmpty())
-		histText = msg = addColor("<i>" + host + "</i>&nbsp;" + msg + "<br>", color);
+		histText = msg = addColor("<i>" + host + "</i>&nbsp;" + msg , color);
 	else
-		histText = msg = addColor(msg + "<br>", color);
+		histText = msg = addColor(msg , color);
 
 	// Enregistrement des logs...
 	writeToHistory(date + histText);
