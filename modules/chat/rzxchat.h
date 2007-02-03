@@ -127,6 +127,7 @@ protected slots:
 	void onReturnPressed();
 	void onTextChanged();
 	bool event(QEvent *e);
+	void resizeFileList();
 
 protected: // Protected methods
 	void append(const QString& color, const QString& host, const QString& msg, RzxComputer* = NULL);

@@ -96,29 +96,35 @@ void RzxChat::init()
 
 	/**** Construction de l'UI ****/
 	/* Splitter avec 2 partie dont une est l'ui */
-	//Partie 1 : L'afficheur de discussion
+	//Partie 1 : Haut de l'affichage: L'afficheur de discussion et liste des transferts
+	//   Afficheur de discussion
 	txtHistory = new RzxChatBrowser();
 	txtHistory->setReadOnly(true);
 	txtHistory->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-	QWidget *historyContainer = new QWidget();
-	QGridLayout *glayout = new QGridLayout(historyContainer);
-	glayout->addWidget(txtHistory,0,0);
 
+	//   Liste des transferts
 	transferListArea = new QScrollArea();
-	transferListArea->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
+	transferListArea->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Expanding);
 	transferListArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	QWidget *transferList = new QWidget();
-	transferList->resize(110,0);
-	glayout->addWidget(transferListArea,0,1);
 	transferListArea->hide();
-
 	QVBoxLayout *transferLayout = new QVBoxLayout(transferList);
 	transferLayout->setSpacing(0);
 	transferLayout->setMargin(0);
 	transferList->setLayout(transferLayout);
 	transferListArea->setWidget(transferList);
-	historyContainer->setLayout(glayout);
-	
+
+	//    Splitter du haut de l'affichage
+	QSplitter* topSplitter = new QSplitter();
+	topSplitter->setOrientation(Qt::Horizontal);
+	topSplitter->addWidget(txtHistory);
+	topSplitter->addWidget(transferListArea);
+	connect(topSplitter, SIGNAL(splitterMoved (int, int)), this, SLOT(resizeFileList()));
+	QHBoxLayout *topLayout = new QHBoxLayout;
+	topLayout->addWidget(topSplitter);
+	QWidget* topContainer = new QWidget();
+	topContainer->setLayout(topLayout);
+
 	//Partie 2 : L'éditeur qui est défini dans l'ui RzxChatUI
 	editor = new QWidget();
 	ui = new Ui::RzxChat();
@@ -127,13 +133,13 @@ void RzxChat::init()
 	ui->cbSendHTML->setChecked(false);
 	//Construction du splitter
 	splitter = new QSplitter(Qt::Vertical);
-	splitter->addWidget(historyContainer);
+	splitter->addWidget(topContainer);
 	splitter->addWidget(editor);
 	splitter->setSizes(QList<int>() << 120 <<	100);
 	setBaseSize(width(), 230);
 	
 	//Pour que le splitter soit bien redimensionné avec la fenêtre
-	glayout = new QGridLayout(this);
+	QGridLayout* glayout = new QGridLayout(this);
 	setLayout(glayout);
 	glayout->setMargin(0);
 	glayout->setSpacing(0);
@@ -878,16 +884,31 @@ void RzxChat::addWidget(RzxFileWidget *widget)
 {
 	QWidget *list = transferListArea->widget();
 	list->layout()->addWidget(widget);
-	list->layout()->setAlignment(widget, Qt::AlignTop);
-	list->resize(110,widget->maximumHeight() * list->layout()->count());
+	list->layout()->setAlignment(widget, Qt::AlignTop);	
 	transferListArea->show();
+	resizeFileList();
 }
 
 void RzxChat::removeWidget(RzxFileWidget *widget)
 {
 	QWidget *list = transferListArea->widget();
 	list->layout()->removeWidget(widget);
-	list->resize(110,widget->maximumHeight() * list->layout()->count());
+	resizeFileList();
 	if(list->layout()->count() == 0)
 		transferListArea->hide();
+}
+
+void RzxChat::resizeFileList()
+{
+	QWidget *list = transferListArea->widget();
+	int nb = list->layout()->count();
+	int hauteur = 0;
+	int largeur = transferListArea->width();
+	if(nb > 0)
+	{
+		hauteur = list->layout()->itemAt(0)->sizeHint().height();
+		if(list->layout()->itemAt(0)->sizeHint().width() > largeur)
+			largeur = list->layout()->itemAt(0)->sizeHint().width();
+	}
+	list->resize(largeur,hauteur * nb);
 }

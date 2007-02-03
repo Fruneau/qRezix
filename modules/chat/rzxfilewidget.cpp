@@ -24,7 +24,6 @@ RzxFileWidget::RzxFileWidget(QWidget *parent, QString texte, int value, bool mod
 {
 	progress = new QProgressBar(this);
 	progress->setAlignment(Qt::AlignCenter);
-	progress->setMaximumHeight(20);
 	progress->setValue(value);
 
 	title =  new QLabel(this);
@@ -32,17 +31,14 @@ RzxFileWidget::RzxFileWidget(QWidget *parent, QString texte, int value, bool mod
 	info = new QLabel(this);
 
 	accept = new QToolButton(this);
-	accept->setMaximumHeight(20);
 	accept->setIcon(RzxIconCollection::getIcon(Rzx::ICON_OK));
 	accept->setToolTip(tr("Accept the file"));
 	connect(accept,SIGNAL(clicked()),this,SLOT(emitAccept()));
 	reject = new QToolButton(this);
-	reject->setMaximumHeight(20);
 	reject->setIcon(RzxIconCollection::getIcon(Rzx::ICON_REFUSE));
 	reject->setToolTip(tr("Reject the file"));
 	connect(reject,SIGNAL(clicked()),this,SLOT(emitReject()));
 	cancel = new QToolButton(this);
-	cancel->setMaximumHeight(20);
 	cancel->setIcon(RzxIconCollection::getIcon(Rzx::ICON_CANCEL));
 	cancel->setToolTip(tr("Cancel the transfer"));
 	connect(cancel,SIGNAL(clicked()),this,SLOT(emitCancel()));
@@ -52,11 +48,12 @@ RzxFileWidget::RzxFileWidget(QWidget *parent, QString texte, int value, bool mod
 	layout->addWidget(title,0,0,1,3);
 	layout->addWidget(info,3,0,1,3);
 	layout->addWidget(accept,1,0);
+	layout->setAlignment(accept, Qt::AlignHCenter);
 	layout->addWidget(cancel,1,1);
+	layout->setAlignment(cancel, Qt::AlignHCenter);
 	layout->addWidget(reject,1,2);
+	layout->setAlignment(reject, Qt::AlignHCenter);
 	setLayout(layout);
-	setMaximumSize(100,100);
-	setMinimumSize(100,100);
 
 	if(modeCancel)
 		setModeCancel();
