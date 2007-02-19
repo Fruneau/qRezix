@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>RzxChat</class>
  <widget class="QWidget" name="RzxChat" >
   <property name="geometry" >
@@ -23,7 +20,7 @@
     <number>6</number>
    </property>
    <item row="1" column="0" >
-    <widget class="RzxTextEdit" name="edMsg" >
+    <widget class="RzxTextEdit" native="1" name="edMsg" >
      <property name="sizePolicy" >
       <sizepolicy>
        <hsizetype>13</hsizetype>
@@ -214,17 +211,11 @@
       <widget class="QPushButton" name="btnClose" >
        <property name="sizePolicy" >
         <sizepolicy>
-         <hsizetype>5</hsizetype>
+         <hsizetype>1</hsizetype>
          <vsizetype>0</vsizetype>
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>65</width>
-         <height>0</height>
-        </size>
        </property>
        <property name="whatsThis" >
         <string>&lt;h3>Close&lt;/h3>&lt;p>Ends the chat and close the window&lt;/p></string>
@@ -486,14 +477,11 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>RzxTextEdit</class>
    <extends>QWidget</extends>
    <header>rzxtextedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -47,6 +47,7 @@ class RzxChatConfig:public RzxAbstractConfig
 		RZX_UINTPROP("chatPort", chatPort, setChatPort, 5050)
 		RZX_UINTPROP("filePort", filePort, setFilePort, 5054)
 		RZX_BOOLPROP("refuseFileTransfer", refuseFile, setRefuseFile , false)
+		RZX_BOOLPROP("displayIconText", displayIconText, setDisplayIconText , true)
 
 		RZX_WIDGETPROP("chat", restoreChatWidget, saveChatWidget, QPoint(150,100), QSize(500, 300))
 

@@ -487,6 +487,7 @@ void RzxChatLister::propInit(bool def)
 	ui->chat_port->setValue(RzxChatConfig::chatPort(def));
 	ui->file_port->setValue(RzxChatConfig::filePort(def));
 	ui->cbRefuseFile->setChecked(RzxChatConfig::refuseFile(def));
+	ui->cbDisplayIconText->setChecked(RzxChatConfig::displayIconText(def));
 
 	ui->smileyCombo->clear();
 	QStringList themes = RzxSmileys::themeList();
@@ -526,6 +527,7 @@ void RzxChatLister::propUpdate()
 	RzxChatConfig::setChatPort(ui->chat_port->value());
 	RzxChatConfig::setFilePort(ui->file_port->value());
 	RzxChatConfig::setRefuseFile(ui->cbRefuseFile->isChecked());
+	RzxChatConfig::setDisplayIconText(ui->cbDisplayIconText->isChecked());
 	RzxSmileys::setTheme(ui->smileyCombo->currentText());
 }
 

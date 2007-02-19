@@ -167,6 +167,15 @@ void RzxChat::init()
 	changeSmileyTheme();
 	changeIconFormat();
 
+	if(! RzxChatConfig::displayIconText())
+	{
+		ui->btnHistorique->setText("");
+		ui->btnProperties->setText("");
+		ui->btnSend->setText("");
+		ui->btnClose->setText("");
+		ui->btnFileTransfer->setText("");
+	}
+
 	/**** Préparation des données ****/
 	curColor = Qt::black;
 
@@ -421,7 +430,7 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 		histText = msg = addColor(msg , color);
 
 	// Enregistrement des logs...
-	writeToHistory(date + histText);
+	writeToHistory(date + histText + "<br>");
 
 	// Gestion des smileys
 	RzxSmileys::replace(msg);
