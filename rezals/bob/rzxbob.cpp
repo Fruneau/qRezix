@@ -89,17 +89,17 @@ void RzxBob::httpRequestFinished(int id, bool error)
 			if(taille)
 				if(data[0] == '0')
 				{
-					action->setIcon(RzxThemedIcon("bob_ouvert"));
+					action->setIcon(RzxThemedIcon("bob_ferme"));
 					if(taille == 1)
-						action->setText("Le Bôb est fermé");
+						action->setText(tr("Le Bôb est fermé"));
 					else
 						action->setText(QString().fromUtf8(data.right(taille -1).data(), taille-1));
 				}
 				else if(data[0] == '1')
 				{
-					action->setIcon(RzxThemedIcon("bob_ferme"));
+					action->setIcon(RzxThemedIcon("bob_ouvert"));
 					if(taille == 1)
-						action->setText("Le Bôb est ouvert");
+						action->setText(tr("Le Bôb est ouvert"));
 					else
 						action->setText(QString().fromUtf8(data.right(taille -1).data(), taille-1));
 				}
