@@ -11,37 +11,37 @@
 <context>
     <name>RzxChat</name>
     <message>
-        <location filename="../../modules/chat/rzxchat.cpp" line="241"/>
+        <location filename="../../modules/chat/rzxchat.cpp" line="256"/>
         <source>Pong received within %1 msecs</source>
         <translation>Réponse reçue en %1 ms</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchat.cpp" line="257"/>
+        <location filename="../../modules/chat/rzxchat.cpp" line="272"/>
         <source>Chat</source>
         <translation>Conversation</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchat.cpp" line="259"/>
+        <location filename="../../modules/chat/rzxchat.cpp" line="274"/>
         <source>Is typing a message</source>
         <translation>Compose un message</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchat.cpp" line="260"/>
+        <location filename="../../modules/chat/rzxchat.cpp" line="275"/>
         <source>unread</source>
         <translation>non lu</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchat.cpp" line="595"/>
+        <location filename="../../modules/chat/rzxchat.cpp" line="610"/>
         <source>Ping emitted</source>
         <translation>Ping émis</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchat.cpp" line="566"/>
+        <location filename="../../modules/chat/rzxchat.cpp" line="581"/>
         <source>Ping request received</source>
         <translation>Requête &apos;ping&apos; reçue</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchat.cpp" line="571"/>
+        <location filename="../../modules/chat/rzxchat.cpp" line="586"/>
         <source>Chat closed</source>
         <translation>Discussion terminée</translation>
     </message>
@@ -131,12 +131,12 @@
         <translation>Fermer</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchat.ui" line="72"/>
+        <location filename="../../modules/chat/rzxchat.ui" line="69"/>
         <source>&amp;Send</source>
         <translation>&amp;Envoyer</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchat.ui" line="75"/>
+        <location filename="../../modules/chat/rzxchat.ui" line="72"/>
         <source>Alt+S</source>
         <translation>Alt+E</translation>
     </message>
@@ -146,17 +146,17 @@
         <translation type="obsolete">Alt+H</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchat.ui" line="123"/>
+        <location filename="../../modules/chat/rzxchat.ui" line="120"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchat.cpp" line="172"/>
+        <location filename="../../modules/chat/rzxchat.cpp" line="187"/>
         <source>Custom...</source>
         <translation>Personnaliser...</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchat.cpp" line="567"/>
+        <location filename="../../modules/chat/rzxchat.cpp" line="582"/>
         <source>Pong answer received in </source>
         <translation>Pong reçu en </translation>
     </message>
@@ -176,17 +176,17 @@
         <translation>Alt+F</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchat.cpp" line="229"/>
+        <location filename="../../modules/chat/rzxchat.cpp" line="244"/>
         <source>Sending buffered messages</source>
         <translation>Envoie les messages en attente</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchat.cpp" line="723"/>
+        <location filename="../../modules/chat/rzxchat.cpp" line="738"/>
         <source>Saving messages as long remote host is disconnected and this window stays open</source>
         <translation>Enregistre les messages en attente du retour du destinataire ou de la fermeture de la fenêtre</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchat.cpp" line="857"/>
+        <location filename="../../modules/chat/rzxchat.cpp" line="872"/>
         <source>File to send</source>
         <translation>Fichier à envoyer</translation>
     </message>
@@ -259,12 +259,12 @@
         <translation>Historique - %1</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatlister.cpp" line="550"/>
+        <location filename="../../modules/chat/rzxchatlister.cpp" line="552"/>
         <source>All files</source>
         <translation>Tous les fichiers</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatlister.cpp" line="550"/>
+        <location filename="../../modules/chat/rzxchatlister.cpp" line="552"/>
         <source>Sound file selection</source>
         <translation>Sélection du son</translation>
     </message>
@@ -299,62 +299,62 @@ Les autres utilisateurs ne pourront pas vous envoyer de fichiers, par contre il 
 <context>
     <name>RzxChatProp</name>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="16"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="13"/>
         <source>Form</source>
         <translation>Formulaire</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="28"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="25"/>
         <source>Chat</source>
         <translation>Conversation</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="150"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="154"/>
         <source>Print hh:mm:ss in chat</source>
         <translation>Afficher l&apos;heure de réception</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="157"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="161"/>
         <source>&lt;h3&gt;warning&lt;/h3&gt;&lt;p&gt;If you check this you will receive an notification each time somebody check you properties&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning :&lt;/b&gt; in some cases, this option can be used to spam you with notification windows&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Attention&lt;/h3&gt;&lt;p&gt;Si vous cochez cette case, vous recevrez une notification à chaque fois que quelqu&apos;un demande vos propriétés. Dans certains cas, cette option peut être utilisé par une personne malveillante pour vous surcharger de fenêtre de notification&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="160"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="164"/>
         <source>Warn me when properties are being checked</source>
         <translation>Me prévenir lorsque mes propriétés sont regardées</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="343"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="347"/>
         <source>Beep</source>
         <translation>Bip</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="355"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="359"/>
         <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Check this if you want qRezix to play a sound when you receive a message&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Cochez cette case si vous voulez qu&apos;un son soit émis à la réception d&apos;un message.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="358"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="362"/>
         <source>Beep on message reception</source>
         <translation>Bip à la réception des messages</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="392"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="396"/>
         <source>&lt;h3&gt;Beep on message&lt;/h3&gt;&lt;p&gt;Select the sound to play when you receive a new message&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Bip à la réception d&apos;un message&lt;/h3&gt;&lt;p&gt;Choisissez le son joué à la réception d&apos;un message&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="402"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="406"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="191"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="195"/>
         <source>Network</source>
         <translation>Réseau</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="203"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="207"/>
         <source>&lt;h3&gt;Peer2peer port&lt;/h3&gt;&lt;p&gt;Define the port of the chat&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Port p2p&lt;/h3&gt;&lt;p&gt;Défini le port utilisé pour le chat p2p&lt;/p&gt;&lt;p&gt;Ne modifiez pas cette valeur si vous ne savez pas ce que vous faites&lt;/p&gt;</translation>
     </message>
@@ -364,54 +364,59 @@ Les autres utilisateurs ne pourront pas vous envoyer de fichiers, par contre il 
         <translation type="obsolete">Port :</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="279"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="283"/>
         <source>Smileys</source>
         <translation>Smileys</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="136"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="140"/>
         <source>Print user icon</source>
         <translation>Afficher l&apos;icône de l&apos;utilisateur</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="143"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="147"/>
         <source>Print user nicknames</source>
         <translation>Afficher le pseudonyme</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="43"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="47"/>
         <source>Size:</source>
         <translation>Taille :</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="66"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="70"/>
         <source>Prompt:</source>
         <translation>Invite :</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="129"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="133"/>
         <source>Print prompt</source>
         <translation>Afficher l&apos;invite</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="216"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="220"/>
         <source>Chat port:</source>
         <translation>Port du chat:</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="229"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="233"/>
         <source>&lt;h3&gt;Peer2peer port&lt;/h3&gt;&lt;p&gt;Define the port of file transfer&lt;/p&gt;&lt;p&gt;You shouldn&apos;t have to modify this value&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Port p2p&lt;/h3&gt;&lt;p&gt;Défini le port utilisé pour le chat p2p&lt;/p&gt;&lt;p&gt;Ne modifiez pas cette valeur si vous ne savez pas ce que vous faites&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="242"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="246"/>
         <source>File port:</source>
         <translation>Port du transfert de fichier:</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxchatprop.ui" line="255"/>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="259"/>
         <source>Refuse file transfer</source>
         <translation>Refuser le transfert de fichier</translation>
+    </message>
+    <message>
+        <location filename="../../modules/chat/rzxchatprop.ui" line="37"/>
+        <source>Display text near icons</source>
+        <translation>Affiche le texte près des icones</translation>
     </message>
 </context>
 <context>
@@ -578,17 +583,17 @@ Les autres utilisateurs ne pourront pas vous envoyer de fichiers, par contre il 
 <context>
     <name>RzxFileWidget</name>
     <message>
-        <location filename="../../modules/chat/rzxfilewidget.cpp" line="37"/>
+        <location filename="../../modules/chat/rzxfilewidget.cpp" line="35"/>
         <source>Accept the file</source>
         <translation>Accepter le fichier</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxfilewidget.cpp" line="42"/>
+        <location filename="../../modules/chat/rzxfilewidget.cpp" line="39"/>
         <source>Reject the file</source>
         <translation>Refuser le fichier</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxfilewidget.cpp" line="47"/>
+        <location filename="../../modules/chat/rzxfilewidget.cpp" line="43"/>
         <source>Cancel the transfer</source>
         <translation>Annuler le transfert</translation>
     </message>
