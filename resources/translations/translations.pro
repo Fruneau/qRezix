@@ -8,6 +8,7 @@ TRANS = jabber_fr.ts \
         index_fr.ts \
 	view_fr.ts \
 	map_fr.ts \
+	bob_fr.ts \
 	xnet_fr.ts \
 	chat_fr.ts \
 	notifier_fr.ts \

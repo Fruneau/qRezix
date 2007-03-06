@@ -4,13 +4,13 @@
     <name>RzxBob</name>
     <message>
         <location filename="../../rezals/bob/rzxbob.cpp" line="94"/>
-        <source>Le B&#xf4;b est ferm&#xe9;</source>
-        <translation>The Bôb is open</translation>
+        <source>The B&#xf4;b is closed</source>
+        <translation>Le Bob est fermé</translation>
     </message>
     <message>
         <location filename="../../rezals/bob/rzxbob.cpp" line="102"/>
-        <source>Le B&#xf4;b est ouvert</source>
-        <translation>The Bôb is closed</translation>
+        <source>The B&#xf4;b is open</source>
+        <translation>Le Bob est ouvert</translation>
     </message>
 </context>
 </TS>
