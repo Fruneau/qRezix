@@ -71,11 +71,6 @@
         <translation>:-)</translation>
     </message>
     <message>
-        <location filename="" line="1702131813"/>
-        <source>&lt;h3&gt;Input&lt;/h3&gt;&lt;p&gt;This is the place where you can type your messages.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Shortcuts :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Enter : &lt;/b&gt;Send your message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] : &lt;/b&gt;Navigate through the messages you have already typed&lt;br&gt;&lt;b&gt;Ctrl+Enter : &lt;/b&gt; Add a line-break&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;h3&gt;Edition&lt;/h3&gt;&lt;p&gt;C&apos;est la fenêtre dans laquelle vous devez taper votre message.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Raccourcis :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Entrée : &lt;/b&gt;Envoie votre message&lt;br&gt;&lt;b&gt;Ctrl+[UP|DOWN] :&lt;/b&gt;Permet de naviguer entre les messages que vous avez déjà envoyés&lt;br&gt;&lt;b&gt;Ctrl+Enter : &lt;/b&gt;Saut de ligne&lt;/p&gt;</translation>
-    </message>
-    <message>
         <location filename="../../modules/chat/rzxchat_mac.ui" line="335"/>
         <source>&lt;h3&gt;Send&lt;/h3&gt;&lt;p&gt;Send the message you have typed...&lt;br&gt;It&apos;s a lot easier to use &lt;b&gt;Enter&lt;/b&gt;&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Envoyer&lt;/h3&gt;&lt;p&gt;Envoie le message en cours de frappe...&lt;br&gt;Le plus simple est d&apos;utiliser &lt;b&gt;Entrée&lt;/b&gt;&lt;/p&gt;</translation>
@@ -89,11 +84,6 @@
         <location filename="../../modules/chat/rzxchat_mac.ui" line="351"/>
         <source>&lt;h3&gt;Send as HTML&lt;/h3&gt;&lt;p&gt;When this case is checked, you can format your text&lt;/p&gt;&lt;p&gt;&lt;b&gt;Warning : &lt;/b&gt;some clients don&apos;t support HTML...&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Envoyer en HTML&lt;/h3&gt;&lt;p&gt;Si cette case est cochée, vous pouvez formater votre texte&lt;/p&gt;&lt;p&gt;&lt;b&gt;Attention :&lt;/b&gt;certains clients peuvent ne pas supporter le texte formaté en HTML...&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="" line="1702131813"/>
-        <source>Send as &amp;HTML</source>
-        <translation type="obsolete">Envoyer en &amp;HTML</translation>
     </message>
     <message>
         <location filename="../../modules/chat/rzxchat_mac.ui" line="383"/>
@@ -139,11 +129,6 @@
         <location filename="../../modules/chat/rzxchat.ui" line="72"/>
         <source>Alt+S</source>
         <translation>Alt+E</translation>
-    </message>
-    <message>
-        <location filename="" line="1702131813"/>
-        <source>Alt+H</source>
-        <translation type="obsolete">Alt+H</translation>
     </message>
     <message>
         <location filename="../../modules/chat/rzxchat.ui" line="120"/>
@@ -208,16 +193,6 @@
 </context>
 <context>
     <name>RzxChatLister</name>
-    <message>
-        <location filename="" line="1702131813"/>
-        <source>reconnected</source>
-        <translation type="obsolete">reconnecté</translation>
-    </message>
-    <message>
-        <location filename="" line="1702131813"/>
-        <source>disconnected</source>
-        <translation type="obsolete">déconnecté</translation>
-    </message>
     <message>
         <location filename="../../modules/chat/rzxchatlister.cpp" line="286"/>
         <source>Properties sent to %1</source>
@@ -359,11 +334,6 @@ Les autres utilisateurs ne pourront pas vous envoyer de fichiers, par contre il 
         <translation>&lt;h3&gt;Port p2p&lt;/h3&gt;&lt;p&gt;Défini le port utilisé pour le chat p2p&lt;/p&gt;&lt;p&gt;Ne modifiez pas cette valeur si vous ne savez pas ce que vous faites&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="" line="1702131813"/>
-        <source>Port:</source>
-        <translation type="obsolete">Port :</translation>
-    </message>
-    <message>
         <location filename="../../modules/chat/rzxchatprop.ui" line="283"/>
         <source>Smileys</source>
         <translation>Smileys</translation>
@@ -480,11 +450,6 @@ Les autres utilisateurs ne pourront pas vous envoyer de fichiers, par contre il 
         <translation>Envoi de %1, attente de la réponse...</translation>
     </message>
     <message>
-        <location filename="../../modules/chat/rzxfilesocket.cpp" line="168"/>
-        <source>Your friend refused the file.</source>
-        <translation type="obsolete">Votre ami a refusé le fichier.</translation>
-    </message>
-    <message>
         <location filename="../../modules/chat/rzxfilesocket.cpp" line="178"/>
         <source>Your friend sends you the file &lt;a href=&quot;RzxTransfer://%1&quot;&gt;%2&lt;/a&gt; (%3 bytes), do you want to download it?</source>
         <translation>Votre ami vous envoie le fichier &lt;a href=&quot;RzxTransfer://%1&quot;&gt;%2&lt;/a&gt; (%3 octets), voulez-vous le télécherger?</translation>
@@ -513,11 +478,6 @@ Les autres utilisateurs ne pourront pas vous envoyer de fichiers, par contre il 
         <location filename="../../modules/chat/rzxfilesocket.cpp" line="352"/>
         <source>Unable to send data... writeBlock returns -1</source>
         <translation>Impossible d&apos;envoyer les données... writeBlock a renvoyé -1</translation>
-    </message>
-    <message>
-        <location filename="../../modules/chat/rzxfilesocket.cpp" line="424"/>
-        <source>Connexion closed.</source>
-        <translation type="obsolete">Connexion fermée.</translation>
     </message>
     <message>
         <location filename="../../modules/chat/rzxfilesocket.cpp" line="435"/>
