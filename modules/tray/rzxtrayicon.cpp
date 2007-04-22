@@ -375,19 +375,6 @@ void RzxTrayIcon::changePropTheme()
 /** \reimp */
 void RzxTrayIcon::propInit(bool def)
 {
-	qDebug() << ui->groupBackground->isEnabled();
-	qDebug() << ui->cbTransparent->isEnabled();
-	qDebug() << ui->groupBackground->isVisible();
-	qDebug() << ui->cbTransparent->isVisible();
-/*	ui->cbAutoScale->setChecked(RzxTrayConfig::autoScale());
-	int size = RzxTrayConfig::traySize(def);
-	if(size == -1)
-	{
-		size = 22;
-		//if(d) size = qMin(d->width(), d->height()) - 2;
-	}
-	ui->sbTraySize->setValue(size);*/ 	//TODO voir size sous linux
-
 	RzxTrayConfig::QuickActions actions = (RzxTrayConfig::QuickAction)RzxTrayConfig::quickActions();
 	ui->cbQuickChat->setChecked(actions & RzxTrayConfig::Chat);
 	ui->cbQuickFtp->setChecked(actions & RzxTrayConfig::Ftp);
@@ -402,27 +389,12 @@ void RzxTrayIcon::propInit(bool def)
 	updateBackground();
 	
 	changePropTheme();
-	qDebug() << ui->groupBackground->isEnabled();
-	qDebug() << ui->cbTransparent->isEnabled();
-	qDebug() << ui->groupBackground->isVisible();
-	qDebug() << ui->cbTransparent->isVisible();
 }
 
 /** \reimp */
 void RzxTrayIcon::propUpdate()
 {
 	if(!ui) return;
-
-/*	if(RzxTrayConfig::autoScale() ^ ui->cbAutoScale->isChecked())
-	{
-		RzxTrayConfig::setAutoScale(ui->cbAutoScale->isChecked());
-		changeTrayIcon();
-	}
-	if(ui->sbTraySize->value() != RzxTrayConfig::traySize() && !RzxTrayConfig::autoScale())
-	{
-		RzxTrayConfig::setTraySize(ui->sbTraySize->value());
-		changeTrayIcon();
-	}*/ //TODO voir size sous linux
 
 	RzxTrayConfig::QuickActions actions;
 	if(ui->cbQuickChat->isChecked()) actions |= RzxTrayConfig::Chat;
@@ -436,7 +408,6 @@ void RzxTrayIcon::propUpdate()
 
 	RzxTrayConfig::setTransparent(ui->cbTransparent->isChecked());
 	RzxTrayConfig::setBackgroundColor(bg.rgb());
-
 }
 
 /** \reimp */
