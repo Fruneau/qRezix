@@ -344,7 +344,6 @@ QList<QWidget*> RzxTrayIcon::propWidgets()
 		propWidget = new QWidget;
 		ui->setupUi(propWidget);
 #ifndef Q_WS_X11
-		ui->groupSize->hide();
 		ui->groupBackground->hide();
 #endif
 		connect(ui->btnColor, SIGNAL(clicked()), this, SLOT(selectColor()));
