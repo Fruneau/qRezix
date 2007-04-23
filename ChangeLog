@@ -1,3 +1,18 @@
+[v2.1.0] 2007-04 <br@frankiz.polytechnique.fr>
+    * Port de la trayicon en Qt 4 [Gui]
+    * Mise à jour des traductions [Gui]
+    * Fin du port en Qt4 [Gui]
+
+  Mainui :
+    * RzxRezal : Ajout d'un TYP_TOOL pour avoir un bouton rélatif au Rezal
+    dans la barre d'outils [Gui]
+
+  Bob :
+    * Intégration du module de notification d'ouverture du Bob [Gui]
+
+  Transfert de fichiers :
+    * Version originale [Gui]
+
 [v2.0.2] 2006-07 <br@frankiz.polytechnique.fr>
     * Bugfix : compilation avec GCC 4.1 [Fruneau]
     * Support des Universal Binaries pour MacOS X (déjà appliqué au packaging de la 2.0.1) [Fruneau]
