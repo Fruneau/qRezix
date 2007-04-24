@@ -74,6 +74,7 @@ const RzxProperty::Sport RzxProperty::sports[] = {
 	{ "handball", QT_TR_NOOP("Handball"), 10 },
 	{ "judo", QT_TR_NOOP("Judo"), 11 },
 	{ "swimming", QT_TR_NOOP("Swimming"), 12 },
+	{ "raid", QT_TR_NOOP("Raid"), 18 },
 	{ "rugby", QT_TR_NOOP("Rugby"), 13 },
 	{ "tennis", QT_TR_NOOP("Tennis"), 14 },
 	{ "sailing", QT_TR_NOOP("Sailing"), 15 },

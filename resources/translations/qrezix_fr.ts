@@ -314,79 +314,79 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
 <context>
     <name>RzxProperty</name>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="842"/>
+        <location filename="../../core/rzxproperty.cpp" line="843"/>
         <source>Icon selection</source>
         <translation>Sélection de l&apos;icône</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="842"/>
+        <location filename="../../core/rzxproperty.cpp" line="843"/>
         <source>Icons</source>
         <translation>Icônes</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="848"/>
+        <location filename="../../core/rzxproperty.cpp" line="849"/>
         <source>Error !</source>
         <translation>Erreur !</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="866"/>
+        <location filename="../../core/rzxproperty.cpp" line="867"/>
         <source>Choose default ftp folder</source>
         <translation>Sélectionner le répertoire FTP par défaut</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="928"/>
+        <location filename="../../core/rzxproperty.cpp" line="929"/>
         <source>Infos</source>
         <translation>Infos</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="729"/>
+        <location filename="../../core/rzxproperty.cpp" line="730"/>
         <source>Incorrect properties</source>
         <translation>Propriétés incorrectes</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="731"/>
+        <location filename="../../core/rzxproperty.cpp" line="732"/>
         <source>Your computer name is not valid...&lt;br&gt;It can only contain letters, numbers and &apos;-&apos; signs.</source>
         <translation>Le nom de votre ordinateur est invalide...&lt;br&gt;Il ne peux contenir que des lettres, des chiffres et des signes &apos;-&apos;.</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="786"/>
+        <location filename="../../core/rzxproperty.cpp" line="787"/>
         <source>Last name:</source>
         <translation>Nom :</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="788"/>
+        <location filename="../../core/rzxproperty.cpp" line="789"/>
         <source>Name:</source>
         <translation>Prénom :</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="792"/>
+        <location filename="../../core/rzxproperty.cpp" line="793"/>
         <source>E-mail:</source>
         <translation>E-mail :</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="803"/>
+        <location filename="../../core/rzxproperty.cpp" line="804"/>
         <source>Incomplete Data</source>
         <translation>Données incomplètes</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="804"/>
+        <location filename="../../core/rzxproperty.cpp" line="805"/>
         <source>In order to use qRezix, you must fill in the following information :
 </source>
         <translation>Vous devez remplir les informations suivantes pour pouvoir utiliser qRezix :
 </translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="805"/>
+        <location filename="../../core/rzxproperty.cpp" line="806"/>
         <source>Press OK to do so, or Cancel to quit qRezix</source>
         <translation>Appuyez sur OK pour continuer, ou Annuler pour quitter qRezix</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="849"/>
+        <location filename="../../core/rzxproperty.cpp" line="850"/>
         <source>Invalid File Selected.</source>
         <translation>Fichier invalide sélectionné.</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="932"/>
+        <location filename="../../core/rzxproperty.cpp" line="933"/>
         <source>Network</source>
         <translation>Réseau</translation>
     </message>
@@ -401,7 +401,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <translation>Téléphone :</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="930"/>
+        <location filename="../../core/rzxproperty.cpp" line="931"/>
         <source>Layout</source>
         <translation>Affichage</translation>
     </message>
@@ -431,7 +431,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <translation>Informations personnelles</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="532"/>
+        <location filename="../../core/rzxproperty.cpp" line="533"/>
         <source>None</source>
         <translation>Aucun</translation>
     </message>
@@ -496,42 +496,42 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
         <translation>Natation</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="77"/>
+        <location filename="../../core/rzxproperty.cpp" line="78"/>
         <source>Rugby</source>
         <translation>Rugby</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="78"/>
+        <location filename="../../core/rzxproperty.cpp" line="79"/>
         <source>Tennis</source>
         <translation>Tennis</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="79"/>
+        <location filename="../../core/rzxproperty.cpp" line="80"/>
         <source>Sailing</source>
         <translation>Voile</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="80"/>
+        <location filename="../../core/rzxproperty.cpp" line="81"/>
         <source>Volleyball</source>
         <translation>Volley</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.ui" line="405"/>
+        <location filename="../../core/rzxproperty.ui" line="406"/>
         <source>Sport:</source>
         <translation>Sport :</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="556"/>
+        <location filename="../../core/rzxproperty.cpp" line="557"/>
         <source>orange</source>
         <translation>oRanJe</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="557"/>
+        <location filename="../../core/rzxproperty.cpp" line="558"/>
         <source>rouje</source>
         <translation>Rouje</translation>
     </message>
     <message>
-        <location filename="../../core/rzxproperty.cpp" line="558"/>
+        <location filename="../../core/rzxproperty.cpp" line="559"/>
         <source>jone</source>
         <translation>Jône</translation>
     </message>
@@ -1021,6 +1021,11 @@ Si vous êtes sûr de votre nom de machine, alors essayez de réentrer votre mot
         <location filename="../../core/rzxwrongpass.ui" line="96"/>
         <source>Password:</source>
         <translation>Pass :</translation>
+    </message>
+    <message>
+        <location filename="../../core/rzxproperty.cpp" line="77"/>
+        <source>Raid</source>
+        <translation>Raid Nautique</translation>
     </message>
 </context>
 </TS>
