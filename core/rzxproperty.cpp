@@ -80,7 +80,7 @@ const RzxProperty::Sport RzxProperty::sports[] = {
 	{ "sailing", QT_TR_NOOP("Sailing"), 15 },
 	{ "volleyball", QT_TR_NOOP("Volleyball"), 16 }
 };
-#define SportNumber 17
+#define SportNumber 18
 
 ///Permet de trier les sports en fonction de la langue actuelle
 bool sportLessThan(const RzxProperty::Sport* s1, const RzxProperty::Sport* s2)
