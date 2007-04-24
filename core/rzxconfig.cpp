@@ -81,7 +81,7 @@ const char *RzxConfig::propStrings[][2] = {
 	{ "Volleyball", "RzxProperty" },
 	{ "Badminton", "RzxProperty" }
 };
-#define propStringsSize 31
+#define propStringsSize 33
 
 ///Initialisation des données de configuration
 void RzxConfig::init()
