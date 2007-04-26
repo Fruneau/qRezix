@@ -35,9 +35,9 @@
 
 #include <RzxModule>
 
-#ifndef Q_OS_MAC
+//#ifndef Q_OS_MAC
 namespace Ui { class RzxTrayProp; }
-#endif
+//#endif
 
 ///Gestion de l'icône système (systray, 'tableau de bord'...)
 /** Cette classe fournit une gestion avec tooltip et actions selon les clics */
@@ -75,12 +75,14 @@ private:
 	QMenu news;
 	QMenu samba;
 	QMenu mail;
-	QSystemTrayIcon* tray;
+#ifdef Q_OS_MAC
+        QMenu dock;
+#endif
+        QSystemTrayIcon* tray;
 
 // system-dependant part
 public:
 
-#ifndef Q_OS_MAC
 private:
 	Ui::RzxTrayProp *ui;
 	QWidget *propWidget;
@@ -101,7 +103,6 @@ protected slots:
 	void translate();
 	void updateBackground();
 	void selectColor();
-#endif
 };
 
 #endif

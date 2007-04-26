@@ -59,16 +59,14 @@ RzxTrayIcon::RzxTrayIcon()
 	beginLoading();
 	setType(MOD_GUI);
 #ifndef Q_WS_MAC
-	setType(MOD_HIDE);
+        setType(MOD_HIDE);
 #endif
 	setIcon(RZX_MODULE_ICON);
 	tray = new QSystemTrayIcon();
 	new RzxTrayConfig(this);
-#ifndef Q_OS_MAC
 	ui = NULL;
 	propWidget = NULL;
 	RzxTranslator::connect(this, SLOT(translate()));
-#endif
 	buildMenu();
 	connect(RzxComputer::localhost(), SIGNAL(stateChanged(RzxComputer*)), this, SLOT(changeTrayIcon()));
 	connect(RzxConnectionLister::global(), SIGNAL(countChange(const QString& )), this, SLOT(setToolTip(const QString& )));
@@ -109,11 +107,7 @@ void RzxTrayIcon::changeTrayIcon()
 		trayIcon = RzxIconCollection::getPixmap(Rzx::ICON_SYSTRAYAWAY);
 	if(trayIcon.isNull())
 		trayIcon = RzxIconCollection::qRezixIcon();
-#ifdef Q_WS_MAC
-	buildMenu();
-#else
 	changePropTheme();
-#endif
 	setTrayIcon(trayIcon);
 }
 
@@ -151,7 +145,6 @@ void RzxTrayIcon::buildMenu()
 	if ( pop.actions().count() )
 		pop.clear();
 
-#ifndef Q_OS_MAC
 	QList<RzxComputer*> list;
 	QList<RzxComputer*> favList;
 	RzxTrayConfig::QuickActions actions = (RzxTrayConfig::QuickAction)RzxTrayConfig::quickActions();
@@ -188,7 +181,6 @@ void RzxTrayIcon::buildMenu()
 
 	if(pop.actions().count())
 		pop.addSeparator();
-#endif //!Q_OS_MAC
 
 	pop.addAction(RzxApplication::prefAction());
 #define newItem(name, trad, receiver, slot) pop.addAction(RzxIconCollection::getIcon(name), trad, receiver, slot)
@@ -196,13 +188,23 @@ void RzxTrayIcon::buildMenu()
 		newItem(Rzx::ICON_HERE, tr( "&I'm back !" ), this, SIGNAL( wantToggleResponder() ) );
 	else
 		newItem(Rzx::ICON_AWAY, tr( "I'm &away !" ), this, SIGNAL( wantToggleResponder() ) );
-#undef newItem
 	
-#ifndef Q_OS_MAC
 	pop.addAction(RzxApplication::quitAction());
-#else
-	qt_mac_set_dock_menu( &pop );
+
+#undef newItem
+#ifdef Q_OS_MAC
+#define newItem(name, trad, receiver, slot) dock.addAction(RzxIconCollection::getIcon(name), trad, receiver, slot)
+        dock.clear();
+        dock.addAction(RzxApplication::prefAction()); 
+        if (RzxConfig::autoResponder()) 
+                newItem(Rzx::ICON_HERE, tr( "&I'm back !" ), this, SIGNAL( wantToggleResponder() ) ); 
+        else 
+                newItem(Rzx::ICON_AWAY, tr( "I'm &away !" ), this, SIGNAL( wantToggleResponder() ) ); 
+        qt_mac_set_dock_menu( &dock );
+#undef newItem
 #endif
+
+#undef newItem
 }
 
 ///Fonction auxiliaire pour faire les titres dynamiques des sous-menus
@@ -330,8 +332,6 @@ void RzxTrayIcon::subMenu(QMenu& mname, Rzx::Icon micon, const char * slot, QLis
 	}
 }
 
-
-#ifndef Q_OS_MAC
 #include "ui_rzxtrayprop.h"
 
 /** \reimp */
@@ -372,7 +372,7 @@ void RzxTrayIcon::changePropTheme()
 }
 
 /** \reimp */
-void RzxTrayIcon::propInit(bool def)
+void RzxTrayIcon::propInit(bool)
 {
 	RzxTrayConfig::QuickActions actions = (RzxTrayConfig::QuickAction)RzxTrayConfig::quickActions();
 	ui->cbQuickChat->setChecked(actions & RzxTrayConfig::Chat);
@@ -427,6 +427,7 @@ void RzxTrayIcon::propClose()
 ///
 void RzxTrayIcon::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
+#ifndef Q_OS_MAC
 	switch(reason)
 	{
 	case QSystemTrayIcon::Context:
@@ -440,6 +441,11 @@ void RzxTrayIcon::trayActivated(QSystemTrayIcon::ActivationReason reason)
 	default:
 		break;
 	}
+#else
+        Q_UNUSED(reason);
+        buildMenu(); 
+        tray->setContextMenu(&pop); 
+#endif
 }
 
 ///Mise à jour de la traduction
@@ -469,4 +475,3 @@ void RzxTrayIcon::selectColor()
 		widget->raise();
 }
 
-#endif
