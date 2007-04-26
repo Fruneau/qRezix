@@ -3,7 +3,7 @@ Instructions d'installation :
 
 1 - Configurer la compilation :
 qRezix utilise l'outil qmake de Trolltech pour simplier la configuration du programme. Ceci n'empêche pas de pouvoir choisir les modules via la ligne de configuration de qmake. Il suffit de lancer :
-	qmake "DEFINE+=OPT1 OPT2 OPT3" "PREFIX=monprefix" "LIBDIR=malibdir" "SYSDIR=monsysdir" "BINDIR=monbindir" "LIBREL=monlibrelatif" "DEST=madest" qrezix.pro
+	qmake "DEFINES+=OPT1 OPT2 OPT3" "PREFIX=monprefix" "LIBDIR=malibdir" "SYSDIR=monsysdir" "BINDIR=monbindir" "LIBREL=monlibrelatif" "DEST=madest" qrezix.pro
 
 * Les options OPT1 OPT2 OPT3 sont les options de compilation des différents modules. Ils sont de la forme
 	RZX_$(MODULE)_BUILTIN
