@@ -142,6 +142,7 @@ void RzxConfig::loadDirs()
 	m_userDir = QDir::home();
 
 #ifdef Q_OS_MAC
+	m_userDir.setPath(getenv("HOME"));
 	m_systemDir.setPath(QREZIX_SYSTEM_DIR);
 	m_libDir.setPath(QREZIX_LIB_DIR);
 	userSubdir = "Library/Application Support/qRezix";
