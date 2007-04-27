@@ -45,7 +45,7 @@ class RzxChatConfig:public RzxAbstractConfig
 		RZX_BOOLPROP("printPrompt", printPrompt, setPrintPrompt, true)
 		RZX_STRINGPROP("prompt", prompt, setPrompt, ">")
 		RZX_UINTPROP("chatPort", chatPort, setChatPort, 5050)
-		RZX_UINTPROP("filePort", filePort, setFilePort, 5055)
+		RZX_UINTPROP("filePort", filePort, setFilePort, 5054)
 		RZX_BOOLPROP("refuseFileTransfer", refuseFile, setRefuseFile , false)
 		RZX_BOOLPROP("displayIconText", displayIconText, setDisplayIconText , true)
 
