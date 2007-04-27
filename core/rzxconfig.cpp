@@ -139,7 +139,7 @@ void RzxConfig::loadDirs()
 	Rzx::beginModuleLoading("Config Path");
 
 	QString userSubdir;
-	m_userDir = QDir::home();
+	m_userDir.setPath(getenv("HOME"));
 
 #ifdef Q_OS_MAC
 	m_systemDir.setPath(QREZIX_SYSTEM_DIR);
