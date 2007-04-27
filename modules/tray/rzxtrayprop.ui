@@ -179,44 +179,8 @@
   </layout>
  </widget>
  <pixmapfunction></pixmapfunction>
- <tabstops>
-  <tabstop>cbAutoScale</tabstop>
-  <tabstop>sbTraySize</tabstop>
- </tabstops>
  <resources/>
  <connections>
-  <connection>
-   <sender>cbAutoScale</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>lblTraySize</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>320</x>
-     <y>63</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>388</x>
-     <y>94</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cbAutoScale</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>sbTraySize</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>469</x>
-     <y>63</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>469</x>
-     <y>94</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>cbTransparent</sender>
    <signal>toggled(bool)</signal>
@@ -224,12 +188,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>348</x>
-     <y>154</y>
+     <x>464</x>
+     <y>64</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>333</x>
-     <y>177</y>
+     <x>380</x>
+     <y>97</y>
     </hint>
    </hints>
   </connection>
@@ -240,12 +204,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>421</x>
-     <y>149</y>
+     <x>464</x>
+     <y>64</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>426</x>
-     <y>177</y>
+     <x>464</x>
+     <y>97</y>
     </hint>
    </hints>
   </connection>

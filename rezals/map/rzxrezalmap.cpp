@@ -500,6 +500,9 @@ void RzxRezalMap::scrollTo(const QModelIndex& index, ScrollHint hint)
 		case QAbstractItemView::PositionAtBottom:
 			scrollTo(rect, PositionAtBottom);
 			break;
+
+                default:
+                        break;
 	}
 }
 

@@ -50,7 +50,7 @@ QString RzxFileSocket::fileFormat[] = {
 
 ///Construction d'un socket brut
 RzxFileSocket::RzxFileSocket()
-	:QTcpSocket(), host(), file(0),chatWindow(0), octetsEcrits(0), modeBinaire(false), envoiTermine(false)
+	:QTcpSocket(), host(), modeBinaire(false), file(0), octetsEcrits(0), envoiTermine(false), chatWindow(0)
 {
 	connect(this, SIGNAL(disconnected()), this, SLOT(fileConnexionClosed()));
 	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));
@@ -63,7 +63,7 @@ RzxFileSocket::RzxFileSocket()
 
 ///Construction d'un socket de transfert de fichier sans liaison
 RzxFileSocket::RzxFileSocket(RzxComputer *c)
-	:QTcpSocket(), host(c->ip()), file(0),chatWindow(0), octetsEcrits(0), modeBinaire(false), envoiTermine(false)
+	:QTcpSocket(), host(c->ip()), modeBinaire(false), file(0), octetsEcrits(0), envoiTermine(false), chatWindow(0)
 {
 	connect(this, SIGNAL(disconnected()), this, SLOT(fileConnexionClosed()));
 	connect(this, SIGNAL(readyRead()), this, SLOT(readSocket()));

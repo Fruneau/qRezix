@@ -82,6 +82,7 @@ QRezix::QRezix(QWidget *parent)
 	statusui->setupUi(widget);
 	statusBar()->addWidget(widget, 1);
 	setWindowTitle("qRezix v" + Rzx::versionToString(RzxApplication::version(), Rzx::ShortVersion));
+//        setUnifiedTitleAndToolBarOnMac(true);
 
 	setSettings(RzxMainUIConfig::global());
 	updateLayout();

@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 int main(int argc, char *argv[])
 {
 #endif
-	RzxApplication a(argc,argv);
+        RzxApplication a(argc,argv);
 	int returnCode = 0;
 	if(a.isInitialised())
 		a.exec();
