@@ -65,7 +65,7 @@ const RzxProperty::Sport RzxProperty::sports[] = {
 	{ "rowing", QT_TR_NOOP("Rowing"), 2 },
 	{ "badminton", QT_TR_NOOP("Badminton"), 17 },
 	{ "basketball", QT_TR_NOOP("Basketball"), 3 },
-	{ "orienting", QT_TR_NOOP("Orienting"), 4 },
+	{ "orienteering", QT_TR_NOOP("Orienteering"), 4 },
 	{ "riding", QT_TR_NOOP("Riding"), 5 },
 	{ "climbing", QT_TR_NOOP("Climbing"), 6 },
 	{ "fencing", QT_TR_NOOP("Fencing"), 7 },

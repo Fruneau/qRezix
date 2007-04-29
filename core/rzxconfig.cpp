@@ -65,7 +65,7 @@ const char *RzxConfig::propStrings[][2] = {
 	{ "Athletism", "RzxProperty" },
 	{ "Rowing", "RzxProperty" },
 	{ "Basketball", "RzxProperty" },
-	{ "Orienting", "RzxProperty" },
+	{ "Orienteering", "RzxProperty" },
 	{ "Riding", "RzxProperty" },
 	{ "Climbing", "RzxProperty" },
 	{ "Fencing", "RzxProperty" },

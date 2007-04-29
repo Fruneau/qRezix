@@ -452,7 +452,7 @@ It must be at least &lt;b&gt;6 characters long&lt;/b&gt;.</source>
     </message>
     <message>
         <location filename="../../core/rzxproperty.cpp" line="68"/>
-        <source>Orienting</source>
+        <source>Orienteering</source>
         <translation>CO</translation>
     </message>
     <message>
