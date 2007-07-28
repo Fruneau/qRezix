@@ -61,23 +61,24 @@ void RzxTranslator::loadTranslators()
 ///Chargement des traductions contenues dans le répertoire indiqué
 void RzxTranslator::loadTranslatorsInDir(const QDir &rep)
 {
-	QDir sourceDir(rep);
+	const QDir sourceDir(rep);
 
 	QStringList trans=sourceDir.entryList(QStringList() << "qrezix_*.qm", QDir::Files|QDir::Readable);
 	foreach(QString it, trans)
 	{
 		QRegExp mask("qrezix_(.+)\\.qm");
 		mask.indexIn(it);
-		QString langId = mask.cap(1);
+		const QString langId = mask.cap(1);
 
 		QTranslator *cur = new QTranslator;
 		cur->load(it, sourceDir.path());
-		QString lang = cur->translate("RzxConfig", "English");
+		const QString lang = cur->translate("RzxConfig", "English");
 		
 		if(!lang.isEmpty() && !translations.keys().contains(langId))
 		{
 			languageNames.insert(langId, lang);
-			QStringList transMods = sourceDir.entryList(QStringList() << "*_" + langId + ".qm", QDir::Files|QDir::Readable);
+			const QStringList transMods = sourceDir.entryList(QStringList() << "*_" + langId + ".qm",
+                                                                          QDir::Files|QDir::Readable);
 			QList<QTranslator*> transList;
 			transList << cur;
 			foreach(QString mod, transMods)
@@ -132,7 +133,6 @@ QString RzxTranslator::translation()
 ///Sélection de la langue à utiliser
 void RzxTranslator::setLanguage(const QString& language)
 {
-
 	QString newLang = global()->languageNames.key(language);
 	if(language != global()->translation() && global()->translations.keys().contains(newLang))
 	{
@@ -144,12 +144,21 @@ void RzxTranslator::setLanguage(const QString& language)
 			QApplication::installTranslator(trans);
 		emit global()->languageChanged(newLang);
 	}
-	qDebug() << "Language set to" << tr("English");
+        else if (language != global()->translation())
+        {
+		QRegExp pattern("^([a-z]{2})(_[A-Z]{2})?");
+		if (pattern.indexIn(language) >= 0) {
+		    const QString langid = pattern.cap(1);
+                    RzxTranslator::setLanguage(global()->languageNames[langid]);
+		    return;
+		}
+        }
 }
 
 ///Retourne le language actuel
 QString RzxTranslator::language()
 {
+        qDebug() << "langage is" << RzxConfig::language();
 	return RzxConfig::language();
 }
 

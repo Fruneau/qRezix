@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1">
+<!DOCTYPE TS><TS version="1.1" language="fr">
+<defaultcodec></defaultcodec>
 <context>
     <name>RzxBaseModule</name>
     <message>
@@ -11,44 +12,49 @@
 <context>
     <name>RzxNotifier</name>
     <message>
-        <location filename="../../modules/notifier/rzxnotifier.cpp" line="272"/>
+        <location filename="../../modules/notifier/rzxnotifier.cpp" line="274"/>
         <source>All files</source>
         <translation>Tous les fichiers</translation>
     </message>
     <message>
-        <location filename="../../modules/notifier/rzxnotifier.cpp" line="272"/>
+        <location filename="../../modules/notifier/rzxnotifier.cpp" line="274"/>
         <source>Sound file selection</source>
         <translation>Choix du son</translation>
     </message>
     <message>
-        <location filename="../../modules/notifier/rzxnotifier.cpp" line="312"/>
+        <location filename="../../modules/notifier/rzxnotifier.cpp" line="315"/>
         <source>Nice style - transparent window</source>
         <translation>Style &apos;Sympa&apos; - fenêtre transparente</translation>
     </message>
     <message>
-        <location filename="../../modules/notifier/rzxnotifier.cpp" line="313"/>
+        <location filename="../../modules/notifier/rzxnotifier.cpp" line="316"/>
         <source>Old style - like qRezix 1.6</source>
         <translation>Style &apos;Vieux&apos; - comme qRezix 1.6</translation>
     </message>
     <message>
-        <location filename="../../modules/notifier/rzxnotifier.cpp" line="265"/>
+        <location filename="../../modules/notifier/rzxnotifier.cpp" line="267"/>
         <source>This is an example of received text</source>
         <translation>Exemple de texte reçu par chat...</translation>
     </message>
     <message>
-        <location filename="../../modules/notifier/rzxnotifier.cpp" line="300"/>
+        <location filename="../../modules/notifier/rzxnotifier.cpp" line="302"/>
         <source>No notifications for connection status</source>
         <translation>Pas de notification de changement d&apos;état</translation>
     </message>
     <message>
-        <location filename="../../modules/notifier/rzxnotifier.cpp" line="316"/>
+        <location filename="../../modules/notifier/rzxnotifier.cpp" line="319"/>
         <source>Growl - Use Growl notification system</source>
         <translation>Growl - Utilise Growl comme système de notification</translation>
     </message>
     <message>
-        <location filename="../../modules/notifier/rzxnotifier.cpp" line="311"/>
+        <location filename="../../modules/notifier/rzxnotifier.cpp" line="314"/>
         <source>No notifications for chat</source>
         <translation>Pas de notifications pour le chat</translation>
+    </message>
+    <message>
+        <location filename="../../modules/notifier/rzxnotifier.cpp" line="321"/>
+        <source>System notification</source>
+        <translation>Notification du système</translation>
     </message>
 </context>
 <context>
@@ -137,32 +143,32 @@
 <context>
     <name>RzxTrayWindow</name>
     <message>
-        <location filename="../../modules/notifier/rzxtraywindow.cpp" line="304"/>
+        <location filename="../../modules/notifier/rzxtraywindow.cpp" line="355"/>
         <source>is now away</source>
         <translation>s&apos;est absenté</translation>
     </message>
     <message>
-        <location filename="../../modules/notifier/rzxtraywindow.cpp" line="304"/>
+        <location filename="../../modules/notifier/rzxtraywindow.cpp" line="355"/>
         <source>is now here</source>
         <translation>est là</translation>
     </message>
     <message>
-        <location filename="../../modules/notifier/rzxtraywindow.cpp" line="306"/>
+        <location filename="../../modules/notifier/rzxtraywindow.cpp" line="357"/>
         <source>is now disconnected</source>
         <translation>s&apos;est déconnecté</translation>
     </message>
     <message>
-        <location filename="../../modules/notifier/rzxtraywindow.cpp" line="242"/>
+        <location filename="../../modules/notifier/rzxtraywindow.cpp" line="247"/>
         <source>says:</source>
         <translation>dit :</translation>
     </message>
     <message>
-        <location filename="../../modules/notifier/rzxtraywindow.cpp" line="301"/>
+        <location filename="../../modules/notifier/rzxtraywindow.cpp" line="352"/>
         <source>qRezix favorite change...</source>
         <translation>Changement d&apos;état sur qRezix...</translation>
     </message>
     <message>
-        <location filename="../../modules/notifier/rzxtraywindow.cpp" line="311"/>
+        <location filename="../../modules/notifier/rzxtraywindow.cpp" line="361"/>
         <source>says on qRezix:</source>
         <translation>dit sur qRezix :</translation>
     </message>

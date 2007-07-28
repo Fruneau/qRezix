@@ -61,6 +61,7 @@ public slots:
 	void buildMenu();
 	void setTrayIcon( const QPixmap &icon );
 	void setToolTip( const QString &tip );
+        void showTrayMessage(const QString& title, const QString& message);
 
 protected:
 	QString titleFromSplit(int j, QString splitPoints);

@@ -28,6 +28,7 @@
 #include <QImage>
 #include <QTimer>
 #include <QDialog>
+#include <QCryptographicHash>
 
 #include <RzxComputer>
 #include <RzxIconCollection>
@@ -39,7 +40,6 @@
 
 #include "rzxprotocole.h"
 #include "rzxxnetconfig.h"
-#include "md5.h"
 
 #include "ui_rzxxnetprop.h"
 
@@ -196,7 +196,7 @@ void RzxProtocole::usePass(const QString& pass)
 	if(pwd.length())
 	{
 		pwd += MD5_ADD;
-		pwd=MD5String(pwd.toLatin1());
+		pwd = QCryptographicHash::hash(pwd.toLatin1(), QCryptographicHash::Md5);
 		RzxXNetConfig::setPass(pwd);
 		if(wrongTime.elapsed() >= 5000)
 			beginAuth();
@@ -281,7 +281,7 @@ void RzxProtocole::wantChangePass()
 void RzxProtocole::changePass(const QString& newPass)
 {
 	m_newPass = newPass + MD5_ADD;
-	m_newPass = MD5String(m_newPass.toLatin1());
+	m_newPass = QCryptographicHash::hash(m_newPass.toLatin1(), QCryptographicHash::Md5);
 	send("CHANGEPASS " + m_newPass + "\r\n");
 }
 

@@ -43,10 +43,15 @@ class RzxTrayWindow: public QFrame
 	
 	public:
 		enum Theme {
-			None = 0,
-			Nice = 1,
-			Old = 2,
-			Growl = 3
+			None    = 0,
+			Nice    = 1,
+			Old     = 2,
+#ifdef Q_OS_MAC // Keep configuration compatibility with previous versions
+			Growl   = 3,
+			SysTray = 4
+#else
+			Systray = 3
+#endif
 		};
 		Q_ENUMS(Theme)
 		
@@ -69,8 +74,8 @@ class RzxTrayWindow: public QFrame
 	
 	public:
 
-		RzxTrayWindow(Theme, RzxComputer *computer, unsigned int time = 4);
-		RzxTrayWindow(Theme, RzxComputer *computer, const QString& text, unsigned int time = 4);
+		RzxTrayWindow(QObject *parent, Theme, RzxComputer *computer, unsigned int time = 4);
+		RzxTrayWindow(QObject *parent, Theme, RzxComputer *computer, const QString& text, unsigned int time = 4);
 		~RzxTrayWindow();
 
 	protected:
@@ -84,11 +89,16 @@ class RzxTrayWindow: public QFrame
 		void growlNotifFactory(const QString& title, const QString& text, const QPixmap& icon, const QString& type);
 #endif
 
+                void trayNotif();
+
 	protected slots:
 		void giveFocus();
 		void tryToShow();
 		virtual void mousePressEvent(QMouseEvent*);
 		virtual bool event(QEvent *);
+
+        signals:
+                void wantTrayNotification(const QString&, const QString&);
 };
 
 #endif

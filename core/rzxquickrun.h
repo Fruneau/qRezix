@@ -51,7 +51,7 @@ class RzxQuickRun : public QDialog
 	
 	struct Action
 	{
-		char *name;
+		const char *name;
 		Rzx::Icon icon;
 		bool needComputer;
 		RzxComputer::testComputer *filter;

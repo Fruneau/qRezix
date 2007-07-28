@@ -66,7 +66,7 @@ class RZX_CORE_EXPORT RzxIconCollection: public QObject
 	struct IconData
 	{
 		Rzx::Icon id;
-		char *filename;
+		const char *filename;
 		bool needed;
 	};
 

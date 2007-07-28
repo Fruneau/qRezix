@@ -146,3 +146,12 @@ void RzxModule::sendChatMessage(RzxComputer*, Rzx::ChatMessageType, const QStrin
 void RzxModule::receiveChatMessage(RzxComputer*, Rzx::ChatMessageType, const QString&)
 {
 }
+
+///Affichage d'un message via la Tray Icon
+/** Ce message contient les informations à afficher (texte du message)
+ *
+ * L'implémentation par défaut ne fait rien
+ */
+void RzxModule::showTrayMessage(const QString&, const QString&)
+{
+}

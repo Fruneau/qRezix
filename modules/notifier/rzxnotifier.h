@@ -75,8 +75,8 @@ class RzxNotifier : public RzxModule
 	protected slots:
 		void translate();
 		void changeTheme();
-		void showTestWindow() const;
-		void showTestChatWindow() const;
+		void showTestWindow();
+		void showTestChatWindow();
 		void chooseBeepConnection();
 
 #ifdef Q_OS_MAC

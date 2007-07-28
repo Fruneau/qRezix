@@ -38,7 +38,7 @@ namespace Ui { class RzxListEdit; }
  * 	- une ligne d'édition et un bouton ajouter
  * 	- une liste d'élément et un bouton supprimer
  */
-class RzxListEdit: public QWidget
+class RZX_CORE_EXPORT RzxListEdit: public QWidget
 {
 	Q_OBJECT
 

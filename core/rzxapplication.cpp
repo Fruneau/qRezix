@@ -368,7 +368,9 @@ bool RzxApplication::installModule(RzxModule *mod)
 		connect(mod, SIGNAL(wantActivateResponder()), this, SLOT(activateResponder()));
 		connect(mod, SIGNAL(wantDeactivateResponder()), this, SLOT(deactivateResponder()));
 		connect(mod, SIGNAL(haveProperties(RzxComputer*)), this, SLOT(relayProperties(RzxComputer*)));
-		QFlags<RzxModule::TypeFlags> type = mod->type();
+		connect(mod, SIGNAL(wantTrayNotification(const QString&, const QString&)),
+                        this, SIGNAL(wantTrayNotification(const QString&, const QString&)));
+                QFlags<RzxModule::TypeFlags> type = mod->type();
 		if((type & RzxModule::MOD_GUI) && (type & RzxModule::MOD_MAINUI) && !mainui)
 			mainui = mod;
 		if((type & RzxModule::MOD_CHAT) && !chatProto)

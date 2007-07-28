@@ -127,6 +127,8 @@ class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<R
 	signals:
 		///Simple relais pour RzxModule::haveProperties
 		void haveProperties(RzxComputer*, bool *);
+                ///Simple relais pour les notifications du systray
+                void wantTrayNotification(const QString&, const QString&);
 };
 
 

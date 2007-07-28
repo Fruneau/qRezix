@@ -20,6 +20,7 @@
 #include <QVector>
 #include <QDir>
 #include <QList>
+#include <QLocale>
 
 #include <RzxGlobal>
 #include <RzxSubnet>
@@ -55,7 +56,7 @@ public:
 	RZX_STRINGPROP("theme", iconTheme, setIconTheme, DEFAULT_THEME)
 	RZX_STRINGPROP("style", style, setStyle, "Default")
 	RZX_BOOLPROP("styleforall", useStyleForAll, setUseStyleForAll, true)
-	RZX_STRINGPROP("language", language, setLanguage, "English")
+	RZX_STRINGPROP("language", language, setLanguage, QLocale::system().name())
 	RZX_STRINGPROP("txtBeepCmd", beepCmd, setBeepCmd, "play")
 
 	RZX_STRINGPROP("FTPPath", ftpPath, setFtpPath, QString())

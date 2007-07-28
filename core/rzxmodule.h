@@ -185,6 +185,9 @@ class RZX_CORE_EXPORT RzxModule:public QObject, public RzxBaseModule
 		 */
 		virtual void receiveChatMessage(RzxComputer*, Rzx::ChatMessageType, const QString& = QString());
 
+                ///Demande l'affichage d'un message via un outil de type Systray ou assimilé
+                virtual void showTrayMessage(const QString& title, const QString& message);
+
 	signals:
 		///Demande de fermeture de qRezix
 		/** Passer par ce signal permet de réaliser l'arrêt de qRezix proprement
@@ -243,6 +246,13 @@ class RZX_CORE_EXPORT RzxModule:public QObject, public RzxBaseModule
 		 * et communiquée à l'utilisateur ou autre par un objet.
 		 */
 		void haveProperties(RzxComputer*);
+
+                ///Demande l'affichage d'une notification par le système
+                /** Cette notification est relayée par RzxApplication pour
+                 * être affichée par les modules qui l'implémentent (la tray
+                 * icon a priori)
+                 */
+                void wantTrayNotification(const QString&, const QString&);
 };
 
 typedef RzxLoaderProp<RzxModule> RzxModuleLoaderProp;

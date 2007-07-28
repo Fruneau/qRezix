@@ -82,7 +82,9 @@ QRezix::QRezix(QWidget *parent)
 	statusui->setupUi(widget);
 	statusBar()->addWidget(widget, 1);
 	setWindowTitle("qRezix v" + Rzx::versionToString(RzxApplication::version(), Rzx::ShortVersion));
-//        setUnifiedTitleAndToolBarOnMac(true);
+#if QT_VERSION >= 0x040300
+        setUnifiedTitleAndToolBarOnMac(true);
+#endif
 
 	setSettings(RzxMainUIConfig::global());
 	updateLayout();
@@ -594,7 +596,9 @@ void QRezix::status(const QString& msg, bool connected)
 	else
 		statusui->lblStatusIcon->setPixmap(RzxIconCollection::getPixmap(Rzx::ICON_OFF));
 		
-	qDebug(("Connection status : " + QString(connected?"connected ":"disconnected ") + "(" + msg + ")").toAscii().constData());
+	qDebug("Connection status: %s (%s)",
+               connected ? "connected" : "disconnected",
+               msg.toAscii().constData());
 }
 
 ///Met à jour l'affichage des Rezals

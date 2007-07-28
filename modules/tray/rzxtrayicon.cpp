@@ -72,7 +72,9 @@ RzxTrayIcon::RzxTrayIcon()
 	connect(RzxConnectionLister::global(), SIGNAL(countChange(const QString& )), this, SLOT(setToolTip(const QString& )));
 	connect(tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)));
 	RzxIconCollection::connect(this, SLOT(changeTrayIcon()));
-	changeTrayIcon();
+	connect(RzxApplication::instance(), SIGNAL(wantTrayNotification(const QString&, const QString&)),
+                this, SLOT(showTrayMessage(const QString&, const QString&)));
+        changeTrayIcon();
 	tray->show();
 	endLoading();
 }
@@ -137,6 +139,11 @@ void RzxTrayIcon::setToolTip( const QString &tooltip )
 QString RzxTrayIcon::toolTip() const
 {
 	return tray->toolTip();
+}
+
+void RzxTrayIcon::showTrayMessage(const QString& title, const QString& message)
+{
+        tray->showMessage(title, message);
 }
 
 ///Contruit le menu contextuel

@@ -89,6 +89,7 @@ void RzxNotifier::installGrowlSupport()
 	CFMutableArrayRef allNotifications = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
     CFArrayAppendValue(allNotifications, CFSTR("Connection State Change"));
     CFArrayAppendValue(allNotifications, CFSTR("Chat"));
+    CFArrayAppendValue(allNotifications, CFSTR("Notification"));
     CFArrayRef defaultNotifications = (CFArrayRef)CFRetain(allNotifications);
 
 	// Génère la configuration du programme
@@ -155,7 +156,7 @@ void RzxNotifier::favoriteUpdated(RzxComputer *computer)
 				if(!RzxNotifierConfig::notifyHere()) return;
 				break;
 		}
-		new RzxTrayWindow((RzxTrayWindow::Theme)RzxNotifierConfig::windowStyle(), computer);
+		new RzxTrayWindow(this, (RzxTrayWindow::Theme)RzxNotifierConfig::windowStyle(), computer);
 	}
 }
 
@@ -169,7 +170,7 @@ void RzxNotifier::chat(RzxComputer* computer, Rzx::ChatMessageType type, const Q
 	{
 		if(RzxNotifierConfig::notifyChatWhenFocus() || !QApplication::focusWidget())
 		{
-			new RzxTrayWindow((RzxTrayWindow::Theme)RzxNotifierConfig::chatWindowStyle(),
+			new RzxTrayWindow(this, (RzxTrayWindow::Theme)RzxNotifierConfig::chatWindowStyle(),
 							  computer, text);
 		}
 	}
@@ -211,6 +212,7 @@ void RzxNotifier::propInit(bool def)
 
 	changeTheme();
 	translate();
+
 	ui->cbStyleConnection->setCurrentIndex(RzxNotifierConfig::windowStyle());
 	ui->cbStyleChat->setCurrentIndex(RzxNotifierConfig::chatWindowStyle());
 }
@@ -248,20 +250,20 @@ void RzxNotifier::propClose()
 }
 
 ///Affiche une fenêtre de test du style courant
-void RzxNotifier::showTestWindow() const
+void RzxNotifier::showTestWindow()
 {
 	if(!ui) return;
 
-	new RzxTrayWindow((RzxTrayWindow::Theme)ui->cbStyleConnection->currentIndex(), RzxComputer::localhost());
+	new RzxTrayWindow(this, (RzxTrayWindow::Theme)ui->cbStyleConnection->currentIndex(), RzxComputer::localhost());
 }
 
 
 ///Affiche une fenêtre de test du style courant
-void RzxNotifier::showTestChatWindow() const
+void RzxNotifier::showTestChatWindow()
 {
 	if(!ui) return;
 	
-	new RzxTrayWindow((RzxTrayWindow::Theme)ui->cbStyleChat->currentIndex(), RzxComputer::localhost(),
+	new RzxTrayWindow(this, (RzxTrayWindow::Theme)ui->cbStyleChat->currentIndex(), RzxComputer::localhost(),
 					  tr("This is an example of received text"));
 }
 
@@ -304,7 +306,8 @@ void RzxNotifier::translate()
 	if (Growl_IsInstalled())
 		ui->cbStyleConnection->addItem(tr("Growl - Use Growl notification system"));
 #endif
-	ui->cbStyleConnection->setCurrentIndex(id);
+	ui->cbStyleConnection->addItem(tr("System notification"));
+        ui->cbStyleConnection->setCurrentIndex(id);
 
 	int cid = ui->cbStyleChat->currentIndex(); 
 	ui->cbStyleChat->clear();
@@ -315,5 +318,6 @@ void RzxNotifier::translate()
 	if (Growl_IsInstalled())
 		ui->cbStyleChat->addItem(tr("Growl - Use Growl notification system"));
 #endif
+	ui->cbStyleChat->addItem(tr("System notification"));
 	ui->cbStyleChat->setCurrentIndex(cid);
 }

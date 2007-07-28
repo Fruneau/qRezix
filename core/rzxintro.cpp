@@ -40,9 +40,14 @@ RzxIntro::RzxIntro()
 	connect(ui->cbIcons, SIGNAL(activated(const QString&)), this, SLOT(changeTheme(const QString&)));
 
 	const QStringList list = RzxTranslator::languageIdList();
-	for(int i = 0 ; i < list.count() ; i++)
+	const QString     lg   = RzxTranslator::language();
+        for(int i = 0 ; i < list.count() ; i++) {
 		ui->cbLanguage->addItem(RzxIconCollection::getIcon(list[i]), RzxTranslator::name(list[i]));
-	changeLanguage(RzxTranslator::language());
+		if (RzxTranslator::name(list[i]) == lg) {
+		    ui->cbLanguage->setCurrentIndex(i);
+		}
+	}
+        changeLanguage(RzxTranslator::language());
 
 	ui->cbIcons->addItems(RzxIconCollection::themeList());
 	ui->cbIcons->setCurrentIndex(ui->cbIcons->findText(RzxIconCollection::theme()));

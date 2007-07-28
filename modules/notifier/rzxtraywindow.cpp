@@ -41,18 +41,22 @@
 
 ///Construction de la fenêtre de notification d'état de connexion de computer
 /** La fenêtre est construite pour disparaître automatiquement au bout de time secondes */
-RzxTrayWindow::RzxTrayWindow(Theme theme, RzxComputer* c, unsigned int m_time )
+RzxTrayWindow::RzxTrayWindow(QObject *parent, Theme theme, RzxComputer* c, unsigned int m_time )
 	: QFrame( NULL, Qt::SubWindow | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint ),
 	time(m_time), computer(c), type(ConnectionState)
 {
+        connect(this, SIGNAL(wantTrayNotification(const QString&, const QString&)),
+                parent, SIGNAL(wantTrayNotification(const QString&, const QString&)));
 	init(theme);
 }
 
 ///Construction d'une fenêtre de notification de chat
-RzxTrayWindow::RzxTrayWindow(Theme theme, RzxComputer *c, const QString& text, unsigned int m_time)
+RzxTrayWindow::RzxTrayWindow(QObject *parent, Theme theme, RzxComputer *c, const QString& text, unsigned int m_time)
 	: QFrame( NULL, Qt::SubWindow | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint ),
 	time(m_time), computer(c), type(Chat), chatText(text)
 {
+        connect(this, SIGNAL(wantTrayNotification(const QString&, const QString&)), 
+                parent, SIGNAL(wantTrayNotification(const QString&, const QString&))); 
 	init(theme);
 }
 
@@ -72,6 +76,7 @@ void RzxTrayWindow::init(Theme theme)
 #ifdef Q_OS_MAC
 		case Growl: growlNotif(); close(); return;
 #endif
+                case SysTray: trayNotif(); close(); return;
 		default: close(); return;
 	}
 
@@ -336,6 +341,29 @@ void RzxTrayWindow::growlNotifFactory(const QString& title, const QString& text,
 			NULL);
 }	
 #endif
+
+void RzxTrayWindow::trayNotif()
+{
+        QString title; 
+        QString text; 
+ 
+        if(type == ConnectionState) 
+        { 
+                title = tr("qRezix favorite change..."); 
+                text = computer->name() + " "; 
+                if(computer->state() != Rzx::STATE_DISCONNECTED) 
+                        text += computer->isOnResponder() ? tr("is now away") : tr("is now here"); 
+                else 
+                        text += tr("is now disconnected"); 
+        } 
+        else if (type == Chat) 
+        { 
+                title = computer->name() + " " + tr("says on qRezix:"); 
+                text = chatText; 
+        } 
+ 
+        emit wantTrayNotification(title, text);
+}
 
 ///Capture de l'action de la souris
 /** On applique quelques règles simples :

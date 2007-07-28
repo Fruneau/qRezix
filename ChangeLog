@@ -1,7 +1,17 @@
+[v2.1.2] 2007-xx <br@frankiz.polytechnique.fr>
+    * Détection de la langue du système au premier démarrage [Fruneau]
+
+  Notifier :
+    * Support de QSystemTrayIcon pour les notifications [Fruneau]
+
+  Xnet :
+    * Utilisation du hash MD5 de Qt [Fruneau]
+
 [v2.1.1] 2007-04 <br@frankiz.polytechnique.fr>
     * Bugfix: Trayicon pour les macs [Fruneau]
     * Bugfix: Installation de packaging de qRezix [totom]
     * Bugfix: Changement de la porte de transfert de fichiers pour être compatible avec l'InfoBR [jp]
+
 [v2.1.0] 2007-04 <br@frankiz.polytechnique.fr>
     * Port de la trayicon en Qt 4 [GUI]
     * Mise à jour des traductions [GUI]
@@ -19,15 +29,13 @@
   Bob :
     * Intégration du module de notification d'ouverture du Bob [GUI]
 
-  Transfert de fichiers :
-    * Version originale [GUI]
-
   Notifier :
     * Support de Growl pour les notifications sur MacOS X [Fruneau]
     * Ajout de notifications sur la réception de messages de chat [Fruneau]
     * Bugfix : Icone non valide lors des test si l'icone locale n'est pas definie [Fruneau]
 
   Chat :
+    * Ajout du transfert de fichiers [GUI]
     * Bugfix : crash lors du check de l'historique d'une personne déconnectée [Fruneau]
     * Bugfix : envoie des messages multiligne conforme au protocole xNet [Fruneau]
     * Enregistrement de l'historique au fur et a mesure de la discussion [Fruneau]
