@@ -21,7 +21,6 @@ HEADERS += $$ROOT/modules/mainui/rzxui.h \
 	$$ROOT/modules/mainui/rzxrezalsearch.h \
 	$$ROOT/modules/mainui/rzxrezaldrag.h \
 	$$ROOT/modules/mainui/rzxrezalaction.h \
-	$$ROOT/modules/mainui/rzxdict.h \
 	$$ROOT/modules/mainui/rzxquit.h \
 	$$ROOT/modules/mainui/rzxmainuiconfig.h \
 	$$ROOT/modules/mainui/rzxmainuiglobal.h \

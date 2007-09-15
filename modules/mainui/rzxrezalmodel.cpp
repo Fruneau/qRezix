@@ -1089,11 +1089,12 @@ void RzxRezalModel::deleteUserGroup(int groupId)
 void RzxRezalModel::insertObject(const QModelIndex& parent, RzxRezalSearchList& list, RzxRezalSearchTree& tree, RzxComputer *computer)
 {
 	int row = 0;
+	QPointer<RzxComputer> p_computer(computer);
 	while(row < list.count() && sortComputer(list[row], computer))
 		row++;
 	beginInsertRows(parent, row, row);
 	list.insert(row, computer);
-	tree.insert(computer->name().toLower(), new QPointer<RzxComputer>(computer));
+	tree.insert(computer->name().toLower(), p_computer);
 	endInsertRows();
 }
 

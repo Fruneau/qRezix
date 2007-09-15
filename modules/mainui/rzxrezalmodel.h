@@ -29,10 +29,9 @@
 #include <RzxSubnet>
 
 #include "rzxmainuiglobal.h"
-#include "rzxdict.h"
 
 class RzxComputer;
-typedef class RzxDict<QString, QPointer<RzxComputer> > RzxRezalSearchTree;
+typedef class QMap<QString, QPointer<RzxComputer> > RzxRezalSearchTree;
 typedef class QList< QPointer<RzxComputer> > RzxRezalSearchList;
 /**
  *@author Florent Bruneau

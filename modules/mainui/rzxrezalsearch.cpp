@@ -173,16 +173,23 @@ void RzxRezalSearch::setPattern(const QString& pattern)
 		
 	searchTimeout.start();
 
-	//Implémentation de la recherche par Ey pour qRezix 1.6.2
-	// le but étant d'utiliser un arbre binaire de recherche pour avoir
-	// une recherche vraiment rapide
 	const RzxRezalSearchTree *itemByName = model()->childrenByName(view()->rootIndex());
 	if(!itemByName) return;
 
-	QPointer<RzxComputer> *item = NULL;
-	QString lower, higher;
-	if(!itemByName->find_nearest(searchPattern, lower, higher ))
+	//Implémentation de la recherche par Ey pour qRezix 2.1
+	RzxRezalSearchTree::const_iterator i_higher, i_lower;
+
+	i_higher = itemByName->upperBound(searchPattern);
+	if( i_higher != itemByName->begin() )
+		i_lower  = i_higher-1;
+	else
+		i_lower = i_higher;
+
+	if( ( i_lower.key() != searchPattern ) && ( i_higher != itemByName->end() ) )
 	{
+		QString higher   = i_higher.key(),
+			lower    = i_lower.key();
+		
 		bool lmatch, hmatch;
 		lmatch = lower.left(searchPattern.length() ) == searchPattern;
 		hmatch = higher.left( searchPattern.length() ) == searchPattern;
@@ -206,12 +213,12 @@ void RzxRezalSearch::setPattern(const QString& pattern)
 			searchPattern = searchPattern.left( searchPattern.length() - 1 );
 		}
 		if ( hmatch && ( !lmatch ) )
-			lower = higher;
+			i_lower = i_higher;
 	}
-	itemByName->find(lower, item);
+
 	emit searchPatternChanged(searchPattern);
-	if(item && !searchPattern.isEmpty())
-		emit findItem(model()->index(*item, view()->rootIndex()));
+	if( ( i_lower != itemByName->end() ) && i_lower.value() && !searchPattern.isEmpty() )
+		emit findItem(model()->index(i_lower.value(), view()->rootIndex()));
 }
 
 ///Réinitialise le filtre de la rechercher

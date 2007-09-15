@@ -571,16 +571,16 @@ void QRezix::buildModuleMenus()
 			//Ajoute une entrée dans le menu que si le rezl a une fenêtre
 			action = menuView.addAction(rezal->icon(), rezal->name());
 			action->setCheckable(true);
-		}
-		if(dock)
-		{
-			action->setChecked(dock->isVisibleTo(this));
-			connect(action, SIGNAL(toggled(bool)), dock, SLOT(setVisible(bool)));
-		}
-		else if(widget)
-		{
-			action->setChecked(rezal->widget()->isVisibleTo(this));
-			connect(action, SIGNAL(toggled(bool)), rezal->widget(), SLOT(setVisible(bool)));
+			if(dock)
+			{
+				action->setChecked(dock->isVisibleTo(this));
+				connect(action, SIGNAL(toggled(bool)), dock, SLOT(setVisible(bool)));
+			}
+			else
+			{
+				action->setChecked(rezal->widget()->isVisibleTo(this));
+				connect(action, SIGNAL(toggled(bool)), rezal->widget(), SLOT(setVisible(bool)));
+			}
 		}
 	}
 }
