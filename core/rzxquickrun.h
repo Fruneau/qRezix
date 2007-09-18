@@ -70,3 +70,4 @@ class RzxQuickRun : public QDialog
 };
 
 #endif
+

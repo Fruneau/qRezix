@@ -67,8 +67,8 @@ RzxComputer::RzxComputer(RzxNetwork *network, const RzxHostAddress& c_ip, const 
 	: delayScan(NULL),locked(0), m_network(network), m_name(c_name), m_remarque(c_remarque), m_ip(c_ip), m_flags(c_flags), m_stamp(c_stamp)
 {
 	lock();
-	*((quint32 *) &m_options) = c_options;
-	*((quint32 *) &m_version) = c_version;
+	memcpy(&m_options, &c_options, 4);
+	memcpy(&m_version, &c_version, 4);
 	testLocalhost = (name() == localhost()->name());
 	loadIcon();
 	connected = false;
@@ -188,7 +188,7 @@ void RzxComputer::update(const QString& c_name, quint32 c_options, quint32 c_sta
 	Rzx::ConnectionState oldState = state();
 
 	m_name = c_name;
-	*((quint32 *) &m_options) = c_options;
+	memcpy(&m_options, &c_options, 4);
 	m_flags = c_flags;
 	m_remarque = c_remarque;
 	connected = true;
@@ -234,8 +234,10 @@ QString RzxComputer::serialize(const QString& pattern) const
 
 	//Pour préserver la compatibilité avec les versions antérieures qui ne respectent pas le protocole !!!
 	if(test.Repondeur == REP_REFUSE) test.Repondeur = REP_ON;
-	quint32 opts = *((quint32*) &test);
-	quint32 vers = *((quint32*) &m_version);
+	quint32 opts;
+	memcpy(&opts, &test, 4);
+	quint32 vers;
+	memcpy(&vers, &m_version, 4);
 	
 	message.replace("$nn", m_name);
 	message.replace("$do", QString::number(opts, 10))

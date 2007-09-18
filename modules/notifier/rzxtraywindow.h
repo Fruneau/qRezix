@@ -50,7 +50,7 @@ class RzxTrayWindow: public QFrame
 			Growl   = 3,
 			SysTray = 4
 #else
-			Systray = 3
+			SysTray = 3
 #endif
 		};
 		Q_ENUMS(Theme)

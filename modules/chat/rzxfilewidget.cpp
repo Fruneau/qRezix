@@ -104,3 +104,4 @@ void RzxFileWidget::emitReject()
 {
 	emit rejectClicked();
 }
+
