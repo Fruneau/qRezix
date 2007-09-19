@@ -196,7 +196,7 @@ void RzxProtocole::usePass(const QString& pass)
 	if(pwd.length())
 	{
 		pwd += MD5_ADD;
-		pwd = QCryptographicHash::hash(pwd.toLatin1(), QCryptographicHash::Md5);
+		pwd = QCryptographicHash::hash(pwd.toLatin1(), QCryptographicHash::Md5).toHex();
 		RzxXNetConfig::setPass(pwd);
 		if(wrongTime.elapsed() >= 5000)
 			beginAuth();
@@ -281,7 +281,7 @@ void RzxProtocole::wantChangePass()
 void RzxProtocole::changePass(const QString& newPass)
 {
 	m_newPass = newPass + MD5_ADD;
-	m_newPass = QCryptographicHash::hash(m_newPass.toLatin1(), QCryptographicHash::Md5);
+	m_newPass = QCryptographicHash::hash(m_newPass.toLatin1(), QCryptographicHash::Md5).toHex();
 	send("CHANGEPASS " + m_newPass + "\r\n");
 }
 
