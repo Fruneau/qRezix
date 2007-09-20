@@ -28,11 +28,15 @@ bool withTS = false;
 ///Message handler spécifique pour avoir un formatage intéressant
 void msgHandler(QtMsgType type, const char *msg)
 {
+	if( msg == NULL )
+		return;
+	if( level < 0 )	level = 0;
 	char *finalMsg;
 	int len = strlen(msg);
 	finalMsg = new char[len + 1 + level*2];
-	for(int i = 0 ; i < level*2 ; i++)
-		finalMsg[i] = ' ';
+	if( finalMsg == NULL )	return;
+
+	memset( finalMsg, ' ', level*2 );
 	memcpy(finalMsg + level*2, msg, len+1);
 
 	FILE *file = logfile;
@@ -53,8 +57,8 @@ void msgHandler(QtMsgType type, const char *msg)
 	if(file)
 		fprintf(file, "%s\n", finalMsg);
 
-	if(oldMsgHandler != NULL)
-		(*oldMsgHandler)(type,finalMsg);
+//	if(oldMsgHandler != NULL)
+//		(*oldMsgHandler)(type,finalMsg);
 
 	delete[] finalMsg;
 }

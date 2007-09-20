@@ -38,6 +38,7 @@
 
 #include "rzxtraywindow.h"
 
+int	NbTrayWindow = 0;
 
 ///Construction de la fenêtre de notification d'état de connexion de computer
 /** La fenêtre est construite pour disparaître automatiquement au bout de time secondes */
@@ -87,7 +88,7 @@ void RzxTrayWindow::init(Theme theme)
 ///Destruction de la fenêtre
 /** Rien à faire ici */
 RzxTrayWindow::~RzxTrayWindow()
-{}
+{ NbTrayWindow--; }
 
 
 ///Tente d'afficher la fenêtre de notification si elle ne risque pas de gêner
@@ -101,8 +102,12 @@ void RzxTrayWindow::tryToShow()
 	active = QApplication::activeWindow();
 	show();
 
-	//Timer pour déclencher la destruction de le fenêtre
-	QTimer::singleShot(time * 1000, this, SLOT(close()));
+	NbTrayWindow++;
+	if( NbTrayWindow > 5 )					// Pour éviter que trop de fenêtres ne soient affichées, ce qui
+		QTimer::singleShot( 0, this, SLOT(close()));	// risquerait de planter l'interface graphique
+	else
+		//Timer pour déclencher la destruction de le fenêtre
+		QTimer::singleShot(time * 1000, this, SLOT(close()));
 
 	//Timer pour rendre le focus à la fenêtre qui l'avait avant
 	QTimer::singleShot(10, this, SLOT(giveFocus()));

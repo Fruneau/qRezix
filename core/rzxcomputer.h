@@ -68,7 +68,7 @@ class  RZX_CORE_EXPORT RzxComputer : public QObject {
 	{
 		unsigned Server			:6;
 		unsigned SysEx				:3;	//0=Inconnu, 1=Win9X, 2=WinNT, 3=Linux, 4=MacOS, 5=MacOS X, 6=BSD
-		unsigned Promo				:2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje ! <== bah nan, à la jône !!!)
+		unsigned Promo				:2; //0 = Orange, 1=Jne, 2=Rouje (Chica la rouje ! <== bah nan, à la jône !!! <== bah si à la rouge ;) )
 		unsigned Repondeur		:2; //0=accepter, 1= repondeur, 2=refuser les messages, 3= unused
 		// total 13 bits / 32
 		unsigned Capabilities	:19;
