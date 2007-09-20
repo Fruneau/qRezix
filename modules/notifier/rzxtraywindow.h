@@ -62,6 +62,8 @@ class RzxTrayWindow: public QFrame
 		Q_ENUMS(Type);
 	
 	private:
+		static int nbTrayWindow;
+
 		int time;
 		QPointer<RzxComputer> computer;
 		QPointer<QWidget> active;
