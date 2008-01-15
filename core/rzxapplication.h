@@ -68,7 +68,7 @@ class RZX_CORE_EXPORT RzxApplication:public QApplication, public RzxBaseLoader<R
 	static Rzx::Version m_version;
 
 	public:
-		RzxApplication(int argc, char **argv);
+		RzxApplication(int& argc, char **argv);
 		~RzxApplication();
 		bool isInitialised() const;
 		bool hasHider() const;

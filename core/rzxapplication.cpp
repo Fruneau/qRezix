@@ -84,7 +84,7 @@ Rzx::Version RzxApplication::m_version = {
 };
 
 ///Chargement de qRezix et de ses différents modules
-RzxApplication::RzxApplication(int argc, char **argv)
+RzxApplication::RzxApplication(int& argc, char **argv)
 	:QApplication(argc, argv), RzxBaseLoader<RzxModule>("modules", "rzx*", "getModule", "getModuleName", "getModuleVersion", "getModuleDescription", "getModuleIcon")
 {
 	properties = NULL;
