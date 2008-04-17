@@ -25,8 +25,8 @@
 ; - RZX_DEBUG : indique qu'il faut installer les dll de debug ==> qRezix a été compilé avec CONFIG=debug (cf rzxglobal.pri)
 ; - USE_MSVCR_DLL : indique que qRezix a été compilé avec Visual C++
 ; - RZX_MODULES : indique que qRezix a été compilé intégralement sous forme de modules ==> installation modulaire envisageable
-  !define RZX_DEBUG
-  !define USE_MSVCR_DLL
+;  !define RZX_DEBUG
+;  !define USE_MSVCR_DLL
 ;  !define RZX_MODULES
 
 ;Pour pouvoir copier les dll dans l'installeur
@@ -43,14 +43,14 @@
   !endif
 
 ;Pour le cas ou on utilise VC++ pour compiler
-;==> actuellement prévu pour Visual C++ .NET 2005
+;==> actuellement prévu pour Visual C++ .NET 2003, pour le 2005 on installe les composants redistribuables
   !ifdef USE_MSVCR_DLL
      !ifdef RZX_DEBUG
-        !define MSVCR_DLL "msvcr80d.dll"
-        !define MSVCP_DLL "msvcp80d.dll"
+        !define MSVCR_DLL "msvcr71d.dll"
+        !define MSVCP_DLL "msvcp71d.dll"
      !else       
-        !define MSVCR_DLL "msvcr80.dll"
-        !define MSVCP_DLL "msvcp80.dll"
+        !define MSVCR_DLL "msvcr71.dll"
+        !define MSVCP_DLL "msvcp71.dll"
      !endif
   !endif
 
@@ -225,6 +225,17 @@ FunctionEnd
 
 
 ;--------------------------------
+; Tout ça parce qu'on a besoin des composants redistribubles de msvc 2005 :/
+Section -Prerequisites
+  SetOutPath $INSTDIR\Prerequisites
+;  MessageBox MB_YESNO "Installer Microsoft Visual C++ 2005 runtime (requis par qRezix) ?" /SD IDYES IDNO endRuntime
+    File "..\..\vcredist_x86.exe"
+    ExecWait "$INSTDIR\Prerequisites\vcredist_x86.exe"
+    Goto endRuntime
+  endRuntime:
+SectionEnd
+
+;--------------------------------
 ;Installer Sections
 
 Section "Fichiers de base de qRezix" SecBase
@@ -238,7 +249,7 @@ Section "Fichiers de base de qRezix" SecBase
   SectionIn 1 2 RO
 !endif
 
-  ;Installation des Dlls utilisées par qRezix, on met tout chez nous pour pas etre emmerdes
+  ;Installation des Dlls utilisées par qRezix
   SetOutPath "$INSTDIR"
   SetOverwrite on
   
@@ -614,6 +625,7 @@ Section "un.Suppression de qRezix" Uninstall
 
   SectionIn RO
 
+  Delete "$INSTDIR\vcredist_x86.exe"
   Delete "$INSTDIR\qRezix.exe"
   Delete "$INSTDIR\qrezix2.dll"
   IfErrors "" +3
