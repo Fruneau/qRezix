@@ -13,8 +13,7 @@
 }
 
 !win32:debug {
-#    QMAKE_CXXFLAGS += -O2 -g -fstrict-aliasing -Wall -Wextra -Werror -Wchar-subscripts
-    QMAKE_CXXFLAGS += -O0 -g3 -fstrict-aliasing -Wall -Wextra -Werror -Wchar-subscripts \
+    QMAKE_CXXFLAGS += -O2 -g -fstrict-aliasing -Wall -Wextra -Werror -Wchar-subscripts \
                       -Wundef -Wcast-align -Wwrite-strings -Wsign-compare -Wunused \
                       -Wno-unused-parameter -Winit-self -Wpointer-arith \
                       -Wredundant-decls -Wformat-nonliteral -Wno-format-y2k -Wmissing-format-attribute
