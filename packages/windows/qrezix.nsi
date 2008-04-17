@@ -12,7 +12,7 @@
 ;Définition de versions
   !define MUI_PRODUCT "qRezix"
   !define MUI_VERSION "v2.1"
-  !define MUI_COMPLETEVERSION "v2.1.0-svn"
+  !define MUI_COMPLETEVERSION "v2.1.2"
   !define MUI_NAME "${MUI_PRODUCT} ${MUI_VERSION}"
   !define MUI_COMPLETENAME "${MUI_PRODUCT} ${MUI_COMPLETEVERSION}"
 
@@ -30,7 +30,7 @@
 ;  !define RZX_MODULES
 
 ;Pour pouvoir copier les dll dans l'installeur
-  !define QTDIR "G:\Qt\4.2.0"
+  !define QTDIR "C:\Qt\4.3.4"
   !define SOURCESYSDIR "C:\windows\system32"
   !ifdef RZX_DEBUG
      !define QTCOREDLL "QtCored4.dll"
@@ -43,14 +43,14 @@
   !endif
 
 ;Pour le cas ou on utilise VC++ pour compiler
-;==> actuellement prévu pour Visual C++ .NET
+;==> actuellement prévu pour Visual C++ .NET 2005
   !ifdef USE_MSVCR_DLL
      !ifdef RZX_DEBUG
-        !define MSVCR_DLL "msvcr71d.dll"
-        !define MSVCP_DLL "msvcp71d.dll"
+        !define MSVCR_DLL "msvcr80d.dll"
+        !define MSVCP_DLL "msvcp80d.dll"
      !else       
-        !define MSVCR_DLL "msvcr71.dll"
-        !define MSVCP_DLL "msvcp71.dll"
+        !define MSVCR_DLL "msvcr80.dll"
+        !define MSVCP_DLL "msvcp80.dll"
      !endif
   !endif
 
