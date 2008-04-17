@@ -7,12 +7,12 @@
 \__\\ ||     \\ \___/ //________// _//   \\_
 
 qRezix
-v2.0
+v2.1
 
 qRezix est un logiciel développé par le BR pour assurer la connexion des X. Ce logiciel fournit les outils nécessaires pour le chat et le partage des fichiers. C'est aussi une clef de voûte pour structurer le rezal. Il est important que chaque personne connectée utilise ce programme, où tout autre client xNet de façon constante depuis le démarrage, jusqu'à l'extinction de l'ordinateur.
 
 Ce programme est sous license GPL
-(C) Binet Réseau 2002 - 2005
+(C) Binet Réseau 2002 - 2008
 --------------------------------------------------------------------------------
 Contenu:
 --------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ I - Configuration nécessaire
 
 qRezix fonctionne sur les ordinateurs sous Linux, Mac OS X et Windows.
 Pour Windows, l'installateur est compilé et distribué par la BR.
-Pour Linux et Mac OS X, des paquets Debian et Mandrake sont générés et les sources sont distribuées. Vous pouvez également avoir accès à la cvs de qRezix. Pour être compilé, ce programme nécessite Qt 4.0.1 ou ultérieur.
+Pour Linux et Mac OS X, des paquets Debian et Mandrake sont générés et les sources sont distribuées. Vous pouvez également avoir accès à la cvs de qRezix. Pour être compilé, ce programme nécessite Qt 4.1.1 ou ultérieur.
 
 Avant de lancer qRezix, il faut convenablement configurer l'ordinateur, en ouvrant en particulier les ports 5050 (connexion au serveur) et 5053 (connexion pour les chats) en tcp du pare-feu.
 
