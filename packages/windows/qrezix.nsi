@@ -238,9 +238,9 @@ Section "Fichiers de base de qRezix" SecBase
   SectionIn 1 2 RO
 !endif
 
-  ;Installation des Dlls utilisées par qRezix
-  SetOutPath "$SYSDIR"
-  SetOverwrite off
+  ;Installation des Dlls utilisées par qRezix, on met tout chez nous pour pas etre emmerdes
+  SetOutPath "$INSTDIR"
+  SetOverwrite on
   
   !ifdef USE_MSVCR_DLL
     File "${SOURCESYSDIR}\${MSVCR_DLL}"
