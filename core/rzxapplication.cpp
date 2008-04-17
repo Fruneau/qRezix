@@ -93,7 +93,7 @@ RzxApplication::RzxApplication(int& argc, char **argv)
 	wellInit = false;
 
 	//Analyse des arguments
-	for(int i=1; i<argc; i++)
+/*	for(int i=1; i<argc; i++)
 	{
 		if(strncmp(argv[i],"--timestamp", 14)==0)
 			withTS = true;
@@ -112,7 +112,7 @@ RzxApplication::RzxApplication(int& argc, char **argv)
 			delete[] logfile_name;
 			break;
 		}
-	}
+	}*/
 
 	//Installation du message handler... à partir de maintenant, on peut
 	//faire des qDebug...
@@ -124,9 +124,9 @@ RzxApplication::RzxApplication(int& argc, char **argv)
 	if(!loadCore())
 		return;
 	//Chargement des modules de qRezix
-	Rzx::beginModuleLoading("Modules");
+//	Rzx::beginModuleLoading("Modules");
 	loadModules();
-	Rzx::endModuleLoading("Modules");
+//	Rzx::endModuleLoading("Modules");
 
 	//Lancement de l'interface réseau
 	RzxConnectionLister *lister = RzxConnectionLister::global();
