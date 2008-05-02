@@ -2,6 +2,7 @@ CONFIG *= release
 CONFIG -= debug
 QT *= network
 
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
 !debug:macx {
         QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
         CONFIG+=x86 ppc

@@ -28,11 +28,11 @@ echo "   - make        : $MAKEOPTS"
 function launch()
 {
 	if [ $VERBOSE == 1 ]; then
-		if ! $* ; then
+		if ! "$@" ; then
 			exit 1;
 		fi
 	else
-		if ! $* >> /dev/null ; then
+		if ! "$@" >> /dev/null ; then
 			exit 1;
 		fi
 	fi
@@ -43,7 +43,7 @@ echo ""
 echo "Phase 1 : Compilation..."
 
 if ! [ $IGNORE_QMAKE == 1 ]; then
-	launch qmake -spec macx-g++ qrezix.pro
+	launch qmake -spec macx-g++ "DEFINES+=RZX_RZLINDEX_BUILTIN RZX_RZLVIEW_BUILTIN RZX_RZLDETAIL_BUILTIN RZX_RZLMAP_BUILTIN RZX_RZLBOB_BUILTIN" qrezix.pro
 	touch core/rzxapplication.cpp
 fi
 launch make

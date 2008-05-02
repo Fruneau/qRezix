@@ -2,7 +2,7 @@
 
 echo "Building tools"
 gcc -o realpath realpath.c
-ABSQTDIR=`./realpath $QTDIR`
+ABSQTDIR=`./realpath /Library/Frameworks/`
 
 # Compilation
 rm -rf qRezix.app
@@ -14,7 +14,7 @@ cp -R qRezix.app packages/macosx/
 # Ajout de Qt dans le bundle
 installQtLib()
 {
-	cp -R $ABSQTDIR/lib/$1.framework qRezix.app/Contents/Frameworks/
+	cp -R $ABSQTDIR/$1.framework qRezix.app/Contents/Frameworks/
 	install_name_tool -id @executable_path/../Frameworks/$1.framework/Versions/Current/$1 qRezix.app/Contents/Frameworks/$1.framework/Versions/Current/$1
 	find qRezix.app/Contents/Frameworks/$1.framework -name '*_debug*' -exec rm {} ";" 2> /dev/null > /dev/null
 	./install_libs qRezix.app/Contents/Frameworks/$1.framework/Versions/Current/$1 $ABSQTDIR
@@ -30,7 +30,7 @@ cd qRezix.app/Contents
 ../../install_libs MacOS/qRezix $ABSQTDIR
 find . -name '*.dylib' -exec ../../install_libs {} $ABSQTDIR ";"
 
-cp -R ../../../../modules/notifier/Growl-WithInstaller.framework ./
+cp -R ../../../../modules/notifier/Growl-WithInstaller.framework ./Frameworks
 
 # Nettoyage du bundle
 echo "Cleaning the bundle"
