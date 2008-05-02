@@ -2,8 +2,8 @@
 
 installQtLib()
 {
-	install_name_tool -change $3/lib/$1.framework/Versions/4/$1 "@executable_path/../Frameworks/$1.framework/Versions/4/$1" $2
-	install_name_tool -change $3/lib/$1.framework/Versions/Current/$1 "@executable_path/../Frameworks/$1.framework/Versions/Current/$1" $2
+	install_name_tool -change $3/$1.framework/Versions/4/$1 "@executable_path/../Frameworks/$1.framework/Versions/4/$1" $2
+	install_name_tool -change $3/$1.framework/Versions/Current/$1 "@executable_path/../Frameworks/$1.framework/Versions/Current/$1" $2
 }
 
 installQtLib QtCore $1 $2
