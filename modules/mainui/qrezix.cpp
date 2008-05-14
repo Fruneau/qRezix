@@ -180,8 +180,7 @@ bool QRezix::installModule(RzxRezal *rezal)
 		{
 			dock = new QDockWidget(rezal->name());
 			dock->installEventFilter(this);
-			if(isFloating)
-				dock->setParent(this);
+			dock->setParent(this);
 			dock->setWindowIcon(rezal->icon());
 			dock->setWidget(rezal->widget());
 			dock->setFeatures(rezal->features());
