@@ -64,10 +64,18 @@
 #include "rzxfilesocket.h"
 #include "rzxfilelistener.h"
 
-#ifdef Q_OS_MAC
-#	include "ui_rzxchat_mac.h"
+#ifdef RZX_ALL_BUILTIN
+# ifdef Q_OS_MAC
+#	include "../../core/ui_rzxchat_mac.h"
+# else
+#	include "../../core/ui_rzxchat.h"
+# endif
 #else
+# ifdef Q_OS_MAC
+#	include "ui_rzxchat_mac.h"
+# else
 #	include "ui_rzxchat.h"
+# endif
 #endif
 
 /******************************

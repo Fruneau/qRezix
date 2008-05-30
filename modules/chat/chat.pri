@@ -34,6 +34,10 @@ mac {
 	FORMS += $$ROOT/modules/chat/rzxchat.ui
 }
 
+contains(DEFINES, RZX_CHAT_BUILTIN) {
+  INCLUDEPATH += ../modules/chat/
+}
+
 
 smileys.files = $$ROOT/resources/smileys
 
