@@ -1,9 +1,9 @@
-qrezix (2.0-0.beta2-1+svn) unstable; urgency=low
+qrezix (2.1.0) unstable; urgency=low
 
-  * Version svn de qRezix
-  * Ajout d'un paquet pour le thème Nuvola qui n'était jusque là pas packagé
+  [ CÃ©dric Pasteur ]
+  * Version 2.1.0
 
- -- Guillaume Porcher <pico@brownie.chez-pico.net>  Tue, 24 Jan 2006 18:48:34 +0100
+ -- CÃ©dric Pasteur <cedric.pasteur@polytechnique.org>  Thu, 03 Apr 2008 00:19:10 +0200
 
 qrezix (2.0-0.beta2-1) unstable; urgency=medium
 

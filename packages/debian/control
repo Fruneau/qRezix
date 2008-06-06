@@ -1,7 +1,7 @@
 Source: qrezix
 Section: net
 Priority: optional
-Build-Depends: libqt4-dev,qt4-dev-tools,debhelper(>= 4.0.0),libgloox-dev
+Build-Depends: libqt4-dev,qt4-dev-tools,debhelper(>= 4.0.0)
 Maintainer: br <br@frankiz.polytechnique.fr>
 Standards-Version: 3.6.0
 
@@ -21,58 +21,52 @@ Description: qRezix programme principal
 Package: qrezix-dev
 Architecture: any
 Depends: qrezix
-Description: Headers qRezix pour le développement de plugins
-
-Package: qrezix-network-jabber
-Architecture: any
-Provides: qrezix-network
-Depends: ${shlibs:Depends}
-Description: Plugin pour se connecter à un réseau Jabber
+Description: Headers qRezix pour le dï¿½veloppement de plugins
 
 Package: qrezix-theme-common
 Architecture: all
 Provides: qrezix-theme
-Description: Icônes de base, communes à tous les thèmes pour qRezix
+Description: Icï¿½nes de base, communes ï¿½ tous les thï¿½mes pour qRezix
 
 Package: qrezix-theme-noia-warm
 Architecture: all
 Provides: qrezix-theme
 Depends: qrezix-theme-common
-Description: Thèmes d'icone pour qRezix basé sur le thème d'icones KDE du même nom
+Description: Thï¿½mes d'icone pour qRezix basï¿½ sur le thï¿½me d'icones KDE du mï¿½me nom
 
 Package: qrezix-theme-nuvola
 Architecture: all
 Provides: qrezix-theme
 Depends: qrezix-theme-common
-Description: Thèmes d'icone pour qRezix basé sur le thème d'icones KDE du même nom
+Description: Thï¿½mes d'icone pour qRezix basï¿½ sur le thï¿½me d'icones KDE du mï¿½me nom
 
 Package: qrezix-theme-classic
 Architecture: all
 Provides: qrezix-theme
 Depends: qrezix-theme-common
-Description: Thèmes d'icone pour qRezix par défaut
+Description: Thï¿½mes d'icone pour qRezix par dï¿½faut
 
 Package: qrezix-theme-krystal
 Architecture: all
 Provides: qrezix-theme
 Depends: qrezix-theme-common
-Description: Thèmes d'icone pour qRezix basé sur le thème d'icones Krystal de KDE
+Description: Thï¿½mes d'icone pour qRezix basï¿½ sur le thï¿½me d'icones Krystal de KDE
 
 Package: qrezix-theme-macosx
 Architecture: all
 Provides: qrezix-theme
 Depends: qrezix-theme-common
-Description: Thèmes d'icone pour qRezix MacOS-like
+Description: Thï¿½mes d'icone pour qRezix MacOS-like
 
 Package: qrezix-theme-kids
 Architecture: all
 Provides: qrezix-theme
 Depends: qrezix-theme-common
-Description: Thèmes d'icone pour qRezix basé sur le thème Kids de KDE
+Description: Thï¿½mes d'icone pour qRezix basï¿½ sur le thï¿½me Kids de KDE
 
 Package: qrezix-translations-fr
 Architecture: any
 Provides: qrezix-translations
-Description: Fichiers de traduction Français pour qRezix
+Description: Fichiers de traduction Franï¿½ais pour qRezix
 Replaces: qrezix-translations
 

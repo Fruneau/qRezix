@@ -11,7 +11,6 @@ SOURCES += $$ROOT/modules/chat/rzxchatlister.cpp \
 	$$ROOT/modules/chat/rzxfilelistener.cpp \
 	$$ROOT/modules/chat/rzxfilesocket.cpp \
 	$$ROOT/modules/chat/rzxfilewidget.cpp
-	
 
 HEADERS += $$ROOT/modules/chat/rzxchatlister.h \
 	$$ROOT/modules/chat/rzxclientlistener.h \
@@ -38,14 +37,29 @@ contains(DEFINES, RZX_CHAT_BUILTIN) {
   INCLUDEPATH += ../modules/chat/
 }
 
-
-smileys.files = $$ROOT/resources/smileys
+smileysBasic2.files = $$ROOT/resources/smileys/Basic2/theme \
+	$$ROOT/resources/smileys/Basic2/*.png
+smileysBasic.files = $$ROOT/resources/smileys/Basic/theme \
+	$$ROOT/resources/smileys/Basic/*.png
+smileysPingu.files = $$ROOT/resources/smileys/Pingu/theme \
+	$$ROOT/resources/smileys/Pingu/*.png
+smileysMSNLike.files = $$ROOT/resources/smileys/MSNLike/theme \
+	$$ROOT/resources/smileys/MSNLike/*.png
 
 mac {
-	smileys.path = $$ROOT/qRezix.app/Contents/Resources/
+	smileysBasic2.path = $$ROOT/qRezix.app/Contents/Resources/smileys/Basic2
+	smileysBasic.path = $$ROOT/qRezix.app/Contents/Resources/smileys/Basic
+	smileysPingu.path = $$ROOT/qRezix.app/Contents/Resources/smileys/Pingu
+	smileysMSNLike.path = $$ROOT/qRezix.app/Contents/Resources/smileys/MSNLike
 } else:unix {
-	smileys.path = $$SYSDEST/
+	smileysBasic2.path = $$SYSDEST/smileys/Basic2
+	smileysBasic.path = $$SYSDEST/smileys/Basic
+	smileysPingu.path = $$SYSDEST/smileys/Pingu
+	smileysMSNLike.path = $$SYSDEST/smileys/MSNLike
 } else:win32 {
-	smileys.path = $$DEST/
+	smileysBasic2.path = $$DEST/smileys/Basic2
+	smileysBasic.path = $$DEST/smileys/Basic
+	smileysPingu.path = $$DEST/smileys/Pingu
+	smileysMSNLike.path = $$DEST/smileys/MSNLike
 }
-INSTALLS += smileys
+INSTALLS += smileysBasic2 smileysBasic smileysMSNLike smileysPingu

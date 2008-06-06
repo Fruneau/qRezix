@@ -1,1 +1,1 @@
-shlibs:Depends=libc6 (>= 2.3.5-1), libgcc1 (>= 1:4.0.2), libqt4-debug (>= 4.1.0), libstdc++6 (>= 4.0.2-4)
+shlibs:Depends=libaudio2, libc6 (>= 2.7-1), libfontconfig1 (>= 2.4.0), libfreetype6 (>= 2.3.5), libgcc1 (>= 1:4.1.1-21), libglib2.0-0 (>= 2.12.0), libice6 (>= 1:1.0.0), libpng12-0 (>= 1.2.13-4), libqt4-network (>= 4.4.0), libqtcore4 (>= 4.4.0), libqtgui4 (>= 4.4.0), libsm6, libstdc++6 (>= 4.1.1-21), libx11-6, libxcursor1 (>> 1.1.2), libxext6, libxfixes3 (>= 1:4.0.1), libxi6, libxinerama1, libxrandr2, libxrender1, libxt6, qrezix (>= 2.1.0), zlib1g (>= 1:1.1.4)

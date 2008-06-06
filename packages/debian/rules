@@ -6,23 +6,23 @@ package=qrezix
 
 build: 	checkdir 
 	# On commence par compiler
-	qmake-qt4 "PREFIX=/usr" "DEST=$(CURDIR)/debian/qrezix" -o Makefile qrezix.pro
+	qmake-qt4 "PREFIX=/usr" "DEST=$(CURDIR)/debian/qrezix" "DEFINES+=NO_JABBER" -o Makefile qrezix.pro
 	$(MAKE) 
-	# On relance la génération du Makefile pour le make install
+	# On relance la gï¿½nï¿½ration du Makefile pour le make install
 	
-	qmake-qt4 "PREFIX=/usr" "DEST=$(CURDIR)/debian/qrezix" -o Makefile qrezix.pro
+	qmake-qt4 "PREFIX=/usr" "DEST=$(CURDIR)/debian/qrezix" "DEFINES+=NO_JABBER" -o Makefile qrezix.pro
 	$(MAKE) install
 	
 	#Installation des libs
 	#Module Jabber
-	mkdir -p $(CURDIR)/debian/qrezix-network-jabber/usr/lib/qrezix/net/
-	mv $(CURDIR)/debian/qrezix/usr/lib/qrezix/net/librzxnetjabber.so $(CURDIR)/debian/qrezix-network-jabber/usr/lib/qrezix/net/
+	#mkdir -p $(CURDIR)/debian/qrezix-network-jabber/usr/lib/qrezix/net/
+	#mv $(CURDIR)/debian/qrezix/usr/lib/qrezix/net/librzxnetjabber.so $(CURDIR)/debian/qrezix-network-jabber/usr/lib/qrezix/net/
 	
-	# Paquets séparés pour les Traductions
+	# Paquets sï¿½parï¿½s pour les Traductions
 	mkdir -p $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
 	mv $(CURDIR)/debian/qrezix/usr/share/qrezix/translations/*.qm $(CURDIR)/debian/qrezix-translations-fr/usr/share/qrezix/translations/
 	
-	# Paquets séparés pour les thèmes
+	# Paquets sï¿½parï¿½s pour les thï¿½mes
 	mkdir -p $(CURDIR)/debian/qrezix-theme-noia-warm/usr/share/qrezix/themes/NoiaWarmKDE
 	cp -a $(CURDIR)/debian/qrezix/usr/share/qrezix/themes/NoiaWarmKDE/*.png $(CURDIR)/debian/qrezix-theme-noia-warm/usr/share/qrezix/themes/NoiaWarmKDE
 	mkdir -p $(CURDIR)/debian/qrezix-theme-nuvola/usr/share/qrezix/themes/Nuvola
