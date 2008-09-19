@@ -1,0 +1,52 @@
+cmake_minimum_required(VERSION 2.6)
+
+EXECUTE_PROCESS( COMMAND qmake-qt4 "PREFIX=/usr" "DEFINES+=NO_JABBER" -o Makefile qrezix.pro )
+EXECUTE_PROCESS( COMMAND make )
+
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "qRezix est LE logiciel de messagerie instantanee du platal")
+SET(CPACK_PACKAGE_FILE_NAME "qrezix-2.1.2") 
+SET(CPACK_PACKAGE_INSTALL_DIRECTORY "qrezix 2.1.2")
+SET(CPACK_PACKAGE_NAME "qRezix")
+SET(CPACK_PACKAGE_VERSION "2.1.2")
+SET(CPACK_PACKAGE_VERSION_MAJOR "2")
+SET(CPACK_PACKAGE_VERSION_MINOR "1")
+SET(CPACK_PACKAGE_VERSION_PATCH "2")
+
+SET(CPACK_GENERATOR "DEB;RPM")
+SET(CPACK_PACKAGE_CONTACT "br@frankiz")
+SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "BR")
+SET(CPACK_DEBIAN_PACKAGE_SECTION "network")
+
+SET(CPACK_STRIP_FILES "qrezix")
+SET(CPACK_PACKAGE_EXECUTABLES "qrezix")
+
+install(DIRECTORY resources/translations DESTINATION share/qrezix/ PATTERN ".*" EXCLUDE PATTERN "*~" EXCLUDE)
+install(DIRECTORY resources/maps DESTINATION share/qrezix/ PATTERN ".*" EXCLUDE PATTERN "*~" EXCLUDE)
+install(DIRECTORY resources/smileys DESTINATION share/qrezix/ PATTERN ".*" EXCLUDE PATTERN "*~" EXCLUDE)
+install(DIRECTORY resources/themes DESTINATION share/qrezix/ PATTERN ".*" EXCLUDE PATTERN "*~" EXCLUDE)
+
+install(FILES AUTHORS DESTINATION share/doc/qrezix/)
+install(FILES README DESTINATION share/doc/qrezix/)
+install(FILES ChangeLog DESTINATION share/doc/qrezix/)
+install(FILES COPYING DESTINATION share/doc/qrezix/)
+install(FILES TODO DESTINATION share/doc/qrezix/)
+
+install(FILES resources/qrezix.desktop DESTINATION share/applications)
+install(FILES resources/qrezix_icon.png DESTINATION share/icons)
+
+install(FILES qrezix DESTINATION bin PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_READ GROUP_READ)
+install(FILES libqrezix.so DESTINATION lib/)
+install(FILES libqrezix.so.${CPACK_PACKAGE_VERSION_MAJOR} DESTINATION lib/)
+install(FILES libqrezix.so.${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR} DESTINATION lib/)
+install(FILES libqrezix.so.${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH} DESTINATION lib/)
+
+install(DIRECTORY modules DESTINATION lib/qrezix/ FILES_MATCHING PATTERN "*.so" PATTERN "*~" EXCLUDE PATTERN ".*" EXCLUDE)
+
+install(DIRECTORY net DESTINATION lib/qrezix/ FILES_MATCHING PATTERN "*.so" PATTERN "*~" EXCLUDE PATTERN ".*" EXCLUDE)
+
+install(DIRECTORY rezals DESTINATION lib/qrezix/ FILES_MATCHING PATTERN "*.so" PATTERN "*~" EXCLUDE PATTERN ".*" EXCLUDE)
+
+install(FILES rezals/map/map.ini DESTINATION share/qrezix)
+install(FILES core/subnet.ini DESTINATION share/qrezix)
+
+INCLUDE(CPack)

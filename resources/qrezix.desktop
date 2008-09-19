@@ -1,12 +1,9 @@
-# KDE Config File  
 [Desktop Entry]
+Name=qRezix
+Version=2.1.2
+Comment=qRezix est LE logiciel de messagerie instantanée du platal
+Encoding=UTF-8
+Exec=/usr/bin/qrezix
+Icon=/usr/share/icons/qrezix_icon.png
 Type=Application
-Exec=qrezix -caption "%c" %i %m  
-Icon=qrezix.png
-MiniIcon=qrezix.png
-DocPath=qrezix/index.html
-Comment=
-Comment[de]=
-Terminal=0
-Name=QReziX
-Name[de]=QReziX
+Categories=Application;Network;
