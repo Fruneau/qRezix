@@ -69,7 +69,7 @@
 	"Si ça marche pas c'est que problème est entre la chaine et le clavier\r\n" \
 	"Le fait que le monde soit peuplé de crétins permet à chacun de nous de ne pas se faire remarquer. \n -+- Sim -+-\r\n" \
 	"INFINITÉSIMAL : On ne sais pas ce que ce c'est, mais a rapport à l'homéopathie. \n -+- Gustave Flaubert, Dictionnaire des idées reçues -+-\r\n" \
-	"Chic à la jône X2003 !!!\r\n" \
+	"Chic à la rouge X2006 !!!\r\n" \
 	"o< o< o< o< o< o< o< \\_o< \\_0< COIN ! COIN !\r\n" \
 	"Pan ! Pan ! Pan ! Pan ! Pan ! Pan ! Pan ! PAN ! PAAANNN !\r\n" \
 	"Chaque jour est veille pour les uns, lendemain pour d'autres, mais aujourd'hui pour bien peu. \n -+- Gilbert Cesbron (1913-1979), de petites choses. -+-\r\n" \

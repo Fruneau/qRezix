@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=qRezix
-Version=2.1.2
+Version=2.1.3
 Comment=qRezix est LE logiciel de messagerie instantanée du platal
 Encoding=UTF-8
 Exec=/usr/bin/qrezix

@@ -9,8 +9,8 @@ win32 {
 	SVN_REVISION = $$system(svnversion -n .)
 }
 
-DEFINES += RZX_BUILD_CORE RZX_MAJOR_VERSION=2 RZX_MINOR_VERSION=1 RZX_FUNNY_VERSION=2 RZX_SVNVERSION=\\\"$$SVN_REVISION\\\"
-VERSION = 2.1.2
+DEFINES += RZX_BUILD_CORE RZX_MAJOR_VERSION=2 RZX_MINOR_VERSION=1 RZX_FUNNY_VERSION=3 RZX_SVNVERSION=\\\"$$SVN_REVISION\\\"
+VERSION = 2.1.3
 DESTDIR = ..
 TARGET = qrezix
 
@@ -119,7 +119,7 @@ mac {
     mainlib.path = $$LIBDEST
 	!isEmpty(LIBREL): mainlib.extra = cd $$DEST/lib && \ 
 		ln -sf $$LIBREL/libqrezix.so.$$VERSION ./ && \
-		ln -sf $$LIBREL/libqrezix.so.2.0 ./ && \
+		ln -sf $$LIBREL/libqrezix.so.2.1 ./ && \
 		ln -sf $$LIBREL/libqrezix.so.2 ./ && \
 		ln -sf $$LIBREL/libqrezix.so ./
 	subnets.path = $$SYSDEST
