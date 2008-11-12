@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 
-EXECUTE_PROCESS( COMMAND qmake-qt4 "PREFIX=/usr" "DEFINES+=NO_JABBER" -o Makefile qrezix.pro )
-EXECUTE_PROCESS( COMMAND make )
+#EXECUTE_PROCESS( COMMAND qmake-qt4 "PREFIX=/usr" "DEFINES+=NO_JABBER" -o Makefile qrezix.pro )
+#EXECUTE_PROCESS( COMMAND make )
 
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "qRezix est LE logiciel de messagerie instantanee du platal")
 SET(CPACK_PACKAGE_FILE_NAME "qrezix-2.1.2") 
@@ -34,7 +34,7 @@ install(FILES TODO DESTINATION share/doc/qrezix/)
 install(FILES resources/qrezix.desktop DESTINATION share/applications)
 install(FILES resources/qrezix_icon.png DESTINATION share/icons)
 
-install(FILES qrezix DESTINATION bin PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_READ GROUP_READ)
+install(FILES qrezix DESTINATION bin PERMISSIONS WORLD_EXECUTE GROUP_EXECUTE OWNER_EXECUTE WORLD_READ OWNER_READ GROUP_READ)
 install(FILES libqrezix.so DESTINATION lib/)
 install(FILES libqrezix.so.${CPACK_PACKAGE_VERSION_MAJOR} DESTINATION lib/)
 install(FILES libqrezix.so.${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR} DESTINATION lib/)
@@ -45,6 +45,8 @@ install(DIRECTORY modules DESTINATION lib/qrezix/ FILES_MATCHING PATTERN "*.so" 
 install(DIRECTORY net DESTINATION lib/qrezix/ FILES_MATCHING PATTERN "*.so" PATTERN "*~" EXCLUDE PATTERN ".*" EXCLUDE)
 
 install(DIRECTORY rezals DESTINATION lib/qrezix/ FILES_MATCHING PATTERN "*.so" PATTERN "*~" EXCLUDE PATTERN ".*" EXCLUDE)
+
+install(DIRECTORY symlinks/ DESTINATION lib/ FILES_MATCHING PATTERN "*.so" PATTERN "*~" EXCLUDE PATTERN ".*" EXCLUDE)
 
 install(FILES rezals/map/map.ini DESTINATION share/qrezix)
 install(FILES core/subnet.ini DESTINATION share/qrezix)

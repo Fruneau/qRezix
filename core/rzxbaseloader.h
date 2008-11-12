@@ -333,7 +333,7 @@ T *RzxBaseLoader<T>::resolve(const QString& file)
 		icons[moduleName] = moduleIcon;
 		descriptions[moduleName] = moduleDescription;
 	}
-	if(!load || module && module->version() >= moduleVersion)
+	if(!load || (module && module->version() >= moduleVersion))
 	{
 		lib->unload();
 		delete lib;
