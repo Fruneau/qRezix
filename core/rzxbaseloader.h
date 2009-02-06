@@ -286,6 +286,7 @@ T *RzxBaseLoader<T>::resolve(const QString& file)
 	loadNameProc getName = (loadNameProc)lib->resolve(name);
 	if(!getName)
 	{
+		qDebug() << lib->errorString();
 		lib->unload();
 		delete lib;
 		return NULL;
@@ -294,6 +295,7 @@ T *RzxBaseLoader<T>::resolve(const QString& file)
 	loadVersionProc getVersion = (loadVersionProc)lib->resolve(file, version);
 	if(!getVersion)
 	{
+		qDebug() << lib->errorString();
 		lib->unload();
 		delete lib;
 		return NULL;
@@ -302,6 +304,7 @@ T *RzxBaseLoader<T>::resolve(const QString& file)
 	loadDescriptionProc getDescription = (loadDescriptionProc)lib->resolve(file, description);
 	if(!getVersion)
 	{
+		qDebug() << lib->errorString();
 		lib->unload();
 		delete lib;
 		return NULL;
@@ -310,6 +313,7 @@ T *RzxBaseLoader<T>::resolve(const QString& file)
 	loadIconProc getIcon = (loadIconProc)lib->resolve(file, icon);
 	if(!getVersion)
 	{
+		qDebug() << lib->errorString();
 		lib->unload();
 		delete lib;
 		return NULL;
@@ -335,6 +339,7 @@ T *RzxBaseLoader<T>::resolve(const QString& file)
 	}
 	if(!load || (module && module->version() >= moduleVersion))
 	{
+		qDebug() << "Version mismatch for lib" << file;
 		lib->unload();
 		delete lib;
 		return NULL;
