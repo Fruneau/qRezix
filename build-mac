@@ -57,6 +57,9 @@ for file in `find . -name '*.dylib'`; do
 	for lib in `otool -L $file | grep -e '/var/tmp/.*out ' | sed 's/.*\(\/var.*out\).*/\1/'`; do
 		install_name_tool -change $lib '@executable_path/../Resources/modules/librzxmainui.dylib' $file
 	done
+	for lib in `otool -L $file | grep -e 'librzxmainui'`; do
+		install_name_tool -change $lib '@executable_path/../Resources/modules/librzxmainui.dylib' $file
+	done
 done
 cd ..
 
