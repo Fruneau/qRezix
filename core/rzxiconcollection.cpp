@@ -120,10 +120,10 @@ RzxIconCollection::RzxIconCollection()
 	qDebug("Searching icon themes...");
 	QList<QDir> path = RzxConfig::dirList(RzxConfig::AllDirsExceptTemp, "themes");
 
-	foreach(QDir dir, path)
+	foreach(const QDir &dir, path)
 	{
 		QStringList subDirs = dir.entryList(QDir::Dirs, QDir::Name | QDir::IgnoreCase);
-		foreach(QString subDir, subDirs)
+		foreach(const QString &subDir, subDirs)
 		{
 			//on utilise .keys().contain() car value[] fait un insert dans le QHash
 			//ce qui tendrait donc à rajouter des clés parasites dans la liste

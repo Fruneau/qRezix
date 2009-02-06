@@ -131,7 +131,7 @@ bool RzxRezalSearch::matches(const QModelIndex& index, RzxRezalModel *model) con
 	}
 
 	QStringList words = searchPattern.split(" ");
-	foreach (QString word, words)
+	foreach (const QString &word, words)
 	{
 		if(!searched.contains(word, Qt::CaseInsensitive))
 			return false;

@@ -64,7 +64,7 @@ void RzxUserGroup::loadGroups(QSettings *settings)
 	if(!settings) return;
 
 	const QStringList keys = settings->childKeys();
-	foreach(QString key, keys)
+	foreach(const QString &key, keys)
 	{
 		if(key.left(6) == "group-")
 		{

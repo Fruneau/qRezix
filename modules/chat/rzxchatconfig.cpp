@@ -96,13 +96,13 @@ QString RzxChatConfig::nearestFont(const QString& family)
 	if(keys.contains(family))
 		return family;
 
-	foreach(QString key, keys)
+	foreach(const QString &key, keys)
 	{
 		if(key.contains(family, Qt::CaseInsensitive))
 			return key;
 	}
 
-	foreach(QString key, keys)
+	foreach(const QString &key, keys)
 	{
 		if(family.contains(key, Qt::CaseInsensitive))
 			return key;

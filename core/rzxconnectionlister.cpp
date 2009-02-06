@@ -248,7 +248,7 @@ void RzxConnectionLister::logout( const RzxHostAddress& ip )
 QStringList RzxConnectionLister::ipList(Rzx::Capabilities features) const
 {
 	QStringList ips;
-	foreach(RzxHostAddress key, computerByIP.keys())
+	foreach(const RzxHostAddress &key, computerByIP.keys())
 		if(!features || computerByIP[key]->can(features))
 			ips << key.toString();
 	return ips;
@@ -324,14 +324,14 @@ void RzxConnectionLister::clearComputerFromNetwork(RzxNetwork *network)
 			displayWaiter.removeAll(computer);
 	}
 
-	foreach(QString key, computerByLogin.keys())
+	foreach(const QString &key, computerByLogin.keys())
 	{
 		RzxComputer *computer = computerByLogin[key];
 		if(computer && computer->network() == network)
 			computerByLogin.remove(key);
 	}
 	
-	foreach(RzxHostAddress key, computerByIP.keys())
+	foreach(const RzxHostAddress &key, computerByIP.keys())
 	{
 		RzxComputer *computer = computerByIP[key];
 		if(computer && computer->network() == network)

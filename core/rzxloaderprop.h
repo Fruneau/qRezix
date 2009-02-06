@@ -145,7 +145,7 @@ void RzxLoaderProp<T>::init()
 	QStringList modules = loader->modules.keys();
 	changeTheme();
 	treeModules->clear();
-	foreach(QString name, modules)
+	foreach(const QString &name, modules)
 	{
 		QTreeWidgetItem *item = new QTreeWidgetItem(treeModules);
 		T *module = loader->modules[name];

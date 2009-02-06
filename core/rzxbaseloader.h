@@ -138,8 +138,10 @@ void RzxBaseLoader<T>::saveState()
 	{
 		settings->beginGroup("modules");
 		QStringList list = modules.keys();
-		foreach(QString name, list)
+		foreach(const QString &name, list)
+		{
 			settings->setValue(name, modules[name] || toBeReloaded.contains(name));
+		}
 		settings->endGroup();
 	}
 }
@@ -255,7 +257,7 @@ void RzxBaseLoader<T>::loadPlugins()
 		, true
 #endif
 			);
-	foreach(QDir dir, path)
+	foreach(const QDir &dir, path)
 	{
 		QStringList filter;
 #ifdef WIN32
@@ -268,8 +270,10 @@ void RzxBaseLoader<T>::loadPlugins()
 #endif
 
 		QStringList plugins = dir.entryList(filter, QDir::Files|QDir::Readable);
-		foreach(QString it, plugins)
+		foreach(const QString &it, plugins)
+		{
 			installModule(dir.absoluteFilePath(it));
+		}
 	}
 }
 

@@ -48,7 +48,7 @@ RzxSmileyUi::RzxSmileyUi(QAbstractButton *btn, QWidget *parent)
 	const QStringList smileys = RzxSmileys::baseSmileyList();
 	int rowcpt=0;
 	int colcpt=0;
-	foreach(QString smiley, smileys)
+	foreach(const QString &smiley, smileys)
 	{
 		RzxSmileyButton *tmp = new RzxSmileyButton(RzxSmileys::pixmap(smiley), smiley, this);
 		connect(tmp, SIGNAL(clicked(const QString&)), this, SIGNAL(clickedSmiley(const QString&)));

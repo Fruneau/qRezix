@@ -151,7 +151,7 @@ void RzxAbstractConfig::restoreWidget(const QString& name, QWidget *widget, cons
 			{
 				QList<QVariant> variants = value("sizes").toList();
 				QList<int> sizes;
-				foreach(QVariant variant, variants)
+				foreach(const QVariant &variant, variants)
 					sizes << variant.toInt();
 				splitter->setSizes(sizes);
 			}

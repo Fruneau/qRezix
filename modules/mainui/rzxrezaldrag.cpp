@@ -86,7 +86,7 @@ QList<RzxComputer*> RzxRezalDrag::dragEvent(QDropEvent *e)
 	if(!mimedata->hasText())
 		return computers;
 	const QStringList names = mimedata->text().split('|');
-	foreach(QString name, names)
+	foreach(const QString &name, names)
 	{
 		RzxComputer *computer = RzxConnectionLister::global()->getComputerByName(name);
 		if(!computer)

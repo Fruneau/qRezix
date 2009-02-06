@@ -503,7 +503,7 @@ void RzxChatLister::previewSmileys(const QString& theme)
 {
 	ui->lstSmileys->clear();
 	QList<QPixmap> preview = RzxSmileys::preview(theme);
-	foreach(QPixmap sml, preview)
+	foreach(const QPixmap &sml, preview)
 	{
 		QListWidgetItem *item = new QListWidgetItem(ui->lstSmileys);
 		item->setIcon(sml);

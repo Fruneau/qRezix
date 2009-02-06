@@ -76,10 +76,10 @@ void RzxSmileys::loadSmileysList()
 	qDebug("Searching smileys themes...");
 	QList<QDir> path = RzxConfig::dirList(RzxConfig::AllDirsExceptTemp, "smileys");
 
-	foreach(QDir dir, path)
+	foreach(const QDir &dir, path)
 	{
 		QStringList subDirs = dir.entryList(QDir::Dirs, QDir::Name | QDir::IgnoreCase);
-		foreach(QString theme, subDirs)
+		foreach(const QString &theme, subDirs)
 		{
 			//on utilise .keys().contain() car value[] fait un insert dans le QHash
 			//ce qui tendrait donc à rajouter des clés parasites dans la liste
@@ -159,7 +159,7 @@ void RzxSmileys::replace(QString & msg, const QString& thm)
 	if(!theme)
 		return;
 
-	foreach(QString text, theme->smileys.keys())
+	foreach(const QString &text, theme->smileys.keys())
 	{
 		QRegExp mask("(" + text + ")");
 		msg.replace(mask,  "<img src=\"" + theme->smileys[text] + "\" alt=\"\\1\">");
@@ -173,7 +173,7 @@ QString RzxSmileys::smiley(const QString& sml, const QString& thm)
 	if(!theme)
 		return QString();
 
-	foreach(QString text, theme->smileys.keys())
+	foreach(const QString &text, theme->smileys.keys())
 	{
 		QRegExp mask(text);
 		if(mask.indexIn(sml) != -1)
@@ -193,7 +193,7 @@ QList<QPixmap> RzxSmileys::preview(const QString& thm)
 {
 	QList<QPixmap> ret;
 	QStringList base = baseSmileyList(thm);
-	foreach(QString sml, base)
+	foreach(const QString &sml, base)
 		ret << pixmap(sml, thm);
 	return ret;
 }

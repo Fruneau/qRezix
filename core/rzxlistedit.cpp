@@ -124,7 +124,7 @@ void RzxListEdit::lightRefresh()
 	ui->list->clear();
 	if(!list) return;
 	QStringList lst = list->humanReadable();
-	foreach(QString name, lst)
+	foreach(const QString &name, lst)
 	{
 		const RzxComputer *computer = RzxConnectionLister::global()->getComputerByName(name);
 		if(!computer)

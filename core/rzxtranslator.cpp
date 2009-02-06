@@ -38,7 +38,7 @@ RzxTranslator::RzxTranslator()
 RzxTranslator::~RzxTranslator()
 {
 	languageNames.clear();
-	foreach(QList<QTranslator*> list, translations)
+	foreach(const QList<QTranslator*> &list, translations)
 		qDeleteAll(list);
 	translations.clear();
 	RZX_GLOBAL_CLOSE
@@ -51,7 +51,7 @@ void RzxTranslator::loadTranslators()
 	languageNames.insert("en", "English");
 	lang = "en";
 	QList<QDir> dirs = RzxConfig::dirList(RzxConfig::AllDirsExceptTemp, "translations", true);
-	foreach(QDir dir, dirs)
+	foreach(const QDir &dir, dirs)
 		loadTranslatorsInDir(dir);
 
 	qDebug("Loading translation...");
@@ -64,7 +64,7 @@ void RzxTranslator::loadTranslatorsInDir(const QDir &rep)
 	const QDir sourceDir(rep);
 
 	QStringList trans=sourceDir.entryList(QStringList() << "qrezix_*.qm", QDir::Files|QDir::Readable);
-	foreach(QString it, trans)
+	foreach(const QString &it, trans)
 	{
 		QRegExp mask("qrezix_(.+)\\.qm");
 		mask.indexIn(it);
@@ -81,7 +81,7 @@ void RzxTranslator::loadTranslatorsInDir(const QDir &rep)
                                                                           QDir::Files|QDir::Readable);
 			QList<QTranslator*> transList;
 			transList << cur;
-			foreach(QString mod, transMods)
+			foreach(const QString &mod, transMods)
 			{
 				QTranslator *modTrans = new QTranslator;
 				modTrans->load(mod, sourceDir.path());
@@ -170,9 +170,9 @@ bool RzxTranslator::backTranslate(const QString& string, const char *context, co
 	if(string.isEmpty() || !context || !orig)
 		return false;
 
-	foreach(QList<QTranslator*> list, global()->translations)
+	foreach(const QList<QTranslator*> &list, global()->translations)
 	{
-		foreach(QTranslator *trans, list)
+		foreach(const QTranslator *trans, list)
 			if(string == trans->translate(context, orig))
 				return true;
 	}

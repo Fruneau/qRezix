@@ -39,7 +39,7 @@ bool RzxComputerListWidget::dropMimeData(int, const QMimeData *data, Qt::DropAct
 	if(!data->hasText()) return false;
 
 	const QStringList items = data->text().split('|');
-	foreach(QString name, items)
+	foreach(const QString &name, items)
 	{
 		const RzxHostAddress ip(name);
 		RzxComputer *computer = RzxConnectionLister::global()->getComputerByName(name);

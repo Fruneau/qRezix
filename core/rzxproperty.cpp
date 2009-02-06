@@ -299,7 +299,7 @@ void RzxProperty::fillCacheList()
 {
 	listCache->clear();
 	const QList<RzxHostAddress> addr = RzxConfig::cachedList();
-	foreach(RzxHostAddress ip, addr)
+	foreach(const RzxHostAddress &ip, addr)
 	{
 		QString name = RzxConfig::getNameFromCache(ip, "$p $n ($s)");
 		if(name.right(2) == "()") name = RzxConfig::getNameFromCache(ip, "$p $n");
@@ -838,7 +838,7 @@ void RzxProperty::chooseIcon()
 {
 	const QList<QByteArray> rawFormats = QImageReader::supportedImageFormats();
 	QString formats;
-	foreach(QByteArray format, rawFormats)
+	foreach(const QByteArray &format, rawFormats)
 		formats += " *." + format.toLower();
 	QString file = browse(tr("Icons"), tr("Icon selection"), formats, this);
 	if ( file.isEmpty() ) return ;

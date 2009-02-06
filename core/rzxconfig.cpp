@@ -293,7 +293,7 @@ void RzxConfig::addDir(QList<QDir> &dirList, QDir dir)
 QString RzxConfig::findFile(const QString& filename, Dir dir, const QString& subdir)
 {
 	QList<QDir> dirs = dirList(dir, subdir);
-	foreach(QDir dir, dirs)
+	foreach(const QDir &dir, dirs)
 	{
 		if(dir.exists(filename))
 			return dir.absoluteFilePath(filename);
@@ -360,12 +360,12 @@ void RzxConfig::loadRezals()
 	//Récupération des réseaux
 	subnets.beginGroup("Subnets");
 	QStringList keys = subnets.childKeys();
-	foreach(QString key, keys)
+	foreach(const QString &key, keys)
 	{
 		QString value = subnets.value(key).toString();
 		QStringList subs = value.split(",", QString::SkipEmptyParts);
 		QList<RzxSubnet> rezal;
-		foreach(QString sub, subs)
+		foreach(const QString &sub, subs)
 		{
 			RzxSubnet subnet(sub);
 			if(subnet.isValid())
@@ -385,7 +385,7 @@ void RzxConfig::loadRezals()
 
 	//Récupération des noms de réseaux
 	subnets.beginGroup("Names");
-	foreach(QString key, keys)
+	foreach(const QString &key, keys)
 	{
 		QString longName = subnets.value(key).toString();
 		if(longName.isEmpty())
@@ -414,9 +414,9 @@ uint RzxConfig::rezalNumber()
 int RzxConfig::rezal(const RzxSubnet& m_subnet)
 {
 	int i = 0;
-	foreach(QList<RzxSubnet> rezal, global()->rezalSubnets)
+	foreach(const QList<RzxSubnet> &rezal, global()->rezalSubnets)
 	{
-		foreach(RzxSubnet subnet, rezal)
+		foreach(const RzxSubnet &subnet, rezal)
 		{
 			if(subnet == m_subnet)
 				return i;
@@ -432,9 +432,9 @@ int RzxConfig::rezal(const RzxSubnet& m_subnet)
 int RzxConfig::rezal(const QHostAddress& addr)
 {
 	int i = 0;
-	foreach(QList<RzxSubnet> rezal, global()->rezalSubnets)
+	foreach(const QList<RzxSubnet> &rezal, global()->rezalSubnets)
 	{
-		foreach(RzxSubnet subnet, rezal)
+		foreach(const RzxSubnet &subnet, rezal)
 		{
 			if(subnet.contains(addr))
 				return i;
@@ -592,7 +592,7 @@ QList<RzxHostAddress> RzxConfig::cachedList()
 	global()->endGroup();
 	
 	QList<RzxHostAddress> addresses;
-	foreach(QString ip, list)
+	foreach(const QString &ip, list)
 	{
 		const RzxHostAddress addr(ip);
 		if(!addr.isNull())

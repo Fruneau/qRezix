@@ -149,7 +149,7 @@ void RzxRezalMap::loadMap(QSettings &maps, const QDir& dir, Map *map)
 
 	maps.beginGroup("Attrib_" + map->name);
 	const QStringList keys = maps.childKeys();
-	foreach(QString key, keys)
+	foreach(const QString &key, keys)
 	{
 		QString place;
 		QString linkedMap;
@@ -158,7 +158,7 @@ void RzxRezalMap::loadMap(QSettings &maps, const QDir& dir, Map *map)
 		//Ceci inclus la définition des polygones et des liens
 		const QString value = maps.value(key).toString();
 		const QStringList subs = value.split(" ", QString::SkipEmptyParts);
-		foreach(QString sub, subs)
+		foreach(const QString &sub, subs)
 		{
 			static QRegExp linkMask("goto_(.+)");
 			static QRegExp placeMask("place_(.+)");
@@ -206,7 +206,7 @@ void RzxRezalMap::loadPlaces(QSettings &maps, Map *map)
 {
 	maps.beginGroup("Place_" + map->name);
 	QStringList keys = maps.childKeys();
-	foreach(QString key, keys)
+	foreach(const QString &key, keys)
 	{
 		//Analyse des valeurs...
 		QString value = maps.value(key).toString();
@@ -214,7 +214,7 @@ void RzxRezalMap::loadPlaces(QSettings &maps, Map *map)
 		int size = subs.size();
 		QVector<QPoint> points(size);
 		int i = 0;
-		foreach(QString sub, subs)
+		foreach(const QString &sub, subs)
 		{
 			static QRegExp point("(\\d+)x(\\d+)");
 			if(point.indexIn(sub) != -1)
@@ -239,7 +239,7 @@ void RzxRezalMap::loadMasks(QSettings &maps, const QDir& dir, Map *map)
 {
 	maps.beginGroup("Mask_" + map->name);
 	QStringList keys = maps.childKeys();
-	foreach(QString key, keys)
+	foreach(const QString &key, keys)
 	{
 		if(!map->places.keys().contains(key))
 			continue;
@@ -285,7 +285,7 @@ void RzxRezalMap::setMap(int map)
 	placeSearch->clear();
 	QStringList placeList = currentMap->places.keys();
 	qSort(placeList);
-	foreach(QString name, placeList)
+	foreach(const QString &name, placeList)
 	{
 		if(!currentMap->places[name].isEmpty())
 			placeSearch->addItem(name);
@@ -417,7 +417,7 @@ void RzxRezalMap::updateLayout()
 ///Recherche l'objet visible au point indiqué
 QModelIndex RzxRezalMap::indexAt(const QPoint &point) const
 {
-	foreach(RzxHostAddress ip, currentMap->polygons.keys())
+	foreach(const RzxHostAddress &ip, currentMap->polygons.keys())
 	{
 		if(QRegion(polygon(ip)).contains(point))
 		{
@@ -447,7 +447,7 @@ QModelIndex RzxRezalMap::indexAt(const QPoint &point) const
 			}
 			else
 			{
-				foreach(RzxSubnet subnet, currentMap->subnets)
+				foreach(const RzxSubnet &subnet, currentMap->subnets)
 				{
 					if(subnet.contains(ip))
 						return RzxRezalModel::global()->index(subnet);
@@ -463,7 +463,7 @@ QString RzxRezalMap::placeAt(const QPoint& point) const
 {
 	if(!currentMap) return QString();
 
-	foreach(QString place, currentMap->places.keys())
+	foreach(const QString &place, currentMap->places.keys())
 	{
 		if(QRegion(polygon(place)).contains(point))
 			return place;
@@ -595,7 +595,7 @@ QRegion RzxRezalMap::visualRegionForSelection(const QItemSelection& sel) const
 {
 	QModelIndexList indexes = sel.indexes();
 	QRegion region;
-	foreach(QModelIndex index, indexes)
+	foreach(const QModelIndex &index, indexes)
 		region += QRegion(polygon(index));
 	return region;
 }
@@ -643,7 +643,7 @@ QString RzxRezalMap::link(const RzxHostAddress& ip) const
 		QString lnk = localMap->links[ip];
 		if(lnk.isNull())
 		{
-			foreach(RzxSubnet net, localMap->subnets)
+			foreach(const RzxSubnet &net, localMap->subnets)
 			{
 				if(net.contains(ip))
 				{
@@ -694,7 +694,7 @@ QString RzxRezalMap::place(const QModelIndex& index) const
 	else
 	{
 		const int rezal = RzxRezalModel::global()->rezal(index);
-		foreach(RzxHostAddress ip, currentMap->polygons.keys())
+		foreach(const RzxHostAddress &ip, currentMap->polygons.keys())
 		{
 			if(RzxConfig::rezal(ip) == rezal)
 				return currentMap->polygons[ip];
@@ -711,7 +711,7 @@ QString RzxRezalMap::place(const RzxHostAddress& ip) const
 
 	if(!currentMap->noSubnet.contains(ip))
 	{
-		foreach(RzxSubnet net, currentMap->subnets)
+		foreach(const RzxSubnet &net, currentMap->subnets)
 		{
 			if(net.contains(ip))
 				return currentMap->polygons[net.network()];
@@ -774,7 +774,7 @@ void RzxRezalMap::paintEvent(QPaintEvent*)
 	const QList<RzxHostAddress> linkList = currentMap->links.keys();
 	const QBrush brush = painter.brush();
 	QBrush newBrush;
-	foreach(RzxHostAddress ip, ipList)
+	foreach(const RzxHostAddress &ip, ipList)
 	{
 		const RzxComputer *computer = ip.computer();
 		if(computer && (!linkList.contains(ip) || currentMap->links[ip].isEmpty()))
@@ -980,7 +980,7 @@ void RzxRezalMap::mouseDoubleClickEvent(QMouseEvent *e)
 	else
 	{
 		//Sinon on fait au plus facile...
-		foreach(RzxHostAddress host, currentMap->polygons.keys())
+		foreach(const RzxHostAddress &host, currentMap->polygons.keys())
 		{
 			if(QRegion(polygon(host)).contains(e->pos()))
 			{
