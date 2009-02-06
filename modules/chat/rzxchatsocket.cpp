@@ -29,14 +29,14 @@
 #include "rzxchatconfig.h"
 
 //attention a toujours avoir DCCFormat[DCC_message] = messageFormat
-QString RzxChatSocket::DCCFormat[] = {
-	"^PROPQUERY \r\n",
-	"^PROPANSWER (.*)\r\n",
-	"^CHAT (.*)\r\n",
-	"^PING \r\n",
-	"^PONG \r\n",
-	"^TYPING (0|1)\r\n",
-	0
+const QRegExp RzxChatSocket::DCCFormat[] = {
+	QRegExp("^PROPQUERY \r\n"),
+	QRegExp("^PROPANSWER (.*)\r\n"),
+	QRegExp("^CHAT (.*)\r\n"),
+	QRegExp("^PING \r\n"),
+	QRegExp("^PONG \r\n"),
+	QRegExp("^TYPING (0|1)\r\n"),
+	QRegExp()
 };
 
 ///Construction d'un socket brute
@@ -98,15 +98,14 @@ void RzxChatSocket::setSocketDescriptor(int socket)
 int RzxChatSocket::parse(const QString& msg)
 {
 	int i = 0;
-	QRegExp cmd;
 	if(!msg.contains("\r\n")) //recherche de la fin du message
 		return -1;
 	if(!host.computer())
 		return -1;	//Drop les messages qui ne sont pas envoyés par quelqu'un de connecté à xnet.
 	
-	while(!DCCFormat[i].isNull())
+	while(!DCCFormat[i].isEmpty())
 	{
-		cmd.setPattern(DCCFormat[i]);
+		const QRegExp& cmd = DCCFormat[i];
 		if(cmd.indexIn(msg) != -1) 
 		{
 			switch(i) {

@@ -46,21 +46,21 @@
 #define MD5_ADD "Vive le BR"
 
 ///Masques pour les messages du protocole xNet
-const char * RzxProtocole::ServerFormat[] = {
-	"^JOIN ([0-9A-Fa-f]+) (\\S+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) (.*)\r\n",
-	"^REFRESH ([0-9A-Fa-f]+) (\\S+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) (.*)\r\n",
-	"^SYSMSG (.*)\r\n",
-	"^PING\r\n",
-	"^PASS ([0-9A-Za-z]+)\r\n",
-	"^PART ([0-9A-Za-z]+)\r\n",
-	"^UPGRADE (v[0-9]+,[0-9]+,[0-9]+ .*)\r\n",
-	"^FATAL (.*)\r\n",
-	"^ICON ([0-9A-Fa-f]+)\r\n",
-	"^WRONGPASS\r\n",
-	"^CHANGEPASSOK\r\n",
-	"^CHANGEPASSFAILED (.*)\r\n",
-	"^UPLOAD\r\n",
-	0
+const QRegExp RzxProtocole::ServerFormat[] = {
+	QRegExp("^JOIN ([0-9A-Fa-f]+) (\\S+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) (.*)\r\n"),
+	QRegExp("^REFRESH ([0-9A-Fa-f]+) (\\S+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+) (.*)\r\n"),
+	QRegExp("^SYSMSG (.*)\r\n"),
+	QRegExp("^PING\r\n"),
+	QRegExp("^PASS ([0-9A-Za-z]+)\r\n"),
+	QRegExp("^PART ([0-9A-Za-z]+)\r\n"),
+	QRegExp("^UPGRADE (v[0-9]+,[0-9]+,[0-9]+ .*)\r\n"),
+	QRegExp("^FATAL (.*)\r\n"),
+	QRegExp("^ICON ([0-9A-Fa-f]+)\r\n"),
+	QRegExp("^WRONGPASS\r\n"),
+	QRegExp("^CHANGEPASSOK\r\n"),
+	QRegExp("^CHANGEPASSFAILED (.*)\r\n"),
+	QRegExp("^UPLOAD\r\n"),
+	QRegExp()
 };
 
 const QString RzxProtocole::serialPattern = "$nn $xo $xv $xf $rem";
@@ -89,10 +89,9 @@ void RzxProtocole::parse(const QString& msg)
 	quint32 val;
 	static bool testOldPass = false;
 	
-	QRegExp cmd;
-	for (int i = 0; ServerFormat[i]; i++)
+	for (int i = 0; !ServerFormat[i].isEmpty() ; i++)
 	{
-		cmd.setPattern(ServerFormat[i]);
+		const QRegExp& cmd = ServerFormat[i];
 		if (cmd.indexIn(msg) == -1)
 			continue;
 		

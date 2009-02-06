@@ -14,8 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <QRegExp>
-
 #include <RzxSubnet>
 
 ///Sous réseau repréntant 0.0.0.0/8
@@ -57,16 +55,20 @@ RzxSubnet::RzxSubnet(const QHostAddress& network, int mask)
  */
 RzxSubnet::RzxSubnet(const QString& network)
 {
-	QRegExp mask("(.+)/(.+)");
-	if(mask.indexIn(network) == -1) return;
+	int pos = network.indexOf('/');
+	if(pos <= 0 || pos == network.size() - 1)
+		return;
 
-	m_network = QHostAddress(mask.cap(1));
+	const QString ip = network.left(pos);
+	const QString mask = network.mid(pos + 1);
+
+	m_network = QHostAddress(ip);
 	
 	int maskSize;
 	bool ok;
-	maskSize = mask.cap(2).toInt(&ok, 10);
+	maskSize = mask.toInt(&ok, 10);
 	if(!ok)
-		m_netmask = QHostAddress(mask.cap(2));
+		m_netmask = QHostAddress(mask);
 	else
 		m_netmask = maskFromSize(maskSize, m_network.protocol());
 	normalize();

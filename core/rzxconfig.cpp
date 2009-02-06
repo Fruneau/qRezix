@@ -359,7 +359,7 @@ void RzxConfig::loadRezals()
 
 	//Récupération des réseaux
 	subnets.beginGroup("Subnets");
-	QStringList keys = subnets.childKeys();
+	const QStringList keys = subnets.childKeys();
 	foreach(const QString &key, keys)
 	{
 		QString value = subnets.value(key).toString();
@@ -373,9 +373,9 @@ void RzxConfig::loadRezals()
 		}
 		if(!rezal.isEmpty())
 		{
-			QRegExp name("\\d_(.+)");
-			if(name.indexIn(key) != -1)
-				rezalNames << name.cap(1);
+			int pos = key.indexOf('_');
+			if (pos > 0 && key[pos-1].isDigit())
+				rezalNames << key.mid(pos + 1);
 			else
 				rezalNames << key;
 			rezalSubnets << rezal;
@@ -390,9 +390,9 @@ void RzxConfig::loadRezals()
 		QString longName = subnets.value(key).toString();
 		if(longName.isEmpty())
 		{
-			QRegExp name("\\d_(.+)");
-			if(name.indexIn(key) != -1)
-				rezalLongNames << name.cap(1);
+			int pos = key.indexOf('_');
+			if(pos > 0 && key[pos-1].isDigit())
+				rezalLongNames << key.mid(pos + 1);
 			else
 				rezalLongNames << key;
 		}

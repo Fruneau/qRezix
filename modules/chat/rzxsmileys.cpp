@@ -125,7 +125,7 @@ void RzxSmileys::loadSmileys(SmileyTheme *thm, QDir *dir)
 				if(list.count() == 3 && dir->exists(list[2]))
 				{
 					thm->baseSmileys << list[0];
-					thm->smileys.insert(list[1], dir->absoluteFilePath(list[2]));
+					thm->smileys << Smiley(QRegExp(list[1]), dir->absoluteFilePath(list[2]));
 				}
 			}
 			file.close();
@@ -159,11 +159,8 @@ void RzxSmileys::replace(QString & msg, const QString& thm)
 	if(!theme)
 		return;
 
-	foreach(const QString &text, theme->smileys.keys())
-	{
-		QRegExp mask("(" + text + ")");
-		msg.replace(mask,  "<img src=\"" + theme->smileys[text] + "\" alt=\"\\1\">");
-	}
+	foreach(const Smiley& p, theme->smileys)
+		msg.replace(p.first, "<img src=\"" + p.second + "\" alt=\"\\1\">");
 }
 
 ///Retourne le chemin associé au smiley donné
@@ -173,12 +170,9 @@ QString RzxSmileys::smiley(const QString& sml, const QString& thm)
 	if(!theme)
 		return QString();
 
-	foreach(const QString &text, theme->smileys.keys())
-	{
-		QRegExp mask(text);
-		if(mask.indexIn(sml) != -1)
-			return theme->smileys[text];
-	}
+	foreach(const Smiley& p, theme->smileys)
+		if (p.first.indexIn(sml) != -1)
+			return p.second;
 	return QString();
 }
 

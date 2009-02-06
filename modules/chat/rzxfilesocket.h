@@ -22,6 +22,7 @@
 #include <QTimer>
 #include <QTime>
 #include <QFile>
+#include <QRegExp>
 
 #include <RzxHostAddress>
 #include "rzxfilewidget.h"
@@ -72,7 +73,7 @@ class RzxFileSocket : public QTcpSocket
 	QString tmpMsg;
 	bool envoiTermine;
 
-	static QString fileFormat[];
+	static const QRegExp fileFormat[];
 
 	protected:
 	enum FileCommands {

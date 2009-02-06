@@ -17,6 +17,7 @@
 #ifndef RZXCHATSOCKET_H
 #define RZXCHATSOCKET_H
 
+#include <QRegExp>
 #include <QTcpSocket>
 #include <QString>
 #include <QTimer>
@@ -52,7 +53,7 @@ class RzxChatSocket : public QTcpSocket
 	bool alone;
 	QString tmpChat;
 	
-	static QString DCCFormat[];
+	static const QRegExp DCCFormat[];
 	
 	protected:
 	enum DCCCommands {

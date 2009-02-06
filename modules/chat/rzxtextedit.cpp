@@ -217,7 +217,7 @@ bool RzxTextEdit::nickAutocompletion()
 	index -= cursor.block().position();
 	if(!index) return false;
 	
-	QRegExp mask("[^-A-Za-z0-9]([-A-Za-z0-9]+)$");
+	static const QRegExp mask("[^-A-Za-z0-9]([-A-Za-z0-9]+)$");
 	const QString textPara = cursor.block().text();
 	
 	//Juste pour se souvenir des pseudos possibles
@@ -287,9 +287,10 @@ void RzxTextEdit::onTextEdited()
 	//C'est transparent pour l'utilisateur et léger (exécuté une seule fois)
 	if(!init)
 	{
+		static const QRegExp maskSpan("^(.*)<span style=\"([^\"]*)\">((?:[^<]|<(?!/span>))*)</span>(.*)$");
+		static const QRegExp maskP("^(.*)<p style=\"([^\"]*)\">((?:[^<]|<(?!/p>))*)</p>(.*)$");
+
 		QString text = toHtml();
-		QRegExp maskSpan("^(.*)<span style=\"([^\"]*)\">((?:[^<]|<(?!/span>))*)</span>(.*)$");
-		QRegExp maskP("^(.*)<p style=\"([^\"]*)\">((?:[^<]|<(?!/p>))*)</p>(.*)$");
 		if(maskSpan.indexIn(text) != -1)
 		{
 			QTextCursor cursor = textCursor(); //sauvegarde de la position du curseur
@@ -374,24 +375,26 @@ void RzxTextEdit::validate(bool val)
  */
 QString RzxTextEdit::toSimpleHtml() const
 {
+	static const QRegExp mask("<body[^>]*>(.*)</body>");
+	static const QRegExp spanRE("<span style=\"([^\"]*)\">((?:[^<]|<(?!/span>))*)</span>");
+	static const QRegExp pRE("<p style=\"([^\"]*)\">((?:[^<]|<(?!/p>))*)</p>");
+
 	QString text = toHtml();
 	//On supprime tous les en-têtes
-	QRegExp mask("<body[^>]*>(.*)</body>");
 	if(mask.indexIn(text) != -1)
 		text = mask.cap(1);
 
 	//On vire les <span style=" font-family:Terminal [DEC]; font-size:22pt; color:#000000;"
-	text = convertStyle(text, "span");
-	text = convertStyle(text, "p", "<br>");
+	text = convertStyle(text, spanRE);
+	text = convertStyle(text, pRE, "<br>");
 	if(text.right(4) == "<br>")
 		text = text.left(text.length() - 4);
 	return text;
 }
 
 ///Converti du format CSS au format HTML
-QString RzxTextEdit::convertStyle(const QString& m_text, const QString& balise, const QString& suffix) const
+QString RzxTextEdit::convertStyle(const QString& m_text, const QRegExp& mask, const QString& suffix) const
 {
-	QRegExp mask("<" + balise + " style=\"([^\"]*)\">((?:[^<]|<(?!/" + balise + ">))*)</" + balise + ">");
 	int pos;
 	QString text = m_text;
 	while((pos = mask.indexIn(text)) != -1)
@@ -451,20 +454,19 @@ RzxTextEdit::Format RzxTextEdit::formatFromStyle(const QString& style)
 ///Génère une structure 'Format' à partir des données d'une balise <font >
 RzxTextEdit::Format RzxTextEdit::formatFromFont(const QString& font)
 {
+	static const QRegExp face("face=\"([^\"]+)\"");
+	static const QRegExp size("size=\"?(\\d+)\"?");
+	static const QRegExp color("color=\"([^\"]+)\"");
+
 	Format format = { QString(), 0, QColor(), false, false, false };
-	QRegExp select;
+	if(face.indexIn(font) != -1)
+		format.family = face.cap(1);
 
-	select.setPattern("face=\"([^\"]+)\"");
-	if(select.indexIn(font) != -1)
-		format.family = select.cap(1);
+	if(size.indexIn(font) != -1)
+		format.size = size.cap(1).toInt();
 
-	select.setPattern("size=\"?(\\d+)\"?");
-	if(select.indexIn(font) != -1)
-		format.size = select.cap(1).toInt();
-
-	select.setPattern("color=\"([^\"]+)\"");
-	if(select.indexIn(font) != -1)
-		format.color = select.cap(1);
+	if(color.indexIn(font) != -1)
+		format.color = color.cap(1);
 
 	return format;
 }

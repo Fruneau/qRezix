@@ -32,18 +32,18 @@
 #include "rzxchatconfig.h"
 
 #include <QDebug>
-QString RzxFileSocket::fileFormat[] = {
-	"^CANCEL\r\n",
-	"^CHECK\r\n",
-	"^OK\r\n",
-	"^NOK\r\n",
-	"^PROPOSE ([^|]+)\\|(\\d+)",  //nom taille
-	"^ACCEPT\r\n",
-	"^REJECT\r\n",
-	"^SEND (\\d+)\r\n",
-	"^SENDOK\r\n",
-	"^END\r\n",
-	0
+const QRegExp RzxFileSocket::fileFormat[] = {
+	QRegExp("^CANCEL\r\n"),
+	QRegExp("^CHECK\r\n"),
+	QRegExp("^OK\r\n"),
+	QRegExp("^NOK\r\n"),
+	QRegExp("^PROPOSE ([^|]+)\\|(\\d+)"),  //nom taille
+	QRegExp("^ACCEPT\r\n"),
+	QRegExp("^REJECT\r\n"),
+	QRegExp("^SEND (\\d+)\r\n"),
+	QRegExp("^SENDOK\r\n"),
+	QRegExp("^END\r\n"),
+	QRegExp()
 };
 
 
@@ -118,127 +118,128 @@ void RzxFileSocket::setSocketDescriptor(int socket)
 /** va trier les différents messages du protocole.*/
 void RzxFileSocket::parse(const QString& msg)
 {
-	QRegExp cmd;
-	int typeMsg = -1;
-	int i =0;
-	while(typeMsg == -1 && !fileFormat[i].isNull())
+	int i = 0;
+	while(!fileFormat[i].isEmpty())
 	{
-		cmd.setPattern(fileFormat[i]);
-		if(cmd.indexIn(msg) != -1) 
-			typeMsg = i;
-		i++;
-	}
-	switch (typeMsg)
-	{
-	case FILE_CANCEL:
-		host.computer()->receiveChat(Rzx::File , tr("Transfer cancelled."));
-		close();
-		break;
+		const QRegExp& cmd = fileFormat[i];
+		if(cmd.indexIn(msg) == -1)
+		{
+			++i;
+			continue;
+		}
+		switch (i)
+		{
+		case FILE_CANCEL:
+			host.computer()->receiveChat(Rzx::File , tr("Transfer cancelled."));
+			close();
+			break;
 
-	case FILE_CHECK:
-		if(!envoi && fileState == STATE_NONE)
-		{	
-			if(!RzxChatConfig::refuseFile())
+		case FILE_CHECK:
+			if(!envoi && fileState == STATE_NONE)
+			{	
+				if(!RzxChatConfig::refuseFile())
+				{
+					sendOk();
+					fileState = STATE_CHECKED;
+				}
+				else
+				{
+					sendNok();
+					close();
+				}
+			}
+			break;
+
+		case FILE_OK:
+			if(envoi && fileState == STATE_CHECKING)
 			{
-				sendOk();
-				fileState = STATE_CHECKED;
+				checkTimeOut.stop();
+				fileState = STATE_PROPOSING;
+				host.computer()->receiveChat(Rzx::File , tr("Sending %1, waiting for acceptation...").arg(nom));
+				sendPropose(nom.split("/").last(), taille);
+			}
+			break;
+
+		case FILE_NOK:
+			if(envoi && fileState == STATE_CHECKING)
+			{
+				checkTimeOut.stop();
+				host.computer()->receiveChat(Rzx::File , tr("Your friend has refused the file."));
+				close();
+			}
+			break;
+
+		case FILE_PROPOSE:
+			if(!envoi && fileState == STATE_CHECKED)
+			{
+				nom = cmd.cap(1);
+				taille = cmd.cap(2).toULongLong();
+				host.computer()->receiveChat(Rzx::File , tr("Your friend sends you the file <a href=\"RzxTransfer://%1\">%2</a> (%3 bytes), do you want to download it?").arg(sockId).arg(nom).arg(taille));
+				chatWindow = RzxChatLister::global()->receiveFile(host);
+				//creation du widget
+				widget = new RzxFileWidget(0, nom, 0, false);
+				chatWindow->addWidget(widget);	//ajoute le widget à la fenetre de chat
+	
+				//connexions
+				connect(widget,SIGNAL(cancelClicked()),this,SLOT(btnCancel()));
+				connect(widget,SIGNAL(acceptClicked()),this,SLOT(btnAccept()));
+				connect(widget,SIGNAL(rejectClicked()),this,SLOT(btnReject()));
+			}
+			break;
+
+		case FILE_ACCEPT:
+			if(envoi && fileState == STATE_PROPOSING)
+			{
+				sendBinary();
+			}
+			break;
+
+		case FILE_REJECT:
+			if(envoi && fileState == STATE_PROPOSING)
+			{
+				host.computer()->receiveChat(Rzx::File , tr("Your friend has refused the file."));
+				close();
+			}
+			break;
+
+		case FILE_SEND:
+			if(!envoi && fileState == STATE_RECEIVING)
+			{
+				octetsALire = cmd.cap(1).toUInt();
+				if(!octetsALire)
+					return;
+				modeBinaire = true; 
+			}
+			break;
+
+		case FILE_SENDOK:
+			if(envoi && fileState == STATE_SENDING)
+			{
+				sendBinary();
+			}
+			break;
+
+		case FILE_END:
+			if (file)
+				file->close();
+			envoiTermine = true;
+			if(octetsEcrits == taille)
+			{
+				qDebug() << "Le transfert de " << nom << "a reussi";
+				host.computer()->receiveChat(Rzx::File , tr("File transfer finished!"));
 			}
 			else
 			{
-				sendNok();
-				close();
+				qDebug() << "Le fichier recu" << nom << "a la taille" << octetsEcrits << "au lieu de" << taille;
+				host.computer()->receiveChat(Rzx::File , tr("An error occured in the transfer, the file size mismatch the original one."));
 			}
-		}
-		break;
-
-	case FILE_OK:
-		if(envoi && fileState == STATE_CHECKING)
-		{
-			checkTimeOut.stop();
-			fileState = STATE_PROPOSING;
-			host.computer()->receiveChat(Rzx::File , tr("Sending %1, waiting for acceptation...").arg(nom));
-			sendPropose(nom.split("/").last(), taille);
-		}
-		break;
-
-	case FILE_NOK:
-		if(envoi && fileState == STATE_CHECKING)
-		{
-			checkTimeOut.stop();
-			host.computer()->receiveChat(Rzx::File , tr("Your friend has refused the file."));
 			close();
+			break;
+		default:
+			qDebug() << "Erreur du transfert de fichier: Cas par défaut atteint avec le message :" << msg;
 		}
-		break;
-
-	case FILE_PROPOSE:
-		if(!envoi && fileState == STATE_CHECKED)
-		{
-			nom = cmd.cap(1);
-			taille = cmd.cap(2).toULongLong();
-			host.computer()->receiveChat(Rzx::File , tr("Your friend sends you the file <a href=\"RzxTransfer://%1\">%2</a> (%3 bytes), do you want to download it?").arg(sockId).arg(nom).arg(taille));
-			chatWindow = RzxChatLister::global()->receiveFile(host);
-			//creation du widget
-			widget = new RzxFileWidget(0, nom, 0, false);
-			chatWindow->addWidget(widget);	//ajoute le widget à la fenetre de chat
-
-			//connexions
-			connect(widget,SIGNAL(cancelClicked()),this,SLOT(btnCancel()));
-			connect(widget,SIGNAL(acceptClicked()),this,SLOT(btnAccept()));
-			connect(widget,SIGNAL(rejectClicked()),this,SLOT(btnReject()));
-		}
-		break;
-
-	case FILE_ACCEPT:
-		if(envoi && fileState == STATE_PROPOSING)
-		{
-			sendBinary();
-		}
-		break;
-
-	case FILE_REJECT:
-		if(envoi && fileState == STATE_PROPOSING)
-		{
-			host.computer()->receiveChat(Rzx::File , tr("Your friend has refused the file."));
-			close();
-		}
-		break;
-
-	case FILE_SEND:
-		if(!envoi && fileState == STATE_RECEIVING)
-		{
-			octetsALire = cmd.cap(1).toUInt();
-			if(!octetsALire)
-				return;
-			modeBinaire = true; 
-		}
-		break;
-
-	case FILE_SENDOK:
-		if(envoi && fileState == STATE_SENDING)
-		{
-			sendBinary();
-		}
-		break;
-
-	case FILE_END:
-		if (file)
-			file->close();
-		envoiTermine = true;
-		if(octetsEcrits == taille)
-		{
-			qDebug() << "Le transfert de " << nom << "a reussi";
-			host.computer()->receiveChat(Rzx::File , tr("File transfer finished!"));
-		}
-		else
-		{
-			qDebug() << "Le fichier recu" << nom << "a la taille" << octetsEcrits << "au lieu de" << taille;
-			host.computer()->receiveChat(Rzx::File , tr("An error occured in the transfer, the file size mismatch the original one."));
-		}
-		close();
-		break;
-	default:
-		qDebug() << "Erreur du transfert de fichier: Cas par défaut atteint avec le message :" << msg;
-	}	
+		return;
+	}
 }
 
 /*Les méthodes qui suivent servent à l'émission des différents messages*/

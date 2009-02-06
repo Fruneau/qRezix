@@ -20,6 +20,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QRegExp>
 #include <QTime>
 
 #include <RzxHostAddress>
@@ -66,7 +67,7 @@ public:
 		ICON_HEIGHT=64
 	};
 		
- 	static const char * ServerFormat[];
+ 	static const QRegExp ServerFormat[];
  	enum ServerCommands {
  		SERVER_JOIN = 0,
 		SERVER_REFRESH = 1,

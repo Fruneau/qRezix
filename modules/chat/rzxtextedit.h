@@ -95,7 +95,7 @@ class RzxTextEdit : public QTextEdit
 	bool atBeginning() const;
 	bool atEnd() const;
 
-	QString convertStyle(const QString&, const QString&, const QString& = QString()) const;
+	QString convertStyle(const QString&, const QRegExp&, const QString& = QString()) const;
 	friend Format operator-(const Format&, const Format&);
 	friend Format operator%(const Format&, const Format&);
 

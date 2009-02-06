@@ -487,27 +487,12 @@ void RzxChat::append(const QString& color, const QString& host, const QString& a
 
 void RzxChat::appendChat(const QString& color, const QString& host, const QString& argMsg, RzxComputer *computer)
 {
-	//Nettoyage du html du message
-	QString msg(argMsg);
-	QString usedColor(color);
-	QString usedHost(host);
-	if(msg.indexOf("<html>"))
-	{
-		msg.replace(QRegExp("&(?!\\w+;)"), "&amp;");
-		msg.replace("<", "&lt;");
-	}
-	msg.remove(QRegExp("<head>.*</head>")).remove("<html>")
-		.remove(QRegExp("<body[^<>]*>")).remove("</html>").remove("</body>");
-
-	//Passage des <font > en <span >
-	QRegExp fontMask("^(.*)<font([^>]*)>((?:[^<]|<(?!/font>))*)</font>(.*)$");
-	while(fontMask.indexIn(msg) != -1)
-	{
-		RzxTextEdit::Format format = RzxTextEdit::formatFromFont(fontMask.cap(2));
-		msg = fontMask.cap(1) + RzxTextEdit::formatStyle(fontMask.cap(3), format, "span") + fontMask.cap(4);
-	}
-
-	//Création des liens hypertextes
+	/* Cannot avoid regexps, so let make them static const to compile the once.
+	 */
+	static const QRegExp ampersand("&(?!\\w+;)");
+	static const QRegExp head("<head>.*</head>");
+	static const QRegExp body("<body[^<>]*>");
+	static const QRegExp fontMask("^(.*)<font([^>]*)>((?:[^<]|<(?!/font>))*)</font>(.*)$");
 	static const QRegExp hyperText("("
 		"(\\b[a-zA-Z0-9]+://([-a-zA-Z0-9]+(\\:[-a-zA-Z0-9]+)?\\@)?[-a-zA-Z0-9]+"
 			"|[-a-zA-Z0-9]+\\.[-a-zA-Z0-9]+)(\\.[-a-zA-Z0-9]+)*" // (protocole://)?hostname
@@ -518,13 +503,32 @@ void RzxChat::appendChat(const QString& color, const QString& host, const QStrin
 		"|\\b(mailto:)?[-_a-zA-Z0-9]+(\\.[-_a-zA-Z0-9]+)*(\\+[-_a-zA-Z0-9.]+)?" // login
 		"\\@[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*\\b" //mail hostname
 		")");
+	static const QRegExp action("^(\\s*<[^<>]+>)*/me(<[^<>]+>|\\s)(.*)");
+
+	//Nettoyage du html du message
+	QString msg(argMsg);
+	QString usedColor(color);
+	QString usedHost(host);
+	if(msg.indexOf("<html>"))
+	{
+		msg.replace(ampersand, "&amp;");
+		msg.replace('<', "&lt;");
+	}
+	msg.remove(head).remove("<html>").remove(body).remove("</html>").remove("</body>");
+
+	//Passage des <font > en <span >
+	while(fontMask.indexIn(msg) != -1)
+	{
+		RzxTextEdit::Format format = RzxTextEdit::formatFromFont(fontMask.cap(2));
+		msg = fontMask.cap(1) + RzxTextEdit::formatStyle(fontMask.cap(3), format, "span") + fontMask.cap(4);
+	}
+
+	//Création des liens hypertextes
 	msg.replace(hyperText, "<a href=\"\\1\">\\1</a>");
 
 	//Distinction du /me et d'un message normal
-	static QRegExp action("^(\\s*<[^<>]+>)*/me(<[^<>]+>|\\s)(.*)");
 	if(computer && !action.indexIn(msg))
 	{
-		const QString purple("purple");
 		const QString entete = action.cap(1);
 		const QString entext = action.cap(2);
 		const QString pieddp = action.cap(3);

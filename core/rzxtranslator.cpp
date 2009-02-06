@@ -66,9 +66,7 @@ void RzxTranslator::loadTranslatorsInDir(const QDir &rep)
 	QStringList trans=sourceDir.entryList(QStringList() << "qrezix_*.qm", QDir::Files|QDir::Readable);
 	foreach(const QString &it, trans)
 	{
-		QRegExp mask("qrezix_(.+)\\.qm");
-		mask.indexIn(it);
-		const QString langId = mask.cap(1);
+		const QString langId = it.mid(7, it.size() - 10);
 
 		QTranslator *cur = new QTranslator;
 		cur->load(it, sourceDir.path());
@@ -144,15 +142,17 @@ void RzxTranslator::setLanguage(const QString& language)
 			QApplication::installTranslator(trans);
 		emit global()->languageChanged(newLang);
 	}
-        else if (language != global()->translation())
-        {
-		QRegExp pattern("^([a-z]{2})(_[A-Z]{2})?");
-		if (pattern.indexIn(language) >= 0) {
-		    const QString langid = pattern.cap(1);
-                    RzxTranslator::setLanguage(global()->languageNames[langid]);
-		    return;
+	else if (language != global()->translation())
+	{
+		if (language.size() > 2 && language[0].isLower() && language[1].isLower()) {
+			if (language.size() > 2 && language[2] != '_') {
+				return;
+			}
+			const QString langid = language.left(2);
+			RzxTranslator::setLanguage(global()->languageNames[langid]);
+			return;
 		}
-        }
+	}
 }
 
 ///Retourne le language actuel

@@ -17,7 +17,10 @@
 #ifndef RZXSMILEYS_H
 #define RZXSMILEYS_H
 
-#include <QHash>
+#include <QRegExp>
+#include <QPair>
+#include <QString>
+#include <QList>
 #include <QPixmap>
 
 #include <RzxGlobal>
@@ -37,10 +40,12 @@ class RzxSmileys: public QObject
 	RZX_GLOBAL(RzxSmileys)
 
 	///Données décrivant un thème de smileys
+	typedef QPair<QRegExp, QString> Smiley;
+
 	struct SmileyTheme
 	{
 		///Association masque - url de l'image
-		QHash<QString, QString> smileys;
+		QList<Smiley> smileys;
 		///Liste des smileys disponibles
 		QStringList baseSmileys;
 	};

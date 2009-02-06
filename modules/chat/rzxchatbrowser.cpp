@@ -46,19 +46,28 @@ void RzxChatBrowser::setSource(const QUrl&)
 ///Lance le client adapté à l'url cliquée
 void RzxChatBrowser::launchUrl(const QUrl& url)
 {
-	static QRegExp fullMatch("RzxTransfer://(\\d+)");
-	if(fullMatch.indexIn(url.toString()) != -1)
+	const QString scheme = url.scheme();
+	const QString authority = url.authority();
+	if (url.scheme() == "RzxTransfer")
 	{
-		fileTransfer(fullMatch.cap(1));
+		fileTransfer(url.authority());
 	}
 	else
 		RzxUtilsLauncher::run(url);
 }
 
-// Valide le transfert de fichier 
 void RzxChatBrowser::fileTransfer(const QString& id)
 {
-	RzxFileSocket* socket = RzxChatLister::global()->fileListener()->getSocket(id.toInt());
+	bool ok = false;
+	int n = id.toInt(&ok);
+	if (ok)
+		fileTransfer(n);
+}
+
+// Valide le transfert de fichier 
+void RzxChatBrowser::fileTransfer(int id)
+{
+	RzxFileSocket* socket = RzxChatLister::global()->fileListener()->getSocket(id);
 	if(socket && socket->widget)
-	emit socket->widget->emitAccept();
+		emit socket->widget->emitAccept();
 }

@@ -324,11 +324,8 @@ void RzxServerListener::read()
  */
 void RzxServerListener::parse(const QString& msg)
 {
-	QRegExp cmd;
-	
-	/* R�eption d'une ic�e... passe l'�ute en mode attente de donn�s brutes */
-	cmd.setPattern(RzxProtocole::ServerFormat[RzxProtocole::SERVER_ICON]);
-	if(cmd.indexIn(msg, 0) >= 0)
+	const QRegExp& reIcon = RzxProtocole::ServerFormat[RzxProtocole::SERVER_ICON];	
+	if(reIcon.indexIn(msg, 0) >= 0)
 	{
 		// on supprime l'en-tete du message
 		QString msgClean = msg, msgParams;
@@ -347,8 +344,8 @@ void RzxServerListener::parse(const QString& msg)
 	}
 	
 	/* Envoie de l'ic�e suite �la requ�e du serveur */
-	cmd.setPattern(RzxProtocole::ServerFormat[RzxProtocole::SERVER_UPLOAD]);
-	if(cmd.indexIn(msg) != -1)
+	const QRegExp& reUpload = RzxProtocole::ServerFormat[RzxProtocole::SERVER_UPLOAD];
+	if(reUpload.indexIn(msg) != -1)
 	{
 		sendIcon(RzxIconCollection::global()->localhostPixmap().toImage());
 		return;

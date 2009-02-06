@@ -18,7 +18,6 @@
 #include <QPixmap>
 
 //Pour l'analyse de localhost
-#include <QRegExp>
 #include <QProcess>
 #include <QApplication>
 #include <QTcpServer>
@@ -1024,19 +1023,22 @@ void RzxComputer::scanServers()
 	if(netstat.waitForFinished(1000))
 	{
 		res = QString(netstat.readAllStandardOutput()).split('\n');
+		foreach (const QString &line, res) {
 #	if defined(Q_OS_MAC) || defined(Q_OS_BSD4)
-			res = res.filter(QRegExp("LISTEN"));
-			if(!(res.filter(QRegExp("\\.21\\s")).isEmpty())) newServers |= SERVER_FTP;
-			if(!(res.filter(QRegExp("\\.80\\s")).isEmpty())) newServers |= SERVER_HTTP;
-			if(!(res.filter(QRegExp("\\.119\\s")).isEmpty())) newServers |= SERVER_NEWS;
-			if(!(res.filter(QRegExp("\\.445\\s")).isEmpty())) newServers |= SERVER_SAMBA;
+			if (line.contains("LISTEN")) {
+				if(line.contains(".21 ")) newServers |= SERVER_FTP;
+				if(line.contains(".80 ")) newServers |= SERVER_HTTP;
+				if(line.contains(".119 ")) newServers |= SERVER_NEWS;
+				if(line.contains(".445 ")) newServers |= SERVER_SAMBA;
+			}
 #	else
 			//lecture des différents port pour voir s'il sont listen
-			if(!(res.filter(":21 ")).isEmpty()) newServers |= SERVER_FTP;
-			if(!(res.filter(":80 ")).isEmpty()) newServers |= SERVER_HTTP;
-			if(!(res.filter(":119 ")).isEmpty()) newServers |= SERVER_NEWS;
-			if(!(res.filter(":445 ")).isEmpty()) newServers |= SERVER_SAMBA;
+			if(line.contains(":21 ")) newServers |= SERVER_FTP;
+			if(line.contains(":80 ")) newServers |= SERVER_HTTP;
+			if(line.contains(":119 "))  newServers |= SERVER_NEWS;
+			if(line.contains(":445 ")) newServers |= SERVER_SAMBA;
 #	endif
+		}
 	}
 
 	//au cas où netstat fail ou qu'il ne soit pas installé

@@ -215,10 +215,10 @@ void RzxListEdit::remove()
 ///Le texte a été édité
 void RzxListEdit::edited(const QString& text)
 {
+	static const QRegExp mask("^\\d+\\.\\d+\\.\\d+\\.\\d+ \\(.*\\)$");
 	const QString test = text.simplified();
-	QRegExp mask("^\\d+\\.\\d+\\.\\d+\\.\\d+ \\(.*\\)$");
-	bool verif = !test.isEmpty() && (!test.contains(QRegExp("\\s")) || !mask.indexIn(test));
-	ui->btnAdd->setEnabled(verif);
+	bool not_verif = test.isEmpty() || (test.contains(' ') && mask.indexIn(test));
+	ui->btnAdd->setEnabled(!not_verif);
 }
 
 ///La sélection a changé

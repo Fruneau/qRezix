@@ -20,7 +20,6 @@
 
 #include <QPaintEvent>
 #include <QPainter>
-#include <QRegExp>
 #include <QList>
 #include <QComboBox>
 #include <QScrollBar>
@@ -160,12 +159,14 @@ void RzxRezalMap::loadMap(QSettings &maps, const QDir& dir, Map *map)
 		const QStringList subs = value.split(" ", QString::SkipEmptyParts);
 		foreach(const QString &sub, subs)
 		{
-			static QRegExp linkMask("goto_(.+)");
-			static QRegExp placeMask("place_(.+)");
-			if(linkMask.indexIn(sub) != -1)
-				linkedMap = linkMask.cap(1);
-			if(placeMask.indexIn(sub) != -1)
-				place = placeMask.cap(1);
+			if(sub.size() > 5 && sub.startsWith("goto_"))
+			{
+				linkedMap = sub.mid(5);
+			}
+			else if (sub.size() > 6 && sub.startsWith("place_"))
+			{
+				place = sub.mid(6);
+			}
 		}
 
 		//L'emplacement associé n'est pas défini pour cette carte
@@ -173,15 +174,16 @@ void RzxRezalMap::loadMap(QSettings &maps, const QDir& dir, Map *map)
 	
 		//Analyse des adresses
 		//Ce qui inclus la gestion des adresses et des sous-réseaux
-		QStringList ipStrings = key.split(",");
+		const QStringList ipStrings = key.split(",");
 		map->useSubnets = false;
-		foreach(QString ip, ipStrings)
+		foreach(const QString &ip, ipStrings)
 		{
 			RzxHostAddress base;
 			if(ip.contains("-"))
 			{
-				ip.replace('-', '/');
-				RzxSubnet subnet(ip);
+				QString ipCopy(ip);
+				ipCopy.replace('-', '/');
+				RzxSubnet subnet(ipCopy);
 				map->useSubnets = true;
 				map->subnets << subnet;
 				base = subnet.network();
@@ -209,22 +211,27 @@ void RzxRezalMap::loadPlaces(QSettings &maps, Map *map)
 	foreach(const QString &key, keys)
 	{
 		//Analyse des valeurs...
-		QString value = maps.value(key).toString();
-		QStringList subs = value.split(" ", QString::SkipEmptyParts);
+		const QString value = maps.value(key).toString();
+		const QStringList subs = value.split(" ", QString::SkipEmptyParts);
 		int size = subs.size();
 		QVector<QPoint> points(size);
 		int i = 0;
 		foreach(const QString &sub, subs)
 		{
-			static QRegExp point("(\\d+)x(\\d+)");
-			if(point.indexIn(sub) != -1)
-				points[i] = QPoint(point.cap(1).toInt(), point.cap(2).toInt());
-			else
-			{
-				qDebug() << "* invalid point(" << i << ")" << sub << "in" << map->name + "/" + key;
-				points[i] = QPoint();
+			int pos = sub.indexOf('x');
+			if (pos > 0) {
+				bool ok = false;
+				int x = sub.left(pos).toInt(&ok);
+				if (ok) {
+					int y = sub.mid(pos + 1).toInt(&ok);
+					if (ok) {
+						points[i++] = QPoint(x, y);
+						continue;
+					}
+				}
 			}
-			i++;
+			qDebug() << "* invalid point(" << i << ")" << sub << "in" << map->name + "/" + key;
+			points[i++] = QPoint();
 		}
 		map->places.insert(key, QPolygon(points));
 	}
@@ -245,8 +252,8 @@ void RzxRezalMap::loadMasks(QSettings &maps, const QDir& dir, Map *map)
 			continue;
 
 		//Analyse des valeurs...
-		QString value = maps.value(key).toString();
-		QStringList subs = value.split(" ", QString::SkipEmptyParts);
+		const QString value = maps.value(key).toString();
+		const QStringList subs = value.split(" ", QString::SkipEmptyParts);
 		if(subs.size() > 2 || !subs.size())
 			continue;
 
@@ -254,9 +261,18 @@ void RzxRezalMap::loadMasks(QSettings &maps, const QDir& dir, Map *map)
 		int i=0;
 		if(subs.size() == 2)
 		{
-			static QRegExp point("(\\d+)x(\\d+)");
-			if(point.indexIn(subs[i++]) != -1)
-				p = QPoint(point.cap(1).toInt(), point.cap(2).toInt());
+			const QString& sub = subs[i++];
+			int pos = sub.indexOf('x');
+			if (pos > 0) {
+				bool ok = false;
+				int x = sub.left(pos).toInt(&ok);
+				if (ok) {
+					int y = sub.mid(pos + 1).toInt(&ok);
+					if (ok) {
+						p = QPoint(x, y);
+					}
+				}
+			}
 		}
 
 		if(dir.exists(subs[i]))
